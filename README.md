@@ -19,8 +19,8 @@ TBA
 
 ## Project rules
 
-- Follow the [Inonit Coding standards](#)
-- Follow the [Inonit Developer workflow routines](#)
+- Follow the [Inonit Coding standards](http://inonit.no/media/Codingstandards.pdf)
+- Follow the [Inonit Developer workflow routines](http://inonit.no/media/Developerworkflowroutines.pdf)
 
 ## Project description
 Our priorities for this project is:
