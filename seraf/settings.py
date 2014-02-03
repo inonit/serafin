@@ -109,7 +109,14 @@ MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 
+# User model and vault separation
+
 AUTH_USER_MODEL = 'users.User'
+VAULT_SEND_EMAIL_URL = '/api/vault/send_email'
+VAULT_SEND_SMS_URL = '/api/vault/send_sms'
+
+
+# Admin interface
 
 SUIT_CONFIG = {
     'ADMIN_NAME': 'SERAF admin',
