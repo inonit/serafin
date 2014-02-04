@@ -10,6 +10,8 @@ django-polymorphic==0.5.3
 django-suit==0.2.5
 docutils==0.11
 easy-thumbnails==1.4
+huey==0.4.1
+redis==2.9.1
 requests==2.2.1
 six==1.5.2
 wsgiref==0.1.2
