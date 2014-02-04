@@ -100,6 +100,8 @@ class UserField(models.Model):
     key = models.CharField(_('key name'), max_length=64)
     value = models.CharField(_('value'), max_length=64, blank=True)
 
+    is_required = models.BooleanField(_('required field'), default=False)
+
     def __unicode__(self):
         return '%s: %s' % (self.key, self.value)
 

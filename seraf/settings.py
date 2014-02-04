@@ -112,8 +112,27 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 # User model and vault separation
 
 AUTH_USER_MODEL = 'users.User'
+
 VAULT_SEND_EMAIL_URL = '/api/vault/send_email'
 VAULT_SEND_SMS_URL = '/api/vault/send_sms'
+VAULT_FETCH_SMS_URL = '/api/vault/fetch_sms'
+
+
+# Huey
+
+HUEY = {
+    'backend': 'huey.backends.redis_backend',
+    'name': 'seraf',
+    'connection': {
+        'host': 'localhost',
+        'port': 6379,
+    },
+
+    # Options to pass into the consumer when running `manage.py run_huey`
+    'consumer_options': {
+        'workers': 4,
+    },
+}
 
 
 # Admin interface
