@@ -3,7 +3,7 @@ from django.utils.translation import ugettext_lazy as _
 
 from django.db import models
 from signals import schedule_part, reschedule_part, revoke_part
-from graphs import Graph, Node, Edge
+#from system.system import Stuff
 
 class Program(object):
     '''A top level model for a separate Program, having one or more parts'''
@@ -49,7 +49,7 @@ class Part(models.Model):
 class Page(models.Model):
     '''An ordered collection of Content to be shown together as a Page'''
 
-    title = models.CharField(_('part title'), max_length=64, blank=True)
+    title = models.CharField(_('page title'), max_length=64, blank=True)
 
     # node_object = reference to Node object
 
