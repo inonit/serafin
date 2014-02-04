@@ -32,9 +32,9 @@ b. Make it general enough for other mainly academic use in the future. Examples 
 To accomplish this, the system will be built in a modular way, with a high degree of separation between components.
 
 ### Users app
-Stores all non-identifiable user data (gender, education, habits) and handles login through generation of a personal login code for each user and part (day) of the program. Backup login through randomized user name and password.
+Stores all non-identifiable user data (gender, education, habits) and handles login through generation of a personal login code for each user and part (day) of the program. Backup login through id and password.
 
-We may use a key:value store for fields that may vary between uses of the system.
+Fields past common User model fields should be set in a key: value store. Preferably, the fields are specified in a settings file before first syncdb, but behave somewhat like normal fields after this.
 
 ### Vault app
 The vault stores personally identifiable data like e-mail and phone number. It will be separated to a secure server if research councils dictate so. The vault is connected to the SMS app and sends out e-mails, but only does so at the request of the main system, and only by user ID.
@@ -43,7 +43,7 @@ The vault stores personally identifiable data like e-mail and phone number. It w
 We will likely build or incorporate an interface for [Twilio SMS](http://www.twilio.com/) for this part.
 
 ### Tasks app
-Handles scheduling of events, mainly triggering each day of the program and slip management. Will likely be based on [Celery](http://www.celeryproject.org/).
+Handles scheduling of events, mainly triggering each day of the program and slip management. Will be based on [Huey](https://github.com/coleifer/huey), it's simple and seems adequate.
 
 ### Events app
 Contains receivers for Django signals that generate logging events for any and all information that may be of interest to the researchers.

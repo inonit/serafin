@@ -6,5 +6,5 @@ from django.dispatch import receiver
 from models import Event
 
 #@receiver(some_signal)
-#    def react_to_signal(sender, **kwargs):
-#        pass
+#def react_to_signal(sender, **kwargs):
+#    pass

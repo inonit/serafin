@@ -1,37 +1,60 @@
-from django.db import models
+from __future__ import unicode_literals
+from django.utils.translation import ugettext_lazy as _
 
+from django.db import models
+from signals import schedule_part, reschedule_part, revoke_part
+from graphs import Graph, Node, Edge
 
 class Program(object):
-    ''''''
-    pass
+    '''A top level model for a separate Program, having one or more parts'''
+
+    title = models.CharField(_('program title'), max_length=64)
+
+    def __unicode__(self):
+        return self.title
+
+    class Meta:
+        verbose_name = _('program')
+        verbose_name_plural = _('programs')
 
 
-class Part(object):
-    '''A graph of Nodes connected by Edges describing the '''
-    pass
+class Part(models.Model):
+    '''A program Part, with layout through a Graph object'''
 
+    title = models.CharField(_('part title'), max_length=64, blank=True)
 
-class Node(object):
-    ''''''
-    pass
+    program = models.ForeignKey(Program, verbose_name=_('program'))
+    start_time = models.DateTimeField(_('start_time'), null=True, blank=True)
+    end_time = models.DateTimeField(_('end_time'), null=True, blank=True)
 
+    # graph_object = reference to Graph object
 
-class Edge(object):
-    ''''''
-    pass
+    def schedule():
+        schedule_part.send()
 
+    def reschedule():
+        reschedule_part.send()
 
-class BuildingBlock(object):
-    '''A simplified collection of logical'''
-    pass
+    def revoke():
+        revoke_part.send()
+
+    def __unicode__(self):
+        return self.title or _('Part %s' % self.id)
+
+    class Meta:
+        verbose_name = _('part')
+        verbose_name_plural = _('parts')
 
 
 class Page(models.Model):
     '''An ordered collection of Content to be shown together as a Page'''
-    pass
+
+    title = models.CharField(_('part title'), max_length=64, blank=True)
+
+    # node_object = reference to Node object
 
     def __unicode__(self):
-        return ''
+        return self.title or _('Page %s' % self.id)
 
     class Meta:
         verbose_name = _('page')
@@ -46,7 +69,7 @@ class Pagelet(models.Model):
     order = models.PositiveSmallIntegerField(_('order'), default=0)
 
     def __unicode__(self):
-        return '%s' % (self.page, self.content)
+        return '%s, %s' % (self.page, self.content)
 
     class Meta:
         ordering = ['order']
