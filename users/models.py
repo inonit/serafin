@@ -45,45 +45,43 @@ class User(AbstractBaseUser, PermissionsMixin):
         '''Update User authentication token for the Vault'''
         pass
 
+    def vault_post(func):
+        '''Decorator for posting to the Vault'''
+        def _vault_post(*args, **kwargs):
+
+            url, user_id, token = func(*args, **kwargs)
+
+            if url and user_id and token:
+                data = {
+                    'user_id': user_id,
+                    'token': token,
+                }
+                data.update(kwargs)
+
+                response = requests.post(url, data=json.dumps(data))
+                response.raise_for_status()
+
+                response_json = response.json()
+                if 'status' in response_json and response_json['status'] == 'ok':
+                    return True
+
+            return False
+
+    @vault_post
     def send_email(self, subject=None, message=None, html_message=None):
         '''Send an e-mail to the User through the Vault'''
         self.update_token()
-        if subject and message or html_message:
-            url = settings.VAULT_SEND_EMAIL_URL
-            data = {
-                'user_id': self.id,
-                'token': self.token,
-                'subject': subject,
-                'message': message,
-                'html_message': html_message,
-            }
-            response = requests.post(url, data=json.dumps(data))
-            response.raise_for_status()
+        url = settings.VAULT_SEND_EMAIL_URL
 
-            response_json = response.json()
-            if 'status' in response_json and response_json['status'] == 'ok':
-                return True
+        return url, self.id, self.token
 
-        return False
-
+    @vault_post
     def send_sms(self, message=None):
         '''Send an sms to the User through the Vault'''
         self.update_token()
-        if message:
-            url = settings.VAULT_SEND_SMS_URL
-            data = {
-                'user_id': self.id,
-                'token': self.token,
-                'message': message,
-            }
-            response = requests.post(url, data=json.dumps(data))
-            response.raise_for_status()
+        url = settings.VAULT_SEND_SMS_URL
 
-            response_json = response.json()
-            if 'status' in response_json and response_json['status'] == 'ok':
-                return True
-
-        return False
+        return url, self.id, self.token
 
     def __unicode__(self):
         return self.username
