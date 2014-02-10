@@ -4,8 +4,11 @@ from django.utils.translation import ugettext_lazy as _
 from django.db import models
 from signals import schedule_part, reschedule_part, revoke_part
 #from system.system import Stuff
+from django.contrib.contenttypes.generic import GenericForeignKey
+from django.contrib.contenttypes.models import ContentType
 
-class Program(object):
+
+class Program(models.Model):
     '''A top level model for a separate Program, having one or more parts'''
 
     title = models.CharField(_('program title'), max_length=64)
@@ -65,7 +68,9 @@ class Pagelet(models.Model):
     '''Ordered relation of Content belonging to a Page'''
 
     page = models.ForeignKey(Page, verbose_name=_('page'))
-    content = models.ForeignKey('content.Content', verbose_name=_('content'))
+    content_type = models.ForeignKey(ContentType)
+    object_id = models.PositiveIntegerField()
+    content = GenericForeignKey('content_type', 'object_id')
     order = models.PositiveSmallIntegerField(_('order'), default=0)
 
     def __unicode__(self):

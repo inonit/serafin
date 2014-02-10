@@ -11,15 +11,16 @@ import json
 class UserManager(BaseUserManager):
     '''Custom User model Manager'''
 
-    def create_user(self, password):
+    def create_user(self, id, password):
         user = self.model()
         user.set_password(password)
         user.save()
         return user
 
-    def create_superuser(self, password):
-        user = self.create_user(password=password)
-        user.is_admin = True
+    def create_superuser(self, id, password):
+        user = self.create_user(id=id, password=password)
+        user.is_staff = True
+        user.is_superuser = True
         user.save()
         return user
 
@@ -84,7 +85,7 @@ class User(AbstractBaseUser, PermissionsMixin):
         return url, self.id, self.token
 
     def __unicode__(self):
-        return self.username
+        return unicode(self.username)
 
     class Meta:
         verbose_name = _('user')

@@ -1,41 +1,37 @@
 from django.http import HttpResponse
-from django.utils import json
 from models import VaultUser
+import json
 
 
-def send_email(request, user_id=None, token=None):
-    response = {
-        'status': 'ok',
-    }
-    if user_id and token:
-        try:
-            user = VaultUser.objects.get(id=user_id)
-        except VaultUser.DoesNotExist:
-            response['status'] = 'no such user'
+def json_response(func):
+    '''Handles json POST requests and responds in json'''
+    def _json_response(request, *args, **kwargs):
+        response = {
+            'status': 'failed',
+        }
 
-        try:
-            data = json.loads(request.POST['data'])
-        except:
-            response['status'] = 'bad data'
+        if request.POST:
+            data = json.reads(request.body)
+            if 'user_id' in data and 'token' in data:
+                try:
+                    user = VaultUser.objects.get(id=data['user_id'])
+                except VaultUser.DoesNotExist:
+                    response['status'] = 'no such user'
 
-    return HttpResponse(json.dumps(response), 'application/json')
+                if not valid_token(data['token']):
+                    response['status'] = 'bad authentication'
+
+                response['status'] = func(request, user=user, data=data)
+
+        return HttpResponse(json.dumps(response), 'application/json')
 
 
+#@json_response
+def send_email(request, *args, **kwargs):
+    #return 'ok'
+    return HttpResponse('', 'application/json')
 
-def send_sms(request, user_id=None, token=None):
-    response = {
-        'status': 'ok',
-    }
-    if user_id and token:
-        try:
-            user = VaultUser.objects.get(id=user_id)
-        except VaultUser.DoesNotExist:
-            response['status'] = 'no such user'
-
-        try:
-            data = json.loads(request.POST['data'])
-        except:
-            response['status'] = 'bad data'
-
-    return HttpResponse(json.dumps(response), 'application/json')
-
+#@json_response
+def send_sms(request, *args, **kwargs):
+    #return 'ok'
+    return HttpResponse('', 'application/json')

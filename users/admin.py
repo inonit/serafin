@@ -63,3 +63,5 @@ class UserChangeForm(forms.ModelForm):
     class Meta:
         model = get_user_model()
 
+
+admin.site.register(get_user_model())
