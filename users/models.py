@@ -11,15 +11,16 @@ import json
 class UserManager(BaseUserManager):
     '''Custom User model Manager'''
 
-    def create_user(self, password):
+    def create_user(self, id, password):
         user = self.model()
         user.set_password(password)
         user.save()
         return user
 
-    def create_superuser(self, password):
-        user = self.create_user(password=password)
-        user.is_admin = True
+    def create_superuser(self, id, password):
+        user = self.create_user(id=id, password=password)
+        user.is_staff = True
+        user.is_superuser = True
         user.save()
         return user
 
@@ -27,9 +28,9 @@ class UserManager(BaseUserManager):
 class User(AbstractBaseUser, PermissionsMixin):
     '''Custom User, identified by ID and password'''
 
-    is_staff = models.BooleanField(_('staff'), default=False)
+    is_staff = models.BooleanField(_('staff status'), default=False)
     is_active = models.BooleanField(_('active'), default=True)
-    date_joined = models.DateTimeField(_('registration time'), auto_now_add=True, editable=False)
+    date_joined = models.DateTimeField(_('date joined'), auto_now_add=True, editable=False)
 
     token = models.CharField(_('token'), max_length=64, blank=True, editable=False)
 
@@ -40,6 +41,12 @@ class User(AbstractBaseUser, PermissionsMixin):
     @property
     def username(self):
         return _('User %i' % self.id)
+
+    def get_short_name(self):
+        return self.username
+
+    def get_username(self):
+        return self.username
 
     def update_token(self):
         '''Update User authentication token for the Vault'''
@@ -84,7 +91,7 @@ class User(AbstractBaseUser, PermissionsMixin):
         return url, self.id, self.token
 
     def __unicode__(self):
-        return self.username
+        return unicode(self.username)
 
     class Meta:
         verbose_name = _('user')

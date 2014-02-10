@@ -8,8 +8,8 @@ from twilio.rest import TwilioRestClient
 
 class VaultUser(models.Model):
     '''Vault user corresponding to User with personal info'''
-    email = models.EmailField(_('e-mail address'))
-    phone = models.CharField(_('phone number'))
+    email = models.EmailField(_('e-mail address'), max_length=254)
+    phone = models.CharField(_('phone number'), max_length=32)
     # additional fields
 
     def send_sms(self, message=None):
