@@ -50,7 +50,7 @@ class Form(Content):
 
 class Image(Content):
     '''An image to be displayed'''
-    content = FilerImageField(_('image'))
+    content = FilerImageField(verbose_name=_('image'))
 
     def template(self):
         return 'image.html'
@@ -65,7 +65,7 @@ class Image(Content):
 
 class Video(Content):
     '''A video clip to be played'''
-    content = FilerFileField(_('video'))
+    content = FilerFileField(verbose_name=_('video'))
 
     def template(self):
         return 'video.html'
@@ -80,7 +80,7 @@ class Video(Content):
 
 class Audio(Content):
     '''A piece of audio to be played'''
-    content = FilerFileField(_('video'))
+    content = FilerFileField(verbose_name=_('video'))
 
     def template(self):
         return 'audio.html'
@@ -95,7 +95,7 @@ class Audio(Content):
 
 class File(Content):
     '''A file made available for download'''
-    content = FilerFileField(_('file'))
+    content = FilerFileField(verbose_name=_('file'), related_name='file_content')
 
     def template(self):
         return 'file.html'
