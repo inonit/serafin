@@ -5,16 +5,27 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>{% block title %}Seraph{% endblock %}</title>
     {% block meta %}{% endblock %}
-    <link rel="stylesheet" href="css/foundation.css" />
+    {% load staticfiles %}
+    <link rel="stylesheet" href="{% static 'css/foundation.css' %}" />
+    <link rel="stylesheet" href="{% static 'css/style.css' %}" />
     {% block styles %}{% endblock %}
-    <script src="js/vendor/modernizr.js"></script>
+    <script src="{% static 'js/vendor/modernizr.js' %}"></script>
   </head>
   <body>
 
+    <div class="messages">
+      {% for message in messages %}
+      <div class="message alert {{ message.tags }}" onclick="$(this).closest('.alert').remove()" onload="setTimeout('$(this).remove()', 30000)">
+        <button class="close">&times;</button>
+        <p>{{ message }}</p>
+      </div>
+      {% endfor %}
+    </div>
+
     {% block content %}{% endblock %}
 
-    <script src="js/vendor/jquery.js"></script>
-    <script src="js/foundation.min.js"></script>
+    <script src="{% static 'js/vendor/jquery.js' %}"></script>
+    <script src="{% static 'js/foundation.min.js' %}"></script>
     {% block scripts %}{% endblock %}
     <script>
       $(document).foundation();

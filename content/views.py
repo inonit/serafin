@@ -1,3 +1,11 @@
 from django.shortcuts import render
 
-# Create your views here.
+def page_test(request):
+
+    context = {
+        'pagelets': [
+
+        ]
+    }
+
+    return render(request, 'content/page.html', context)
