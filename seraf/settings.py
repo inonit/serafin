@@ -66,7 +66,6 @@ ROOT_URLCONF = 'seraf.urls'
 
 WSGI_APPLICATION = 'seraf.wsgi.application'
 
-
 # Database
 # https://docs.djangoproject.com/en/1.6/ref/settings/#databases
 
@@ -147,6 +146,13 @@ SUIT_CONFIG = {
 
     },
 }
+
+from django.conf.global_settings import TEMPLATE_CONTEXT_PROCESSORS
+TEMPLATE_CONTEXT_PROCESSORS += (
+    'django.core.context_processors.request',
+    'django.contrib.messages.context_processors.messages',
+)
+
 
 try:
     from local_settings import *

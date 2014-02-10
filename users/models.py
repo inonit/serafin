@@ -28,9 +28,9 @@ class UserManager(BaseUserManager):
 class User(AbstractBaseUser, PermissionsMixin):
     '''Custom User, identified by ID and password'''
 
-    is_staff = models.BooleanField(_('staff'), default=False)
+    is_staff = models.BooleanField(_('staff status'), default=False)
     is_active = models.BooleanField(_('active'), default=True)
-    date_joined = models.DateTimeField(_('registration time'), auto_now_add=True, editable=False)
+    date_joined = models.DateTimeField(_('date joined'), auto_now_add=True, editable=False)
 
     token = models.CharField(_('token'), max_length=64, blank=True, editable=False)
 
@@ -41,6 +41,12 @@ class User(AbstractBaseUser, PermissionsMixin):
     @property
     def username(self):
         return _('User %i' % self.id)
+
+    def get_short_name(self):
+        return self.username
+
+    def get_username(self):
+        return self.username
 
     def update_token(self):
         '''Update User authentication token for the Vault'''
