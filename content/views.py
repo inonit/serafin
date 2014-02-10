@@ -8,4 +8,4 @@ def page_test(request):
         ]
     }
 
-    return render(request, 'content/page.html', context)
+    return render(request, 'page.html', context)

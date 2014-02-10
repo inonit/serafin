@@ -50,6 +50,7 @@ INSTALLED_APPS = (
     'sms',
     'tasks',
     'events',
+    'content',
     'system',
 )
 
@@ -65,6 +66,10 @@ MIDDLEWARE_CLASSES = (
 ROOT_URLCONF = 'seraf.urls'
 
 WSGI_APPLICATION = 'seraf.wsgi.application'
+
+TEMPLATE_DIRS = (
+    os.path.join(BASE_DIR, 'templates'),
+)
 
 # Database
 # https://docs.djangoproject.com/en/1.6/ref/settings/#databases
