@@ -118,6 +118,12 @@ VAULT_SEND_SMS_URL = '/api/vault/send_sms'
 VAULT_FETCH_SMS_URL = '/api/vault/fetch_sms'
 
 
+# Twilio
+
+TWILIO_ACCOUNT_SID = 'xxxxx'
+TWILIO_AUTH_TOKEN = 'xxxxx'
+
+
 # Huey
 
 HUEY = {
