@@ -15,6 +15,7 @@ class UserManager(BaseUserManager):
         user = self.model()
         user.set_password(password)
         user.save()
+        user._mirror_user()
         return user
 
     def create_superuser(self, id, password):
@@ -22,6 +23,7 @@ class UserManager(BaseUserManager):
         user.is_staff = True
         user.is_superuser = True
         user.save()
+        user._mirror_user()
         return user
 
 
@@ -75,11 +77,24 @@ class User(AbstractBaseUser, PermissionsMixin):
             return False
 
     @vault_post
+    def _mirror_user(self):
+        '''Get confirmation of or create a corresponding User in the vault'''
+        self.update_token()
+        url = settings.VAULT_MIRROR_USER
+        return url, self.id, self.token
+
+    @vault_post
+    def _delete_mirror(self):
+        '''Delete VaultUser corresponding to user in vault'''
+        self.update_token()
+        url = settings.VAULT_DELETE_MIRROR
+        return url, self.id, self.token
+
+    @vault_post
     def send_email(self, subject=None, message=None, html_message=None):
         '''Send an e-mail to the User through the Vault'''
         self.update_token()
         url = settings.VAULT_SEND_EMAIL_URL
-
         return url, self.id, self.token
 
     @vault_post
@@ -87,7 +102,13 @@ class User(AbstractBaseUser, PermissionsMixin):
         '''Send an sms to the User through the Vault'''
         self.update_token()
         url = settings.VAULT_SEND_SMS_URL
+        return url, self.id, self.token
 
+    @vault_post
+    def fetch_sms(self, message=None):
+        '''Send an sms to the User through the Vault'''
+        self.update_token()
+        url = settings.VAULT_SEND_SMS_URL
         return url, self.id, self.token
 
     def __unicode__(self):
