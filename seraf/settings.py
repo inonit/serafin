@@ -117,6 +117,8 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 AUTH_USER_MODEL = 'users.User'
 
+VAULT_MIRROR_USER = '/api/vault/mirror_user'
+VAULT_DELETE_MIRROR = '/api/vault/delete_mirror'
 VAULT_SEND_EMAIL_URL = '/api/vault/send_email'
 VAULT_SEND_SMS_URL = '/api/vault/send_sms'
 VAULT_FETCH_SMS_URL = '/api/vault/fetch_sms'

@@ -2,6 +2,7 @@ from __future__ import unicode_literals
 from django.utils.translation import ugettext_lazy as _
 
 from django.db import models
+from django.db.models.query import QuerySet
 from django.contrib.auth.models import BaseUserManager, AbstractBaseUser, PermissionsMixin
 from django.conf import settings
 import requests
@@ -15,6 +16,7 @@ class UserManager(BaseUserManager):
         user = self.model()
         user.set_password(password)
         user.save()
+        user._mirror_user()
         return user
 
     def create_superuser(self, id, password):
@@ -22,7 +24,18 @@ class UserManager(BaseUserManager):
         user.is_staff = True
         user.is_superuser = True
         user.save()
+        user._mirror_user()
         return user
+
+    def get_query_set(self):
+        return UserQuerySet(self.model)
+
+
+class UserQuerySet(QuerySet):
+    def delete(self):
+        for item in self.query:
+            item._delete_mirror()
+        super(UserQuerySet, self).delete()
 
 
 class User(AbstractBaseUser, PermissionsMixin):
@@ -52,6 +65,10 @@ class User(AbstractBaseUser, PermissionsMixin):
         '''Update User authentication token for the Vault'''
         pass
 
+    def delete(self):
+        user._delete_mirror()
+        super(UserManager, self).delete()
+
     def vault_post(func):
         '''Decorator for posting to the Vault'''
         def _vault_post(*args, **kwargs):
@@ -75,11 +92,24 @@ class User(AbstractBaseUser, PermissionsMixin):
             return False
 
     @vault_post
+    def _mirror_user(self):
+        '''Get confirmation of or create a corresponding User in the vault'''
+        self.update_token()
+        url = settings.VAULT_MIRROR_USER
+        return url, self.id, self.token
+
+    @vault_post
+    def _delete_mirror(self):
+        '''Delete VaultUser corresponding to user in vault'''
+        self.update_token()
+        url = settings.VAULT_DELETE_MIRROR
+        return url, self.id, self.token
+
+    @vault_post
     def send_email(self, subject=None, message=None, html_message=None):
         '''Send an e-mail to the User through the Vault'''
         self.update_token()
         url = settings.VAULT_SEND_EMAIL_URL
-
         return url, self.id, self.token
 
     @vault_post
@@ -87,7 +117,13 @@ class User(AbstractBaseUser, PermissionsMixin):
         '''Send an sms to the User through the Vault'''
         self.update_token()
         url = settings.VAULT_SEND_SMS_URL
+        return url, self.id, self.token
 
+    @vault_post
+    def fetch_sms(self, message=None):
+        '''Send an sms to the User through the Vault'''
+        self.update_token()
+        url = settings.VAULT_SEND_SMS_URL
         return url, self.id, self.token
 
     def __unicode__(self):
