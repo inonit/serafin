@@ -2,6 +2,7 @@ from __future__ import unicode_literals
 from django.utils.translation import ugettext_lazy as _
 
 from django.db import models
+from django.db.models.query import QuerySet
 from django.contrib.auth.models import BaseUserManager, AbstractBaseUser, PermissionsMixin
 from django.conf import settings
 import requests
@@ -25,6 +26,16 @@ class UserManager(BaseUserManager):
         user.save()
         user._mirror_user()
         return user
+
+    def get_query_set(self):
+        return UserQuerySet(self.model)
+
+
+class UserQuerySet(QuerySet):
+    def delete(self):
+        for item in self.query:
+            item._delete_mirror()
+        super(UserQuerySet, self).delete()
 
 
 class User(AbstractBaseUser, PermissionsMixin):
@@ -53,6 +64,10 @@ class User(AbstractBaseUser, PermissionsMixin):
     def update_token(self):
         '''Update User authentication token for the Vault'''
         pass
+
+    def delete(self):
+        user._delete_mirror()
+        super(UserManager, self).delete()
 
     def vault_post(func):
         '''Decorator for posting to the Vault'''
