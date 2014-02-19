@@ -23,7 +23,7 @@ SECRET_KEY = 'llzkwh=$&0x2*1u^)1&24%ix+_z$io4!gtxo6cxkg=lxqruaz+'
 DEBUG = True
 TEMPLATE_DEBUG = True
 
-ALLOWED_HOSTS = ['*']
+ALLOWED_HOSTS = ['seraf.inonit.no']
 
 
 # Application definition
@@ -95,7 +95,15 @@ USE_TZ = True
 ADMINS = (
     ('Eirik', 'eirik.krogstad@inonit.no'),
 )
+SERVER_EMAIL = 'SERAF <post@inonit.no>'
+DEFAULT_FROM_EMAIL = 'SERAF <post@inonit.no>'
 EMAIL_SUBJECT_PREFIX = '[SERAF] '
+EMAIL_HOST_USER = 'AKIAJYR7AW6SXUYTVI2Q'
+EMAIL_HOST_PASSWORD = 'AuzX2+v7uGKwnYOupxZLGBsOh+b3RCdKtekyBHPLSxkY'
+EMAIL_HOST = 'email-smtp.eu-west-1.amazonaws.com'
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 
 
 # Static files (CSS, JavaScript, Images)
