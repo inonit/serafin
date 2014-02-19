@@ -80,7 +80,7 @@ class Video(Content):
 
 class Audio(Content):
     '''A piece of audio to be played'''
-    content = FilerFileField(verbose_name=_('video'))
+    content = FilerFileField(verbose_name=_('audio'))
 
     def template(self):
         return 'audio.html'
