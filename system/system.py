@@ -1,51 +1,98 @@
+import pprint
+import time
 
+class Scope(dict):
+
+    def __init__(self, name):
+        self.name = name
+
+
+# Context is a stack of scopes
+#     GLOBAL
+#     PERMANENT
+#     SESSION
+#     MESSAGE
+#     TRANSIENT
 class Context:
 
-    PERMANENT = 1
-    SESSION   = 2
-    MESSAGE   = 3
+    def __init__(self):
+        self.scopes = []
 
-    def __init__(self, permanent, session, message):
-        self.permanent = permanent
-        self.session = session
-        self.message = message
-
-    def all(self):
-        return dict(self.permanent.items(), self.session.items(), self.message.items())
+    def flatten(self):
+        flattened = dict()
+        for scope in self.scopes:
+            for (key, value) in scope.items():
+                flattened[key] = value
+        return flattened
 
     def __getitem__(self, key):
-        if key in self.message:
-            return self.message[key]
-        if key in self.session:
-            return self.session[key]
-        if key in self.permanent:
-            return self.permanent[key]
+        for scope in reversed(self.scopes):
+            if key in scope:
+                return scope[key]
         raise KeyError("key %s not in context" % key)
 
-    def set(self, key, value, scope):
-        if scope == self.MESSAGE:
-            self.message[key] = value
-        elif scope == self.SESSION:
-            self.session[key] = value
-        elif scope == self.PERMANENT:
-            self.permanent[key] = value
-        else:
-            raise KeyError("invalid scope %s" % scope)
+    def __setitem__(self, key, value):
+        for scope in reversed(self.scopes):
+            if key in scope:
+                scope[key] = value
+        raise KeyError("key %s not in context" % key)
+
+
+class System:
+
+    def __init__(self):
+        self.programs = dict()
+
+    def run(self):
+        responses = []
+
+        running_programs = self.get_running_programs()
+        if running_programs == []:
+            raise KeyError("No running programs")
+
+        for program in running_programs:
+            responses += program.run(self.context)
+        return responses
+
+    def run_jobs(self, program_name):
+        program = self.get_program_by_name(program_name)
+        return program.run_jobs(self.context)
+
+    def get_program_by_name(self, name):
+        return self.programs[name]
+
+    def get_running_programs(self):
+        return [self.get_program_by_name(program_name) for program_name in self.context["running_programs"]]
+
+
+class Program:
+
+    def __init__(self, name):
+        self.name = name
+
+    def run(self, context):
+        raise NotImplemented
+
+    def run_jobs(self, context):
+        raise NotImplemented
 
 
 class Scheduler:
 
-    def __init__(self, system):
-        self.system = system
+    def schedule_now(self, program_name):
+        raise NotImplemented
 
-    def scheduleNow(self, program_name):
-        pass
+    def schedule_at(self, program_name, time):
+        raise NotImplemented
 
-    def scheduleAt(self, program_name, time)
-        pass
+    def run_jobs(self, program_name):
+        self.system.run_jobs(program_name)
 
-    def runScheduledJobs(self, program_name):
-        self.system.runScheduledJobs(program_name)
+
+class SerafSystem(System):
+
+    def run_jobs(self, program_name):
+        responses = super(SerafSystem, self).run_jobs(program_name)
 
 
 #HumanInteface is *the* object which sits between the system (the Django-app) and the human
@@ -56,18 +103,19 @@ class Scheduler:
 class HumanInterface:
 
     def send(self, stimuli):
-        pass
+        raise NotImplemented
 
-    def getResponses()
+    def get_responses():
+        raise NotImplemented
 
-    def _interpretWebRequest(self, request):
-        pass
+    def _interpret_web_request(self, request):
+        raise NotImplemented
 
-    def _interpretSMS(self, sms):
-        pass
+    def _interpret_sms(self, sms):
+        raise NotImplemented
 
-    def _interpretEmail(self, email):
-        pass
+    def _interpret_email(self, email):
+        raise NotImplemented
 
 
 class Example:
@@ -75,81 +123,27 @@ class Example:
     def web_usage(self):
         human_interface = HumanInterface()
         system = System(human_interface)
-
-        human_responses = human_interface.getResponses()
-        
-        system.processResponses(human_responses)
+        human_responses = human_interface.get_responses()
+        system.process(human_responses)
 
 
-class System:
-
-    def __init__(self, human_interface):
-        self.scheduler = Scheduler(self)
-        self.programs = self.readPrograms()
-        self.context = self.readContext()
-        self.human_interface = human_interface
-
-    def readPrograms(self):
-        pass
-
-    def readContext(self):
-        pass
-
-    def programByName(self, name):
-        return self.programs[name]
-
-    def processResponses(self, responses):
-        all_stimuli = []
-        for program_name in self.context["programs"]
-            program = self.programByName(program_name)
-            stimuli = program.execute(self.context["programContext"], responses)
-            all_stimuli = all_stimuli + stimuli
-        return all_stimuli
-
-    def runScheduledJobs(self, program_name):
-        program = self.programByName(program_name)
-        stimuli = program.runScheduledJobs(self.context)
-        return stimuli
-
-
-class SerafSystem(System):
-
-    def runScheduledJobs(self, program_name):
-        stimuli = super(SerafSystem, self).runScheduledJobs(program_name)
-        
-
-
-
-class Program:
-
-    def __init__(self, system):
-        self.system = system
-
-    def name(self):
-        pass
-
-    def execute(self, context, data):
-        pass
-
-    def runScheduledJobs(self, context):
-        pass
-
-
-class State:
+class Node:
 
     def __init__(self, name):
         self.name = name
+        self.incoming = []
+        self.outgoing = []
+        self.expiration = []
 
-    def entryAction(self, context, data):
-        pass
+    def entry_action(self, context):
+        raise NotImplemented
+
+    def has_expired(self):
+        raise NotImplemented
 
 
-class NodeState(State):
-
-    def __init__(self):
-        self.arcs = []
-
-
+class State(Node):
+    pass
 
 
 class Arc:
@@ -157,40 +151,149 @@ class Arc:
     def __init__(self, head, tail):
         self.head = head
         self.tail = tail
+        self.head.outgoing.append(self)
+        self.tail.incoming.append(self)
 
     def condition(self, context, data):
         return True
 
 
-class AbstractStateMachine(model.Model, Program):
+class ValidatorArc(Arc):
 
-    def __init__(self, system, initial_state, states):
-        super(AbstractStateMachine, self).__init__(system)
-        self.initial_state = initial_state
+    def condition(self, context):
+        return context["my_var"] == "Test"
+
+
+class AbstractStateMachine(Program):
+
+    def __init__(self, name, states, initial_state):
+        Program.__init__(self, name)
         self.states = states
+        self.initial_state = initial_state
 
-    def execute(self, context, data):
-        return self.transition(context, data)
+    def run(self, context):
+        return self.transition(context)
 
-    def current_state(self, context):
+    def get_current_state(self, context):
         try:
-            return self.states[context["programs"][self.name]["state"]]
+            return self.states[context["current_program_state"][self.name]]
         except:
-            return self.initial_state
+            return None
 
-    def transition(self, context, data):
-        state = self.current_state
-        for a in state.arcs:
-            if a.condition(context, data):
-                return self.enterState(a.tail, context)
+    def transition(self, context):
+        current_state = self.get_current_state(context)
 
-    def enterState(self, state, context, data):
-        program_context = context["programs"][self.name]
-        program_context["old_state"] = self.current_state.name
-        program_context["state"] = state.name
+        if current_state == None:
+            return self.enter_state(self.initial_state, context)
+        else:
+            for arc in current_state.outgoing:
+                if arc.condition(context):
+                    return self.follow_arc(arc, context)
 
-        return state.entryAction(context, data)
+    def follow_arc(self, arc, context):
+        new_state = arc.tail
+        return self.enter_state(new_state, context)
 
-    def runScheduledJobs(self, context):
-        pass
+    def enter_state(self, state, context):
+        previous_state = self.get_current_state(context)
+        if previous_state != None:
+            context["previous_program_state"][self.name] = previous_state.name
 
+        context["current_program_state"][self.name] = state.name
+
+        return state.entry_action(context)
+
+    def run_jobs(self, context):
+        raise NotImplemented
+
+
+class NormalDay(State):
+
+    def entry_action(self, context):
+        return [
+            "-------------------------",
+            "Day %s." % self.name,
+            "",
+            "-------------------------",
+            ""]
+
+    def has_expired(self, context):
+        return False
+
+
+class Response:
+
+    def __init__(self, text):
+        self.text = text
+
+    def send(self):
+        raise NotImplemented
+
+
+class Information(Response):
+
+    def send(self):
+        print self.text
+
+
+class Question(Response):
+
+    def send(self):
+        return raw_input(self.text)
+
+
+class Request:
+
+    def __init__(self, name, value):
+        self.name = name
+        self.value = value
+
+
+class Test:
+
+    def run(self):
+
+        state1 = HelloWorldState("state1")
+        state2 = HelloWorldState("state2")
+        arc1 = ValidatorArc(state1, state2)
+        states = dict()
+        states["state1"] = state1
+        states["state2"] = state2
+
+        program1 = AbstractStateMachine("StupidProgram", states, state1)
+
+        permanent_scope = Scope("permanent")
+        permanent_scope["page"] = 1
+        permanent_scope["my_var"] = "Test"
+        permanent_scope["running_programs"] = ["StupidProgram"]
+        permanent_scope["current_program_state"] = dict()
+        permanent_scope["previous_program_state"] = dict()
+
+        message_scope = Scope("message")
+        message_scope["page"] = 2
+
+        context = Context()
+        context.scopes.append(permanent_scope)
+        context.scopes.append(message_scope)
+
+        scheduler = Scheduler()
+
+        system = System()
+        system.programs["StupidProgram"] = program1
+        system.context = context
+        system.scheduler = scheduler
+
+        message_scope["page"] = 1
+
+        responses = system.run()
+        for response in responses:
+            print response
+
+        message_scope["page"] = 2
+
+        responses = system.run()
+        for response in responses:
+            print response
+
+test = Test()
+test.run()
