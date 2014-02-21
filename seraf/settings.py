@@ -50,6 +50,7 @@ INSTALLED_APPS = (
     'sms',
     'tasks',
     'events',
+    'content',
     'system',
 )
 
@@ -65,6 +66,10 @@ MIDDLEWARE_CLASSES = (
 ROOT_URLCONF = 'seraf.urls'
 
 WSGI_APPLICATION = 'seraf.wsgi.application'
+
+TEMPLATE_DIRS = (
+    os.path.join(BASE_DIR, 'templates'),
+)
 
 # Database
 # https://docs.djangoproject.com/en/1.6/ref/settings/#databases
@@ -115,6 +120,9 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
+STATICFILES_DIRS = (
+    os.path.join(BASE_DIR, 'staticfiles'),
+)
 
 # User model and vault separation
 
@@ -125,6 +133,12 @@ VAULT_DELETE_MIRROR = '/api/vault/delete_mirror'
 VAULT_SEND_EMAIL_URL = '/api/vault/send_email'
 VAULT_SEND_SMS_URL = '/api/vault/send_sms'
 VAULT_FETCH_SMS_URL = '/api/vault/fetch_sms'
+
+
+# Twilio
+
+TWILIO_ACCOUNT_SID = 'xxxxx'
+TWILIO_AUTH_TOKEN = 'xxxxx'
 
 
 # Huey

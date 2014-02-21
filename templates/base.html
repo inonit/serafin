@@ -1,0 +1,48 @@
+<!doctype html>
+<html class="no-js" lang="no">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{% block title %}Seraph{% endblock %}</title>
+    {% block meta %}{% endblock %}
+    {% load staticfiles %}
+    <link rel="stylesheet" href="{% static 'css/foundation.css' %}" />
+    <link rel="stylesheet" href="{% static 'css/style.css' %}" />
+    {% block styles %}{% endblock %}
+    <script src="{% static 'js/vendor/modernizr.js' %}"></script>
+  </head>
+  <body>
+
+    <div class="messages">
+      {% for message in messages %}
+      <div class="message alert {{ message.tags }}" onclick="$(this).closest('.alert').remove()" onload="setTimeout('$(this).remove()', 30000)">
+        <button class="close">&times;</button>
+        <p>{{ message }}</p>
+      </div>
+      {% endfor %}
+    </div>
+
+    {% block content %}{% endblock %}
+
+    <script src="{% static 'js/vendor/jquery.js' %}"></script>
+    <script src="{% static 'js/foundation.min.js' %}"></script>
+    {% block scripts %}{% endblock %}
+    <script>
+      $(document).foundation();
+    </script>
+    <script>
+      /*
+      var _gaq = _gaq || [];
+      _gaq.push(['_setAccount', 'XXX']);
+      _gaq.push(['_setDomainName', 'example.com']);
+      _gaq.push(['_trackPageview']);
+
+      (function() {
+          var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+          ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+          var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+      })();
+      */
+    </script>
+  </body>
+</html>
