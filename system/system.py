@@ -118,6 +118,22 @@ class Arc:
         return True
 
 
+class TransitionError(Exception):
+
+    def __init__(self, state, msg = ''):
+        self.state = state
+        self.msg = msg
+
+    def __str__(self):
+        return repr("transition error in state %s: %s" % (self.state, self.msg))
+
+
+class FinalStateError(TransitionError):
+
+    def __init__(self, state):
+        TransitionError.__init__(self, state, 'state is final')
+
+
 class AbstractStateMachine(Program):
 
     def __init__(self, name, states, initial_state):
@@ -140,9 +156,12 @@ class AbstractStateMachine(Program):
         if current_state == None:
             return self.enter_state(self.initial_state, context)
         else:
-            for arc in current_state.outgoing:
-                if arc.condition(context):
-                    return self.follow_arc(arc, context)
+            if not current_state.outgoing:
+                raise FinalStateError(current_state.name)
+            else:
+                for arc in current_state.outgoing:
+                    if arc.condition(context):
+                        return self.follow_arc(arc, context)
 
     def follow_arc(self, arc, context):
         new_state = arc.tail
