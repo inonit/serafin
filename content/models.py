@@ -26,7 +26,7 @@ class Text(Content):
         return 'text.html'
 
     def __unicode__(self):
-        return self
+        return self.content[:160] + '...'
 
     class Meta:
         verbose_name = _('text')
@@ -41,7 +41,7 @@ class Form(Content):
         return 'form.html'
 
     def __unicode__(self):
-        return self
+        return self.something
 
     class Meta:
         verbose_name = _('form')
@@ -51,12 +51,14 @@ class Form(Content):
 class Image(Content):
     '''An image to be displayed'''
     content = FilerImageField(verbose_name=_('image'))
+    alt = models.CharField(_('alt text'), blank=True, max_length=255)
+    title = models.TextField(_('title text'), blank=True)
 
     def template(self):
         return 'image.html'
 
     def __unicode__(self):
-        return self
+        return self.title or self.content
 
     class Meta:
         verbose_name = _('image')
@@ -66,12 +68,13 @@ class Image(Content):
 class Video(Content):
     '''A video clip to be played'''
     content = FilerFileField(verbose_name=_('video'))
+    title = models.TextField(_('title text'), blank=True)
 
     def template(self):
         return 'video.html'
 
     def __unicode__(self):
-        return self
+        return self.title or self.content
 
     class Meta:
         verbose_name = _('video')
@@ -81,12 +84,13 @@ class Video(Content):
 class Audio(Content):
     '''A piece of audio to be played'''
     content = FilerFileField(verbose_name=_('audio'))
+    title = models.TextField(_('title text'), blank=True)
 
     def template(self):
         return 'audio.html'
 
     def __unicode__(self):
-        return self
+        return self.title or self.content
 
     class Meta:
         verbose_name = _('audioclip')
@@ -96,12 +100,17 @@ class Audio(Content):
 class File(Content):
     '''A file made available for download'''
     content = FilerFileField(verbose_name=_('file'), related_name='file_content')
+    title = models.CharField(_('alt text'), blank=True, max_length=255)
+
+    def icon(self):
+        '''Get image url for file icon'''
+        pass
 
     def template(self):
         return 'file.html'
 
     def __unicode__(self):
-        return self
+        return self.content
 
     class Meta:
         verbose_name = _('file')
