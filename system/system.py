@@ -1,5 +1,3 @@
-import pprint
-import time
 
 class Scope(dict):
 
@@ -89,44 +87,6 @@ class Scheduler:
         self.system.run_jobs(program_name)
 
 
-class SerafSystem(System):
-
-    def run_jobs(self, program_name):
-        responses = super(SerafSystem, self).run_jobs(program_name)
-
-
-#HumanInteface is *the* object which sits between the system (the Django-app) and the human
-#There is no communication outside of it
-#Both parties, Django-app on the one hand and system on the other communicate with the Human Interface from each side in order to
-#communicate with each other
-
-class HumanInterface:
-
-    def send(self, stimuli):
-        raise NotImplemented
-
-    def get_responses():
-        raise NotImplemented
-
-    def _interpret_web_request(self, request):
-        raise NotImplemented
-
-    def _interpret_sms(self, sms):
-        raise NotImplemented
-
-    def _interpret_email(self, email):
-        raise NotImplemented
-
-
-class Example:
-
-    def web_usage(self):
-        human_interface = HumanInterface()
-        system = System(human_interface)
-        human_responses = human_interface.get_responses()
-        system.process(human_responses)
-
-
 class Node:
 
     def __init__(self, name):
@@ -156,12 +116,6 @@ class Arc:
 
     def condition(self, context, data):
         return True
-
-
-class ValidatorArc(Arc):
-
-    def condition(self, context):
-        return context["my_var"] == "Test"
 
 
 class AbstractStateMachine(Program):
@@ -206,94 +160,3 @@ class AbstractStateMachine(Program):
     def run_jobs(self, context):
         raise NotImplemented
 
-
-class NormalDay(State):
-
-    def entry_action(self, context):
-        return [
-            "-------------------------",
-            "Day %s." % self.name,
-            "",
-            "-------------------------",
-            ""]
-
-    def has_expired(self, context):
-        return False
-
-
-class Response:
-
-    def __init__(self, text):
-        self.text = text
-
-    def send(self):
-        raise NotImplemented
-
-
-class Information(Response):
-
-    def send(self):
-        print self.text
-
-
-class Question(Response):
-
-    def send(self):
-        return raw_input(self.text)
-
-
-class Request:
-
-    def __init__(self, name, value):
-        self.name = name
-        self.value = value
-
-
-class Test:
-
-    def run(self):
-
-        state1 = HelloWorldState("state1")
-        state2 = HelloWorldState("state2")
-        arc1 = ValidatorArc(state1, state2)
-        states = dict()
-        states["state1"] = state1
-        states["state2"] = state2
-
-        program1 = AbstractStateMachine("StupidProgram", states, state1)
-
-        permanent_scope = Scope("permanent")
-        permanent_scope["page"] = 1
-        permanent_scope["my_var"] = "Test"
-        permanent_scope["running_programs"] = ["StupidProgram"]
-        permanent_scope["current_program_state"] = dict()
-        permanent_scope["previous_program_state"] = dict()
-
-        message_scope = Scope("message")
-        message_scope["page"] = 2
-
-        context = Context()
-        context.scopes.append(permanent_scope)
-        context.scopes.append(message_scope)
-
-        scheduler = Scheduler()
-
-        system = System()
-        system.programs["StupidProgram"] = program1
-        system.context = context
-        system.scheduler = scheduler
-
-        message_scope["page"] = 1
-
-        responses = system.run()
-        for response in responses:
-            print response
-
-        message_scope["page"] = 2
-
-        responses = system.run()
-        for response in responses:
-            print response
-
-test = Test()
-test.run()
