@@ -32,6 +32,8 @@ class Part(models.Model):
 
     # graph_object = reference to Graph object
 
+    # save postition of each node, set position accordingly through plumbing
+
     def schedule():
         schedule_part.send()
 

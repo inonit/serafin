@@ -44,6 +44,7 @@ INSTALLED_APPS = (
     'mptt',
     'easy_thumbnails',
     'mail_templated',
+    'plumbing',
 
     'users',
     'vault',
