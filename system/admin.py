@@ -4,9 +4,8 @@ from django.utils.translation import ugettext_lazy as _
 from django import forms
 from django.db import models
 from django.contrib import admin
-from django.core.urlresolvers import reverse
 
-from .models import Program, Part, Page
+from .models import Program, Part, Page, Pagelet
 from plumbing.forms import PlumbingField
 from suit.widgets import SuitSplitDateTimeWidget
 
@@ -36,8 +35,13 @@ class PartAdmin(admin.ModelAdmin):
     }
 
 
+class PageletInline(admin.TabularInline):
+    model = Pagelet
+
+
 class PageAdmin(admin.ModelAdmin):
     list_display = ('title', )
+    inlines = (PageletInline, )
 
 
 admin.site.register(Program, ProgramAdmin)
