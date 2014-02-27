@@ -26,7 +26,7 @@ class PartAdmin(admin.ModelAdmin):
     list_display = ('title', 'program', 'start_time', 'end_time', )
     list_editable = ('start_time', 'end_time', )
     search_fields = ('title', 'program', )
-    ordering = ('-start_time', )
+    ordering = ('start_time', )
     date_hierarchy = 'start_time'
 
     form = PartForm

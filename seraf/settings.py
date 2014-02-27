@@ -45,7 +45,6 @@ INSTALLED_APPS = (
     'easy_thumbnails',
     'mail_templated',
     'plumbing',
-    'jsonfield',
     'rest_framework',
 
     'users',
