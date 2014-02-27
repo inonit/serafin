@@ -26,7 +26,7 @@ class Text(Content):
         return 'text.html'
 
     def __unicode__(self):
-        return self.content[:160] + '...'
+        return self.content[:50] + '...'
 
     class Meta:
         verbose_name = _('text')
@@ -53,6 +53,7 @@ class Image(Content):
     content = FilerImageField(verbose_name=_('image'))
     alt = models.CharField(_('alt text'), blank=True, max_length=255)
     title = models.TextField(_('title text'), blank=True)
+    #display_caption = models.BooleanField(_('display caption'), default=True)
 
     def template(self):
         return 'image.html'
@@ -69,6 +70,7 @@ class Video(Content):
     '''A video clip to be played'''
     content = FilerFileField(verbose_name=_('video'))
     title = models.TextField(_('title text'), blank=True)
+    #display_caption = models.BooleanField(_('display caption'), default=True)
 
     def template(self):
         return 'video.html'
@@ -85,6 +87,7 @@ class Audio(Content):
     '''A piece of audio to be played'''
     content = FilerFileField(verbose_name=_('audio'))
     title = models.TextField(_('title text'), blank=True)
+    #display_caption = models.BooleanField(_('display caption'), default=True)
 
     def template(self):
         return 'audio.html'
