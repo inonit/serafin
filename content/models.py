@@ -2,24 +2,14 @@ from __future__ import unicode_literals
 from django.utils.translation import ugettext_lazy as _
 
 from django.db import models
+from fluent_contents.models import ContentItem
 from filer.fields.image import FilerImageField
 from filer.fields.file import FilerFileField
 
 
-class Content(models.Model):
-    '''Base abstract class for Content snippets'''
-    # common fields
-
-    def template(self):
-        '''Returns the template to be used to render the content'''
-        raise NotImplementedError
-
-    class Meta:
-        abstract = True
-
-
-class Text(Content):
+class Text(ContentItem):
     '''A block of text'''
+
     content = models.TextField(_('text'))
 
     def template(self):
@@ -33,23 +23,25 @@ class Text(Content):
         verbose_name_plural = _('texts')
 
 
-class Form(Content):
+class Form(ContentItem):
     '''A form registering input from the user'''
-    # fields
+
+    variable_name = models.CharField(_('variable name'), max_length=64)
 
     def template(self):
         return 'form.html'
 
     def __unicode__(self):
-        return self.something
+        return self.variable_name
 
     class Meta:
         verbose_name = _('form')
         verbose_name_plural = _('forms')
 
 
-class Image(Content):
+class Image(ContentItem):
     '''An image to be displayed'''
+
     content = FilerImageField(verbose_name=_('image'))
     alt = models.CharField(_('alt text'), blank=True, max_length=255)
     title = models.TextField(_('title text'), blank=True)
@@ -66,8 +58,9 @@ class Image(Content):
         verbose_name_plural = _('images')
 
 
-class Video(Content):
+class Video(ContentItem):
     '''A video clip to be played'''
+
     content = FilerFileField(verbose_name=_('video'))
     title = models.TextField(_('title text'), blank=True)
     #display_caption = models.BooleanField(_('display caption'), default=True)
@@ -83,8 +76,9 @@ class Video(Content):
         verbose_name_plural = _('videos')
 
 
-class Audio(Content):
+class Audio(ContentItem):
     '''A piece of audio to be played'''
+
     content = FilerFileField(verbose_name=_('audio'))
     title = models.TextField(_('title text'), blank=True)
     #display_caption = models.BooleanField(_('display caption'), default=True)
@@ -100,8 +94,9 @@ class Audio(Content):
         verbose_name_plural = _('audioclips')
 
 
-class File(Content):
+class File(ContentItem):
     '''A file made available for download'''
+
     content = FilerFileField(verbose_name=_('file'), related_name='file_content')
     title = models.CharField(_('alt text'), blank=True, max_length=255)
 

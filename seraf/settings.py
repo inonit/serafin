@@ -46,6 +46,7 @@ INSTALLED_APPS = (
     'mail_templated',
     'plumbing',
     'rest_framework',
+    'fluent_contents',
 
     'users',
     'vault',

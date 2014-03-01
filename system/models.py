@@ -4,8 +4,7 @@ from django.utils.translation import ugettext_lazy as _
 from django.db import models
 from signals import schedule_part, reschedule_part, revoke_part
 #from system.system import Stuff
-from django.contrib.contenttypes.generic import GenericForeignKey
-from django.contrib.contenttypes.models import ContentType
+from fluent_contents.models.fields import PlaceholderField
 
 
 class Program(models.Model):
@@ -53,6 +52,7 @@ class Page(models.Model):
     '''An ordered collection of Content to be shown together as a Page'''
 
     title = models.CharField(_('page title'), max_length=64, blank=True)
+    content = PlaceholderField('content')
 
     # node_object = reference to Node object
 
@@ -62,21 +62,3 @@ class Page(models.Model):
     class Meta:
         verbose_name = _('page')
         verbose_name_plural = _('pages')
-
-
-class Pagelet(models.Model):
-    '''Ordered relation of Content belonging to a Page'''
-
-    page = models.ForeignKey(Page, verbose_name=_('page'))
-    content_type = models.ForeignKey(ContentType)
-    object_id = models.PositiveIntegerField()
-    content = GenericForeignKey('content_type', 'object_id')
-    order = models.PositiveSmallIntegerField(_('order'), default=0)
-
-    def __unicode__(self):
-        return '%s, %s' % (self.page, self.content)
-
-    class Meta:
-        ordering = ['order']
-        verbose_name = _('pagelet')
-        verbose_name_plural = _('pagelets')

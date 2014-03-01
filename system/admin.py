@@ -5,9 +5,12 @@ from django import forms
 from django.db import models
 from django.contrib import admin
 
-from .models import Program, Part, Page, Pagelet
+from .models import Program, Part, Page
 from plumbing.forms import PlumbingField
-from suit.widgets import SuitSplitDateTimeWidget
+from suit.widgets import SuitSplitDateTimeWidget, LinkedSelect
+from suit.admin import SortableTabularInline
+
+from fluent_contents.admin import PlaceholderFieldAdmin
 
 
 class ProgramAdmin(admin.ModelAdmin):
@@ -35,13 +38,8 @@ class PartAdmin(admin.ModelAdmin):
     }
 
 
-class PageletInline(admin.TabularInline):
-    model = Pagelet
-
-
-class PageAdmin(admin.ModelAdmin):
+class PageAdmin(PlaceholderFieldAdmin):
     list_display = ('title', )
-    inlines = (PageletInline, )
 
 
 admin.site.register(Program, ProgramAdmin)
