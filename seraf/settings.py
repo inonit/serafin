@@ -90,6 +90,10 @@ DATABASES = {
 
 LANGUAGE_CODE = 'nb'
 
+LOCALE_PATHS = (
+    os.path.join(BASE_DIR, 'conf/locale'),
+)
+
 TIME_ZONE = 'Europe/Oslo'
 
 USE_I18N = True

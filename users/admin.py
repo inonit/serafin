@@ -54,7 +54,7 @@ class UserChangeForm(forms.ModelForm):
     '''Custom User change form'''
     password = BlankPasswordField(
         label=_('Password'),
-        help_text='Password can be changed with <a href="password/">this form</a>.'
+        help_text=_('Password can be changed with <a href="password/">this form</a>.')
     )
 
     def clean_password(self):
