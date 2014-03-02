@@ -191,9 +191,49 @@ SUIT_CONFIG = {
 
     'SEARCH_URL': '/admin/system/page/',
 
-    'MENU_ICONS': {
-
-    },
+    'MENU': [
+        {
+            'app': 'users',
+            'label': 'Brukere',
+            'icon': 'icon-user',
+            'models':
+                [
+                    'user',
+                    'auth.groups',
+                ]
+        },
+        {
+            'app': 'system',
+            'label': 'Program',
+            'icon': 'icon-cog',
+            'models':
+                [
+                    'program',
+                    'part',
+                    'page'
+                ]
+        },
+        {
+            'app': 'events',
+            'label': 'Hendelser',
+            'icon': 'icon-bullhorn',
+            'models':
+                [
+                    'event',
+                    'tasks.task',
+                ]
+        },
+        {
+            'app': 'content',
+            'label': 'Innhold',
+            'icon': 'icon-book',
+        },
+        {
+            'app': 'filer',
+            'label': 'Media',
+            'icon': 'icon-picture'
+        },
+    ]
 }
 
 
