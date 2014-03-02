@@ -14,8 +14,8 @@ from fluent_contents.admin import PlaceholderFieldAdmin
 
 
 class ProgramAdmin(admin.ModelAdmin):
-    list_display = ('title', )
-    search_fields = ('program', )
+    list_display = ['title']
+    search_fields = ['program']
 
 
 class PartForm(forms.ModelForm):
@@ -26,10 +26,11 @@ class PartForm(forms.ModelForm):
 
 
 class PartAdmin(admin.ModelAdmin):
-    list_display = ('title', 'program', 'start_time', 'end_time', )
-    list_editable = ('start_time', 'end_time', )
-    search_fields = ('title', 'program', )
-    ordering = ('start_time', )
+    list_display = ['title', 'program', 'start_time', 'end_time']
+    list_editable = ['start_time', 'end_time']
+    list_filter = ['program__title']
+    search_fields = ['title', 'program']
+    ordering = ['start_time']
     date_hierarchy = 'start_time'
 
     form = PartForm
@@ -39,7 +40,14 @@ class PartAdmin(admin.ModelAdmin):
 
 
 class PageAdmin(PlaceholderFieldAdmin):
-    list_display = ('title', )
+    list_display = ['title', 'page_exerpt']
+    search_fields = ['title', 'content__contentitems__text__content']
+
+    def page_exerpt(self, obj):
+        return ', '.join(
+            [item.__unicode__() for item in obj.content.get_content_items()[:5]]
+        )
+    page_exerpt.short_description = _('Page excerpt')
 
 
 admin.site.register(Program, ProgramAdmin)

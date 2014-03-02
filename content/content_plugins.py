@@ -5,6 +5,7 @@ from fluent_contents.extensions import plugin_pool, ContentPlugin
 from content.models import Text, Form, Image, Video, Audio, File
 from django.db import models
 from suit.widgets import AutosizedTextarea
+from epiceditor.widgets import AdminEpicEditorWidget
 
 
 @plugin_pool.register
@@ -13,7 +14,7 @@ class TextPlugin(ContentPlugin):
     render_template = 'content/text.html'
     formfield_overrides = {
         models.TextField: {
-            'widget': AutosizedTextarea(attrs={'rows': 5, 'class': 'input-xlarge'}),
+            'widget': AdminEpicEditorWidget,
         }
     }
 

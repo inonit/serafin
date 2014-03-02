@@ -40,13 +40,14 @@ INSTALLED_APPS = (
 
     'south',
     'django_extensions',
+    'rest_framework',
     'filer',
     'mptt',
     'easy_thumbnails',
     'mail_templated',
     'plumbing',
-    'rest_framework',
     'fluent_contents',
+    'epiceditor',
 
     'users',
     'vault',
@@ -184,12 +185,21 @@ SUIT_CONFIG = {
     'ADMIN_NAME': 'SERAF admin',
     'HEADER_DATE_FORMAT': 'l j. F Y',
 
-    #'SEARCH_URL': '/admin/',
+    'SEARCH_URL': '/admin/system/page/',
 
     'MENU_ICONS': {
 
     },
 }
+
+
+WYSIWYG_DEFAULT_TOOLBAR_ITEMS = [
+    'font_weights',
+    'lists',
+    'alignments',
+    'hyperlink',
+]
+
 
 from django.conf.global_settings import TEMPLATE_CONTEXT_PROCESSORS
 TEMPLATE_CONTEXT_PROCESSORS += (

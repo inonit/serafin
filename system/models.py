@@ -10,7 +10,10 @@ from fluent_contents.models.fields import PlaceholderField
 class Program(models.Model):
     '''A top level model for a separate Program, having one or more parts'''
 
-    title = models.CharField(_('program title'), max_length=64)
+    title = models.CharField(_('title'), max_length=64)
+
+    #start_time = models.DateTimeField(_('start time'), null=True, blank=True)
+    #end_time = models.DateTimeField(_('end time'), null=True, blank=True)
 
     def __unicode__(self):
         return self.title
@@ -23,11 +26,14 @@ class Program(models.Model):
 class Part(models.Model):
     '''A program Part, with layout through a Graph object'''
 
-    title = models.CharField(_('part title'), max_length=64, blank=True)
+    title = models.CharField(_('title'), max_length=64, blank=True)
 
     program = models.ForeignKey(Program, verbose_name=_('program'))
-    start_time = models.DateTimeField(_('start_time'), null=True, blank=True)
-    end_time = models.DateTimeField(_('end_time'), null=True, blank=True)
+    start_time = models.DateTimeField(_('start time'), null=True, blank=True)
+    end_time = models.DateTimeField(_('end time'), null=True, blank=True)
+
+    #created_at = models.DateTimeField(_('created at'), null=True, blank=True)
+    #changed_at = models.DateTimeField(_('changed at'), null=True, blank=True)
 
     # graph_object = reference to Graph object
 
@@ -51,7 +57,7 @@ class Part(models.Model):
 class Page(models.Model):
     '''An ordered collection of Content to be shown together as a Page'''
 
-    title = models.CharField(_('page title'), max_length=64, blank=True)
+    title = models.CharField(_('title'), max_length=64, blank=True)
     content = PlaceholderField('content')
 
     # node_object = reference to Node object
