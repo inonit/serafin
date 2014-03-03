@@ -6,11 +6,11 @@ html, body {
     min-height: 100%;
     height: auto !important;
     height: 100%;
-    margin: 0 auto -4em;
+    margin: 0 auto -45px;
 }
 
 .footer, .push {
-    height: 4em;
+    height: 45px;
     overflow: hidden;
 }
 
@@ -62,7 +62,7 @@ h6 {
 }
 
 .footer {
-    padding: 1.25em 15px 0;
+    padding: 10px 15px 0;
 }
 
 .pages {
@@ -82,6 +82,10 @@ h6 {
     margin: 0 auto;
     max-width: 40em;
     padding: 0 1em;
+}
+
+.page nav {
+    margin-top: 1.5rem;
 }
 
 label.large {

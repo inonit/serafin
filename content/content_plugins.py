@@ -3,6 +3,7 @@ from django.utils.translation import ugettext_lazy as _
 
 from fluent_contents.extensions import plugin_pool, ContentPlugin
 from content.models import Text, Form, Image, Video, Audio, File
+from django import forms
 from django.db import models
 from suit.widgets import AutosizedTextarea
 from epiceditor.widgets import AdminEpicEditorWidget
@@ -14,9 +15,14 @@ class TextPlugin(ContentPlugin):
     render_template = 'content/text.html'
     formfield_overrides = {
         models.TextField: {
-            'widget': AdminEpicEditorWidget,
+            'widget': forms.Textarea(attrs={'rows': 5, 'class': 'input-xlarge'}),
         }
     }
+    #formfield_overrides = {
+    #    models.TextField: {
+    #        'widget': AdminEpicEditorWidget,
+    #    }
+    #}
 
 
 @plugin_pool.register
