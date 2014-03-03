@@ -1,10 +1,11 @@
 from __future__ import unicode_literals
+from django.contrib.auth.decorators import login_required
 from django.utils.translation import ugettext_lazy as _
 
 from django.shortcuts import render
 from content.models import Text, Form, Image, Video, Audio, File
 
-
+@login_required()
 def page_test(request):
 
     context = {
