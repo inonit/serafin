@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+{% block title %}Login{% endblock %}
+{% block content %}
+{% if user.is_authenticated %}
+<p>You're already logged in!</p>
+{% else %}
+  <div id="stylized" class="myform">
+    <div id="login-form">
+      <h2>Seraf User Login</h2>
+      <form action="." method="POST" id="form" name="form">
+          {% csrf_token %}
+          <p class="form_errors">
+            {% if form.errors %}
+              Incorrect username or password. Try again.
+            {% endif %}
+          </p>
+            <div class="fieldWrapper">
+              <label for="username">{{ form.username.label_tag }}</label> {{ form.username }}
+            </div>
+            <div class="fieldWrapper">
+              <label for="password">{{ form.password.label_tag }}</label> {{ form.password }}
+            </div>
+            <div class="execWrapper">
+              <label style="color:#FFF;">..</label>
+              <div><input type="hidden" name="next" value="{{ next }}" /></div>
+              <div><button type="submit" id="submit-go" value='Login'>Login</button></div>
+            </div>
+            <div class="spacer"></div>
+      </form>
+    </div>
+    <div style="clear: both;">&nbsp;</div>
+  </div>
+  <!-- END #login-form -->
+{% endif %}
+
+{% endblock %}
