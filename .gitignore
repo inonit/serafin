@@ -2,7 +2,7 @@ Thumbs.db
 Desktop.ini
 .DS_Store
 __MACOSX
-
+*.log
 *.py[co]
 *.egg
 *.egg-info

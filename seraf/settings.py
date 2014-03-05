@@ -52,6 +52,7 @@ INSTALLED_APPS = (
     'events',
     'content',
     'system',
+    'logbook'
 )
 
 MIDDLEWARE_CLASSES = (
