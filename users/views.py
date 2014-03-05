@@ -5,12 +5,13 @@ from django.contrib.auth.views import logout_then_login as django_logout
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render_to_response
 import datetime
+import logging
 
-from logbook.users import djangologbookentry
+logger = logging.getLogger('users.views')
 
 @login_required()
 def profile(request):
-    djangologbookentry.debug(str(datetime.datetime.now()),'Loading user profile')
+    logger.debug('Loding user page')
     template_name="profile.html"
 
     context = {
@@ -23,11 +24,11 @@ def profile(request):
 
 def login(request, template_name="login.html"):
     """ Manual login to seraf """
-    djangologbookentry.debug(str(datetime.datetime.now()),'Loading login page')
+    logger.debug('Loding login page')
     return django_login(request, **{"template_name" : template_name})
 
 def logout(request, template_name="login.html"):
     '''Manual Logout of seraf'''
-    djangologbookentry.debug(str(datetime.datetime.now()),'User logging out')
+    logger.debug('User logging out')
     return django_logout(request)
 
