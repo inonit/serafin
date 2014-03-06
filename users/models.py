@@ -16,7 +16,7 @@ class UserManager(BaseUserManager):
         user = self.model()
         user.set_password(password)
         user.save()
-        user._mirror_user()
+        #user._mirror_user()
         return user
 
     def create_superuser(self, id, password):
@@ -24,7 +24,7 @@ class UserManager(BaseUserManager):
         user.is_staff = True
         user.is_superuser = True
         user.save()
-        user._mirror_user()
+        #user._mirror_user()
         return user
 
     def get_query_set(self):
@@ -66,7 +66,7 @@ class User(AbstractBaseUser, PermissionsMixin):
         pass
 
     def delete(self):
-        user._delete_mirror()
+        self._delete_mirror()
         super(UserManager, self).delete()
 
     def vault_post(func):

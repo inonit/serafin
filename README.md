@@ -9,6 +9,10 @@ _SERAF Smoke free_
 
 (or equivalent)
 
+Clone the project with submodules:
+
+    git clone --recursive git@github.com:inonit/seraf.git
+
 ## Dependencies
 
     pip install -r requirements.txt
