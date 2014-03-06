@@ -1,0 +1,3 @@
+[submodule "django-plumbing"]
+	path = django-plumbing
+	url = git@github.com:inonit/django-plumbing.git
