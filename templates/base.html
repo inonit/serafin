@@ -1,5 +1,5 @@
 <!doctype html>
-<html class="no-js" lang="no">
+<html class="no-js" lang="{{ LANGUAGE_CODE|default:'no' }}">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -12,7 +12,6 @@
     <script src="{% static 'js/vendor/modernizr.js' %}"></script>
   </head>
   <body>
-
     <div class="messages">
       {% for message in messages %}
       <div class="message alert {{ message.tags }}" onclick="$(this).closest('.alert').remove()" onload="setTimeout('$(this).remove()', 30000)">
