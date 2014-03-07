@@ -1,0 +1,133 @@
+{% extends 'base.html' %}
+{% block title %}SERAF Røykeslutt | Dag 1{% endblock %}
+{% block content %}
+<div class="pages" ng-controller="pages">
+    <div class="page fade" ng-show="index == 0">
+        <h2>Om en uke slutter du å røyke!</h2>
+
+        <p>Velkommen til røykesluttprogrammet! Du har tatt det viktigste skrittet for å slutte å røyke for godt! Gratulerer! Klikk litt rundt og bli kjent med din daglige webside. Viktig at du går inn og leser den daglige siden så ofte som mulig, helst hver dag. Se Brukerinfo for bl. a. Personlige innstillinger og Spørsmål og svar.
+
+        <p>Forberedelsene starter med at vi forteller deg litt mer om hvordan dette programmet virker og om hvordan det hele kommer til bli.
+
+        <p>Om en uke kommer du til å slutte å røyke! Forberedelsesfasen varer altså x dager. Deretter følger xx dagers sluttefase. Oppfølgingsfasen til slutt varer så lenge du trenger det, i inntil 6 måneder. Bla bla bla BLA. Her kommer mer praktisk informasjon...
+
+        <p>Som du vet ligger ikke problemet med å slutte å røyke i selve røyken, men inne i hodet ditt. Derfor bruker vi forskjellige psykologiske metoder og teknikker for å hjelpe deg til å hjelpe deg selv. Komplisert?
+
+        <p>Tvert i mot. Bare vent og se.
+        <nav>
+            <a class="button next right" href="" ng-click="next()">Neste side</a>
+        </nav>
+    </div>
+
+    <div class="page fade" ng-show="index == 1">
+        <h3>Hvorfor vil du egentlig slutte å røyke?</h3>
+
+        <p>Overrasket over spørsmålet? Det viktigste er vel at du har bestemt deg? Det er riktig. Men det blir lettere å slutte, hvis du har tenkt ordentlig gjennom hvorfor.
+
+        <p>Det er jo mye positivt ved å røyke også. Kosen, avstressingen, det sosiale og mye mer. Det er bare dem som aldri har røykt som ikke skjønner dette. Vi for vår del skjønner det veldig godt. Likevel har du bestemt deg for å slutte. Hvorfor har du egentlig det?
+
+        <p>Folk oppgir ofte litt overfladiske grunner, når de blir spurt. Mens det kanskje ofte er dypere og mer alvorlige grunner som ligger bak, hvis man tør å kjenne etter.
+        <nav>
+            <a class="button prev left" href="" ng-click="prev()">Forrige side</a>
+            <a class="button next right" href="" ng-click="next()">Neste side</a>
+        </nav>
+    </div>
+
+    <div class="page fade" ng-show="index == 2">
+        <p>Når du klikker på lenken under får du opp en liste over de mer alvorlige grunnene folk oppgir, bare de får tenkt seg om litt. Dette kan du bruke som inspirasjon til du selv skal skrive inn dine egne grunner. For det skal du faktisk gjøre i morgen. (Gled deg, det kommer til å føles litt godt å gjøre det.)
+
+        <p><a href="" ng-click="list = !list">Klikk her for liste over grunnene folk oppgir.</a>
+
+        <div class="slide" ng-show="list">
+            <p>Sluttegrunner andre har oppgitt:
+
+            <ul>
+                <li>Jeg er blitt redd for å dø for tidlig.</li>
+                <li>Jeg er redd for å få en alvorlig sykdom.</li>
+                <li>Jeg kjenner tegn på hva røyken gjør med kroppen min.</li>
+                <li>Jeg er lei av at det stinker røyk av munn/hår/klær.</li>
+                <li>Jeg skammer meg overfor barna mine.</li>
+                <li>Jeg føler at røyken styrer livet mitt.</li>
+                <li>Jeg synes det er blitt flaut å si at jeg er en røyker.</li>
+                <li>Jeg er lei av å være avhengig.</li>
+                <li>Jeg er redd for ikke å kunne få barn eller påføre barna skade.</li>
+            </ul>
+        </div>
+
+        <p>Dette er det forskningen viser! Men du må tenke selv. Er det noe av dette som passer på deg, eller har du andre grunner? Bruk gjerne litt tid. Dette er som sagt noe av det viktigste du gjør her i programmet.
+
+        <p>Til i morgen skal du tenke på hva som er dine viktigste grunner til å slutte.
+        <nav>
+            <a class="button prev left" href="" ng-click="prev()">Forrige side</a>
+            <a class="button next right" href="" ng-click="next()">Neste side</a>
+        </nav>
+    </div>
+
+    <div class="page fade" ng-show="index == 3">
+        <p>Vi tilbyr metode A, B og C. A er en fæl metode, og B er enda fælere, men C er desidert mest helvete.
+
+        <form action="#" method="post">
+            <h4>Hvilken av metodene vil du ha?</h4>
+
+            <label class="large" for="method-1">
+                <input type="radio" name="method" id="method-1" tabindex="1" value="1" ng-click="exclusion = 1" />
+                Metode A
+            </label>
+
+            <label class="large" for="method-2">
+                <input type="radio" name="method" id="method-2" tabindex="2" value="2" ng-click="exclusion = 2" />
+                Metode B
+            </label>
+
+            <label class="large" for="method-3">
+                <input type="radio" name="method" id="method-3" tabindex="3" value="3" ng-click="exclusion = 3" />
+                Metode C
+            </label>
+        </form>
+
+        <p class="fade in" ng-show="exclusion == 1">Dette er tekst A. Dette er tekst A. Dette er tekst A. Dette er tekst A. Dette er tekst A. Dette er tekst A. Dette er tekst A. Dette er tekst A. Dette er tekst A. Dette er tekst A. Dette er tekst A. Dette er tekst A. Dette er tekst A. Dette er tekst A. Dette er tekst A. Dette er tekst A. Dette er tekst A. Dette er tekst A.
+
+        <p class="fade in" ng-show="exclusion == 2">Dette er tekst B. Dette er tekst B. Dette er tekst B. Dette er tekst B. Dette er tekst B. Dette er tekst B. Dette er tekst B. Dette er tekst B. Dette er tekst B. Dette er tekst B. Dette er tekst B. Dette er tekst B. Dette er tekst B. Dette er tekst B. Dette er tekst B. Dette er tekst B. Dette er tekst B. Dette er tekst B.
+
+        <p class="fade in" ng-show="exclusion == 3">Dette er tekst C. Dette er tekst C. Dette er tekst C. Dette er tekst C. Dette er tekst C. Dette er tekst C. Dette er tekst C. Dette er tekst C. Dette er tekst C. Dette er tekst C. Dette er tekst C. Dette er tekst C. Dette er tekst C. Dette er tekst C. Dette er tekst C. Dette er tekst C. Dette er tekst C. Dette er tekst C.
+        <nav>
+            <a class="button prev left" href="" ng-click="prev()">Forrige side</a>
+            <a class="button next right" href="" ng-click="next()">Neste side</a>
+        </nav>
+    </div>
+
+    <div class="page fade" ng-show="index == 4">
+        <p>Nå som du har prøvd noe skikkelig fælt, har vi tenkt å gjøre det godt igjen med å tilby noe skikkelig sukkertøy. Du kan velge mellom karamell, krokan, lakris og peppermynte.
+
+        <form action="#" method="post">
+            <h4>Hvilken av metodene vil du ha?</h4>
+
+            <label class="large" for="sweets-1">
+                <input type="radio" name="sweets" id="sweets-1" tabindex="1" value="1" />
+                Karamell
+            </label>
+
+            <label class="large" for="sweets-2">
+                <input type="radio" name="sweets" id="sweets-2" tabindex="2" value="2" />
+                Krokan
+            </label>
+
+            <label class="large" for="sweets-3">
+                <input type="radio" name="sweets" id="sweets-3" tabindex="3" value="3" />
+                Lakris
+            </label>
+
+            <label class="large" for="sweets-4">
+                <input type="radio" name="sweets" id="sweets-4" tabindex="4" value="4" />
+                Peppermynte
+            </label>
+        </form>
+
+        <p>I ukene fremover vil du få sukkertøyet du har valgt minst en gang i uken. Gled deg!  Du kan endre valg så mange ganger du vil i dag men du kan ikke velge på nytt igjen senere, så tenk deg godt om!
+        <nav>
+            <a class="button prev left" href="" ng-click="prev()">Forrige side</a>
+            <a class="button next right" href="" ng-click="next()">Avslutt økt</a>
+        </nav>
+    </div>
+</div>
+{% endblock %}

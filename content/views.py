@@ -5,6 +5,13 @@ from django.shortcuts import render
 from content.models import Text, Form, Image, Video, Audio, File
 
 
+def design_test(request):
+
+    context = {}
+
+    return render(request, 'design.html', context)
+
+
 def page_test(request):
 
     context = {

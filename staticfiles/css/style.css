@@ -1,6 +1,141 @@
+html, body {
+    height: 100%;
+}
+
+.wrapper {
+    min-height: 100%;
+    height: auto !important;
+    height: 100%;
+    margin: 0 auto -45px;
+}
+
+.footer, .push {
+    height: 45px;
+    overflow: hidden;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    font-family: Georgia, serif;
+    font-weight: normal;
+    margin: 0 0 1rem;
+}
+
+.top-bar h1 {
+    font-family: sans-serif;
+}
+
 .messages {
     position: fixed;
     bottom: 0;
     right: 0;
     width: 25%;
+}
+
+.button {
+    border-radius: 2px;
+}
+
+.top-bar,
+.footer {
+    background: #444;
+    color: white;
+    max-width: 100%;
+}
+
+.top-bar .entry {
+    display: inline-block;
+    color: white;
+    line-height: 1.4;
+    padding: 8px 15px;
+}
+
+.top-bar h1 {
+    font-size: 16px;
+}
+.top-bar li {
+    padding: 0 15px;
+}
+
+.footer {
+    padding: 10px 15px 0;
+}
+
+.pages {
+    position: relative;
+}
+
+.pages .button {
+    padding: .5em 1em;
+}
+
+.page {
+    position: absolute;
+    overflow: visible;
+    top: 5em;
+    left: 0;
+    right: 0;
+    margin: 0 auto;
+    max-width: 40em;
+    padding: 0 1em;
+}
+
+.page nav {
+    margin-top: 1.5rem;
+}
+
+label.large {
+    font-size: 18px;
+}
+
+.large input[type="radio"] {
+    display: inline-block;
+    vertical-align: text-top;
+    margin-right: 5px;
+    width: 20px;
+    height: 20px;
+}
+
+.fade {
+    opacity: 1;
+    -webkit-transition: opacity .25s ease;
+    transition: opacity .25s ease;
+}
+
+.fade.ng-hide-add,
+.fade.ng-hide-remove {
+    display: block !important;
+}
+
+.fade.in.ng-hide-add {
+    display: none !important;
+}
+
+.fade.out.ng-hide-remove {
+    display: none !important;
+}
+
+.fade.ng-hide {
+    opacity: 0;
+}
+
+.slide {
+    max-height: 500px;
+    overflow: hidden;
+
+    -webkit-transition: max-height .15s linear;
+    transition: max-height .15s linear;
+}
+
+.slide.ng-hide-add,
+.slide.ng-hide-remove {
+    display: block !important;
+}
+
+.slide.ng-hide {
+    max-height: 0;
 }
