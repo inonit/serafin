@@ -1,31 +1,33 @@
 from __future__ import unicode_literals
-from django.contrib.auth import authenticate
+import json
 
-from django.http.response import HttpResponseForbidden
-
+from token_auth.tokens import token_generator
+from token_auth.json_responses import JsonResponse
 from vault.models import VaultUser
 
 
-def token_required(view_func):
-    """ Decorator for views that checks that the user's token
-    is valid.
-    """
+def json_response(func):
+    """ Handles json POST requests and responds in json """
 
-    def wrap(request, *args, **kwargs):
-        user_id = request.REQUEST.get('user_id')
-        token = request.REQUEST.get('token')
-        if user_id and token:
-            user = authenticate(pk=user_id, token=token)
-            if user:
+    def _json_response(request, *args, **kwargs):
+        response = {
+            'status': 'Failed',
+        }
+
+        if request.POST:
+            data = json.reads(request.body)
+            user_id = data.get('user_id')
+            token = data.get('token')
+
+            if user_id and token:
                 try:
-                    VaultUser.objects.get(id=user_id)
+                    user = VaultUser.objects.get(id=user_id)
                 except VaultUser.DoesNotExist:
-                    return HttpResponseForbidden()
+                    response['status'] = 'no such user'
 
-                return view_func(request, *args, **kwargs)
+                if not token_generator.check_token(token):
+                    response['status'] = 'Bad authentication'
 
-        return HttpResponseForbidden()
+                response = func(request, user=user, data=data, response=response)
 
-    wrap.__doc__ = view_func.__doc__
-    wrap.__dict__ = view_func.__dict__
-    return wrap
+        return JsonResponse(response)

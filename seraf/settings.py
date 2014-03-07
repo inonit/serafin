@@ -134,6 +134,8 @@ VAULT_SEND_EMAIL_URL = '/api/vault/send_email'
 VAULT_SEND_SMS_URL = '/api/vault/send_sms'
 VAULT_FETCH_SMS_URL = '/api/vault/fetch_sms'
 
+# Token
+TOKEN_TIMEOUT_DAYS = 7
 
 # Twilio
 
