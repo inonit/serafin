@@ -40,10 +40,14 @@ INSTALLED_APPS = (
 
     'south',
     'django_extensions',
+    'rest_framework',
     'filer',
     'mptt',
     'easy_thumbnails',
     'mail_templated',
+    'plumbing',
+    'fluent_contents',
+    'epiceditor',
 
     'users',
     'vault',
@@ -160,18 +164,44 @@ HUEY = {
 }
 
 
+# REST Framework
+
+REST_FRAMEWORK = {
+    # Use hyperlinked styles by default.
+    # Only used if the `serializer_class` attribute is not set on a view.
+    'DEFAULT_MODEL_SERIALIZER_CLASS':
+        'rest_framework.serializers.HyperlinkedModelSerializer',
+
+    # Use Django's standard `django.contrib.auth` permissions,
+    # or allow read-only access for unauthenticated users.
+    'DEFAULT_PERMISSION_CLASSES': [
+        'rest_framework.permissions.DjangoModelPermissionsOrAnonReadOnly',
+        'rest_framework.permissions.AllowAny',
+    ]
+}
+
+
 # Admin interface
 
 SUIT_CONFIG = {
     'ADMIN_NAME': 'SERAF admin',
     'HEADER_DATE_FORMAT': 'l j. F Y',
 
-    #'SEARCH_URL': '/admin/',
+    'SEARCH_URL': '/admin/system/page/',
 
     'MENU_ICONS': {
 
     },
 }
+
+
+WYSIWYG_DEFAULT_TOOLBAR_ITEMS = [
+    'font_weights',
+    'lists',
+    'alignments',
+    'hyperlink',
+]
+
 
 from django.conf.global_settings import TEMPLATE_CONTEXT_PROCESSORS
 TEMPLATE_CONTEXT_PROCESSORS += (

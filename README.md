@@ -32,9 +32,9 @@ b. Make it general enough for other mainly academic use in the future. Examples 
 To accomplish this, the system will be built in a modular way, with a high degree of separation between components.
 
 ### Users app
-Stores all non-identifiable user data (gender, education, habits) and handles login through generation of a personal login code for each user and part (day) of the program. Backup login through id and password.
+Uses a customized anomymous user model with common contrib.auth functions and handles login through generation of a personal login code for each user and part (day) of the program. Backup login through id and password.
 
-Fields past common User model fields should be set in a key: value store. Preferably, the fields are specified in a settings file before first syncdb, but behave somewhat like normal fields after this.
+Fields past common User model fields could be set in a key: value store for *general use* of the system. Preferably, field archetypes are defined by an admin, but behave somewhat like normal fields after this. Implementation ideas in [this thread](https://github.com/inonit/seraf/issues/9). However, for SERAFs use case, custom user fields are probably *not* needed.
 
 ### Vault app
 The vault stores personally identifiable data like e-mail and phone number. It will be separated to a secure server if research councils dictate so. The vault is connected to the SMS app and sends out e-mails, but only does so at the request of the main system, and only by user ID.
@@ -52,6 +52,10 @@ Contains receivers for Django signals that generate logging events for any and a
 A simple content management system for snippets of Text, Media and Forms. Snippets of Content will likely handle how they are displayed, and in the case of Forms, save the information.
 
 ### System app
-Maintains a model of the Program, with the top level represented as a schedule of Parts, the path and logic of each Part as a graph of nodes called Pages, and each Page as a list of Pagelets, each corresponding to a piece of Content. We intend to set up the administrator design of the Program with [jsPlumb](http://jsplumbtoolkit.com/demo/statemachine/jquery.html).
+Maintains a model of the Program, with the top level represented as a schedule of Parts, the path and logic of each Part as a graph of nodes called Pages, and each Page as an ordered list of content items. 
 
-Some simple logic setup will be needed for Pages and Pagelets. Nodes may be abstracted to redefinable "building blocks"; display page, ask question, send SMS, etc.
+The administrator design of the Program uses [jsPlumb](http://jsplumbtoolkit.com/demo/statemachine/jquery.html) and AngularJS, and the integration is kept in a separate repo, [django-plumbing](https://github.com/inonit/django-plumbing). We intend to redesign this for general public use, help is appreciated.
+
+Nodes may be abstracted to redefinable "building blocks"; display page, ask question, send SMS, etc.
+
+Content management is done through [django-fluent-contents](https://github.com/edoburu/django-fluent-contents). It currently has template and static overrides for this system, but will be forked at some point.

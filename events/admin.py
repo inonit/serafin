@@ -8,11 +8,11 @@ from events.models import Event
 
 
 class EventAdmin(admin.ModelAdmin):
-    list_display = ('actor_link', 'time', 'domain', 'variable', 'pre_value', 'post_value')
-    list_display_links = ()
-    list_filter = ('time', 'domain', )
-    search_fields = ()
-    ordering = ('-time', )
+    list_display = ['actor_link', 'time', 'domain', 'variable', 'pre_value', 'post_value']
+    list_display_links = []
+    list_filter = ['time', 'domain']
+    search_fields = ['domain', 'variable', 'pre_value', 'post_value']
+    ordering = ['-time']
     date_hierarchy = 'time'
 
     def actor_link(self, instance):

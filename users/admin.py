@@ -66,7 +66,10 @@ class UserChangeForm(forms.ModelForm):
 
 
 class UserAdmin(admin.ModelAdmin):
-    model = User
+    list_display = ['id', 'date_joined', 'last_login', 'is_superuser', 'is_staff', 'is_active']
+    ordering = ['-date_joined']
+    date_hierarchy = 'date_joined'
+
     form = UserChangeForm
     add_form = UserCreationForm
     fields = [
