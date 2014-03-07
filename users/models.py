@@ -1,12 +1,14 @@
 from __future__ import unicode_literals
-from django.utils.translation import ugettext_lazy as _
 
+from django.utils.translation import ugettext_lazy as _
 from django.db import models
 from django.db.models.query import QuerySet
 from django.contrib.auth.models import BaseUserManager, AbstractBaseUser, PermissionsMixin
 from django.conf import settings
-import requests
-import json
+
+from token_auth.tokens import token_generator
+
+from users.decorators import vault_post
 
 
 class UserManager(BaseUserManager):
@@ -63,33 +65,13 @@ class User(AbstractBaseUser, PermissionsMixin):
 
     def update_token(self):
         '''Update User authentication token for the Vault'''
-        pass
+
+        self.token = token_generator.make_token(self.id)
+        self.save()
 
     def delete(self):
         self._delete_mirror()
         super(UserManager, self).delete()
-
-    def vault_post(func):
-        '''Decorator for posting to the Vault'''
-        def _vault_post(*args, **kwargs):
-
-            url, user_id, token = func(*args, **kwargs)
-
-            if url and user_id and token:
-                data = {
-                    'user_id': user_id,
-                    'token': token,
-                }
-                data.update(kwargs)
-
-                response = requests.post(url, data=json.dumps(data))
-                response.raise_for_status()
-
-                response_json = response.json()
-                if 'status' in response_json and response_json['status'] == 'ok':
-                    return True
-
-            return False
 
     @vault_post
     def _mirror_user(self):

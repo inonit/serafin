@@ -1,5 +1,6 @@
 from __future__ import unicode_literals
 import json
+from token_auth.json_status import STATUS_FAIL, STATUS_USER_DOES_NOT_EXIST, STATUS_INVALID_TOKEN, STATUS_OK
 
 from token_auth.tokens import token_generator
 from token_auth.json_responses import JsonResponse
@@ -11,7 +12,7 @@ def json_response(func):
 
     def _json_response(request, *args, **kwargs):
         response = {
-            'status': 'Failed',
+            'status': STATUS_FAIL,
         }
 
         if request.POST:
@@ -23,10 +24,12 @@ def json_response(func):
                 try:
                     user = VaultUser.objects.get(id=user_id)
                 except VaultUser.DoesNotExist:
-                    response['status'] = 'no such user'
+                    response['status'] = STATUS_USER_DOES_NOT_EXIST
 
                 if not token_generator.check_token(token):
-                    response['status'] = 'Bad authentication'
+                    response['status'] = STATUS_INVALID_TOKEN
+
+                response['status'] = STATUS_OK
 
                 response = func(request, user=user, data=data, response=response)
 
