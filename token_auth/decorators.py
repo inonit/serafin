@@ -14,7 +14,7 @@ def token_required(view_func):
         user_id = request.REQUEST.get('user_id')
         token = request.REQUEST.get('token')
         if user_id and token:
-            if token_generator.check_token(token):
+            if token_generator.check_token(user_id, token):
                 return view_func(request, *args, **kwargs)
 
         return HttpResponseForbidden()
