@@ -10,6 +10,7 @@ https://docs.djangoproject.com/en/1.6/ref/settings/
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 import os
+
 BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 
 
@@ -65,6 +66,13 @@ MIDDLEWARE_CLASSES = (
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+)
+
+
+# Auth backends
+AUTHENTICATION_BACKENDS = (
+    'django.contrib.auth.backends.ModelBackend',
+    'users.backends.TokenBackend',
 )
 
 ROOT_URLCONF = 'seraf.urls'
@@ -143,7 +151,7 @@ VAULT_SEND_SMS_URL = '/api/vault/send_sms'
 VAULT_FETCH_SMS_URL = '/api/vault/fetch_sms'
 
 # Token
-TOKEN_TIMEOUT_DAYS = 7
+TOKEN_TIMEOUT_DAYS = 1
 
 # Twilio
 
@@ -238,7 +246,6 @@ SUIT_CONFIG = {
     ]
 }
 
-
 WYSIWYG_DEFAULT_TOOLBAR_ITEMS = [
     'font_weights',
     'lists',
@@ -246,13 +253,12 @@ WYSIWYG_DEFAULT_TOOLBAR_ITEMS = [
     'hyperlink',
 ]
 
-
 from django.conf.global_settings import TEMPLATE_CONTEXT_PROCESSORS
+
 TEMPLATE_CONTEXT_PROCESSORS += (
     'django.core.context_processors.request',
     'django.contrib.messages.context_processors.messages',
 )
-
 
 try:
     from local_settings import *

@@ -20,7 +20,7 @@ def vault_post(func):
             }
             data.update(kwargs)
 
-            #todo: fix: MissingSchema for url
+            #TODO: Fix MissingSchema for url
             response = requests.post(url, data=json.dumps(data))
             response.raise_for_status()
 

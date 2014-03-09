@@ -1,5 +1,6 @@
 from __future__ import unicode_literals
 
+from django.core.urlresolvers import reverse
 from django.utils.translation import ugettext_lazy as _
 from django.db import models
 from django.db.models.query import QuerySet
@@ -7,7 +8,6 @@ from django.contrib.auth.models import BaseUserManager, AbstractBaseUser, Permis
 from django.conf import settings
 
 from token_auth.tokens import token_generator
-
 from users.decorators import vault_post
 
 
@@ -107,6 +107,19 @@ class User(AbstractBaseUser, PermissionsMixin):
         self.update_token()
         url = settings.VAULT_SEND_SMS_URL
         return url, self.id, self.token
+
+    def generate_login_link(self):
+        ''' Generates a login link url '''
+        self.update_token()
+
+        url = reverse(
+            'login_via_email',
+            kwargs={
+                'user_id': self.id,
+                'token': self.token,
+            })
+        return url
+
 
     def __unicode__(self):
         return unicode(self.username)
