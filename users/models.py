@@ -2,7 +2,6 @@ from __future__ import unicode_literals
 from django.contrib.sites.models import Site
 
 from django.core.urlresolvers import reverse
-from django.template.base import Template
 from django.template.context import Context
 from django.template.loader import get_template
 from django.utils.translation import ugettext_lazy as _
@@ -115,6 +114,7 @@ class User(AbstractBaseUser, PermissionsMixin):
     def generate_login_link(self, use_https=True):
         ''' Generates a login link url '''
         self.update_token()
+        current_site = Site.objects.get_current()
 
         url = '%(protocol)s://%(domain)s%(link)s'
         params = {
@@ -126,7 +126,7 @@ class User(AbstractBaseUser, PermissionsMixin):
                 }
             ),
             'protocol': 'https' if use_https else 'http',
-            'domain': 'seraf.no'  # use django_site
+            'domain': current_site.domain
         }
         link = url % params
 
@@ -149,8 +149,6 @@ class User(AbstractBaseUser, PermissionsMixin):
         text_content = text_template.render(context)
         html_content = html_template.render(context)
 
-        print 'TEXT: ', text_content
-        print 'HTML: ', html_content
         self.send_email(subject, text_content, html_content)
 
     def __unicode__(self):
