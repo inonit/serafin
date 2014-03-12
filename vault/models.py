@@ -26,6 +26,9 @@ class VaultUser(models.Model):
             return message.sid
         return None
 
+    def send_email(self, ):
+        pass
+
     def __unicode__(self):
         return self.id
 

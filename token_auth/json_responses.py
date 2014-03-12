@@ -9,7 +9,10 @@ class JsonResponse(HttpResponse):
     """
 
     def __init__(self, content, content_type='application/json', status=200):
-        super(HttpResponse, self).__init__(
+        if not content:
+            content = {}
+
+        super(JsonResponse, self).__init__(
             content=json.dumps(content),
             status=status,
             content_type=content_type,

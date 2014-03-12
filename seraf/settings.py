@@ -112,6 +112,7 @@ USE_L10N = True
 
 USE_TZ = True
 
+USE_HTTPS = True
 
 # E-mail settings
 
@@ -146,11 +147,13 @@ STATICFILES_DIRS = (
 
 AUTH_USER_MODEL = 'users.User'
 
-VAULT_MIRROR_USER = '/api/vault/mirror_user'
-VAULT_DELETE_MIRROR = '/api/vault/delete_mirror'
-VAULT_SEND_EMAIL_URL = '/api/vault/send_email'
-VAULT_SEND_SMS_URL = '/api/vault/send_sms'
-VAULT_FETCH_SMS_URL = '/api/vault/fetch_sms'
+VAULT_SERVER_API_URL = 'http://127.0.0.1:8000/api/vault/'
+
+VAULT_MIRROR_USER = 'mirror_user/'
+VAULT_DELETE_MIRROR = 'delete_mirror/'
+VAULT_SEND_EMAIL_URL = 'send_email/'
+VAULT_SEND_SMS_URL = 'send_sms/'
+VAULT_FETCH_SMS_URL = 'fetch_sms/'
 
 # Token
 TOKEN_TIMEOUT_DAYS = 1

@@ -1,6 +1,6 @@
 from __future__ import unicode_literals
-from django.contrib.sites.models import Site
 
+from django.contrib.sites.models import Site
 from django.core.urlresolvers import reverse
 from django.template.context import Context
 from django.template.loader import get_template
@@ -111,7 +111,7 @@ class User(AbstractBaseUser, PermissionsMixin):
         url = settings.VAULT_SEND_SMS_URL
         return url, self.id, self.token
 
-    def generate_login_link(self, use_https=True):
+    def generate_login_link(self):
         ''' Generates a login link url '''
         self.update_token()
         current_site = Site.objects.get_current()
@@ -125,7 +125,7 @@ class User(AbstractBaseUser, PermissionsMixin):
                     'token': self.token,
                 }
             ),
-            'protocol': 'https' if use_https else 'http',
+            'protocol': 'https' if settings.USE_HTTPS else 'http',
             'domain': current_site.domain
         }
         link = url % params
@@ -135,16 +135,14 @@ class User(AbstractBaseUser, PermissionsMixin):
     def send_login_link(self):
         ''' Sends user login link via email templates '''
 
-        subject = _("Seraf Today's login link")
+        subject = _("Today's login link")
 
         html_template = get_template('users/emails/html/login_link.html')
-        text_template = get_template('users/emails/text/login_link.txt')
+        text_template = get_template('users/emails/text/login_link.html')
 
-        context = Context(
-            {
-                'link': self.generate_login_link(),
-            }
-        )
+        context = {
+            'link': self.generate_login_link(),
+        }
 
         text_content = text_template.render(context)
         html_content = html_template.render(context)

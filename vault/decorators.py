@@ -1,5 +1,4 @@
 from __future__ import unicode_literals
-import json
 from token_auth.json_status import STATUS_FAIL, STATUS_USER_DOES_NOT_EXIST, STATUS_INVALID_TOKEN, STATUS_OK
 
 from token_auth.tokens import token_generator
@@ -16,7 +15,7 @@ def json_response(func):
         }
 
         if request.POST:
-            data = json.reads(request.body)
+            data = request.POST
             user_id = data.get('user_id')
             token = data.get('token')
 
@@ -24,13 +23,19 @@ def json_response(func):
                 try:
                     user = VaultUser.objects.get(id=user_id)
                 except VaultUser.DoesNotExist:
+                    user = None
                     response['status'] = STATUS_USER_DOES_NOT_EXIST
 
-                if not token_generator.check_token(token):
-                    response['status'] = STATUS_INVALID_TOKEN
-
-                response['status'] = STATUS_OK
-
-                response = func(request, user=user, data=data, response=response)
+                if user:
+                    if token_generator.check_token(user_id, token):
+                        try:
+                            func(request, user=user_id, data=data, response=response)
+                            response['status'] = STATUS_OK
+                        except Exception, e:
+                            pass
+                    else:
+                        response['status'] = STATUS_INVALID_TOKEN
 
         return JsonResponse(response)
+
+    return _json_response

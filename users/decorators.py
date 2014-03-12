@@ -1,5 +1,6 @@
 from __future__ import unicode_literals
 import json
+from django.conf import settings
 
 import requests
 from token_auth.json_status import STATUS_OK
@@ -20,7 +21,12 @@ def vault_post(func):
             }
             data.update(kwargs)
 
-            #TODO: Fix MissingSchema for url
+            url = '%(server_url)s%(user_id)s/%(token)s/%(api_handler)s' % {
+                'server_url': settings.VAULT_SERVER_API_URL,
+                'user_id': user_id,
+                'token': token,
+                'api_handler': url
+            }
             response = requests.post(url, data=json.dumps(data))
             response.raise_for_status()
 

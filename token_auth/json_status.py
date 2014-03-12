@@ -1,5 +1,5 @@
 from __future__ import unicode_literals
-from django.utils.translation import ugettext_lazy as _
+from django.utils.translation import ugettext as _
 
 STATUS_OK = _('OK')
 STATUS_FAIL = _('Failed')
