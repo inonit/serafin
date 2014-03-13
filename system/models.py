@@ -58,6 +58,7 @@ class Page(Content):
     '''An ordered collection of Content to be shown together as a Page'''
 
     title = models.CharField(_('title'), max_length=64, blank=True)
+    part = models.ForeignKey(Part, verbose_name=_('part'), null=True, blank=True)
 
     # node_object = reference to Node object
 

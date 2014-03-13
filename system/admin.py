@@ -47,7 +47,6 @@ class PageForm(forms.ModelForm):
 
     def __init__(self, *args, **kwargs):
         super(PageForm, self).__init__(*args, **kwargs)
-        self.fields['data'].widget = ContentWidget()
         self.fields['data'].help_text = ''
 
     class Meta:
@@ -56,9 +55,10 @@ class PageForm(forms.ModelForm):
 
 class PageAdmin(admin.ModelAdmin):
     list_display = ['title', 'page_excerpt']
-    search_fields = ['title', 'data']
+    search_fields = ['title', 'part', 'data']
 
-    fields = ['title', 'data']
+    fields = ['title', 'part', 'data']
+    readonly_fields = ['part']
     form = PageForm
 
     def page_excerpt(self, obj):
@@ -70,6 +70,11 @@ class PageAdmin(admin.ModelAdmin):
                 display = '(%s data)' % obj.data[0]['content_type']
         return display
     page_excerpt.short_description = _('Page excerpt')
+
+    formfield_overrides = {
+        models.ForeignKey: { 'widget': LinkedSelect },
+        JSONField: { 'widget': ContentWidget }
+    }
 
 
 admin.site.register(Program, ProgramAdmin)
