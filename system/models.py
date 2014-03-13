@@ -4,7 +4,7 @@ from django.utils.translation import ugettext_lazy as _
 from django.db import models
 from signals import schedule_part, reschedule_part, revoke_part
 #from system.system import Stuff
-from fluent_contents.models.fields import PlaceholderField
+from content.models import Content
 
 
 class Program(models.Model):
@@ -54,16 +54,15 @@ class Part(models.Model):
         verbose_name_plural = _('parts')
 
 
-class Page(models.Model):
+class Page(Content):
     '''An ordered collection of Content to be shown together as a Page'''
 
     title = models.CharField(_('title'), max_length=64, blank=True)
-    content = PlaceholderField('content')
 
     # node_object = reference to Node object
 
     def __unicode__(self):
-        return self.title or _('Page %s' % self.id)
+        return self.title or _('Part %s' % self.id)
 
     class Meta:
         verbose_name = _('page')

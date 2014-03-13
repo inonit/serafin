@@ -9,8 +9,10 @@ from .models import Program, Part, Page
 from plumbing.forms import PlumbingField
 from suit.widgets import SuitSplitDateTimeWidget, LinkedSelect
 from suit.admin import SortableTabularInline
-
-from fluent_contents.admin import PlaceholderFieldAdmin
+from jsonfield import JSONField
+from content.widgets import ContentWidget
+from filer.fields.image import FilerImageField
+from filer.fields.file import FilerFileField
 
 
 class ProgramAdmin(admin.ModelAdmin):
@@ -39,15 +41,35 @@ class PartAdmin(admin.ModelAdmin):
     }
 
 
-class PageAdmin(PlaceholderFieldAdmin):
-    list_display = ['title', 'page_exerpt']
-    search_fields = ['title', 'content__contentitems__text__content']
+class PageForm(forms.ModelForm):
+    dummy_image = FilerImageField()
+    dummy_file = FilerFileField()
 
-    def page_exerpt(self, obj):
-        return ', '.join(
-            [item.__unicode__() for item in obj.content.get_content_items()[:5]]
-        )
-    page_exerpt.short_description = _('Page excerpt')
+    def __init__(self, *args, **kwargs):
+        super(PageForm, self).__init__(*args, **kwargs)
+        self.fields['data'].widget = ContentWidget()
+        self.fields['data'].help_text = ''
+
+    class Meta:
+        model = Page
+
+
+class PageAdmin(admin.ModelAdmin):
+    list_display = ['title', 'page_excerpt']
+    search_fields = ['title', 'data']
+
+    fields = ['title', 'data']
+    form = PageForm
+
+    def page_excerpt(self, obj):
+        display = _('No content')
+        if len(obj.data) > 0:
+            if obj.data[0]['content_type'] == 'text':
+                display = obj.data[0]['content'][:100] + '...'
+            else:
+                display = '(%s data)' % obj.data[0]['content_type']
+        return display
+    page_excerpt.short_description = _('Page excerpt')
 
 
 admin.site.register(Program, ProgramAdmin)
