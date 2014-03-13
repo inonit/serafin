@@ -11,6 +11,7 @@ class Program(models.Model):
     '''A top level model for a separate Program, having one or more parts'''
 
     title = models.CharField(_('title'), max_length=64)
+    admin_note = models.TextField(_('admin note'), blank=True)
 
     #start_time = models.DateTimeField(_('start time'), null=True, blank=True)
     #end_time = models.DateTimeField(_('end time'), null=True, blank=True)
@@ -27,6 +28,7 @@ class Part(models.Model):
     '''A program Part, with layout through a Graph object'''
 
     title = models.CharField(_('title'), max_length=64, blank=True)
+    admin_note = models.TextField(_('admin note'), blank=True)
 
     program = models.ForeignKey(Program, verbose_name=_('program'))
     start_time = models.DateTimeField(_('start time'), null=True, blank=True)
@@ -58,6 +60,8 @@ class Page(Content):
     '''An ordered collection of Content to be shown together as a Page'''
 
     title = models.CharField(_('title'), max_length=64, blank=True)
+    admin_note = models.TextField(_('admin note'), blank=True)
+
     part = models.ForeignKey(Part, verbose_name=_('part'), null=True, blank=True)
 
     # node_object = reference to Node object

@@ -7,7 +7,7 @@ from django.contrib import admin
 
 from .models import Program, Part, Page
 from plumbing.forms import PlumbingField
-from suit.widgets import SuitSplitDateTimeWidget, LinkedSelect
+from suit.widgets import SuitSplitDateTimeWidget, LinkedSelect, AutosizedTextarea
 from suit.admin import SortableTabularInline
 from jsonfield import JSONField
 from content.widgets import ContentWidget
@@ -16,8 +16,16 @@ from filer.fields.file import FilerFileField
 
 
 class ProgramAdmin(admin.ModelAdmin):
-    list_display = ['title']
-    search_fields = ['program']
+    list_display = ['title', 'note_excerpt',]
+    search_fields = ['title', 'admin_note']
+
+    formfield_overrides = {
+        models.TextField: { 'widget': AutosizedTextarea(attrs={'rows': 3, 'class': 'input-xlarge'}) }
+    }
+
+    def note_excerpt(self, obj):
+        return obj.admin_note[:100] + '...'
+    note_excerpt.short_description = _('Admin note excerpt')
 
 
 class PartForm(forms.ModelForm):
@@ -28,17 +36,22 @@ class PartForm(forms.ModelForm):
 
 
 class PartAdmin(admin.ModelAdmin):
-    list_display = ['title', 'program', 'start_time', 'end_time']
+    list_display = ['title', 'program', 'note_excerpt', 'start_time', 'end_time']
     list_editable = ['start_time', 'end_time']
     list_filter = ['program__title']
-    search_fields = ['title', 'program']
+    search_fields = ['title', 'admin_note', 'program']
     ordering = ['start_time']
     date_hierarchy = 'start_time'
 
     form = PartForm
     formfield_overrides = {
+        models.TextField: { 'widget': AutosizedTextarea(attrs={'rows': 3, 'class': 'input-xlarge'}) },
         models.DateTimeField: { 'widget': SuitSplitDateTimeWidget }
     }
+
+    def note_excerpt(self, obj):
+        return obj.admin_note[:100] + '...'
+    note_excerpt.short_description = _('Admin note excerpt')
 
 
 class PageForm(forms.ModelForm):
@@ -54,12 +67,17 @@ class PageForm(forms.ModelForm):
 
 
 class PageAdmin(admin.ModelAdmin):
-    list_display = ['title', 'page_excerpt']
-    search_fields = ['title', 'part', 'data']
+    list_display = ['title', 'part', 'note_excerpt', 'page_excerpt']
+    search_fields = ['title', 'part', 'admin_note', 'data']
 
-    fields = ['title', 'part', 'data']
+    fields = ['title', 'part', 'admin_note', 'data']
     readonly_fields = ['part']
     form = PageForm
+    formfield_overrides = {
+        models.TextField: { 'widget': AutosizedTextarea(attrs={'rows': 3, 'class': 'input-xlarge'}) },
+        models.ForeignKey: { 'widget': LinkedSelect },
+        JSONField: { 'widget': ContentWidget }
+    }
 
     def page_excerpt(self, obj):
         display = _('No content')
@@ -71,10 +89,9 @@ class PageAdmin(admin.ModelAdmin):
         return display
     page_excerpt.short_description = _('Page excerpt')
 
-    formfield_overrides = {
-        models.ForeignKey: { 'widget': LinkedSelect },
-        JSONField: { 'widget': ContentWidget }
-    }
+    def note_excerpt(self, obj):
+        return obj.admin_note[:100] + '...'
+    note_excerpt.short_description = _('Admin note excerpt')
 
 
 admin.site.register(Program, ProgramAdmin)
