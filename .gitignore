@@ -2,6 +2,8 @@ Thumbs.db
 Desktop.ini
 .DS_Store
 __MACOSX
+.idea
+.coverage
 
 *.py[co]
 *.egg

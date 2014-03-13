@@ -1,4 +1,5 @@
 from __future__ import unicode_literals
+from django.core.mail.message import EmailMultiAlternatives
 from django.utils.translation import ugettext_lazy as _
 
 from django.db import models
@@ -26,8 +27,19 @@ class VaultUser(models.Model):
             return message.sid
         return None
 
+    def send_email(self, subject=None, message=None, html_message=None):
+        if subject and (message or html_message):
+            subject = settings.EMAIL_SUBJECT_PREFIX + subject
+
+            email = EmailMultiAlternatives(subject, message, settings.DEFAULT_FROM_EMAIL, [self.email])
+            if html_message:
+                email.attach_alternative(html_message, "text/html")
+            return email.send()
+
+        return None
+
     def __unicode__(self):
-        return self.id
+        return u'%s' % self.id
 
     class Meta:
         verbose_name = _('vault user')

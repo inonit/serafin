@@ -25,6 +25,8 @@ TEMPLATE_DEBUG = True
 
 ALLOWED_HOSTS = ['seraf.inonit.no']
 
+SITE_ID = 1
+
 
 # Application definition
 
@@ -34,6 +36,7 @@ INSTALLED_APPS = (
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django.contrib.sites',
 
     'suit',
     'django.contrib.admin',
@@ -46,8 +49,6 @@ INSTALLED_APPS = (
     'easy_thumbnails',
     'mail_templated',
     'plumbing',
-    'fluent_contents',
-    'epiceditor',
 
     'users',
     'vault',
@@ -67,6 +68,14 @@ MIDDLEWARE_CLASSES = (
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 )
 
+
+# Auth backends
+
+AUTHENTICATION_BACKENDS = (
+    'django.contrib.auth.backends.ModelBackend',
+    'users.backends.TokenBackend',
+)
+
 ROOT_URLCONF = 'seraf.urls'
 
 WSGI_APPLICATION = 'seraf.wsgi.application'
@@ -74,6 +83,7 @@ WSGI_APPLICATION = 'seraf.wsgi.application'
 TEMPLATE_DIRS = (
     os.path.join(BASE_DIR, 'templates'),
 )
+
 
 # Database
 # https://docs.djangoproject.com/en/1.6/ref/settings/#databases
@@ -84,6 +94,7 @@ DATABASES = {
         'NAME': os.path.join(BASE_DIR, 'seraf.db'),
     }
 }
+
 
 # Internationalization
 # https://docs.djangoproject.com/en/1.6/topics/i18n/
@@ -101,6 +112,8 @@ USE_I18N = True
 USE_L10N = True
 
 USE_TZ = True
+
+USE_HTTPS = True
 
 
 # E-mail settings
@@ -132,15 +145,23 @@ STATICFILES_DIRS = (
     os.path.join(BASE_DIR, 'staticfiles'),
 )
 
+
 # User model and vault separation
 
 AUTH_USER_MODEL = 'users.User'
 
-VAULT_MIRROR_USER = '/api/vault/mirror_user'
-VAULT_DELETE_MIRROR = '/api/vault/delete_mirror'
-VAULT_SEND_EMAIL_URL = '/api/vault/send_email'
-VAULT_SEND_SMS_URL = '/api/vault/send_sms'
-VAULT_FETCH_SMS_URL = '/api/vault/fetch_sms'
+VAULT_SERVER_API_URL = 'http://127.0.0.1:8000/api/vault/'
+
+VAULT_MIRROR_USER = 'mirror_user/'
+VAULT_DELETE_MIRROR = 'delete_mirror/'
+VAULT_SEND_EMAIL_URL = 'send_email/'
+VAULT_SEND_SMS_URL = 'send_sms/'
+VAULT_FETCH_SMS_URL = 'fetch_sms/'
+
+
+# Token
+
+TOKEN_TIMEOUT_DAYS = 1
 
 
 # Twilio
@@ -224,11 +245,6 @@ SUIT_CONFIG = {
                 ]
         },
         {
-            'app': 'content',
-            'label': 'Innhold',
-            'icon': 'icon-book',
-        },
-        {
             'app': 'filer',
             'label': 'Media',
             'icon': 'icon-picture'
@@ -236,21 +252,12 @@ SUIT_CONFIG = {
     ]
 }
 
-
-WYSIWYG_DEFAULT_TOOLBAR_ITEMS = [
-    'font_weights',
-    'lists',
-    'alignments',
-    'hyperlink',
-]
-
-
 from django.conf.global_settings import TEMPLATE_CONTEXT_PROCESSORS
+
 TEMPLATE_CONTEXT_PROCESSORS += (
     'django.core.context_processors.request',
     'django.contrib.messages.context_processors.messages',
 )
-
 
 try:
     from local_settings import *
