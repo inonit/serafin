@@ -5,7 +5,6 @@ from django.db import models
 from django.contrib.contenttypes.generic import GenericForeignKey
 from django.contrib.contenttypes.models import ContentType
 from picklefield.fields import PickledObjectField
-from huey.djhuey import crontab, task
 
 
 class Task(models.Model):

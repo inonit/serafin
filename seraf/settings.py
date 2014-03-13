@@ -47,7 +47,7 @@ INSTALLED_APPS = (
     'filer',
     'mptt',
     'easy_thumbnails',
-    'mail_templated',
+    'huey.djhuey',
     'plumbing',
 
     'users',
@@ -264,49 +264,20 @@ TEMPLATE_CONTEXT_PROCESSORS += (
 
 LOGGING = {
     'version': 1,
-    'disable_existing_loggers': True,
-    'formatters': {
-        'verbose': {
-            'format': '%(levelname)s %(asctime)s %(module)s %(process)d %(thread)d %(message)s'
-        },
-        'simple': {
-            'format': '%(levelname)s %(message)s'
-        },
-    },
-    'filters': {
-        'require_debug_false': {
-            '()': 'django.utils.log.RequireDebugFalse'
-        }
-    },
+    'disable_existing_loggers': False,
     'handlers': {
-        'mail_admins': {
-            'level': 'ERROR',
-            'filters': ['require_debug_false'],
-            'class': 'django.utils.log.AdminEmailHandler'
-        },
         'file': {
             'level': 'DEBUG',
             'class': 'logging.FileHandler',
-            'filename': os.path.join(BASE_DIR, 'debug.log'),
-            'formatter': 'verbose'
-        },
-        'console':{
-            'level': 'DEBUG',
-            'class': 'logging.StreamHandler',
-            'formatter': 'simple'
+            'filename': 'huey.log',
         },
     },
     'loggers': {
-        'django.request': {
-            'handlers': ['mail_admins'],
-            'level': 'DEBUG',
-            'propagate': True,
-        },
-        'users.views': {
+        'huey.consumer': {
             'handlers': ['file'],
             'level': 'DEBUG',
             'propagate': True,
-        }
+       }
     }
 }
 
