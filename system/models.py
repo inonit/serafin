@@ -2,7 +2,6 @@ from __future__ import unicode_literals
 from django.utils.translation import ugettext_lazy as _
 
 from django.db import models
-from signals import schedule_part, reschedule_part, revoke_part
 #from system.system import Stuff
 from content.models import Content
 
@@ -38,15 +37,6 @@ class Part(models.Model):
     #changed_at = models.DateTimeField(_('changed at'), null=True, blank=True)
 
     # graph_object = reference to Graph object
-
-    def schedule():
-        schedule_part.send()
-
-    def reschedule():
-        reschedule_part.send()
-
-    def revoke():
-        revoke_part.send()
 
     def __unicode__(self):
         return self.title or _('Part %s' % self.id)
