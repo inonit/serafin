@@ -10,8 +10,10 @@ https://docs.djangoproject.com/en/1.6/ref/settings/
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 import os
+
 BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 
+SITE_ID = 1
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/1.6/howto/deployment/checklist/
@@ -34,6 +36,7 @@ INSTALLED_APPS = (
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django.contrib.sites',
 
     'suit',
     'django.contrib.admin',
@@ -65,6 +68,13 @@ MIDDLEWARE_CLASSES = (
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+)
+
+
+# Auth backends
+AUTHENTICATION_BACKENDS = (
+    'django.contrib.auth.backends.ModelBackend',
+    'users.backends.TokenBackend',
 )
 
 ROOT_URLCONF = 'seraf.urls'
@@ -102,6 +112,7 @@ USE_L10N = True
 
 USE_TZ = True
 
+USE_HTTPS = True
 
 # E-mail settings
 
@@ -136,12 +147,16 @@ STATICFILES_DIRS = (
 
 AUTH_USER_MODEL = 'users.User'
 
-VAULT_MIRROR_USER = '/api/vault/mirror_user'
-VAULT_DELETE_MIRROR = '/api/vault/delete_mirror'
-VAULT_SEND_EMAIL_URL = '/api/vault/send_email'
-VAULT_SEND_SMS_URL = '/api/vault/send_sms'
-VAULT_FETCH_SMS_URL = '/api/vault/fetch_sms'
+VAULT_SERVER_API_URL = 'http://127.0.0.1:8000/api/vault/'
 
+VAULT_MIRROR_USER = 'mirror_user/'
+VAULT_DELETE_MIRROR = 'delete_mirror/'
+VAULT_SEND_EMAIL_URL = 'send_email/'
+VAULT_SEND_SMS_URL = 'send_sms/'
+VAULT_FETCH_SMS_URL = 'fetch_sms/'
+
+# Token
+TOKEN_TIMEOUT_DAYS = 1
 
 # Twilio
 
@@ -236,7 +251,6 @@ SUIT_CONFIG = {
     ]
 }
 
-
 WYSIWYG_DEFAULT_TOOLBAR_ITEMS = [
     'font_weights',
     'lists',
@@ -244,13 +258,12 @@ WYSIWYG_DEFAULT_TOOLBAR_ITEMS = [
     'hyperlink',
 ]
 
-
 from django.conf.global_settings import TEMPLATE_CONTEXT_PROCESSORS
+
 TEMPLATE_CONTEXT_PROCESSORS += (
     'django.core.context_processors.request',
     'django.contrib.messages.context_processors.messages',
 )
-
 
 try:
     from local_settings import *

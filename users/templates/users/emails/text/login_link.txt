@@ -1,0 +1,8 @@
+{% load i18n %}
+{% autoescape off %}
+{% trans "Please click on the link below to login to Seraf" %}
+{{ link }}
+
+{% blocktrans %}{{ site_name }}{% endblocktrans %}
+
+{% endautoescape %}
