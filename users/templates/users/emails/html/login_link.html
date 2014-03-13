@@ -1,0 +1,29 @@
+<!doctype html>
+{% load i18n %}
+<html class="no-js" lang="{{ LANGUAGE_CODE|default:'no' }}">
+<head>
+    <meta charset="utf-8"/>
+    <title>{% trans "Seraf" %}</title>
+    <!-- inline css goes here -->
+    <style>
+        body{
+            background: #FFFFFF;
+        }
+    </style>
+</head>
+<body>
+<table cellspacing="0" cellpadding="0" border="0">
+    <tbody>
+    <tr>
+        <td>
+            {% trans "Please click on the link below to login to Seraf" %}
+            {{ link }}
+        </td>
+    </tr>
+    </tbody>
+    <tfoot>
+    {% blocktrans %}{{ site_name }}{% endblocktrans %}
+    </tfoot>
+</table>
+</body>
+</html>

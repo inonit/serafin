@@ -54,7 +54,7 @@ class UserChangeForm(forms.ModelForm):
     '''Custom User change form'''
     password = BlankPasswordField(
         label=_('Password'),
-        help_text='Password can be changed with <a href="password/">this form</a>.'
+        help_text=_('Password can be changed with <a href="password/">this form</a>.')
     )
 
     def clean_password(self):
@@ -66,7 +66,10 @@ class UserChangeForm(forms.ModelForm):
 
 
 class UserAdmin(admin.ModelAdmin):
-    model = User
+    list_display = ['id', 'date_joined', 'last_login', 'is_superuser', 'is_staff', 'is_active']
+    ordering = ['-date_joined']
+    date_hierarchy = 'date_joined'
+
     form = UserChangeForm
     add_form = UserCreationForm
     fields = [

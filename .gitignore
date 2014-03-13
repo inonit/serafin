@@ -2,6 +2,9 @@ Thumbs.db
 Desktop.ini
 .DS_Store
 __MACOSX
+.idea
+.coverage
+
 *.log
 *.py[co]
 *.egg
@@ -22,5 +25,4 @@ lib
 local
 
 local_settings.py
-db.sqlite3
-.idea
+*.db

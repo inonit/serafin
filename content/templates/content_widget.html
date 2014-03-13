@@ -1,0 +1,143 @@
+<div id="content" class="content" ng-app="content" ng-controller="contentList">
+
+    <textarea id="id_data" name="data" class="data ng-hide">{{ data }}</textarea>
+
+    <div class="toolbox">
+        <div class="btn add" ng-click="add(data, 'text')">Add text</div>
+        <div class="btn add" ng-click="add(data, 'form')">Add form</div>
+        <div class="btn add" ng-click="add(data, 'image')">Add image</div>
+        <div class="btn add" ng-click="add(data, 'video')">Add video</div>
+        <div class="btn add" ng-click="add(data, 'audio')">Add audio</div>
+        <div class="btn add" ng-click="add(data, 'file')">Add file</div>
+    </div>
+
+    <div class="pagelet" ng-repeat="pagelet in data track by $index">
+
+        <div class="ctrl right">
+            <a ng-click="up(data, $index)" ng-hide="$first"><i class="icon-arrow-up icon-alpha5"></i></a>
+            <a ng-click="down(data, $index)" ng-hide="$last"><i class="icon-arrow-down icon-alpha5"></i></a>
+            <a ng-click="delete(data, $index)"><i class="icon-trash icon-alpha5"></i></a>
+        </div>
+
+        <h3 class="title">{{ pagelet.content_type }}</h3>
+
+        <div ng-switch on="pagelet.content_type">
+
+            <div ng-switch-when="text" class="text" ng-controller="markdown">
+                <textarea class="markdown-text" ng-model="pagelet.content" ng-change="md2html()"></textarea>
+                <div class="markdown-html" ng-bind-html="htmlSafe"></div>
+            </div>
+
+            <div ng-switch-when="form" class="form">
+
+                <div class="toolbox">
+                    <div class="btn add" ng-click="add(pagelet.content, 'numeric')">Add numeric</div>
+                    <div class="btn add" ng-click="add(pagelet.content, 'string')">Add string</div>
+                    <div class="btn add" ng-click="add(pagelet.content, 'textarea')">Add text</div>
+                    <div class="btn add" ng-click="add(pagelet.content, 'multiplechoice')">Add multiple choice</div>
+                    <div class="btn add" ng-click="add(pagelet.content, 'multipleselection')">Add multiple selection</div>
+                </div>
+
+                <div class="field" ng-repeat="field in pagelet.content track by $index">
+
+                    <div class="ctrl right">
+                        <a ng-click="up(pagelet.content, $index)" ng-hide="$first"><i class="icon-arrow-up icon-alpha5"></i></a>
+                        <a ng-click="down(pagelet.content, $index)" ng-hide="$last"><i class="icon-arrow-down icon-alpha5"></i></a>
+                        <a ng-click="delete(pagelet.content, $index)"><i class="icon-trash icon-alpha5"></i></a>
+                    </div>
+
+                    <h4 class="title">{{ field.field_type }}</h4>
+
+                    <div class="fieldset">
+                        <div class="field-data">
+                            <label>Label</label>
+                            <input type="text" class="wide" ng-model="field.label">
+                        </div>
+                        <div class="field-data">
+                            <label>Variable name</label>
+                            <input type="text" ng-model="field.variable_name">
+                        </div>
+                    </div>
+
+                    <div class="fieldset">
+                        <div class="field-data">
+                            <label>Default value</label>
+                            <input type="text" ng-model="field.default">
+                        </div>
+                        <div class="field-data pull-down">
+                            <label>
+                                <input type="checkbox" ng-model="field.required"> Required?
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="fieldset">
+                        <div class="field-data" ng-if="field.field_type == 'numeric'">
+                            <label>Lower limit</label>
+                            <input type="text" ng-model="field.lower_limit">
+                        </div>
+                        <div class="field-data" ng-if="field.field_type == 'numeric'">
+                            <label>Upper limit</label>
+                            <input type="text" ng-model="field.upper_limit">
+                        </div>
+                    </div>
+
+                    <div class="field-data" ng-if="field.field_type == 'multiplechoice' || field.field_type == 'multipleselection'">
+                        <div class="toolbox">
+                            <div class="btn add" ng-click="add(field.alternatives, 'alt')">Add alternative</div>
+                        </div>
+
+                        <h5 class="title">Alternatives</h5>
+
+                        <div class="alt" ng-repeat="alt in field.alternatives track by $index">
+
+                            <div class="ctrl right">
+                                <a ng-click="up(field.alternatives, $index)" ng-hide="$first"><i class="icon-arrow-up icon-alpha5"></i></a>
+                                <a ng-click="down(field.alternatives, $index)" ng-hide="$last"><i class="icon-arrow-down icon-alpha5"></i></a>
+                                <a ng-click="delete(field.alternatives, $index)"><i class="icon-trash icon-alpha5"></i></a>
+                            </div>
+
+                            <div class="fieldset">
+                                <div>
+                                    <label>Label</label>
+                                    <input type="text" class="wide" ng-model="alt.label">
+                                </div>
+                                <div>
+                                    <label>Value</label>
+                                    <input type="text" ng-model="alt.value">
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+            <div ng-switch-when="image" class="image">
+                <label>Alt title</label>
+                <input type="text" ng-model="pagelet.content.alt">
+                <label>Title</label>
+                <input type="text" ng-model="pagelet.content.title">
+            </div>
+
+            <div ng-switch-when="video" class="video">
+                <label>Title</label>
+                <input type="text" ng-model="pagelet.content.title">
+            </div>
+
+            <div ng-switch-when="audio" class="audio">
+                <label>Title</label>
+                <input type="text" ng-model="pagelet.content.title">
+            </div>
+
+            <div ng-switch-when="file" class="file">
+                <label>Title</label>
+                <input type="text" ng-model="pagelet.content.title">
+            </div>
+
+        </div>
+    </div>
+    <input type="hidden" id="filerFile" class="filerFile" value="">
+
+</div>

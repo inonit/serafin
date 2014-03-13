@@ -3,21 +3,20 @@ from django.contrib.auth.decorators import login_required
 from django.utils.translation import ugettext_lazy as _
 
 from django.shortcuts import render
-from content.models import Text, Form, Image, Video, Audio, File
+from system.models import Page
+
+
+def design_test(request):
+
+    context = {}
+
+    return render(request, 'design.html', context)
 
 @login_required()
 def page_test(request):
 
     context = {
         'page_title': 'Page test',
-        'pagelets': [
-            Text.objects.get(id=1),
-            #Form.objects.get(id=1),
-            #Image.objects.get(id=1),
-            #Video.objects.get(id=1),
-            #Audio.objects.get(id=1),
-            #File.objects.get(id=1),
-        ]
     }
 
     return render(request, 'page.html', context)

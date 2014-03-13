@@ -4,14 +4,16 @@ from django.utils.translation import ugettext_lazy as _
 from django.db import models
 from signals import schedule_part, reschedule_part, revoke_part
 #from system.system import Stuff
-from django.contrib.contenttypes.generic import GenericForeignKey
-from django.contrib.contenttypes.models import ContentType
+from content.models import Content
 
 
 class Program(models.Model):
     '''A top level model for a separate Program, having one or more parts'''
 
-    title = models.CharField(_('program title'), max_length=64)
+    title = models.CharField(_('title'), max_length=64)
+
+    #start_time = models.DateTimeField(_('start time'), null=True, blank=True)
+    #end_time = models.DateTimeField(_('end time'), null=True, blank=True)
 
     def __unicode__(self):
         return self.title
@@ -24,11 +26,14 @@ class Program(models.Model):
 class Part(models.Model):
     '''A program Part, with layout through a Graph object'''
 
-    title = models.CharField(_('part title'), max_length=64, blank=True)
+    title = models.CharField(_('title'), max_length=64, blank=True)
 
     program = models.ForeignKey(Program, verbose_name=_('program'))
-    start_time = models.DateTimeField(_('start_time'), null=True, blank=True)
-    end_time = models.DateTimeField(_('end_time'), null=True, blank=True)
+    start_time = models.DateTimeField(_('start time'), null=True, blank=True)
+    end_time = models.DateTimeField(_('end time'), null=True, blank=True)
+
+    #created_at = models.DateTimeField(_('created at'), null=True, blank=True)
+    #changed_at = models.DateTimeField(_('changed at'), null=True, blank=True)
 
     # graph_object = reference to Graph object
 
@@ -49,10 +54,10 @@ class Part(models.Model):
         verbose_name_plural = _('parts')
 
 
-class Page(models.Model):
+class Page(Content):
     '''An ordered collection of Content to be shown together as a Page'''
 
-    title = models.CharField(_('page title'), max_length=64, blank=True)
+    title = models.CharField(_('title'), max_length=64, blank=True)
 
     # node_object = reference to Node object
 
@@ -62,21 +67,3 @@ class Page(models.Model):
     class Meta:
         verbose_name = _('page')
         verbose_name_plural = _('pages')
-
-
-class Pagelet(models.Model):
-    '''Ordered relation of Content belonging to a Page'''
-
-    page = models.ForeignKey(Page, verbose_name=_('page'))
-    content_type = models.ForeignKey(ContentType)
-    object_id = models.PositiveIntegerField()
-    content = GenericForeignKey('content_type', 'object_id')
-    order = models.PositiveSmallIntegerField(_('order'), default=0)
-
-    def __unicode__(self):
-        return '%s, %s' % (self.page, self.content)
-
-    class Meta:
-        ordering = ['order']
-        verbose_name = _('pagelet')
-        verbose_name_plural = _('pagelets')

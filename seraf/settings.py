@@ -25,6 +25,8 @@ TEMPLATE_DEBUG = True
 
 ALLOWED_HOSTS = ['seraf.inonit.no']
 
+SITE_ID = 1
+
 
 # Application definition
 
@@ -34,16 +36,19 @@ INSTALLED_APPS = (
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django.contrib.sites',
 
     'suit',
     'django.contrib.admin',
 
     'south',
     'django_extensions',
+    'rest_framework',
     'filer',
     'mptt',
     'easy_thumbnails',
     'mail_templated',
+    'plumbing',
 
     'users',
     'vault',
@@ -63,6 +68,14 @@ MIDDLEWARE_CLASSES = (
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 )
 
+
+# Auth backends
+
+AUTHENTICATION_BACKENDS = (
+    'django.contrib.auth.backends.ModelBackend',
+    'users.backends.TokenBackend',
+)
+
 ROOT_URLCONF = 'seraf.urls'
 
 WSGI_APPLICATION = 'seraf.wsgi.application'
@@ -70,6 +83,7 @@ WSGI_APPLICATION = 'seraf.wsgi.application'
 TEMPLATE_DIRS = (
     os.path.join(BASE_DIR, 'templates'),
 )
+
 
 # Database
 # https://docs.djangoproject.com/en/1.6/ref/settings/#databases
@@ -81,10 +95,15 @@ DATABASES = {
     }
 }
 
+
 # Internationalization
 # https://docs.djangoproject.com/en/1.6/topics/i18n/
 
 LANGUAGE_CODE = 'nb'
+
+LOCALE_PATHS = (
+    os.path.join(BASE_DIR, 'conf/locale'),
+)
 
 TIME_ZONE = 'Europe/Oslo'
 
@@ -93,6 +112,8 @@ USE_I18N = True
 USE_L10N = True
 
 USE_TZ = True
+
+USE_HTTPS = True
 
 
 # E-mail settings
@@ -124,15 +145,23 @@ STATICFILES_DIRS = (
     os.path.join(BASE_DIR, 'staticfiles'),
 )
 
+
 # User model and vault separation
 
 AUTH_USER_MODEL = 'users.User'
 
-VAULT_MIRROR_USER = '/api/vault/mirror_user'
-VAULT_DELETE_MIRROR = '/api/vault/delete_mirror'
-VAULT_SEND_EMAIL_URL = '/api/vault/send_email'
-VAULT_SEND_SMS_URL = '/api/vault/send_sms'
-VAULT_FETCH_SMS_URL = '/api/vault/fetch_sms'
+VAULT_SERVER_API_URL = 'http://127.0.0.1:8000/api/vault/'
+
+VAULT_MIRROR_USER = 'mirror_user/'
+VAULT_DELETE_MIRROR = 'delete_mirror/'
+VAULT_SEND_EMAIL_URL = 'send_email/'
+VAULT_SEND_SMS_URL = 'send_sms/'
+VAULT_FETCH_SMS_URL = 'fetch_sms/'
+
+
+# Token
+
+TOKEN_TIMEOUT_DAYS = 1
 
 
 # Twilio
@@ -158,24 +187,80 @@ HUEY = {
 }
 
 
+# REST Framework
+
+REST_FRAMEWORK = {
+    # Use hyperlinked styles by default.
+    # Only used if the `serializer_class` attribute is not set on a view.
+    'DEFAULT_MODEL_SERIALIZER_CLASS':
+        'rest_framework.serializers.HyperlinkedModelSerializer',
+
+    # Use Django's standard `django.contrib.auth` permissions,
+    # or allow read-only access for unauthenticated users.
+    'DEFAULT_PERMISSION_CLASSES': [
+        'rest_framework.permissions.DjangoModelPermissionsOrAnonReadOnly',
+        'rest_framework.permissions.AllowAny',
+    ]
+}
+
+
 # Admin interface
 
 SUIT_CONFIG = {
     'ADMIN_NAME': 'SERAF admin',
     'HEADER_DATE_FORMAT': 'l j. F Y',
 
-    #'SEARCH_URL': '/admin/',
+    'SEARCH_URL': '/admin/system/page/',
 
-    'MENU_ICONS': {
-
-    },
+    'MENU': [
+        {
+            'app': 'users',
+            'label': 'Brukere',
+            'icon': 'icon-user',
+            'models':
+                [
+                    'user',
+                    'auth.groups',
+                ]
+        },
+        {
+            'app': 'system',
+            'label': 'Program',
+            'icon': 'icon-cog',
+            'models':
+                [
+                    'program',
+                    'part',
+                    'page'
+                ]
+        },
+        {
+            'app': 'events',
+            'label': 'Hendelser',
+            'icon': 'icon-bullhorn',
+            'models':
+                [
+                    'event',
+                    'tasks.task',
+                ]
+        },
+        {
+            'app': 'filer',
+            'label': 'Media',
+            'icon': 'icon-picture'
+        },
+    ]
 }
 
 from django.conf.global_settings import TEMPLATE_CONTEXT_PROCESSORS
+
 TEMPLATE_CONTEXT_PROCESSORS += (
     'django.core.context_processors.request',
     'django.contrib.messages.context_processors.messages',
 )
+
+
+# Logging
 
 LOGGING = {
     'version': 1,

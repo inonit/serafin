@@ -1,35 +1,63 @@
 <!doctype html>
-<html class="no-js" lang="no">
+<html class="no-js" lang="{{ LANGUAGE_CODE|default:'no' }}">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>{% block title %}Seraph{% endblock %}</title>
+    <title>{% block title %}Serafin{% endblock %}</title>
     {% block meta %}{% endblock %}
     {% load staticfiles %}
+    <link href="//fonts.googleapis.com/css?family=Raleway" rel="stylesheet" type="text/css">
     <link rel="stylesheet" href="{% static 'css/foundation.css' %}" />
     <link rel="stylesheet" href="{% static 'css/style.css' %}" />
     {% block styles %}{% endblock %}
     <script src="{% static 'js/vendor/modernizr.js' %}"></script>
   </head>
   <body>
+    <div class="wrapper">
+      <header>
+        <nav class="top-bar" data-topbar>
+          <h1 class="entry">SERAF Røykeslutt</h1>
+          <div class="entry">Dag 1</div>
+          <ul class="right">
+            <li><a class="button" href="">Avslutt / logg ut</a></li>
+          </ul>
+        </nav>
+      </header>
 
-    <div class="messages">
-      {% for message in messages %}
-      <div class="message alert {{ message.tags }}" onclick="$(this).closest('.alert').remove()" onload="setTimeout('$(this).remove()', 30000)">
-        <button class="close">&times;</button>
-        <p>{{ message }}</p>
-      </div>
-      {% endfor %}
+      <section class="messages">
+        {% for message in messages %}
+        <div class="message alert {{ message.tags }}" ng-hide="removed">
+          <button class="close" ng-click="removed = !removed">&times;</button>
+          <p>{{ message }}</p>
+        </div>
+        {% endfor %}
+      </section>
+
+      <section class="content">
+        {% block content %}{% endblock %}
+      </section>
+
+      <div class="push"></div>
     </div>
 
-    {% block content %}{% endblock %}
+    <footer class="footer">
+      <div class="left">
+        <p>© {% now 'Y' %} SERAF, UiO</p>
+      </div>
 
-    <script src="{% static 'js/vendor/jquery.js' %}"></script>
-    <script src="{% static 'js/foundation.min.js' %}"></script>
+      <div class="right">
+        <ul class="inline-list">
+          <li><a href="">Lenke</a></li>
+          <li><a href="">Lenke</a></li>
+          <li><a href="">Lenke</a></li>
+        </ul>
+      </div>
+    </footer>
+
+    <script src="{% static 'js/angular/angular.min.js' %}"></script>
+    <script src="{% static 'js/angular-animate/angular-animate.min.js' %}"></script>
+    <script src="{% static 'js/serafin.js' %}"></script>
     {% block scripts %}{% endblock %}
-    <script>
-      $(document).foundation();
-    </script>
     <script>
       /*
       var _gaq = _gaq || [];

@@ -1,0 +1,197 @@
+/*
+  Extra CSS for the Content Placeholder admin interface customisations
+ */
+
+html.cp-jsenabled .inline-contentitem-group {
+  display: none;
+}
+
+/* ---- Clearfix ---- */
+
+.cp-clearfix:after {
+  content:      ".";
+  font-size:    0;
+  line-height:  0;
+  display:      block;
+  height:       0;
+  clear:        both;
+  visibility:   hidden;
+}
+
+
+/* ---- Editor items ---- */
+
+.cp-item-controls {
+  float: right;
+  font-size: 0;
+  line-height: 16px;
+}
+
+.cp-item-controls span:last-child {
+  margin: 0 !important;
+}
+
+.cp-item-delete input {
+  display: none;
+}
+
+.cp-item-icons {
+  float: left;
+}
+
+.cp-item-delete {
+  float: left;
+}
+
+.cp-item-icons a {
+  float: left;
+  width: 16px;
+  height: 16px;
+  margin-left: 2px;
+  background-repeat: no-repeat;
+  outline: 0;
+}
+
+body.cp-single-placeholder .cp-item-move { display: none; }
+body.cp-single-placeholder #tab-orphaned .cp-item-move { display: inline; }
+
+.inline-related:first-child .cp-item-up { display: none; }
+.inline-related:last-child  .cp-item-down { display: none; }
+
+#cp-move-popup {
+  position: absolute;
+  display: none;
+  line-height: 20px;
+}
+
+#cp-move-popup p {
+  margin: 0;
+  padding: 3px 6px;
+  color: #fff;
+  font-weight: bold;
+}
+
+#cp-move-popup ul {
+  margin: 0;
+  padding: 0;
+  list-style-position: outside;
+}
+
+#cp-move-popup li {
+  list-style: none;
+}
+
+#cp-move-popup li a {
+  display: block;
+  white-space: nowrap;
+  padding: 3px 6px;
+}
+
+* html #cp-move-popup li a { height: 1%; }
+*+html #cp-move-popup li a { min-height: 0; }
+
+.cp-empty {
+
+}
+
+#cp-tabmain .cp-empty,
+#cp-tabs-empty {
+  margin: 10px 5px;
+}
+
+/* ---- Fieldset fixes ---- */
+.form-horizontal .cp-control-group .control-label {
+  border-bottom: 1px solid #ededed !important;
+}
+
+.form-horizontal .cp-control-group:nth-last-child(2) .control-label {
+  border-bottom: 0 !important;
+}
+
+.form-row.cp-has-hidden-field {
+  display: none;
+}
+
+/* ---- Tabbar interface ---- */
+
+.inline-placeholder-group {
+  position: relative;
+  overflow: auto;
+  margin-top: 0;
+}
+
+#cp-tabnav {
+  margin: 0;
+}
+
+#cp-tabnav li {
+  float: left;
+  display: inline;
+  list-style: none inside;
+
+  min-width: 100px;
+
+  font-weight: bold;
+  background-image: none;
+}
+
+#cp-tabnav li.active {
+  margin-top: 0;
+}
+
+#cp-tabnav a {
+  outline: 0;
+  display: block;
+  cursor: pointer;
+}
+
+#cp-tabnav a {
+}
+
+#cp-tabnav li.active a {
+}
+
+#cp-tabnav li.active a {
+}
+
+#cp-tabmain {
+  margin: 0;
+}
+
+#cp-tabmain .cp-placeholder-delete {
+  display: none;
+}
+
+
+/* default tabbar appearance */
+
+.cp-tab { display: none }
+#cp-tabmain .cp-tab-active { display: block }
+
+
+/* ---- PlaceholderField ---- */
+
+.wide .cp-placeholderfield {
+  margin-left: 15em;
+}
+
+fieldset {
+  margin: 0 0 1em !important;
+  padding: 0;
+}
+
+fieldset.plugin-holder label {
+  display: none
+}
+
+fieldset.plugin-holder .cp-placeholderfield {
+  margin: 0;
+  padding: 0;
+}
+
+
+/* ---- Placeholder pane ---- */
+
+.cp-controls select {
+  margin-right: 1em;
+}
