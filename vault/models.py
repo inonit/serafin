@@ -32,7 +32,8 @@ class VaultUser(models.Model):
             subject = settings.EMAIL_SUBJECT_PREFIX + subject
 
             email = EmailMultiAlternatives(subject, message, settings.DEFAULT_FROM_EMAIL, [self.email])
-            email.attach_alternative(html_message, "text/html")
+            if html_message:
+                email.attach_alternative(html_message, "text/html")
             return email.send()
 
         return None
