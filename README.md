@@ -62,4 +62,4 @@ The administrator design of the Program uses [jsPlumb](http://jsplumbtoolkit.com
 
 Nodes may be abstracted to redefinable "building blocks"; display page, ask question, send SMS, etc.
 
-Content management is done through [django-fluent-contents](https://github.com/edoburu/django-fluent-contents). It currently has template and static overrides for this system, but will be forked at some point.
+Content management is done through an Angular widget, and stored in a [JSONField](https://github.com/bradjasper/django-jsonfield). See [thoughts on content](https://github.com/inonit/seraf/blob/content/content/thoughts_on_content.md) for details.

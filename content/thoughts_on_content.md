@@ -21,7 +21,7 @@ Media should come from Filer, as it's the best option for managing media in Djan
             "content": {
                 "url": "filer/smoking_is_bad_mkay.jpg",
                 "alt": "Smoking is bad",
-                "title": "This image illustrates why smoking is bad",
+                "title": "This image illustrates why smoking is bad"
             }
         },
         {   
@@ -44,7 +44,7 @@ Media should come from Filer, as it's the best option for managing media in Djan
                 "url": "filer/infographic.pdf"
                 // additional data
             }
-        },
+        }
     ]
 
 ## Directive
@@ -69,21 +69,21 @@ Forms are the most complex ones.
                 "required": False,
                 "default": 0,
                 "lower_limit": 0,
-                "upper_limit": 200,
+                "upper_limit": 200
             },
             {
                 "field_type": "string",
                 "variable_name": "FirstWord",
                 "label": "What's the first word that comes to your mind right now?",
                 "required": False,
-                "default": "",
+                "default": ""
             },
             {
                 "field_type": "text",
                 "variable_name": "Reason",
                 "label": "Why, in your own words, do you want to quit smoking?",
                 "required": False,
-                "default": "",
+                "default": ""
             },
             {
                 "field_type": "multiplechoice",
@@ -99,7 +99,7 @@ Forms are the most complex ones.
                     {
                         "label": "No. Never.",
                         "value": false
-                    },
+                    }
                 ]
             },
             {
@@ -120,8 +120,8 @@ Forms are the most complex ones.
                     {
                         "label": "Something else entirely",
                         "value": 3
-                    },
+                    }
                 ]
-            },
+            }
         ]
     }

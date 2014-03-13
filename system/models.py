@@ -62,7 +62,7 @@ class Page(Content):
     # node_object = reference to Node object
 
     def __unicode__(self):
-        return self.title or _('Part %s' % self.id)
+        return self.title or _('Page %s' % self.id)
 
     class Meta:
         verbose_name = _('page')
