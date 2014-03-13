@@ -1,11 +1,7 @@
-from django.http import HttpResponse
-from mail_templated import send_mail
-from models import VaultUser
-
-from vault.decorators import json_response
+from .decorators import json_response
 
 
-@json_response
+#@json_response
 def mirror_user(request, *args, **kwargs):
     #try:
     #user = VaultUser.objects.get_or_create(id=kwargs['user'])
@@ -28,6 +24,17 @@ def delete_mirror(request, *args, **kwargs):
 
 @json_response
 def send_email(request, *args, **kwargs):
+    """ Sends email to vault user """
+
+    data = kwargs.get('data')
+
+    subject = data.get('subject', None)
+    message = data.get('message', None)
+    html_message = data.get('html_message', None)
+
+    vault_user = kwargs.get('user')
+    vault_user.send_email(subject, message, html_message)
+
     return
 
 
