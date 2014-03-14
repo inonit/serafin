@@ -4,7 +4,13 @@ from django.utils.translation import ugettext_lazy as _
 from huey.djhuey import task
 
 
-@task
+@task()
+def test_task():
+    print 'Hello Huey!'
+    return 'Hello Huey!'
+
+
+@task()
 def email_users(queryset, subject, message, html_message):
     counter = 0
 
@@ -14,4 +20,5 @@ def email_users(queryset, subject, message, html_message):
         if ok:
             counter += 1
 
-    return _('%i e-mails sent' % counter)
+    print _('%i e-mails with subject "%s" sent' % (counter, subject))
+    return _('%i e-mails with subject "%s" sent' % (counter, subject))

@@ -25,10 +25,10 @@ TEMPLATE_DEBUG = True
 
 ALLOWED_HOSTS = ['seraf.inonit.no']
 
-SITE_ID = 1
-
 
 # Application definition
+
+SITE_ID = 1
 
 INSTALLED_APPS = (
     'django.contrib.auth',
@@ -68,14 +68,6 @@ MIDDLEWARE_CLASSES = (
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 )
 
-
-# Auth backends
-
-AUTHENTICATION_BACKENDS = (
-    'django.contrib.auth.backends.ModelBackend',
-    'users.backends.TokenBackend',
-)
-
 ROOT_URLCONF = 'seraf.urls'
 
 WSGI_APPLICATION = 'seraf.wsgi.application'
@@ -95,6 +87,17 @@ DATABASES = {
     }
 }
 
+CACHES = {
+    'default': {
+        'BACKEND': 'django.core.cache.backends.locmem.LocMemCache',
+        'LOCATION': 'seraf'
+    },
+    'huey_tasks': {
+        'BACKEND': 'django.core.cache.backends.locmem.LocMemCache',
+        'LOCATION': 'huey_tasks',
+        'TIMEOUT': None
+    }
+}
 
 # Internationalization
 # https://docs.djangoproject.com/en/1.6/topics/i18n/
@@ -158,8 +161,10 @@ VAULT_SEND_EMAIL_URL = 'send_email/'
 VAULT_SEND_SMS_URL = 'send_sms/'
 VAULT_FETCH_SMS_URL = 'fetch_sms/'
 
-
-# Token
+AUTHENTICATION_BACKENDS = (
+    'django.contrib.auth.backends.ModelBackend',
+    'users.backends.TokenBackend',
+)
 
 TOKEN_TIMEOUT_DAYS = 1
 
@@ -183,6 +188,7 @@ HUEY = {
     # Options to pass into the consumer when running `manage.py run_huey`
     'consumer_options': {
         'workers': 4,
+        'utc': False,
     },
 }
 
@@ -266,15 +272,15 @@ LOGGING = {
     'version': 1,
     'disable_existing_loggers': False,
     'handlers': {
-        'file': {
+        'console': {
             'level': 'DEBUG',
-            'class': 'logging.FileHandler',
-            'filename': 'huey.log',
+            'class': 'logging.StreamHandler',
+            #'filename': 'huey.log',
         },
     },
     'loggers': {
         'huey.consumer': {
-            'handlers': ['file'],
+            'handlers': ['console'],
             'level': 'DEBUG',
             'propagate': True,
        }
