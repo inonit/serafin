@@ -21,9 +21,14 @@ def schedule_part(sender, **kwargs):
         task.time = part.start_time
 
         # task_ref = email_users.schedule(
-        #     args=(queryset, subject, message, html_message), eta=
+        #     args=(queryset, subject, message, html_message),
+        #     eta=timezone.localtime(task.time).replace(tzinfo=None),
+        #     convert_utc=False
         # )
-        task_ref = test_task.schedule(eta=part.start_time)
+        task_ref = test_task.schedule(
+            eta=timezone.localtime(task.time).replace(tzinfo=None),
+            convert_utc=False
+        )
         task.task = task_ref
 
         task.action = _('Send login link for %(part)s' % {'part': part})
@@ -48,9 +53,14 @@ def reschedule_part(sender, **kwargs):
 
         task.revoke()
         # task_ref = email_users.schedule(
-        #     args=(queryset, subject, message, html_message), eta=
+        #     args=(queryset, subject, message, html_message),
+        #     eta=timezone.localtime(task.time).replace(tzinfo=None),
+        #     convert_utc=False
         # )
-        task_ref = test_task.schedule(eta=part.start_time)
+        task_ref = test_task.schedule(
+            eta=timezone.localtime(task.time).replace(tzinfo=None),
+            convert_utc=False
+        )
         task.task = task_ref
 
         task.save()

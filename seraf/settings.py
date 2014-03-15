@@ -276,7 +276,7 @@ LOGGING = {
             'level': 'DEBUG',
             'class': 'logging.StreamHandler',
         },
-        'console': {
+        'file': {
             'level': 'DEBUG',
             'class': 'logging.FileHandler',
             'filename': 'huey.log',
@@ -284,7 +284,7 @@ LOGGING = {
     },
     'loggers': {
         'huey.consumer': {
-            'handlers': ['console'],
+            'handlers': ['file'],
             'level': 'DEBUG',
             'propagate': True,
        }
