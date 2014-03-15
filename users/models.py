@@ -1,10 +1,10 @@
 from __future__ import unicode_literals
+from django.utils.translation import ugettext_lazy as _
 
 from django.contrib.sites.models import Site
 from django.core.urlresolvers import reverse
 from django.template.context import Context
 from django.template.loader import get_template
-from django.utils.translation import ugettext_lazy as _
 from django.db import models
 from django.db.models.query import QuerySet
 from django.contrib.auth.models import BaseUserManager, AbstractBaseUser, PermissionsMixin
@@ -78,41 +78,41 @@ class User(AbstractBaseUser, PermissionsMixin):
 
     @vault_post
     def _mirror_user(self):
-        '''Get confirmation of or create a corresponding User in the vault'''
+        '''Get confirmation of or create a corresponding User in the Vault'''
         self.update_token()
         url = settings.VAULT_MIRROR_USER
         return url, self.id, self.token
 
     @vault_post
     def _delete_mirror(self):
-        '''Delete VaultUser corresponding to user in vault'''
+        '''Deletes VaultUser corresponding to User in Vault'''
         self.update_token()
         url = settings.VAULT_DELETE_MIRROR
         return url, self.id, self.token
 
     @vault_post
     def send_email(self, subject=None, message=None, html_message=None):
-        '''Send an e-mail to the User through the Vault'''
+        '''Sends an e-mail to the User through the Vault'''
         self.update_token()
         url = settings.VAULT_SEND_EMAIL_URL
         return url, self.id, self.token
 
     @vault_post
     def send_sms(self, message=None):
-        '''Send an sms to the User through the Vault'''
+        '''Sends an SMS to the User through the Vault'''
         self.update_token()
         url = settings.VAULT_SEND_SMS_URL
         return url, self.id, self.token
 
     @vault_post
     def fetch_sms(self, message=None):
-        '''Send an sms to the User through the Vault'''
+        '''Sends an SMS to the User through the Vault'''
         self.update_token()
         url = settings.VAULT_SEND_SMS_URL
         return url, self.id, self.token
 
     def generate_login_link(self):
-        ''' Generates a login link url '''
+        '''Generates a login link url'''
         self.update_token()
         current_site = Site.objects.get_current()
 
@@ -155,20 +155,3 @@ class User(AbstractBaseUser, PermissionsMixin):
     class Meta:
         verbose_name = _('user')
         verbose_name_plural = _('users')
-
-
-class UserField(models.Model):
-    '''A simple modelling of User key: value relationships'''
-
-    user = models.ForeignKey(User, verbose_name=_('user'))
-    key = models.CharField(_('key name'), max_length=64)
-    value = models.CharField(_('value'), max_length=64, blank=True)
-
-    is_required = models.BooleanField(_('required field'), default=False)
-
-    def __unicode__(self):
-        return '%s: %s' % (self.key, self.value)
-
-    class Meta:
-        verbose_name = _('userfield')
-        verbose_name_plural = _('userfields')

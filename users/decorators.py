@@ -7,8 +7,7 @@ from token_auth.json_status import STATUS_OK
 
 
 def vault_post(func):
-    """ A helper decorator for posting json request to Vault.
-    """
+    '''A helper decorator for posting json request to Vault.'''
 
     def _vault_post(*args, **kwargs):
 
