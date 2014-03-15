@@ -6,6 +6,8 @@ from django.dispatch import receiver
 from .models import Task
 from system.models import Part
 from tasks import email_users, test_task
+from django.contrib.contenttypes.models import ContentType
+from django.utils import timezone
 
 
 @receiver(signals.post_save, sender=Part)
@@ -19,10 +21,10 @@ def schedule_part(sender, **kwargs):
         task.time = part.start_time
 
         # task_ref = email_users.schedule(
-        #     args=(queryset, subject, message, html_message), eta=part.start_time
+        #     args=(queryset, subject, message, html_message), eta=
         # )
         task_ref = test_task.schedule(eta=part.start_time)
-        task.task = task.cache_task(task_ref)
+        task.task = task_ref
 
         task.action = _('Send login link for %(part)s' % {'part': part})
 
@@ -36,19 +38,20 @@ def reschedule_part(sender, **kwargs):
 
     if not kwargs['created']:
         try:
-            task = Task.objects.get(sender=part)
+            part_type = ContentType.objects.get_for_model(part)
+            task = Task.objects.get(content_type=part_type, object_id=part.id)
         except:
             schedule_part(sender, instance=part, created=True)
             return
 
         task.time = part.start_time
 
-        task.revoke_cached_task()
+        task.revoke()
         # task_ref = email_users.schedule(
-        #     args=(queryset, subject, message, html_message), eta=part.start_time
+        #     args=(queryset, subject, message, html_message), eta=
         # )
         task_ref = test_task.schedule(eta=part.start_time)
-        task.task = task.cache_task(task_ref)
+        task.task = task_ref
 
         task.save()
 
@@ -59,15 +62,16 @@ def revoke_part(sender, **kwargs):
     part = kwargs['instance']
 
     try:
-        task = Task.objects.get(sender=part)
+        part_type = ContentType.objects.get_for_model(part)
+        task = Task.objects.get(content_type=part_type, object_id=part.id)
     except:
         return
 
-    task.revoke_cached_task()
+    task.revoke()
     task.delete()
 
 
 @receiver(signals.pre_delete, sender=Task)
 def revoke_task(sender, **kwargs):
     task = kwargs['instance']
-    task.revoke_cached_task()
+    task.revoke()

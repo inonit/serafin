@@ -6,8 +6,10 @@ from huey.djhuey import task
 
 @task()
 def test_task():
-    print 'Hello Huey!'
-    return 'Hello Huey!'
+    message = 'Hello Huey!'
+
+    print message
+    return message
 
 
 @task()
@@ -20,5 +22,7 @@ def email_users(queryset, subject, message, html_message):
         if ok:
             counter += 1
 
-    print _('%i e-mails with subject "%s" sent' % (counter, subject))
-    return _('%i e-mails with subject "%s" sent' % (counter, subject))
+    message = _('%i e-mails with subject "%s" sent' % (counter, subject))
+
+    print message
+    return message

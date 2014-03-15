@@ -275,7 +275,11 @@ LOGGING = {
         'console': {
             'level': 'DEBUG',
             'class': 'logging.StreamHandler',
-            #'filename': 'huey.log',
+        },
+        'console': {
+            'level': 'DEBUG',
+            'class': 'logging.FileHandler',
+            'filename': 'huey.log',
         },
     },
     'loggers': {

@@ -8,7 +8,7 @@ from .models import Task
 
 class TaskAdmin(admin.ModelAdmin):
     list_display = ['sender', 'action', 'time', 'task_result']
-    search_fields = ['sender', 'action', 'task_result']
+    search_fields = ['sender', 'action']
     ordering = ['time']
     date_hierarchy = 'time'
 
@@ -18,7 +18,7 @@ class TaskAdmin(admin.ModelAdmin):
         return False
 
     def task_result(self, obj):
-        return obj.get_result()
+        return obj.task
     task_result.short_description = _('Task result')
 
 
