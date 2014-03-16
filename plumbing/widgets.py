@@ -19,8 +19,8 @@ class PlumbingWidget(forms.Widget):
         }
         js = (
             'plumbing/angular/angular.min.js',
-            'plumbing/jquery/dist/jquery.min.js',
+            'plumbing/jquery/jquery.min.js',
             'plumbing/jqueryui/jquery-ui.min.js',
-            'plumbing/jsplumb/dist/js/jquery.jsPlumb-1.5.5-min.js',
+            'plumbing/jsplumb/jquery.jsPlumb-1.5.5-min.js',
             'plumbing/js/plumbing.js',
         )

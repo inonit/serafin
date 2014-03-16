@@ -62,7 +62,6 @@ plumbing.service('jsPlumb', ['$rootScope', function(scope) {
 
 plumbing.run(['$rootScope', '$timeout', 'jsPlumb', function(scope, timeout, jsPlumbService) {
 
-    console.log((typeof initData === 'undefined'))
     if (typeof initData === 'undefined') {
         scope.data = {
             nodes: [],
