@@ -1,0 +1,93 @@
+.plumbing {
+    width: 100%;
+    height: 50em;
+    position: relative;
+    background: white;
+    border: 1px solid #eee;
+    border-radius: 3px;
+}
+
+.node {
+    padding: .5em 2.5em .5em 1em;
+    position: absolute;
+    border: 1px solid black;
+    z-index: 4;
+    border: 1px solid #2e6f9a;
+    box-shadow: 2px 2px 5px #e0e0e0;
+    opacity: 0.8;
+    cursor: move;
+    background-color: white;
+    font-size: 11px;
+    transition: background-color 0.25s ease-in;
+    border-radius: 2px;
+}
+
+.node:hover {
+    background-color: #5c96bc;
+    color: white;
+}
+
+.aLabel {
+    transition: background-color 0.25s ease-in;
+}
+
+.aLabel._jsPlumb_hover, ._jsPlumb_source_hover, ._jsPlumb_target_hover {
+    background-color: #1e8151;
+    color: white;
+}
+
+.aLabel {
+    background-color: white;
+    opacity: 0.8;
+    padding: 0 0.5em;
+    border: 1px solid #346789;
+    cursor: pointer;
+    border-radius: 2px;
+}
+
+.ep {
+    position: absolute;
+    bottom: 37%;
+    right: 5px;
+    width: 1em;
+    height: 1em;
+    background-color: orange;
+    cursor: pointer;
+    border-radius: 2px;
+}
+
+.ep:hover {
+    border: 1px solid #333;
+}
+
+._jsPlumb_endpoint {
+    z-index: 3;
+}
+
+.dragHover {
+    border: 2px solid orange;
+}
+
+path {
+    cursor: pointer;
+}
+
+.toolbox {
+    position: absolute;
+    top: 1em;
+    right: 1em;
+}
+
+.toolbox > div {
+    color: white;
+    padding: .5em 1em;
+    cursor: pointer;
+    border-radius: 2px;
+    display: inline-block;
+    background: #5c96bc;
+    margin-left: 1em;
+}
+
+.save {
+    background: #1e8151;
+}

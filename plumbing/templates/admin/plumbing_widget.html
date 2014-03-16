@@ -1,0 +1,17 @@
+{% verbatim %}
+<div id="plumbing" class="plumbing" ng-app="plumbing" ng-controller="graph">
+    <div class="node" ng-repeat="node in data.nodes" ng-style="node.metrics" ng-model="data.nodes">
+        {{ node.title }}
+        <div class="ep"></div>
+    </div>
+    <div class="toolbox">
+        <div class="add" ng-click="newNode()">New node</div>
+        <div class="add" ng-click="addNode()">Add node</div>
+    </div>
+    <textarea id="id_data" name="data" class="data ng-hide">{{ data }}</textarea>
+    <input type="hidden" id="nodeRef" class="nodeRef" ng-model="nodeRef" value="">
+</div>
+{% endverbatim %}
+<script>
+    var initData = {{ value|safe }};
+</script>
