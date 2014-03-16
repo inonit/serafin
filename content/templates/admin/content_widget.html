@@ -1,3 +1,4 @@
+{% verbatim %}
 <div id="content" class="content" ng-app="content" ng-controller="contentList">
 
     <textarea id="id_data" name="data" class="data ng-hide">{{ data }}</textarea>
@@ -24,8 +25,8 @@
         <div ng-switch on="pagelet.content_type">
 
             <div ng-switch-when="text" class="text" ng-controller="markdown">
-                <textarea class="markdown-text" ng-model="pagelet.content" ng-change="md2html()"></textarea>
-                <div class="markdown-html" ng-bind-html="htmlSafe"></div>
+                <textarea class="markdown-text" ng-model="pagelet.content.text" ng-change="md2html()"></textarea>
+                <div class="markdown-html" ng-bind-html="pagelet.content.html"></div>
             </div>
 
             <div ng-switch-when="form" class="form">
@@ -115,29 +116,62 @@
             </div>
 
             <div ng-switch-when="image" class="image">
-                <label>Alt title</label>
-                <input type="text" ng-model="pagelet.content.alt">
-                <label>Title</label>
-                <input type="text" ng-model="pagelet.content.title">
+                <div class="filer">
+                    {% endverbatim %}
+                    {{ file_widget|safe }}
+                    {% verbatim %}
+                </div>
+                <div class="field-data">
+                    <label>Alt title</label>
+                    <input type="text" ng-model="pagelet.content.alt">
+                </div>
+                <div class="field-data">
+                    <label>Title</label>
+                    <input type="text" ng-model="pagelet.content.title">
+                </div>
             </div>
 
             <div ng-switch-when="video" class="video">
-                <label>Title</label>
-                <input type="text" ng-model="pagelet.content.title">
+                <div class="filer">
+                    {% endverbatim %}
+                    {{ file_widget|safe }}
+                    {% verbatim %}
+                </div>
+                <div class="field-data">
+                    <label>Title</label>
+                    <input type="text" ng-model="pagelet.content.title">
+                </div>
             </div>
 
             <div ng-switch-when="audio" class="audio">
-                <label>Title</label>
-                <input type="text" ng-model="pagelet.content.title">
+                <div class="filer">
+                    {% endverbatim %}
+                    {{ file_widget|safe }}
+                    {% verbatim %}
+                </div>
+                <div class="field-data">
+                    <label>Title</label>
+                    <input type="text" ng-model="pagelet.content.title">
+                </div>
             </div>
 
             <div ng-switch-when="file" class="file">
-                <label>Title</label>
-                <input type="text" ng-model="pagelet.content.title">
+                <div class="filer">
+                    {% endverbatim %}
+                    {{ file_widget|safe }}
+                    {% verbatim %}
+                </div>
+                <div class="field-data">
+                    <label>Title</label>
+                    <input type="text" ng-model="pagelet.content.title">
+                </div>
             </div>
-
         </div>
     </div>
-    <input type="hidden" id="filerFile" class="filerFile" value="">
-
+    <p>Data structure:</p>
+    {{ data }}
+    <script>
+        {% endverbatim %}
+        var initData = {{ value|safe }};
+    </script>
 </div>

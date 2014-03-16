@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+{% block title %}{{ title }}{% endblock %}
+<div class="pages" ng-controller="pages">
+    {% for page in pages %}
+    <div class="page fade" ng-show="index == {{ forloop.counter0 }}">
+        {% for pagelet in page.pagelets %}
+            {{ pagelet }}
+        {% endfor %}
+        <nav>
+            <a class="button prev left" href="" ng-click="prev()">Forrige side</a>
+            <a class="button next right" href="" ng-click="next()">Neste side</a>
+        </nav>
+    </div>
+    {% endfor %}
+</div>

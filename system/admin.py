@@ -11,8 +11,8 @@ from suit.widgets import SuitSplitDateTimeWidget, LinkedSelect, AutosizedTextare
 from suit.admin import SortableTabularInline
 from jsonfield import JSONField
 from content.widgets import ContentWidget
-from filer.fields.image import FilerImageField
-from filer.fields.file import FilerFileField
+from content.forms import DummyFileField, DummyImageField
+from djangular.forms.angular_model import NgModelFormMixin
 
 
 class ProgramAdmin(admin.ModelAdmin):
@@ -55,9 +55,6 @@ class PartAdmin(admin.ModelAdmin):
 
 
 class PageForm(forms.ModelForm):
-    dummy_image = FilerImageField()
-    dummy_file = FilerFileField()
-
     def __init__(self, *args, **kwargs):
         super(PageForm, self).__init__(*args, **kwargs)
         self.fields['data'].help_text = ''
@@ -83,7 +80,7 @@ class PageAdmin(admin.ModelAdmin):
         display = _('No content')
         if len(obj.data) > 0:
             if obj.data[0]['content_type'] == 'text':
-                display = obj.data[0]['content'][:100] + '...'
+                display = obj.data[0]['content']['text'][:100] + '...'
             else:
                 display = '(%s data)' % obj.data[0]['content_type']
         return display

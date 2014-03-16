@@ -11,16 +11,14 @@
     float: right;
 }
 
-.content .toolbox {
+.content .toolbox,
+.content .pagelet,
+.content .field {
     margin-bottom: 1em;
 }
 
 .content .title {
     text-transform: capitalize
-}
-
-.content .pagelet {
-    margin-bottom: 1em;
 }
 
 .content .pagelet h3 {
@@ -116,10 +114,6 @@
     clear: none;
 }
 
-.content .field {
-    margin-bottom: 1em;
-}
-
 .content .field-data,
 .content .alt {
     margin-bottom: .5em;
@@ -133,4 +127,14 @@
     margin-top: -1px;
 }
 
+.content .vForeignKeyRawIdAdminField {
+    display: none;
+}
 
+.content .filer {
+    margin: .5em 0;
+}
+
+.content .clear {
+    cursor: pointer;
+}

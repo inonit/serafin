@@ -12,14 +12,14 @@
     {% block styles %}{% endblock %}
     <script src="{% static 'js/vendor/modernizr.js' %}"></script>
   </head>
-  <body>
+  <body ng-app="serafin">
     <div class="wrapper">
       <header>
         <nav class="top-bar" data-topbar>
           <h1 class="entry">SERAF Røykeslutt</h1>
           <div class="entry">Dag 1</div>
           <ul class="right">
-            <li><a class="button" href="">Avslutt / logg ut</a></li>
+            <li><a class="button" href="{% url 'logout' %}">Avslutt / logg ut</a></li>
           </ul>
         </nav>
       </header>

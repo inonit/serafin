@@ -2,13 +2,17 @@ var content = angular.module('content', []);
 
 var fileTemplate = {
     url: '',
+    file_id: '',
     title: ''
 };
 
 var dataTemplates = {
     'text': {
         content_type: 'text',
-        content: ''
+        content: {
+            text: '',
+            html: '',
+        }
     },
     'form': {
         content_type: 'form',
@@ -93,8 +97,8 @@ content.controller('contentList', ['$scope', function(scope) {
 
 content.controller('markdown', ['$scope', '$window', '$sce', function(scope, window, sce) {
     scope.md2html = function() {
-        scope.html = window.marked(scope.pagelet.content);
-        scope.htmlSafe = sce.trustAsHtml(scope.html);
+        var marked = window.marked(scope.pagelet.content.text);
+        scope.pagelet.content.html = sce.trustAsHtml(marked);
     };
     scope.md2html();
 }]);
@@ -103,20 +107,20 @@ content.directive('textarea', function() {
     // autoresize textarea as you type.
     return {
         restrict: 'E',
-        link: function(scope, element, attrs) {
+        link: function(scope, elem, attrs) {
             var threshold    = 40,
-                minHeight    = element[0].offsetHeight,
-                paddingLeft  = element.css('paddingLeft'),
-                paddingRight = element.css('paddingRight');
+                minHeight    = elem[0].offsetHeight,
+                paddingLeft  = elem.css('paddingLeft'),
+                paddingRight = elem.css('paddingRight');
 
             var shadow = angular.element('<div></div>').css({
                 position:   'absolute',
                 top:        -10000,
                 left:       -10000,
-                width:      element[0].offsetWidth - parseInt(paddingLeft || 0, 10) - parseInt(paddingRight || 0, 10),
-                fontSize:   element.css('fontSize'),
-                fontFamily: element.css('fontFamily'),
-                lineHeight: element.css('lineHeight'),
+                width:      elem[0].offsetWidth - parseInt(paddingLeft || 0, 10) - parseInt(paddingRight || 0, 10),
+                fontSize:   elem.css('fontSize'),
+                fontFamily: elem.css('fontFamily'),
+                lineHeight: elem.css('lineHeight'),
                 resize:     'none'
             });
 
@@ -130,7 +134,7 @@ content.directive('textarea', function() {
                     return r;
                 };
 
-                var val = element.val().replace(/</g, '&lt;')
+                var val = elem.val().replace(/</g, '&lt;')
                     .replace(/>/g, '&gt;')
                     .replace(/&/g, '&amp;')
                     .replace(/\n$/, '<br/>&nbsp;')
@@ -141,16 +145,16 @@ content.directive('textarea', function() {
 
                 shadow.html(val);
 
-                element.css('height', Math.max(shadow[0].offsetHeight + threshold , minHeight));
+                elem.css('height', Math.max(shadow[0].offsetHeight + threshold , minHeight));
 
-                angular.element(element[0].nextSibling).css('height', element.css('height'));
+                angular.element(elem[0].nextSibling).css('height', elem.css('height'));
             };
 
             scope.$on('$destroy', function() {
                 shadow.remove();
             });
 
-            element.bind('keyup keydown keypress change', update);
+            elem.bind('keyup keydown keypress change', update);
 
             if (attrs.ngModel) {
                scope.$watch(attrs.ngModel, update);
@@ -158,3 +162,31 @@ content.directive('textarea', function() {
         }
     };
 });
+
+content.directive('filer', ['$compile', function(compile) {
+    return {
+        restrict: 'C',
+        replace: true,
+        link: function(scope, elem, attrs) {
+            angular.element('#id_file_clear').addClass('clear').on('click', function() {
+                //django.jQuery("#id_file").removeAttr("value");
+                //django.jQuery("#id_file_thumbnail_img").attr("src", "{{ filer_static_prefix }}icons/nofile_48x48.png");
+                //django.jQuery("#id_file_description_txt").html("");
+                //django.jQuery("#id_file_clear").hide();
+            });
+
+            for (var i = 0; i < elem.children().length; i++) {
+                var child = elem.children()[i];
+
+                if (child.id == 'id_file') {
+                    var file_id = angular.element(child).attr('ng-model', 'pagelet.content.file_id');
+                    compile(file_id)(scope);
+                }
+
+                if (child.id) {
+                    child.id = child.id.replace('id_file', 'id_file_' + scope.$parent.$index);
+                }
+            }
+        }
+    };
+}]);

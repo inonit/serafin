@@ -48,6 +48,7 @@ INSTALLED_APPS = (
     'mptt',
     'easy_thumbnails',
     'huey.djhuey',
+    'djangular',
     'plumbing',
 
     'users',
