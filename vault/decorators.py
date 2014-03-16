@@ -5,6 +5,7 @@ from token_auth.tokens import token_generator
 from token_auth.json_responses import JsonResponse
 from .models import VaultUser
 
+
 def json_response(func):
     """ Handles json POST requests and responds in json """
 
@@ -24,15 +25,14 @@ def json_response(func):
                     user = None
                     response['status'] = STATUS_USER_DOES_NOT_EXIST
 
-                if user:
-                    if token_generator.check_token(user_id, token):
-                        try:
-                            func(request, user=user, data=data)
-                            response['status'] = STATUS_OK
-                        except Exception, e:
-                            pass
-                    else:
-                        response['status'] = STATUS_INVALID_TOKEN
+                if token_generator.check_token(user_id, token):
+                    try:
+                        func(request, user=user, user_id=user_id, data=data)
+                        response['status'] = STATUS_OK
+                    except Exception, e:
+                        pass
+                else:
+                    response['status'] = STATUS_INVALID_TOKEN
         return JsonResponse(response)
 
     return _json_response
