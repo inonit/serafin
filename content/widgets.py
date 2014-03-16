@@ -35,12 +35,12 @@ class ContentWidget(forms.Widget):
     class Media:
         css = {
             'all': (
-                'content/content/css/content.css',
+                'content/css/content.css',
             )
         }
         js = (
             filer_settings.FILER_STATICMEDIA_PREFIX + 'js/popup_handling.js',
-            'content/content/angular/angular.min.js',
-            'content/js/marked.js',
+            'content/angular/angular.min.js',
+            'content/marked/marked.js',
             'content/js/content.js',
         )
