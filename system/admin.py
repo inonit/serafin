@@ -6,13 +6,10 @@ from django.db import models
 from django.contrib import admin
 
 from .models import Program, Part, Page
-from plumbing.forms import PlumbingField
 from suit.widgets import SuitSplitDateTimeWidget, LinkedSelect, AutosizedTextarea
-from suit.admin import SortableTabularInline
 from jsonfield import JSONField
+from plumbing.widgets import PlumbingWidget
 from content.widgets import ContentWidget
-from content.forms import DummyFileField, DummyImageField
-from djangular.forms.angular_model import NgModelFormMixin
 
 
 class ProgramAdmin(admin.ModelAdmin):
@@ -29,7 +26,9 @@ class ProgramAdmin(admin.ModelAdmin):
 
 
 class PartForm(forms.ModelForm):
-    plumbing = PlumbingField()
+    def __init__(self, *args, **kwargs):
+        super(PartForm, self).__init__(*args, **kwargs)
+        self.fields['data'].help_text = ''
 
     class Meta:
         model = Part
@@ -46,7 +45,8 @@ class PartAdmin(admin.ModelAdmin):
     form = PartForm
     formfield_overrides = {
         models.TextField: { 'widget': AutosizedTextarea(attrs={'rows': 3, 'class': 'input-xlarge'}) },
-        models.DateTimeField: { 'widget': SuitSplitDateTimeWidget }
+        models.DateTimeField: { 'widget': SuitSplitDateTimeWidget },
+        JSONField: { 'widget': PlumbingWidget }
     }
 
     def note_excerpt(self, obj):
