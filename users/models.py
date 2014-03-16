@@ -6,7 +6,6 @@ from django.core.urlresolvers import reverse
 from django.template.context import Context
 from django.template.loader import get_template
 from django.db import models
-from django.db.models.query import QuerySet
 from django.contrib.auth.models import BaseUserManager, AbstractBaseUser, PermissionsMixin
 from django.conf import settings
 
@@ -21,7 +20,7 @@ class UserManager(BaseUserManager):
         user = self.model()
         user.set_password(password)
         user.save()
-        #user._mirror_user()
+        user._mirror_user()
         return user
 
     def create_superuser(self, id, password):
@@ -29,18 +28,8 @@ class UserManager(BaseUserManager):
         user.is_staff = True
         user.is_superuser = True
         user.save()
-        #user._mirror_user()
+        user._mirror_user()
         return user
-
-    def get_query_set(self):
-        return UserQuerySet(self.model)
-
-
-class UserQuerySet(QuerySet):
-    def delete(self):
-        for item in self.query:
-            item._delete_mirror()
-        super(UserQuerySet, self).delete()
 
 
 class User(AbstractBaseUser, PermissionsMixin):
@@ -71,10 +60,6 @@ class User(AbstractBaseUser, PermissionsMixin):
 
         self.token = token_generator.make_token(self.id)
         self.save()
-
-    def delete(self):
-        self._delete_mirror()
-        super(UserManager, self).delete()
 
     @vault_post
     def _mirror_user(self):

@@ -4,6 +4,7 @@ from django.utils.translation import ugettext_lazy as _
 from django import forms
 from django.contrib import admin
 from users.models import User
+from django.contrib.auth.admin import UserAdmin
 
 
 class UserCreationForm(forms.ModelForm):
@@ -65,24 +66,24 @@ class UserChangeForm(forms.ModelForm):
 
 
 
-class UserAdmin(admin.ModelAdmin):
+class UserAdmin(UserAdmin):
     list_display = ['id', 'date_joined', 'last_login', 'is_superuser', 'is_staff', 'is_active']
     ordering = ['-date_joined']
     date_hierarchy = 'date_joined'
 
     form = UserChangeForm
     add_form = UserCreationForm
-    fields = [
-        'id',
-        'password',
-        'date_joined',
-        'last_login',
-        'groups',
-        'user_permissions',
-        'is_superuser',
-        'is_staff',
-        'is_active',
-    ]
+    fieldsets = (
+        (None, {'fields': ('id', 'password')}),
+        (_('Permissions'), {'fields': ('is_active', 'is_staff', 'is_superuser',
+                                       'groups', 'user_permissions')}),
+        (_('Important dates'), {'fields': ('last_login', 'date_joined')}),
+    )
+    add_fieldsets = (
+        (None, {'fields': ('password1', 'password2')}),
+        (_('Permissions'), {'fields': ('is_active', 'is_staff', 'is_superuser',
+                                       'groups', 'user_permissions')}),
+    )
     readonly_fields = [
         'id',
         'date_joined',
