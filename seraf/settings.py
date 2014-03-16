@@ -10,10 +10,8 @@ https://docs.djangoproject.com/en/1.6/ref/settings/
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 import os
-
 BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 
-SITE_ID = 1
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/1.6/howto/deployment/checklist/
@@ -29,6 +27,8 @@ ALLOWED_HOSTS = ['seraf.inonit.no']
 
 
 # Application definition
+
+SITE_ID = 1
 
 INSTALLED_APPS = (
     'django.contrib.auth',
@@ -47,10 +47,8 @@ INSTALLED_APPS = (
     'filer',
     'mptt',
     'easy_thumbnails',
-    'mail_templated',
+    'huey.djhuey',
     'plumbing',
-    'fluent_contents',
-    'epiceditor',
 
     'users',
     'vault',
@@ -70,13 +68,6 @@ MIDDLEWARE_CLASSES = (
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 )
 
-
-# Auth backends
-AUTHENTICATION_BACKENDS = (
-    'django.contrib.auth.backends.ModelBackend',
-    'users.backends.TokenBackend',
-)
-
 ROOT_URLCONF = 'seraf.urls'
 
 WSGI_APPLICATION = 'seraf.wsgi.application'
@@ -85,6 +76,7 @@ TEMPLATE_DIRS = (
     os.path.join(BASE_DIR, 'templates'),
 )
 
+
 # Database
 # https://docs.djangoproject.com/en/1.6/ref/settings/#databases
 
@@ -92,6 +84,18 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
         'NAME': os.path.join(BASE_DIR, 'seraf.db'),
+    }
+}
+
+CACHES = {
+    'default': {
+        'BACKEND': 'django.core.cache.backends.locmem.LocMemCache',
+        'LOCATION': 'seraf'
+    },
+    'huey_tasks': {
+        'BACKEND': 'django.core.cache.backends.locmem.LocMemCache',
+        'LOCATION': 'huey_tasks',
+        'TIMEOUT': None
     }
 }
 
@@ -113,6 +117,7 @@ USE_L10N = True
 USE_TZ = True
 
 USE_HTTPS = True
+
 
 # E-mail settings
 
@@ -143,6 +148,7 @@ STATICFILES_DIRS = (
     os.path.join(BASE_DIR, 'staticfiles'),
 )
 
+
 # User model and vault separation
 
 AUTH_USER_MODEL = 'users.User'
@@ -155,8 +161,13 @@ VAULT_SEND_EMAIL_URL = 'send_email/'
 VAULT_SEND_SMS_URL = 'send_sms/'
 VAULT_FETCH_SMS_URL = 'fetch_sms/'
 
-# Token
+AUTHENTICATION_BACKENDS = (
+    'django.contrib.auth.backends.ModelBackend',
+    'users.backends.TokenBackend',
+)
+
 TOKEN_TIMEOUT_DAYS = 1
+
 
 # Twilio
 
@@ -177,6 +188,7 @@ HUEY = {
     # Options to pass into the consumer when running `manage.py run_huey`
     'consumer_options': {
         'workers': 4,
+        'utc': False,
     },
 }
 
@@ -239,11 +251,6 @@ SUIT_CONFIG = {
                 ]
         },
         {
-            'app': 'content',
-            'label': 'Innhold',
-            'icon': 'icon-book',
-        },
-        {
             'app': 'filer',
             'label': 'Media',
             'icon': 'icon-picture'
@@ -251,19 +258,38 @@ SUIT_CONFIG = {
     ]
 }
 
-WYSIWYG_DEFAULT_TOOLBAR_ITEMS = [
-    'font_weights',
-    'lists',
-    'alignments',
-    'hyperlink',
-]
-
 from django.conf.global_settings import TEMPLATE_CONTEXT_PROCESSORS
 
 TEMPLATE_CONTEXT_PROCESSORS += (
     'django.core.context_processors.request',
     'django.contrib.messages.context_processors.messages',
 )
+
+
+# Logging
+
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'handlers': {
+        'console': {
+            'level': 'DEBUG',
+            'class': 'logging.StreamHandler',
+        },
+        'file': {
+            'level': 'DEBUG',
+            'class': 'logging.FileHandler',
+            'filename': 'huey.log',
+        },
+    },
+    'loggers': {
+        'huey.consumer': {
+            'handlers': ['file'],
+            'level': 'DEBUG',
+            'propagate': True,
+       }
+    }
+}
 
 try:
     from local_settings import *

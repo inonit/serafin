@@ -5,6 +5,7 @@ __MACOSX
 .idea
 .coverage
 
+*.log
 *.py[co]
 *.egg
 *.egg-info
@@ -24,4 +25,4 @@ lib
 local
 
 local_settings.py
-db.sqlite3
+*.db

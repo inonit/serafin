@@ -2,114 +2,26 @@ from __future__ import unicode_literals
 from django.utils.translation import ugettext_lazy as _
 
 from django.db import models
-from fluent_contents.models import ContentItem
-from filer.fields.image import FilerImageField
-from filer.fields.file import FilerFileField
+from jsonfield import JSONField
+from collections import OrderedDict
 
 
-class Text(ContentItem):
-    '''A block of text'''
+class Content(models.Model):
+    '''A model containing page contents encoded as JSON data'''
 
-    content = models.TextField(_('text'))
-
-    def template(self):
-        return 'text.html'
+    data = JSONField(load_kwargs={'object_pairs_hook': OrderedDict}, default='undefined')
 
     def __unicode__(self):
-        return self.content[:50] + '...'
+        output = _('No content')
+
+        try:
+            output = self.data[0]['content'][:50] + '...'
+        except:
+            pass
+
+        return output
 
     class Meta:
-        verbose_name = _('text')
-        verbose_name_plural = _('texts')
-
-
-class Form(ContentItem):
-    '''A form registering input from the user'''
-
-    variable_name = models.CharField(_('variable name'), max_length=64)
-
-    def template(self):
-        return 'form.html'
-
-    def __unicode__(self):
-        return self.variable_name
-
-    class Meta:
-        verbose_name = _('form')
-        verbose_name_plural = _('forms')
-
-
-class Image(ContentItem):
-    '''An image to be displayed'''
-
-    content = FilerImageField(verbose_name=_('image'))
-    alt = models.CharField(_('alt text'), blank=True, max_length=255)
-    title = models.TextField(_('title text'), blank=True)
-    #display_caption = models.BooleanField(_('display caption'), default=True)
-
-    def template(self):
-        return 'image.html'
-
-    def __unicode__(self):
-        return self.title or self.content
-
-    class Meta:
-        verbose_name = _('image')
-        verbose_name_plural = _('images')
-
-
-class Video(ContentItem):
-    '''A video clip to be played'''
-
-    content = FilerFileField(verbose_name=_('video'))
-    title = models.TextField(_('title text'), blank=True)
-    #display_caption = models.BooleanField(_('display caption'), default=True)
-
-    def template(self):
-        return 'video.html'
-
-    def __unicode__(self):
-        return self.title or self.content
-
-    class Meta:
-        verbose_name = _('video')
-        verbose_name_plural = _('videos')
-
-
-class Audio(ContentItem):
-    '''A piece of audio to be played'''
-
-    content = FilerFileField(verbose_name=_('audio'))
-    title = models.TextField(_('title text'), blank=True)
-    #display_caption = models.BooleanField(_('display caption'), default=True)
-
-    def template(self):
-        return 'audio.html'
-
-    def __unicode__(self):
-        return self.title or self.content
-
-    class Meta:
-        verbose_name = _('audioclip')
-        verbose_name_plural = _('audioclips')
-
-
-class File(ContentItem):
-    '''A file made available for download'''
-
-    content = FilerFileField(verbose_name=_('file'), related_name='file_content')
-    title = models.CharField(_('alt text'), blank=True, max_length=255)
-
-    def icon(self):
-        '''Get image url for file icon'''
-        pass
-
-    def template(self):
-        return 'file.html'
-
-    def __unicode__(self):
-        return self.content
-
-    class Meta:
-        verbose_name = _('file')
-        verbose_name_plural = _('files')
+        abstract = True
+        verbose_name = _('content')
+        verbose_name_plural = _('contents')

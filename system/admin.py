@@ -7,15 +7,25 @@ from django.contrib import admin
 
 from .models import Program, Part, Page
 from plumbing.forms import PlumbingField
-from suit.widgets import SuitSplitDateTimeWidget, LinkedSelect
+from suit.widgets import SuitSplitDateTimeWidget, LinkedSelect, AutosizedTextarea
 from suit.admin import SortableTabularInline
-
-from fluent_contents.admin import PlaceholderFieldAdmin
+from jsonfield import JSONField
+from content.widgets import ContentWidget
+from filer.fields.image import FilerImageField
+from filer.fields.file import FilerFileField
 
 
 class ProgramAdmin(admin.ModelAdmin):
-    list_display = ['title']
-    search_fields = ['program']
+    list_display = ['title', 'note_excerpt',]
+    search_fields = ['title', 'admin_note']
+
+    formfield_overrides = {
+        models.TextField: { 'widget': AutosizedTextarea(attrs={'rows': 3, 'class': 'input-xlarge'}) }
+    }
+
+    def note_excerpt(self, obj):
+        return obj.admin_note[:100] + '...'
+    note_excerpt.short_description = _('Admin note excerpt')
 
 
 class PartForm(forms.ModelForm):
@@ -26,28 +36,62 @@ class PartForm(forms.ModelForm):
 
 
 class PartAdmin(admin.ModelAdmin):
-    list_display = ['title', 'program', 'start_time', 'end_time']
+    list_display = ['title', 'program', 'note_excerpt', 'start_time', 'end_time']
     list_editable = ['start_time', 'end_time']
     list_filter = ['program__title']
-    search_fields = ['title', 'program']
+    search_fields = ['title', 'admin_note', 'program']
     ordering = ['start_time']
     date_hierarchy = 'start_time'
 
     form = PartForm
     formfield_overrides = {
+        models.TextField: { 'widget': AutosizedTextarea(attrs={'rows': 3, 'class': 'input-xlarge'}) },
         models.DateTimeField: { 'widget': SuitSplitDateTimeWidget }
     }
 
+    def note_excerpt(self, obj):
+        return obj.admin_note[:100] + '...'
+    note_excerpt.short_description = _('Admin note excerpt')
 
-class PageAdmin(PlaceholderFieldAdmin):
-    list_display = ['title', 'page_exerpt']
-    search_fields = ['title', 'content__contentitems__text__content']
 
-    def page_exerpt(self, obj):
-        return ', '.join(
-            [item.__unicode__() for item in obj.content.get_content_items()[:5]]
-        )
-    page_exerpt.short_description = _('Page excerpt')
+class PageForm(forms.ModelForm):
+    dummy_image = FilerImageField()
+    dummy_file = FilerFileField()
+
+    def __init__(self, *args, **kwargs):
+        super(PageForm, self).__init__(*args, **kwargs)
+        self.fields['data'].help_text = ''
+
+    class Meta:
+        model = Page
+
+
+class PageAdmin(admin.ModelAdmin):
+    list_display = ['title', 'part', 'note_excerpt', 'page_excerpt']
+    search_fields = ['title', 'part', 'admin_note', 'data']
+
+    fields = ['title', 'part', 'admin_note', 'data']
+    readonly_fields = ['part']
+    form = PageForm
+    formfield_overrides = {
+        models.TextField: { 'widget': AutosizedTextarea(attrs={'rows': 3, 'class': 'input-xlarge'}) },
+        models.ForeignKey: { 'widget': LinkedSelect },
+        JSONField: { 'widget': ContentWidget }
+    }
+
+    def page_excerpt(self, obj):
+        display = _('No content')
+        if len(obj.data) > 0:
+            if obj.data[0]['content_type'] == 'text':
+                display = obj.data[0]['content'][:100] + '...'
+            else:
+                display = '(%s data)' % obj.data[0]['content_type']
+        return display
+    page_excerpt.short_description = _('Page excerpt')
+
+    def note_excerpt(self, obj):
+        return obj.admin_note[:100] + '...'
+    note_excerpt.short_description = _('Admin note excerpt')
 
 
 admin.site.register(Program, ProgramAdmin)

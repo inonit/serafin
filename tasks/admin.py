@@ -3,11 +3,11 @@ from django.utils.translation import ugettext_lazy as _
 
 from django.contrib import admin
 
-from tasks.models import Task
+from .models import Task
 
 
 class TaskAdmin(admin.ModelAdmin):
-    list_display = ['sender', 'action', 'time']
+    list_display = ['sender', 'action', 'time', 'task_result']
     search_fields = ['sender', 'action']
     ordering = ['time']
     date_hierarchy = 'time'
@@ -16,6 +16,10 @@ class TaskAdmin(admin.ModelAdmin):
 
     def has_add_permission(self, request):
         return False
+
+    def task_result(self, obj):
+        return obj.task
+    task_result.short_description = _('Task result')
 
 
 admin.site.register(Task, TaskAdmin)

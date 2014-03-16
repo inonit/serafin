@@ -5,7 +5,7 @@ _SERAF Smoke free_
 
 ## Prerequisites
 
-    sudo apt-get install python python-virtualenv python-pip python-dev libjpeg8-dev zlib1g-dev
+    sudo apt-get install python python-virtualenv python-pip python-dev libjpeg8-dev zlib1g-dev redis-server
 
 (or equivalent)
 
@@ -47,7 +47,12 @@ The vault stores personally identifiable data like e-mail and phone number. It w
 We will likely build or incorporate an interface for [Twilio SMS](http://www.twilio.com/) for this part.
 
 ### Tasks app
-Handles scheduling of events, mainly triggering each day of the program and slip management. Will be based on [Huey](https://github.com/coleifer/huey), it's simple and seems adequate.
+Handles scheduling of events, mainly triggering each day of the program and slip management. Scheduling is based on [Huey](https://github.com/coleifer/huey), it's simple and adequate.
+
+To run the Huey consumer, install Redis:
+
+    sudo apt-get install redis-server
+    ./manage.py run_huey
 
 ### Events app
 Contains receivers for Django signals that generate logging events for any and all information that may be of interest to the researchers.
@@ -62,4 +67,4 @@ The administrator design of the Program uses [jsPlumb](http://jsplumbtoolkit.com
 
 Nodes may be abstracted to redefinable "building blocks"; display page, ask question, send SMS, etc.
 
-Content management is done through [django-fluent-contents](https://github.com/edoburu/django-fluent-contents). It currently has template and static overrides for this system, but will be forked at some point.
+Content management is done through an Angular widget, and stored in a [JSONField](https://github.com/bradjasper/django-jsonfield). See [thoughts on content](https://github.com/inonit/seraf/blob/content/content/thoughts_on_content.md) for details.

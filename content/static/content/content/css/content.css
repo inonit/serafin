@@ -1,0 +1,136 @@
+.content {
+    width: 100%;
+    height: auto;
+}
+
+.content .left {
+    float: left;
+}
+
+.content .right  {
+    float: right;
+}
+
+.content .toolbox {
+    margin-bottom: 1em;
+}
+
+.content .title {
+    text-transform: capitalize
+}
+
+.content .pagelet {
+    margin-bottom: 1em;
+}
+
+.content .pagelet h3 {
+    padding: 0;
+}
+
+.content .pagelet h3,
+.content .ctrl {
+    display: inline-block;
+}
+
+.content .pagelet,
+.content .fieldset,
+.content .field,
+.content .alt {
+    clear: both;
+}
+
+.content .ctrl a {
+    cursor: pointer;
+}
+
+.content .ctrl i {
+    margin-left: 1em;
+}
+
+.content .text {
+    width: 100%;
+}
+
+.content .markdown-text,
+.content .markdown-html {
+    width: 50%;
+    box-sizing: border-box;
+    padding: .5em 1em;
+}
+
+.content .markdown-text {
+    background: #333;
+    border: 1px solid #666;
+    color: #ccc;
+    float: left;
+    font: 12px/16px monospace;
+    resize: none;
+}
+
+.content .markdown-html {
+    background: white;
+    border: 1px solid #eee;
+    border-radius: 3px;
+    display: inline-block;
+    line-height: 1.5;
+    font-size: 13px;
+}
+
+.content .markdown-html h1,
+.content .markdown-html h2,
+.content .markdown-html h3,
+.content .markdown-html h4,
+.content .markdown-html h5,
+.content .markdown-html h6 {
+    line-height: 1.5;
+    margin: 0 0 .5em;
+}
+
+.content .markdown-html p,
+.content .markdown-html ul,
+.content .markdown-html ol {
+    margin-bottom: 1.25em !important;
+}
+
+.content .field {
+    background: white;
+    padding: 1em;
+    border: 1px solid #eee;
+    border-radius: 4px;
+}
+
+.content h4.title {
+    margin-top: 0;
+}
+
+.content .field-data .toolbox {
+    margin-top: .5em;
+}
+
+.content .fieldset > div {
+    display: inline-block;
+    margin-right: 1em;
+}
+
+.content .alt .fieldset {
+    clear: none;
+}
+
+.content .field {
+    margin-bottom: 1em;
+}
+
+.content .field-data,
+.content .alt {
+    margin-bottom: .5em;
+}
+
+.content input.wide {
+    width: 40em;
+}
+
+.content .field-data input[type=checkbox] {
+    margin-top: -1px;
+}
+
+

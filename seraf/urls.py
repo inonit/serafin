@@ -24,6 +24,9 @@ router.register(r'api/pages', PageViewSet)
 
 urlpatterns = patterns('',
     url(r'^', include('content.urls')),
+    url(r'^', include('users.urls')),
+
+    url(r'^content/', include('content.urls')),
 
     url(r'^api/vault/', include('vault.urls')),
 
