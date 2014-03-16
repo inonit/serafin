@@ -2,7 +2,21 @@
 {% block title %}{{ page_title }}{% endblock %}
 {% block content %}
 {% load markdown %}
-{% for pagelet in pagelets %}
-  {{ pagelet.content.text|markdown }}
-{% endfor %}
+<div class="pages">
+    <div class="page">
+        {% for pagelet in pagelets %}
+        {% if pagelet.content_type == 'text' %}
+
+        {{ pagelet.content.text|markdown }}
+
+        {% elif pagelet.content_type == 'form' %}
+
+        {% with pagelet.content as form %}
+        {% include 'form.html' %}
+        {% endwith %}
+
+        {% endif %}
+        {% endfor %}
+    </div>
+</div>
 {% endblock %}

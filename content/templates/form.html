@@ -1,0 +1,44 @@
+<form>
+    {% for field in form %}
+    {% if field.field_type == 'numeric' %}
+
+    <label for="{{ field.variable_name }}"><strong>{{ field.label }}</strong></label>
+    <input type="number" name="{{ field.variable_name }}" value="{{ field.default }}" placeholder="{{ field.default }}">
+
+    {% elif field.field_type == 'string' %}
+
+    <label for="{{ field.variable_name }}"><strong>{{ field.label }}</strong></label>
+    <input type="text" name="{{ field.variable_name }}" value="{{ field.default }}" placeholder="{{ field.default }}">
+
+    {% elif field.field_type == 'text' %}
+
+    <label for="{{ field.variable_name }}"><strong>{{ field.label }}</strong></label>
+    <textarea name="{{ field.variable_name }}"></textarea>
+
+    {% elif field.field_type == 'multiplechoice' %}
+
+    <fieldset>
+        <legend>{{ field.label }}</legend>
+        {% for alt in field.alternatives %}
+        <label>
+            <input type="radio" name="{{ field.variable_name }}" value="{{ alt.value }}" />
+            {{ alt.label }}
+        </label>
+        {% endfor %}
+    </fieldset>
+
+    {% elif field.field_type == 'multipleselection' %}
+
+    <fieldset>
+        <legend>{{ field.label }}</legend>
+        {% for alt in field.alternatives %}
+        <label>
+            <input type="checkbox" name="{{ field.variable_name }}" value="{{ alt.value }}" />
+            {{ alt.label }}
+        </label>
+        {% endfor %}
+    </fieldset>
+
+    {% endif %}
+    {% endfor %}
+</form>

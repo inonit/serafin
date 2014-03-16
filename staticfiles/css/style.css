@@ -5,7 +5,6 @@ html, body {
 .wrapper {
     min-height: 100%;
     height: auto !important;
-    height: 100%;
     margin: 0 auto -45px;
 }
 
@@ -74,18 +73,26 @@ h6 {
 }
 
 .page {
-    position: absolute;
-    overflow: visible;
-    top: 5em;
-    left: 0;
-    right: 0;
-    margin: 0 auto;
+    margin: 3em auto;
     max-width: 40em;
     padding: 0 1em;
 }
 
 .page nav {
     margin-top: 1.5rem;
+}
+
+fieldset {
+    padding: 1rem;
+}
+
+fieldset legend {
+    font-size: 0.875rem;
+    color: #4d4d4d;
+}
+
+fieldset label:last-child input {
+    margin-bottom: 0;
 }
 
 label.large {
