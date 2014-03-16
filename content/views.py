@@ -1,15 +1,18 @@
+# coding: utf-8
 from __future__ import unicode_literals
-from django.contrib.auth.decorators import login_required
 from django.utils.translation import ugettext_lazy as _
+
+from django.contrib.auth.decorators import login_required
 
 from django.shortcuts import render, get_object_or_404
 from system.models import Part, Page
 
 
-def content_test(request):
+def part(request, part_id=None):
 
-    part = get_object_or_404(Part, title='Dag 1')
+    part = get_object_or_404(Part, id=part_id)
     context = {
+        'program': 'SERAF Røykeslutt',
         'title': part.title,
         'pages': part.page_set.all(),
     }
@@ -17,21 +20,23 @@ def content_test(request):
     return render(request, 'part.html', context)
 
 
-def design_test(request):
+def page(request, page_id=None):
 
+    page = get_object_or_404(Page, id=page_id)
     context = {
-    }
-
-    return render(request, 'design.html', context)
-
-
-def page_test(request):
-
-    page = get_object_or_404(Page, id=3)
-    context = {
-        'page_title': page.title,
+        'program': 'SERAF Røykeslutt',
+        'title': page.title,
         'pagelets': page.data,
     }
 
     return render(request, 'page.html', context)
 
+
+def design(request):
+
+    context = {
+        'program': 'SERAF Røykeslutt',
+        'title': 'Designtest',
+    }
+
+    return render(request, 'design.html', context)

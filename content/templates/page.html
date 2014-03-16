@@ -1,5 +1,5 @@
 {% extends 'base.html' %}
-{% block title %}{{ page_title }}{% endblock %}
+{% block title %}{{ title }}{% endblock %}
 {% block content %}
 {% load markdown %}
 <div class="pages">
@@ -13,6 +13,30 @@
 
         {% with pagelet.content as form %}
         {% include 'form.html' %}
+        {% endwith %}
+
+        {% elif pagelet.content_type == 'image' %}
+
+        {% with pagelet.content as image %}
+        {% include 'image.html' %}
+        {% endwith %}
+
+        {% elif pagelet.content_type == 'video' %}
+
+        {% with pagelet.content as video %}
+        {% include 'video.html' %}
+        {% endwith %}
+
+        {% elif pagelet.content_type == 'audio' %}
+
+        {% with pagelet.content as audio %}
+        {% include 'audio.html' %}
+        {% endwith %}
+
+        {% elif pagelet.content_type == 'file' %}
+
+        {% with pagelet.content as file %}
+        {% include 'file.html' %}
         {% endwith %}
 
         {% endif %}

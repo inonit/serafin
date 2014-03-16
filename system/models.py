@@ -4,6 +4,7 @@ from django.utils.translation import ugettext_lazy as _
 from django.db import models
 #from system.system import Stuff
 from content.models import Content
+from django.core.urlresolvers import reverse
 
 
 class Program(models.Model):
@@ -38,6 +39,9 @@ class Part(models.Model):
 
     # graph_object = reference to Graph object
 
+    def get_absolute_url(self):
+        return reverse('part', args=[str(self.id)])
+
     def __unicode__(self):
         return self.title or _('Part %s' % self.id)
 
@@ -55,6 +59,9 @@ class Page(Content):
     part = models.ForeignKey(Part, verbose_name=_('part'), null=True, blank=True)
 
     # node_object = reference to Node object
+
+    def get_absolute_url(self):
+        return reverse('page', args=[str(self.id)])
 
     def __unicode__(self):
         return self.title or _('Page %s' % self.id)
