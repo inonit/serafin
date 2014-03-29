@@ -17,7 +17,7 @@ class EventAdmin(admin.ModelAdmin):
 
     def actor_link(self, instance):
         url = reverse('admin:users_user_change', args=[instance.actor.id])
-        return '<a href="%s">%s</a>' % (url, instance.actor.actor_link())
+        return '<a href="%s">%s</a>' % (url, instance.actor) #.actor_link())
     actor_link.short_description = _('Actor')
     actor_link.allow_tags = True
 

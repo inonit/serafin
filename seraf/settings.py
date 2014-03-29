@@ -10,6 +10,7 @@ https://docs.djangoproject.com/en/1.6/ref/settings/
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 import os
+
 BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 
 
@@ -67,6 +68,7 @@ MIDDLEWARE_CLASSES = (
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'events.middleware.EventTrackingMiddleware',
 )
 
 ROOT_URLCONF = 'seraf.urls'
@@ -169,6 +171,11 @@ AUTHENTICATION_BACKENDS = (
 
 TOKEN_TIMEOUT_DAYS = 1
 
+
+# Events
+TRACK_AJAX_REQUESTS = False
+TRACK_ANONYMOUS_USERS = False
+TRACK_ADMIN_USERS = True
 
 # Twilio
 
@@ -288,7 +295,7 @@ LOGGING = {
             'handlers': ['file'],
             'level': 'DEBUG',
             'propagate': True,
-       }
+        }
     }
 }
 

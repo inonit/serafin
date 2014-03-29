@@ -1,30 +1,28 @@
 from __future__ import unicode_literals
-from django.utils.translation import ugettext_lazy as _
 
+from django.utils.translation import ugettext_lazy as _
 from django import forms
 from django.db import models
 from django.contrib import admin
+from suit.widgets import SuitSplitDateTimeWidget, LinkedSelect, AutosizedTextarea
+from jsonfield import JSONField
 
 from .models import Program, Part, Page
 from plumbing.forms import PlumbingField
-from suit.widgets import SuitSplitDateTimeWidget, LinkedSelect, AutosizedTextarea
-from suit.admin import SortableTabularInline
-from jsonfield import JSONField
 from content.widgets import ContentWidget
-from content.forms import DummyFileField, DummyImageField
-from djangular.forms.angular_model import NgModelFormMixin
 
 
 class ProgramAdmin(admin.ModelAdmin):
-    list_display = ['title', 'note_excerpt',]
+    list_display = ['title', 'note_excerpt', ]
     search_fields = ['title', 'admin_note']
 
     formfield_overrides = {
-        models.TextField: { 'widget': AutosizedTextarea(attrs={'rows': 3, 'class': 'input-xlarge'}) }
+        models.TextField: {'widget': AutosizedTextarea(attrs={'rows': 3, 'class': 'input-xlarge'})}
     }
 
     def note_excerpt(self, obj):
         return obj.admin_note[:100] + '...'
+
     note_excerpt.short_description = _('Admin note excerpt')
 
 
@@ -45,12 +43,13 @@ class PartAdmin(admin.ModelAdmin):
 
     form = PartForm
     formfield_overrides = {
-        models.TextField: { 'widget': AutosizedTextarea(attrs={'rows': 3, 'class': 'input-xlarge'}) },
-        models.DateTimeField: { 'widget': SuitSplitDateTimeWidget }
+        models.TextField: {'widget': AutosizedTextarea(attrs={'rows': 3, 'class': 'input-xlarge'})},
+        models.DateTimeField: {'widget': SuitSplitDateTimeWidget}
     }
 
     def note_excerpt(self, obj):
         return obj.admin_note[:100] + '...'
+
     note_excerpt.short_description = _('Admin note excerpt')
 
 
@@ -71,9 +70,9 @@ class PageAdmin(admin.ModelAdmin):
     readonly_fields = ['part']
     form = PageForm
     formfield_overrides = {
-        models.TextField: { 'widget': AutosizedTextarea(attrs={'rows': 3, 'class': 'input-xlarge'}) },
-        models.ForeignKey: { 'widget': LinkedSelect },
-        JSONField: { 'widget': ContentWidget }
+        models.TextField: {'widget': AutosizedTextarea(attrs={'rows': 3, 'class': 'input-xlarge'})},
+        models.ForeignKey: {'widget': LinkedSelect},
+        JSONField: {'widget': ContentWidget}
     }
 
     def page_excerpt(self, obj):
@@ -84,10 +83,12 @@ class PageAdmin(admin.ModelAdmin):
             else:
                 display = '(%s data)' % obj.data[0]['content_type']
         return display
+
     page_excerpt.short_description = _('Page excerpt')
 
     def note_excerpt(self, obj):
         return obj.admin_note[:100] + '...'
+
     note_excerpt.short_description = _('Admin note excerpt')
 
 

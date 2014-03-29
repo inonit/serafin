@@ -1,9 +1,8 @@
 from __future__ import unicode_literals
-from django.utils.translation import ugettext_lazy as _
 
+from django.utils.translation import ugettext_lazy as _
 from django.contrib.sites.models import Site
 from django.core.urlresolvers import reverse
-from django.template.context import Context
 from django.template.loader import get_template
 from django.db import models
 from django.db.models.query import QuerySet
@@ -62,6 +61,9 @@ class User(AbstractBaseUser, PermissionsMixin):
 
     def get_short_name(self):
         return self.username
+
+    def get_full_name(self):
+        return self.get_short_name()
 
     def get_username(self):
         return self.username
