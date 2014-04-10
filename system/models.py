@@ -10,7 +10,7 @@ from collections import OrderedDict
 class Program(models.Model):
     '''A top level model for a separate Program, having one or more parts'''
 
-    title = models.CharField(_('title'), max_length=64)
+    title = models.CharField(_('title'), max_length=64, unique=True)
     admin_note = models.TextField(_('admin note'), blank=True)
 
     def __unicode__(self):
@@ -24,7 +24,7 @@ class Program(models.Model):
 class Part(models.Model):
     '''A program Part, with layout through a Graph object'''
 
-    title = models.CharField(_('title'), max_length=64, blank=True)
+    title = models.CharField(_('title'), max_length=64, blank=True, unique=True)
     program = models.ForeignKey(Program, verbose_name=_('program'))
     admin_note = models.TextField(_('admin note'), blank=True)
 
@@ -47,7 +47,7 @@ class Part(models.Model):
 class Page(models.Model):
     '''An ordered collection of Content to be shown together as a Page'''
 
-    title = models.CharField(_('title'), max_length=64, blank=True)
+    title = models.CharField(_('title'), max_length=64, blank=True, unique=True)
     part = models.ForeignKey(Part, verbose_name=_('part'), null=True, blank=True)
     admin_note = models.TextField(_('admin note'), blank=True)
 
