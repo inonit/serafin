@@ -8,7 +8,7 @@ from suit.widgets import SuitSplitDateTimeWidget, LinkedSelect, AutosizedTextare
 from jsonfield import JSONField
 
 from .models import Program, Part, Page
-from plumbing.forms import PlumbingField
+from plumbing.widgets import PlumbingWidget
 from content.widgets import ContentWidget
 
 
@@ -27,7 +27,9 @@ class ProgramAdmin(admin.ModelAdmin):
 
 
 class PartForm(forms.ModelForm):
-    plumbing = PlumbingField()
+    def __init__(self, *args, **kwargs):
+        super(PartForm, self).__init__(*args, **kwargs)
+        self.fields['data'].help_text = ''
 
     class Meta:
         model = Part
@@ -43,8 +45,9 @@ class PartAdmin(admin.ModelAdmin):
 
     form = PartForm
     formfield_overrides = {
-        models.TextField: {'widget': AutosizedTextarea(attrs={'rows': 3, 'class': 'input-xlarge'})},
-        models.DateTimeField: {'widget': SuitSplitDateTimeWidget}
+        models.TextField: { 'widget': AutosizedTextarea(attrs={'rows': 3, 'class': 'input-xlarge'}) },
+        models.DateTimeField: { 'widget': SuitSplitDateTimeWidget },
+        JSONField: { 'widget': PlumbingWidget }
     }
 
     def note_excerpt(self, obj):

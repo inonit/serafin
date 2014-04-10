@@ -63,7 +63,7 @@ A simple content management system for snippets of Text, Media and Forms. Snippe
 ### System app
 Maintains a model of the Program, with the top level represented as a schedule of Parts, the path and logic of each Part as a graph of nodes called Pages, and each Page as an ordered list of content items. 
 
-The administrator design of the Program uses [jsPlumb](http://jsplumbtoolkit.com/demo/statemachine/jquery.html) and AngularJS, and the integration is kept in a separate repo, [django-plumbing](https://github.com/inonit/django-plumbing). We intend to redesign this for general public use, help is appreciated.
+The administrator design of the Program uses [jsPlumb](http://jsplumbtoolkit.com/demo/statemachine/jquery.html) and AngularJS. We intend to redesign this for general public use, help is appreciated.
 
 Nodes may be abstracted to redefinable "building blocks"; display page, ask question, send SMS, etc.
 
