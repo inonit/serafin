@@ -66,7 +66,10 @@ var dataTemplates = {
         required: false,
         alternatives: []
     },
-    'alternative': {},
+    'alternative': {
+        label: '',
+        value: '',
+    },
 };
 
 content.run(['$rootScope', function(scope) {
@@ -79,7 +82,7 @@ content.run(['$rootScope', function(scope) {
 
 content.controller('contentList', ['$scope', function(scope) {
     scope.add = function(list, type) {
-        list.push(dataTemplates[type]);
+        list.push(angular.copy(dataTemplates[type]));
     };
 
     scope.up = function(list, index) {
@@ -96,9 +99,10 @@ content.controller('contentList', ['$scope', function(scope) {
 }]);
 
 content.controller('markdown', ['$scope', '$window', '$sce', function(scope, window, sce) {
+    scope.html = '';
     scope.md2html = function() {
         var marked = window.marked(scope.pagelet.content.text);
-        scope.pagelet.content.html = sce.trustAsHtml(marked);
+        scope.html = sce.trustAsHtml(marked);
     };
     scope.md2html();
 }]);
@@ -144,9 +148,7 @@ content.directive('textarea', function() {
                     });
 
                 shadow.html(val);
-
                 elem.css('height', Math.max(shadow[0].offsetHeight + threshold , minHeight));
-
                 angular.element(elem[0].nextSibling).css('height', elem.css('height'));
             };
 
@@ -163,29 +165,61 @@ content.directive('textarea', function() {
     };
 });
 
-content.directive('filer', ['$compile', function(compile) {
+content.directive('filer', ['$compile', '$http', function(compile, http) {
     return {
         restrict: 'C',
         replace: true,
         link: function(scope, elem, attrs) {
-            angular.element('#id_file_clear').addClass('clear').on('click', function() {
-                //django.jQuery("#id_file").removeAttr("value");
-                //django.jQuery("#id_file_thumbnail_img").attr("src", "{{ filer_static_prefix }}icons/nofile_48x48.png");
-                //django.jQuery("#id_file_description_txt").html("");
-                //django.jQuery("#id_file_clear").hide();
+            scope.noimg = elem.find('#id_file_thumbnail_img').attr('src');
+            scope.index = scope.$parent.$index;
+
+            // clear on click
+            elem.find('#id_file_clear').addClass('clear').on('click', function() {
+                elem.find('#id_file_' + scope.index ).removeAttr('value');
+                elem.find('#id_file_' + scope.index + '_thumbnail_img').attr('src', scope.noimg);
+                elem.find('#id_file_' + scope.index + '_description_txt').html('');
+                elem.find('#id_file_' + scope.index + '_clear').hide();
+                scope.pagelet.content.file_id = '';
+                scope.pagelet.content.url = '';
             });
 
+            // differentiate repeated elements
             for (var i = 0; i < elem.children().length; i++) {
                 var child = elem.children()[i];
 
-                if (child.id == 'id_file') {
+                if (child.id === 'id_file') {
                     var file_id = angular.element(child).attr('ng-model', 'pagelet.content.file_id');
                     compile(file_id)(scope);
                 }
 
                 if (child.id) {
-                    child.id = child.id.replace('id_file', 'id_file_' + scope.$parent.$index);
+                    child.id = child.id.replace('id_file', 'id_file_' + scope.index);
                 }
+            }
+
+            scope.apiURL = filerApi + scope.pagelet.content_type + '/';
+
+            // receive on select
+            angular.element(window).bind('focus', function(val) {
+                var value = elem.find('#id_file_' + scope.index).attr('value');
+                if (value !== scope.pagelet.content.file_id) {
+                    scope.$apply(function() {
+                        scope.pagelet.content.file_id = value;
+                    });
+                    http.get(scope.apiURL + scope.pagelet.content.file_id).success(function(data) {
+                        scope.pagelet.content.url = data['url'];
+                    });
+                }
+            });
+
+            // populate on load
+            if (scope.pagelet.content.file_id !== '') {
+                http.get(scope.apiURL + scope.pagelet.content.file_id).success(function(data) {
+                    elem.find('#id_file_' + scope.index ).attr('value', data['id']);
+                    elem.find('#id_file_' + scope.index + '_thumbnail_img').attr('src', data['thumbnail']);
+                    elem.find('#id_file_' + scope.index + '_description_txt').html(data['description']);
+                    elem.find('#id_file_' + scope.index + '_clear').show();
+                });
             }
         }
     };

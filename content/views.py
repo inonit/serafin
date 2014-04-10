@@ -5,7 +5,10 @@ from django.utils.translation import ugettext_lazy as _
 from django.contrib.auth.decorators import login_required
 
 from django.shortcuts import render, get_object_or_404
+from django.http import HttpResponse
 from system.models import Part, Page
+from filer.models import File, Image
+import json
 
 
 def part(request, part_id=None):
@@ -40,3 +43,20 @@ def design(request):
     }
 
     return render(request, 'design.html', context)
+
+
+def api_filer_file(request, content_type=None, file_id=None):
+
+    if content_type == 'image':
+        filer_file = get_object_or_404(Image, id=file_id)
+    else:
+        filer_file = get_object_or_404(File, id=file_id)
+
+    response = {
+        'id': filer_file.id,
+        'url': filer_file.url,
+        'thumbnail': filer_file.icons['48'],
+        'description': filer_file.original_filename,
+    }
+
+    return HttpResponse(json.dumps(response), content_type='application/json')

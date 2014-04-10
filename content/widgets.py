@@ -2,6 +2,7 @@ from django import forms
 from django.template.loader import render_to_string
 from django.utils.safestring import mark_safe
 from django.contrib.admin.sites import site
+from django.core.urlresolvers import reverse
 from filer.fields.file import AdminFileWidget
 from filer import settings as filer_settings
 import re
@@ -27,6 +28,7 @@ class ContentWidget(forms.Widget):
         context = {
             'value': value,
             'file_widget': file_widget,
+            'filer_api': reverse('api_filer_file')
         }
 
         html = render_to_string('admin/content_widget.html', context)
