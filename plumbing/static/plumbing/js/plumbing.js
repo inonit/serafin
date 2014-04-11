@@ -117,6 +117,7 @@ plumbing.controller('graph', ['$scope', '$http', function(scope, http) {
     scope.addNode = function() {
         var id = scope.data.nodes.length + 1;
 
+        scope.currentNoderef = 'noderef_' + id;
         scope.data.nodes.push({
             'id': id,
             'url': newNodeUrl,
@@ -127,16 +128,17 @@ plumbing.controller('graph', ['$scope', '$http', function(scope, http) {
             }
         });
 
-        scope.currentNoderef = 'noderef_' + id;
-
-        var win = window.open(
+        window.open(
             addNodeUrl + '?t=id&_popup=1',
             scope.currentNoderef,
             'height=800,width=1024,resizable=yes,scrollbars=yes'
-        );
-
-        win.focus();
+        ).focus();
     };
+
+    scope.deleteNode = function(index) {
+        scope.data.nodes.splice(index, 1);
+    };
+
 }]);
 
 plumbing.directive('node', ['jsPlumb', function(jsPlumbService) {
@@ -163,12 +165,11 @@ plumbing.directive('node', ['jsPlumb', function(jsPlumbService) {
             });
 
             element.bind('dblclick', function() {
-                var win = window.open(
+                window.open(
                     scope.node.url + '?_popup=1',
                     'noderef-' + scope.node.id,
                     'height=800,width=1024,resizable=yes,scrollbars=yes'
-                );
-                win.focus();
+                ).focus();
             });
         }
     };
