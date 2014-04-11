@@ -119,8 +119,8 @@ plumbing.controller('graph', ['$scope', '$http', function(scope, http) {
 
         scope.data.nodes.push({
             'id': id,
-            'url': '',
-            'title': '',
+            'url': newNodeUrl,
+            'title': '?',
             'metrics': {
                 'left': '25px',
                 'top': '25px'
