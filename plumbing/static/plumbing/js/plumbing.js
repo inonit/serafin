@@ -1,5 +1,3 @@
-var urlOnClick = '/admin/system/page/add/';
-
 var instanceConfig = {
     Endpoint: [
         'Dot', {
@@ -71,70 +69,73 @@ plumbing.run(['$rootScope', '$timeout', 'jsPlumb', function(scope, timeout, jsPl
         scope.data = initData;
     }
 
-    //timeout(function() {
-        jsPlumb.ready(function() {
-            scope.jsPlumb.bind('dblclick', function(c) {
-                scope.jsPlumb.detach(c);
-            });
+    scope.currentNoderef = '';
 
-            scope.jsPlumb.bind('connection', function(c) {
-                c.connection.getOverlays()[1].label = c.connection.getParameters()['label'];
-                scope.data.edges.push({
-                    label: 'next',
-                    source: +c.sourceId.substr(5),
-                    target: +c.targetId.substr(5),
-                });
-            });
+    jsPlumb.ready(function() {
+        scope.jsPlumb.bind('dblclick', function(c) {
+            scope.jsPlumb.detach(c);
+        });
 
-            scope.jsPlumb.bind('connectionDetached', function(c) {
-                var index;
-                scope.data.edges.forEach(function(edge) {
-                    if (edge.source == +c.sourceId.substr(5) &&
-                        edge.target == +c.targetId.substr(5)) {
-                        index = scope.data.edges.indexOf(edge);
-                    }
-                });
-                scope.data.edges.splice(index, 1);
+        scope.jsPlumb.bind('connection', function(c) {
+            c.connection.getOverlays()[1].label = c.connection.getParameters()['label'];
+            scope.data.edges.push({
+                label: 'next',
+                source: +c.sourceId.substr(5),
+                target: +c.targetId.substr(5),
             });
+        });
 
-            scope.jsPlumb.doWhileSuspended(function() {
-                if (scope.data.edges)
+        scope.jsPlumb.bind('connectionDetached', function(c) {
+            var index;
+            scope.data.edges.forEach(function(edge) {
+                if (edge.source == +c.sourceId.substr(5) &&
+                    edge.target == +c.targetId.substr(5)) {
+                    index = scope.data.edges.indexOf(edge);
+                }
+            });
+            scope.data.edges.splice(index, 1);
+        });
+
+        scope.jsPlumb.doWhileSuspended(function() {
+            if (scope.data.edges) {
                 scope.data.edges.forEach(function(edge) {
                     scope.jsPlumb.connect({
-                        source: 'node-' + edge['source'],
-                        target: 'node-' + edge['target'],
+                        source: 'node_' + edge['source'],
+                        target: 'node_' + edge['target'],
                         parameters: {
                             label: edge['label'],
                         }
                     });
                 });
-            });
+            }
         });
-    //});
+    });
 }]);
 
-plumbing.controller('graph', ['$scope', function(scope) {
-    scope.newNode = function() {
-        scope.data.nodes.push({
-            'id': '',
-            'url': urlOnClick,
-            'title': '?',
-            'metrics': {
-                'left': '100px',
-                'top': '100px'
-            }
-        });
-    };
+plumbing.controller('graph', ['$scope', '$http', function(scope, http) {
+
     scope.addNode = function() {
+        var id = scope.data.nodes.length + 1;
+
         scope.data.nodes.push({
-            'id': scope.data.nodes.length + 1,
-            'url': urlOnClick,
-            'title': '?',
+            'id': id,
+            'url': '',
+            'title': '',
             'metrics': {
-                'left': '100px',
-                'top': '100px'
+                'left': '25px',
+                'top': '25px'
             }
         });
+
+        scope.currentNoderef = 'noderef_' + id;
+
+        var win = window.open(
+            addNodeUrl + '?t=id&_popup=1',
+            scope.currentNoderef,
+            'height=800,width=1024,resizable=yes,scrollbars=yes'
+        );
+
+        win.focus();
     };
 }]);
 
@@ -144,8 +145,7 @@ plumbing.directive('node', ['jsPlumb', function(jsPlumbService) {
         controller: 'graph',
         scope: '@',
         link: function(scope, element, attrs) {
-            // set id here to avoid jQuery conflict
-            element[0].id = 'node-' + scope.node.id;
+            element[0].id = 'node_' + scope.node.id;
 
             jsPlumb.ready(function() {
                 scope.jsPlumb.draggable(element);
@@ -155,32 +155,43 @@ plumbing.directive('node', ['jsPlumb', function(jsPlumbService) {
                 });
             });
 
-            element.bind('dblclick', function() {
-                var win = window.open(scope.node.url + '?_popup=1', 'nodeRef', 'height=800,width=1024,resizable=yes,scrollbars=yes');
-                win.focus();
-                angular.element(win).find('name=[_save]').bind('click', function() {
-                    console.log('object saved');
+            element.bind('mouseup', function(e) {
+                scope.$apply(function() {
+                    scope.node.metrics.left = element[0].style.left;
+                    scope.node.metrics.top = element[0].style.top;
                 });
+            });
+
+            element.bind('dblclick', function() {
+                var win = window.open(
+                    scope.node.url + '?_popup=1',
+                    'noderef-' + scope.node.id,
+                    'height=800,width=1024,resizable=yes,scrollbars=yes'
+                );
+                win.focus();
             });
         }
     };
 }]);
 
-plumbing.directive('nodeRef', function() {
+plumbing.directive('noderef', ['$http', function(http) {
     return {
         restrict: 'C',
         link: function(scope, element, attrs) {
-            // MutationObserver would be nice, but has low support
-            var lastEvent;
-            var lastValue = element[0].value;
+            element[0].id = 'noderef_' + scope.node.id;
+
             angular.element(window).bind('focus', function(val) {
-                if (lastEvent !== 'focus' &&
-                    lastValue !== element[0].value) {
-                    lastEvent = focus;
-                    lastValue = element[0].value;
-                    console.log('value changed');
+                var value = element.attr('value');
+                if (value !== scope.node.id) {
+                    scope.$apply(function() {
+                        scope.node.id = value;
+                    });
+                    http.get(pageApiUrl + value).success(function(data) {
+                        scope.node.title = data['title'];
+                        scope.node.url = data['url'];
+                    });
                 }
             });
         }
     };
-});
+}]);

@@ -206,7 +206,7 @@ content.directive('filer', ['$compile', '$http', function(compile, http) {
                     scope.$apply(function() {
                         scope.pagelet.content.file_id = value;
                     });
-                    http.get(scope.apiURL + scope.pagelet.content.file_id).success(function(data) {
+                    http.get(scope.apiURL + value).success(function(data) {
                         scope.pagelet.content.url = data['url'];
                     });
                 }

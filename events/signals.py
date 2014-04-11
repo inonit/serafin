@@ -5,7 +5,7 @@ from django.dispatch import receiver
 from events.models import Event
 
 
-@receiver(pre_save)
+#@receiver(pre_save, sender=User)
 def track_event(instance, sender, **kwargs):
     # ignore events apps
     # create log event entry
