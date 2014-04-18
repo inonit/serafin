@@ -4,12 +4,13 @@
         {{ node.title }}
         <div class="ep"></div>
         <div class="delete" ng-click="deleteNode($index)">×</div>
-        <input type="hidden" class="noderef">
+        <input type="hidden" class="noderef" value="{{ node.ref_id }}">
     </div>
     <div class="toolbox">
         <div class="add" ng-click="addNode()" id="lookup_{{ current_noderef }}">Add node</div>
     </div>
-    <textarea id="id_data" name="data" class="data ng-hide">{{ data }}</textarea>
+    <textarea name="data" class="data ng-hide">{{ data }}</textarea>
+    {{ data }}
 </div>
 {% endverbatim %}
 <script>
