@@ -1,7 +1,7 @@
 var instanceConfig = {
     Endpoint: [
         'Dot', {
-            radius: 2,
+            radius: 3,
         }
     ],
     HoverPaintStyle: {
@@ -16,13 +16,6 @@ var instanceConfig = {
                 width: 10,
             }
         ],
-        [
-            'Label', {
-                label: 'next',
-                id: 'label',
-                cssClass: 'aLabel',
-            }
-        ]
     ],
     Container: 'plumbing'
 };
@@ -39,7 +32,7 @@ var sourceConfig = {
     },
     maxConnections: 9,
     onMaxConnections: function(info, e) {
-        alert('Maximum connections (' + info.maxConnections + ') reached');
+        alert('Maximum connections of ' + info.maxConnections + ' reached');
     }
 };
 
@@ -50,16 +43,28 @@ var targetConfig = {
     anchor: 'Continuous'
 };
 
+
 var plumbing = angular.module('plumbing', []);
 
 plumbing.service('jsPlumb', ['$rootScope', function(scope) {
     jsPlumb.ready(function() {
+        // create instance
         scope.jsPlumb = jsPlumb.getInstance(instanceConfig);
+        // intercept connection
+        scope.jsPlumb.bind('beforeDrop', function(c) {
+            scope.$apply(function() {
+                scope.data.edges.push({
+                    id: scope.data.edges.length + 1,
+                    source: +c.sourceId.substr(5),
+                    target: +c.targetId.substr(5),
+                    conditions: [],
+                });
+            });
+        });
     });
 }]);
 
-plumbing.run(['$rootScope', '$timeout', 'jsPlumb', function(scope, timeout, jsPlumbService) {
-
+plumbing.run(['$rootScope', function(scope) {
     if (typeof initData === 'undefined') {
         scope.data = {
             nodes: [],
@@ -68,57 +73,7 @@ plumbing.run(['$rootScope', '$timeout', 'jsPlumb', function(scope, timeout, jsPl
     } else {
         scope.data = initData;
     }
-
     scope.currentNoderef = '';
-
-    jsPlumb.ready(function() {
-
-        // timeout to avoid race condition
-        timeout(function() {
-            scope.jsPlumb.doWhileSuspended(function() {
-                scope.data.edges.forEach(function(edge) {
-                    scope.jsPlumb.connect({
-                        source: 'node_' + edge['source'],
-                        target: 'node_' + edge['target'],
-                        parameters: {
-                            label: edge['label'],
-                        }
-                    });
-                });
-            });
-
-            scope.jsPlumb.bind('dblclick', function(c) {
-                scope.jsPlumb.detach(c);
-            });
-
-            // set overlay and push to scope on connection
-            scope.jsPlumb.bind('connection', function(c) {
-                c.connection.getOverlays()[1].label = c.connection.getParameters()['label'];
-                scope.$apply(function() {
-                    scope.data.edges.push({
-                        label: 'next',
-                        source: +c.sourceId.substr(5),
-                        target: +c.targetId.substr(5),
-                    });
-                });
-            });
-
-            // remove edge on detach
-            scope.jsPlumb.bind('connectionDetached', function(c) {
-                scope.data.edges.forEach(function(edge) {
-                    if (edge.source == +c.sourceId.substr(5) &&
-                        edge.target == +c.targetId.substr(5)) {
-                        scope.$apply(function() {
-                            scope.data.edges.splice(
-                                scope.data.edges.indexOf(edge), 1
-                            );
-                        });
-                    }
-                });
-            });
-
-        });
-    });
 }]);
 
 plumbing.controller('graph', ['$scope', 'jsPlumb', function(scope, jsPlumbService) {
@@ -127,13 +82,13 @@ plumbing.controller('graph', ['$scope', 'jsPlumb', function(scope, jsPlumbServic
         var id = scope.data.nodes.length + 1;
 
         scope.data.nodes.push({
-            'id': id,
-            'ref_id': '',
-            'url': newNodeUrl,
-            'title': '?',
-            'metrics': {
-                'left': '25px',
-                'top': '25px'
+            id: id,
+            ref_id: '',
+            ref_url: newNodeUrl,
+            title: '?',
+            metrics: {
+                left: '25px',
+                top: '25px'
             }
         });
 
@@ -152,13 +107,16 @@ plumbing.controller('graph', ['$scope', 'jsPlumb', function(scope, jsPlumbServic
         scope.data.nodes.splice(index, 1);
     };
 
+    scope.deleteEdge = function(index) {
+        var edge = scope.data.edges[index];
+        scope.data.edges.splice(index, 1);
+    };
+
 }]);
 
 plumbing.directive('node', ['jsPlumb', function(jsPlumbService) {
     return {
         restrict: 'C',
-        controller: 'graph',
-        scope: '@',
         link: function(scope, element, attrs) {
             // set id here to avoid race condition
             element[0].id = 'node_' + scope.node.id;
@@ -180,10 +138,10 @@ plumbing.directive('node', ['jsPlumb', function(jsPlumbService) {
                 });
             });
 
-            // opens a django popup on double click
+            // open a django popup on double click
             element.bind('dblclick', function() {
                 window.open(
-                    scope.node.url + '?_popup=1',
+                    scope.node.ref_url + '?_popup=1',
                     'noderef_' + scope.node.id,
                     'height=800,width=1024,resizable=yes,scrollbars=yes'
                 ).focus();
@@ -210,9 +168,45 @@ plumbing.directive('noderef', ['$http', function(http) {
                     });
                     http.get(pageApiUrl + value).success(function(data) {
                         scope.node.title = data['title'];
-                        scope.node.url = data['url'];
+                        scope.node.ref_url = data['url'];
                     });
                 }
+            });
+        }
+    };
+}]);
+
+plumbing.directive('edge', ['jsPlumb', function(jsPlumbService) {
+    return {
+        restrict: 'C',
+        link: function(scope, element, attrs) {
+            scope.conditions = function() {
+                return 'next'
+            }
+            // make connection for this edge
+            jsPlumb.ready(function() {
+                scope.connection = scope.jsPlumb.connect({
+                    source: 'node_' + scope.edge.source,
+                    target: 'node_' + scope.edge.target,
+                    overlays: [[
+                        'Custom', {
+                            cssClass: 'edge',
+                            create: function(component) {
+                                return element.find('.overlay');
+                            }
+                        }
+                    ]]
+                });
+            });
+
+            // ensure connection is detached on edge destruction
+            scope.$on('$destroy', function() {
+                scope.jsPlumb.detach(scope.connection);
+            });
+
+            // show full interface on double click
+            element.bind('dblclick', function() {
+
             });
         }
     };

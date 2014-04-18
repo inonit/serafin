@@ -14,7 +14,6 @@
     z-index: 4;
     border: 1px solid #2e6f9a;
     box-shadow: 2px 2px 5px #e0e0e0;
-    opacity: 0.8;
     cursor: move;
     background: white;
     font-size: 11px;
@@ -27,22 +26,24 @@
     color: white;
 }
 
-.aLabel {
+.edge {
     transition: background 0.25s ease-in;
 }
 
-.aLabel._jsPlumb_hover, ._jsPlumb_source_hover, ._jsPlumb_target_hover {
+.edge._jsPlumb_hover, ._jsPlumb_source_hover, ._jsPlumb_target_hover {
     background: #1e8151;
     color: white;
 }
 
-.aLabel {
+.edge {
     background: white;
-    opacity: 0.8;
-    padding: 0 0.5em;
+    padding: 0 2em 0 .5em;
     border: 1px solid #346789;
     cursor: pointer;
     border-radius: 2px;
+    display: inline-block;
+    z-index: 6;
+    position: relative;
 }
 
 .ep,
@@ -77,6 +78,10 @@
 
 ._jsPlumb_endpoint {
     z-index: 3;
+}
+
+._jsPlumb_connector {
+    z-index: 5;
 }
 
 .dragHover {

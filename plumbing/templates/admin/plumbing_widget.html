@@ -1,10 +1,17 @@
 {% verbatim %}
 <div id="plumbing" class="plumbing" ng-app="plumbing" ng-controller="graph">
-    <div class="node" ng-repeat="node in data.nodes" ng-style="node.metrics" ng-model="data.nodes" draggable="true">
+    <div class="node" ng-repeat="node in data.nodes" ng-style="node.metrics" ng-model="data.nodes">
         {{ node.title }}
         <div class="ep"></div>
         <div class="delete" ng-click="deleteNode($index)">×</div>
         <input type="hidden" class="noderef" value="{{ node.ref_id }}">
+    </div>
+    <div class="edge ng-hide" ng-repeat="edge in data.edges" ng-model="data.edges">
+        full interface here
+        <div class="overlay">
+            {{ conditions() }}
+            <div class="delete" ng-click="deleteEdge($index)">×</div>
+        </div>
     </div>
     <div class="toolbox">
         <div class="add" ng-click="addNode()" id="lookup_{{ current_noderef }}">Add node</div>
