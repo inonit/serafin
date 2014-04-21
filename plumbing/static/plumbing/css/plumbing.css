@@ -5,45 +5,47 @@
     background: white;
     border: 1px solid #eee;
     border-radius: 3px;
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    user-select: none;
+}
+
+.plumbing .box {
+    background: white;
+    border: 1px solid #ccc;
+    border-radius: 2px;
+    box-shadow: 1px 1px 4px #ddd;
 }
 
 .node {
-    padding: .75em 3em .75em 1.5em;
-    position: absolute;
-    border: 1px solid black;
-    z-index: 4;
-    border: 1px solid #2e6f9a;
-    box-shadow: 2px 2px 5px #e0e0e0;
     cursor: move;
-    background: white;
-    font-size: 11px;
-    transition: background 0.25s ease-in;
-    border-radius: 2px;
+    padding: .75em 3em .75em 1.5em;
+    z-index: 4;
 }
 
 .node:hover {
-    background: #5c96bc;
+    background: #5C97BF;
     color: white;
 }
 
-.edge {
-    transition: background 0.25s ease-in;
+.node,
+.overlay {
+    transition: background 0.25s;
+    font-size: 11px;
+    position: absolute;
 }
 
-.edge._jsPlumb_hover, ._jsPlumb_source_hover, ._jsPlumb_target_hover {
-    background: #1e8151;
-    color: white;
-}
-
-.edge {
-    background: white;
-    padding: 0 2em 0 .5em;
-    border: 1px solid #346789;
+.overlay {
     cursor: pointer;
-    border-radius: 2px;
-    display: inline-block;
+    padding: 0 2em 0 .5em;
     z-index: 6;
-    position: relative;
+}
+
+.overlay:hover,
+._jsPlumb_source_hover,
+._jsPlumb_target_hover {
+    background: #4DAF7C !important;
+    color: white;
 }
 
 .ep,
@@ -93,21 +95,47 @@ path {
 }
 
 .toolbox {
-    position: absolute;
-    top: 1em;
-    right: 1em;
+    float: left;
+    margin: 1rem;
 }
 
-.toolbox > div {
-    color: white;
-    padding: .5em 1em;
-    cursor: pointer;
-    border-radius: 2px;
+.variables {
+    list-style: none;
+    margin: 1rem;
+    height: 100%;
+    float: right;
+    line-height: 1;
+}
+
+.variable:hover {
+    background: #eee;
+}
+
+.conditions {
+    border: 1px solid #ccc;
     display: inline-block;
-    background: #5c96bc;
-    margin-left: 1em;
+    margin: 1rem 0;
+    padding: .5rem;
+    float: right;
+    z-index: 10;
+    min-width: 10em;
+    line-height: 16px;
 }
 
-.save {
-    background: #1e8151;
+.condition {
+    margin: 0 2em .5em 0;
+}
+
+.condition input {
+    width: 8em;
+    margin-right: .5rem;
+}
+
+.condition select {
+    width: auto;
+    margin-right: .5rem;
+}
+
+.condition .trash {
+    cursor: pointer;
 }

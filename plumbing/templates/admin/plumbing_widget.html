@@ -1,23 +1,51 @@
 {% verbatim %}
-<div id="plumbing" class="plumbing" ng-app="plumbing" ng-controller="graph">
-    <div class="node" ng-repeat="node in data.nodes" ng-style="node.metrics" ng-model="data.nodes">
+<div id="plumbing" class="plumbing" ng-app="plumbing">
+
+    <div class="toolbox">
+        <div class="btn" ng-click="addNode()" id="lookup_{{ current_noderef }}">Add node</div>
+    </div>
+
+    <ul class="variables">
+        Variables used:
+        <li class="variable" ng-repeat="variable in variables">{{ variable }}</li>
+    </ul>
+
+    <div class="node box" ng-repeat="node in data.nodes" ng-style="node.metrics" ng-model="data.nodes">
         {{ node.title }}
         <div class="ep"></div>
         <div class="delete" ng-click="deleteNode($index)">×</div>
         <input type="hidden" class="noderef" value="{{ node.ref_id }}">
     </div>
-    <div class="edge ng-hide" ng-repeat="edge in data.edges" ng-model="data.edges">
-        full interface here
-        <div class="overlay">
-            {{ conditions() }}
+
+    <div class="edge" ng-repeat="edge in data.edges" ng-model="data.edges">
+
+        <div class="overlay box">
+            {{ listConditions() }}
             <div class="delete" ng-click="deleteEdge($index)">×</div>
         </div>
+
+        <div class="conditions box" ng-show="showConditions == $index">
+            <div class="close" ng-click="showConditions = -1">×</div>
+            <div class="condition" ng-repeat="condition in edge.conditions">
+                <input type="text" placeholder="Variable name" ng-model="condition.var_name">
+                <select ng-model="condition.operator">
+                    <option value="eq"> = </option>
+                    <option value="ne"> &ne; </option>
+                    <option value="lt"> &lt; </option>
+                    <option value="le"> &le; </option>
+                    <option value="gt"> &gt; </option>
+                    <option value="ge"> &ge; </option>
+                    <option value="in"> contains </option>
+                </select>
+                <input type="text" placeholder="Value" ng-model="condition.value">
+                <a class="trash" ng-click="deleteCondition($index)"><i class="icon-trash icon-alpha5"></i></a>
+            </div>
+            <div class="btn" ng-click="addCondition()">Add condition</div>
+        </div>
+
     </div>
-    <div class="toolbox">
-        <div class="add" ng-click="addNode()" id="lookup_{{ current_noderef }}">Add node</div>
-    </div>
+
     <textarea name="data" class="data ng-hide">{{ data }}</textarea>
-    {{ data }}
 </div>
 {% endverbatim %}
 <script>

@@ -1,13 +1,10 @@
 var instanceConfig = {
+    Container: 'plumbing',
     Endpoint: [
         'Dot', {
             radius: 3,
         }
     ],
-    HoverPaintStyle: {
-        strokeStyle: '#1e8151',
-        lineWidth: 2,
-    },
     ConnectionOverlays: [
         [
             'Arrow', {
@@ -17,7 +14,10 @@ var instanceConfig = {
             }
         ],
     ],
-    Container: 'plumbing'
+    HoverPaintStyle: {
+        strokeStyle: '#4DAF7C',
+        lineWidth: 2,
+    }
 };
 
 var sourceConfig = {
@@ -27,7 +27,7 @@ var sourceConfig = {
         'StateMachine',
     ],
     connectorStyle: {
-        strokeStyle: '#5c96bc',
+        strokeStyle: '#5C97BF',
         lineWidth: 2,
     },
     maxConnections: 9,
@@ -47,9 +47,12 @@ var targetConfig = {
 var plumbing = angular.module('plumbing', []);
 
 plumbing.service('jsPlumb', ['$rootScope', function(scope) {
+
     jsPlumb.ready(function() {
+
         // create instance
         scope.jsPlumb = jsPlumb.getInstance(instanceConfig);
+
         // intercept connection
         scope.jsPlumb.bind('beforeDrop', function(c) {
             scope.$apply(function() {
@@ -65,6 +68,7 @@ plumbing.service('jsPlumb', ['$rootScope', function(scope) {
 }]);
 
 plumbing.run(['$rootScope', function(scope) {
+
     if (typeof initData === 'undefined') {
         scope.data = {
             nodes: [],
@@ -74,50 +78,48 @@ plumbing.run(['$rootScope', function(scope) {
         scope.data = initData;
     }
     scope.currentNoderef = '';
-}]);
-
-plumbing.controller('graph', ['$scope', 'jsPlumb', function(scope, jsPlumbService) {
-
-    scope.addNode = function() {
-        var id = scope.data.nodes.length + 1;
-
-        scope.data.nodes.push({
-            id: id,
-            ref_id: '',
-            ref_url: newNodeUrl,
-            title: '?',
-            metrics: {
-                left: '25px',
-                top: '25px'
-            }
-        });
-
-        // immediately opens a django popup to select the source for the node
-        scope.currentNoderef = 'noderef_' + id;
-        window.open(
-            addNodeUrl + '?t=id&_popup=1',
-            scope.currentNoderef,
-            'height=800,width=1024,resizable=yes,scrollbars=yes'
-        ).focus();
-    };
-
-    scope.deleteNode = function(index) {
-        var node = scope.data.nodes[index];
-        scope.jsPlumb.detachAllConnections('node_' + node.id);
-        scope.data.nodes.splice(index, 1);
-    };
-
-    scope.deleteEdge = function(index) {
-        var edge = scope.data.edges[index];
-        scope.data.edges.splice(index, 1);
-    };
+    scope.variables = ['test'];
+    scope.showConditions = -1;
 
 }]);
 
 plumbing.directive('node', ['jsPlumb', function(jsPlumbService) {
     return {
         restrict: 'C',
+        controller: ['$scope', 'jsPlumb', function(scope, jsPlumbService) {
+
+            scope.addNode = function() {
+                var id = scope.data.nodes.length + 1;
+
+                scope.data.nodes.push({
+                    id: id,
+                    ref_id: '',
+                    ref_url: newNodeUrl,
+                    title: '?',
+                    metrics: {
+                        left: '25px',
+                        top: '25px'
+                    }
+                });
+
+                // immediately opens a django popup to select the source for the node
+                scope.currentNoderef = 'noderef_' + id;
+                window.open(
+                    addNodeUrl + '?t=id&_popup=1',
+                    scope.currentNoderef,
+                    'height=800,width=1024,resizable=yes,scrollbars=yes'
+                ).focus();
+            };
+
+            scope.deleteNode = function(index) {
+                var node = scope.data.nodes[index];
+                scope.jsPlumb.detachAllConnections('node_' + node.id);
+                scope.data.nodes.splice(index, 1);
+            };
+
+        }],
         link: function(scope, element, attrs) {
+
             // set id here to avoid race condition
             element[0].id = 'node_' + scope.node.id;
 
@@ -154,6 +156,7 @@ plumbing.directive('noderef', ['$http', function(http) {
     return {
         restrict: 'C',
         link: function(scope, element, attrs) {
+
             // set id here to avoid race condition
             element[0].id = 'noderef_' + scope.node.id;
 
@@ -179,10 +182,33 @@ plumbing.directive('noderef', ['$http', function(http) {
 plumbing.directive('edge', ['jsPlumb', function(jsPlumbService) {
     return {
         restrict: 'C',
+        controller: ['$scope', function(scope) {
+
+            scope.deleteEdge = function(index) {
+                var edge = scope.data.edges[index];
+                scope.data.edges.splice(index, 1);
+            };
+
+            scope.listConditions = function() {
+                if (scope.edge.conditions.length > 0) {
+                    return 'condition(s)';
+                }
+                return 'no condition';
+            };
+
+            scope.addCondition = function() {
+                scope.edge.conditions.push({
+                    var_name: '',
+                    operator: '',
+                    value: '',
+                });
+            };
+
+            scope.deleteCondition = function(index) {
+                scope.edge.conditions.splice(index, 1);
+            };
+        }],
         link: function(scope, element, attrs) {
-            scope.conditions = function() {
-                return 'next'
-            }
             // make connection for this edge
             jsPlumb.ready(function() {
                 scope.connection = scope.jsPlumb.connect({
@@ -190,7 +216,7 @@ plumbing.directive('edge', ['jsPlumb', function(jsPlumbService) {
                     target: 'node_' + scope.edge.target,
                     overlays: [[
                         'Custom', {
-                            cssClass: 'edge',
+                            cssClass: 'overlay box',
                             create: function(component) {
                                 return element.find('.overlay');
                             }
@@ -205,8 +231,10 @@ plumbing.directive('edge', ['jsPlumb', function(jsPlumbService) {
             });
 
             // show full interface on double click
-            element.bind('dblclick', function() {
-
+            element.find('.overlay').bind('dblclick', function() {
+                scope.$apply(function() {
+                    scope.$parent.showConditions = scope.$index;
+                });
             });
         }
     };
