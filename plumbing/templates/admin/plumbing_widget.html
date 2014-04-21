@@ -6,7 +6,7 @@
     </div>
 
     <ul class="variables">
-        Variables used:
+        <p><strong>Available variables:</strong></p>
         <li class="variable" ng-repeat="variable in variables">{{ variable }}</li>
     </ul>
 
@@ -50,6 +50,7 @@
 {% endverbatim %}
 <script>
     var initData = {{ value|safe }};
+    var initVars = {{ vars|safe }};
     var newNodeUrl = '{{ admin_page_new }}';
     var addNodeUrl = '{{ admin_page_add }}';
     var pageApiUrl = '{{ page_api }}';

@@ -73,7 +73,7 @@ class Part(models.Model):
         for edge in self.data['edges']:
             for condition in edge['conditions']:
 
-                variable, created = Variable.objects.get_or_create(name=condition.variable_name)
+                variable, created = Variable.objects.get_or_create(name=condition['var_name'])
                 if created:
                     variable.save()
 
@@ -109,8 +109,9 @@ class Page(models.Model):
             if pagelet['content_type'] == 'form':
                 for field in pagelet['content']:
 
-                    variable, created = Variable.objects.get_or_create(name=field.variable_name)
+                    variable, created = Variable.objects.get_or_create(name=field['variable_name'])
                     if created:
+                        variable.var_type = field['field_type']
                         variable.save()
 
                     self.vars_used.add(variable)

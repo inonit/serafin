@@ -78,7 +78,7 @@ plumbing.run(['$rootScope', function(scope) {
         scope.data = initData;
     }
     scope.currentNoderef = '';
-    scope.variables = ['test'];
+    scope.variables = initVars;
     scope.showConditions = -1;
 
 }]);
