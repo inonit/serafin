@@ -80,21 +80,21 @@ content.run(['$rootScope', function(scope) {
     }
 }]);
 
-content.controller('contentList', ['$scope', function(scope) {
-    scope.add = function(list, type) {
-        list.push(angular.copy(dataTemplates[type]));
+content.controller('contentArray', ['$scope', function(scope) {
+    scope.add = function(array, type) {
+        array.push(angular.copy(dataTemplates[type]));
     };
 
-    scope.up = function(list, index) {
-        list.splice(index--, 0, list.splice(index, 1)[0]);
+    scope.up = function(array, index) {
+        array.splice(index--, 0, array.splice(index, 1)[0]);
     };
 
-    scope.down = function(list, index) {
-        list.splice(index++, 0, list.splice(index, 1)[0]);
+    scope.down = function(array, index) {
+        array.splice(index++, 0, array.splice(index, 1)[0]);
     };
 
-    scope.delete = function(list, index) {
-        list.splice(index, 1);
+    scope.delete = function(array, index) {
+        array.splice(index, 1);
     };
 }]);
 

@@ -1,5 +1,5 @@
 {% load i18n %}
-<div id="content" class="content" ng-app="content" ng-controller="contentList">
+<div id="content" class="content" ng-app="content" ng-controller="contentArray">
 
     <textarea id="id_data" name="data" class="data ng-hide">{% verbatim %}{{ data }}{% endverbatim %}</textarea>
 
@@ -12,7 +12,6 @@
         <div class="btn add" ng-click="add(data, 'file')">{% trans 'Add file' %}</div>
 
     <div class="pagelet" ng-repeat="pagelet in data track by $index">
-    </div>
 
         <div class="ctrl right">
             <a ng-click="up(data, $index)" ng-hide="$first"><i class="icon-arrow-up icon-alpha5"></i></a>
