@@ -2,97 +2,35 @@
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the PACKAGE package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
-#
-#, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: SERAF\n"
+"Project-Id-Version: Serafin\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-03-02 18:04+0100\n"
-"PO-Revision-Date: 2014-03-02 18:00+0100\n"
+"POT-Creation-Date: 2014-04-25 15:40+0200\n"
+"PO-Revision-Date: 2014-04-25 14:45+0200\n"
 "Last-Translator: Eirik Krogstad <eirikkr@gmail.com>\n"
 "Language: nb\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: content/models.py:13 content/models.py:22
-#: lib/python2.7/site-packages/fluent_contents/plugins/text/models.py:14
-msgid "text"
-msgstr "tekst"
+#: content/models.py:15 system/admin.py:82
+msgid "No content"
+msgstr "Innhold mangler"
 
-#: content/models.py:23
-msgid "texts"
-msgstr "tekster"
+#: content/models.py:26
+msgid "content"
+msgstr "innhold"
 
-#: content/models.py:29
-msgid "variable name"
-msgstr "variabelnavn"
-
-#: content/models.py:38
-msgid "form"
-msgstr "skjema"
-
-#: content/models.py:39
-msgid "forms"
-msgstr "skjemaer"
-
-#: content/models.py:45 content/models.py:57
-#: lib/python2.7/site-packages/filer/models/imagemodels.py:193
-msgid "image"
-msgstr "bilde"
-
-#: content/models.py:46 content/models.py:101
-msgid "alt text"
-msgstr "alternativtekst"
-
-#: content/models.py:47 content/models.py:65 content/models.py:83
-msgid "title text"
-msgstr "titteltekst"
-
-#: content/models.py:58
-#: lib/python2.7/site-packages/filer/models/imagemodels.py:194
-msgid "images"
-msgstr "bilder"
-
-#: content/models.py:64 content/models.py:75
-msgid "video"
-msgstr "video"
-
-#: content/models.py:76
-msgid "videos"
-msgstr "videoer"
-
-#: content/models.py:82
-msgid "audio"
-msgstr "lydklipp"
-
-#: content/models.py:93
-msgid "audioclip"
-msgstr "lydklipp"
-
-#: content/models.py:94
-msgid "audioclips"
-msgstr "lydklipp"
-
-#: content/models.py:100 content/models.py:114
-#: lib/python2.7/site-packages/filer/models/clipboardmodels.py:34
-#: lib/python2.7/site-packages/filer/models/filemodels.py:35
-#: lib/python2.7/site-packages/filer/models/filemodels.py:286
-msgid "file"
-msgstr "fil"
-
-#: content/models.py:115
-#: lib/python2.7/site-packages/filer/models/clipboardmodels.py:11
-#: lib/python2.7/site-packages/filer/models/filemodels.py:287
-msgid "files"
-msgstr "filer"
+#: content/models.py:27
+msgid "contents"
+msgstr "innhold"
 
 #: events/admin.py:21
 msgid "Actor"
 msgstr "Utført av"
 
-#: events/models.py:12 tasks/models.py:21
+#: events/models.py:12 tasks/models.py:22
 msgid "time"
 msgstr "tidspunkt"
 
@@ -104,7 +42,7 @@ msgstr "domene"
 msgid "actor"
 msgstr "utført av"
 
-#: events/models.py:15
+#: events/models.py:15 system/models.py:24
 msgid "variable"
 msgstr "variabel"
 
@@ -116,11 +54,11 @@ msgstr "førverdi"
 msgid "post value"
 msgstr "ny verdi"
 
-#: events/models.py:23
+#: events/models.py:25
 msgid "event"
 msgstr "hendelse"
 
-#: events/models.py:24
+#: events/models.py:26
 msgid "events"
 msgstr "hendelser"
 
@@ -698,8 +636,6 @@ msgid "Small integer"
 msgstr ""
 
 #: lib/python2.7/site-packages/django/db/models/fields/__init__.py:1281
-#: lib/python2.7/site-packages/fluent_contents/plugins/text/models.py:17
-#: lib/python2.7/site-packages/fluent_contents/plugins/text/models.py:18
 msgid "Text"
 msgstr "Tekst"
 
@@ -722,7 +658,6 @@ msgid "Time"
 msgstr ""
 
 #: lib/python2.7/site-packages/django/db/models/fields/__init__.py:1373
-#: lib/python2.7/site-packages/fluent_contents/plugins/picture/models.py:24
 msgid "URL"
 msgstr ""
 
@@ -735,7 +670,6 @@ msgid "File"
 msgstr ""
 
 #: lib/python2.7/site-packages/django/db/models/fields/files.py:324
-#: lib/python2.7/site-packages/fluent_contents/plugins/picture/models.py:21
 msgid "Image"
 msgstr ""
 
@@ -955,7 +889,7 @@ msgstr ""
 #: lib/python2.7/site-packages/filer/templates/admin/filer/folder/directory_listing.html:81
 #: lib/python2.7/site-packages/filer/templates/admin/filer/folder/directory_table.html:27
 #: lib/python2.7/site-packages/filer/templates/admin/filer/folder/directory_table.html:43
-#: lib/python2.7/site-packages/suit/templates/admin/index.html:28
+#: lib/python2.7/site-packages/suit/templates/admin/index.html:26
 #: lib/python2.7/site-packages/suit/templates/admin/filer/folder/change_form.html:24
 #: lib/python2.7/site-packages/suit/templates/admin/filer/folder/directory_listing.html:86
 #: lib/python2.7/site-packages/suit/templates/admin/filer/folder/directory_table.html:27
@@ -1477,9 +1411,9 @@ msgstr ""
 
 #: lib/python2.7/site-packages/django_extensions/db/models.py:36
 #: lib/python2.7/site-packages/django_extensions/mongodb/models.py:29
-#: system/models.py:13 system/models.py:29 system/models.py:60
+#: system/models.py:34 system/models.py:48 system/models.py:86
 msgid "title"
-msgstr ""
+msgstr "tittel"
 
 #: lib/python2.7/site-packages/django_extensions/db/models.py:37
 #: lib/python2.7/site-packages/django_extensions/mongodb/models.py:30
@@ -1525,15 +1459,25 @@ msgstr ""
 msgid "Lookup"
 msgstr "Slå opp"
 
+#: lib/python2.7/site-packages/djangular/forms/patched_fields.py:27
+#, python-format
+msgid "Ensure this value has at least %(limit_value)d character"
+msgid_plural "Ensure this value has at least %(limit_value)d characters"
+msgstr[0] ""
+msgstr[1] ""
+
+#: lib/python2.7/site-packages/djangular/forms/patched_fields.py:32
+#, python-format
+msgid "Ensure this value has at most %(limit_value)d character"
+msgid_plural "Ensure this value has at most %(limit_value)d characters"
+msgstr[0] ""
+msgstr[1] ""
+
 #: lib/python2.7/site-packages/filer/views.py:103
 msgid "Folder with this name already exists."
 msgstr "En mappe med dette navnet eksisterer allerede."
 
 #: lib/python2.7/site-packages/filer/admin/fileadmin.py:41
-#: lib/python2.7/site-packages/fluent_contents/plugins/code/backend.py:20
-#: lib/python2.7/site-packages/fluent_contents/plugins/iframe/content_plugins.py:14
-#: lib/python2.7/site-packages/fluent_contents/plugins/rawhtml/content_plugins.py:15
-#: lib/python2.7/site-packages/fluent_contents/plugins/sharedcontent/content_plugins.py:14
 msgid "Advanced"
 msgstr "Avansert"
 
@@ -1735,9 +1679,14 @@ msgstr "Område for viktigste innhold i bildet."
 
 #: lib/python2.7/site-packages/filer/models/clipboardmodels.py:9
 #: lib/python2.7/site-packages/filer/models/foldermodels.py:253
-#: users/models.py:133 users/models.py:140
+#: users/models.py:143
 msgid "user"
 msgstr "bruker"
+
+#: lib/python2.7/site-packages/filer/models/clipboardmodels.py:11
+#: lib/python2.7/site-packages/filer/models/filemodels.py:287
+msgid "files"
+msgstr "filer"
 
 #: lib/python2.7/site-packages/filer/models/clipboardmodels.py:29
 #: lib/python2.7/site-packages/filer/models/clipboardmodels.py:35
@@ -1747,6 +1696,12 @@ msgstr "utklippstavle"
 #: lib/python2.7/site-packages/filer/models/clipboardmodels.py:30
 msgid "clipboards"
 msgstr "utklippstavler"
+
+#: lib/python2.7/site-packages/filer/models/clipboardmodels.py:34
+#: lib/python2.7/site-packages/filer/models/filemodels.py:35
+#: lib/python2.7/site-packages/filer/models/filemodels.py:286
+msgid "file"
+msgstr "fil"
 
 #: lib/python2.7/site-packages/filer/models/clipboardmodels.py:39
 msgid "clipboard item"
@@ -1786,6 +1741,7 @@ msgstr "originalt filnavn"
 
 #: lib/python2.7/site-packages/filer/models/filemodels.py:44
 #: lib/python2.7/site-packages/filer/models/foldermodels.py:99
+#: system/models.py:13
 msgid "name"
 msgstr "navn"
 
@@ -1808,8 +1764,12 @@ msgid "Permissions disabled"
 msgstr "Tillatelser er deaktivert"
 
 #: lib/python2.7/site-packages/filer/models/filemodels.py:58
-msgid "Disable any permission checking for this "
-msgstr "Deaktiver kontroll av tillatelse"
+msgid ""
+"Disable any permission checking for this file. File will be publicly "
+"accessible to anyone."
+msgstr ""
+"Deaktiver kontroll av tillatelse for denne filen. Den vil være tilgjengelig "
+"for alle."
 
 #: lib/python2.7/site-packages/filer/models/foldermodels.py:107
 msgid "created at"
@@ -1904,6 +1864,14 @@ msgstr "må alltid publisere opphavsrett"
 #: lib/python2.7/site-packages/filer/models/imagemodels.py:50
 msgid "subject location"
 msgstr "fokuseringsområde"
+
+#: lib/python2.7/site-packages/filer/models/imagemodels.py:193
+msgid "image"
+msgstr "bilde"
+
+#: lib/python2.7/site-packages/filer/models/imagemodels.py:194
+msgid "images"
+msgstr "bilder"
 
 #: lib/python2.7/site-packages/filer/models/virtualitems.py:45
 #: lib/python2.7/site-packages/filer/templates/admin/filer/tools/clipboard/clipboard.html:26
@@ -2377,6 +2345,7 @@ msgstr "Slett \"%(item_label)s\""
 
 #: lib/python2.7/site-packages/filer/templates/admin/filer/folder/directory_table.html:46
 #: lib/python2.7/site-packages/suit/templates/admin/filer/folder/directory_table.html:45
+#: users/admin.py:78 users/admin.py:84
 msgid "Permissions"
 msgstr "Tillatelser"
 
@@ -2435,11 +2404,10 @@ msgstr "Legg til ny"
 #: lib/python2.7/site-packages/suit/templates/admin/cms/page/plugin_change_form.html:99
 #: lib/python2.7/site-packages/suit/templates/admin/filer/folder/new_folder_form.html:10
 #: lib/python2.7/site-packages/suit/templates/registration/password_change_form.html:44
-#, fuzzy
 msgid "Please correct the error below."
 msgid_plural "Please correct the errors below."
-msgstr[0] "Vennligst rett feilen under\n"
-msgstr[1] "Vennligst rett feilene under.\n"
+msgstr[0] "Vennligst rett feilen under."
+msgstr[1] "Vennligst rett feilene under."
 
 #: lib/python2.7/site-packages/filer/templates/admin/filer/folder/new_folder_form.html:28
 #: lib/python2.7/site-packages/suit/templates/admin/page_submit_line.html:3
@@ -2457,7 +2425,7 @@ msgstr "Vis full størrelse"
 
 #: lib/python2.7/site-packages/filer/templates/admin/filer/tools/search_form.html:8
 #: lib/python2.7/site-packages/filer/templates/admin/filer/tools/search_form.html:14
-#: lib/python2.7/site-packages/suit/templates/admin/search_form.html:25
+#: lib/python2.7/site-packages/suit/templates/admin/search_form.html:26
 #: lib/python2.7/site-packages/suit/templates/admin/filer/tools/search_form.html:12
 msgid "Search"
 msgstr "Søk"
@@ -2535,442 +2503,12 @@ msgid "upload failed"
 msgstr "feil ved opplasting"
 
 #: lib/python2.7/site-packages/filer/templates/admin/filer/widgets/admin_file.html:11
-#, fuzzy
 msgid "no file selected"
-msgstr "ingen fil valgt\n"
+msgstr "ingen fil valgt"
 
 #: lib/python2.7/site-packages/filer/templates/admin/filer/widgets/admin_folder.html:5
 msgid "none selected"
 msgstr "ingen valgt"
-
-#: lib/python2.7/site-packages/fluent_contents/extensions/pluginbase.py:294
-#, python-format
-msgid "{No rendering defined for class '%s'}"
-msgstr ""
-
-#: lib/python2.7/site-packages/fluent_contents/extensions/pluginbase.py:314
-msgid "Error:"
-msgstr "Feil:"
-
-#: lib/python2.7/site-packages/fluent_contents/models/db.py:36
-msgid "Main content"
-msgstr ""
-
-#: lib/python2.7/site-packages/fluent_contents/models/db.py:37
-msgid "Sidebar content"
-msgstr ""
-
-#: lib/python2.7/site-packages/fluent_contents/models/db.py:38
-msgid "Related content"
-msgstr "Relatert innhold"
-
-#: lib/python2.7/site-packages/fluent_contents/models/db.py:41
-msgid "Slot"
-msgstr "Plass"
-
-#: lib/python2.7/site-packages/fluent_contents/models/db.py:41
-msgid "A short name to identify the placeholder in the template code."
-msgstr "Et kort navn for å identifisere plassholderen i maler."
-
-#: lib/python2.7/site-packages/fluent_contents/models/db.py:42
-msgid "Role"
-msgstr "Rolle"
-
-#: lib/python2.7/site-packages/fluent_contents/models/db.py:42
-msgid "This defines where the object is used."
-msgstr "Dette defininerer hvor elementet brukes."
-
-#: lib/python2.7/site-packages/fluent_contents/models/db.py:49
-msgid "Admin title"
-msgstr "Administrasjonstittel"
-
-#: lib/python2.7/site-packages/fluent_contents/models/db.py:55
-msgid "Placeholder"
-msgstr "Plassholder"
-
-#: lib/python2.7/site-packages/fluent_contents/models/db.py:56
-msgid "Placeholders"
-msgstr "Plassholdere"
-
-#: lib/python2.7/site-packages/fluent_contents/models/db.py:240
-msgid "Contentitem link"
-msgstr "Lenker til innholdselementer"
-
-#: lib/python2.7/site-packages/fluent_contents/models/db.py:241
-msgid "Contentitem links"
-msgstr "Lenke til innholdselement"
-
-#: lib/python2.7/site-packages/fluent_contents/plugins/code/backend.py:19
-msgid "Combinations"
-msgstr ""
-
-#: lib/python2.7/site-packages/fluent_contents/plugins/code/content_plugins.py:14
-#: lib/python2.7/site-packages/fluent_contents/plugins/gist/content_plugins.py:14
-msgid "Programming"
-msgstr ""
-
-#: lib/python2.7/site-packages/fluent_contents/plugins/code/models.py:13
-#: lib/python2.7/site-packages/fluent_contents/plugins/markup/models.py:39
-msgid "Language"
-msgstr ""
-
-#: lib/python2.7/site-packages/fluent_contents/plugins/code/models.py:14
-msgid "Code"
-msgstr ""
-
-#: lib/python2.7/site-packages/fluent_contents/plugins/code/models.py:15
-msgid "Show line numbers"
-msgstr ""
-
-#: lib/python2.7/site-packages/fluent_contents/plugins/code/models.py:18
-msgid "Code snippet"
-msgstr ""
-
-#: lib/python2.7/site-packages/fluent_contents/plugins/code/models.py:19
-msgid "Code snippets"
-msgstr ""
-
-#: lib/python2.7/site-packages/fluent_contents/plugins/commentsarea/content_plugins.py:26
-#: lib/python2.7/site-packages/fluent_contents/plugins/disquswidgets/content_plugins.py:10
-#: lib/python2.7/site-packages/fluent_contents/plugins/formdesignerlink/content_plugins.py:33
-msgid "Interactivity"
-msgstr ""
-
-#: lib/python2.7/site-packages/fluent_contents/plugins/commentsarea/models.py:13
-#: lib/python2.7/site-packages/fluent_contents/plugins/disquswidgets/models.py:7
-msgid "Allow posting new comments"
-msgstr ""
-
-#: lib/python2.7/site-packages/fluent_contents/plugins/commentsarea/models.py:16
-msgid "Comments area"
-msgstr ""
-
-#: lib/python2.7/site-packages/fluent_contents/plugins/commentsarea/models.py:17
-msgid "Comments areas"
-msgstr ""
-
-#: lib/python2.7/site-packages/fluent_contents/plugins/disquswidgets/models.py:10
-msgid "Disqus comments area"
-msgstr ""
-
-#: lib/python2.7/site-packages/fluent_contents/plugins/disquswidgets/models.py:11
-msgid "Disqus comments areas"
-msgstr ""
-
-#: lib/python2.7/site-packages/fluent_contents/plugins/formdesignerlink/models.py:8
-msgid "Form"
-msgstr ""
-
-#: lib/python2.7/site-packages/fluent_contents/plugins/formdesignerlink/models.py:11
-msgid "Form link"
-msgstr ""
-
-#: lib/python2.7/site-packages/fluent_contents/plugins/formdesignerlink/models.py:12
-msgid "Form links"
-msgstr ""
-
-#: lib/python2.7/site-packages/fluent_contents/plugins/gist/models.py:9
-msgid "Gist number"
-msgstr ""
-
-#: lib/python2.7/site-packages/fluent_contents/plugins/gist/models.py:9
-msgid ""
-"Go to <a href=\"https://gist.github.com/\" target=\"_blank\">https://gist."
-"github.com/</a> and copy the number of the Gist snippet you want to display."
-msgstr ""
-
-#: lib/python2.7/site-packages/fluent_contents/plugins/gist/models.py:10
-msgid "Gist filename"
-msgstr ""
-
-#: lib/python2.7/site-packages/fluent_contents/plugins/gist/models.py:10
-msgid "Leave the filename empty to display all files in the Gist."
-msgstr ""
-
-#: lib/python2.7/site-packages/fluent_contents/plugins/gist/models.py:13
-msgid "GitHub Gist snippet"
-msgstr ""
-
-#: lib/python2.7/site-packages/fluent_contents/plugins/gist/models.py:14
-msgid "GitHub Gist snippets"
-msgstr ""
-
-#: lib/python2.7/site-packages/fluent_contents/plugins/googledocsviewer/content_plugins.py:23
-#: lib/python2.7/site-packages/fluent_contents/plugins/oembeditem/content_plugins.py:15
-#: lib/python2.7/site-packages/fluent_contents/plugins/picture/content_plugins.py:13
-#: lib/python2.7/site-packages/fluent_contents/plugins/twitterfeed/content_plugins.py:8
-msgid "Media"
-msgstr ""
-
-#: lib/python2.7/site-packages/fluent_contents/plugins/googledocsviewer/models.py:11
-msgid "File URL"
-msgstr ""
-
-#: lib/python2.7/site-packages/fluent_contents/plugins/googledocsviewer/models.py:11
-msgid "Specify the URL of an online document, for example a PDF or DOCX file."
-msgstr ""
-
-#: lib/python2.7/site-packages/fluent_contents/plugins/googledocsviewer/models.py:12
-#: lib/python2.7/site-packages/fluent_contents/plugins/iframe/models.py:12
-msgid "Width"
-msgstr ""
-
-#: lib/python2.7/site-packages/fluent_contents/plugins/googledocsviewer/models.py:12
-#: lib/python2.7/site-packages/fluent_contents/plugins/iframe/models.py:12
-msgid "Specify the size in pixels, or a percentage of the container area size."
-msgstr ""
-
-#: lib/python2.7/site-packages/fluent_contents/plugins/googledocsviewer/models.py:13
-#: lib/python2.7/site-packages/fluent_contents/plugins/iframe/models.py:13
-msgid "Height"
-msgstr ""
-
-#: lib/python2.7/site-packages/fluent_contents/plugins/googledocsviewer/models.py:13
-#: lib/python2.7/site-packages/fluent_contents/plugins/iframe/models.py:13
-msgid "Specify the size in pixels."
-msgstr ""
-
-#: lib/python2.7/site-packages/fluent_contents/plugins/googledocsviewer/models.py:16
-#: lib/python2.7/site-packages/fluent_contents/plugins/googledocsviewer/models.py:17
-msgid "Embedded document"
-msgstr ""
-
-#: lib/python2.7/site-packages/fluent_contents/plugins/iframe/models.py:11
-msgid "Page URL"
-msgstr ""
-
-#: lib/python2.7/site-packages/fluent_contents/plugins/iframe/models.py:16
-msgid "Iframe"
-msgstr ""
-
-#: lib/python2.7/site-packages/fluent_contents/plugins/iframe/models.py:17
-msgid "Iframes"
-msgstr ""
-
-#: lib/python2.7/site-packages/fluent_contents/plugins/markup/content_plugins.py:24
-msgid "Markup"
-msgstr ""
-
-#: lib/python2.7/site-packages/fluent_contents/plugins/markup/models.py:36
-msgid "markup"
-msgstr ""
-
-#: lib/python2.7/site-packages/fluent_contents/plugins/markup/models.py:42
-#: lib/python2.7/site-packages/fluent_contents/plugins/markup/models.py:43
-msgid "Markup code"
-msgstr ""
-
-#: lib/python2.7/site-packages/fluent_contents/plugins/markup/models.py:82
-#, python-format
-msgid "%s items"
-msgstr ""
-
-#: lib/python2.7/site-packages/fluent_contents/plugins/oembeditem/fields.py:14
-msgid ""
-"Enter the URL of the online content to embed (e.g. a YouTube or Vimeo video, "
-"SlideShare presentation, etc..)"
-msgstr ""
-
-#: lib/python2.7/site-packages/fluent_contents/plugins/oembeditem/fields.py:21
-msgid "The URL is not valid for embedding content"
-msgstr ""
-
-#: lib/python2.7/site-packages/fluent_contents/plugins/oembeditem/models.py:17
-msgid "URL to embed"
-msgstr ""
-
-#: lib/python2.7/site-packages/fluent_contents/plugins/oembeditem/models.py:18
-msgid "Max width"
-msgstr ""
-
-#: lib/python2.7/site-packages/fluent_contents/plugins/oembeditem/models.py:19
-msgid "Max height"
-msgstr ""
-
-#: lib/python2.7/site-packages/fluent_contents/plugins/oembeditem/models.py:42
-#: lib/python2.7/site-packages/fluent_contents/plugins/oembeditem/models.py:43
-msgid "Online media"
-msgstr ""
-
-#: lib/python2.7/site-packages/fluent_contents/plugins/oembeditem/templates/admin/fluent_contents/plugins/oembeditem/admin_form.html:15
-msgid "Max size"
-msgstr ""
-
-#: lib/python2.7/site-packages/fluent_contents/plugins/oembeditem/templates/admin/fluent_contents/plugins/oembeditem/admin_form.html:16
-msgid "pixels"
-msgstr ""
-
-#: lib/python2.7/site-packages/fluent_contents/plugins/picture/models.py:16
-msgid "Left"
-msgstr ""
-
-#: lib/python2.7/site-packages/fluent_contents/plugins/picture/models.py:17
-msgid "Center"
-msgstr ""
-
-#: lib/python2.7/site-packages/fluent_contents/plugins/picture/models.py:18
-msgid "Right"
-msgstr ""
-
-#: lib/python2.7/site-packages/fluent_contents/plugins/picture/models.py:22
-msgid "Caption"
-msgstr ""
-
-#: lib/python2.7/site-packages/fluent_contents/plugins/picture/models.py:23
-msgid "Align"
-msgstr ""
-
-#: lib/python2.7/site-packages/fluent_contents/plugins/picture/models.py:27
-msgid "Picture"
-msgstr ""
-
-#: lib/python2.7/site-packages/fluent_contents/plugins/picture/models.py:28
-msgid "Pictures"
-msgstr ""
-
-#: lib/python2.7/site-packages/fluent_contents/plugins/rawhtml/models.py:7
-#: lib/python2.7/site-packages/fluent_contents/plugins/rawhtml/models.py:10
-#: lib/python2.7/site-packages/fluent_contents/plugins/rawhtml/models.py:11
-msgid "HTML code"
-msgstr ""
-
-#: lib/python2.7/site-packages/fluent_contents/plugins/rawhtml/models.py:7
-msgid ""
-"Enter the HTML code to display, like the embed code of an online widget."
-msgstr ""
-
-#: lib/python2.7/site-packages/fluent_contents/plugins/sharedcontent/models.py:10
-#: lib/python2.7/site-packages/fluent_contents/plugins/twitterfeed/models.py:10
-#: lib/python2.7/site-packages/fluent_contents/plugins/twitterfeed/models.py:31
-msgid "Title"
-msgstr ""
-
-#: lib/python2.7/site-packages/fluent_contents/plugins/sharedcontent/models.py:11
-msgid "Template code"
-msgstr ""
-
-#: lib/python2.7/site-packages/fluent_contents/plugins/sharedcontent/models.py:11
-msgid "This unique name can be used refer to this content in in templates."
-msgstr ""
-
-#: lib/python2.7/site-packages/fluent_contents/plugins/sharedcontent/models.py:12
-#: lib/python2.7/site-packages/polymorphic/admin.py:400
-msgid "Contents"
-msgstr ""
-
-#: lib/python2.7/site-packages/fluent_contents/plugins/sharedcontent/models.py:17
-#: lib/python2.7/site-packages/fluent_contents/plugins/sharedcontent/models.py:18
-#: lib/python2.7/site-packages/fluent_contents/plugins/sharedcontent/models.py:28
-#: lib/python2.7/site-packages/fluent_contents/plugins/sharedcontent/models.py:31
-#: lib/python2.7/site-packages/fluent_contents/plugins/sharedcontent/models.py:32
-msgid "Shared content"
-msgstr ""
-
-#: lib/python2.7/site-packages/fluent_contents/plugins/twitterfeed/models.py:10
-#: lib/python2.7/site-packages/fluent_contents/plugins/twitterfeed/models.py:15
-#: lib/python2.7/site-packages/fluent_contents/plugins/twitterfeed/models.py:31
-#: lib/python2.7/site-packages/fluent_contents/plugins/twitterfeed/models.py:36
-msgid "You may use Twitter markup here, such as a #hashtag or @username."
-msgstr ""
-
-#: lib/python2.7/site-packages/fluent_contents/plugins/twitterfeed/models.py:12
-msgid "Twitter user"
-msgstr ""
-
-#: lib/python2.7/site-packages/fluent_contents/plugins/twitterfeed/models.py:13
-#: lib/python2.7/site-packages/fluent_contents/plugins/twitterfeed/models.py:34
-msgid "Number of results"
-msgstr ""
-
-#: lib/python2.7/site-packages/fluent_contents/plugins/twitterfeed/models.py:15
-#: lib/python2.7/site-packages/fluent_contents/plugins/twitterfeed/models.py:36
-msgid "Footer text"
-msgstr ""
-
-#: lib/python2.7/site-packages/fluent_contents/plugins/twitterfeed/models.py:16
-#: lib/python2.7/site-packages/fluent_contents/plugins/twitterfeed/models.py:37
-msgid "Include retweets"
-msgstr ""
-
-#: lib/python2.7/site-packages/fluent_contents/plugins/twitterfeed/models.py:17
-#: lib/python2.7/site-packages/fluent_contents/plugins/twitterfeed/models.py:38
-msgid "Include replies"
-msgstr ""
-
-#: lib/python2.7/site-packages/fluent_contents/plugins/twitterfeed/models.py:23
-#: lib/python2.7/site-packages/fluent_contents/plugins/twitterfeed/models.py:24
-msgid "Recent twitter entries"
-msgstr ""
-
-#: lib/python2.7/site-packages/fluent_contents/plugins/twitterfeed/models.py:33
-msgid "Search for"
-msgstr ""
-
-#: lib/python2.7/site-packages/fluent_contents/plugins/twitterfeed/models.py:33
-msgid ""
-"<a href=\"https://support.twitter.com/articles/71577\" target=\"_blank"
-"\">Twitter search syntax</a> is allowed."
-msgstr ""
-
-#: lib/python2.7/site-packages/fluent_contents/plugins/twitterfeed/models.py:44
-#: lib/python2.7/site-packages/fluent_contents/plugins/twitterfeed/models.py:45
-msgid "Twitter search feed"
-msgstr ""
-
-#: lib/python2.7/site-packages/fluent_contents/plugins/twitterfeed/templates/plugins/twitterfeed/base.html:32
-msgid "loading tweets..."
-msgstr ""
-
-#: lib/python2.7/site-packages/fluent_contents/templates/admin/fluent_contents/contentitem/admin_form.html:12
-#: lib/python2.7/site-packages/fluent_contents/templates/admin/fluent_contents/contentitem/admin_form_without_labels.html:6
-#: templates/admin/fluent_contents/contentitem/admin_form.html:12
-#: templates/admin/fluent_contents/contentitem/admin_form_without_labels.html:6
-msgid "There are no options to configure for this element."
-msgstr "Det er ingenting å konfigurere for dette elementet."
-
-#: lib/python2.7/site-packages/fluent_contents/templates/admin/fluent_contents/placeholder/inline_tabs.html:51
-#: templates/admin/fluent_contents/placeholder/inline_tabs.html:51
-msgid "Loading layout data..."
-msgstr "Laster layout-data..."
-
-#: lib/python2.7/site-packages/fluent_contents/templates/admin/fluent_contents/placeholder/inline_tabs.html:52
-#: templates/admin/fluent_contents/placeholder/inline_tabs.html:52
-msgid "Orphaned content"
-msgstr "Etterlatt innhold"
-
-#: lib/python2.7/site-packages/fluent_contents/templates/admin/fluent_contents/placeholder/inline_tabs.html:79
-#: templates/admin/fluent_contents/placeholder/inline_tabs.html:79
-msgid "There are no placeholders in this template."
-msgstr "Det er ingen plassholdere i denne malen."
-
-#: lib/python2.7/site-packages/fluent_contents/templates/admin/fluent_contents/placeholderfield/controls.html:11
-#: lib/python2.7/site-packages/suit/templates/admin/change_form.html:50
-#: lib/python2.7/site-packages/suit/templates/admin/change_form.html:76
-#: lib/python2.7/site-packages/suit/templates/admin/index.html:36
-#: lib/python2.7/site-packages/suit/templates/admin/cms/page/change_form.html:53
-#: lib/python2.7/site-packages/suit/templates/admin/cms/page/plugin_change_form.html:85
-#: templates/admin/fluent_contents/placeholderfield/controls.html:11
-msgid "Add"
-msgstr "Legg til"
-
-#: lib/python2.7/site-packages/fluent_contents/templates/admin/fluent_contents/placeholderfield/pane.html:3
-#: templates/admin/fluent_contents/placeholderfield/pane.html:3
-msgid "Placeholder empty"
-msgstr "Plassholder tom"
-
-#: lib/python2.7/site-packages/fluent_contents/templates/admin/fluent_contents/placeholderfield/pane_tabbar.html:3
-#: templates/admin/fluent_contents/placeholderfield/pane_tabbar.html:3
-msgid "This placeholder is empty"
-msgstr "Denne plassholderen er tom"
-
-#: lib/python2.7/site-packages/fluent_contents/templates/admin/fluent_contents/placeholderfield/widget.html:10
-#: templates/admin/fluent_contents/placeholderfield/widget.html:10
-msgid "No items added to this field yet."
-msgstr "Ingen elementer lagt til i dette feltet ennå."
-
-#: lib/python2.7/site-packages/fluent_contents/utils/validators.py:13
-msgid "Value should be a number or percentage."
-msgstr "Verdien må være et tall eller en prosentverdi."
 
 #: lib/python2.7/site-packages/httplib2/__init__.py:410
 #, python-format
@@ -2999,6 +2537,12 @@ msgstr ""
 
 #: lib/python2.7/site-packages/httplib2/__init__.py:1340
 msgid "Redirected but the response is missing a Location: header."
+msgstr ""
+
+#: lib/python2.7/site-packages/jsonfield/fields.py:28
+#: lib/python2.7/site-packages/jsonfield/fields.py:40
+#: lib/python2.7/site-packages/jsonfield/fields.py:77
+msgid "Enter valid JSON"
 msgstr ""
 
 #: lib/python2.7/site-packages/mptt/admin.py:96
@@ -3165,6 +2709,10 @@ msgstr ""
 #: lib/python2.7/site-packages/polymorphic/admin.py:330
 #, python-format
 msgid "Add %s"
+msgstr ""
+
+#: lib/python2.7/site-packages/polymorphic/admin.py:400
+msgid "Contents"
 msgstr ""
 
 #: lib/python2.7/site-packages/rest_framework/fields.py:111
@@ -3353,6 +2901,14 @@ msgstr ""
 msgid "You have unsaved changes"
 msgstr ""
 
+#: lib/python2.7/site-packages/suit/templates/admin/change_form.html:50
+#: lib/python2.7/site-packages/suit/templates/admin/change_form.html:76
+#: lib/python2.7/site-packages/suit/templates/admin/index.html:34
+#: lib/python2.7/site-packages/suit/templates/admin/cms/page/change_form.html:53
+#: lib/python2.7/site-packages/suit/templates/admin/cms/page/plugin_change_form.html:85
+msgid "Add"
+msgstr "Legg til"
+
 #: lib/python2.7/site-packages/suit/templates/admin/change_form.html:98
 #: lib/python2.7/site-packages/suit/templates/admin/filer/image/change_form.html:7
 msgid "tools"
@@ -3360,7 +2916,7 @@ msgstr ""
 
 #: lib/python2.7/site-packages/suit/templates/admin/change_form.html:113
 #: lib/python2.7/site-packages/suit/templates/admin/change_list.html:68
-#: lib/python2.7/site-packages/suit/templates/admin/change_list.html:115
+#: lib/python2.7/site-packages/suit/templates/admin/change_list.html:116
 #: lib/python2.7/site-packages/suit/templates/admin/cms/page/change_form.html:108
 #: lib/python2.7/site-packages/suit/templates/admin/cms/page/change_list.html:113
 #: lib/python2.7/site-packages/suit/templates/admin/cms/page/change_list.html:141
@@ -3368,15 +2924,15 @@ msgstr ""
 msgid "Add %(name)s"
 msgstr ""
 
-#: lib/python2.7/site-packages/suit/templates/admin/change_list.html:109
+#: lib/python2.7/site-packages/suit/templates/admin/change_list.html:110
 msgid "Nothing found"
 msgstr ""
 
-#: lib/python2.7/site-packages/suit/templates/admin/change_list.html:111
+#: lib/python2.7/site-packages/suit/templates/admin/change_list.html:112
 msgid "Reset search and filters"
 msgstr ""
 
-#: lib/python2.7/site-packages/suit/templates/admin/change_list.html:113
+#: lib/python2.7/site-packages/suit/templates/admin/change_list.html:114
 #, python-format
 msgid "%(name_plural)s are not created yet"
 msgstr "Ingen %(name_plural)s er opprettet"
@@ -3429,38 +2985,31 @@ msgstr ""
 msgid "Models available in the %(name)s application."
 msgstr ""
 
-#: lib/python2.7/site-packages/suit/templates/admin/index.html:21
-#, python-format
-msgid ""
-"\n"
-"                %(name)s"
-msgstr ""
-
-#: lib/python2.7/site-packages/suit/templates/admin/index.html:47
+#: lib/python2.7/site-packages/suit/templates/admin/index.html:45
 msgid "You don't have permission to edit anything."
 msgstr ""
 
-#: lib/python2.7/site-packages/suit/templates/admin/index.html:56
+#: lib/python2.7/site-packages/suit/templates/admin/index.html:54
 msgid "My Actions"
 msgstr ""
 
-#: lib/python2.7/site-packages/suit/templates/admin/index.html:61
+#: lib/python2.7/site-packages/suit/templates/admin/index.html:59
 msgid "None available"
 msgstr ""
 
-#: lib/python2.7/site-packages/suit/templates/admin/index.html:70
+#: lib/python2.7/site-packages/suit/templates/admin/index.html:68
 msgid "added"
 msgstr ""
 
-#: lib/python2.7/site-packages/suit/templates/admin/index.html:71
+#: lib/python2.7/site-packages/suit/templates/admin/index.html:69
 msgid "changed"
 msgstr ""
 
-#: lib/python2.7/site-packages/suit/templates/admin/index.html:72
+#: lib/python2.7/site-packages/suit/templates/admin/index.html:70
 msgid "deleted"
 msgstr ""
 
-#: lib/python2.7/site-packages/suit/templates/admin/index.html:78
+#: lib/python2.7/site-packages/suit/templates/admin/index.html:76
 msgid "Unknown content"
 msgstr ""
 
@@ -3470,7 +3019,7 @@ msgstr ""
 
 #: lib/python2.7/site-packages/suit/templates/admin/login.html:48
 #: lib/python2.7/site-packages/suit/templates/admin/auth/user/change_password.html:54
-#: users/admin.py:11 users/admin.py:56
+#: users/admin.py:12 users/admin.py:57
 msgid "Password"
 msgstr ""
 
@@ -3479,6 +3028,8 @@ msgid "Forgotten your password or username?"
 msgstr ""
 
 #: lib/python2.7/site-packages/suit/templates/admin/login.html:60
+#: users/templates/login.html:5 users/templates/login.html.py:9
+#: users/templates/login.html:19
 msgid "Log in"
 msgstr ""
 
@@ -3528,20 +3079,20 @@ msgstr ""
 msgid "Show all"
 msgstr ""
 
-#: lib/python2.7/site-packages/suit/templates/admin/search_form.html:7
+#: lib/python2.7/site-packages/suit/templates/admin/search_form.html:8
 msgid "keyword"
 msgstr "søkeord"
 
-#: lib/python2.7/site-packages/suit/templates/admin/search_form.html:28
+#: lib/python2.7/site-packages/suit/templates/admin/search_form.html:29
 #, python-format
 msgid "%(counter)s result"
 msgid_plural "%(counter)s results"
 msgstr[0] "%(counter)s resultat"
 msgstr[1] "%(counter)s resultater"
 
-#: lib/python2.7/site-packages/suit/templates/admin/search_form.html:30
+#: lib/python2.7/site-packages/suit/templates/admin/search_form.html:31
 #, python-format
-msgid " %(full_result_count)s total"
+msgid "%(full_result_count)s total"
 msgstr " %(full_result_count)s totalt"
 
 #: lib/python2.7/site-packages/suit/templates/admin/auth/user/add_form.html:6
@@ -3561,7 +3112,7 @@ msgstr ""
 
 #: lib/python2.7/site-packages/suit/templates/admin/auth/user/change_password.html:64
 #: lib/python2.7/site-packages/suit/templates/registration/password_change_form.html:77
-#: users/admin.py:12
+#: users/admin.py:13
 msgid "Password (again)"
 msgstr ""
 
@@ -3783,141 +3334,323 @@ msgstr ""
 msgid "Press the save button below to revert to this version of the object."
 msgstr ""
 
-#: system/admin.py:50
+#: system/admin.py:26 system/admin.py:56 system/admin.py:95
+msgid "Admin note excerpt"
+msgstr "Utdrag fra administratornotat"
+
+#: system/admin.py:90
 msgid "Page excerpt"
 msgstr "Sideutdrag"
 
-#: system/models.py:22 system/models.py:31
+#: system/models.py:15
+msgid "numeric"
+msgstr ""
+
+#: system/models.py:16
+msgid "string"
+msgstr ""
+
+#: system/models.py:17
+msgid "text"
+msgstr "tekst"
+
+#: system/models.py:18
+msgid "multiple choice"
+msgstr "flervalg"
+
+#: system/models.py:19
+msgid "multiple selection"
+msgstr "flervalg"
+
+#: system/models.py:21
+msgid "variable type"
+msgstr "type variabel"
+
+#: system/models.py:25
+msgid "variables"
+msgstr "variabler"
+
+#: system/models.py:35 system/models.py:50 system/models.py:88
+msgid "admin note"
+msgstr "administratornotat"
+
+#: system/models.py:38 system/models.py:49
 msgid "program"
 msgstr "program"
 
-#: system/models.py:23
+#: system/models.py:39
 msgid "programs"
 msgstr "programmer"
 
-#: system/models.py:32
+#: system/models.py:52
 msgid "start time"
 msgstr "tidspunkt start"
 
-#: system/models.py:33
+#: system/models.py:53
 msgid "end time"
 msgstr "tidspunkt slutt"
 
-#: system/models.py:50
+#: system/models.py:60 system/models.py:87
+msgid "part"
+msgstr "del"
+
+#: system/models.py:61
+msgid "parts"
+msgstr "deler"
+
+#: system/models.py:64
 #, python-format
 msgid "Part %s"
 msgstr "Del %s"
 
-#: system/models.py:53
-msgid "part"
-msgstr "del"
+#: system/models.py:95
+msgid "page"
+msgstr "side"
 
-#: system/models.py:54
-msgid "parts"
-msgstr "deler"
+#: system/models.py:96
+msgid "pages"
+msgstr "sider"
 
-#: system/models.py:66
+#: system/models.py:99
 #, python-format
 msgid "Page %s"
 msgstr "Side %s"
 
-#: system/models.py:69
-msgid "page"
-msgstr "side"
+#: tasks/admin.py:22
+msgid "Task result"
+msgstr ""
 
-#: system/models.py:70
-msgid "pages"
-msgstr "sider"
-
-#: tasks/models.py:14
+#: tasks/models.py:15
 msgid "sender"
 msgstr "avsender"
 
-#: tasks/models.py:18
+#: tasks/models.py:19
 msgid "action"
 msgstr "handling"
 
-#: tasks/models.py:24
+#: tasks/models.py:20 tasks/models.py:32
+msgid "task"
+msgstr "oppgave"
+
+#: tasks/models.py:25
 #, python-format
 msgid "%(time)s: %(sender)s, %(action)s"
 msgstr ""
 
-#: tasks/models.py:31
-msgid "task"
-msgstr "oppgave"
-
-#: tasks/models.py:32
+#: tasks/models.py:33
 msgid "tasks"
 msgstr "oppgaver"
 
-#: users/admin.py:21
+#: tasks/signals.py:34
+#, python-format
+msgid "Send login link for %(part)s"
+msgstr ""
+
+#: tasks/tasks.py:25
+#, python-format
+msgid "%i e-mails with subject \"%s\" sent"
+msgstr ""
+
+#: templates/base.html:23
+msgid "Quit / sign out"
+msgstr "Avslutt / logg ut"
+
+#: tokens/json_status.py:4 tokens/tests/test_decorators.py:18
+msgid "OK"
+msgstr ""
+
+#: tokens/json_status.py:5
+msgid "Failed"
+msgstr ""
+
+#: tokens/json_status.py:6
+msgid "No such user"
+msgstr ""
+
+#: tokens/json_status.py:7
+msgid "Bad authentication"
+msgstr "Ugyldig autentisering"
+
+#: users/admin.py:22
 msgid "The passwords are not equal."
 msgstr "Passordene er ikke like."
 
-#: users/admin.py:57
+#: users/admin.py:58
 msgid "Password can be changed with <a href=\"password/\">this form</a>."
 msgstr "Passord kan endres med <a href=\"password/\">dette skjemaet</a>."
 
-#: users/models.py:44
+#: users/admin.py:80
+msgid "Important dates"
+msgstr ""
+
+#: users/models.py:37
 msgid "staff status"
 msgstr "administrator"
 
-#: users/models.py:45
+#: users/models.py:38
 msgid "active"
 msgstr "aktiv"
 
-#: users/models.py:46
+#: users/models.py:39
 msgid "date joined"
 msgstr "registreringsdato"
 
-#: users/models.py:48
+#: users/models.py:41
 msgid "token"
 msgstr "nøkkel"
 
-#: users/models.py:56
+#: users/models.py:49
 #, python-format
 msgid "User %i"
 msgstr "Bruker %i"
 
-#: users/models.py:134
+#: users/models.py:125
+msgid "Today's login link"
+msgstr "Dagens innloggingslenke"
+
+#: users/models.py:144
 msgid "users"
 msgstr "brukere"
 
-#: users/models.py:141
-msgid "key name"
-msgstr "nøkkelnavn"
+#: users/views.py:27
+msgid "Logged in"
+msgstr "Innlogget"
 
-#: users/models.py:142
-msgid "value"
-msgstr "verdi"
+#: users/views.py:29
+msgid "Not logged in"
+msgstr "Ikke innlogget"
 
-#: users/models.py:144
-msgid "required field"
-msgstr "påkrevet felt"
+#: users/templates/users/emails/html/login_link.html:14
+#: users/templates/users/emails/text/login_link.txt:3
+#, python-format
+msgid "Here is your login link for today's program at %(site_name)s."
+msgstr "Her er innloggingslenken for dagens program på %(site_name)s."
 
-#: users/models.py:150
-msgid "userfield"
-msgstr "brukerfelt"
+#: users/templates/users/emails/html/login_link.html:18
+#: users/templates/users/emails/text/login_link.txt:7
+msgid "Please keep in mind that you should never share your login link."
+msgstr "Merk at du aldri må dele din innloggingslenke med andre."
 
-#: users/models.py:151
-msgid "userfields"
-msgstr "brukerfelter"
+#: users/templates/users/emails/html/login_link.html:23
+#: users/templates/users/emails/text/login_link.txt:9
+#, python-format
+msgid "%(site_name)s"
+msgstr ""
 
-#: vault/models.py:11
+#: vault/models.py:12
 msgid "e-mail address"
 msgstr "e-postadresse"
 
-#: vault/models.py:12
+#: vault/models.py:13
 msgid "phone number"
 msgstr "telefonnummer"
 
-#: vault/models.py:33
+#: vault/models.py:45
 msgid "vault user"
 msgstr "Hvelvbruker"
 
-#: vault/models.py:34
+#: vault/models.py:46
 msgid "vault users"
 msgstr "Hvelvbrukere"
+
+#~ msgid "texts"
+#~ msgstr "tekster"
+
+#~ msgid "form"
+#~ msgstr "skjema"
+
+#~ msgid "forms"
+#~ msgstr "skjemaer"
+
+#~ msgid "alt text"
+#~ msgstr "alternativtekst"
+
+#~ msgid "title text"
+#~ msgstr "titteltekst"
+
+#~ msgid "video"
+#~ msgstr "video"
+
+#~ msgid "videos"
+#~ msgstr "videoer"
+
+#~ msgid "audio"
+#~ msgstr "lydklipp"
+
+#~ msgid "audioclip"
+#~ msgstr "lydklipp"
+
+#~ msgid "audioclips"
+#~ msgstr "lydklipp"
+
+#~ msgid "Error:"
+#~ msgstr "Feil:"
+
+#~ msgid "Slot"
+#~ msgstr "Plass"
+
+#~ msgid "A short name to identify the placeholder in the template code."
+#~ msgstr "Et kort navn for å identifisere plassholderen i maler."
+
+#~ msgid "Role"
+#~ msgstr "Rolle"
+
+#~ msgid "This defines where the object is used."
+#~ msgstr "Dette defininerer hvor elementet brukes."
+
+#~ msgid "Admin title"
+#~ msgstr "Administrasjonstittel"
+
+#~ msgid "Placeholder"
+#~ msgstr "Plassholder"
+
+#~ msgid "Placeholders"
+#~ msgstr "Plassholdere"
+
+#~ msgid "Contentitem link"
+#~ msgstr "Lenker til innholdselementer"
+
+#~ msgid "Contentitem links"
+#~ msgstr "Lenke til innholdselement"
+
+#~ msgid "There are no options to configure for this element."
+#~ msgstr "Det er ingenting å konfigurere for dette elementet."
+
+#~ msgid "Loading layout data..."
+#~ msgstr "Laster layout-data..."
+
+#~ msgid "Orphaned content"
+#~ msgstr "Etterlatt innhold"
+
+#~ msgid "There are no placeholders in this template."
+#~ msgstr "Det er ingen plassholdere i denne malen."
+
+#~ msgid "Placeholder empty"
+#~ msgstr "Plassholder tom"
+
+#~ msgid "This placeholder is empty"
+#~ msgstr "Denne plassholderen er tom"
+
+#~ msgid "No items added to this field yet."
+#~ msgstr "Ingen elementer lagt til i dette feltet ennå."
+
+#~ msgid "Value should be a number or percentage."
+#~ msgstr "Verdien må være et tall eller en prosentverdi."
+
+#~ msgid "key name"
+#~ msgstr "nøkkelnavn"
+
+#~ msgid "value"
+#~ msgstr "verdi"
+
+#~ msgid "required field"
+#~ msgstr "påkrevet felt"
+
+#~ msgid "userfield"
+#~ msgstr "brukerfelt"
+
+#~ msgid "userfields"
+#~ msgstr "brukerfelter"
 
 #~ msgid "Folder '%(folder_label)s' files"
 #~ msgstr "Filer i mappen \"%(folder_label)s\""
