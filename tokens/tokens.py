@@ -1,4 +1,5 @@
-"""django.contrib.auth.tokens, but without using user instance but user id instead"""
+'''Implementation of django.contrib.auth.tokens using user id'''
+
 from __future__ import unicode_literals
 
 from datetime import date
@@ -9,20 +10,14 @@ from django.utils import six
 
 
 class TokenGenerator(object):
-    """
-    Strategy object used to generate and check tokens for Vault access.
-    """
+    '''Strategy object used to generate and check tokens for login and vault access.'''
 
     def make_token(self, user_id):
-        """
-        Returns a token for the given user id.
-        """
+        '''Return a token for the given user id.'''
         return self._make_token_with_timestamp(user_id, self._num_days(self._today()))
 
     def check_token(self, user_id, token):
-        """
-        Check that a token is valid  for a given user id.
-        """
+        '''Check if a token is valid for a given user id.'''
         # Parse the token
         try:
             ts_b36, hash = token.split("-")
@@ -51,7 +46,7 @@ class TokenGenerator(object):
 
         value = (six.text_type(user_id) + six.text_type(timestamp))
 
-        key_salt = "vault.tokens.TokenGenerator"
+        key_salt = "tokens.tokens.TokenGenerator"
         hash = salted_hmac(key_salt, value).hexdigest()[::2]
         return "%s-%s" % (ts_b36, hash)
 

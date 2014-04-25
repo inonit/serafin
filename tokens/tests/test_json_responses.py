@@ -4,7 +4,7 @@ import json
 from django.test import TestCase
 from mock import Mock
 
-from token_auth.json_responses import JsonResponse
+from tokens.json_responses import JsonResponse
 
 
 class TestJsonResponse(TestCase):

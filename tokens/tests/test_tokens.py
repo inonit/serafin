@@ -3,7 +3,7 @@ from datetime import date, timedelta
 
 from django.test import TestCase
 
-from token_auth.tokens import token_generator
+from tokens.tokens import token_generator
 
 
 class TestTokenGenerator(TestCase):

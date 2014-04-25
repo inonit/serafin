@@ -5,8 +5,7 @@ from django.http import HttpResponse
 
 
 class JsonResponse(HttpResponse):
-    """ A json HTTP response class.
-    """
+    '''A json HTTP response class.'''
 
     def __init__(self, content, content_type='application/json', status=200):
         if not content:

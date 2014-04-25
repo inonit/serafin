@@ -5,8 +5,8 @@ from django.test import TestCase
 from django.test.client import RequestFactory
 from mock import Mock
 
-from token_auth.decorators import token_required
-from token_auth.tokens import token_generator
+from tokens.decorators import token_required
+from tokens.tokens import token_generator
 
 
 class TestTokenRequired(TestCase):
