@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Serafin\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-04-25 15:40+0200\n"
+"POT-Creation-Date: 2014-04-25 17:12+0200\n"
 "PO-Revision-Date: 2014-04-25 14:45+0200\n"
 "Last-Translator: Eirik Krogstad <eirikkr@gmail.com>\n"
 "Language: nb\n"
@@ -25,6 +25,97 @@ msgstr "innhold"
 #: content/models.py:27
 msgid "contents"
 msgstr "innhold"
+
+#: content/templates/admin/content_widget.html:6
+#: content/templates/admin/content_widget.html:36
+msgid "Add text"
+msgstr "Legg til tekst"
+
+#: content/templates/admin/content_widget.html:7
+msgid "Add form"
+msgstr "Legg til skjema"
+
+#: content/templates/admin/content_widget.html:8
+msgid "Add image"
+msgstr "Legg til bilde"
+
+#: content/templates/admin/content_widget.html:9
+msgid "Add video"
+msgstr "Legg til video"
+
+#: content/templates/admin/content_widget.html:10
+msgid "Add audio"
+msgstr "Legg til lydklipp"
+
+#: content/templates/admin/content_widget.html:11
+msgid "Add file"
+msgstr "Legg til fil"
+
+#: content/templates/admin/content_widget.html:34
+msgid "Add numeric"
+msgstr "Legg til tallverdi"
+
+#: content/templates/admin/content_widget.html:35
+msgid "Add string"
+msgstr "Legg til tekststreng"
+
+#: content/templates/admin/content_widget.html:37
+msgid "Add multiple choice"
+msgstr "Legg til flervalg"
+
+#: content/templates/admin/content_widget.html:38
+msgid "Add multiple selection"
+msgstr "Legg til flervalg"
+
+#: content/templates/admin/content_widget.html:53
+#: content/templates/admin/content_widget.html:102
+msgid "Label"
+msgstr "Feltnavn"
+
+#: content/templates/admin/content_widget.html:57
+#: plumbing/templates/admin/plumbing_widget.html:30
+msgid "Variable name"
+msgstr "Variabelnavn"
+
+#: content/templates/admin/content_widget.html:64
+msgid "Default value"
+msgstr "Standardverdi"
+
+#: content/templates/admin/content_widget.html:69
+msgid "Required?"
+msgstr "Påkrevet?"
+
+#: content/templates/admin/content_widget.html:76
+msgid "Lower limit"
+msgstr "Nedre grense"
+
+#: content/templates/admin/content_widget.html:80
+msgid "Upper limit"
+msgstr "Øvre grense"
+
+#: content/templates/admin/content_widget.html:87
+msgid "Add alternative"
+msgstr "Legg til alternativ"
+
+#: content/templates/admin/content_widget.html:90
+msgid "Alternatives"
+msgstr "Alternativer"
+
+#: content/templates/admin/content_widget.html:106
+#: plumbing/templates/admin/plumbing_widget.html:40
+msgid "Value"
+msgstr "Verdi"
+
+#: content/templates/admin/content_widget.html:122
+msgid "Alt title"
+msgstr "Alternativtittel"
+
+#: content/templates/admin/content_widget.html:126
+#: content/templates/admin/content_widget.html:136
+#: content/templates/admin/content_widget.html:146
+#: content/templates/admin/content_widget.html:156
+msgid "Title"
+msgstr "Tittel"
 
 #: events/admin.py:21
 msgid "Actor"
@@ -3334,6 +3425,22 @@ msgstr ""
 msgid "Press the save button below to revert to this version of the object."
 msgstr ""
 
+#: plumbing/templates/admin/plumbing_widget.html:5
+msgid "Add node"
+msgstr "Legg til node"
+
+#: plumbing/templates/admin/plumbing_widget.html:9
+msgid "Available variables"
+msgstr "Tilgjengelige variabler"
+
+#: plumbing/templates/admin/plumbing_widget.html:38
+msgid "contains"
+msgstr "inneholder"
+
+#: plumbing/templates/admin/plumbing_widget.html:43
+msgid "Add condition"
+msgstr "Legg til forutsetning"
+
 #: system/admin.py:26 system/admin.py:56 system/admin.py:95
 msgid "Admin note excerpt"
 msgstr "Utdrag fra administratornotat"
@@ -3556,9 +3663,6 @@ msgstr "Hvelvbrukere"
 #~ msgid "texts"
 #~ msgstr "tekster"
 
-#~ msgid "form"
-#~ msgstr "skjema"
-
 #~ msgid "forms"
 #~ msgstr "skjemaer"
 
@@ -3568,14 +3672,8 @@ msgstr "Hvelvbrukere"
 #~ msgid "title text"
 #~ msgstr "titteltekst"
 
-#~ msgid "video"
-#~ msgstr "video"
-
 #~ msgid "videos"
 #~ msgstr "videoer"
-
-#~ msgid "audio"
-#~ msgstr "lydklipp"
 
 #~ msgid "audioclip"
 #~ msgstr "lydklipp"
@@ -3640,12 +3738,6 @@ msgstr "Hvelvbrukere"
 #~ msgid "key name"
 #~ msgstr "nøkkelnavn"
 
-#~ msgid "value"
-#~ msgstr "verdi"
-
-#~ msgid "required field"
-#~ msgstr "påkrevet felt"
-
 #~ msgid "userfield"
 #~ msgstr "brukerfelt"
 
@@ -3654,9 +3746,6 @@ msgstr "Hvelvbrukere"
 
 #~ msgid "Folder '%(folder_label)s' files"
 #~ msgstr "Filer i mappen \"%(folder_label)s\""
-
-#~ msgid "File name"
-#~ msgstr "Filnavn"
 
 #~ msgid "export"
 #~ msgstr "eksport"

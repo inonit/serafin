@@ -1,18 +1,17 @@
-{% verbatim %}
 <div id="content" class="content" ng-app="content" ng-controller="contentList">
 
-    <textarea id="id_data" name="data" class="data ng-hide">{{ data }}</textarea>
+    <textarea id="id_data" name="data" class="data ng-hide">{% verbatim %}{{ data }}{% endverbatim %}</textarea>
 
     <div class="toolbox">
-        <div class="btn add" ng-click="add(data, 'text')">Add text</div>
-        <div class="btn add" ng-click="add(data, 'form')">Add form</div>
-        <div class="btn add" ng-click="add(data, 'image')">Add image</div>
-        <div class="btn add" ng-click="add(data, 'video')">Add video</div>
-        <div class="btn add" ng-click="add(data, 'audio')">Add audio</div>
-        <div class="btn add" ng-click="add(data, 'file')">Add file</div>
-    </div>
+        <div class="btn add" ng-click="add(data, 'text')">{% trans 'Add text' %}</div>
+        <div class="btn add" ng-click="add(data, 'form')">{% trans 'Add form' %}</div>
+        <div class="btn add" ng-click="add(data, 'image')">{% trans 'Add image' %}</div>
+        <div class="btn add" ng-click="add(data, 'video')">{% trans 'Add video' %}</div>
+        <div class="btn add" ng-click="add(data, 'audio')">{% trans 'Add audio' %}</div>
+        <div class="btn add" ng-click="add(data, 'file')">{% trans 'Add file' %}</div>
 
     <div class="pagelet" ng-repeat="pagelet in data track by $index">
+    </div>
 
         <div class="ctrl right">
             <a ng-click="up(data, $index)" ng-hide="$first"><i class="icon-arrow-up icon-alpha5"></i></a>
@@ -20,7 +19,7 @@
             <a ng-click="delete(data, $index)"><i class="icon-trash icon-alpha5"></i></a>
         </div>
 
-        <h3 class="title">{{ pagelet.content_type }}</h3>
+        <h3 class="title">{% verbatim %}{{ pagelet.content_type }}{% endverbatim %}</h3>
 
         <div ng-switch on="pagelet.content_type">
 
@@ -32,11 +31,11 @@
             <div ng-switch-when="form" class="form">
 
                 <div class="toolbox">
-                    <div class="btn add" ng-click="add(pagelet.content, 'numeric')">Add numeric</div>
-                    <div class="btn add" ng-click="add(pagelet.content, 'string')">Add string</div>
-                    <div class="btn add" ng-click="add(pagelet.content, 'textarea')">Add text</div>
-                    <div class="btn add" ng-click="add(pagelet.content, 'multiplechoice')">Add multiple choice</div>
-                    <div class="btn add" ng-click="add(pagelet.content, 'multipleselection')">Add multiple selection</div>
+                    <div class="btn add" ng-click="add(pagelet.content, 'numeric')">{% trans 'Add numeric' %}</div>
+                    <div class="btn add" ng-click="add(pagelet.content, 'string')">{% trans 'Add string' %}</div>
+                    <div class="btn add" ng-click="add(pagelet.content, 'textarea')">{% trans 'Add text' %}</div>
+                    <div class="btn add" ng-click="add(pagelet.content, 'multiplechoice')">{% trans 'Add multiple choice' %}</div>
+                    <div class="btn add" ng-click="add(pagelet.content, 'multipleselection')">{% trans 'Add multiple selection' %}</div>
                 </div>
 
                 <div class="field" ng-repeat="field in pagelet.content track by $index">
@@ -47,48 +46,48 @@
                         <a ng-click="delete(pagelet.content, $index)"><i class="icon-trash icon-alpha5"></i></a>
                     </div>
 
-                    <h4 class="title">{{ field.field_type }}</h4>
+                    <h4 class="title">{% verbatim %}{{ field.field_type }}{% endverbatim %}</h4>
 
                     <div class="fieldset">
                         <div class="field-data">
-                            <label>Label</label>
+                            <label>{% trans 'Label' %}</label>
                             <input type="text" class="wide" ng-model="field.label">
                         </div>
                         <div class="field-data">
-                            <label>Variable name</label>
+                            <label>{% trans 'Variable name' %}</label>
                             <input type="text" ng-model="field.variable_name">
                         </div>
                     </div>
 
                     <div class="fieldset">
                         <div class="field-data">
-                            <label>Default value</label>
+                            <label>{% trans 'Default value' %}</label>
                             <input type="text" ng-model="field.default">
                         </div>
                         <div class="field-data pull-down">
                             <label>
-                                <input type="checkbox" ng-model="field.required"> Required?
+                                <input type="checkbox" ng-model="field.required"> {% trans 'Required?' %}
                             </label>
                         </div>
                     </div>
 
                     <div class="fieldset">
                         <div class="field-data" ng-if="field.field_type == 'numeric'">
-                            <label>Lower limit</label>
+                            <label>{% trans 'Lower limit' %}</label>
                             <input type="text" ng-model="field.lower_limit">
                         </div>
                         <div class="field-data" ng-if="field.field_type == 'numeric'">
-                            <label>Upper limit</label>
+                            <label>{% trans 'Upper limit' %}</label>
                             <input type="text" ng-model="field.upper_limit">
                         </div>
                     </div>
 
                     <div class="field-data" ng-if="field.field_type == 'multiplechoice' || field.field_type == 'multipleselection'">
                         <div class="toolbox">
-                            <div class="btn add" ng-click="add(field.alternatives, 'alternative')">Add alternative</div>
+                            <div class="btn add" ng-click="add(field.alternatives, 'alternative')">{% trans 'Add alternative' %}</div>
                         </div>
 
-                        <h5 class="title">Alternatives</h5>
+                        <h5 class="title">{% trans 'Alternatives' %}</h5>
 
                         <div class="alt" ng-repeat="alt in field.alternatives track by $index">
 
@@ -100,11 +99,11 @@
 
                             <div class="fieldset">
                                 <div>
-                                    <label>Label</label>
+                                    <label>{% trans 'Label' %}</label>
                                     <input type="text" class="wide" ng-model="alt.label">
                                 </div>
                                 <div>
-                                    <label>Value</label>
+                                    <label>{% trans 'Value' %}</label>
                                     <input type="text" ng-model="alt.value">
                                 </div>
                             </div>
@@ -117,60 +116,49 @@
 
             <div ng-switch-when="image" class="image">
                 <div class="filer">
-                    {% endverbatim %}
                     {{ file_widget|safe }}
-                    {% verbatim %}
                 </div>
                 <div class="field-data">
-                    <label>Alt title</label>
+                    <label>{% trans 'Alt title' %}</label>
                     <input type="text" ng-model="pagelet.content.alt">
                 </div>
                 <div class="field-data">
-                    <label>Title</label>
+                    <label>{% trans 'Title' %}</label>
                     <input type="text" ng-model="pagelet.content.title">
                 </div>
             </div>
 
             <div ng-switch-when="video" class="video">
                 <div class="filer">
-                    {% endverbatim %}
                     {{ file_widget|safe }}
-                    {% verbatim %}
                 </div>
                 <div class="field-data">
-                    <label>Title</label>
+                    <label>{% trans 'Title' %}</label>
                     <input type="text" ng-model="pagelet.content.title">
                 </div>
             </div>
 
             <div ng-switch-when="audio" class="audio">
                 <div class="filer">
-                    {% endverbatim %}
                     {{ file_widget|safe }}
-                    {% verbatim %}
                 </div>
                 <div class="field-data">
-                    <label>Title</label>
+                    <label>{% trans 'Title' %}</label>
                     <input type="text" ng-model="pagelet.content.title">
                 </div>
             </div>
 
             <div ng-switch-when="file" class="file">
                 <div class="filer">
-                    {% endverbatim %}
                     {{ file_widget|safe }}
-                    {% verbatim %}
                 </div>
                 <div class="field-data">
-                    <label>Title</label>
+                    <label>{% trans 'Title' %}</label>
                     <input type="text" ng-model="pagelet.content.title">
                 </div>
             </div>
         </div>
     </div>
-    <p>Data structure:</p>
-    {{ data }}
-    {% endverbatim %}
     <script>
         var initData = {{ value|safe }};
         var filerApi = '{{ filer_api }}';
