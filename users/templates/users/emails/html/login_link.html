@@ -1,14 +1,9 @@
 <!doctype html>
 {% load i18n %}
-<html class="no-js" lang="{{ LANGUAGE_CODE|default:'no' }}">
+<html lang="{{ LANGUAGE_CODE|default:'no' }}">
 <head>
     <meta charset="utf-8"/>
-    <title>{% trans "Seraf" %}</title>
-    <!-- inline css goes here -->
     <style>
-        body{
-            background: #FFFFFF;
-        }
     </style>
 </head>
 <body>
@@ -16,8 +11,11 @@
     <tbody>
     <tr>
         <td>
-            {% trans "Please click on the link below to login to Seraf" %}
-            {{ link }}
+            <p>{% blocktrans %}Here is your login link for today's program at {{ site_name }}.{% endblocktrans %}</p>
+
+            <p>{{ link }}</p>
+
+            <p>{% blocktrans %}Please keep in mind that you should never share your login link.{% endblocktrans %}</p>
         </td>
     </tr>
     </tbody>

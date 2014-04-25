@@ -22,13 +22,15 @@ class DummyForeignObjectRel:
 class ContentWidget(forms.Widget):
 
     def render(self, name, value, attrs=None):
-        file_widget = AdminFileWidget(DummyForeignObjectRel(), site).render('file', None, {'id': 'id_file'})
+        file_widget = AdminFileWidget(
+            DummyForeignObjectRel(), site).render('file', None, {'id': 'id_file'}
+        )
         file_widget = re.sub(r'<script.*?>.*?</script>', r'', file_widget, flags=re.DOTALL)
 
         context = {
             'value': value,
             'file_widget': file_widget,
-            'filer_api': reverse('api_filer_file')
+            'filer_api': reverse('content_api')
         }
 
         html = render_to_string('admin/content_widget.html', context)

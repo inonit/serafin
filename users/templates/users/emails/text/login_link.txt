@@ -1,8 +1,10 @@
 {% load i18n %}
 {% autoescape off %}
-{% trans "Please click on the link below to login to Seraf" %}
+{% blocktrans %}Here is your login link for today's program at {{ site_name }}.{% endblocktrans %}
+
 {{ link }}
 
-{% blocktrans %}{{ site_name }}{% endblocktrans %}
+{% blocktrans %}Please keep in mind that you should never share your login link.{% endblocktrans %}
 
+{% blocktrans %}{{ site_name }}{% endblocktrans %}
 {% endautoescape %}

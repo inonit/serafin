@@ -6,8 +6,8 @@ from django.core.urlresolvers import reverse
 from django.test import TestCase
 from django.test.client import Client
 
-from token_auth.json_status import STATUS_OK
-from token_auth.tokens import token_generator
+from tokens.json_status import STATUS_OK
+from tokens.tokens import token_generator
 from vault.models import VaultUser
 
 
@@ -30,7 +30,7 @@ class TestVaultViews(TestCase):
         data = copy.copy(post_data)
         data.update(
             {
-                'subject': '[Seraf] Test',
+                'subject': '[Serafin] Test',
                 'message': 'Test Message',
                 'html_message': '<h1>Test message</h1>',
             }
@@ -66,8 +66,6 @@ class TestVaultViews(TestCase):
 
         self.assertEqual(response.status_code, 200)
         self.assertEqual(json.loads(response.content).get('status'), STATUS_OK)
-
-
 
     def test_delete_mirror(self):
         user_id = 3

@@ -6,6 +6,9 @@
     border: 1px solid #eee;
     border-radius: 3px;
     -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
     user-select: none;
 }
 
@@ -108,7 +111,7 @@ path {
 
 .variables p,
 .variable {
-    padding: .25em .5em;
+    padding: .1em .25em;
 }
 
 .variable:hover {

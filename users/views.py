@@ -1,31 +1,29 @@
 from __future__ import unicode_literals
 from django.utils.translation import ugettext_lazy as _
 
-from django.contrib.auth import login, authenticate
+from django.contrib.auth import login, logout, authenticate
 from django.http.response import HttpResponse
+from django.shortcuts import redirect
 from django.contrib.auth.views import login as django_login
-from django.contrib.auth.views import logout_then_login as django_logout
-from django.contrib.auth.decorators import login_required
 
 
-def login(request, template_name='login.html'):
-    '''Manual login to SERAF'''
-    return django_login(request, **{'template_name' : template_name})
+def manual_login(request):
+    if request.user.is_authenticated():
+        return redirect('/')
+    return django_login(request, template_name='login.html')
 
 
-def logout(request, template_name='login.html'):
-    '''Manual logout of SERAF'''
-    return django_logout(request)
+def manual_logout(request):
+    if request.user.is_authenticated():
+        logout(request.user)
+    return redirect('/')
 
 
-def login_via_email(request, user_id, token):
-    '''Authenticates a user via e-mailed link'''
+def login_via_email(request, user_id=None, token=None):
 
     user = authenticate(user_id=user_id, token=token)
     if user:
         login(request, user)
-        #TODO: redirect to day's program page
         return HttpResponse(_('Logged in'))
 
-    #TODO: redirect to invalid token page
     return HttpResponse(_('Not logged in'))

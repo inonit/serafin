@@ -1,13 +1,13 @@
 from __future__ import unicode_literals
-from token_auth.json_status import STATUS_FAIL, STATUS_USER_DOES_NOT_EXIST, STATUS_INVALID_TOKEN, STATUS_OK
 
-from token_auth.tokens import token_generator
-from token_auth.json_responses import JsonResponse
-from .models import VaultUser
+from tokens.json_status import STATUS_FAIL, STATUS_USER_DOES_NOT_EXIST, STATUS_INVALID_TOKEN, STATUS_OK
+from tokens.tokens import token_generator
+from tokens.json_responses import JsonResponse
+from vault.models import VaultUser
 
 
 def json_response(func):
-    """ Handles json POST requests and responds in json """
+    '''Handle JSON POST requests and respond in JSON'''
 
     def _json_response(request, *args, **kwargs):
         response = {
@@ -29,7 +29,7 @@ def json_response(func):
                     try:
                         func(request, user=user, user_id=user_id, data=data)
                         response['status'] = STATUS_OK
-                    except Exception, e:
+                    except:
                         pass
                 else:
                     response['status'] = STATUS_INVALID_TOKEN

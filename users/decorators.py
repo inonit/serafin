@@ -3,11 +3,13 @@ import json
 from django.conf import settings
 
 import requests
-from token_auth.json_status import STATUS_OK
+from tokens.json_status import STATUS_OK
 
 
 def vault_post(func):
-    '''A helper decorator for posting json request to Vault.'''
+    '''
+    Helper decorator for posting JSON requests to Vault
+    '''
 
     def _vault_post(*args, **kwargs):
 

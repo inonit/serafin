@@ -5,9 +5,9 @@ from django.test import TestCase
 from django.test.client import RequestFactory
 from mock import Mock
 
-from token_auth.json_status import STATUS_OK, STATUS_INVALID_TOKEN, STATUS_USER_DOES_NOT_EXIST
+from tokens.json_status import STATUS_OK, STATUS_INVALID_TOKEN
 
-from token_auth.tokens import token_generator
+from tokens.tokens import token_generator
 from vault.decorators import json_response
 from vault.models import VaultUser
 

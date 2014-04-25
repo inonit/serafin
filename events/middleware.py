@@ -2,11 +2,13 @@ from __future__ import unicode_literals
 
 from django.conf import settings
 
-from .models import Event
+from events.models import Event
 
 
 class EventTrackingMiddleware(object):
-    ''' Tracks and logs user page visits and their time spent '''
+    '''
+    Tracks and logs user page visits
+    '''
 
     def process_response(self, request, response):
 

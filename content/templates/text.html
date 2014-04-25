@@ -1,1 +1,2 @@
-{{ pagelet.content|safe }}
+{% load markdown %}
+{{ pagelet.content|safe|markdown }}

@@ -17,10 +17,6 @@ Clone the project with submodules:
 
     pip install -r requirements.txt
 
-## Test database
-
-TBA
-
 ## Project rules
 
 - Follow the [Inonit Coding standards](http://inonit.no/media/Codingstandards.pdf)
@@ -42,9 +38,6 @@ Fields past common User model fields could be set in a key: value store for *gen
 
 ### Vault app
 The vault stores personally identifiable data like e-mail and phone number. It will be separated to a secure server if research councils dictate so. The vault is connected to the SMS app and sends out e-mails, but only does so at the request of the main system, and only by user ID.
-
-### SMS app
-We will likely build or incorporate an interface for [Twilio SMS](http://www.twilio.com/) for this part.
 
 ### Tasks app
 Handles scheduling of events, mainly triggering each day of the program and slip management. Scheduling is based on [Huey](https://github.com/coleifer/huey), it's simple and adequate.

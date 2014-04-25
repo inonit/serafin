@@ -8,7 +8,7 @@ from django.db import models
 from django.contrib.auth.models import BaseUserManager, AbstractBaseUser, PermissionsMixin
 from django.conf import settings
 
-from token_auth.tokens import token_generator
+from tokens.tokens import token_generator
 from users.decorators import vault_post
 
 
