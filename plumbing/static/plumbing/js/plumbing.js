@@ -189,13 +189,6 @@ plumbing.directive('edge', ['jsPlumb', function(jsPlumbService) {
                 scope.data.edges.splice(index, 1);
             };
 
-            scope.listConditions = function() {
-                if (scope.edge.conditions.length > 0) {
-                    return 'condition(s)';
-                }
-                return 'no condition';
-            };
-
             scope.addCondition = function() {
                 scope.edge.conditions.push({
                     var_name: '',
