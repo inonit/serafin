@@ -1,12 +1,12 @@
-"""
-Django settings for seraf project.
+'''
+Django settings for the serafin project.
 
 For more information on this file, see
 https://docs.djangoproject.com/en/1.6/topics/settings/
 
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/1.6/ref/settings/
-"""
+'''
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 import os
@@ -24,7 +24,7 @@ SECRET_KEY = 'llzkwh=$&0x2*1u^)1&24%ix+_z$io4!gtxo6cxkg=lxqruaz+'
 DEBUG = True
 TEMPLATE_DEBUG = True
 
-ALLOWED_HOSTS = ['seraf.inonit.no']
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -49,15 +49,14 @@ INSTALLED_APPS = (
     'mptt',
     'easy_thumbnails',
     'huey.djhuey',
-    'djangular',
-    'plumbing',
 
+    'tokens',
     'users',
     'vault',
-    'sms',
     'tasks',
     'events',
     'content',
+    'plumbing',
     'system',
 )
 
@@ -68,12 +67,12 @@ MIDDLEWARE_CLASSES = (
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    'events.middleware.EventTrackingMiddleware',
+    #'events.middleware.EventTrackingMiddleware',
 )
 
-ROOT_URLCONF = 'seraf.urls'
+ROOT_URLCONF = 'serafin.urls'
 
-WSGI_APPLICATION = 'seraf.wsgi.application'
+WSGI_APPLICATION = 'serafin.wsgi.application'
 
 TEMPLATE_DIRS = (
     os.path.join(BASE_DIR, 'templates'),
@@ -86,7 +85,7 @@ TEMPLATE_DIRS = (
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'seraf.db'),
+        'NAME': os.path.join(BASE_DIR, 'serafin.db'),
     }
 }
 
@@ -157,13 +156,17 @@ AUTHENTICATION_BACKENDS = (
     'users.backends.TokenBackend',
 )
 
+LOGIN_REDIRECT_URL = '/'
+
 TOKEN_TIMEOUT_DAYS = 1
 
 
 # Events
+
 TRACK_AJAX_REQUESTS = False
 TRACK_ANONYMOUS_USERS = False
-TRACK_ADMIN_USERS = True
+TRACK_ADMIN_USERS = False
+
 
 # Twilio
 
@@ -175,7 +178,7 @@ TWILIO_AUTH_TOKEN = 'xxxxx'
 
 HUEY = {
     'backend': 'huey.backends.redis_backend',
-    'name': 'seraf',
+    'name': 'serafin',
     'connection': {
         'host': 'localhost',
         'port': 6379,
@@ -209,7 +212,7 @@ REST_FRAMEWORK = {
 # Admin interface
 
 SUIT_CONFIG = {
-    'ADMIN_NAME': 'SERAF admin',
+    'ADMIN_NAME': 'Serafin admin',
     'HEADER_DATE_FORMAT': 'l j. F Y',
 
     'SEARCH_URL': '/admin/system/page/',
