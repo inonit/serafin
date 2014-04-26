@@ -20,10 +20,20 @@
     <div class="edge" ng-repeat="edge in data.edges" ng-model="data.edges">
 
         <div class="overlay box">
-            <div ng-repeat="condition in edge.conditions">
-                {% verbatim %}{{ condition.var_name }} {{ condition.operator }} {{ condition.value }}{% endverbatim %}
+            <div class="summary" ng-repeat="condition in edge.conditions">
+                {% verbatim %}{{ condition.var_name }}{% endverbatim %}
+                <span ng-switch="condition.operator">
+                    <span ng-switch-when="eq"> = </span>
+                    <span ng-switch-when="ne"> &ne; </span>
+                    <span ng-switch-when="lt"> &lt; </span>
+                    <span ng-switch-when="le"> &le; </span>
+                    <span ng-switch-when="gt"> &gt; </span>
+                    <span ng-switch-when="ge"> &ge; </span>
+                    <span ng-switch-when="in"> {% trans 'contains' %} </span>
+                </span>
+                {% verbatim %}{{ condition.value }}{% endverbatim %}
             </div>
-            <div ng-show="!edge.conditions.length">
+            <div class="summary" ng-show="!edge.conditions.length">
                 {% trans 'Pass' %}
             </div>
             <div class="delete" ng-click="deleteEdge($index)">×</div>

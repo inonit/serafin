@@ -39,8 +39,13 @@
 
 .overlay {
     cursor: pointer;
-    padding: 0 2em 0 .5em;
+    padding: .25em 2em .25em .5em;
     z-index: 6;
+}
+
+.overlay .summary {
+    margin: 0;
+    line-height: 1.5;
 }
 
 .overlay:hover,
