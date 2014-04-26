@@ -25,6 +25,11 @@
     z-index: 4;
 }
 
+#node_0 {
+    background: #eee;
+}
+
+#node_0:hover,
 .node:hover {
     background: #5C97BF;
     color: white;
@@ -68,7 +73,7 @@
 
 .ep {
     top: 5px;
-    background: orange;
+    background: #ffaa66;
 }
 
 .delete {

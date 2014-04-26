@@ -71,7 +71,14 @@ plumbing.run(['$rootScope', function(scope) {
 
     if (typeof initData === 'undefined') {
         scope.data = {
-            nodes: [],
+            nodes: [{
+                id: 0,
+                title: 'Start',
+                metrics: {
+                    left: '25px',
+                    top: '75px'
+                }
+            }],
             edges: [],
         };
     } else {
@@ -83,41 +90,41 @@ plumbing.run(['$rootScope', function(scope) {
 
 }]);
 
+plumbing.controller('graph', ['$scope', 'jsPlumb', function(scope, jsPlumbService) {
+
+        scope.addNode = function() {
+            var id = scope.data.nodes.length;
+
+            scope.data.nodes.push({
+                id: id,
+                ref_id: '',
+                ref_url: newNodeUrl,
+                title: '?',
+                metrics: {
+                    left: '300px',
+                    top: '100px'
+                }
+            });
+
+            // immediately opens a django popup to select the source for the node
+            scope.currentNoderef = 'noderef_' + id;
+            window.open(
+                addNodeUrl + '?t=id&_popup=1',
+                scope.currentNoderef,
+                'height=800,width=1024,resizable=yes,scrollbars=yes'
+            ).focus();
+        };
+
+        scope.deleteNode = function(index) {
+            var node = scope.data.nodes[index];
+            scope.jsPlumb.detachAllConnections('node_' + node.id);
+            scope.data.nodes.splice(index, 1);
+        };
+}])
+
 plumbing.directive('node', ['jsPlumb', function(jsPlumbService) {
     return {
         restrict: 'C',
-        controller: ['$scope', 'jsPlumb', function(scope, jsPlumbService) {
-
-            scope.addNode = function() {
-                var id = scope.data.nodes.length + 1;
-
-                scope.data.nodes.push({
-                    id: id,
-                    ref_id: '',
-                    ref_url: newNodeUrl,
-                    title: '?',
-                    metrics: {
-                        left: '25px',
-                        top: '25px'
-                    }
-                });
-
-                // immediately opens a django popup to select the source for the node
-                scope.currentNoderef = 'noderef_' + id;
-                window.open(
-                    addNodeUrl + '?t=id&_popup=1',
-                    scope.currentNoderef,
-                    'height=800,width=1024,resizable=yes,scrollbars=yes'
-                ).focus();
-            };
-
-            scope.deleteNode = function(index) {
-                var node = scope.data.nodes[index];
-                scope.jsPlumb.detachAllConnections('node_' + node.id);
-                scope.data.nodes.splice(index, 1);
-            };
-
-        }],
         link: function(scope, element, attrs) {
 
             // set id here to avoid race condition
@@ -142,11 +149,13 @@ plumbing.directive('node', ['jsPlumb', function(jsPlumbService) {
 
             // open a django popup on double click
             element.bind('dblclick', function() {
-                window.open(
-                    scope.node.ref_url + '?_popup=1',
-                    'noderef_' + scope.node.id,
-                    'height=800,width=1024,resizable=yes,scrollbars=yes'
-                ).focus();
+                if (scope.node.id > 0) {
+                    window.open(
+                        scope.node.ref_url + '?_popup=1',
+                        'noderef_' + scope.node.id,
+                        'height=800,width=1024,resizable=yes,scrollbars=yes'
+                    ).focus();
+                }
             });
         }
     };
