@@ -113,6 +113,7 @@ class User(AbstractBaseUser, PermissionsMixin):
 
         context = {
             'link': self.generate_login_link(),
+            'manual_login': reverse('login'),
         }
 
         text_content = text_template.render(context)

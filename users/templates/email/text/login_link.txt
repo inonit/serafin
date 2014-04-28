@@ -6,5 +6,7 @@
 
 {% blocktrans %}Please keep in mind that you should never share your login link.{% endblocktrans %}
 
+{% blocktrans %}Should you have trouble logging in using the login link, you can log in with your ID and password at {{ manual_login }}.{% endblocktrans %}
+
 {% blocktrans %}{{ site_name }}{% endblocktrans %}
 {% endautoescape %}

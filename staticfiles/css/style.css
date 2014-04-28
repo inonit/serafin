@@ -37,6 +37,7 @@ h6 {
 
 .button {
     border-radius: 2px;
+    padding: .5em 1em;
 }
 
 .top-bar,
@@ -67,10 +68,6 @@ h6 {
 
 .pages {
     position: relative;
-}
-
-.pages .button {
-    padding: .5em 1em;
 }
 
 .page {
@@ -106,6 +103,10 @@ label.large {
     margin-right: 5px;
     width: 20px;
     height: 20px;
+}
+
+.login.button {
+    margin-right: 1em;
 }
 
 .fade {
