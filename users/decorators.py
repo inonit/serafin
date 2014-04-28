@@ -21,9 +21,7 @@ def vault_post(func):
             data.update(kwargs)
 
             url = '%(server_url)s%(path)s' % {
-                'server_url': getattr(
-                    settings, 'VAULT_SERVER_API_URL', None
-                ),
+                'server_url': getattr(settings, 'VAULT_SERVER_API_URL', None),
                 'path': path
             }
 

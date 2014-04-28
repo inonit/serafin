@@ -1,6 +1,8 @@
 from __future__ import unicode_literals
 
 from django.conf.urls import patterns, url
+from users.forms import PasswordResetForm
+from tokens.tokens import token_generator
 
 
 urlpatterns = patterns('',
@@ -11,14 +13,16 @@ urlpatterns = patterns('',
         name='login_via_email'
     ),
     url(r'^recover_password/$', 'django.contrib.auth.views.password_reset', {
-            'post_reset_redirect' : '/recover_password/sent/'
+            'post_reset_redirect': '/recover_password/sent/',
+            'password_reset_form': PasswordResetForm,
         },
         name='password_reset'
     ),
     url(r'^recover_password/sent/$', 'django.contrib.auth.views.password_reset_done'),
-    url(r'^recover_password/(?P<uidb64>[0-9A-Za-z_\-]+)/(?P<token>.+)/$',
+    url(r'^recover_password/(?P<uidb64>[0-9A-Za-z_\-]+)/(?P<token>.+)$',
         'django.contrib.auth.views.password_reset_confirm', {
-            'post_reset_redirect' : '/recover_password/done/'
+            'post_reset_redirect': '/recover_password/done/',
+            'token_generator': token_generator,
         },
         name='password_reset_confirm'
     ),

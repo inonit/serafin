@@ -3,6 +3,7 @@ from django.utils.translation import ugettext_lazy as _
 
 from django.contrib.sites.models import Site
 from django.core.urlresolvers import reverse
+from django.template import Context
 from django.template.loader import get_template
 from django.db import models
 from django.contrib.auth.models import BaseUserManager, AbstractBaseUser, PermissionsMixin
@@ -98,7 +99,7 @@ class User(AbstractBaseUser, PermissionsMixin):
                 }
             ),
             'protocol': 'https' if settings.USE_HTTPS else 'http',
-            'domain': current_site.domain
+            'domain': current_site.domain,
         }
 
         return link
@@ -111,13 +112,16 @@ class User(AbstractBaseUser, PermissionsMixin):
         html_template = get_template('email/html/login_link.html')
         text_template = get_template('email/text/login_link.txt')
 
+        current_site = Site.objects.get_current()
+
         context = {
             'link': self.generate_login_link(),
             'manual_login': reverse('login'),
+            'site_name': current_site.name,
         }
 
-        text_content = text_template.render(context)
-        html_content = html_template.render(context)
+        text_content = text_template.render(Context(context))
+        html_content = html_template.render(Context(context))
 
         self.send_email(subject, text_content, html_content)
 

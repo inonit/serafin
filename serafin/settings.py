@@ -150,12 +150,14 @@ VAULT_DELETE_MIRROR_PATH = 'delete_mirror'
 VAULT_SEND_EMAIL_PATH = 'send_email'
 VAULT_SEND_SMS_PATH = 'send_sms'
 VAULT_FETCH_SMS_PATH = 'fetch_sms'
+VAULT_PASSWORD_RESET_PATH = 'password_reset'
 
 AUTHENTICATION_BACKENDS = (
     'django.contrib.auth.backends.ModelBackend',
     'users.backends.TokenBackend',
 )
 
+LOGIN_URL = '/login'
 LOGIN_REDIRECT_URL = '/'
 
 TOKEN_TIMEOUT_DAYS = 1
