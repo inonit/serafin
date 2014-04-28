@@ -4,6 +4,7 @@ from tokens.json_status import STATUS_FAIL, STATUS_USER_DOES_NOT_EXIST, STATUS_I
 from tokens.tokens import token_generator
 from tokens.json_responses import JsonResponse
 from vault.models import VaultUser
+import json
 
 
 def json_response(func):
@@ -13,8 +14,8 @@ def json_response(func):
         response = {
             'status': STATUS_FAIL,
         }
-        if request.POST:
-            data = request.POST
+        if request.method == 'POST':
+            data = json.loads(request.body)
             user_id = data.get('user_id')
             token = data.get('token')
 
@@ -29,10 +30,11 @@ def json_response(func):
                     try:
                         func(request, user=user, user_id=user_id, data=data)
                         response['status'] = STATUS_OK
-                    except:
-                        pass
+                    except Exception as e:
+                        print 'Vault POST failed:', e
                 else:
                     response['status'] = STATUS_INVALID_TOKEN
+
         return JsonResponse(response)
 
     return _json_response

@@ -143,13 +143,13 @@ STATICFILES_DIRS = (
 
 AUTH_USER_MODEL = 'users.User'
 
-VAULT_SERVER_API_URL = 'http://127.0.0.1:8000/api/vault/'
+VAULT_SERVER_API_URL = 'http://localhost:8000/api/vault/'
 
-VAULT_MIRROR_USER = 'mirror_user/'
-VAULT_DELETE_MIRROR = 'delete_mirror/'
-VAULT_SEND_EMAIL_URL = 'send_email/'
-VAULT_SEND_SMS_URL = 'send_sms/'
-VAULT_FETCH_SMS_URL = 'fetch_sms/'
+VAULT_MIRROR_USER_PATH = 'mirror_user'
+VAULT_DELETE_MIRROR_PATH = 'delete_mirror'
+VAULT_SEND_EMAIL_PATH = 'send_email'
+VAULT_SEND_SMS_PATH = 'send_sms'
+VAULT_FETCH_SMS_PATH = 'fetch_sms'
 
 AUTHENTICATION_BACKENDS = (
     'django.contrib.auth.backends.ModelBackend',

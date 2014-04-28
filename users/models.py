@@ -1,6 +1,6 @@
 from __future__ import unicode_literals
-
 from django.utils.translation import ugettext_lazy as _
+
 from django.contrib.sites.models import Site
 from django.core.urlresolvers import reverse
 from django.template.loader import get_template
@@ -19,7 +19,6 @@ class UserManager(BaseUserManager):
         user = self.model()
         user.set_password(password)
         user.save()
-        user._mirror_user()
         return user
 
     def create_superuser(self, id, password):
@@ -27,7 +26,6 @@ class UserManager(BaseUserManager):
         user.is_staff = True
         user.is_superuser = True
         user.save()
-        user._mirror_user()
         return user
 
 
@@ -57,75 +55,61 @@ class User(AbstractBaseUser, PermissionsMixin):
     def get_username(self):
         return self.username
 
-    def update_token(self):
-        '''Update User authentication token for the Vault'''
-
-        self.token = token_generator.make_token(self.id)
-        self.save()
-
     @vault_post
     def _mirror_user(self):
         '''Get confirmation of or create a corresponding User in the Vault'''
-        self.update_token()
-        url = settings.VAULT_MIRROR_USER
-        return url, self.id, self.token
+        path = settings.VAULT_MIRROR_USER_PATH
+        return path, self.id, token_generator.make_token(self.id)
 
     @vault_post
     def _delete_mirror(self):
         '''Deletes VaultUser corresponding to User in Vault'''
-        self.update_token()
-        url = settings.VAULT_DELETE_MIRROR
-        return url, self.id, self.token
+        path = settings.VAULT_DELETE_MIRROR_PATH
+        return path, self.id, token_generator.make_token(self.id)
 
     @vault_post
     def send_email(self, subject=None, message=None, html_message=None):
         '''Sends an e-mail to the User through the Vault'''
-        self.update_token()
-        url = settings.VAULT_SEND_EMAIL_URL
-        return url, self.id, self.token
+        path = settings.VAULT_SEND_EMAIL_PATH
+        return path, self.id, token_generator.make_token(self.id)
 
     @vault_post
     def send_sms(self, message=None):
         '''Sends an SMS to the User through the Vault'''
-        self.update_token()
-        url = settings.VAULT_SEND_SMS_URL
-        return url, self.id, self.token
+        path = settings.VAULT_SEND_SMS_PATH
+        return path, self.id, token_generator.make_token(self.id)
 
     @vault_post
     def fetch_sms(self, message=None):
         '''Sends an SMS to the User through the Vault'''
-        self.update_token()
-        url = settings.VAULT_SEND_SMS_URL
-        return url, self.id, self.token
+        path = settings.VAULT_SEND_SMS_PATH
+        return path, self.id, token_generator.make_token(self.id)
 
     def generate_login_link(self):
-        '''Generates a login link url'''
-        self.update_token()
+        '''Generates a login link URL'''
         current_site = Site.objects.get_current()
 
-        url = '%(protocol)s://%(domain)s%(link)s'
-        params = {
+        link = '%(protocol)s://%(domain)s%(link)s' % {
             'link': reverse(
                 'login_via_email',
                 kwargs={
                     'user_id': self.id,
-                    'token': self.token,
+                    'token': token_generator.make_token(self.id),
                 }
             ),
             'protocol': 'https' if settings.USE_HTTPS else 'http',
             'domain': current_site.domain
         }
-        link = url % params
 
         return link
 
     def send_login_link(self):
-        ''' Sends user login link via email templates '''
+        '''Sends user login link via email templates'''
 
         subject = _("Today's login link")
 
-        html_template = get_template('users/emails/html/login_link.html')
-        text_template = get_template('users/emails/text/login_link.html')
+        html_template = get_template('email/html/login_link.html')
+        text_template = get_template('email/text/login_link.txt')
 
         context = {
             'link': self.generate_login_link(),
@@ -137,7 +121,7 @@ class User(AbstractBaseUser, PermissionsMixin):
         self.send_email(subject, text_content, html_content)
 
     def __unicode__(self):
-        return unicode(self.username)
+        return u'%s' % self.id
 
     class Meta:
         verbose_name = _('user')

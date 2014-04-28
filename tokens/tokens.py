@@ -14,11 +14,12 @@ class TokenGenerator(object):
 
     def make_token(self, user_id):
         '''Return a token for the given user id.'''
+
         return self._make_token_with_timestamp(user_id, self._num_days(self._today()))
 
     def check_token(self, user_id, token):
         '''Check if a token is valid for a given user id.'''
-        # Parse the token
+
         try:
             ts_b36, hash = token.split("-")
         except ValueError:
