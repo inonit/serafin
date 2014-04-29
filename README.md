@@ -5,7 +5,7 @@ _SERAF Smoke free_
 
 ## Prerequisites
 
-    sudo apt-get install python python-virtualenv python-pip python-dev libjpeg8-dev zlib1g-dev redis-server
+    sudo apt-get install python python-virtualenv python-pip python-dev libjpeg8-dev zlib1g-dev libyaml-dev redis-server
 
 (or equivalent)
 

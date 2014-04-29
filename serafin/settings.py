@@ -49,6 +49,7 @@ INSTALLED_APPS = (
     'mptt',
     'easy_thumbnails',
     'huey.djhuey',
+    'django_user_agents',
 
     'tokens',
     'users',
@@ -67,6 +68,7 @@ MIDDLEWARE_CLASSES = (
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'django_user_agents.middleware.UserAgentMiddleware',
     #'events.middleware.EventTrackingMiddleware',
 )
 
@@ -168,8 +170,8 @@ SESSION_COOKIE_AGE = 60 * 60 * 24 # seconds
 # Events
 
 TRACK_AJAX_REQUESTS = False
-TRACK_ANONYMOUS_USERS = False
-TRACK_ADMIN_USERS = False
+TRACK_ANONYMOUS_USERS = True
+TRACK_ADMIN_USERS = True
 
 
 # Twilio

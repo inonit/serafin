@@ -6,35 +6,44 @@ from events.models import Event
 
 
 class EventTrackingMiddleware(object):
-    '''
-    Tracks and logs user page visits
-    '''
+    '''Tracks and logs user page visits'''
 
     def process_response(self, request, response):
 
-        # Check for ajax requests
         if request.is_ajax() and not settings.TRACK_AJAX_REQUESTS:
             return response
 
-        user = getattr(request, 'user', None)
-        # Check for anonymous users
-        if not user or user.is_anonymous():
-            if not settings.TRACK_ANONYMOUS_USERS:
-                return response
-            user = None
+        if request.user.is_anonymous() and not settings.TRACK_ANONYMOUS_USERS:
+            return response
 
-        # Check for admin users
-        if user and user.is_superuser:
-            if not settings.TRACK_ADMIN_USERS:
-                return response
+        if request.user.is_superuser and not settings.TRACK_ADMIN_USERS:
+            return response
 
-        # Logs an event
+        device = 'other'
+        if user_agent.is_mobile:
+            device = 'mobile'
+        elif user_agent.is_tablet:
+            device = 'tablet'
+        elif user_agent.is_pc:
+            device = 'pc'
+
+        summary = '%s %s %s' % (
+            request.user_agent.device.family,
+            request.user_agent.os.family,
+            request.user_agent.os.version_string,
+        )
+
+        req = '%s %s' % (
+            request.method,
+            request.path_info,
+        )
+
         Event.objects.create_event(
             domain=request.path,
             actor=user,
-            variable='',
+            variable='device',
             pre_value='',
-            post_value=''
+            post_value=device,
         )
 
         return response
