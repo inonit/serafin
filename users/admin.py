@@ -3,8 +3,10 @@ from django.utils.translation import ugettext_lazy as _
 
 from django import forms
 from django.contrib import admin
-from users.models import User
 from django.contrib.auth.admin import UserAdmin
+from import_export import resources, fields, widgets
+from import_export.admin import ImportExportModelAdmin
+from users.models import User
 
 
 class UserCreationForm(forms.ModelForm):
@@ -65,8 +67,72 @@ class UserChangeForm(forms.ModelForm):
         model = User
 
 
+class UserResource(resources.ModelResource):
+    '''Import-Export resource for User model'''
 
-class UserAdmin(UserAdmin):
+    data = fields.Field(column_name='...')
+    data_headers = []
+
+    def import_obj(self, obj, data, dry_run):
+        fields = [field for field in self.get_fields() if field.column_name != '...']
+
+        for field in fields:
+            if isinstance(field.widget, widgets.ManyToManyWidget):
+                continue
+            self.import_field(field, obj, data)
+
+        headers = [field.column_name for field in self.get_fields() if field.column_name != '...']
+
+        for key in data.keys():
+            if key in headers:
+                continue
+            if not obj.data:
+                obj.data = {}
+            obj.data[key] = data[key]
+
+    def export_resource(self, obj):
+        fields = [self.export_field(field, obj) for field in self.get_fields() if field.column_name != '...']
+
+        for field in self.data_headers:
+            if field in obj.data:
+                fields.append(obj.data.get(field))
+
+        return fields
+
+    def get_export_headers(self):
+        headers = [field.column_name for field in self.get_fields() if field.column_name != '...']
+        queryset = self.get_queryset()
+
+        data_headers = set()
+        for obj in queryset:
+            data_headers.update(obj.data.keys())
+
+        self.data_headers = list(data_headers)
+        headers += self.data_headers
+
+        return headers
+
+    class Meta:
+        model = User
+        export_order = [
+            'id',
+            'groups',
+            'data'
+        ]
+        exclude = [
+            'password',
+            'last_login',
+            'is_superuser',
+            'user_permissions',
+            'is_staff',
+            'is_active',
+            'date_joined',
+            'token',
+            'data',
+        ]
+
+
+class UserAdmin(UserAdmin, ImportExportModelAdmin):
     list_display = ['id', 'date_joined', 'last_login', 'is_superuser', 'is_staff', 'is_active']
     ordering = ['-date_joined']
     date_hierarchy = 'date_joined'
@@ -78,6 +144,7 @@ class UserAdmin(UserAdmin):
         (_('Permissions'), {'fields': ('is_active', 'is_staff', 'is_superuser',
                                        'groups', 'user_permissions')}),
         (_('Important dates'), {'fields': ('last_login', 'date_joined')}),
+        (_('User data'), {'fields': ('data', )}),
     )
     add_fieldsets = (
         (None, {'fields': ('password1', 'password2')}),
@@ -88,7 +155,10 @@ class UserAdmin(UserAdmin):
         'id',
         'date_joined',
         'last_login',
+        'data',
     ]
+
+    resource_class = UserResource
 
 
 admin.site.register(User, UserAdmin)

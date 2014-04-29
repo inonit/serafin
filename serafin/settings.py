@@ -50,6 +50,7 @@ INSTALLED_APPS = (
     'easy_thumbnails',
     'huey.djhuey',
     'django_user_agents',
+    'import_export',
 
     'tokens',
     'users',
