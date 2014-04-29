@@ -8,6 +8,8 @@ from django.template.loader import get_template
 from django.db import models
 from django.contrib.auth.models import BaseUserManager, AbstractBaseUser, PermissionsMixin
 from django.conf import settings
+from jsonfield import JSONField
+from collections import OrderedDict
 
 from tokens.tokens import token_generator
 from users.decorators import vault_post
@@ -38,6 +40,8 @@ class User(AbstractBaseUser, PermissionsMixin):
     date_joined = models.DateTimeField(_('date joined'), auto_now_add=True, editable=False)
 
     token = models.CharField(_('token'), max_length=64, blank=True, editable=False)
+
+    data = JSONField(load_kwargs={'object_pairs_hook': OrderedDict}, default='undefined')
 
     objects = UserManager()
 
