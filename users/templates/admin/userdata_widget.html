@@ -1,0 +1,13 @@
+<div ng-app="userdata">
+    <div ng-repeat="(key, value) in data">
+        {% verbatim %}
+        <label><strong>{{ key }}</strong></label>
+        {{ value }}
+        {% endverbatim %}
+    </div>
+</div>
+<script>
+    angular.module('userdata', []).run(['$rootScope', function(scope) {
+        scope.data = {{ value|safe }};
+    }]);
+</script>

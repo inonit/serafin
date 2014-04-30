@@ -4,8 +4,11 @@ from django.utils.translation import ugettext_lazy as _
 from django import forms
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
+from django.template.loader import render_to_string
+from django.utils.safestring import mark_safe
 from import_export import resources, fields, widgets
 from import_export.admin import ImportExportModelAdmin
+from jsonfield import JSONField
 from users.models import User
 
 
@@ -59,6 +62,10 @@ class UserChangeForm(forms.ModelForm):
         label=_('Password'),
         help_text=_('Password can be changed with <a href="password/">this form</a>.')
     )
+
+    def __init__(self, *args, **kwargs):
+        super(UserChangeForm, self).__init__(*args, **kwargs)
+        self.fields['data'].help_text = ''
 
     def clean_password(self):
         return self.initial['password']
@@ -132,6 +139,21 @@ class UserResource(resources.ModelResource):
         ]
 
 
+class UserDataWidget(forms.Widget):
+
+    def render(self, name, value, attrs=None):
+        context = {
+            'value': value,
+        }
+        html = render_to_string('admin/userdata_widget.html', context)
+        return mark_safe(html)
+
+    class Media:
+        js = (
+            'plumbing/angular/angular.min.js',
+        )
+
+
 class UserAdmin(UserAdmin, ImportExportModelAdmin):
     list_display = ['id', 'date_joined', 'last_login', 'is_superuser', 'is_staff', 'is_active']
     ordering = ['-date_joined']
@@ -155,8 +177,10 @@ class UserAdmin(UserAdmin, ImportExportModelAdmin):
         'id',
         'date_joined',
         'last_login',
-        'data',
     ]
+    formfield_overrides = {
+        JSONField: { 'widget': UserDataWidget }
+    }
 
     resource_class = UserResource
 
