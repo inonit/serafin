@@ -5,17 +5,26 @@ from django.http import HttpResponse
 from django.shortcuts import get_object_or_404
 from django.core.urlresolvers import reverse
 from system.models import Page
+from content.models import Email, SMS
 import json
 
 
-def api_page(request, page_id=None):
+def api_node(request, node_type=None, node_id=None):
 
-    page = get_object_or_404(Page, id=page_id)
+    if node_type == 'page':
+        node = get_object_or_404(Page, id=node_id)
+        url = reverse('admin:system_page_change', args=[node.id])
+    if node_type == 'email':
+        node = get_object_or_404(Email, id=node_id)
+        url = reverse('admin:content_email_change', args=[node.id])
+    if node_type == 'sms':
+        node = get_object_or_404(SMS, id=node_id)
+        url = reverse('admin:content_sms_change', args=[node.id])
 
     response = {
-        'id': page.id,
-        'title': page.title,
-        'url': reverse('admin:system_page_change', args=[page.id]),
+        'id': node.id,
+        'title': node.title,
+        'url': url,
     }
 
     return HttpResponse(json.dumps(response), content_type='application/json')

@@ -58,6 +58,7 @@ plumbing.service('jsPlumb', ['$rootScope', function(scope) {
             scope.$apply(function() {
                 scope.data.edges.push({
                     id: scope.data.edges.length + 1,
+                    type: '',
                     source: +c.sourceId.substr(5),
                     target: +c.targetId.substr(5),
                     conditions: [],
@@ -73,6 +74,7 @@ plumbing.run(['$rootScope', function(scope) {
         scope.data = {
             nodes: [{
                 id: 0,
+                type: 'start',
                 title: 'Start',
                 metrics: {
                     left: '25px',
@@ -92,11 +94,35 @@ plumbing.run(['$rootScope', function(scope) {
 
 plumbing.controller('graph', ['$scope', 'jsPlumb', function(scope, jsPlumbService) {
 
-        scope.addNode = function() {
+        scope.addNode = function(type) {
             var id = scope.data.nodes.length;
+
+            if (type == 'delay') {
+                scope.data.nodes.push({
+                    id: id,
+                    type: 'delay',
+                    title: 't + 0',
+                    metrics: {
+                        left: '300px',
+                        top: '100px'
+                    }
+                });
+                return;
+            }
+
+            var newNodeUrl = newPageUrl;
+            var addNodeUrl = addPageUrl;
+            if (type == 'email') {
+                newNodeUrl = newEmailUrl;
+                addNodeUrl = addEmailUrl;
+            } else if (type == 'sms') {
+                newNodeUrl = newSMSUrl;
+                addNodeUrl = addSMSUrl;
+            }
 
             scope.data.nodes.push({
                 id: id,
+                type: type,
                 ref_id: '',
                 ref_url: newNodeUrl,
                 title: '?',
@@ -120,7 +146,7 @@ plumbing.controller('graph', ['$scope', 'jsPlumb', function(scope, jsPlumbServic
             scope.jsPlumb.detachAllConnections('node_' + node.id);
             scope.data.nodes.splice(index, 1);
         };
-}])
+}]);
 
 plumbing.directive('node', ['jsPlumb', function(jsPlumbService) {
     return {
@@ -150,11 +176,15 @@ plumbing.directive('node', ['jsPlumb', function(jsPlumbService) {
             // open a django popup on double click
             element.bind('dblclick', function() {
                 if (scope.node.id > 0) {
-                    window.open(
-                        scope.node.ref_url + '?_popup=1',
-                        'noderef_' + scope.node.id,
-                        'height=800,width=1024,resizable=yes,scrollbars=yes'
-                    ).focus();
+                    if (scope.node.type == 'delay') {
+
+                    } else {
+                        window.open(
+                            scope.node.ref_url + '?_popup=1',
+                            'noderef_' + scope.node.id,
+                            'height=800,width=1024,resizable=yes,scrollbars=yes'
+                        ).focus();
+                    }
                 }
             });
         }
@@ -178,7 +208,7 @@ plumbing.directive('noderef', ['$http', function(http) {
                     scope.$apply(function() {
                         scope.node.ref_id = value;
                     });
-                    http.get(pageApiUrl + value).success(function(data) {
+                    http.get(nodeApiUrl + scope.node.type + '/' + value).success(function(data) {
                         scope.node.title = data['title'];
                         scope.node.ref_url = data['url'];
                     });
@@ -211,8 +241,29 @@ plumbing.directive('edge', ['jsPlumb', function(jsPlumbService) {
             };
         }],
         link: function(scope, element, attrs) {
-            // make connection for this edge
+
             jsPlumb.ready(function() {
+
+                var source_type = scope.data.nodes[scope.edge.source].type;
+                var target_type = scope.data.nodes[scope.edge.target].type;
+
+                // if edge is from special node to page, delete and return
+                if ((source_type == 'email' ||
+                     source_type == 'sms' ||
+                     source_type == 'delay') &&
+                    target_type == 'page') {
+                    scope.deleteEdge(scope.$index);
+                    return;
+                }
+
+                // set edge type
+                scope.edge.type = 'normal';
+
+                if (target_type != 'page') {
+                    scope.edge.type = 'special';
+                }
+
+                // finally make connection and add overlay
                 scope.connection = scope.jsPlumb.connect({
                     source: 'node_' + scope.edge.source,
                     target: 'node_' + scope.edge.target,

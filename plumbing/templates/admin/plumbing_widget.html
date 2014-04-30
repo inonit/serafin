@@ -2,7 +2,10 @@
 <div id="plumbing" class="plumbing" ng-app="plumbing" ng-controller="graph">
 
     <div class="toolbox">
-        <div class="btn" ng-click="addNode()" id="lookup_{% verbatim %}{{ current_noderef }}{% endverbatim %}">{% trans 'Add node' %}</div>
+        <div class="btn" ng-click="addNode('page')" id="lookup_{% verbatim %}{{ current_noderef }}{% endverbatim %}">{% trans 'Add node' %}</div>
+        <div class="btn" ng-click="addNode('email')" id="lookup_{% verbatim %}{{ current_noderef }}{% endverbatim %}">{% trans 'Add email' %}</div>
+        <div class="btn" ng-click="addNode('sms')" id="lookup_{% verbatim %}{{ current_noderef }}{% endverbatim %}">{% trans 'Add sms' %}</div>
+        <div class="btn" ng-click="addNode('delay')" id="lookup_{% verbatim %}{{ current_noderef }}{% endverbatim %}">{% trans 'Add delay' %}</div>
     </div>
 
     <ul class="variables">
@@ -10,7 +13,7 @@
         <li class="variable" ng-repeat="variable in variables">{% verbatim %}{{ variable }}{% endverbatim %}</li>
     </ul>
 
-    <div class="node box" ng-repeat="node in data.nodes" ng-style="node.metrics" ng-model="data.nodes">
+    <div class="node box" ng-class="node.type" ng-repeat="node in data.nodes" ng-style="node.metrics" ng-model="data.nodes">
         {% verbatim %}{{ node.title }}{% endverbatim %}
         <div class="ep"></div>
         <div class="delete" ng-click="deleteNode($index)" ng-hide="node.id == 0">×</div>
@@ -66,7 +69,11 @@
 <script>
     var initData = {{ value|safe }};
     var initVars = {{ vars|safe }};
-    var newNodeUrl = '{{ admin_page_new }}';
-    var addNodeUrl = '{{ admin_page_add }}';
-    var pageApiUrl = '{{ page_api }}';
+    var newPageUrl = '{{ admin_page_new }}';
+    var addPageUrl = '{{ admin_page_add }}';
+    var newEmailUrl = '{{ admin_email_new }}';
+    var addEmailUrl = '{{ admin_email_add }}';
+    var newSMSUrl = '{{ admin_sms_new }}';
+    var addSMSUrl = '{{ admin_sms_add }}';
+    var nodeApiUrl = '{{ node_api }}';
 </script>

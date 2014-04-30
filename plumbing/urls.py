@@ -3,6 +3,7 @@ from __future__ import unicode_literals
 from django.conf.urls import patterns, url
 
 urlpatterns = patterns('',
-    url(r'^page/$', 'plumbing.views.api_page', name='api_page'),
-    url(r'^page/(?P<page_id>\d+)$', 'plumbing.views.api_page', name='api_page'),
+    url(r'^$', 'plumbing.views.api_node', name='api_node'),
+    url(r'^(?P<node_type>\w+)/$', 'plumbing.views.api_node', name='api_node'),
+    url(r'^(?P<node_type>\w+)/(?P<node_id>\d+)$', 'plumbing.views.api_node', name='api_node'),
 )

@@ -29,6 +29,12 @@
     background: #eee;
 }
 
+.plumbing .delay,
+.plumbing .email,
+.plumbing .sms {
+    background: #fee;
+}
+
 #node_0:hover,
 .node:hover {
     background: #5C97BF;
