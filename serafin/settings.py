@@ -243,7 +243,9 @@ SUIT_CONFIG = {
                 [
                     'program',
                     'part',
-                    'page'
+                    'page',
+                    'content.email',
+                    'content.sms',
                 ]
         },
         {

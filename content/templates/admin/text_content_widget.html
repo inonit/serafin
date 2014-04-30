@@ -1,0 +1,19 @@
+{% load i18n %}
+<div id="content" class="content" ng-app="content" ng-controller="contentArray">
+
+    <textarea id="id_data" name="data" class="data ng-hide">{% verbatim %}{{ data }}{% endverbatim %}</textarea>
+
+    <div class="pagelet" ng-repeat="pagelet in data track by $index">
+
+        <h3 class="title">{% verbatim %}{{ pagelet.content_type }}{% endverbatim %}</h3>
+
+        <div class="text" ng-controller="markdown">
+            <textarea class="markdown-text" ng-model="pagelet.content.text" ng-change="md2html()"></textarea>
+            <div class="markdown-html" ng-bind-html="html"></div>
+        </div>
+
+    </div>
+    <script>
+        var initData = {{ value|safe }};
+    </script>
+</div>
