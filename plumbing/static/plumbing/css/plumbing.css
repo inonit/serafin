@@ -182,5 +182,6 @@ path {
 }
 
 .node i {
+    margin-bottom: -1px;
     vertical-align: text-bottom;
 }
