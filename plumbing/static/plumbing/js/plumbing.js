@@ -89,6 +89,7 @@ plumbing.run(['$rootScope', function(scope) {
     scope.currentNoderef = '';
     scope.variables = initVars;
     scope.showConditions = -1;
+    scope.showDelay = -1;
 
 }]);
 
@@ -101,7 +102,11 @@ plumbing.controller('graph', ['$scope', 'jsPlumb', function(scope, jsPlumbServic
                 scope.data.nodes.push({
                     id: id,
                     type: 'delay',
-                    title: 't + 0',
+                    delay: {
+                        number: 0,
+                        unit: '',
+                        relativeToStartTime: ''
+                    },
                     metrics: {
                         left: '300px',
                         top: '100px'
@@ -146,15 +151,31 @@ plumbing.controller('graph', ['$scope', 'jsPlumb', function(scope, jsPlumbServic
             scope.jsPlumb.detachAllConnections('node_' + node.id);
             scope.data.nodes.splice(index, 1);
         };
+
+        scope.close = function() {
+            scope.showDelay = -1;
+        };
 }]);
 
-plumbing.directive('node', ['jsPlumb', function(jsPlumbService) {
+plumbing.directive('node', ['$timeout', 'jsPlumb', function(timeout, jsPlumbService) {
     return {
         restrict: 'C',
         link: function(scope, element, attrs) {
-
             // set id here to avoid race condition
             element[0].id = 'node_' + scope.node.id;
+
+            // wait for DOM update, then displace settings
+            timeout(function() {
+                scope.settings = element.find('.settings');
+                element.parent().find('.floatbox').append(scope.settings);
+
+                // ensure connection is detached on edge destruction
+                scope.$on('$destroy', function() {
+                    scope.settings.remove();
+                    scope.$parent.showDelay = -1;
+                });
+            });
+
 
             // set up jsPlumb for this node
             jsPlumb.ready(function() {
@@ -173,11 +194,14 @@ plumbing.directive('node', ['jsPlumb', function(jsPlumbService) {
                 });
             });
 
-            // open a django popup on double click
+            // open a django popup or delay conditions on double click
             element.bind('dblclick', function() {
                 if (scope.node.id > 0) {
                     if (scope.node.type == 'delay') {
-
+                        scope.$apply(function() {
+                            scope.$parent.showDelay = scope.$index;
+                            scope.$parent.showConditions = -1;
+                        });
                     } else {
                         window.open(
                             scope.node.ref_url + '?_popup=1',
@@ -239,6 +263,10 @@ plumbing.directive('edge', ['jsPlumb', function(jsPlumbService) {
             scope.deleteCondition = function(index) {
                 scope.edge.conditions.splice(index, 1);
             };
+
+            scope.close = function() {
+                scope.$parent.showConditions = -1;
+            };
         }],
         link: function(scope, element, attrs) {
 
@@ -281,12 +309,14 @@ plumbing.directive('edge', ['jsPlumb', function(jsPlumbService) {
             // ensure connection is detached on edge destruction
             scope.$on('$destroy', function() {
                 scope.jsPlumb.detach(scope.connection);
+                scope.$parent.showConditions = -1;
             });
 
             // show full interface on double click
             element.find('.overlay').bind('dblclick', function() {
                 scope.$apply(function() {
                     scope.$parent.showConditions = scope.$index;
+                    scope.$parent.showDelay = -1;
                 });
             });
         }

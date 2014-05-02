@@ -57,6 +57,8 @@
 .overlay .summary {
     margin: 0;
     line-height: 1.5;
+    min-height: 1.5em;
+    min-width: 1em;
 }
 
 .overlay:hover,
@@ -134,30 +136,51 @@ path {
     background: #eee;
 }
 
+.settings,
 .conditions {
     border: 1px solid #ccc;
-    margin: 1rem 0;
-    padding: .5rem;
     float: right;
-    z-index: 10;
-    min-width: 10em;
     line-height: 16px;
+    margin: 1rem 0;
+    min-width: 10em;
+    padding: .5rem;
+    position: relative;
+    z-index: 10;
+}
+
+.conditions .btn {
+    margin-right: 1em;
 }
 
 .condition {
     margin: 0 2em .5em 0;
 }
 
+.settings input[type=number],
 .condition input {
     width: 8em;
     margin-right: .5rem;
 }
 
+.settings select,
 .condition select {
     width: auto;
     margin-right: .5rem;
 }
 
+.settings label {
+    margin: .5em 0 0;
+}
+
+.settings input[type=checkbox] {
+    margin: 0;
+    vertical-align: text-bottom;
+}
+
 .condition .trash {
     cursor: pointer;
+}
+
+.node i {
+    vertical-align: text-bottom;
 }
