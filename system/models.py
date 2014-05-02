@@ -115,3 +115,17 @@ class Page(models.Model):
                         variable.save()
 
                     self.vars_used.add(variable)
+
+
+class SystemVariable(models.Model):
+    '''A system-scope variable'''
+
+    key = models.CharField(_('key'), max_length=64, primary_key=True)
+    value = JSONField(load_kwargs={'object_pairs_hook': OrderedDict}, default='undefined')
+
+    class Meta:
+        verbose_name = _('system variable')
+        verbose_name_plural = _('system variables')
+
+    def __unicode__(self):
+        return '%s: %s' % (self.key, self.value)
