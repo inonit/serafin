@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Serafin\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-04-25 17:12+0200\n"
+"POT-Creation-Date: 2014-05-02 16:19+0200\n"
 "PO-Revision-Date: 2014-04-25 14:45+0200\n"
 "Last-Translator: Eirik Krogstad <eirikkr@gmail.com>\n"
 "Language: nb\n"
@@ -14,40 +14,81 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: content/models.py:15 system/admin.py:82
+#: content/admin.py:33 content/models.py:30 system/admin.py:82
 msgid "No content"
 msgstr "Innhold mangler"
 
-#: content/models.py:26
+#: content/admin.py:41 system/admin.py:90
+msgid "Page excerpt"
+msgstr "Sideutdrag"
+
+#: content/admin.py:46 system/admin.py:26 system/admin.py:56
+#: system/admin.py:95
+msgid "Admin note excerpt"
+msgstr "Utdrag fra administratornotat"
+
+#: content/models.py:13
+#: lib/python2.7/site-packages/django_extensions/db/models.py:36
+#: lib/python2.7/site-packages/django_extensions/mongodb/models.py:29
+#: system/models.py:34 system/models.py:48 system/models.py:86
+msgid "title"
+msgstr "tittel"
+
+#: content/models.py:14 system/models.py:60 system/models.py:87
+msgid "part"
+msgstr "del"
+
+#: content/models.py:15 system/models.py:35 system/models.py:50
+#: system/models.py:88
+msgid "admin note"
+msgstr "administratornotat"
+
+#: content/models.py:41
 msgid "content"
 msgstr "innhold"
 
-#: content/models.py:27
+#: content/models.py:42
 msgid "contents"
 msgstr "innhold"
 
-#: content/templates/admin/content_widget.html:6
+#: content/models.py:49
+msgid "e-mail"
+msgstr "e-post"
+
+#: content/models.py:50
+msgid "e-mails"
+msgstr "e-poster"
+
+#: content/models.py:57
+msgid "SMS"
+msgstr "SMS"
+
+#: content/models.py:58
+msgid "SMSs"
+msgstr "SMSer"
+
+#: content/templates/admin/content_widget.html:7
 #: content/templates/admin/content_widget.html:36
 msgid "Add text"
 msgstr "Legg til tekst"
 
-#: content/templates/admin/content_widget.html:7
+#: content/templates/admin/content_widget.html:8
 msgid "Add form"
 msgstr "Legg til skjema"
 
-#: content/templates/admin/content_widget.html:8
+#: content/templates/admin/content_widget.html:9
 msgid "Add image"
 msgstr "Legg til bilde"
 
-#: content/templates/admin/content_widget.html:9
+#: content/templates/admin/content_widget.html:10
 msgid "Add video"
 msgstr "Legg til video"
 
-#: content/templates/admin/content_widget.html:10
+#: content/templates/admin/content_widget.html:11
 msgid "Add audio"
 msgstr "Legg til lydklipp"
 
-#: content/templates/admin/content_widget.html:11
+#: content/templates/admin/content_widget.html:12
 msgid "Add file"
 msgstr "Legg til fil"
 
@@ -73,7 +114,7 @@ msgid "Label"
 msgstr "Feltnavn"
 
 #: content/templates/admin/content_widget.html:57
-#: plumbing/templates/admin/plumbing_widget.html:30
+#: plumbing/templates/admin/plumbing_widget.html:74
 msgid "Variable name"
 msgstr "Variabelnavn"
 
@@ -102,7 +143,7 @@ msgid "Alternatives"
 msgstr "Alternativer"
 
 #: content/templates/admin/content_widget.html:106
-#: plumbing/templates/admin/plumbing_widget.html:40
+#: plumbing/templates/admin/plumbing_widget.html:84
 msgid "Value"
 msgstr "Verdi"
 
@@ -478,7 +519,7 @@ msgid "Enter a valid value."
 msgstr ""
 
 #: lib/python2.7/site-packages/django/core/validators.py:51
-#: lib/python2.7/site-packages/django/forms/fields.py:644
+#: lib/python2.7/site-packages/django/forms/fields.py:647
 msgid "Enter a valid URL."
 msgstr ""
 
@@ -596,12 +637,12 @@ msgid "Field of type: %(field_type)s"
 msgstr ""
 
 #: lib/python2.7/site-packages/django/db/models/fields/__init__.py:573
-#: lib/python2.7/site-packages/django/db/models/fields/__init__.py:1068
+#: lib/python2.7/site-packages/django/db/models/fields/__init__.py:1074
 msgid "Integer"
 msgstr ""
 
 #: lib/python2.7/site-packages/django/db/models/fields/__init__.py:577
-#: lib/python2.7/site-packages/django/db/models/fields/__init__.py:1066
+#: lib/python2.7/site-packages/django/db/models/fields/__init__.py:1072
 #, python-format
 msgid "'%(value)s' value must be an integer."
 msgstr ""
@@ -679,80 +720,80 @@ msgstr ""
 msgid "File path"
 msgstr ""
 
-#: lib/python2.7/site-packages/django/db/models/fields/__init__.py:1034
+#: lib/python2.7/site-packages/django/db/models/fields/__init__.py:1040
 #, python-format
 msgid "'%(value)s' value must be a float."
 msgstr ""
 
-#: lib/python2.7/site-packages/django/db/models/fields/__init__.py:1036
+#: lib/python2.7/site-packages/django/db/models/fields/__init__.py:1042
 msgid "Floating point number"
 msgstr ""
 
-#: lib/python2.7/site-packages/django/db/models/fields/__init__.py:1103
+#: lib/python2.7/site-packages/django/db/models/fields/__init__.py:1109
 msgid "Big (8 byte) integer"
 msgstr ""
 
-#: lib/python2.7/site-packages/django/db/models/fields/__init__.py:1117
+#: lib/python2.7/site-packages/django/db/models/fields/__init__.py:1123
 msgid "IPv4 address"
 msgstr ""
 
-#: lib/python2.7/site-packages/django/db/models/fields/__init__.py:1133
+#: lib/python2.7/site-packages/django/db/models/fields/__init__.py:1145
 msgid "IP address"
 msgstr ""
 
-#: lib/python2.7/site-packages/django/db/models/fields/__init__.py:1180
+#: lib/python2.7/site-packages/django/db/models/fields/__init__.py:1194
 #, python-format
 msgid "'%(value)s' value must be either None, True or False."
 msgstr ""
 
-#: lib/python2.7/site-packages/django/db/models/fields/__init__.py:1182
+#: lib/python2.7/site-packages/django/db/models/fields/__init__.py:1196
 msgid "Boolean (Either True, False or None)"
 msgstr ""
 
-#: lib/python2.7/site-packages/django/db/models/fields/__init__.py:1234
+#: lib/python2.7/site-packages/django/db/models/fields/__init__.py:1248
 msgid "Positive integer"
 msgstr ""
 
-#: lib/python2.7/site-packages/django/db/models/fields/__init__.py:1245
+#: lib/python2.7/site-packages/django/db/models/fields/__init__.py:1259
 msgid "Positive small integer"
 msgstr ""
 
-#: lib/python2.7/site-packages/django/db/models/fields/__init__.py:1257
+#: lib/python2.7/site-packages/django/db/models/fields/__init__.py:1271
 #, python-format
 msgid "Slug (up to %(max_length)s)"
 msgstr ""
 
-#: lib/python2.7/site-packages/django/db/models/fields/__init__.py:1275
+#: lib/python2.7/site-packages/django/db/models/fields/__init__.py:1289
 msgid "Small integer"
 msgstr ""
 
-#: lib/python2.7/site-packages/django/db/models/fields/__init__.py:1281
+#: lib/python2.7/site-packages/django/db/models/fields/__init__.py:1295
 msgid "Text"
 msgstr "Tekst"
 
-#: lib/python2.7/site-packages/django/db/models/fields/__init__.py:1299
+#: lib/python2.7/site-packages/django/db/models/fields/__init__.py:1313
 #, python-format
 msgid ""
 "'%(value)s' value has an invalid format. It must be in HH:MM[:ss[.uuuuuu]] "
 "format."
 msgstr ""
 
-#: lib/python2.7/site-packages/django/db/models/fields/__init__.py:1301
+#: lib/python2.7/site-packages/django/db/models/fields/__init__.py:1315
 #, python-format
 msgid ""
 "'%(value)s' value has the correct format (HH:MM[:ss[.uuuuuu]]) but it is an "
 "invalid time."
 msgstr ""
 
-#: lib/python2.7/site-packages/django/db/models/fields/__init__.py:1304
+#: lib/python2.7/site-packages/django/db/models/fields/__init__.py:1318
 msgid "Time"
 msgstr ""
 
-#: lib/python2.7/site-packages/django/db/models/fields/__init__.py:1373
+#: lib/python2.7/site-packages/django/db/models/fields/__init__.py:1387
 msgid "URL"
 msgstr ""
 
-#: lib/python2.7/site-packages/django/db/models/fields/__init__.py:1389
+#: lib/python2.7/site-packages/django/db/models/fields/__init__.py:1403
 msgid "Raw binary data"
 msgstr ""
 
@@ -764,20 +805,20 @@ msgstr ""
 msgid "Image"
 msgstr ""
 
-#: lib/python2.7/site-packages/django/db/models/fields/related.py:1147
+#: lib/python2.7/site-packages/django/db/models/fields/related.py:1149
 #, python-format
 msgid "%(model)s instance with pk %(pk)r does not exist."
 msgstr ""
 
-#: lib/python2.7/site-packages/django/db/models/fields/related.py:1149
+#: lib/python2.7/site-packages/django/db/models/fields/related.py:1151
 msgid "Foreign Key (type determined by related field)"
 msgstr ""
 
-#: lib/python2.7/site-packages/django/db/models/fields/related.py:1290
+#: lib/python2.7/site-packages/django/db/models/fields/related.py:1292
 msgid "One-to-one relationship"
 msgstr ""
 
-#: lib/python2.7/site-packages/django/db/models/fields/related.py:1357
+#: lib/python2.7/site-packages/django/db/models/fields/related.py:1359
 msgid "Many-to-many relationship"
 msgstr ""
 
@@ -786,32 +827,32 @@ msgstr ""
 msgid "This field is required."
 msgstr ""
 
-#: lib/python2.7/site-packages/django/forms/fields.py:220
+#: lib/python2.7/site-packages/django/forms/fields.py:221
 #: lib/python2.7/site-packages/rest_framework/fields.py:801
 msgid "Enter a whole number."
 msgstr ""
 
-#: lib/python2.7/site-packages/django/forms/fields.py:261
-#: lib/python2.7/site-packages/django/forms/fields.py:289
+#: lib/python2.7/site-packages/django/forms/fields.py:264
+#: lib/python2.7/site-packages/django/forms/fields.py:292
 #: lib/python2.7/site-packages/rest_framework/fields.py:854
 msgid "Enter a number."
 msgstr ""
 
-#: lib/python2.7/site-packages/django/forms/fields.py:291
+#: lib/python2.7/site-packages/django/forms/fields.py:294
 #, python-format
 msgid "Ensure that there are no more than %(max)s digit in total."
 msgid_plural "Ensure that there are no more than %(max)s digits in total."
 msgstr[0] ""
 msgstr[1] ""
 
-#: lib/python2.7/site-packages/django/forms/fields.py:295
+#: lib/python2.7/site-packages/django/forms/fields.py:298
 #, python-format
 msgid "Ensure that there are no more than %(max)s decimal place."
 msgid_plural "Ensure that there are no more than %(max)s decimal places."
 msgstr[0] ""
 msgstr[1] ""
 
-#: lib/python2.7/site-packages/django/forms/fields.py:299
+#: lib/python2.7/site-packages/django/forms/fields.py:302
 #, python-format
 msgid ""
 "Ensure that there are no more than %(max)s digit before the decimal point."
@@ -820,36 +861,36 @@ msgid_plural ""
 msgstr[0] ""
 msgstr[1] ""
 
-#: lib/python2.7/site-packages/django/forms/fields.py:410
-#: lib/python2.7/site-packages/django/forms/fields.py:1082
+#: lib/python2.7/site-packages/django/forms/fields.py:413
+#: lib/python2.7/site-packages/django/forms/fields.py:1085
 msgid "Enter a valid date."
 msgstr ""
 
-#: lib/python2.7/site-packages/django/forms/fields.py:434
-#: lib/python2.7/site-packages/django/forms/fields.py:1083
+#: lib/python2.7/site-packages/django/forms/fields.py:437
+#: lib/python2.7/site-packages/django/forms/fields.py:1086
 msgid "Enter a valid time."
 msgstr ""
 
-#: lib/python2.7/site-packages/django/forms/fields.py:456
+#: lib/python2.7/site-packages/django/forms/fields.py:459
 msgid "Enter a valid date/time."
 msgstr ""
 
-#: lib/python2.7/site-packages/django/forms/fields.py:533
+#: lib/python2.7/site-packages/django/forms/fields.py:536
 #: lib/python2.7/site-packages/rest_framework/fields.py:926
 msgid "No file was submitted. Check the encoding type on the form."
 msgstr ""
 
-#: lib/python2.7/site-packages/django/forms/fields.py:534
+#: lib/python2.7/site-packages/django/forms/fields.py:537
 #: lib/python2.7/site-packages/rest_framework/fields.py:927
 msgid "No file was submitted."
 msgstr ""
 
-#: lib/python2.7/site-packages/django/forms/fields.py:535
+#: lib/python2.7/site-packages/django/forms/fields.py:538
 #: lib/python2.7/site-packages/rest_framework/fields.py:928
 msgid "The submitted file is empty."
 msgstr ""
 
-#: lib/python2.7/site-packages/django/forms/fields.py:537
+#: lib/python2.7/site-packages/django/forms/fields.py:540
 #, python-format
 msgid "Ensure this filename has at most %(max)d character (it has %(length)d)."
 msgid_plural ""
@@ -857,28 +898,28 @@ msgid_plural ""
 msgstr[0] ""
 msgstr[1] ""
 
-#: lib/python2.7/site-packages/django/forms/fields.py:540
+#: lib/python2.7/site-packages/django/forms/fields.py:543
 #: lib/python2.7/site-packages/rest_framework/fields.py:930
 msgid "Please either submit a file or check the clear checkbox, not both."
 msgstr ""
 
-#: lib/python2.7/site-packages/django/forms/fields.py:601
+#: lib/python2.7/site-packages/django/forms/fields.py:604
 #: lib/python2.7/site-packages/rest_framework/fields.py:970
 msgid ""
 "Upload a valid image. The file you uploaded was either not an image or a "
 "corrupted image."
 msgstr ""
 
-#: lib/python2.7/site-packages/django/forms/fields.py:751
-#: lib/python2.7/site-packages/django/forms/fields.py:838
+#: lib/python2.7/site-packages/django/forms/fields.py:754
+#: lib/python2.7/site-packages/django/forms/fields.py:841
 #: lib/python2.7/site-packages/django/forms/models.py:1154
 #: lib/python2.7/site-packages/rest_framework/fields.py:505
 #, python-format
 msgid "Select a valid choice. %(value)s is not one of the available choices."
 msgstr ""
 
-#: lib/python2.7/site-packages/django/forms/fields.py:839
-#: lib/python2.7/site-packages/django/forms/fields.py:951
+#: lib/python2.7/site-packages/django/forms/fields.py:842
+#: lib/python2.7/site-packages/django/forms/fields.py:954
 #: lib/python2.7/site-packages/django/forms/models.py:1153
 msgid "Enter a list of values."
 msgstr ""
@@ -917,6 +958,7 @@ msgstr ""
 
 #: lib/python2.7/site-packages/django/forms/formsets.py:354
 #: lib/python2.7/site-packages/filer/templates/admin/filer/folder/directory_table.html:42
+#: lib/python2.7/site-packages/import_export/templates/admin/import_export/import.html:101
 #: lib/python2.7/site-packages/suit/templates/admin/delete_confirmation.html:18
 #: lib/python2.7/site-packages/suit/templates/admin/delete_confirmation.html:49
 #: lib/python2.7/site-packages/suit/templates/admin/page_submit_line.html:8
@@ -1500,12 +1542,6 @@ msgstr ""
 msgid "modified"
 msgstr ""
 
-#: lib/python2.7/site-packages/django_extensions/db/models.py:36
-#: lib/python2.7/site-packages/django_extensions/mongodb/models.py:29
-#: system/models.py:34 system/models.py:48 system/models.py:86
-msgid "title"
-msgstr "tittel"
-
 #: lib/python2.7/site-packages/django_extensions/db/models.py:37
 #: lib/python2.7/site-packages/django_extensions/mongodb/models.py:30
 msgid "slug"
@@ -1770,7 +1806,7 @@ msgstr "Område for viktigste innhold i bildet."
 
 #: lib/python2.7/site-packages/filer/models/clipboardmodels.py:9
 #: lib/python2.7/site-packages/filer/models/foldermodels.py:253
-#: users/models.py:143
+#: users/models.py:136
 msgid "user"
 msgstr "bruker"
 
@@ -2021,6 +2057,7 @@ msgstr "Gå tilbake til administrasjonssiden"
 
 #: lib/python2.7/site-packages/filer/templates/admin/filer/breadcrumbs.html:4
 #: lib/python2.7/site-packages/filer/templates/admin/filer/folder/change_form.html:7
+#: lib/python2.7/site-packages/import_export/templates/admin/import_export/base.html:11
 #: lib/python2.7/site-packages/suit/templates/admin/app_index.html:8
 #: lib/python2.7/site-packages/suit/templates/admin/base.html:98
 #: lib/python2.7/site-packages/suit/templates/admin/change_form.html:61
@@ -2436,7 +2473,7 @@ msgstr "Slett \"%(item_label)s\""
 
 #: lib/python2.7/site-packages/filer/templates/admin/filer/folder/directory_table.html:46
 #: lib/python2.7/site-packages/suit/templates/admin/filer/folder/directory_table.html:45
-#: users/admin.py:78 users/admin.py:84
+#: users/admin.py:166 users/admin.py:173
 msgid "Permissions"
 msgstr "Tillatelser"
 
@@ -2630,11 +2667,100 @@ msgstr ""
 msgid "Redirected but the response is missing a Location: header."
 msgstr ""
 
+#: lib/python2.7/site-packages/import_export/admin.py:138
+msgid "Import finished"
+msgstr "Import fullført"
+
+#: lib/python2.7/site-packages/import_export/forms.py:11
+msgid "File to import"
+msgstr "Fil å importere"
+
+#: lib/python2.7/site-packages/import_export/forms.py:14
+#: lib/python2.7/site-packages/import_export/forms.py:41
+msgid "Format"
+msgstr ""
+
+#: lib/python2.7/site-packages/import_export/templates/admin/import_export/change_list_export.html:5
+#: lib/python2.7/site-packages/import_export/templates/admin/import_export/change_list_import_export.html:6
+#: lib/python2.7/site-packages/import_export/templates/admin/import_export/export.html:8
+#: lib/python2.7/site-packages/import_export/templates/admin/import_export/export.html:12
+#: lib/python2.7/site-packages/suit/templates/admin/import_export/change_list_export.html:5
+#: lib/python2.7/site-packages/suit/templates/admin/import_export/change_list_import_export.html:6
+#: lib/python2.7/site-packages/suit/templates/admin/import_export/export.html:5
+#: lib/python2.7/site-packages/suit/templates/admin/import_export/export.html:12
+msgid "Export"
+msgstr "Eksport"
+
+#: lib/python2.7/site-packages/import_export/templates/admin/import_export/change_list_import.html:5
+#: lib/python2.7/site-packages/import_export/templates/admin/import_export/change_list_import_export.html:5
+#: lib/python2.7/site-packages/import_export/templates/admin/import_export/import.html:8
+#: lib/python2.7/site-packages/import_export/templates/admin/import_export/import.html:12
+#: lib/python2.7/site-packages/suit/templates/admin/import_export/change_list_import.html:5
+#: lib/python2.7/site-packages/suit/templates/admin/import_export/change_list_import_export.html:5
+#: lib/python2.7/site-packages/suit/templates/admin/import_export/import.html:6
+#: lib/python2.7/site-packages/suit/templates/admin/import_export/import.html:25
+msgid "Import"
+msgstr ""
+
+#: lib/python2.7/site-packages/import_export/templates/admin/import_export/export.html:34
+#: lib/python2.7/site-packages/import_export/templates/admin/import_export/import.html:57
+msgid "Submit"
+msgstr "Utfør"
+
+#: lib/python2.7/site-packages/import_export/templates/admin/import_export/import.html:19
+msgid ""
+"Below is a preview of data to be imported. If you are satisfied with the "
+"results, click 'Confirm import'"
+msgstr ""
+"Under ser du en forhåndsvisning av data som vil importeres. Hvis du er fornøyd med "
+"resultatene, klikk 'Bekreft import'"
+
+#: lib/python2.7/site-packages/import_export/templates/admin/import_export/import.html:22
+#: lib/python2.7/site-packages/suit/templates/admin/import_export/import.html:90
+msgid "Confirm import"
+msgstr "Bekreft import"
+
+#: lib/python2.7/site-packages/import_export/templates/admin/import_export/import.html:31
+#: lib/python2.7/site-packages/suit/templates/admin/import_export/import.html:17
+msgid "This importer will import the following fields: "
+msgstr "Denne importfunksjonen vil importere følgende felter:"
+
+#: lib/python2.7/site-packages/import_export/templates/admin/import_export/import.html:65
+#: lib/python2.7/site-packages/suit/templates/admin/import_export/import.html:34
+msgid "Errors"
+msgstr "Feil"
+
+#: lib/python2.7/site-packages/import_export/templates/admin/import_export/import.html:73
+#: lib/python2.7/site-packages/suit/templates/admin/import_export/import.html:42
+msgid "Line number"
+msgstr "Linjenummer"
+
+#: lib/python2.7/site-packages/import_export/templates/admin/import_export/import.html:82
+#: lib/python2.7/site-packages/suit/templates/admin/cms/page/change_form.html:98
+#: lib/python2.7/site-packages/suit/templates/admin/import_export/import.html:51
+msgid "Preview"
+msgstr "Forhåndsvisning"
+
+#: lib/python2.7/site-packages/import_export/templates/admin/import_export/import.html:97
+#: lib/python2.7/site-packages/suit/templates/admin/import_export/import.html:65
+msgid "New"
+msgstr "Ny"
+
+#: lib/python2.7/site-packages/import_export/templates/admin/import_export/import.html:99
+#: lib/python2.7/site-packages/suit/templates/admin/import_export/import.html:67
+msgid "Skipped"
+msgstr "Hoppet over"
+
+#: lib/python2.7/site-packages/import_export/templates/admin/import_export/import.html:103
+#: lib/python2.7/site-packages/suit/templates/admin/import_export/import.html:71
+msgid "Update"
+msgstr "Oppdater"
+
 #: lib/python2.7/site-packages/jsonfield/fields.py:28
 #: lib/python2.7/site-packages/jsonfield/fields.py:40
 #: lib/python2.7/site-packages/jsonfield/fields.py:77
 msgid "Enter valid JSON"
-msgstr ""
+msgstr "Skriv inn gyldig JSON"
 
 #: lib/python2.7/site-packages/mptt/admin.py:96
 msgid "Database error"
@@ -3110,7 +3236,7 @@ msgstr ""
 
 #: lib/python2.7/site-packages/suit/templates/admin/login.html:48
 #: lib/python2.7/site-packages/suit/templates/admin/auth/user/change_password.html:54
-#: users/admin.py:12 users/admin.py:57
+#: users/admin.py:17 users/admin.py:62
 msgid "Password"
 msgstr ""
 
@@ -3119,10 +3245,11 @@ msgid "Forgotten your password or username?"
 msgstr ""
 
 #: lib/python2.7/site-packages/suit/templates/admin/login.html:60
+#: templates/registration/password_reset_complete.html:12
 #: users/templates/login.html:5 users/templates/login.html.py:9
 #: users/templates/login.html:19
 msgid "Log in"
-msgstr ""
+msgstr "Logg inn"
 
 #: lib/python2.7/site-packages/suit/templates/admin/object_history.html:27
 #: lib/python2.7/site-packages/suit/templates/reversion/object_history.html:15
@@ -3203,7 +3330,7 @@ msgstr ""
 
 #: lib/python2.7/site-packages/suit/templates/admin/auth/user/change_password.html:64
 #: lib/python2.7/site-packages/suit/templates/registration/password_change_form.html:77
-#: users/admin.py:13
+#: users/admin.py:18
 msgid "Password (again)"
 msgstr ""
 
@@ -3239,11 +3366,6 @@ msgstr ""
 #: lib/python2.7/site-packages/suit/templates/admin/cms/page/change_form.html:97
 #: lib/python2.7/site-packages/suit/templates/admin/cms/page/change_form.html:98
 msgid "draft"
-msgstr ""
-
-#: lib/python2.7/site-packages/suit/templates/admin/cms/page/change_form.html:98
-#: lib/python2.7/site-packages/suit/templates/admin/import_export/import.html:51
-msgid "Preview"
 msgstr ""
 
 #: lib/python2.7/site-packages/suit/templates/admin/cms/page/change_form.html:100
@@ -3320,48 +3442,6 @@ msgid ""
 "            "
 msgstr ""
 
-#: lib/python2.7/site-packages/suit/templates/admin/import_export/change_list_export.html:5
-#: lib/python2.7/site-packages/suit/templates/admin/import_export/change_list_import_export.html:6
-#: lib/python2.7/site-packages/suit/templates/admin/import_export/export.html:5
-#: lib/python2.7/site-packages/suit/templates/admin/import_export/export.html:12
-msgid "Export"
-msgstr ""
-
-#: lib/python2.7/site-packages/suit/templates/admin/import_export/change_list_import.html:5
-#: lib/python2.7/site-packages/suit/templates/admin/import_export/change_list_import_export.html:5
-#: lib/python2.7/site-packages/suit/templates/admin/import_export/import.html:6
-#: lib/python2.7/site-packages/suit/templates/admin/import_export/import.html:25
-msgid "Import"
-msgstr ""
-
-#: lib/python2.7/site-packages/suit/templates/admin/import_export/import.html:17
-msgid "This importer will import the following fields: "
-msgstr ""
-
-#: lib/python2.7/site-packages/suit/templates/admin/import_export/import.html:34
-msgid "Errors"
-msgstr ""
-
-#: lib/python2.7/site-packages/suit/templates/admin/import_export/import.html:42
-msgid "Line number"
-msgstr ""
-
-#: lib/python2.7/site-packages/suit/templates/admin/import_export/import.html:65
-msgid "New"
-msgstr ""
-
-#: lib/python2.7/site-packages/suit/templates/admin/import_export/import.html:67
-msgid "Skipped"
-msgstr ""
-
-#: lib/python2.7/site-packages/suit/templates/admin/import_export/import.html:71
-msgid "Update"
-msgstr ""
-
-#: lib/python2.7/site-packages/suit/templates/admin/import_export/import.html:90
-msgid "Confirm import"
-msgstr ""
-
 #: lib/python2.7/site-packages/suit/templates/registration/logged_out.html:9
 msgid "Thanks for spending some quality time with the Web site today."
 msgstr ""
@@ -3390,6 +3470,7 @@ msgid "New password"
 msgstr ""
 
 #: lib/python2.7/site-packages/suit/templates/registration/password_change_form.html:88
+#: templates/registration/password_reset_confirm.html:19
 msgid "Change my password"
 msgstr ""
 
@@ -3429,33 +3510,58 @@ msgstr ""
 msgid "Add node"
 msgstr "Legg til node"
 
-#: plumbing/templates/admin/plumbing_widget.html:9
+#: plumbing/templates/admin/plumbing_widget.html:6
+msgid "Add email"
+msgstr "Legg til e-post"
+
+#: plumbing/templates/admin/plumbing_widget.html:7
+msgid "Add sms"
+msgstr "Legg til SMS"
+
+#: plumbing/templates/admin/plumbing_widget.html:8
+msgid "Add delay"
+msgstr "Legg til forsinkelse"
+
+#: plumbing/templates/admin/plumbing_widget.html:12
 msgid "Available variables"
 msgstr "Tilgjengelige variabler"
 
 #: plumbing/templates/admin/plumbing_widget.html:38
+msgid "Number"
+msgstr "Antall"
+
+#: plumbing/templates/admin/plumbing_widget.html:40
+msgid "minutes"
+msgstr "minutter"
+
+#: plumbing/templates/admin/plumbing_widget.html:41
+msgid "hours"
+msgstr "timer"
+
+#: plumbing/templates/admin/plumbing_widget.html:44
+msgid "Relative to start time for part"
+msgstr "Relativt til starttid for delen"
+
+#: plumbing/templates/admin/plumbing_widget.html:61
+#: plumbing/templates/admin/plumbing_widget.html:82
 msgid "contains"
 msgstr "inneholder"
 
-#: plumbing/templates/admin/plumbing_widget.html:43
+#: plumbing/templates/admin/plumbing_widget.html:66
+msgid "Pass"
+msgstr ""
+
+#: plumbing/templates/admin/plumbing_widget.html:87
 msgid "Add condition"
 msgstr "Legg til forutsetning"
 
-#: system/admin.py:26 system/admin.py:56 system/admin.py:95
-msgid "Admin note excerpt"
-msgstr "Utdrag fra administratornotat"
-
-#: system/admin.py:90
-msgid "Page excerpt"
-msgstr "Sideutdrag"
-
 #: system/models.py:15
 msgid "numeric"
-msgstr ""
+msgstr "tallverdi"
 
 #: system/models.py:16
 msgid "string"
-msgstr ""
+msgstr "kort tekst"
 
 #: system/models.py:17
 msgid "text"
@@ -3477,10 +3583,6 @@ msgstr "type variabel"
 msgid "variables"
 msgstr "variabler"
 
-#: system/models.py:35 system/models.py:50 system/models.py:88
-msgid "admin note"
-msgstr "administratornotat"
-
 #: system/models.py:38 system/models.py:49
 msgid "program"
 msgstr "program"
@@ -3496,10 +3598,6 @@ msgstr "tidspunkt start"
 #: system/models.py:53
 msgid "end time"
 msgstr "tidspunkt slutt"
-
-#: system/models.py:60 system/models.py:87
-msgid "part"
-msgstr "del"
 
 #: system/models.py:61
 msgid "parts"
@@ -3525,7 +3623,7 @@ msgstr "Side %s"
 
 #: tasks/admin.py:22
 msgid "Task result"
-msgstr ""
+msgstr "Oppgaveresultat"
 
 #: tasks/models.py:15
 msgid "sender"
@@ -3562,6 +3660,109 @@ msgstr ""
 msgid "Quit / sign out"
 msgstr "Avslutt / logg ut"
 
+#: templates/registration/password_reset_complete.html:4
+#: templates/registration/password_reset_complete.html:8
+msgid "Password reset complete"
+msgstr ""
+
+#: templates/registration/password_reset_complete.html:10
+msgid "Your password has been set.  You may go ahead and log in now."
+msgstr ""
+
+#: templates/registration/password_reset_confirm.html:4
+#: templates/registration/password_reset_form.html:4
+#: templates/registration/password_reset_form.html:8
+msgid "Password reset"
+msgstr ""
+
+#: templates/registration/password_reset_confirm.html:10
+msgid "Enter new password"
+msgstr ""
+
+#: templates/registration/password_reset_confirm.html:12
+msgid ""
+"Please enter your new password twice so we can verify you typed it in "
+"correctly."
+msgstr ""
+
+#: templates/registration/password_reset_confirm.html:16
+msgid "New password:"
+msgstr ""
+
+#: templates/registration/password_reset_confirm.html:18
+msgid "Confirm password:"
+msgstr ""
+
+#: templates/registration/password_reset_confirm.html:24
+msgid "Password reset unsuccessful"
+msgstr ""
+
+#: templates/registration/password_reset_confirm.html:26
+msgid ""
+"The password reset link was invalid, possibly because it has already been "
+"used.  Please request a new password reset."
+msgstr ""
+
+#: templates/registration/password_reset_done.html:4
+#: templates/registration/password_reset_done.html:8
+msgid "Password reset successful"
+msgstr ""
+
+#: templates/registration/password_reset_done.html:10
+msgid ""
+"We've emailed you instructions for setting your password. You should be "
+"receiving them shortly."
+msgstr ""
+
+#: templates/registration/password_reset_done.html:12
+msgid ""
+"If you don't receive an email, please make sure you've entered the address "
+"you registered with, and check your spam folder."
+msgstr ""
+
+#: templates/registration/password_reset_email.html:2
+#, python-format
+msgid ""
+"You're receiving this email because you requested a password reset for your "
+"user account at %(site_name)s."
+msgstr ""
+
+#: templates/registration/password_reset_email.html:4
+msgid "Please go to the following page and choose a new password:"
+msgstr ""
+
+#: templates/registration/password_reset_email.html:8
+msgid "Your ID, in case you've forgotten:"
+msgstr "Din ID, i tilfelle du har glemt den:"
+
+#: templates/registration/password_reset_email.html:10
+msgid "Thanks for using our site!"
+msgstr ""
+
+#: templates/registration/password_reset_email.html:12
+#, python-format
+msgid "The %(site_name)s team"
+msgstr ""
+
+#: templates/registration/password_reset_form.html:10
+msgid ""
+"Forgotten your password? Enter your email address below, and we'll email "
+"instructions for setting a new one."
+msgstr ""
+
+#: templates/registration/password_reset_form.html:14
+msgid "Email address:"
+msgstr "E-postadresse:"
+
+#: templates/registration/password_reset_form.html:14
+msgid "Reset my password"
+msgstr "Nullstill mitt passord"
+
+#: templates/registration/password_reset_subject.txt:2
+#, python-format
+msgid "Password reset on %(site_name)s"
+msgstr "Passordnullstilling på %(site_name)s"
+
 #: tokens/json_status.py:4 tokens/tests/test_decorators.py:18
 msgid "OK"
 msgstr ""
@@ -3576,46 +3777,54 @@ msgstr ""
 
 #: tokens/json_status.py:7
 msgid "Bad authentication"
-msgstr "Ugyldig autentisering"
+msgstr ""
 
-#: users/admin.py:22
+#: users/admin.py:27
 msgid "The passwords are not equal."
 msgstr "Passordene er ikke like."
 
-#: users/admin.py:58
+#: users/admin.py:63
 msgid "Password can be changed with <a href=\"password/\">this form</a>."
 msgstr "Passord kan endres med <a href=\"password/\">dette skjemaet</a>."
 
-#: users/admin.py:80
+#: users/admin.py:168
 msgid "Important dates"
-msgstr ""
+msgstr "Viktige datoer"
 
-#: users/models.py:37
+#: users/admin.py:169
+msgid "User data"
+msgstr "Brukerdata"
+
+#: users/forms.py:13
+msgid "Email"
+msgstr "E-post"
+
+#: users/models.py:38
 msgid "staff status"
 msgstr "administrator"
 
-#: users/models.py:38
+#: users/models.py:39
 msgid "active"
 msgstr "aktiv"
 
-#: users/models.py:39
+#: users/models.py:40
 msgid "date joined"
 msgstr "registreringsdato"
 
-#: users/models.py:41
+#: users/models.py:42
 msgid "token"
 msgstr "nøkkel"
 
-#: users/models.py:49
+#: users/models.py:52
 #, python-format
 msgid "User %i"
 msgstr "Bruker %i"
 
-#: users/models.py:125
+#: users/models.py:114
 msgid "Today's login link"
 msgstr "Dagens innloggingslenke"
 
-#: users/models.py:144
+#: users/models.py:137
 msgid "users"
 msgstr "brukere"
 
@@ -3627,134 +3836,47 @@ msgstr "Innlogget"
 msgid "Not logged in"
 msgstr "Ikke innlogget"
 
-#: users/templates/users/emails/html/login_link.html:14
-#: users/templates/users/emails/text/login_link.txt:3
+#: users/templates/login.html:20
+msgid "Forgot your password?"
+msgstr "Glemt passordet ditt?"
+
+#: users/templates/email/html/login_link.html:14
+#: users/templates/email/text/login_link.txt:3
 #, python-format
 msgid "Here is your login link for today's program at %(site_name)s."
 msgstr "Her er innloggingslenken for dagens program på %(site_name)s."
 
-#: users/templates/users/emails/html/login_link.html:18
-#: users/templates/users/emails/text/login_link.txt:7
+#: users/templates/email/html/login_link.html:18
+#: users/templates/email/text/login_link.txt:7
 msgid "Please keep in mind that you should never share your login link."
 msgstr "Merk at du aldri må dele din innloggingslenke med andre."
 
-#: users/templates/users/emails/html/login_link.html:23
-#: users/templates/users/emails/text/login_link.txt:9
+#: users/templates/email/html/login_link.html:20
+#: users/templates/email/text/login_link.txt:9
+#, python-format
+msgid ""
+"Should you have trouble logging in using the login link, you can log in with "
+"your ID and password at %(manual_login)s."
+msgstr ""
+
+#: users/templates/email/html/login_link.html:25
+#: users/templates/email/text/login_link.txt:11
 #, python-format
 msgid "%(site_name)s"
 msgstr ""
 
-#: vault/models.py:12
+#: vault/models.py:13
 msgid "e-mail address"
 msgstr "e-postadresse"
 
-#: vault/models.py:13
+#: vault/models.py:14
 msgid "phone number"
 msgstr "telefonnummer"
 
-#: vault/models.py:45
+#: vault/models.py:56
 msgid "vault user"
 msgstr "Hvelvbruker"
 
-#: vault/models.py:46
+#: vault/models.py:57
 msgid "vault users"
 msgstr "Hvelvbrukere"
-
-#~ msgid "texts"
-#~ msgstr "tekster"
-
-#~ msgid "forms"
-#~ msgstr "skjemaer"
-
-#~ msgid "alt text"
-#~ msgstr "alternativtekst"
-
-#~ msgid "title text"
-#~ msgstr "titteltekst"
-
-#~ msgid "videos"
-#~ msgstr "videoer"
-
-#~ msgid "audioclip"
-#~ msgstr "lydklipp"
-
-#~ msgid "audioclips"
-#~ msgstr "lydklipp"
-
-#~ msgid "Error:"
-#~ msgstr "Feil:"
-
-#~ msgid "Slot"
-#~ msgstr "Plass"
-
-#~ msgid "A short name to identify the placeholder in the template code."
-#~ msgstr "Et kort navn for å identifisere plassholderen i maler."
-
-#~ msgid "Role"
-#~ msgstr "Rolle"
-
-#~ msgid "This defines where the object is used."
-#~ msgstr "Dette defininerer hvor elementet brukes."
-
-#~ msgid "Admin title"
-#~ msgstr "Administrasjonstittel"
-
-#~ msgid "Placeholder"
-#~ msgstr "Plassholder"
-
-#~ msgid "Placeholders"
-#~ msgstr "Plassholdere"
-
-#~ msgid "Contentitem link"
-#~ msgstr "Lenker til innholdselementer"
-
-#~ msgid "Contentitem links"
-#~ msgstr "Lenke til innholdselement"
-
-#~ msgid "There are no options to configure for this element."
-#~ msgstr "Det er ingenting å konfigurere for dette elementet."
-
-#~ msgid "Loading layout data..."
-#~ msgstr "Laster layout-data..."
-
-#~ msgid "Orphaned content"
-#~ msgstr "Etterlatt innhold"
-
-#~ msgid "There are no placeholders in this template."
-#~ msgstr "Det er ingen plassholdere i denne malen."
-
-#~ msgid "Placeholder empty"
-#~ msgstr "Plassholder tom"
-
-#~ msgid "This placeholder is empty"
-#~ msgstr "Denne plassholderen er tom"
-
-#~ msgid "No items added to this field yet."
-#~ msgstr "Ingen elementer lagt til i dette feltet ennå."
-
-#~ msgid "Value should be a number or percentage."
-#~ msgstr "Verdien må være et tall eller en prosentverdi."
-
-#~ msgid "key name"
-#~ msgstr "nøkkelnavn"
-
-#~ msgid "userfield"
-#~ msgstr "brukerfelt"
-
-#~ msgid "userfields"
-#~ msgstr "brukerfelter"
-
-#~ msgid "Folder '%(folder_label)s' files"
-#~ msgstr "Filer i mappen \"%(folder_label)s\""
-
-#~ msgid "export"
-#~ msgstr "eksport"
-
-#~ msgid "download image"
-#~ msgstr "last ned bilde"
-
-#~ msgid "Folder name already taken."
-#~ msgstr "Mappenavn er allerede tatt."
-
-#~ msgid "Submit"
-#~ msgstr "Utfør"
