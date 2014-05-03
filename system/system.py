@@ -57,44 +57,44 @@ class Scope(RecursiveDict):
     def persist(self):
         raise NotImplemented
 
-    @staticmethod
-    def fromRequest(request):
+    @classmethod
+    def fromRequest(cls, request):
         request_interpreter = RequestInterpreter()
         return MessageScope(request, request_interpreter.interpret(request))
 
-    @staticmethod
-    def fromMessage(message):
+    @classmethod
+    def fromMessage(cls, message):
         if isinstance(message, HttpRequest):
-            return self.fromRequest(message)
+            return cls.fromRequest(message)
         if isinstance(message, SmsMessage):
-            return self.fromSms(message)
+            return cls.fromSms(message)
         if isinstance(message, EmailMessage):
-            return self.fromEmail(message)
+            return cls.fromEmail(message)
 
-    @staticmethod
-    def fromEmail(email):
+    @classmethod
+    def fromEmail(cls, email):
         raise NotImplemented
 
-    @staticmethod
-    def fromSms(sms):
+    @classmethod
+    def fromSms(cls, sms):
         raise NotImplemented
 
-    @staticmethod
-    def fromSession(session):
+    @classmethod
+    def fromSession(cls, session):
         variables = dict()
         for key, value in session:
             variables[key] = value
         return SessionScope(session, variables)
 
-    @staticmethod
-    def fromUser(user):
+    @classmethod
+    def fromUser(cls, user):
         variables = dict()
         for key, value in user.data:
             variables[key] = value
         return UserScope(user, variables)
 
-    @staticmethod
-    def fromSystem(manager):
+    @classmethod
+    def fromSystem(cls, manager):
         variables = dict()
         for var in manager.all():
             variables[var.key] = var.value
@@ -214,44 +214,44 @@ class Context(ScopeStack):
         for scope in self.scopes:
             scope.persist()
 
-    @staticmethod
-    def fromRequest(request):
+    @classmethod
+    def fromRequest(cls, request):
         return Context.fromScopes([
             Scope.fromSystem(SystemVariable.objects),
             Scope.fromUser(request.user),
             Scope.fromSession(request.session),
             Scope.fromRequest(request)])
 
-    @staticmethod
-    def fromMessage(message):
+    @classmethod
+    def fromMessage(cls, message):
         if isinstance(message, HttpRequest):
-            return self.fromRequest(message)
+            return cls.fromRequest(message)
 
         return Context.fromScopes([
             Scope.fromSystem(SystemVariable.objects),
             Scope.fromUser(message.user),
             Scope.fromMessage(message)])
 
-    @staticmethod
-    def fromEmail(email):
+    @classmethod
+    def fromEmail(cls, email):
         raise NotImplemented
 
-    @staticmethod
-    def fromSms(sms):
+    @classmethod
+    def fromSms(cls, sms):
         raise NotImplemented
 
-    @staticmethod
-    def fromUser(user):
+    @classmethod
+    def fromUser(cls, user):
         return Context.fromScopes([
             Scope.fromSystem(SystemVariable.objects),
             Scope.fromUser(user)])
 
-    @staticmethod
-    def fromUserId(user_id):
+    @classmethod
+    def fromUserId(cls, user_id):
         return Context.fromUser(UserManager.get(user_id))
 
-    @staticmethod
-    def fromScopes(scopes):
+    @classmethod
+    def fromScopes(cls, scopes):
         context = Context()
         for scope in scopes:
             context.add_scope(scope)
