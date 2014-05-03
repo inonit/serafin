@@ -119,13 +119,13 @@ class SessionScope(Scope):
 
             if key in self.items:
                 if self.session[key] != self.items[key]:
-                    to_set += (key, self.items[key])
+                    to_set.append((key, self.items[key]))
             else:
-                to_delete += key
+                to_delete.append(key)
 
         for key in self.items:
             if key not in self.session:
-                to_set += (key, self.items[key])
+                to_set.append((key, self.items[key]))
 
         for key in to_delete:
             del self.session[key]
@@ -160,13 +160,13 @@ class SystemScope(Scope):
 
             if var.key in self.items:
                 if var.value != self.items[var.key]:
-                    to_change += (var.key, self.items[var.key])
+                    to_change.append((var.key, self.items[var.key]))
             else:
-                to_delete += var.key
+                to_delete.append(var.key)
 
         for key in self.items:
             if key not in persisted_vars_dict:
-                to_add += (key, self.items[key])
+                to_add.append((key, self.items[key]))
 
         for key in to_delete:
             self.manager.delete(key)
@@ -276,7 +276,7 @@ class System:
             raise KeyError("No running programs")
 
         for program in running_programs:
-            responses += program.run(self.context)
+            responses.append(program.run(self.context))
         return responses
 
     def run_job(self, job_id):
@@ -685,6 +685,6 @@ class SerafProgram(AbstractStateMachine):
             if 'content_type' in item and item['content_type'] == 'form':
                 stack.extentleft(item['content'])
             elif 'variable_name' in item:
-                variables += item
+                variables.append(item)
         return variables
 
