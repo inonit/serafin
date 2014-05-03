@@ -331,10 +331,10 @@ class Scheduler:
         '''Delete a job by job id'''
         raise NotImplemented
 
-    def run_job(self, args):
+    def run_job(self, *args, **kwargs):
         '''Run a job'''
 
-        context = Context.fromUserId(args['user_id'])
+        context = Context.fromUserId(kwargs['user_id'])
         system = System(programs, self, context)
 
 
@@ -448,7 +448,7 @@ class RelativeDelayState(State):
     '''
     def __init__(self, name, delay_duration=0):
         Node.__init__(self, name)
-        self.set_delay_date(delay_date)
+        self.set_delay_duration(delay_duration)
 
     def set_delay_duration(self, seconds):
         delay_date = datetime.datetime.now() + datetime.timedelta(seconds=15)
@@ -677,13 +677,17 @@ class AbstractStateMachine(Program):
 
 
 class SerafProgram(AbstractStateMachine):
-    def fromPart(part):
+    def fromPart(self, part):
         states = []
         for node in part.data['nodes']:
             if 'type' in node:
                 if node['type'] == 'delay':
                     state = DelayState()
-        seraf_program = SerafProgram(part.program.title+'.'+part.title, states, initial_state)
+        seraf_program = SerafProgram(
+            part.program.title+'.'+part.title,
+            states,
+            self.initial_state
+        )
 
     def get_variables(self, data):
         variables = []
