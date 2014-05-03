@@ -371,12 +371,14 @@ class ResponseState(State):
     '''
     A response state is a state whose entry_action produces a response.
     '''
+    pass
 
 
 class ReentrantState(State):
     '''
     A reentrant state is a state which can be re-entered without side effects.
     '''
+    pass
 
 
 class HttpState(ResponseState, ReentrantState):
@@ -384,18 +386,21 @@ class HttpState(ResponseState, ReentrantState):
     An HTTP state is a re-entrant response state whose response is sent using
     HTTP.
     '''
+    pass
 
 
 class SmsState(ResponseState):
     '''
     An SMS state is a response state whose response is sent using SMS.
     '''
+    pass
 
 
 class EmailState(ResponseState):
     '''
     An e-mail state is a response state whose response is sent using e-mail.
     '''
+    pass
 
 
 class ActionState(State):
@@ -403,16 +408,19 @@ class ActionState(State):
     An action state is a state that should be left as soon as it's entry action
     has been run.
     '''
+    pass
 
 
 class PersistentState(State):
     '''
     A persistent state is a state you can stay in.
     '''
+    pass
 
 
 
 class DelayState(State):
+    pass
 
 
 class AbsoluteDelayState(State):
