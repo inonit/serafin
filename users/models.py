@@ -60,6 +60,10 @@ class User(AbstractBaseUser, PermissionsMixin):
     def get_username(self):
         return self.username
 
+    def is_member(self, group_name):
+        '''Check if user is part of a given group by name'''
+        return self.groups.filter(name=group_name).exists()
+
     @vault_post
     def _mirror_user(self):
         '''Get confirmation of or create a corresponding User in the Vault'''
