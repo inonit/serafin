@@ -10,6 +10,7 @@ from import_export import resources, fields, widgets
 from import_export.admin import ImportExportModelAdmin
 from jsonfield import JSONField
 from users.models import User
+from events.models import Event
 
 
 class UserCreationForm(forms.ModelForm):
@@ -154,6 +155,23 @@ class UserDataWidget(forms.Widget):
         )
 
 
+class EventInline(admin.TabularInline):
+    model = Event
+    extra = 0
+    can_delete = False
+    suit_classes = 'suit-tab suit-tab-log'
+
+    readonly_fields = ('time', 'domain', 'variable', 'pre_value', 'post_value')
+
+    def has_add_permission(self, request):
+        return False
+
+    def domain_display(self, instance):
+        return instance.get_domain_display()
+
+    domain_display.short_description = _('domain')
+
+
 class UserAdmin(UserAdmin, ImportExportModelAdmin):
     list_display = ['id', 'date_joined', 'last_login', 'is_superuser', 'is_staff', 'is_active']
     ordering = ['-date_joined']
@@ -162,11 +180,18 @@ class UserAdmin(UserAdmin, ImportExportModelAdmin):
     form = UserChangeForm
     add_form = UserCreationForm
     fieldsets = (
-        (None, {'fields': ('id', 'password')}),
-        (_('Permissions'), {'fields': ('is_active', 'is_staff', 'is_superuser',
-                                       'groups', 'user_permissions')}),
-        (_('Important dates'), {'fields': ('last_login', 'date_joined')}),
-        (_('User data'), {'fields': ('data', )}),
+        (None, {
+            'fields': ('id', 'password', 'last_login', 'date_joined'),
+            'classes': ('suit-tab suit-tab-info', ),
+        }),
+        (_('Permissions'), {
+            'fields': ('is_active', 'is_staff', 'is_superuser', 'groups', 'user_permissions'),
+            'classes': ('suit-tab suit-tab-info', ),
+        }),
+        (None, {
+            'fields': ('data', ),
+            'classes': ('suit-tab suit-tab-data', ),
+        }),
     )
     add_fieldsets = (
         (None, {'fields': ('password1', 'password2')}),
@@ -181,6 +206,12 @@ class UserAdmin(UserAdmin, ImportExportModelAdmin):
     formfield_overrides = {
         JSONField: { 'widget': UserDataWidget }
     }
+    inlines = (EventInline, )
+    suit_form_tabs = (
+        ('info', _('User info')),
+        ('data', _('User data')),
+        ('log', _('Log entries'))
+    )
 
     resource_class = UserResource
 
