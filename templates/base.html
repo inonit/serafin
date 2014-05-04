@@ -1,5 +1,5 @@
 <!doctype html>
-<html class="no-js" lang="{{ LANGUAGE_CODE|default:'no' }}">
+<html class="no-js" lang="{{ LANGUAGE_CODE|default:'no' }}" ng-app="serafin">
   {% load i18n %}
   <head>
     <meta charset="utf-8" />
@@ -7,18 +7,17 @@
     <title>{% block title %}Serafin{% endblock %}</title>
     {% block meta %}{% endblock %}
     {% load staticfiles %}
-    <link href="//fonts.googleapis.com/css?family=Raleway" rel="stylesheet" type="text/css">
     <link rel="stylesheet" href="{% static 'css/foundation.css' %}" />
     <link rel="stylesheet" href="{% static 'css/style.css' %}" />
     {% block styles %}{% endblock %}
     <script src="{% static 'js/vendor/modernizr.js' %}"></script>
   </head>
-  <body ng-app="serafin">
+  <body>
     <div class="wrapper">
       <header>
         <nav class="top-bar" data-topbar>
           <h1 class="entry">{{ program }}</h1>
-          <div class="entry">{{ title }}</div>
+          <div class="entry title">{{ title }}</div>
           <ul class="right">
             <li><a class="button" href="{% url 'logout' %}">{% trans 'Quit / sign out' %}</a></li>
           </ul>

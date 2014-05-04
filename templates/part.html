@@ -1,15 +1,73 @@
 {% extends 'base.html' %}
-{% block title %}{{ title }}{% endblock %}
-<div class="pages" ng-controller="pages">
-    {% for page in pages %}
-    <div class="page fade" ng-show="index == {{ forloop.counter0 }}">
-        {% for pagelet in page.pagelets %}
-            {{ pagelet }}
-        {% endfor %}
-        <nav>
-            <a class="button prev left" href="" ng-click="prev()">Forrige side</a>
-            <a class="button next right" href="" ng-click="next()">Neste side</a>
-        </nav>
+{% load i18n %}
+{% block content %}
+<div class="page" ng-controller="pages" ng-cloak>
+    {% verbatim %}
+    <div class="pagelet" ng-repeat="pagelet in page">
+        <div class="text" ng-if="pagelet.content_type == 'text'" class="text" ng-bind-html="trust(pagelet.content.html)">
+        </div>
+        <form class="form" ng-if="pagelet.content_type == 'form'">
+            <div ng-repeat="field in pagelet.content">
+                <div ng-if="field.field_type == 'numeric'">
+                    <label for="{{ field.variable_name }}"><strong>{{ field.label }}</strong></label>
+                    <input type="number" name="{{ field.variable_name }}" min="{{ field.lower_limit }}" max="{{ field.upper_limit }}" ng-model="field.value">
+                </div>
+                <div ng-if="field.field_type == 'string'">
+                    <label for="{{ field.variable_name }}"><strong>{{ field.label }}</strong></label>
+                    <input type="text" name="{{ field.variable_name }}" ng-model="field.value">
+                </div>
+                <div ng-if="field.field_type == 'text'">
+                    <label for="{{ field.variable_name }}"><strong>{{ field.label }}</strong></label>
+                    <textarea name="{{ field.variable_name }}" ng-model="field.value"></textarea>
+                </div>
+                <fieldset ng-if="field.field_type == 'multiplechoice'">
+                    <legend>{{ field.label }}</legend>
+                    <label ng-repeat="alt in field.alternatives">
+                        <input type="radio" name="{{ field.variable_name }}" value="{{ alt.value }}" ng-model="$parent.value">
+                        {{ alt.label }}
+                    </label>
+                </fieldset>
+                <fieldset ng-if="field.field_type == 'multipleselection'">
+                    <legend>{{ field.label }}</legend>
+                    <label ng-repeat="alt in field.alternatives">
+                        <input type="checkbox" name="{{ field.variable_name }}" value="{{ alt.value }}" ng>
+                        {{ alt.label }}
+                    </label>
+                </fieldset>
+            </div>
+        </form>
+        <div class="directive" ng-if="pagelet.content_type == 'directive'">
+            <!-- Add directive support -->
+        </div>
+        <div class="image" ng-if="pagelet.content_type == 'image'">
+            <img ng-src="{{ pagelet.content.url }}" alt="{{ pagelet.content.alt }}" title="{{ pagelet.content.title }}">
+        </div>
+        <div class="video" ng-if="pagelet.content_type == 'video'">
+            <label>{{ pagelet.content.title }}</label>
+            <video ng-src="{{ pagelet.content.url }}">
+                <!-- Add fallback option -->
+            </video>
+        </div>
+        <div class="audio" ng-if="pagelet.content_type == 'audio'">
+            <label>{{ pagelet.content.title }}</label>
+            <audio ng-src="{{ pagelet.content.url }}">
+                <!-- Add fallback option -->
+            </audio>
+        </div>
+        <div class="file" ng-if="pagelet.content_type == 'file'">
+            <a href="{{ pagelet.content.url }}">{{ pagelet.content.title }}</a>
+        </div>
     </div>
-    {% endfor %}
+    {% endverbatim %}
+    <nav>
+        <a class="button next" ng-click="next()">{% trans 'Next page' %}</a>
+    </nav>
 </div>
+{% endblock content %}
+
+{% block scripts %}
+<script>
+    var api = '{{ api|safe }}';
+    var csrf_token = '{{ csrf_token }}';
+</script>
+{% endblock scripts %}

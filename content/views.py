@@ -1,21 +1,87 @@
 from __future__ import unicode_literals
-from django.utils.translation import ugettext_lazy as _
 
-from django.shortcuts import get_object_or_404
-from django.http import HttpResponse
+from django.contrib.auth.decorators import login_required
+from django.contrib.admin.views.decorators import staff_member_required
+from django.core.urlresolvers import reverse
+from django.shortcuts import get_object_or_404, render
 from filer.models import File, Image
+from serafin.utils import JSONResponse
+from system.models import Part, Page
 import json
+import mistune
 
 
-def get_page(request):
+@login_required
+def get_part(request):
 
-    response = {
-        'status': 'ok',
+    if request.is_ajax():
+        return get_page(request)
+
+    user_data = request.user.data
+    data = {
+        'user_data': user_data
     }
 
-    return HttpResponse(json.dumps(response), content_type='application/json')
+    # TODO: run system and supply data
+    # TODO: get current Part object back from system
+    #part = system.something(request.user, data)
+
+    # preview support
+    part_id = request.GET.get('part_id')
+    if request.user.is_staff and part_id:
+        part = Part.objects.get(id=part_id)
+
+    context = {
+        'program': part.program,
+        'api': reverse('content_api'),
+    }
+
+    return render(request, 'part.html', context)
 
 
+@login_required
+def get_page(request):
+
+    data = {}
+
+    if request.method == 'POST':
+        post_data = json.loads(request.body)
+        data.update({
+            'post_data': post_data
+        })
+
+    user_data = request.user.data
+    data.update({
+        'user_data': user_data
+    })
+
+    # TODO: run system and supply data
+    # TODO: get Page object back from system
+    #page = system.something(request.user, data)
+
+    # preview support
+    page_id = request.GET.get('page_id')
+    if request.user.is_staff:
+        page = Page.objects.get(id=page_id)
+
+    for pagelet in page.data:
+        try:
+            if pagelet['content_type'] == 'text':
+                pagelet['content']['html'] = mistune.markdown(
+                    pagelet['content']['text']
+                )
+        except:
+            continue
+
+    response = {
+        'title': page.title,
+        'data': page.data,
+    }
+
+    return JSONResponse(response)
+
+
+@staff_member_required
 def api_filer_file(request, content_type=None, file_id=None):
 
     if content_type == 'image':
@@ -30,4 +96,4 @@ def api_filer_file(request, content_type=None, file_id=None):
         'description': filer_file.original_filename,
     }
 
-    return HttpResponse(json.dumps(response), content_type='application/json')
+    return JSONResponse(response)

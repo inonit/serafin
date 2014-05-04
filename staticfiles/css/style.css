@@ -11,6 +11,7 @@ html, body {
 .footer, .push {
     height: 45px;
     overflow: hidden;
+    clear: both;
 }
 
 h1,
@@ -66,12 +67,8 @@ h6 {
     padding: 10px 15px 0;
 }
 
-.pages {
-    position: relative;
-}
-
 .page {
-    margin: 3em auto;
+    margin: 2em auto;
     max-width: 40em;
     padding: 0 1em;
 }
@@ -103,6 +100,11 @@ label.large {
     margin-right: 5px;
     width: 20px;
     height: 20px;
+}
+
+.page nav {
+    width: 100%;
+    text-align: center;
 }
 
 .login.button {
@@ -147,4 +149,14 @@ label.large {
 
 .slide.ng-hide {
     max-height: 0;
+}
+
+.ng-cloak {
+    display: none !important;
+}
+
+@media only screen and (max-width: 64.063em) {
+    .top-bar ul.right {
+        margin-top: .55em;
+    }
 }
