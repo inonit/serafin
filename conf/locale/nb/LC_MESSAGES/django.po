@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Serafin\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-05-02 16:19+0200\n"
+"POT-Creation-Date: 2014-05-05 00:12+0200\n"
 "PO-Revision-Date: 2014-04-25 14:45+0200\n"
 "Last-Translator: Eirik Krogstad <eirikkr@gmail.com>\n"
 "Language: nb\n"
@@ -30,16 +30,16 @@ msgstr "Utdrag fra administratornotat"
 #: content/models.py:13
 #: lib/python2.7/site-packages/django_extensions/db/models.py:36
 #: lib/python2.7/site-packages/django_extensions/mongodb/models.py:29
-#: system/models.py:34 system/models.py:48 system/models.py:86
+#: system/models.py:34 system/models.py:48 system/models.py:89
 msgid "title"
 msgstr "tittel"
 
-#: content/models.py:14 system/models.py:60 system/models.py:87
+#: content/models.py:14 system/models.py:60 system/models.py:90
 msgid "part"
 msgstr "del"
 
 #: content/models.py:15 system/models.py:35 system/models.py:50
-#: system/models.py:88
+#: system/models.py:91
 msgid "admin note"
 msgstr "administratornotat"
 
@@ -166,7 +166,7 @@ msgstr "Utført av"
 msgid "time"
 msgstr "tidspunkt"
 
-#: events/models.py:13
+#: events/models.py:13 users/admin.py:172
 msgid "domain"
 msgstr "domene"
 
@@ -1806,7 +1806,7 @@ msgstr "Område for viktigste innhold i bildet."
 
 #: lib/python2.7/site-packages/filer/models/clipboardmodels.py:9
 #: lib/python2.7/site-packages/filer/models/foldermodels.py:253
-#: users/models.py:136
+#: users/models.py:140
 msgid "user"
 msgstr "bruker"
 
@@ -2473,7 +2473,7 @@ msgstr "Slett \"%(item_label)s\""
 
 #: lib/python2.7/site-packages/filer/templates/admin/filer/folder/directory_table.html:46
 #: lib/python2.7/site-packages/suit/templates/admin/filer/folder/directory_table.html:45
-#: users/admin.py:166 users/admin.py:173
+#: users/admin.py:187 users/admin.py:198
 msgid "Permissions"
 msgstr "Tillatelser"
 
@@ -2712,8 +2712,8 @@ msgid ""
 "Below is a preview of data to be imported. If you are satisfied with the "
 "results, click 'Confirm import'"
 msgstr ""
-"Under ser du en forhåndsvisning av data som vil importeres. Hvis du er fornøyd med "
-"resultatene, klikk 'Bekreft import'"
+"Under ser du en forhåndsvisning av data som vil importeres. Hvis du er "
+"fornøyd med resultatene, klikk 'Bekreft import'"
 
 #: lib/python2.7/site-packages/import_export/templates/admin/import_export/import.html:22
 #: lib/python2.7/site-packages/suit/templates/admin/import_export/import.html:90
@@ -3236,7 +3236,7 @@ msgstr ""
 
 #: lib/python2.7/site-packages/suit/templates/admin/login.html:48
 #: lib/python2.7/site-packages/suit/templates/admin/auth/user/change_password.html:54
-#: users/admin.py:17 users/admin.py:62
+#: users/admin.py:18 users/admin.py:63
 msgid "Password"
 msgstr ""
 
@@ -3330,7 +3330,7 @@ msgstr ""
 
 #: lib/python2.7/site-packages/suit/templates/admin/auth/user/change_password.html:64
 #: lib/python2.7/site-packages/suit/templates/registration/password_change_form.html:77
-#: users/admin.py:18
+#: users/admin.py:19
 msgid "Password (again)"
 msgstr ""
 
@@ -3608,18 +3608,30 @@ msgstr "deler"
 msgid "Part %s"
 msgstr "Del %s"
 
-#: system/models.py:95
+#: system/models.py:98
 msgid "page"
 msgstr "side"
 
-#: system/models.py:96
+#: system/models.py:99
 msgid "pages"
 msgstr "sider"
 
-#: system/models.py:99
+#: system/models.py:102
 #, python-format
 msgid "Page %s"
 msgstr "Side %s"
+
+#: system/models.py:130
+msgid "key"
+msgstr "nøkkel"
+
+#: system/models.py:134
+msgid "system variable"
+msgstr "systemvariabel"
+
+#: system/models.py:135
+msgid "system variables"
+msgstr "systemvariabler"
 
 #: tasks/admin.py:22
 msgid "Task result"
@@ -3656,9 +3668,13 @@ msgstr ""
 msgid "%i e-mails with subject \"%s\" sent"
 msgstr ""
 
-#: templates/base.html:23
+#: templates/base.html:22
 msgid "Quit / sign out"
 msgstr "Avslutt / logg ut"
+
+#: templates/part.html:63
+msgid "Next page"
+msgstr "Neste side"
 
 #: templates/registration/password_reset_complete.html:4
 #: templates/registration/password_reset_complete.html:8
@@ -3779,21 +3795,25 @@ msgstr ""
 msgid "Bad authentication"
 msgstr ""
 
-#: users/admin.py:27
+#: users/admin.py:28
 msgid "The passwords are not equal."
 msgstr "Passordene er ikke like."
 
-#: users/admin.py:63
+#: users/admin.py:64
 msgid "Password can be changed with <a href=\"password/\">this form</a>."
 msgstr "Passord kan endres med <a href=\"password/\">dette skjemaet</a>."
 
-#: users/admin.py:168
-msgid "Important dates"
-msgstr "Viktige datoer"
+#: users/admin.py:211
+msgid "User info"
+msgstr "Brukerinfo"
 
-#: users/admin.py:169
+#: users/admin.py:212
 msgid "User data"
 msgstr "Brukerdata"
+
+#: users/admin.py:213
+msgid "Log entries"
+msgstr "Logghendelser"
 
 #: users/forms.py:13
 msgid "Email"
@@ -3820,11 +3840,11 @@ msgstr "nøkkel"
 msgid "User %i"
 msgstr "Bruker %i"
 
-#: users/models.py:114
+#: users/models.py:118
 msgid "Today's login link"
 msgstr "Dagens innloggingslenke"
 
-#: users/models.py:137
+#: users/models.py:141
 msgid "users"
 msgstr "brukere"
 
