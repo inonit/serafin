@@ -64,7 +64,10 @@ class Part(models.Model):
         return self.title or _('Part %s' % self.id)
 
     def get_absolute_url(self):
-        return reverse('part', args=[str(self.id)])
+        return '%s?part_id=%i' % (
+            reverse('content'),
+            self.id,
+        )
 
     def save(self, *args, **kwargs):
         super(Part, self).save(*args, **kwargs)
@@ -99,7 +102,11 @@ class Page(models.Model):
         return self.title or _('Page %s' % self.id)
 
     def get_absolute_url(self):
-        return reverse('page', args=[str(self.id)])
+        return '%s?part_id=%i&page_id=%i' % (
+            reverse('content'),
+            self.part.id,
+            self.id,
+        )
 
     def save(self, *args, **kwargs):
         super(Page, self).save(*args, **kwargs)
