@@ -1,14 +1,15 @@
 from __future__ import unicode_literals
-from django.utils.translation import ugettext_lazy as _
 
+from django.contrib.admin.views.decorators import staff_member_required
+from django.core.urlresolvers import reverse
 from django.http import HttpResponse
 from django.shortcuts import get_object_or_404
-from django.core.urlresolvers import reverse
 from system.models import Page
 from content.models import Email, SMS
 import json
 
 
+@staff_member_required
 def api_node(request, node_type=None, node_id=None):
 
     if node_type == 'page':
