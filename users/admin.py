@@ -6,11 +6,11 @@ from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
 from django.template.loader import render_to_string
 from django.utils.safestring import mark_safe
-from import_export import resources, fields, widgets
 from import_export.admin import ImportExportModelAdmin
 from jsonfield import JSONField
-from users.models import User
 from events.models import Event
+from users.importexport import UserResource
+from users.models import User
 
 
 class UserCreationForm(forms.ModelForm):
@@ -73,71 +73,6 @@ class UserChangeForm(forms.ModelForm):
 
     class Meta:
         model = User
-
-
-class UserResource(resources.ModelResource):
-    '''Import-Export resource for User model'''
-
-    data = fields.Field(column_name='...')
-    data_headers = []
-
-    def import_obj(self, obj, data, dry_run):
-        fields = [field for field in self.get_fields() if field.column_name != '...']
-
-        for field in fields:
-            if isinstance(field.widget, widgets.ManyToManyWidget):
-                continue
-            self.import_field(field, obj, data)
-
-        headers = [field.column_name for field in self.get_fields() if field.column_name != '...']
-
-        for key in data.keys():
-            if key in headers:
-                continue
-            if not obj.data:
-                obj.data = {}
-            obj.data[key] = data[key]
-
-    def export_resource(self, obj):
-        fields = [self.export_field(field, obj) for field in self.get_fields() if field.column_name != '...']
-
-        for field in self.data_headers:
-            if field in obj.data:
-                fields.append(obj.data.get(field))
-
-        return fields
-
-    def get_export_headers(self):
-        headers = [field.column_name for field in self.get_fields() if field.column_name != '...']
-        queryset = self.get_queryset()
-
-        data_headers = set()
-        for obj in queryset:
-            data_headers.update(obj.data.keys())
-
-        self.data_headers = list(data_headers)
-        headers += self.data_headers
-
-        return headers
-
-    class Meta:
-        model = User
-        export_order = [
-            'id',
-            'groups',
-            'data'
-        ]
-        exclude = [
-            'password',
-            'last_login',
-            'is_superuser',
-            'user_permissions',
-            'is_staff',
-            'is_active',
-            'date_joined',
-            'token',
-            'data',
-        ]
 
 
 class UserDataWidget(forms.Widget):

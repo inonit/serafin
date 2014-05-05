@@ -232,7 +232,7 @@ SUIT_CONFIG = {
             'models':
                 [
                     'user',
-                    'auth.groups',
+                    'auth.group',
                 ]
         },
         {
