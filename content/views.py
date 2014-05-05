@@ -5,7 +5,7 @@ from django.contrib.admin.views.decorators import staff_member_required
 from django.core.urlresolvers import reverse
 from django.shortcuts import get_object_or_404, render
 from filer.models import File, Image
-from serafin.utils import JSONResponse
+from serafin.utils import JSONResponse, user_data_replace
 from system.models import Part, Page
 import json
 import mistune
@@ -67,9 +67,11 @@ def get_page(request):
     for pagelet in page.data:
         try:
             if pagelet['content_type'] == 'text':
-                pagelet['content']['html'] = mistune.markdown(
+                replaced = user_data_replace(
+                    request.user,
                     pagelet['content']['text']
                 )
+                pagelet['content']['html'] = mistune.markdown(replaced)
         except:
             continue
 

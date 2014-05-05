@@ -102,6 +102,7 @@ content.controller('markdown', ['$scope', '$window', '$sce', function(scope, win
     scope.html = '';
     scope.md2html = function() {
         var marked = window.marked(scope.pagelet.content.text);
+        marked = marked.replace(/({{.*?}})/g, '<span class="markup">$&</span>');
         scope.html = sce.trustAsHtml(marked);
     };
     scope.md2html();
