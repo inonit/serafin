@@ -4,7 +4,7 @@ from django.utils.translation import ugettext_lazy as _
 from django import forms
 from django.db import models
 from django.contrib import admin
-from suit.widgets import SuitSplitDateTimeWidget, LinkedSelect, AutosizedTextarea
+from suit.widgets import SuitSplitDateTimeWidget, LinkedSelect, AutosizedTextarea, NumberInput
 from jsonfield import JSONField
 
 from .models import Program, Part, Page
@@ -13,11 +13,21 @@ from content.widgets import ContentWidget
 
 
 class ProgramAdmin(admin.ModelAdmin):
-    list_display = ['title', 'note_excerpt', ]
+    list_display = ['title', 'note_excerpt', 'start_time', 'time_factor']
     search_fields = ['title', 'admin_note']
+    ordering = ['start_time']
+    date_hierarchy = 'start_time'
 
     formfield_overrides = {
-        models.TextField: {'widget': AutosizedTextarea(attrs={'rows': 3, 'class': 'input-xlarge'})}
+        models.TextField: {
+            'widget': AutosizedTextarea(attrs={'rows': 3, 'class': 'input-xlarge'})
+        },
+        models.DateTimeField: {
+            'widget': SuitSplitDateTimeWidget
+        },
+        models.DecimalField: {
+            'widget': forms.NumberInput(attrs={'class': 'input-mini'})
+        },
     }
 
     def note_excerpt(self, obj):
@@ -29,26 +39,77 @@ class ProgramAdmin(admin.ModelAdmin):
 class PartForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         super(PartForm, self).__init__(*args, **kwargs)
-        self.fields['data'].help_text = ''
+        if 'data' in self.fields:
+            self.fields['data'].help_text = ''
 
     class Meta:
         model = Part
+        widgets = {
+            'start_time_unit': forms.Select(attrs={'class': 'input-small'}),
+            'end_time_unit': forms.Select(attrs={'class': 'input-small'}),
+        }
 
 
 class PartAdmin(admin.ModelAdmin):
-    list_display = ['title', 'program', 'note_excerpt', 'start_time', 'end_time']
-    list_editable = ['start_time', 'end_time']
+    list_display = [
+        'title',
+        'program',
+        'note_excerpt',
+        'program_start_time',
+        'start_time_delta',
+        'start_time_unit',
+        'end_time_delta',
+        'end_time_unit',
+        'start_time',
+    ]
+    list_editable = ['start_time_delta', 'start_time_unit', 'end_time_delta', 'end_time_unit']
     list_filter = ['program__title']
     search_fields = ['title', 'admin_note', 'program']
-    ordering = ['start_time']
-    date_hierarchy = 'start_time'
+    #ordering = ['start_time']
+    #date_hierarchy = 'start_time'
 
     form = PartForm
     formfield_overrides = {
-        models.TextField: { 'widget': AutosizedTextarea(attrs={'rows': 3, 'class': 'input-xlarge'}) },
-        models.DateTimeField: { 'widget': SuitSplitDateTimeWidget },
-        JSONField: { 'widget': PlumbingWidget }
+        models.TextField: {
+            'widget': AutosizedTextarea(attrs={'rows': 3, 'class': 'input-xlarge'})
+        },
+        models.IntegerField: {
+            'widget': NumberInput(attrs={'class': 'input-mini'})
+        },
+        JSONField: {
+            'widget': PlumbingWidget
+        },
     }
+    fieldsets = [
+        (None, {
+            'fields': [
+                'title',
+                'program',
+                'admin_note',
+                'start_time_delta',
+                'start_time_unit',
+                'end_time_delta',
+                'end_time_unit',
+            ]
+        }),
+        (None, {
+            'classes': ('full-width', ),
+            'fields': ['data']
+        }),
+    ]
+
+    def get_changelist_form(self, request, **kwargs):
+        return PartForm
+
+    def program_start_time(self, obj):
+        return obj.program.start_time
+
+    program_start_time.short_description = _('Program start time')
+
+    def start_time(self, obj):
+        return obj.start_time
+
+    start_time.short_description = _('Calculated start time')
 
     def note_excerpt(self, obj):
         return obj.admin_note[:100] + '...'
@@ -66,16 +127,22 @@ class PageForm(forms.ModelForm):
 
 
 class PageAdmin(admin.ModelAdmin):
-    list_display = ['title', 'part', 'note_excerpt', 'page_excerpt']
-    search_fields = ['title', 'part', 'admin_note', 'data']
+    list_display = ['title', 'parts_list', 'note_excerpt', 'page_excerpt']
+    search_fields = ['title', 'parts__name', 'admin_note', 'data']
 
-    fields = ['title', 'part', 'admin_note', 'data']
-    readonly_fields = ['part']
+    fields = ['title', 'parts', 'admin_note', 'data']
+    readonly_fields = ['parts']
     form = PageForm
     formfield_overrides = {
-        models.TextField: {'widget': AutosizedTextarea(attrs={'rows': 3, 'class': 'input-xlarge'})},
-        models.ForeignKey: {'widget': LinkedSelect},
-        JSONField: {'widget': ContentWidget}
+        models.TextField: {
+            'widget': AutosizedTextarea(attrs={'rows': 3, 'class': 'input-xlarge'})
+        },
+        models.ForeignKey: {
+            'widget': LinkedSelect
+        },
+        JSONField: {
+            'widget': ContentWidget
+        }
     }
 
     def page_excerpt(self, obj):
@@ -93,6 +160,11 @@ class PageAdmin(admin.ModelAdmin):
         return obj.admin_note[:100] + '...'
 
     note_excerpt.short_description = _('Admin note excerpt')
+
+    def parts_list(self, obj):
+        return ','.join([part for part in obj.parts.all()])
+
+    parts_list.short_description = _('Parts')
 
 
 admin.site.register(Program, ProgramAdmin)

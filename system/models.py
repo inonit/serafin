@@ -3,8 +3,10 @@ from django.utils.translation import ugettext_lazy as _
 
 from django.db import models
 from django.core.urlresolvers import reverse
+from django.utils import timezone
 from jsonfield import JSONField
 from collections import OrderedDict
+import datetime
 
 
 class Variable(models.Model):
@@ -34,6 +36,9 @@ class Program(models.Model):
     title = models.CharField(_('title'), max_length=64, unique=True)
     admin_note = models.TextField(_('admin note'), blank=True)
 
+    start_time = models.DateTimeField(_('start time'), default=lambda: timezone.localtime(timezone.now()))
+    time_factor = models.DecimalField(_('time factor'), default=1.0, max_digits=5, decimal_places=2)
+
     class Meta:
         verbose_name = _('program')
         verbose_name_plural = _('programs')
@@ -49,8 +54,14 @@ class Part(models.Model):
     program = models.ForeignKey(Program, verbose_name=_('program'))
     admin_note = models.TextField(_('admin note'), blank=True)
 
-    start_time = models.DateTimeField(_('start time'), null=True, blank=True)
-    end_time = models.DateTimeField(_('end time'), null=True, blank=True)
+    TIME_UNITS = (
+        ('hours', _('hours')),
+        ('days', _('days')),
+    )
+    start_time_delta = models.IntegerField(_('start time delta'), default=0)
+    start_time_unit = models.CharField(_('start time unit'), max_length=32, choices=TIME_UNITS, default='hours')
+    end_time_delta = models.IntegerField(_('end time delta'), default=0)
+    end_time_unit = models.CharField(_('end time unit'), max_length=32, choices=TIME_UNITS, default='hours')
 
     data = JSONField(load_kwargs={'object_pairs_hook': OrderedDict}, default='undefined')
 
@@ -82,12 +93,20 @@ class Part(models.Model):
 
                 self.vars_used.add(variable)
 
+    @property
+    def start_time(self):
+        kwargs = {
+            self.start_time_unit: float(self.start_time_delta * self.program.time_factor)
+        }
+        timedelta = datetime.timedelta(**kwargs)
+        return self.program.start_time + timedelta
+
 
 class Page(models.Model):
     '''An ordered collection of JSON content to be shown together as a Page'''
 
     title = models.CharField(_('title'), max_length=64, blank=True, unique=True)
-    part = models.ForeignKey(Part, verbose_name=_('part'), null=True, blank=True)
+    parts = models.ManyToManyField(Part, verbose_name=_('parts'), null=True, blank=True)
     admin_note = models.TextField(_('admin note'), blank=True)
 
     data = JSONField(load_kwargs={'object_pairs_hook': OrderedDict}, default='undefined')
