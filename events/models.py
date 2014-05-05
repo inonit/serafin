@@ -3,7 +3,6 @@ from django.utils.translation import ugettext_lazy as _
 
 from django.db import models
 from django.conf import settings
-from events.managers import EventManager
 
 
 class Event(models.Model):
@@ -15,8 +14,6 @@ class Event(models.Model):
     variable = models.CharField(_('variable'), max_length=64)
     pre_value = models.CharField(_('pre value'), max_length=64, blank=True)
     post_value = models.CharField(_('post value'), max_length=64, blank=True)
-
-    objects = EventManager()
 
     def __unicode__(self):
         return '%s, %s' % (self.domain, self.time)
