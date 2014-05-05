@@ -22,7 +22,7 @@ def email_users(queryset, subject, message, html_message):
         if ok:
             counter += 1
 
-    message = _('%i e-mails with subject "%s" sent' % (counter, subject))
+    message = _('%(counter)i e-mails with subject "%(subject)s" sent' % locals())
 
     print message
     return message
