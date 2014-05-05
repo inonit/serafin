@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Serafin\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-05-05 00:12+0200\n"
+"POT-Creation-Date: 2014-05-05 16:49+0200\n"
 "PO-Revision-Date: 2014-04-25 14:45+0200\n"
 "Last-Translator: Eirik Krogstad <eirikkr@gmail.com>\n"
 "Language: nb\n"
@@ -68,7 +68,7 @@ msgid "SMSs"
 msgstr "SMSer"
 
 #: content/templates/admin/content_widget.html:7
-#: content/templates/admin/content_widget.html:36
+#: content/templates/admin/content_widget.html:39
 msgid "Add text"
 msgstr "Legg til tekst"
 
@@ -92,69 +92,89 @@ msgstr "Legg til lydklipp"
 msgid "Add file"
 msgstr "Legg til fil"
 
-#: content/templates/admin/content_widget.html:34
+#: content/templates/admin/content_widget.html:28
+msgid ""
+"This element uses <a href=\"http://markdown-guide.readthedocs.org/en/latest/"
+"basics.html\">Markdown</a>."
+msgstr ""
+"Dette elementet bruker <a href=\"http://markdown-guide.readthedocs.org/en/latest/"
+"basics.html\">Markdown</a>."
+
+#: content/templates/admin/content_widget.html:28
+msgid "For variable replacement use"
+msgstr "For å erstatte variabler, bruk"
+
+#: content/templates/admin/content_widget.html:28
+msgid ""
+"This markup will be replaced by the user's value for <code>var_name</code>, "
+"if available."
+msgstr ""
+"Denne kodingen vil erstattes med brukerens verdi for <code>var_name</code>, "
+"dersom den finnes."
+
+#: content/templates/admin/content_widget.html:37
 msgid "Add numeric"
 msgstr "Legg til tallverdi"
 
-#: content/templates/admin/content_widget.html:35
+#: content/templates/admin/content_widget.html:38
 msgid "Add string"
 msgstr "Legg til tekststreng"
 
-#: content/templates/admin/content_widget.html:37
+#: content/templates/admin/content_widget.html:40
 msgid "Add multiple choice"
 msgstr "Legg til flervalg"
 
-#: content/templates/admin/content_widget.html:38
+#: content/templates/admin/content_widget.html:41
 msgid "Add multiple selection"
 msgstr "Legg til flervalg"
 
-#: content/templates/admin/content_widget.html:53
-#: content/templates/admin/content_widget.html:102
+#: content/templates/admin/content_widget.html:56
+#: content/templates/admin/content_widget.html:105
 msgid "Label"
 msgstr "Feltnavn"
 
-#: content/templates/admin/content_widget.html:57
+#: content/templates/admin/content_widget.html:60
 #: plumbing/templates/admin/plumbing_widget.html:74
 msgid "Variable name"
 msgstr "Variabelnavn"
 
-#: content/templates/admin/content_widget.html:64
+#: content/templates/admin/content_widget.html:67
 msgid "Default value"
 msgstr "Standardverdi"
 
-#: content/templates/admin/content_widget.html:69
+#: content/templates/admin/content_widget.html:72
 msgid "Required?"
 msgstr "Påkrevet?"
 
-#: content/templates/admin/content_widget.html:76
+#: content/templates/admin/content_widget.html:79
 msgid "Lower limit"
 msgstr "Nedre grense"
 
-#: content/templates/admin/content_widget.html:80
+#: content/templates/admin/content_widget.html:83
 msgid "Upper limit"
 msgstr "Øvre grense"
 
-#: content/templates/admin/content_widget.html:87
+#: content/templates/admin/content_widget.html:90
 msgid "Add alternative"
 msgstr "Legg til alternativ"
 
-#: content/templates/admin/content_widget.html:90
+#: content/templates/admin/content_widget.html:93
 msgid "Alternatives"
 msgstr "Alternativer"
 
-#: content/templates/admin/content_widget.html:106
+#: content/templates/admin/content_widget.html:109
 #: plumbing/templates/admin/plumbing_widget.html:84
 msgid "Value"
 msgstr "Verdi"
 
-#: content/templates/admin/content_widget.html:122
+#: content/templates/admin/content_widget.html:125
 msgid "Alt title"
 msgstr "Alternativtittel"
 
-#: content/templates/admin/content_widget.html:126
-#: content/templates/admin/content_widget.html:136
-#: content/templates/admin/content_widget.html:146
-#: content/templates/admin/content_widget.html:156
+#: content/templates/admin/content_widget.html:129
+#: content/templates/admin/content_widget.html:139
+#: content/templates/admin/content_widget.html:149
+#: content/templates/admin/content_widget.html:159
 msgid "Title"
 msgstr "Tittel"
 
@@ -166,7 +186,7 @@ msgstr "Utført av"
 msgid "time"
 msgstr "tidspunkt"
 
-#: events/models.py:13 users/admin.py:172
+#: events/models.py:13 users/admin.py:107
 msgid "domain"
 msgstr "domene"
 
@@ -2473,7 +2493,7 @@ msgstr "Slett \"%(item_label)s\""
 
 #: lib/python2.7/site-packages/filer/templates/admin/filer/folder/directory_table.html:46
 #: lib/python2.7/site-packages/suit/templates/admin/filer/folder/directory_table.html:45
-#: users/admin.py:187 users/admin.py:198
+#: users/admin.py:122 users/admin.py:133
 msgid "Permissions"
 msgstr "Tillatelser"
 
@@ -3803,15 +3823,15 @@ msgstr "Passordene er ikke like."
 msgid "Password can be changed with <a href=\"password/\">this form</a>."
 msgstr "Passord kan endres med <a href=\"password/\">dette skjemaet</a>."
 
-#: users/admin.py:211
+#: users/admin.py:146
 msgid "User info"
 msgstr "Brukerinfo"
 
-#: users/admin.py:212
+#: users/admin.py:147
 msgid "User data"
 msgstr "Brukerdata"
 
-#: users/admin.py:213
+#: users/admin.py:148
 msgid "Log entries"
 msgstr "Logghendelser"
 
