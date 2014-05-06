@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Serafin\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-05-06 13:13+0200\n"
-"PO-Revision-Date: 2014-04-25 14:45+0200\n"
+"POT-Creation-Date: 2014-05-06 14:50+0200\n"
+"PO-Revision-Date: 2014-05-06 14:50+0200\n"
 "Last-Translator: Eirik Krogstad <eirikkr@gmail.com>\n"
 "Language: nb\n"
 "MIME-Version: 1.0\n"
@@ -185,13 +185,21 @@ msgstr "Tittel"
 msgid "Actor"
 msgstr "Utført av"
 
-#: events/middleware.py:45
-msgid "userdata"
-msgstr "brukerdata"
+#: events/middleware.py:54
+msgid "Other"
+msgstr "Annen"
 
-#: events/middleware.py:94
-msgid "request"
-msgstr "sideforespørsel"
+#: events/middleware.py:56
+msgid "Mobile"
+msgstr "Mobil"
+
+#: events/middleware.py:58
+msgid "Tablet"
+msgstr "Nettbrett"
+
+#: events/middleware.py:60
+msgid "PC"
+msgstr "PC"
 
 #: events/models.py:11 tasks/models.py:22
 msgid "time"
@@ -559,12 +567,10 @@ msgid "Enter a valid integer."
 msgstr ""
 
 #: lib/python2.7/site-packages/django/core/validators.py:81
-#: lib/python2.7/site-packages/rest_framework/fields.py:568
 msgid "Enter a valid email address."
 msgstr ""
 
 #: lib/python2.7/site-packages/django/core/validators.py:129
-#: lib/python2.7/site-packages/rest_framework/fields.py:490
 msgid ""
 "Enter a valid 'slug' consisting of letters, numbers, underscores or hyphens."
 msgstr ""
@@ -595,15 +601,11 @@ msgid "Ensure this value is %(limit_value)s (it is %(show_value)s)."
 msgstr ""
 
 #: lib/python2.7/site-packages/django/core/validators.py:194
-#: lib/python2.7/site-packages/rest_framework/fields.py:802
-#: lib/python2.7/site-packages/rest_framework/fields.py:855
 #, python-format
 msgid "Ensure this value is less than or equal to %(limit_value)s."
 msgstr ""
 
 #: lib/python2.7/site-packages/django/core/validators.py:200
-#: lib/python2.7/site-packages/rest_framework/fields.py:803
-#: lib/python2.7/site-packages/rest_framework/fields.py:856
 #, python-format
 msgid "Ensure this value is greater than or equal to %(limit_value)s."
 msgstr ""
@@ -854,18 +856,15 @@ msgid "Many-to-many relationship"
 msgstr ""
 
 #: lib/python2.7/site-packages/django/forms/fields.py:53
-#: lib/python2.7/site-packages/rest_framework/fields.py:252
 msgid "This field is required."
 msgstr ""
 
 #: lib/python2.7/site-packages/django/forms/fields.py:221
-#: lib/python2.7/site-packages/rest_framework/fields.py:801
 msgid "Enter a whole number."
 msgstr ""
 
 #: lib/python2.7/site-packages/django/forms/fields.py:264
 #: lib/python2.7/site-packages/django/forms/fields.py:292
-#: lib/python2.7/site-packages/rest_framework/fields.py:854
 msgid "Enter a number."
 msgstr ""
 
@@ -907,17 +906,14 @@ msgid "Enter a valid date/time."
 msgstr ""
 
 #: lib/python2.7/site-packages/django/forms/fields.py:536
-#: lib/python2.7/site-packages/rest_framework/fields.py:926
 msgid "No file was submitted. Check the encoding type on the form."
 msgstr ""
 
 #: lib/python2.7/site-packages/django/forms/fields.py:537
-#: lib/python2.7/site-packages/rest_framework/fields.py:927
 msgid "No file was submitted."
 msgstr ""
 
 #: lib/python2.7/site-packages/django/forms/fields.py:538
-#: lib/python2.7/site-packages/rest_framework/fields.py:928
 msgid "The submitted file is empty."
 msgstr ""
 
@@ -930,12 +926,10 @@ msgstr[0] ""
 msgstr[1] ""
 
 #: lib/python2.7/site-packages/django/forms/fields.py:543
-#: lib/python2.7/site-packages/rest_framework/fields.py:930
 msgid "Please either submit a file or check the clear checkbox, not both."
 msgstr ""
 
 #: lib/python2.7/site-packages/django/forms/fields.py:604
-#: lib/python2.7/site-packages/rest_framework/fields.py:970
 msgid ""
 "Upload a valid image. The file you uploaded was either not an image or a "
 "corrupted image."
@@ -944,7 +938,6 @@ msgstr ""
 #: lib/python2.7/site-packages/django/forms/fields.py:754
 #: lib/python2.7/site-packages/django/forms/fields.py:841
 #: lib/python2.7/site-packages/django/forms/models.py:1154
-#: lib/python2.7/site-packages/rest_framework/fields.py:505
 #, python-format
 msgid "Select a valid choice. %(value)s is not one of the available choices."
 msgstr ""
@@ -1542,12 +1535,10 @@ msgid "No %(verbose_name)s found matching the query"
 msgstr ""
 
 #: lib/python2.7/site-packages/django/views/generic/list.py:54
-#: lib/python2.7/site-packages/rest_framework/generics.py:156
 msgid "Page is not 'last', nor can it be converted to an int."
 msgstr ""
 
 #: lib/python2.7/site-packages/django/views/generic/list.py:59
-#: lib/python2.7/site-packages/rest_framework/generics.py:160
 #, python-format
 msgid "Invalid page (%(page_number)s): %(message)s"
 msgstr ""
@@ -2963,114 +2954,6 @@ msgstr ""
 msgid "Contents"
 msgstr ""
 
-#: lib/python2.7/site-packages/rest_framework/fields.py:111
-msgid ""
-" Hold down \"Control\", or \"Command\" on a Mac, to select more than one."
-msgstr ""
-
-#: lib/python2.7/site-packages/rest_framework/fields.py:253
-#: lib/python2.7/site-packages/rest_framework/relations.py:280
-msgid "Invalid value."
-msgstr ""
-
-#: lib/python2.7/site-packages/rest_framework/fields.py:434
-#, python-format
-msgid "'%s' value must be either True or False."
-msgstr ""
-
-#: lib/python2.7/site-packages/rest_framework/fields.py:610
-#, python-format
-msgid "Date has wrong format. Use one of these formats instead: %s"
-msgstr ""
-
-#: lib/python2.7/site-packages/rest_framework/fields.py:674
-#, python-format
-msgid "Datetime has wrong format. Use one of these formats instead: %s"
-msgstr ""
-
-#: lib/python2.7/site-packages/rest_framework/fields.py:744
-#, python-format
-msgid "Time has wrong format. Use one of these formats instead: %s"
-msgstr ""
-
-#: lib/python2.7/site-packages/rest_framework/fields.py:833
-#, python-format
-msgid "'%s' value must be a float."
-msgstr ""
-
-#: lib/python2.7/site-packages/rest_framework/fields.py:857
-#, python-format
-msgid "Ensure that there are no more than %s digits in total."
-msgstr ""
-
-#: lib/python2.7/site-packages/rest_framework/fields.py:858
-#, python-format
-msgid "Ensure that there are no more than %s decimal places."
-msgstr ""
-
-#: lib/python2.7/site-packages/rest_framework/fields.py:859
-#, python-format
-msgid "Ensure that there are no more than %s digits before the decimal point."
-msgstr ""
-
-#: lib/python2.7/site-packages/rest_framework/fields.py:929
-#, python-format
-msgid ""
-"Ensure this filename has at most %(max)d characters (it has %(length)d)."
-msgstr ""
-
-#: lib/python2.7/site-packages/rest_framework/relations.py:190
-#, python-format
-msgid "Invalid pk '%s' - object does not exist."
-msgstr ""
-
-#: lib/python2.7/site-packages/rest_framework/relations.py:191
-#, python-format
-msgid "Incorrect type.  Expected pk value, received %s."
-msgstr ""
-
-#: lib/python2.7/site-packages/rest_framework/relations.py:279
-#, python-format
-msgid "Object with %s=%s does not exist."
-msgstr ""
-
-#: lib/python2.7/site-packages/rest_framework/relations.py:315
-msgid "Invalid hyperlink - No URL match"
-msgstr ""
-
-#: lib/python2.7/site-packages/rest_framework/relations.py:316
-msgid "Invalid hyperlink - Incorrect URL match"
-msgstr ""
-
-#: lib/python2.7/site-packages/rest_framework/relations.py:317
-msgid "Invalid hyperlink due to configuration error"
-msgstr ""
-
-#: lib/python2.7/site-packages/rest_framework/relations.py:318
-msgid "Invalid hyperlink - object does not exist."
-msgstr ""
-
-#: lib/python2.7/site-packages/rest_framework/relations.py:319
-#, python-format
-msgid "Incorrect type.  Expected url string, received %s."
-msgstr ""
-
-#: lib/python2.7/site-packages/rest_framework/tests/models.py:37
-msgid "Text comes here"
-msgstr ""
-
-#: lib/python2.7/site-packages/rest_framework/tests/models.py:37
-msgid "Text description."
-msgstr ""
-
-#: lib/python2.7/site-packages/rest_framework/tests/test_renderers.py:276
-msgid "test"
-msgstr ""
-
-#: lib/python2.7/site-packages/rest_framework/tests/test_serializer.py:1436
-msgid "lazystring"
-msgstr ""
-
 #: lib/python2.7/site-packages/suit/widgets.py:104
 msgid "Date:"
 msgstr ""
@@ -3941,8 +3824,8 @@ msgid ""
 "Should you have trouble logging in using the login link, you can log in with "
 "your ID and password at %(manual_login)s."
 msgstr ""
-"Skulle du ha problemer med å logge inn med innloggingslenken, kan du logge inn med "
-"din ID og passord på %(manual_login)s."
+"Skulle du ha problemer med å logge inn med innloggingslenken, kan du logge "
+"inn med din ID og passord på %(manual_login)s."
 
 #: users/templates/email/html/login_link.html:25
 #: users/templates/email/text/login_link.txt:11
