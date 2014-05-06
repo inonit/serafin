@@ -71,7 +71,7 @@ class Part(models.Model):
 
     title = models.CharField(_('title'), max_length=64, blank=True, unique=True)
     program = models.ForeignKey('Program', verbose_name=_('program'))
-    nodes = models.ManyToManyField('Content', verbose_name=_('parts'), null=True, blank=True)
+    content = models.ManyToManyField('Content', verbose_name=_('content'), null=True, blank=True)
     admin_note = models.TextField(_('admin note'), blank=True)
 
     TIME_UNITS = (
@@ -144,7 +144,6 @@ class Content(models.Model):
 
     def get_absolute_url(self):
         return NotImplemented
-
 
 
 class Page(Content):
