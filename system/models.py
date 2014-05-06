@@ -30,6 +30,20 @@ class Variable(models.Model):
         return self.name
 
 
+class SystemVariable(models.Model):
+    '''A system-scope variable'''
+
+    key = models.CharField(_('key'), max_length=64, primary_key=True)
+    value = JSONField(load_kwargs={'object_pairs_hook': OrderedDict}, default={})
+
+    class Meta:
+        verbose_name = _('system variable')
+        verbose_name_plural = _('system variables')
+
+    def __unicode__(self):
+        return '%s: %s' % (self.key, self.value)
+
+
 class Program(models.Model):
     '''A top level model for a separate Program, having one or more parts'''
 
@@ -56,7 +70,8 @@ class Part(models.Model):
     '''A program Part, with layout and logic encoded in JSON'''
 
     title = models.CharField(_('title'), max_length=64, blank=True, unique=True)
-    program = models.ForeignKey(Program, verbose_name=_('program'))
+    program = models.ForeignKey('Program', verbose_name=_('program'))
+    nodes = models.ManyToManyField('Content', verbose_name=_('parts'), null=True, blank=True)
     admin_note = models.TextField(_('admin note'), blank=True)
 
     TIME_UNITS = (
@@ -71,7 +86,7 @@ class Part(models.Model):
 
     data = JSONField(load_kwargs={'object_pairs_hook': OrderedDict}, default='undefined')
 
-    vars_used = models.ManyToManyField(Variable, editable=False)
+    vars_used = models.ManyToManyField('Variable', editable=False)
 
     class Meta:
         verbose_name = _('part')
@@ -88,19 +103,19 @@ class Part(models.Model):
 
     def save(self, *args, **kwargs):
         self.start_time = self.get_start_time()
+        super(Part, self).save(*args, **kwargs)
 
         self.vars_used = []
         for edge in self.data['edges']:
             for condition in edge['conditions']:
 
-                variable, created = Variable.objects.get_or_create(name=condition['var_name'])
+                variable, created = Variable.objects.get_or_create(
+                    name=condition['var_name']
+                )
                 if created:
                     variable.save()
 
                 self.vars_used.add(variable)
-
-        super(Part, self).save(*args, **kwargs)
-
 
     def get_start_time(self):
         kwargs = {
@@ -110,23 +125,35 @@ class Part(models.Model):
         return self.program.start_time + timedelta
 
 
-class Page(models.Model):
-    '''An ordered collection of JSON content to be shown together as a Page'''
+class Content(models.Model):
+    '''An ordered collection of JSON content'''
 
     title = models.CharField(_('title'), max_length=64, blank=True, unique=True)
-    parts = models.ManyToManyField(Part, verbose_name=_('parts'), null=True, blank=True)
     admin_note = models.TextField(_('admin note'), blank=True)
 
     data = JSONField(load_kwargs={'object_pairs_hook': OrderedDict}, default='undefined')
 
-    vars_used = models.ManyToManyField(Variable, editable=False)
+    vars_used = models.ManyToManyField('Variable', editable=False)
 
     class Meta:
-        verbose_name = _('page')
-        verbose_name_plural = _('pages')
+        verbose_name = _('content')
+        verbose_name_plural = _('contents')
 
     def __unicode__(self):
-        return self.title or _('Page %s' % self.id)
+        return self.title or '%s %s' % (self._meta.verbose_name, self.id)
+
+    def get_absolute_url(self):
+        return NotImplemented
+
+
+
+class Page(Content):
+    '''An ordered collection of JSON content to be shown together as a Page'''
+
+    class Meta:
+        proxy = True
+        verbose_name = _('page')
+        verbose_name_plural = _('pages')
 
     def get_absolute_url(self):
         return '%s?part_id=%i&page_id=%i' % (
@@ -141,7 +168,9 @@ class Page(models.Model):
             if pagelet['content_type'] == 'form':
                 for field in pagelet['content']:
 
-                    variable, created = Variable.objects.get_or_create(name=field['variable_name'])
+                    variable, created = Variable.objects.get_or_create(
+                        name=field['variable_name']
+                    )
                     if created:
                         variable.var_type = field['field_type']
                         variable.save()
@@ -151,15 +180,19 @@ class Page(models.Model):
         super(Page, self).save(*args, **kwargs)
 
 
-class SystemVariable(models.Model):
-    '''A system-scope variable'''
-
-    key = models.CharField(_('key'), max_length=64, primary_key=True)
-    value = JSONField(load_kwargs={'object_pairs_hook': OrderedDict}, default='undefined')
+class Email(Content):
+    '''A model for e-mail content'''
 
     class Meta:
-        verbose_name = _('system variable')
-        verbose_name_plural = _('system variables')
+        proxy = True
+        verbose_name = _('e-mail')
+        verbose_name_plural = _('e-mails')
 
-    def __unicode__(self):
-        return '%s: %s' % (self.key, self.value)
+
+class SMS(Content):
+    '''A model for SMS content'''
+
+    class Meta:
+        proxy = True
+        verbose_name = _('SMS')
+        verbose_name_plural = _('SMSs')

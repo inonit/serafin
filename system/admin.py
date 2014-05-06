@@ -7,9 +7,9 @@ from django.contrib import admin
 from suit.widgets import SuitSplitDateTimeWidget, LinkedSelect, AutosizedTextarea, NumberInput
 from jsonfield import JSONField
 
-from .models import Program, Part, Page
+from system.models import Program, Part, Page, Email, SMS
 from plumbing.widgets import PlumbingWidget
-from content.widgets import ContentWidget
+from content.widgets import ContentWidget, TextContentWidget
 
 
 class ProgramAdmin(admin.ModelAdmin):
@@ -118,28 +118,21 @@ class PartAdmin(admin.ModelAdmin):
     program_time_factor.short_description = _('Program time factor')
 
 
-class PageForm(forms.ModelForm):
+class ContentForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
-        super(PageForm, self).__init__(*args, **kwargs)
+        super(ContentForm, self).__init__(*args, **kwargs)
         self.fields['data'].help_text = ''
 
-    class Meta:
-        model = Page
 
+class ContentAdmin(admin.ModelAdmin):
+    list_display = ['title', 'note_excerpt', 'page_excerpt']
+    search_fields = ['title', 'admin_note', 'data']
 
-class PageAdmin(admin.ModelAdmin):
-    list_display = ['title', 'parts_list', 'note_excerpt', 'page_excerpt']
-    search_fields = ['title', 'parts__name', 'admin_note', 'data']
-
-    fields = ['title', 'parts', 'admin_note', 'data']
-    readonly_fields = ['parts']
-    form = PageForm
+    form = ContentForm
+    fields = ['title', 'admin_note', 'data']
     formfield_overrides = {
         models.TextField: {
             'widget': AutosizedTextarea(attrs={'rows': 3, 'class': 'input-xlarge'})
-        },
-        models.ForeignKey: {
-            'widget': LinkedSelect
         },
         JSONField: {
             'widget': ContentWidget
@@ -162,12 +155,60 @@ class PageAdmin(admin.ModelAdmin):
 
     note_excerpt.short_description = _('Admin note excerpt')
 
-    def parts_list(self, obj):
-        return ','.join([part for part in obj.parts.all()])
 
-    parts_list.short_description = _('Parts')
+class PageForm(ContentForm):
+    class Meta:
+        model = Page
+
+
+class PageAdmin(ContentAdmin):
+    form = PageForm
+
+
+class TextContentForm(ContentForm):
+    def __init__(self, *args, **kwargs):
+        super(ContentForm, self).__init__(*args, **kwargs)
+        self.fields['data'].help_text = ''
+        self.fields['data'].initial = '''[{
+            "content_type": "text",
+            "content": {
+                "text": "",
+                "html": ""
+            }
+        }]'''
+
+
+class TextContentAdmin(ContentAdmin):
+    formfield_overrides = {
+        models.TextField: {
+            'widget': AutosizedTextarea(attrs={'rows': 3, 'class': 'input-xlarge'})
+        },
+        JSONField: {
+            'widget': TextContentWidget
+        }
+    }
+
+
+class EmailForm(TextContentForm):
+    class Meta:
+        model = Email
+
+
+class EmailAdmin(TextContentAdmin):
+    form = EmailForm
+
+
+class SMSForm(TextContentForm):
+    class Meta:
+        model = SMS
+
+
+class SMSAdmin(TextContentAdmin):
+    form = SMSForm
 
 
 admin.site.register(Program, ProgramAdmin)
 admin.site.register(Part, PartAdmin)
 admin.site.register(Page, PageAdmin)
+admin.site.register(Email, EmailAdmin)
+admin.site.register(SMS, SMSAdmin)
