@@ -105,6 +105,13 @@ class Part(models.Model):
         self.start_time = self.get_start_time()
         super(Part, self).save(*args, **kwargs)
 
+        self.content = []
+        for node in self.data['nodes']:
+            try:
+                self.content.add(node['ref_id'])
+            except:
+                pass
+
         self.vars_used = []
         for edge in self.data['edges']:
             for condition in edge['conditions']:
@@ -162,6 +169,8 @@ class Page(Content):
         )
 
     def save(self, *args, **kwargs):
+        super(Page, self).save(*args, **kwargs)
+
         self.vars_used = []
         for pagelet in self.data:
             if pagelet['content_type'] == 'form':
@@ -175,8 +184,6 @@ class Page(Content):
                         variable.save()
 
                     self.vars_used.add(variable)
-
-        super(Page, self).save(*args, **kwargs)
 
 
 class Email(Content):
