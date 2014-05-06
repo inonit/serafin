@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Serafin\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-05-06 14:50+0200\n"
+"POT-Creation-Date: 2014-05-06 14:58+0200\n"
 "PO-Revision-Date: 2014-05-06 14:50+0200\n"
 "Last-Translator: Eirik Krogstad <eirikkr@gmail.com>\n"
 "Language: nb\n"
@@ -3468,6 +3468,26 @@ msgstr ""
 #: plumbing/templates/admin/plumbing_widget.html:87
 msgid "Add condition"
 msgstr "Legg til forutsetning"
+
+#: serafin/settings.py:235
+msgid "Users"
+msgstr "Brukere"
+
+#: serafin/settings.py:245
+msgid "Program"
+msgstr "Program"
+
+#: serafin/settings.py:258
+msgid "Events"
+msgstr "Hendelser"
+
+#: serafin/settings.py:268
+msgid "Media"
+msgstr "Media"
+
+#: serafin/settings.py:273
+msgid "Settings"
+msgstr "Oppsett"
 
 #: system/admin.py:113
 msgid "Program start time"
