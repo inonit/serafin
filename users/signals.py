@@ -7,12 +7,10 @@ from .models import User
 
 @receiver(signals.post_save, sender=User)
 def mirror_user(sender, **kwargs):
-    #if kwargs['created']:
-    #    kwargs['instance']._mirror_user()
-    pass
+    if kwargs['created']:
+        kwargs['instance']._mirror_user()
 
 
 @receiver(signals.pre_delete, sender=User)
 def delete_mirror(sender, **kwargs):
-    #kwargs['instance']._delete_mirror()
-    pass
+    kwargs['instance']._delete_mirror()

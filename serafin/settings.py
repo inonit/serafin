@@ -89,8 +89,14 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
         'NAME': os.path.join(BASE_DIR, 'serafin.db'),
+    },
+    'vault': {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': os.path.join(BASE_DIR, 'vault.db'),
     }
 }
+
+DATABASE_ROUTERS = ['serafin.db_routers.VaultRouter']
 
 # Internationalization
 # https://docs.djangoproject.com/en/1.6/topics/i18n/
@@ -221,6 +227,8 @@ REST_FRAMEWORK = {
 
 # Admin interface
 
+from django.utils.translation import ugettext_lazy as _
+
 SUIT_CONFIG = {
     'ADMIN_NAME': 'Serafin admin',
     'HEADER_DATE_FORMAT': 'l j. F Y',
@@ -230,7 +238,7 @@ SUIT_CONFIG = {
     'MENU': [
         {
             'app': 'users',
-            'label': 'Brukere',
+            'label': _('Users'),
             'icon': 'icon-user',
             'models':
                 [
@@ -240,7 +248,7 @@ SUIT_CONFIG = {
         },
         {
             'app': 'system',
-            'label': 'Program',
+            'label': _('Program'),
             'icon': 'icon-wrench',
             'models':
                 [
@@ -253,7 +261,7 @@ SUIT_CONFIG = {
         },
         {
             'app': 'events',
-            'label': 'Hendelser',
+            'label': _('Events'),
             'icon': 'icon-bullhorn',
             'models':
                 [
@@ -263,12 +271,12 @@ SUIT_CONFIG = {
         },
         {
             'app': 'filer',
-            'label': 'Media',
+            'label': _('Media'),
             'icon': 'icon-picture'
         },
         {
             'app': 'sites',
-            'label': 'Oppsett',
+            'label': _('Settings'),
             'icon': 'icon-cog'
         },
     ]

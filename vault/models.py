@@ -12,7 +12,6 @@ class VaultUser(models.Model):
 
     email = models.EmailField(_('e-mail address'), max_length=254, blank=True)
     phone = models.CharField(_('phone number'), max_length=32, blank=True)
-    # additional fields
 
     def send_sms(self, message=None):
         if message:

@@ -17,10 +17,7 @@ import json
 def mirror_user(request, *args, **kwargs):
     '''Store user sensitive information to vault'''
 
-    vault_user = kwargs.get('user')
-
-    if not vault_user:
-        vault_user = VaultUser(id=kwargs.get('user_id'))
+    vault_user, created = VaultUser.objects.get_or_create(id=kwargs['user_id'])
 
     data = kwargs.get('data')
     email = data.get('email')
@@ -38,7 +35,7 @@ def mirror_user(request, *args, **kwargs):
 def delete_mirror(request, *args, **kwargs):
     '''Remove user associated sensitive information from vault'''
 
-    vault_user = kwargs.get('user')
+    vault_user = VaultUser.objects.get(id=kwargs['user_id'])
 
     if vault_user:
         vault_user.delete()
@@ -49,13 +46,12 @@ def delete_mirror(request, *args, **kwargs):
 def send_email(request, *args, **kwargs):
     '''Send email to vault user'''
 
-    data = kwargs.get('data')
+    vault_user = VaultUser.objects.get(id=kwargs['user_id'])
 
+    data = kwargs.get('data')
     subject = data.get('subject')
     message = data.get('message')
     html_message = data.get('html_message')
-
-    vault_user = kwargs.get('user')
 
     if vault_user:
         vault_user.send_email(subject, message, html_message)
@@ -66,8 +62,10 @@ def send_email(request, *args, **kwargs):
 def send_sms(request, *args, **kwargs):
     '''Send sms to vault user'''
 
-    vault_user = kwargs.get('user')
-    message = kwargs.get('data').get('message')
+    vault_user = VaultUser.objects.get(id=kwargs['user_id'])
+
+    data = kwargs.get('data')
+    message = data.get('message')
 
     if vault_user and message:
         vault_user.send_sms(message=message)
@@ -77,7 +75,6 @@ def send_sms(request, *args, **kwargs):
 @json_response
 def fetch_sms(request, *args, **kwargs):
     '''Fetch sms response from user'''
-
     pass
 
 
@@ -85,9 +82,9 @@ def fetch_sms(request, *args, **kwargs):
 def password_reset(request, *args, **kwargs):
     '''Send password reset email'''
 
-    data = json.loads(request.body)
-
     vault_user = VaultUser.objects.get(email__iexact=data.get('email'))
+
+    data = json.loads(request.body)
 
     protocol = data.get('protocol')
     domain = data.get('domain')
