@@ -46,6 +46,11 @@ class Program(models.Model):
     def __unicode__(self):
         return self.title
 
+    def save(self, *args, **kwargs):
+        super(Program, self).save(*args, **kwargs)
+        for part in self.part_set.all():
+            part.save()
+
 
 class Part(models.Model):
     '''A program Part, with layout and logic encoded in JSON'''
@@ -62,6 +67,7 @@ class Part(models.Model):
     start_time_unit = models.CharField(_('start time unit'), max_length=32, choices=TIME_UNITS, default='hours')
     end_time_delta = models.IntegerField(_('end time delta'), default=0)
     end_time_unit = models.CharField(_('end time unit'), max_length=32, choices=TIME_UNITS, default='hours')
+    start_time = models.DateTimeField(_('start time'))
 
     data = JSONField(load_kwargs={'object_pairs_hook': OrderedDict}, default='undefined')
 
@@ -81,7 +87,7 @@ class Part(models.Model):
         )
 
     def save(self, *args, **kwargs):
-        super(Part, self).save(*args, **kwargs)
+        self.start_time = self.get_start_time()
 
         self.vars_used = []
         for edge in self.data['edges']:
@@ -93,8 +99,10 @@ class Part(models.Model):
 
                 self.vars_used.add(variable)
 
-    @property
-    def start_time(self):
+        super(Part, self).save(*args, **kwargs)
+
+
+    def get_start_time(self):
         kwargs = {
             self.start_time_unit: float(self.start_time_delta * self.program.time_factor)
         }
@@ -128,8 +136,6 @@ class Page(models.Model):
         )
 
     def save(self, *args, **kwargs):
-        super(Page, self).save(*args, **kwargs)
-
         self.vars_used = []
         for pagelet in self.data:
             if pagelet['content_type'] == 'form':
@@ -141,6 +147,8 @@ class Page(models.Model):
                         variable.save()
 
                     self.vars_used.add(variable)
+
+        super(Page, self).save(*args, **kwargs)
 
 
 class SystemVariable(models.Model):

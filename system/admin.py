@@ -60,13 +60,14 @@ class PartAdmin(admin.ModelAdmin):
         'start_time_unit',
         'end_time_delta',
         'end_time_unit',
+        'program_time_factor',
         'start_time',
     ]
     list_editable = ['start_time_delta', 'start_time_unit', 'end_time_delta', 'end_time_unit']
     list_filter = ['program__title']
     search_fields = ['title', 'admin_note', 'program']
-    #ordering = ['start_time']
-    #date_hierarchy = 'start_time'
+    ordering = ['start_time']
+    date_hierarchy = 'start_time'
 
     form = PartForm
     formfield_overrides = {
@@ -101,20 +102,20 @@ class PartAdmin(admin.ModelAdmin):
     def get_changelist_form(self, request, **kwargs):
         return PartForm
 
+    def note_excerpt(self, obj):
+        return obj.admin_note[:100] + '...'
+
+    note_excerpt.short_description = _('Admin note excerpt')
+
     def program_start_time(self, obj):
         return obj.program.start_time
 
     program_start_time.short_description = _('Program start time')
 
-    def start_time(self, obj):
-        return obj.start_time
+    def program_time_factor(self, obj):
+        return obj.program.time_factor
 
-    start_time.short_description = _('Calculated start time')
-
-    def note_excerpt(self, obj):
-        return obj.admin_note[:100] + '...'
-
-    note_excerpt.short_description = _('Admin note excerpt')
+    program_time_factor.short_description = _('Program time factor')
 
 
 class PageForm(forms.ModelForm):
