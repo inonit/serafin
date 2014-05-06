@@ -41,7 +41,7 @@ class User(AbstractBaseUser, PermissionsMixin):
 
     token = models.CharField(_('token'), max_length=64, blank=True, editable=False)
 
-    data = JSONField(load_kwargs={'object_pairs_hook': OrderedDict}, null=True, blank=True)
+    data = JSONField(load_kwargs={'object_pairs_hook': OrderedDict}, default={})
 
     objects = UserManager()
 

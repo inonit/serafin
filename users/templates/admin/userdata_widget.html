@@ -1,10 +1,15 @@
 <div ng-app="userdata">
-    <div ng-repeat="(key, value) in data">
-        {% verbatim %}
-        <label><strong>{{ key }}</strong></label>
-        {{ value }}
-        {% endverbatim %}
+    {% verbatim %}
+    <div ng-repeat="(key, value) in data" class="row-fluid">
+        <div class="span4">
+            <strong>{{ key }}:</strong>
+        </div>
+        <div class="span4">
+            {{ value }}
+        </div>
     </div>
+    <textarea name="data" class="data ng-hide">{{ data }}</textarea>
+    {% endverbatim %}
 </div>
 <script>
     angular.module('userdata', []).run(['$rootScope', function(scope) {

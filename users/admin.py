@@ -67,6 +67,8 @@ class UserChangeForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         super(UserChangeForm, self).__init__(*args, **kwargs)
         self.fields['data'].help_text = ''
+        self.fields['is_active'].help_text = _('Designates whether this user should be treated as active. Unselect this instead of deleting accounts.')
+        self.fields['is_staff'].help_text = _('Designates whether the user can log into this admin site.')
 
     def clean_password(self):
         return self.initial['password']
@@ -109,8 +111,7 @@ class EventInline(admin.TabularInline):
 
 class UserAdmin(UserAdmin, ImportExportModelAdmin):
     list_display = ['id', 'date_joined', 'last_login', 'is_superuser', 'is_staff', 'is_active']
-    ordering = ['-date_joined']
-    date_hierarchy = 'date_joined'
+    ordering = ['id']
 
     form = UserChangeForm
     add_form = UserCreationForm
@@ -120,7 +121,7 @@ class UserAdmin(UserAdmin, ImportExportModelAdmin):
             'classes': ('suit-tab suit-tab-info', ),
         }),
         (_('Permissions'), {
-            'fields': ('is_active', 'is_staff', 'is_superuser', 'groups', 'user_permissions'),
+            'fields': ('is_active', 'is_staff', 'is_superuser', 'groups'),
             'classes': ('suit-tab suit-tab-info', ),
         }),
         (None, {
@@ -129,9 +130,14 @@ class UserAdmin(UserAdmin, ImportExportModelAdmin):
         }),
     )
     add_fieldsets = (
-        (None, {'fields': ('password1', 'password2')}),
-        (_('Permissions'), {'fields': ('is_active', 'is_staff', 'is_superuser',
-                                       'groups', 'user_permissions')}),
+        (None, {
+            'fields': ('password1', 'password2'),
+            'classes': ('suit-tab suit-tab-info', ),
+        }),
+        (_('Permissions'), {
+            'fields': ('is_active', 'is_staff', 'is_superuser', 'groups'),
+            'classes': ('suit-tab suit-tab-info', ),
+        }),
     )
     readonly_fields = [
         'id',
