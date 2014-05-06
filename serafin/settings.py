@@ -70,7 +70,7 @@ MIDDLEWARE_CLASSES = (
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'django_user_agents.middleware.UserAgentMiddleware',
-    #'events.middleware.EventTrackingMiddleware',
+    'events.middleware.EventTrackingMiddleware',
 )
 
 ROOT_URLCONF = 'serafin.urls'
@@ -170,9 +170,12 @@ SESSION_COOKIE_AGE = 60 * 60 * 24 # seconds
 
 # Events
 
-TRACK_AJAX_REQUESTS = False
-TRACK_ANONYMOUS_USERS = True
-TRACK_ADMIN_USERS = True
+LOG_AJAX_USER_DATA = True
+
+LOG_REQUESTS = False
+LOG_ANONYMOUS_REQUESTS = False
+LOG_ADMIN_REQUESTS = False
+LOG_AJAX_REQUESTS = False
 
 
 # Twilio
@@ -238,7 +241,7 @@ SUIT_CONFIG = {
         {
             'app': 'system',
             'label': 'Program',
-            'icon': 'icon-cog',
+            'icon': 'icon-wrench',
             'models':
                 [
                     'program',
@@ -262,6 +265,11 @@ SUIT_CONFIG = {
             'app': 'filer',
             'label': 'Media',
             'icon': 'icon-picture'
+        },
+        {
+            'app': 'sites',
+            'label': 'Oppsett',
+            'icon': 'icon-cog'
         },
     ]
 }

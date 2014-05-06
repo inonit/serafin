@@ -1,49 +1,82 @@
 from __future__ import unicode_literals
+from django.utils.translation import ugettext_lazy as _
 
+import json
 from django.conf import settings
-
+from django.utils import timezone
 from events.models import Event
 
 
 class EventTrackingMiddleware(object):
-    '''Tracks and logs user page visits'''
+    '''Tracks and logs user data and page visits'''
 
-    def process_response(self, request, response):
+    def process_request(self, request):
 
-        if request.is_ajax() and not settings.TRACK_AJAX_REQUESTS:
-            return response
+        if (request.is_ajax() and
+            request.method == 'POST' and
+            not request.user.is_anonymous() and
+            getattr(
+                settings, 'LOG_AJAX_USER_DATA', False
+            )
+        ):
+            post_data = json.loads(request.body)
+            for item in post_data:
+                key = item.get('variable_name', '')
+                value = item.get('value', '')
+                event = Event(
+                    time=timezone.localtime(timezone.now()),
+                    domain='userdata',
+                    actor=request.user,
+                    variable=key,
+                    pre_value=request.user.data.get(key, ''),
+                    post_value=unicode(value),
+                )
+                event.save()
 
-        if request.user.is_anonymous() and not settings.TRACK_ANONYMOUS_USERS:
-            return response
+        if request.is_ajax() and not getattr(
+            settings, 'LOG_AJAX_REQUESTS', False
+        ):
+            return
 
-        if request.user.is_superuser and not settings.TRACK_ADMIN_USERS:
-            return response
+        if request.user.is_anonymous() and not getattr(
+            settings, 'LOG_ANONYMOUS_REQUESTS', False
+        ):
+            return
 
-        device = 'other'
-        if user_agent.is_mobile:
-            device = 'mobile'
-        elif user_agent.is_tablet:
-            device = 'tablet'
-        elif user_agent.is_pc:
-            device = 'pc'
+        if request.user.is_superuser and not getattr(
+            settings, 'LOG_ADMIN_REQUESTS', False
+        ):
+            return
 
-        summary = '%s %s %s' % (
-            request.user_agent.device.family,
-            request.user_agent.os.family,
-            request.user_agent.os.version_string,
-        )
+        if getattr(
+            settings, 'LOG_REQUESTS', False
+        ):
+            device = _('Other')
+            if request.user_agent.is_mobile:
+                device = _('Mobile')
+            elif request.user_agent.is_tablet:
+                device = _('Tablet')
+            elif request.user_agent.is_pc:
+                device = _('PC')
 
-        req = '%s %s' % (
-            request.method,
-            request.path_info,
-        )
+            summary = '%s, %s %s %s' % (
+                device,
+                request.user_agent.device.family,
+                request.user_agent.os.family,
+                request.user_agent.os.version_string,
+            )
 
-        Event.objects.create_event(
-            domain=request.path,
-            actor=user,
-            variable='device',
-            pre_value='',
-            post_value=device,
-        )
+            req = '%s %s' % (
+                request.method,
+                request.path,
+            )
 
-        return response
+            event = Event(
+                time=timezone.localtime(timezone.now()),
+                domain='request',
+                actor=request.user,
+                variable=req,
+                pre_value='',
+                post_value=summary,
+            )
+            event.save()
