@@ -3628,7 +3628,7 @@ msgstr "variabler"
 
 #: system/models.py:39 system/models.py:70
 msgid "start time"
-msgstr "tidspunkt start"
+msgstr "starttid"
 
 #: system/models.py:40
 msgid "time factor"
