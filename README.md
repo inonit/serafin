@@ -50,14 +50,13 @@ To run the Huey consumer, install Redis:
 ### Events app
 Contains receivers for Django signals that generate logging events for any and all information that may be of interest to the researchers.
 
+### System app
+Maintains a model of the Program, with the top level represented as a schedule of Parts, the path and logic of each Part as a graph of Content nodes, most of them Pages, and each Page as an ordered list of content items.
+
+### Plumbing app
+The administrator design of the Parts uses [jsPlumb](http://jsplumbtoolkit.com/demo/statemachine/jquery.html) and AngularJS. We intend to redesign this for general public use, help is appreciated.
+
 ### Content app
 A simple content management system for snippets of Text, Media and Forms. Snippets of Content will likely handle how they are displayed, and in the case of Forms, save the information.
-
-### System app
-Maintains a model of the Program, with the top level represented as a schedule of Parts, the path and logic of each Part as a graph of nodes called Pages, and each Page as an ordered list of content items. 
-
-The administrator design of the Program uses [jsPlumb](http://jsplumbtoolkit.com/demo/statemachine/jquery.html) and AngularJS. We intend to redesign this for general public use, help is appreciated.
-
-Nodes may be abstracted to redefinable "building blocks"; display page, ask question, send SMS, etc.
 
 Content management is done through an Angular widget, and stored in a [JSONField](https://github.com/bradjasper/django-jsonfield). See [thoughts on content](https://github.com/inonit/seraf/blob/content/content/thoughts_on_content.md) for details.
