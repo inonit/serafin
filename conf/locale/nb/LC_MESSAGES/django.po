@@ -6,66 +6,13 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Serafin\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-05-06 14:58+0200\n"
+"POT-Creation-Date: 2014-05-07 01:23+0200\n"
 "PO-Revision-Date: 2014-05-06 14:50+0200\n"
 "Last-Translator: Eirik Krogstad <eirikkr@gmail.com>\n"
 "Language: nb\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-
-#: content/admin.py:33 content/models.py:30 system/admin.py:150
-msgid "No content"
-msgstr "Innhold mangler"
-
-#: content/admin.py:41 system/admin.py:158
-msgid "Page excerpt"
-msgstr "Sideutdrag"
-
-#: content/admin.py:46 system/admin.py:36 system/admin.py:108
-#: system/admin.py:163
-msgid "Admin note excerpt"
-msgstr "Utdrag fra administratornotat"
-
-#: content/models.py:13
-#: lib/python2.7/site-packages/django_extensions/db/models.py:36
-#: lib/python2.7/site-packages/django_extensions/mongodb/models.py:29
-#: system/models.py:36 system/models.py:58 system/models.py:116
-msgid "title"
-msgstr "tittel"
-
-#: content/models.py:14 system/models.py:77
-msgid "part"
-msgstr "del"
-
-#: content/models.py:15 system/models.py:37 system/models.py:60
-#: system/models.py:118
-msgid "admin note"
-msgstr "administratornotat"
-
-#: content/models.py:41
-msgid "content"
-msgstr "innhold"
-
-#: content/models.py:42
-msgid "contents"
-msgstr "innhold"
-
-#: content/models.py:49
-msgid "e-mail"
-msgstr "e-post"
-
-#: content/models.py:50
-msgid "e-mails"
-msgstr "e-poster"
-
-#: content/models.py:57
-msgid "SMS"
-msgstr "SMS"
-
-#: content/models.py:58
-msgid "SMSs"
-msgstr "SMSer"
 
 #: content/templates/admin/content_widget.html:7
 #: content/templates/admin/content_widget.html:39
@@ -125,7 +72,7 @@ msgstr "Legg til tekststreng"
 
 #: content/templates/admin/content_widget.html:40
 msgid "Add multiple choice"
-msgstr "Legg til flervalg"
+msgstr "Legg til enkeltvalg"
 
 #: content/templates/admin/content_widget.html:41
 msgid "Add multiple selection"
@@ -205,7 +152,7 @@ msgstr "PC"
 msgid "time"
 msgstr "tidspunkt"
 
-#: events/models.py:12 users/admin.py:107
+#: events/models.py:12 users/admin.py:109
 msgid "domain"
 msgstr "domene"
 
@@ -1564,6 +1511,12 @@ msgstr ""
 msgid "modified"
 msgstr ""
 
+#: lib/python2.7/site-packages/django_extensions/db/models.py:36
+#: lib/python2.7/site-packages/django_extensions/mongodb/models.py:29
+#: system/models.py:50 system/models.py:72 system/models.py:138
+msgid "title"
+msgstr "tittel"
+
 #: lib/python2.7/site-packages/django_extensions/db/models.py:37
 #: lib/python2.7/site-packages/django_extensions/mongodb/models.py:30
 msgid "slug"
@@ -2495,7 +2448,7 @@ msgstr "Slett \"%(item_label)s\""
 
 #: lib/python2.7/site-packages/filer/templates/admin/filer/folder/directory_table.html:46
 #: lib/python2.7/site-packages/suit/templates/admin/filer/folder/directory_table.html:45
-#: users/admin.py:122 users/admin.py:133
+#: users/admin.py:123 users/admin.py:137
 msgid "Permissions"
 msgstr "Tillatelser"
 
@@ -3421,8 +3374,8 @@ msgid "Press the save button below to revert to this version of the object."
 msgstr ""
 
 #: plumbing/templates/admin/plumbing_widget.html:5
-msgid "Add node"
-msgstr "Legg til node"
+msgid "Add page"
+msgstr "Legg til side"
 
 #: plumbing/templates/admin/plumbing_widget.html:6
 msgid "Add email"
@@ -3448,7 +3401,7 @@ msgstr "Antall"
 msgid "minutes"
 msgstr "minutter"
 
-#: plumbing/templates/admin/plumbing_widget.html:41 system/models.py:63
+#: plumbing/templates/admin/plumbing_widget.html:41 system/models.py:78
 msgid "hours"
 msgstr "timer"
 
@@ -3469,25 +3422,29 @@ msgstr ""
 msgid "Add condition"
 msgstr "Legg til forutsetning"
 
-#: serafin/settings.py:235
+#: serafin/settings.py:242
 msgid "Users"
 msgstr "Brukere"
 
-#: serafin/settings.py:245
+#: serafin/settings.py:252
 msgid "Program"
 msgstr "Program"
 
-#: serafin/settings.py:258
+#: serafin/settings.py:265
 msgid "Events"
 msgstr "Hendelser"
 
-#: serafin/settings.py:268
+#: serafin/settings.py:275
 msgid "Media"
 msgstr "Media"
 
-#: serafin/settings.py:273
+#: serafin/settings.py:280
 msgid "Settings"
 msgstr "Oppsett"
+
+#: system/admin.py:36 system/admin.py:108 system/admin.py:156
+msgid "Admin note excerpt"
+msgstr "Utdrag fra administratornotat"
 
 #: system/admin.py:113
 msgid "Program start time"
@@ -3497,9 +3454,13 @@ msgstr "Starttid program"
 msgid "Program time factor"
 msgstr "Tidsfaktor program"
 
-#: system/admin.py:168
-msgid "Parts"
-msgstr "Deler"
+#: system/admin.py:143
+msgid "No content"
+msgstr "Innhold mangler"
+
+#: system/admin.py:151
+msgid "Page excerpt"
+msgstr "Sideutdrag"
 
 #: system/models.py:17
 msgid "numeric"
@@ -3529,75 +3490,102 @@ msgstr "type variabel"
 msgid "variables"
 msgstr "variabler"
 
-#: system/models.py:39 system/models.py:70
+#: system/models.py:36
+msgid "key"
+msgstr "nøkkel"
+
+#: system/models.py:40
+msgid "system variable"
+msgstr "systemvariabel"
+
+#: system/models.py:41
+msgid "system variables"
+msgstr "systemvariabler"
+
+#: system/models.py:51 system/models.py:75 system/models.py:139
+msgid "admin note"
+msgstr "administratornotat"
+
+#: system/models.py:53 system/models.py:85
 msgid "start time"
 msgstr "starttid"
 
-#: system/models.py:40
+#: system/models.py:54
 msgid "time factor"
 msgstr "tidsfaktor"
 
-#: system/models.py:43 system/models.py:59
+#: system/models.py:57 system/models.py:73
 msgid "program"
 msgstr "program"
 
-#: system/models.py:44
+#: system/models.py:58
 msgid "programs"
 msgstr "programmer"
 
-#: system/models.py:64
+#: system/models.py:74 system/models.py:146
+msgid "content"
+msgstr "innhold"
+
+#: system/models.py:79
 msgid "days"
 msgstr "dager"
 
-#: system/models.py:66
+#: system/models.py:81
 msgid "start time delta"
 msgstr "avvik starttid"
 
-#: system/models.py:67
+#: system/models.py:82
 msgid "start time unit"
 msgstr "enhet starttid"
 
-#: system/models.py:68
+#: system/models.py:83
 msgid "end time delta"
 msgstr "avvik sluttid"
 
-#: system/models.py:69
+#: system/models.py:84
 msgid "end time unit"
 msgstr "enhet sluttid"
 
-#: system/models.py:78 system/models.py:117
+#: system/models.py:92
+msgid "part"
+msgstr "del"
+
+#: system/models.py:93
 msgid "parts"
 msgstr "deler"
 
-#: system/models.py:81
+#: system/models.py:96
 #, python-format
 msgid "Part %s"
 msgstr "Del %s"
 
-#: system/models.py:125
+#: system/models.py:147
+msgid "contents"
+msgstr "innhold"
+
+#: system/models.py:161
 msgid "page"
 msgstr "side"
 
-#: system/models.py:126
+#: system/models.py:162
 msgid "pages"
 msgstr "sider"
 
-#: system/models.py:129
-#, python-format
-msgid "Page %s"
-msgstr "Side %s"
+#: system/models.py:194
+msgid "e-mail"
+msgstr "e-post"
 
-#: system/models.py:157
-msgid "key"
-msgstr "nøkkel"
+#: system/models.py:195
+msgid "e-mails"
+msgstr "e-poster"
 
-#: system/models.py:161
-msgid "system variable"
-msgstr "systemvariabel"
+#: system/models.py:203
+msgid "SMS"
+msgstr "SMS"
 
-#: system/models.py:162
-msgid "system variables"
-msgstr "systemvariabler"
+#: system/models.py:204
+msgid "SMSs"
+msgstr "SMSer"
 
 #: tasks/admin.py:22
 msgid "Task result"
@@ -3769,15 +3757,25 @@ msgstr "Passordene er ikke like."
 msgid "Password can be changed with <a href=\"password/\">this form</a>."
 msgstr "Passord kan endres med <a href=\"password/\">dette skjemaet</a>."
 
-#: users/admin.py:146
+#: users/admin.py:70
+msgid ""
+"Designates whether this user should be treated as active. Unselect this "
+"instead of deleting accounts."
+msgstr ""
+
+#: users/admin.py:71
+msgid "Designates whether the user can log into this admin site."
+msgstr ""
+
+#: users/admin.py:152
 msgid "User info"
 msgstr "Brukerinfo"
 
-#: users/admin.py:147
+#: users/admin.py:153
 msgid "User data"
 msgstr "Brukerdata"
 
-#: users/admin.py:148
+#: users/admin.py:154
 msgid "Log entries"
 msgstr "Logghendelser"
 
@@ -3861,10 +3859,10 @@ msgstr "e-postadresse"
 msgid "phone number"
 msgstr "telefonnummer"
 
-#: vault/models.py:56
+#: vault/models.py:55
 msgid "vault user"
 msgstr "Hvelvbruker"
 
-#: vault/models.py:57
+#: vault/models.py:56
 msgid "vault users"
 msgstr "Hvelvbrukere"
