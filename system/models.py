@@ -136,6 +136,7 @@ class Content(models.Model):
     '''An ordered collection of JSON content'''
 
     title = models.CharField(_('title'), max_length=64, blank=True, unique=True)
+    content_type = models.CharField(_('title'), max_length=32, editable=False)
     admin_note = models.TextField(_('admin note'), blank=True)
 
     data = JSONField(load_kwargs={'object_pairs_hook': OrderedDict}, default='undefined')
@@ -153,13 +154,24 @@ class Content(models.Model):
         return NotImplemented
 
 
+class PageManager(models.Manager):
+    def get_queryset(self):
+        return super(PageManager, self).get_queryset().filter(content_type='page')
+
+
 class Page(Content):
     '''An ordered collection of JSON content to be shown together as a Page'''
+
+    objects = PageManager()
 
     class Meta:
         proxy = True
         verbose_name = _('page')
         verbose_name_plural = _('pages')
+
+    def __init__(self, *args, **kwargs):
+        super(Page, self).__init__(*args, **kwargs)
+        self.content_type = 'page'
 
     def get_absolute_url(self):
         return '%s?part_id=%i&page_id=%i' % (
@@ -186,8 +198,19 @@ class Page(Content):
                     self.vars_used.add(variable)
 
 
+class EmailManager(models.Manager):
+    def get_queryset(self):
+        return super(EmailManager, self).get_queryset().filter(content_type='email')
+
+
 class Email(Content):
     '''A model for e-mail content'''
+
+    objects = EmailManager()
+
+    def __init__(self, *args, **kwargs):
+        super(Email, self).__init__(*args, **kwargs)
+        self.content_type = 'email'
 
     class Meta:
         proxy = True
@@ -195,8 +218,19 @@ class Email(Content):
         verbose_name_plural = _('e-mails')
 
 
+class SMSManager(models.Manager):
+    def get_queryset(self):
+        return super(SMSManager, self).get_queryset().filter(content_type='sms')
+
+
 class SMS(Content):
     '''A model for SMS content'''
+
+    objects = SMSManager()
+
+    def __init__(self, *args, **kwargs):
+        super(SMS, self).__init__(*args, **kwargs)
+        self.content_type = 'sms'
 
     class Meta:
         proxy = True
