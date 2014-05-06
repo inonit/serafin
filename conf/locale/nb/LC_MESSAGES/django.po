@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Serafin\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-05-05 16:49+0200\n"
+"POT-Creation-Date: 2014-05-06 13:13+0200\n"
 "PO-Revision-Date: 2014-04-25 14:45+0200\n"
 "Last-Translator: Eirik Krogstad <eirikkr@gmail.com>\n"
 "Language: nb\n"
@@ -14,32 +14,32 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: content/admin.py:33 content/models.py:30 system/admin.py:82
+#: content/admin.py:33 content/models.py:30 system/admin.py:150
 msgid "No content"
 msgstr "Innhold mangler"
 
-#: content/admin.py:41 system/admin.py:90
+#: content/admin.py:41 system/admin.py:158
 msgid "Page excerpt"
 msgstr "Sideutdrag"
 
-#: content/admin.py:46 system/admin.py:26 system/admin.py:56
-#: system/admin.py:95
+#: content/admin.py:46 system/admin.py:36 system/admin.py:108
+#: system/admin.py:163
 msgid "Admin note excerpt"
 msgstr "Utdrag fra administratornotat"
 
 #: content/models.py:13
 #: lib/python2.7/site-packages/django_extensions/db/models.py:36
 #: lib/python2.7/site-packages/django_extensions/mongodb/models.py:29
-#: system/models.py:34 system/models.py:48 system/models.py:89
+#: system/models.py:36 system/models.py:58 system/models.py:116
 msgid "title"
 msgstr "tittel"
 
-#: content/models.py:14 system/models.py:60 system/models.py:90
+#: content/models.py:14 system/models.py:77
 msgid "part"
 msgstr "del"
 
-#: content/models.py:15 system/models.py:35 system/models.py:50
-#: system/models.py:91
+#: content/models.py:15 system/models.py:37 system/models.py:60
+#: system/models.py:118
 msgid "admin note"
 msgstr "administratornotat"
 
@@ -93,18 +93,21 @@ msgid "Add file"
 msgstr "Legg til fil"
 
 #: content/templates/admin/content_widget.html:28
+#: content/templates/admin/text_content_widget.html:12
 msgid ""
 "This element uses <a href=\"http://markdown-guide.readthedocs.org/en/latest/"
 "basics.html\">Markdown</a>."
 msgstr ""
-"Dette elementet bruker <a href=\"http://markdown-guide.readthedocs.org/en/latest/"
-"basics.html\">Markdown</a>."
+"Dette elementet bruker <a href=\"http://markdown-guide.readthedocs.org/en/"
+"latest/basics.html\">Markdown</a>."
 
 #: content/templates/admin/content_widget.html:28
+#: content/templates/admin/text_content_widget.html:12
 msgid "For variable replacement use"
 msgstr "For å erstatte variabler, bruk"
 
 #: content/templates/admin/content_widget.html:28
+#: content/templates/admin/text_content_widget.html:12
 msgid ""
 "This markup will be replaced by the user's value for <code>var_name</code>, "
 "if available."
@@ -182,35 +185,43 @@ msgstr "Tittel"
 msgid "Actor"
 msgstr "Utført av"
 
-#: events/models.py:12 tasks/models.py:22
+#: events/middleware.py:45
+msgid "userdata"
+msgstr "brukerdata"
+
+#: events/middleware.py:94
+msgid "request"
+msgstr "sideforespørsel"
+
+#: events/models.py:11 tasks/models.py:22
 msgid "time"
 msgstr "tidspunkt"
 
-#: events/models.py:13 users/admin.py:107
+#: events/models.py:12 users/admin.py:107
 msgid "domain"
 msgstr "domene"
 
-#: events/models.py:14
+#: events/models.py:13
 msgid "actor"
 msgstr "utført av"
 
-#: events/models.py:15 system/models.py:24
+#: events/models.py:14 system/models.py:26
 msgid "variable"
 msgstr "variabel"
 
-#: events/models.py:16
+#: events/models.py:15
 msgid "pre value"
 msgstr "førverdi"
 
-#: events/models.py:17
+#: events/models.py:16
 msgid "post value"
 msgstr "ny verdi"
 
-#: events/models.py:25
+#: events/models.py:22
 msgid "event"
 msgstr "hendelse"
 
-#: events/models.py:26
+#: events/models.py:23
 msgid "events"
 msgstr "hendelser"
 
@@ -1888,7 +1899,7 @@ msgstr "originalt filnavn"
 
 #: lib/python2.7/site-packages/filer/models/filemodels.py:44
 #: lib/python2.7/site-packages/filer/models/foldermodels.py:99
-#: system/models.py:13
+#: system/models.py:15
 msgid "name"
 msgstr "navn"
 
@@ -3554,7 +3565,7 @@ msgstr "Antall"
 msgid "minutes"
 msgstr "minutter"
 
-#: plumbing/templates/admin/plumbing_widget.html:41
+#: plumbing/templates/admin/plumbing_widget.html:41 system/models.py:63
 msgid "hours"
 msgstr "timer"
 
@@ -3575,81 +3586,113 @@ msgstr ""
 msgid "Add condition"
 msgstr "Legg til forutsetning"
 
-#: system/models.py:15
+#: system/admin.py:113
+msgid "Program start time"
+msgstr "Starttid program"
+
+#: system/admin.py:118
+msgid "Program time factor"
+msgstr "Tidsfaktor program"
+
+#: system/admin.py:168
+msgid "Parts"
+msgstr "Deler"
+
+#: system/models.py:17
 msgid "numeric"
 msgstr "tallverdi"
 
-#: system/models.py:16
+#: system/models.py:18
 msgid "string"
 msgstr "kort tekst"
 
-#: system/models.py:17
+#: system/models.py:19
 msgid "text"
 msgstr "tekst"
 
-#: system/models.py:18
+#: system/models.py:20
 msgid "multiple choice"
-msgstr "flervalg"
+msgstr "enkeltvalg"
 
-#: system/models.py:19
+#: system/models.py:21
 msgid "multiple selection"
 msgstr "flervalg"
 
-#: system/models.py:21
+#: system/models.py:23
 msgid "variable type"
 msgstr "type variabel"
 
-#: system/models.py:25
+#: system/models.py:27
 msgid "variables"
 msgstr "variabler"
 
-#: system/models.py:38 system/models.py:49
-msgid "program"
-msgstr "program"
-
-#: system/models.py:39
-msgid "programs"
-msgstr "programmer"
-
-#: system/models.py:52
+#: system/models.py:39 system/models.py:70
 msgid "start time"
 msgstr "tidspunkt start"
 
-#: system/models.py:53
-msgid "end time"
-msgstr "tidspunkt slutt"
+#: system/models.py:40
+msgid "time factor"
+msgstr "tidsfaktor"
 
-#: system/models.py:61
+#: system/models.py:43 system/models.py:59
+msgid "program"
+msgstr "program"
+
+#: system/models.py:44
+msgid "programs"
+msgstr "programmer"
+
+#: system/models.py:64
+msgid "days"
+msgstr "dager"
+
+#: system/models.py:66
+msgid "start time delta"
+msgstr "avvik starttid"
+
+#: system/models.py:67
+msgid "start time unit"
+msgstr "enhet starttid"
+
+#: system/models.py:68
+msgid "end time delta"
+msgstr "avvik sluttid"
+
+#: system/models.py:69
+msgid "end time unit"
+msgstr "enhet sluttid"
+
+#: system/models.py:78 system/models.py:117
 msgid "parts"
 msgstr "deler"
 
-#: system/models.py:64
+#: system/models.py:81
 #, python-format
 msgid "Part %s"
 msgstr "Del %s"
 
-#: system/models.py:98
+#: system/models.py:125
 msgid "page"
 msgstr "side"
 
-#: system/models.py:99
+#: system/models.py:126
 msgid "pages"
 msgstr "sider"
 
-#: system/models.py:102
+#: system/models.py:129
 #, python-format
 msgid "Page %s"
 msgstr "Side %s"
 
-#: system/models.py:130
+#: system/models.py:157
 msgid "key"
 msgstr "nøkkel"
 
-#: system/models.py:134
+#: system/models.py:161
 msgid "system variable"
 msgstr "systemvariabel"
 
-#: system/models.py:135
+#: system/models.py:162
 msgid "system variables"
 msgstr "systemvariabler"
 
@@ -3681,12 +3724,12 @@ msgstr "oppgaver"
 #: tasks/signals.py:34
 #, python-format
 msgid "Send login link for %(part)s"
-msgstr ""
+msgstr "Send innloggingslenke for %(part)s"
 
 #: tasks/tasks.py:25
 #, python-format
-msgid "%i e-mails with subject \"%s\" sent"
-msgstr ""
+msgid "%(counter)i e-mails with subject \"%(subject)s\" sent"
+msgstr "%(counter)i e-poster med tittel \"%(subject)s\" sendt"
 
 #: templates/base.html:22
 msgid "Quit / sign out"
@@ -3898,6 +3941,8 @@ msgid ""
 "Should you have trouble logging in using the login link, you can log in with "
 "your ID and password at %(manual_login)s."
 msgstr ""
+"Skulle du ha problemer med å logge inn med innloggingslenken, kan du logge inn med "
+"din ID og passord på %(manual_login)s."
 
 #: users/templates/email/html/login_link.html:25
 #: users/templates/email/text/login_link.txt:11
