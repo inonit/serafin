@@ -65,7 +65,7 @@ class User(AbstractBaseUser, PermissionsMixin):
         return self.groups.filter(name=group_name).exists()
 
     @vault_post
-    def _mirror_user(self):
+    def _mirror_user(self, email=None, phone=None):
         '''Get confirmation of or create a corresponding User in the Vault'''
         path = settings.VAULT_MIRROR_USER_PATH
         return path, self.id, token_generator.make_token(self.id)

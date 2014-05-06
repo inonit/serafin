@@ -7,8 +7,19 @@ from .models import User
 
 @receiver(signals.post_save, sender=User)
 def mirror_user(sender, **kwargs):
+    user = kwargs['instance']
     if kwargs['created']:
-        kwargs['instance']._mirror_user()
+        user._mirror_user(
+            email=user.data.get('email'),
+            phone=user.data.get('phone')
+        )
+
+    if 'email' in user.data:
+        del user.data['email']
+    if 'phone' in user.data:
+        del user.data['phone']
+    User.objects.filter(id=user.id).update(data=user.data)
+
 
 
 @receiver(signals.pre_delete, sender=User)

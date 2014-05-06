@@ -39,6 +39,8 @@ class UserResource(resources.ModelResource):
     '''Import-Export resource for User model'''
 
     data = fields.Field(column_name='...')
+    email = fields.Field()
+    phone = fields.Field()
     data_headers = []
 
     @classmethod
@@ -57,26 +59,32 @@ class UserResource(resources.ModelResource):
                 continue
             self.import_field(field, obj, data)
 
-        headers = [field.column_name for field in self.get_fields() if field.column_name != '...']
+        headers = [field.column_name for field in self.get_fields()
+            if field.column_name not in ['...', 'email', 'phone']]
+
+        if not obj.data:
+            obj.data = {}
 
         for key in data.keys():
             if key in headers:
                 continue
-            if not obj.data:
-                obj.data = {}
             obj.data[key] = data[key]
 
     def export_resource(self, obj):
-        fields = [self.export_field(field, obj) for field in self.get_fields() if field.column_name != '...']
+        fields = [self.export_field(field, obj) for field in self.get_fields()
+            if field.column_name not in ['...', 'email', 'phone']]
 
         for field in self.data_headers:
             if field in obj.data:
                 fields.append(obj.data.get(field))
+            else:
+                fields.append('')
 
         return fields
 
     def get_export_headers(self):
-        headers = [field.column_name for field in self.get_fields() if field.column_name != '...']
+        headers = [field.column_name for field in self.get_fields()
+            if field.column_name not in ['...', 'email', 'phone']]
         queryset = self.get_queryset()
 
         data_headers = set()
@@ -93,6 +101,8 @@ class UserResource(resources.ModelResource):
         export_order = [
             'id',
             'groups',
+            'email',
+            'phone',
             'data'
         ]
         exclude = [
