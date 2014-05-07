@@ -16,24 +16,13 @@ def schedule_part(sender, **kwargs):
     part = kwargs['instance']
 
     if kwargs['created']:
-        task = Task()
-        task.sender = part
-        task.time = part.start_time
-
-        # task_ref = email_users.schedule(
-        #     args=(queryset, subject, message, html_message),
-        #     eta=timezone.localtime(task.time).replace(tzinfo=None),
-        #     convert_utc=False
-        # )
-        task_ref = test_task.schedule(
-            eta=timezone.localtime(task.time).replace(tzinfo=None),
-            convert_utc=False
+        Task.objects.create_task(
+            sender=part,
+            time=part.start_time,
+            task=test_task, # email_users
+            args=(), # (queryset, subject, message, html_message)
+            action=_('Send login link for %(part)s' % {'part': part})
         )
-        task.task = task_ref
-
-        task.action = _('Send login link for %(part)s' % {'part': part})
-
-        task.save()
 
 
 @receiver(signals.post_save, sender=Part)
@@ -49,20 +38,11 @@ def reschedule_part(sender, **kwargs):
             schedule_part(sender, instance=part, created=True)
             return
 
-        task.time = part.start_time
-
-        task.revoke()
-        # task_ref = email_users.schedule(
-        #     args=(queryset, subject, message, html_message),
-        #     eta=timezone.localtime(task.time).replace(tzinfo=None),
-        #     convert_utc=False
-        # )
-        task_ref = test_task.schedule(
-            eta=timezone.localtime(task.time).replace(tzinfo=None),
-            convert_utc=False
+        task.reschedule(
+            task=test_task, # email_users
+            args=(), # (queryset, subject, message, html_message)
+            time=part.start_time
         )
-        task.task = task_ref
-
         task.save()
 
 
@@ -77,7 +57,6 @@ def revoke_part(sender, **kwargs):
     except:
         return
 
-    task.revoke()
     task.delete()
 
 
