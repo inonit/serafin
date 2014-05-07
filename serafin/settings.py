@@ -267,7 +267,7 @@ SUIT_CONFIG = {
             'models':
                 [
                     'event',
-                    'tasks.task',
+                    'tasker.task',
                 ]
         },
         {
