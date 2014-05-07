@@ -153,7 +153,10 @@ class Content(models.Model):
         return self.title or '%s %s' % (self._meta.verbose_name, self.id)
 
     def get_absolute_url(self):
-        return NotImplemented
+        return '%s?page_id=%i' % (
+            reverse('content'),
+            self.id,
+        )
 
 
 class PageManager(models.Manager):
@@ -174,13 +177,6 @@ class Page(Content):
     def __init__(self, *args, **kwargs):
         super(Page, self).__init__(*args, **kwargs)
         self.content_type = 'page'
-
-    def get_absolute_url(self):
-        return '%s?part_id=%i&page_id=%i' % (
-            reverse('content'),
-            self.part.id,
-            self.id,
-        )
 
     def save(self, *args, **kwargs):
         super(Page, self).save(*args, **kwargs)
@@ -233,7 +229,7 @@ class Email(Content):
         content = self.data[0].get('content')
         message = content.get('text')
         html_message = mistune.markdown(message)
-        user.send_sms(
+        user.send_email(
             subject=self.title,
             message=message,
             html_message=html_message
