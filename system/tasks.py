@@ -18,7 +18,7 @@ def traverse(user, node_id):
 def init_part(part):
     '''Initialize a given part from start and traverse on behalf of user'''
 
-    users = get_user_model().objects.filter(active=True)
+    users = get_user_model().objects.filter(is_active=True)
 
     for user in users:
 

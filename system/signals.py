@@ -20,7 +20,7 @@ def schedule_part(sender, **kwargs):
             sender=part,
             time=part.start_time,
             task=init_part,
-            args=(part),
+            args=(part, ),
             action=_('Send login link and start traversal for all users')
         )
 
@@ -40,7 +40,7 @@ def reschedule_part(sender, **kwargs):
 
         task.reschedule(
             task=init_part,
-            args=(part),
+            args=(part, ),
             time=part.start_time
         )
         task.save()
