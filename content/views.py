@@ -5,10 +5,10 @@ from django.contrib.admin.views.decorators import staff_member_required
 from django.core.urlresolvers import reverse
 from django.shortcuts import get_object_or_404, render
 from filer.models import File, Image
-from serafin.utils import JSONResponse, user_data_replace
+from serafin.utils import JSONResponse
 from system.models import Part, Page
+from system.engine import Engine
 import json
-import mistune
 
 
 @login_required
@@ -17,19 +17,14 @@ def get_part(request):
     if request.is_ajax():
         return get_page(request)
 
-    user_data = request.user.data
-    data = {
-        'user_data': user_data
-    }
-
-    # TODO: run system and supply data
-    # TODO: get current Part object back from system
-    #part = system.something(request.user, data)
-
     # preview support
     part_id = request.GET.get('part_id')
     if request.user.is_staff and part_id:
-        part = Part.objects.get(id=part_id)
+        request.user.data['current_part'] = part_id
+        request.user.data['current_node'] = 0
+
+    part_id = request.user.data['current_part']
+    part = Part.objects.get(id=part_id)
 
     context = {
         'program': part.program,
@@ -42,38 +37,21 @@ def get_part(request):
 @login_required
 def get_page(request):
 
-    data = {}
-
+    post_data = {}
     if request.method == 'POST':
         post_data = json.loads(request.body)
-        data.update({
-            'post_data': post_data
-        })
 
-    user_data = request.user.data
-    data.update({
-        'user_data': user_data
-    })
+    engine = Engine(
+        request.user,
+        post_data
+    )
 
-    # TODO: run system and supply data
-    # TODO: get Page object back from system
-    #page = system.something(request.user, data)
+    page = engine.run()
 
     # preview support
     page_id = request.GET.get('page_id')
-    if request.user.is_staff:
+    if request.user.is_staff and page_id:
         page = Page.objects.get(id=page_id)
-
-    for pagelet in page.data:
-        try:
-            if pagelet['content_type'] == 'text':
-                replaced = user_data_replace(
-                    request.user,
-                    pagelet['content']['text']
-                )
-                pagelet['content']['html'] = mistune.markdown(replaced)
-        except:
-            continue
 
     response = {
         'title': page.title,
