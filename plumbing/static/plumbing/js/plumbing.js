@@ -105,7 +105,6 @@ plumbing.controller('graph', ['$scope', 'jsPlumb', function(scope, jsPlumbServic
                     delay: {
                         number: 0,
                         unit: '',
-                        relativeToStartTime: ''
                     },
                     metrics: {
                         left: '300px',

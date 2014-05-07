@@ -37,12 +37,9 @@
             <div class="close" ng-click="close()">×</div>
             <input type="number" placeholder="{% trans 'Number' %}" ng-model="node.delay.number">
             <select ng-model="node.delay.unit">
-                <option value="min"> {% trans 'minutes' %} </option>
-                <option value="hr"> {% trans 'hours' %} </option>
+                <option value="minutes"> {% trans 'minutes' %} </option>
+                <option value="hours"> {% trans 'hours' %} </option>
             </select>
-            <label>
-                <input type="checkbox" ng-model="node.delay.relativeToStartTime"> {% trans 'Relative to start time for part' %}
-            </label>
         </div>
     </div>
 
