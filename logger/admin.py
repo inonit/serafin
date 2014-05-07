@@ -4,7 +4,7 @@ from django.utils.translation import ugettext_lazy as _
 from django.contrib import admin
 from django.core.urlresolvers import reverse
 
-from events.models import Event
+from logger.models import Event
 
 
 class EventAdmin(admin.ModelAdmin):

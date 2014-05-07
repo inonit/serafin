@@ -4,7 +4,7 @@ from django.utils.translation import ugettext_lazy as _
 import json
 from django.conf import settings
 from django.utils import timezone
-from events.models import Event
+from logger.models import Event
 
 
 class EventTrackingMiddleware(object):

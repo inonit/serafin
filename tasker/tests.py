@@ -1,12 +1,19 @@
 from django.test import TestCase
-from tasks import test_task
-from huey.djhuey import HUEY as huey
+from huey.djhuey import HUEY as huey, task
 from huey.utils import EmptyData
 import pickle
 
 import datetime
 from django.utils import timezone
 from time import sleep
+
+
+@task()
+def test_task():
+    message = 'Hello Huey!'
+
+    print message
+    return message
 
 
 class TimezoneTestCase(TestCase):
