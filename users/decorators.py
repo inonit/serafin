@@ -1,8 +1,8 @@
 from __future__ import unicode_literals
-import json
-from django.conf import settings
 
+import json
 import requests
+from django.conf import settings
 from tokens.json_status import STATUS_OK
 
 

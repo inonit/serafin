@@ -1,9 +1,8 @@
 from __future__ import unicode_literals
 
-from tokens.json_status import STATUS_FAIL, STATUS_USER_DOES_NOT_EXIST, STATUS_INVALID_TOKEN, STATUS_OK
+from tokens.json_status import STATUS_FAIL, STATUS_INVALID_TOKEN, STATUS_OK
 from tokens.tokens import token_generator
 from tokens.json_responses import JsonResponse
-from vault.models import VaultUser
 import json
 
 

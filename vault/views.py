@@ -82,9 +82,9 @@ def fetch_sms(request, *args, **kwargs):
 def password_reset(request, *args, **kwargs):
     '''Send password reset email'''
 
-    vault_user = VaultUser.objects.get(email__iexact=data.get('email'))
-
     data = json.loads(request.body)
+
+    vault_user = VaultUser.objects.get(email__iexact=data.get('email'))
 
     protocol = data.get('protocol')
     domain = data.get('domain')

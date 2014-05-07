@@ -24,6 +24,6 @@ def login_via_email(request, user_id=None, token=None):
     user = authenticate(user_id=user_id, token=token)
     if user:
         login(request, user)
-        return HttpResponse(_('Logged in'))
+        return redirect('/')
 
-    return HttpResponse(_('Not logged in'))
+    return redirect('login')

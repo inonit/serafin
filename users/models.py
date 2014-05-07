@@ -115,7 +115,7 @@ class User(AbstractBaseUser, PermissionsMixin):
     def send_login_link(self):
         '''Sends user login link via email templates'''
 
-        subject = _("Today's login link")
+        subject = unicode(_("Today's login link"))
 
         html_template = get_template('email/html/login_link.html')
         text_template = get_template('email/text/login_link.txt')
@@ -131,7 +131,11 @@ class User(AbstractBaseUser, PermissionsMixin):
         text_content = text_template.render(Context(context))
         html_content = html_template.render(Context(context))
 
-        self.send_email(subject, text_content, html_content)
+        self.send_email(
+            subject=subject,
+            message=text_content,
+            html_message=html_content
+        )
 
     def __unicode__(self):
         return u'%s' % self.id
