@@ -6,7 +6,9 @@ from django.core.urlresolvers import reverse
 from django.utils import timezone
 from jsonfield import JSONField
 from collections import OrderedDict
+from serafin.utils import user_data_replace
 import datetime
+import mistune
 
 
 class Variable(models.Model):
@@ -197,6 +199,16 @@ class Page(Content):
 
                     self.vars_used.add(variable)
 
+    def update_html(self, user):
+        for pagelet in self.data:
+            if pagelet['content_type'] == 'text':
+                content = pagelet.get('content')
+                replaced = user_data_replace(
+                    user,
+                    content.get('text')
+                )
+                pagelet['content']['html'] = mistune.markdown(replaced)
+
 
 class EmailManager(models.Manager):
     def get_queryset(self):
@@ -208,14 +220,24 @@ class Email(Content):
 
     objects = EmailManager()
 
-    def __init__(self, *args, **kwargs):
-        super(Email, self).__init__(*args, **kwargs)
-        self.content_type = 'email'
-
     class Meta:
         proxy = True
         verbose_name = _('e-mail')
         verbose_name_plural = _('e-mails')
+
+    def __init__(self, *args, **kwargs):
+        super(Email, self).__init__(*args, **kwargs)
+        self.content_type = 'email'
+
+    def send(self, user):
+        content = self.data[0].get('content')
+        message = content.get('text')
+        html_message = mistune.markdown(message)
+        user.send_sms(
+            subject=self.title,
+            message=message,
+            html_message=html_message
+        )
 
 
 class SMSManager(models.Manager):
@@ -228,11 +250,18 @@ class SMS(Content):
 
     objects = SMSManager()
 
-    def __init__(self, *args, **kwargs):
-        super(SMS, self).__init__(*args, **kwargs)
-        self.content_type = 'sms'
-
     class Meta:
         proxy = True
         verbose_name = _('SMS')
         verbose_name_plural = _('SMSs')
+
+    def __init__(self, *args, **kwargs):
+        super(SMS, self).__init__(*args, **kwargs)
+        self.content_type = 'sms'
+
+    def send(self, user):
+        content = self.data[0].get('content')
+        message = content.get('text')
+        user.send_sms(
+            message=message
+        )
