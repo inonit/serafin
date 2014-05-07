@@ -1,3 +1,6 @@
+from __future__ import unicode_literals
+from django.utils.translation import ugettext_lazy as _
+
 from system.models import Part, Page, Email, SMS
 from tasker.models import Task
 from huey.djhuey import db_task
@@ -91,7 +94,7 @@ class Engine(object):
         self.user.data['current_node'] = target_id
         self.user.save()
 
-        return trigger_node(target_id)
+        return self.trigger_node(target_id)
 
     def trigger_node(self, node_id):
         '''Trigger action for a given node, return if Page'''
@@ -115,11 +118,12 @@ class Engine(object):
             }
             delta = datetime.timedelta(**kwargs)
 
+            from system.tasks import transition
             Task.objects.create_task(
                 sender=self.part,
                 time=self.part.start_time + delta,
                 task=transition,
-                args=(user),
+                args=(self.user, node_id),
                 action=_('Delayed node execution')
             )
 
@@ -130,14 +134,14 @@ class Engine(object):
             email = Email.objects.get(id=ref_id)
             email.send(self.user)
 
-            return trigger_node(self.traverse(node_id))
+            return self.trigger_node(self.traverse(node_id))
 
         if node_type == 'sms':
 
             sms = SMS.objects.get(id=ref_id)
             sms.send(self.user)
 
-            return trigger_node(self.traverse(node_id))
+            return self.trigger_node(self.traverse(node_id))
 
         if node_type == 'start':
             return self.transition(node_id)

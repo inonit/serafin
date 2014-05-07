@@ -7,11 +7,11 @@ from django.contrib.auth import get_user_model
 
 
 @db_task()
-def traverse(user, node_id):
+def transition(user, node_id):
     '''A task to schedule an Engine transition'''
 
     engine = Engine(user)
-    engine.run()
+    engine.transition(node_id)
 
 
 @db_task()
@@ -30,9 +30,8 @@ def init_part(part):
         )
         engine.run()
 
-        user.send_email(subject, message, html_message)
+        user.send_login_link()
 
     message = _('Part initialized and user e-mails sent' % locals())
 
-    print message
     return message

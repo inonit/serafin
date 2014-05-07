@@ -17,11 +17,12 @@ def get_part(request):
     if request.is_ajax():
         return get_page(request)
 
-    # preview support
+    # admin preview support
     part_id = request.GET.get('part_id')
     if request.user.is_staff and part_id:
         request.user.data['current_part'] = part_id
         request.user.data['current_node'] = 0
+        request.user.save()
 
     part_id = request.user.data['current_part']
     part = Part.objects.get(id=part_id)
@@ -37,21 +38,23 @@ def get_part(request):
 @login_required
 def get_page(request):
 
-    post_data = {}
+    context = {}
+
     if request.method == 'POST':
         post_data = json.loads(request.body)
+        for item in post_data:
+            context.update({
+                item.get('variable_name'): item.get('value')
+            })
 
-    engine = Engine(
-        request.user,
-        post_data
-    )
-
+    engine = Engine(request.user, context)
     page = engine.run()
 
-    # preview support
+    # admin preview support
     page_id = request.GET.get('page_id')
     if request.user.is_staff and page_id:
         page = Page.objects.get(id=page_id)
+        page.update_html(request.user)
 
     response = {
         'title': page.title,
