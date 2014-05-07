@@ -8,7 +8,7 @@ from django.template.loader import render_to_string
 from django.utils.safestring import mark_safe
 from import_export.admin import ImportExportModelAdmin
 from jsonfield import JSONField
-from logger.models import Event
+from events.models import Event
 from users.importexport import UserResource
 from users.models import User
 

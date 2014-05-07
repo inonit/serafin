@@ -56,7 +56,7 @@ INSTALLED_APPS = (
     'users',
     'vault',
     'tasker',
-    'logger',
+    'events',
     'content',
     'plumbing',
     'system',
@@ -70,7 +70,7 @@ MIDDLEWARE_CLASSES = (
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'django_user_agents.middleware.UserAgentMiddleware',
-    'logger.middleware.EventTrackingMiddleware',
+    'events.middleware.EventTrackingMiddleware',
 )
 
 ROOT_URLCONF = 'serafin.urls'

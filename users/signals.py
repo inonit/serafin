@@ -2,7 +2,7 @@ from __future__ import unicode_literals
 
 from django.db.models import signals
 from django.dispatch import receiver
-from .models import User
+from users.models import User
 
 
 @receiver(signals.post_save, sender=User)

@@ -39,7 +39,7 @@ Fields past common User model fields could be set in a key: value store for *gen
 ### Vault app
 The vault stores personally identifiable data like e-mail and phone number. It will be separated to a secure server if research councils dictate so. The vault is connected to the SMS app and sends out e-mails, but only does so at the request of the main system, and only by user ID.
 
-### Tasks app
+### Tasker app
 Handles scheduling of events, mainly triggering each day of the program and slip management. Scheduling is based on [Huey](https://github.com/coleifer/huey), it's simple and adequate.
 
 To run the Huey consumer, install Redis:

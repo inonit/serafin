@@ -1,4 +1,3 @@
-from users.models import User
 from system.models import Part, Page, Email, SMS
 from tasker.models import Task
 from huey.djhuey import db_task

@@ -3,7 +3,7 @@ from django.utils.translation import ugettext_lazy as _
 
 from huey.djhuey import db_task
 from system.engine import Engine
-from users.models import User
+from django.contrib.auth import get_user_model
 
 
 @db_task()
@@ -18,7 +18,7 @@ def traverse(user, node_id):
 def init_part(part):
     '''Initialize a given part from start and traverse on behalf of user'''
 
-    users = User.objects.filter(active=True)
+    users = get_user_model().objects.filter(active=True)
 
     for user in users:
 
