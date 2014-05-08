@@ -27,3 +27,4 @@ local
 local_settings.py
 *.db
 media
+static
