@@ -172,6 +172,13 @@ plumbing.directive('node', ['$timeout', 'jsPlumb', function(timeout, jsPlumbServ
                 scope.$on('$destroy', function() {
                     scope.settings.remove();
                     scope.$parent.showDelay = -1;
+                    scope.data.edges.forEach(function(edge) {
+                        if (edge.source == scope.node.id ||
+                            edge.target == scope.node.id) {
+                            var index = scope.data.edges.indexOf(edge);
+                            scope.data.edges.splice(index, 1);
+                        }
+                    });
                 });
             });
 
@@ -247,7 +254,6 @@ plumbing.directive('edge', ['jsPlumb', function(jsPlumbService) {
         controller: ['$scope', function(scope) {
 
             scope.deleteEdge = function(index) {
-                var edge = scope.data.edges[index];
                 scope.data.edges.splice(index, 1);
             };
 
