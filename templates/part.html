@@ -59,7 +59,7 @@
         </div>
     </div>
     {% endverbatim %}
-    <nav>
+    <nav ng-if="!dead_end">
         <a class="button next" ng-click="next()">{% trans 'Next page' %}</a>
     </nav>
 </div>

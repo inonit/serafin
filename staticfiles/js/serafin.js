@@ -12,6 +12,7 @@ serafin.run(['$rootScope', '$http', function(scope, http) {
     http.get(api + window.location.search).success(function(data) {
         scope.title = data['title'];
         scope.page = data['data'];
+        scope.dead_end = data['dead_end'];
     });
 
     scope.$on('title', function(event, data) {
@@ -36,7 +37,7 @@ serafin.controller('pages', ['$scope', '$http', '$sce', function(scope, http, sc
 
         var request = {
             method: 'GET',
-            url: api,
+            url: api + '?next=1',
         };
 
         if (data.length > 0) {
@@ -47,6 +48,7 @@ serafin.controller('pages', ['$scope', '$http', '$sce', function(scope, http, sc
         http(request).success(function(data) {
             scope.$emit('title', data['title']);
             scope.page = data['data'];
+            scope.dead_end = data['dead_end'];
             scope.index++;
         });
     };

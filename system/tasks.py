@@ -19,15 +19,14 @@ def init_part(part):
     '''Initialize a given part from start and traverse on behalf of user'''
 
     users = get_user_model().objects.filter(is_active=True)
+    init = {
+        'current_part': part.id,
+        'current_node': 0,
+    }
 
     for user in users:
 
-        engine = Engine(
-            user, {
-                'current_part': part.id,
-                'current_node': 0,
-            }
-        )
+        engine = Engine(user, init)
         engine.run()
 
         user.send_login_link()
