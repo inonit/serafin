@@ -35,17 +35,14 @@ class Engine(object):
         self.nodes = {node['id']: node for node in self.part.data.get('nodes')}
         self.edges = self.part.data.get('edges')
 
-    def traverse(self, source_id):
-        '''Select first edge where the user passes edge conditions, return its id'''
-
-        edges = [edge for edge in self.edges if edge.get('source') == source_id]
+    def traverse(self, edges, source_id):
+        '''Select and return first edge where the user passes edge conditions'''
 
         for edge in edges:
             conditions = edge.get('conditions')
-            target_id = edge.get('target')
 
             if not conditions:
-                return target_id
+                return edge
 
             else:
                 for condition in conditions:
@@ -60,41 +57,72 @@ class Engine(object):
 
                         if op == 'eq':
                             if user_val == val:
-                                return target_id
+                                return edge
 
                         if op == 'ne':
                             if user_val != val:
-                                return target_id
+                                return edge
 
                         if op == 'lt':
                             if user_val < val:
-                                return target_id
+                                return edge
 
                         if op == 'le':
                             if user_val <= val:
-                                return target_id
+                                return edge
 
                         if op == 'gt':
                             if user_val > val:
-                                return target_id
+                                return edge
 
                         if op == 'ge':
                             if user_val >= val:
-                                return target_id
+                                return edge
 
                         if op == 'in':
                             if user_val in val:
-                                return target_id
+                                return edge
+
+    def get_node_edges(self, source_id):
+        return [edge for edge in self.edges if edge.get('source') == source_id]
+
+    def get_normal_edges(self, edges):
+        return [edge for edge in edges if edge.get('type') == 'normal']
+
+    def get_special_edges(self, edges):
+        return [edge for edge in edges if edge.get('type') == 'special']
 
     def transition(self, source_id):
         '''Transition from a given node and trigger a new node'''
 
-        target_id = self.traverse(source_id)
+        edges = self.get_node_edges(source_id)
 
-        self.user.data['current_node'] = target_id
-        self.user.save()
+        # traverse all special edges
+        special_edges = self.get_special_edges(edges)
+        while special_edges:
+            edge = self.traverse(special_edges, source_id)
+            if edge:
+                special_edges.remove(edge)
+                node = self.trigger_node(edge.get('target'))
+            else:
+                break
 
-        return self.trigger_node(target_id)
+        # traverse first applicable normal edge
+        normal_edges = self.get_normal_edges(edges)
+        edge = self.traverse(normal_edges, source_id)
+        if edge:
+            target_id = edge.get('target')
+            node = self.trigger_node(target_id)
+
+            if isinstance(node, Page):
+                self.user.data['current_node'] = target_id
+                self.user.save()
+
+                # notify frontend of dead end
+                target_edges = self.get_node_edges(target_id)
+                node.dead_end = len(self.get_normal_edges(target_edges)) == 0
+
+                return node
 
     def trigger_node(self, node_id):
         '''Trigger action for a given node, return if Page'''
@@ -127,28 +155,31 @@ class Engine(object):
                 action=_('Delayed node execution')
             )
 
-            return
+            return None
 
         if node_type == 'email':
 
             email = Email.objects.get(id=ref_id)
             email.send(self.user)
 
-            return self.trigger_node(self.traverse(node_id))
+            return self.transition(node_id)
 
         if node_type == 'sms':
 
             sms = SMS.objects.get(id=ref_id)
             sms.send(self.user)
 
-            return self.trigger_node(self.traverse(node_id))
+            return self.transition(node_id)
 
         if node_type == 'start':
             return self.transition(node_id)
 
-    def run(self):
+    def run(self, next=None):
         '''Run the Engine after initializing and return some result'''
 
         node_id = self.user.data.get('current_node')
-        return self.trigger_node(node_id)
 
+        if next:
+            return self.transition(node_id)
+
+        return self.trigger_node(node_id)
