@@ -12,7 +12,7 @@ import mistune
 
 
 class Variable(models.Model):
-    '''A variable reference for efficient lookup'''
+    '''A variable reference for more efficient lookup'''
 
     name = models.CharField(_('name'), max_length=64, unique=True)
     VAR_TYPES = (
@@ -30,20 +30,6 @@ class Variable(models.Model):
 
     def __unicode__(self):
         return self.name
-
-
-class SystemVariable(models.Model):
-    '''A system-scope variable'''
-
-    key = models.CharField(_('key'), max_length=64, primary_key=True)
-    value = JSONField(load_kwargs={'object_pairs_hook': OrderedDict}, default={})
-
-    class Meta:
-        verbose_name = _('system variable')
-        verbose_name_plural = _('system variables')
-
-    def __unicode__(self):
-        return '%s: %s' % (self.key, self.value)
 
 
 class Program(models.Model):
@@ -71,7 +57,7 @@ class Program(models.Model):
 class Part(models.Model):
     '''A program Part, with layout and logic encoded in JSON'''
 
-    title = models.CharField(_('title'), max_length=64, blank=True, unique=True)
+    title = models.CharField(_('title'), max_length=64, unique=True)
     program = models.ForeignKey('Program', verbose_name=_('program'))
     content = models.ManyToManyField('Content', verbose_name=_('content'), null=True, blank=True)
     admin_note = models.TextField(_('admin note'), blank=True)
@@ -137,7 +123,7 @@ class Part(models.Model):
 class Content(models.Model):
     '''An ordered collection of JSON content'''
 
-    title = models.CharField(_('title'), max_length=64, blank=True, unique=True)
+    title = models.CharField(_('title'), max_length=64, unique=True)
     content_type = models.CharField(_('title'), max_length=32, editable=False)
     admin_note = models.TextField(_('admin note'), blank=True)
 
