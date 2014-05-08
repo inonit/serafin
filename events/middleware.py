@@ -21,7 +21,7 @@ class EventTrackingMiddleware(object):
         ):
             post_data = json.loads(request.body)
             for item in post_data:
-                key = item.get('variable_name', '')
+                key = item.get('key', '')
                 value = item.get('value', '')
                 event = Event(
                     time=timezone.localtime(timezone.now()),
