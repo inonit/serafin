@@ -9,10 +9,7 @@ var fileTemplate = {
 var dataTemplates = {
     'text': {
         content_type: 'text',
-        content: {
-            text: '',
-            html: '',
-        }
+        content: '',
     },
     'form': {
         content_type: 'form',
@@ -102,7 +99,7 @@ content.controller('contentArray', ['$scope', function(scope) {
 content.controller('markdown', ['$scope', '$window', '$sce', function(scope, window, sce) {
     scope.html = '';
     scope.md2html = function() {
-        var marked = window.marked(scope.pagelet.content.text);
+        var marked = window.marked(scope.pagelet.content);
         marked = marked.replace(/({{.*?}})/g, '<span class="markup">$&</span>');
         scope.html = sce.trustAsHtml(marked);
     };

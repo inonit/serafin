@@ -11,7 +11,7 @@
             <div class="markdown-guide">
                 <p>{% trans 'This element uses <a href="http://markdown-guide.readthedocs.org/en/latest/basics.html">Markdown</a>.' %} {% trans 'For variable replacement use' %} <code ng-non-bindable>{% verbatim %}{{ var_name }}{% endverbatim %}</code>. {% trans "This markup will be replaced by the user's value for <code>var_name</code>, if available." %}</p>
             </div>
-            <textarea class="markdown-text" ng-model="pagelet.content.text" ng-change="md2html()"></textarea>
+            <textarea class="markdown-text" ng-model="pagelet.content" ng-change="md2html()"></textarea>
             <div class="markdown-html" ng-bind-html="html"></div>
         </div>
 

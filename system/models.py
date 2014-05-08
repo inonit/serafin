@@ -199,11 +199,11 @@ class Page(Content):
         for pagelet in self.data:
             if pagelet['content_type'] == 'text':
                 content = pagelet.get('content')
-                replaced = user_data_replace(
+                content = user_data_replace(
                     user,
-                    content.get('text')
+                    content
                 )
-                pagelet['content']['html'] = mistune.markdown(replaced)
+                pagelet['content'] = mistune.markdown(content)
 
 
 class EmailManager(models.Manager):
@@ -226,8 +226,7 @@ class Email(Content):
         self.content_type = 'email'
 
     def send(self, user):
-        content = self.data[0].get('content')
-        message = content.get('text')
+        message = self.data[0].get('content')
         html_message = mistune.markdown(message)
         user.send_email(
             subject=self.title,
@@ -256,8 +255,7 @@ class SMS(Content):
         self.content_type = 'sms'
 
     def send(self, user):
-        content = self.data[0].get('content')
-        message = content.get('text')
+        message = self.data[0].get('content')
         user.send_sms(
             message=message
         )

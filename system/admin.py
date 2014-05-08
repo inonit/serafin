@@ -143,7 +143,7 @@ class ContentAdmin(admin.ModelAdmin):
         display = _('No content')
         if len(obj.data) > 0:
             if obj.data[0]['content_type'] == 'text':
-                display = obj.data[0]['content']['text'][:100] + '...'
+                display = obj.data[0]['content'][:100] + '...'
             else:
                 display = '(%s data)' % obj.data[0]['content_type']
         return display

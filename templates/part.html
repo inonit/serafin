@@ -4,7 +4,7 @@
 <div class="page" ng-controller="pages" ng-cloak>
     {% verbatim %}
     <div class="pagelet" ng-repeat="pagelet in page">
-        <div class="text" ng-if="pagelet.content_type == 'text'" class="text" ng-bind-html="trust(pagelet.content.html)">
+        <div class="text" ng-if="pagelet.content_type == 'text'" class="text" ng-bind-html="trust(pagelet.content)">
         </div>
         <form class="form" ng-if="pagelet.content_type == 'form'">
             <div ng-repeat="field in pagelet.content">
