@@ -42,10 +42,8 @@ def get_page(request):
 
     if request.method == 'POST':
         post_data = json.loads(request.body)
-        for item in post_data:
-            context.update({
-                item.get('variable_name'): item.get('value')
-            })
+        post_data = {item.get('key'): item.get('value') for item in post_data}
+        context.update(post_data)
 
     engine = Engine(request.user, context)
     page = engine.run()

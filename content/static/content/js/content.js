@@ -64,6 +64,7 @@ var dataTemplates = {
         variable_name: '',
         label: '',
         required: false,
+        value: {},
         alternatives: []
     },
     'alternative': {

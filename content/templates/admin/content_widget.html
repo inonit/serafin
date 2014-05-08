@@ -63,7 +63,7 @@
                     </div>
 
                     <div class="fieldset">
-                        <div class="field-data">
+                        <div class="field-data" ng-if="field.field_type != 'multipleselection'">
                             <label>{% trans 'Default value' %}</label>
                             <input type="text" ng-model="field.value">
                         </div>

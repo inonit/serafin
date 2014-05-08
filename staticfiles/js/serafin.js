@@ -27,7 +27,7 @@ serafin.controller('pages', ['$scope', '$http', '$sce', function(scope, http, sc
             if (pagelet.content_type == 'form') {
                 pagelet.content.forEach(function(field) {
                     data.push({
-                        variable_name: field.variable_name,
+                        key: field.variable_name,
                         value: field.value,
                     });
                 });

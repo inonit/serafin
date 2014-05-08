@@ -10,27 +10,27 @@
             <div ng-repeat="field in pagelet.content">
                 <div ng-if="field.field_type == 'numeric'">
                     <label for="{{ field.variable_name }}"><strong>{{ field.label }}</strong></label>
-                    <input type="number" name="{{ field.variable_name }}" min="{{ field.lower_limit }}" max="{{ field.upper_limit }}" ng-model="field.value">
+                    <input type="number" min="{{ field.lower_limit }}" max="{{ field.upper_limit }}" ng-model="field.value" ng-required="field.required">
                 </div>
                 <div ng-if="field.field_type == 'string'">
                     <label for="{{ field.variable_name }}"><strong>{{ field.label }}</strong></label>
-                    <input type="text" name="{{ field.variable_name }}" ng-model="field.value">
+                    <input type="text" ng-model="field.value" ng-required="field.required">
                 </div>
                 <div ng-if="field.field_type == 'text'">
                     <label for="{{ field.variable_name }}"><strong>{{ field.label }}</strong></label>
-                    <textarea name="{{ field.variable_name }}" ng-model="field.value"></textarea>
+                    <textarea ng-model="field.value" ng-required="field.required"></textarea>
                 </div>
                 <fieldset ng-if="field.field_type == 'multiplechoice'">
                     <legend>{{ field.label }}</legend>
                     <label ng-repeat="alt in field.alternatives">
-                        <input type="radio" name="{{ field.variable_name }}" value="{{ alt.value }}" ng-model="$parent.value">
+                        <input type="radio" ng-model="field.value" value="{{ alt.value }}" ng-required="field.required">
                         {{ alt.label }}
                     </label>
                 </fieldset>
                 <fieldset ng-if="field.field_type == 'multipleselection'">
                     <legend>{{ field.label }}</legend>
                     <label ng-repeat="alt in field.alternatives">
-                        <input type="checkbox" name="{{ field.variable_name }}" value="{{ alt.value }}" ng>
+                        <input type="checkbox" ng-model="field.value[alt.value]" value="field.value[alt.value] = true" ng-required="field.required">
                         {{ alt.label }}
                     </label>
                 </fieldset>
