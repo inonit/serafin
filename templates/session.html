@@ -6,7 +6,7 @@
     <div class="pagelet" ng-repeat="pagelet in page">
         <div class="text" ng-if="pagelet.content_type == 'text'" class="text" ng-bind-html="trust(pagelet.content)">
         </div>
-        <form class="form" ng-if="pagelet.content_type == 'form'">
+        <form class="form" ng-if="pagelet.content_type == 'form'" novalidate>
             <div ng-repeat="field in pagelet.content">
                 <div ng-if="field.field_type == 'numeric'">
                     <label for="{{ field.variable_name }}"><strong>{{ field.label }}</strong></label>
