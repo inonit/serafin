@@ -71,7 +71,7 @@ var dataTemplates = {
 };
 
 content.run(['$rootScope', function(scope) {
-    if (typeof initData === 'undefined') {
+    if (!initData) {
         scope.data = [];
     } else {
         scope.data = initData;

@@ -127,7 +127,7 @@ class Content(models.Model):
     content_type = models.CharField(_('title'), max_length=32, editable=False)
     admin_note = models.TextField(_('admin note'), blank=True)
 
-    data = JSONField(load_kwargs={'object_pairs_hook': OrderedDict}, default='undefined')
+    data = JSONField(load_kwargs={'object_pairs_hook': OrderedDict}, default='[]')
 
     vars_used = models.ManyToManyField('Variable', editable=False)
 
