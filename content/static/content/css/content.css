@@ -56,13 +56,18 @@
     padding: .5em 1em;
 }
 
-.content .markdown-text {
+.content .markdown-text,
+.content .sms textarea {
     background: #333;
     border: 1px solid #666;
     color: #ccc;
     float: left;
     font: 12px/16px monospace;
     resize: none;
+}
+
+.content .sms textarea {
+    margin-right: 1em;
 }
 
 .content .markdown-html {

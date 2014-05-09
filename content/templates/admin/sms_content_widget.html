@@ -1,0 +1,19 @@
+{% load i18n %}
+<div id="content" class="content" ng-app="content" ng-controller="contentArray">
+
+    <textarea id="id_data" name="data" class="data ng-hide">{% verbatim %}{{ data }}{% endverbatim %}</textarea>
+
+    <div class="pagelet" ng-repeat="pagelet in data track by $index">
+
+        <h3 class="title">SMS</h3>
+
+        <div class="sms">
+            {% verbatim %}{{ pagelet.content.length }}{% endverbatim %} {% trans 'characters used' %}
+            <textarea class="input-xlarge" ng-model="pagelet.content"></textarea>
+        </div>
+
+    </div>
+    <script>
+        var initData = {{ value|safe }};
+    </script>
+</div>

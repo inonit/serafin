@@ -9,7 +9,7 @@ from jsonfield import JSONField
 
 from system.models import Program, Part, Page, Email, SMS
 from plumbing.widgets import PlumbingWidget
-from content.widgets import ContentWidget, TextContentWidget
+from content.widgets import ContentWidget, TextContentWidget, SMSContentWidget
 
 
 class ProgramAdmin(admin.ModelAdmin):
@@ -171,14 +171,17 @@ class TextContentForm(ContentForm):
         self.fields['data'].help_text = ''
         self.fields['data'].initial = '''[{
             "content_type": "text",
-            "content": {
-                "text": "",
-                "html": ""
-            }
+            "content": ""
         }]'''
 
 
-class TextContentAdmin(ContentAdmin):
+class EmailForm(TextContentForm):
+    class Meta:
+        model = Email
+
+
+class EmailAdmin(ContentAdmin):
+    form = EmailForm
     formfield_overrides = {
         models.TextField: {
             'widget': AutosizedTextarea(attrs={'rows': 3, 'class': 'input-xlarge'})
@@ -189,22 +192,21 @@ class TextContentAdmin(ContentAdmin):
     }
 
 
-class EmailForm(TextContentForm):
-    class Meta:
-        model = Email
-
-
-class EmailAdmin(TextContentAdmin):
-    form = EmailForm
-
-
 class SMSForm(TextContentForm):
     class Meta:
         model = SMS
 
 
-class SMSAdmin(TextContentAdmin):
+class SMSAdmin(ContentAdmin):
     form = SMSForm
+    formfield_overrides = {
+        models.TextField: {
+            'widget': AutosizedTextarea(attrs={'rows': 3, 'class': 'input-xlarge'})
+        },
+        JSONField: {
+            'widget': SMSContentWidget
+        }
+    }
 
 
 admin.site.register(Program, ProgramAdmin)

@@ -71,3 +71,25 @@ class TextContentWidget(forms.Widget):
             'content/marked/marked.js',
             'content/js/content.js',
         )
+
+
+class SMSContentWidget(forms.Widget):
+
+    def render(self, name, value, attrs=None):
+        context = {
+            'value': value,
+        }
+
+        html = render_to_string('admin/sms_content_widget.html', context)
+        return mark_safe(html)
+
+    class Media:
+        css = {
+            'all': (
+                'content/css/content.css',
+            )
+        }
+        js = (
+            'content/angular/angular.min.js',
+            'content/js/content.js',
+        )
