@@ -98,6 +98,11 @@ label.large {
     font-size: 18px;
 }
 
+div.error {
+    font-size: .875em;
+    color: red;
+}
+
 .large input[type="radio"] {
     display: inline-block;
     vertical-align: text-top;

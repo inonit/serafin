@@ -23,6 +23,11 @@ serafin.run(['$rootScope', '$http', function(scope, http) {
 serafin.controller('pages', ['$scope', '$http', '$sce', function(scope, http, sce) {
 
     scope.next = function() {
+        scope.form.submitted = true;
+        if (scope.form.$invalid) {
+            return;
+        }
+
         var data = [];
         scope.page.forEach(function(pagelet) {
             if (pagelet.content_type == 'form') {
