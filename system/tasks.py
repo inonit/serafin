@@ -15,12 +15,12 @@ def transition(user, node_id):
 
 
 @db_task()
-def init_part(part):
-    '''Initialize a given part from start and traverse on behalf of user'''
+def init_session(session):
+    '''Initialize a given session from start and traverse on behalf of user'''
 
     users = get_user_model().objects.filter(is_active=True)
     init = {
-        'current_part': part.id,
+        'current_session': session.id,
         'current_node': 0,
     }
 
@@ -31,6 +31,6 @@ def init_part(part):
 
         user.send_login_link()
 
-    message = _('Part initialized and user e-mails sent' % locals())
+    message = _('Session initialized and user e-mails sent' % locals())
 
     return message

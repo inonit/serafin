@@ -7,7 +7,7 @@ from django.contrib import admin
 from suit.widgets import SuitSplitDateTimeWidget, LinkedSelect, AutosizedTextarea, NumberInput
 from jsonfield import JSONField
 
-from system.models import Program, Part, Page, Email, SMS
+from system.models import Program, Session, Page, Email, SMS
 from plumbing.widgets import PlumbingWidget
 from content.widgets import ContentWidget, TextContentWidget, SMSContentWidget
 
@@ -36,21 +36,21 @@ class ProgramAdmin(admin.ModelAdmin):
     note_excerpt.short_description = _('Admin note excerpt')
 
 
-class PartForm(forms.ModelForm):
+class SessionForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
-        super(PartForm, self).__init__(*args, **kwargs)
+        super(SessionForm, self).__init__(*args, **kwargs)
         if 'data' in self.fields:
             self.fields['data'].help_text = ''
 
     class Meta:
-        model = Part
+        model = Session
         widgets = {
             'start_time_unit': forms.Select(attrs={'class': 'input-small'}),
             'end_time_unit': forms.Select(attrs={'class': 'input-small'}),
         }
 
 
-class PartAdmin(admin.ModelAdmin):
+class SessionAdmin(admin.ModelAdmin):
     list_display = [
         'title',
         'program',
@@ -69,7 +69,7 @@ class PartAdmin(admin.ModelAdmin):
     ordering = ['start_time']
     date_hierarchy = 'start_time'
 
-    form = PartForm
+    form = SessionForm
     formfield_overrides = {
         models.TextField: {
             'widget': AutosizedTextarea(attrs={'rows': 3, 'class': 'input-xlarge'})
@@ -100,7 +100,7 @@ class PartAdmin(admin.ModelAdmin):
     ]
 
     def get_changelist_form(self, request, **kwargs):
-        return PartForm
+        return SessionForm
 
     def note_excerpt(self, obj):
         return obj.admin_note[:100] + '...'
@@ -210,7 +210,7 @@ class SMSAdmin(ContentAdmin):
 
 
 admin.site.register(Program, ProgramAdmin)
-admin.site.register(Part, PartAdmin)
+admin.site.register(Session, SessionAdmin)
 admin.site.register(Page, PageAdmin)
 admin.site.register(Email, EmailAdmin)
 admin.site.register(SMS, SMSAdmin)

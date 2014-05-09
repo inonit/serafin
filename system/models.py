@@ -33,7 +33,7 @@ class Variable(models.Model):
 
 
 class Program(models.Model):
-    '''A top level model for a separate Program, having one or more parts'''
+    '''A top level model for a separate Program, having one or more sessions'''
 
     title = models.CharField(_('title'), max_length=64, unique=True)
     admin_note = models.TextField(_('admin note'), blank=True)
@@ -50,12 +50,12 @@ class Program(models.Model):
 
     def save(self, *args, **kwargs):
         super(Program, self).save(*args, **kwargs)
-        for part in self.part_set.all():
-            part.save()
+        for session in self.session_set.all():
+            session.save()
 
 
-class Part(models.Model):
-    '''A program Part, with layout and logic encoded in JSON'''
+class Session(models.Model):
+    '''A program Session, with layout and logic encoded in JSON'''
 
     title = models.CharField(_('title'), max_length=64, unique=True)
     program = models.ForeignKey('Program', verbose_name=_('program'))
@@ -77,21 +77,21 @@ class Part(models.Model):
     vars_used = models.ManyToManyField('Variable', editable=False)
 
     class Meta:
-        verbose_name = _('part')
-        verbose_name_plural = _('parts')
+        verbose_name = _('session')
+        verbose_name_plural = _('sessions')
 
     def __unicode__(self):
-        return self.title or _('Part %s' % self.id)
+        return self.title or _('Session %s' % self.id)
 
     def get_absolute_url(self):
-        return '%s?part_id=%i' % (
+        return '%s?session_id=%i' % (
             reverse('content'),
             self.id,
         )
 
     def save(self, *args, **kwargs):
         self.start_time = self.get_start_time()
-        super(Part, self).save(*args, **kwargs)
+        super(Session, self).save(*args, **kwargs)
 
         self.content = []
         for node in self.data['nodes']:

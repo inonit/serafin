@@ -254,7 +254,7 @@ SUIT_CONFIG = {
             'models':
                 [
                     'program',
-                    'part',
+                    'session',
                     'page',
                     'email',
                     'sms',

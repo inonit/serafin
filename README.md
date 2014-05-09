@@ -32,7 +32,7 @@ b. Make it general enough for other mainly academic use in the future. Examples 
 To accomplish this, the system will be built in a modular way, with a high degree of separation between components.
 
 ### Users app
-Uses a customized anomymous user model with common contrib.auth functions and handles login through generation of a personal login code for each user and part (day) of the program. Backup login through id and password.
+Uses a customized anomymous user model with common contrib.auth functions and handles login through generation of a personal login code for each user and session of the program. Backup login through id and password.
 
 Fields past common User model fields could be set in a key: value store for *general use* of the system. Preferably, field archetypes are defined by an admin, but behave somewhat like normal fields after this. Implementation ideas in [this thread](https://github.com/inonit/seraf/issues/9). However, for SERAFs use case, custom user fields are probably *not* needed.
 
@@ -51,10 +51,10 @@ To run the Huey consumer, install Redis:
 Contains receivers for Django signals that generate logging events for any and all information that may be of interest to the researchers.
 
 ### System app
-Maintains a model of the Program, with the top level represented as a schedule of Parts, the path and logic of each Part as a graph of Content nodes, most of them Pages, and each Page as an ordered list of content items.
+Maintains a model of the Program, with the top level represented as a schedule of Sessions, the path and logic of each Session as a graph of Content nodes, most of them Pages, and each Page as an ordered list of content items.
 
 ### Plumbing app
-The administrator design of the Parts uses [jsPlumb](http://jsplumbtoolkit.com/demo/statemachine/jquery.html) and AngularJS. We intend to redesign this for general public use, help is appreciated.
+The administrator design of the Sessions uses [jsPlumb](http://jsplumbtoolkit.com/demo/statemachine/jquery.html) and AngularJS. We intend to redesign this for general public use, help is appreciated.
 
 ### Content app
 A simple content management system for snippets of Text, Media and Forms. Snippets of Content will likely handle how they are displayed, and in the case of Forms, save the information.

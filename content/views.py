@@ -6,33 +6,33 @@ from django.core.urlresolvers import reverse
 from django.shortcuts import get_object_or_404, render
 from filer.models import File, Image
 from serafin.utils import JSONResponse
-from system.models import Part, Page
+from system.models import Session, Page
 from system.engine import Engine
 import json
 
 
 @login_required
-def get_part(request):
+def get_session(request):
 
     if request.is_ajax():
         return get_page(request)
 
     # admin preview support
-    part_id = request.GET.get('part_id')
-    if request.user.is_staff and part_id:
-        request.user.data['current_part'] = part_id
+    session_id = request.GET.get('session_id')
+    if request.user.is_staff and session_id:
+        request.user.data['current_session'] = session_id
         request.user.data['current_node'] = 0
         request.user.save()
 
-    part_id = request.user.data['current_part']
-    part = Part.objects.get(id=part_id)
+    session_id = request.user.data['current_session']
+    session = Session.objects.get(id=session_id)
 
     context = {
-        'program': part.program,
+        'program': session.program,
         'api': reverse('content_api'),
     }
 
-    return render(request, 'part.html', context)
+    return render(request, 'session.html', context)
 
 
 @login_required

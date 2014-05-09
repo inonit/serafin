@@ -1,14 +1,14 @@
 from __future__ import unicode_literals
 from django.utils.translation import ugettext_lazy as _
 
-from system.models import Part, Page, Email, SMS
+from system.models import Session, Page, Email, SMS
 from tasker.models import Task
 from huey.djhuey import db_task
 import datetime
 
 
 RESERVED_NAMES = [
-    'current_part',
+    'current_session',
     'current_node',
     'group'
 ]
@@ -29,11 +29,11 @@ class Engine(object):
 
             self.user.save()
 
-        part_id = self.user.data.get('current_part')
-        self.part = Part.objects.get(id=part_id)
+        session_id = self.user.data.get('current_session')
+        self.session = Session.objects.get(id=session_id)
 
-        self.nodes = {node['id']: node for node in self.part.data.get('nodes')}
-        self.edges = self.part.data.get('edges')
+        self.nodes = {node['id']: node for node in self.session.data.get('nodes')}
+        self.edges = self.session.data.get('edges')
 
     def traverse(self, edges, source_id):
         '''Select and return first edge where the user passes edge conditions'''
@@ -148,8 +148,8 @@ class Engine(object):
 
             from system.tasks import transition
             Task.objects.create_task(
-                sender=self.part,
-                time=self.part.start_time + delta,
+                sender=self.session,
+                time=self.session.start_time + delta,
                 task=transition,
                 args=(self.user, node_id),
                 action=_('Delayed node execution')

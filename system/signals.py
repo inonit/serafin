@@ -5,55 +5,55 @@ from django.contrib.contenttypes.models import ContentType
 from django.db.models import signals
 from django.dispatch import receiver
 
-from .models import Part
-from system.tasks import init_part
+from .models import Session
+from system.tasks import init_session
 from tasker.models import Task
 
 
-@receiver(signals.post_save, sender=Part)
-def schedule_part(sender, **kwargs):
+@receiver(signals.post_save, sender=Session)
+def schedule_session(sender, **kwargs):
 
-    part = kwargs['instance']
+    session = kwargs['instance']
 
     if kwargs['created']:
         Task.objects.create_task(
-            sender=part,
-            time=part.start_time,
-            task=init_part,
-            args=(part, ),
+            sender=session,
+            time=session.start_time,
+            task=init_session,
+            args=(session, ),
             action=_('Send login link and start traversal for all users')
         )
 
 
-@receiver(signals.post_save, sender=Part)
-def reschedule_part(sender, **kwargs):
+@receiver(signals.post_save, sender=Session)
+def reschedule_session(sender, **kwargs):
 
-    part = kwargs['instance']
+    session = kwargs['instance']
 
     if not kwargs['created']:
         try:
-            part_type = ContentType.objects.get_for_model(part)
-            task = Task.objects.get(content_type=part_type, object_id=part.id)
+            session_type = ContentType.objects.get_for_model(session)
+            task = Task.objects.get(content_type=session_type, object_id=session.id)
         except:
-            schedule_part(sender, instance=part, created=True)
+            schedule_session(sender, instance=session, created=True)
             return
 
         task.reschedule(
-            task=init_part,
-            args=(part, ),
-            time=part.start_time
+            task=init_session,
+            args=(session, ),
+            time=session.start_time
         )
         task.save()
 
 
-@receiver(signals.pre_delete, sender=Part)
-def revoke_part(sender, **kwargs):
+@receiver(signals.pre_delete, sender=Session)
+def revoke_session(sender, **kwargs):
 
-    part = kwargs['instance']
+    session = kwargs['instance']
 
     try:
-        part_type = ContentType.objects.get_for_model(part)
-        task = Task.objects.get(content_type=part_type, object_id=part.id)
+        session_type = ContentType.objects.get_for_model(session)
+        task = Task.objects.get(content_type=session_type, object_id=session.id)
     except:
         return
 
