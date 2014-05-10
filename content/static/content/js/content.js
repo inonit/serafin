@@ -11,6 +11,11 @@ var dataTemplates = {
         content_type: 'text',
         content: '',
     },
+    'toggle': {
+        content_type: 'toggle',
+        content: '',
+        toggle: '',
+    },
     'form': {
         content_type: 'form',
         content: []

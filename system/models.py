@@ -183,7 +183,7 @@ class Page(Content):
 
     def update_html(self, user):
         for pagelet in self.data:
-            if pagelet['content_type'] == 'text':
+            if pagelet['content_type'] in ['text', 'toggle']:
                 content = pagelet.get('content')
                 content = user_data_replace(
                     user,

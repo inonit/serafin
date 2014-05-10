@@ -5,6 +5,7 @@
 
     <div class="toolbox">
         <div class="btn add" ng-click="add(data, 'text')">{% trans 'Add text' %}</div>
+        <div class="btn add" ng-click="add(data, 'toggle')">{% trans 'Add toggle' %}</div>
         <div class="btn add" ng-click="add(data, 'form')">{% trans 'Add form' %}</div>
         <div class="btn add" ng-click="add(data, 'quiz')">{% trans 'Add quiz' %}</div>
         <div class="btn add" ng-click="add(data, 'image')">{% trans 'Add image' %}</div>
@@ -26,7 +27,19 @@
 
             <div ng-switch-when="text" class="text" ng-controller="markdown">
                 <div class="markdown-guide">
-                    <p>{% trans 'This element uses <a href="http://markdown-guide.readthedocs.org/en/latest/basics.html">Markdown</a>. For variable replacement use <code ng-non-bindable>{{ var_name }}</code> This markup will be replaced by the user''s value for <code>var_name</code>, if available.' %}</p>
+                    <p>{% trans 'This element uses <a href="http://markdown-guide.readthedocs.org/en/latest/basics.html">Markdown</a>. For variable replacement use <code ng-non-bindable>{{ var_name }}</code>. This markup will be replaced by the user''s value for <code>var_name</code>, if available.' %}</p>
+                </div>
+                <textarea class="markdown-text" ng-model="pagelet.content" ng-change="md2html()"></textarea>
+                <div class="markdown-html" ng-bind-html="html"></div>
+            </div>
+
+            <div ng-switch-when="toggle" class="toggle" ng-controller="markdown">
+                <div class="field-data">
+                    <label>{% trans 'Toggle text' %}</label>
+                    <input type="text" class="wide" ng-model="pagelet.toggle">
+                </div>
+                <div class="markdown-guide">
+                    <p>{% trans 'This element uses <a href="http://markdown-guide.readthedocs.org/en/latest/basics.html">Markdown</a>. For variable replacement use <code ng-non-bindable>{{ var_name }}</code>. This markup will be replaced by the user''s value for <code>var_name</code>, if available.' %}</p>
                 </div>
                 <textarea class="markdown-text" ng-model="pagelet.content" ng-change="md2html()"></textarea>
                 <div class="markdown-html" ng-bind-html="html"></div>

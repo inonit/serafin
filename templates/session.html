@@ -8,6 +8,11 @@
         <div class="text" ng-if="pagelet.content_type == 'text'" class="text" ng-bind-html="trust(pagelet.content)">
         </div>
 
+        <div class="toggle" ng-if="pagelet.content_type == 'toggle'" class="toggle">
+            <p><a ng-click="toggled = !toggled">{{ pagelet.toggle }}</a></p>
+            <div ng-show="toggled" ng-bind-html="trust(pagelet.content)"></div>
+        </div>
+
         <form class="form" ng-if="pagelet.content_type == 'form'" novalidate>
             <div ng-repeat="field in pagelet.content" ng-form="subForm">
 
@@ -70,7 +75,6 @@
                 </label>
                 <div ng-show="subForm.$dirty && question.correct">{{ question.right }}</div>
                 <div ng-show="subForm.$dirty && !question.correct">{{ question.wrong }}</div>
-                {{ question.selected }}
             </fieldset>
         </form>
 
