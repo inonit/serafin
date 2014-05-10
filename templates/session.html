@@ -13,6 +13,22 @@
             <div ng-show="toggled" ng-bind-html="trust(pagelet.content)"></div>
         </div>
 
+        <form class="toggleset" ng-if="pagelet.content_type == 'toggleset'" novalidate>
+            <fieldset ng-form="subForm">
+                <legend>{{ pagelet.content.label }}</legend>
+                {% endverbatim %}
+                <div class="error right" ng-show="form.submitted && subForm.$error.required">{% trans 'Please choose one' %}</div>
+                {% verbatim %}
+                <label ng-repeat="alt in pagelet.content.alternatives">
+                    <input name="answer" type="radio" ng-model="pagelet.content.value" value="{{ alt.value }}" required>
+                    {{ alt.label }}
+                </label>
+                <div ng-repeat="alt in pagelet.content.alternatives" ng-show="subForm.$dirty && pagelet.content.value == alt.value">
+                    {{ alt.text }}
+                </div>
+            </fieldset>
+        </form>
+
         <form class="form" ng-if="pagelet.content_type == 'form'" novalidate>
             <div ng-repeat="field in pagelet.content" ng-form="subForm">
 

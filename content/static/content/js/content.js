@@ -16,6 +16,14 @@ var dataTemplates = {
         content: '',
         toggle: '',
     },
+    'toggleset': {
+        content_type: 'toggleset',
+        content: {
+            variable_name: '',
+            label: '',
+            alternatives: [],
+        },
+    },
     'form': {
         content_type: 'form',
         content: []
@@ -39,6 +47,11 @@ var dataTemplates = {
     'file': {
         content_type: 'file',
         content: fileTemplate
+    },
+    'toggleitem': {
+        label: '',
+        value: '',
+        text: '',
     },
     'numeric': {
         field_type: 'numeric',

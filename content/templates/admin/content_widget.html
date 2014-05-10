@@ -6,6 +6,7 @@
     <div class="toolbox">
         <div class="btn add" ng-click="add(data, 'text')">{% trans 'Add text' %}</div>
         <div class="btn add" ng-click="add(data, 'toggle')">{% trans 'Add toggle' %}</div>
+        <div class="btn add" ng-click="add(data, 'toggleset')">{% trans 'Add toggleset' %}</div>
         <div class="btn add" ng-click="add(data, 'form')">{% trans 'Add form' %}</div>
         <div class="btn add" ng-click="add(data, 'quiz')">{% trans 'Add quiz' %}</div>
         <div class="btn add" ng-click="add(data, 'image')">{% trans 'Add image' %}</div>
@@ -43,6 +44,52 @@
                 </div>
                 <textarea class="markdown-text" ng-model="pagelet.content" ng-change="md2html()"></textarea>
                 <div class="markdown-html" ng-bind-html="html"></div>
+            </div>
+
+            <div ng-switch-when="toggleset" class="toggleset">
+
+                <div class="fieldset">
+                    <div class="field-data">
+                        <label>{% trans 'Label' %}</label>
+                        <input type="text" class="wide" ng-model="pagelet.content.label">
+                    </div>
+                    <div class="field-data">
+                        <label>{% trans 'Variable name' %}</label>
+                        <input type="text" ng-model="pagelet.content.variable_name">
+                    </div>
+                </div>
+
+                <div class="toolbox">
+                    <div class="btn add" ng-click="add(pagelet.content.alternatives, 'toggleitem')">{% trans 'Add item' %}</div>
+                </div>
+
+                <h4 class="title">{% trans 'Alternatives' %}</h4>
+
+                <div class="alt" ng-repeat="alt in pagelet.content.alternatives track by $index">
+
+                    <div class="ctrl right">
+                        <a ng-click="up(pagelet.content, $index)" ng-hide="$first"><i class="icon-arrow-up icon-alpha5"></i></a>
+                        <a ng-click="down(pagelet.content, $index)" ng-hide="$last"><i class="icon-arrow-down icon-alpha5"></i></a>
+                        <a ng-click="delete(pagelet.content, $index)"><i class="icon-trash icon-alpha5"></i></a>
+                    </div>
+
+                    <div class="fieldset">
+                        <div class="field-data">
+                            <label>{% trans 'Label' %}</label>
+                            <input type="text" class="wide" ng-model="alt.label">
+                        </div>
+                        <div class="field-data">
+                            <label>{% trans 'Value' %}</label>
+                            <input type="text" ng-model="alt.value">
+                        </div>
+                    </div>
+
+                    <div class="field-data">
+                        <label>{% trans 'Text' %}</label>
+                        <textarea class="input-xlarge" ng-model="alt.text"></textarea>
+                    </div>
+
+                </div>
             </div>
 
             <div ng-switch-when="form" class="form">
