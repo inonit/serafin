@@ -6,6 +6,7 @@
     <div class="toolbox">
         <div class="btn add" ng-click="add(data, 'text')">{% trans 'Add text' %}</div>
         <div class="btn add" ng-click="add(data, 'form')">{% trans 'Add form' %}</div>
+        <div class="btn add" ng-click="add(data, 'quiz')">{% trans 'Add quiz' %}</div>
         <div class="btn add" ng-click="add(data, 'image')">{% trans 'Add image' %}</div>
         <div class="btn add" ng-click="add(data, 'video')">{% trans 'Add video' %}</div>
         <div class="btn add" ng-click="add(data, 'audio')">{% trans 'Add audio' %}</div>
@@ -25,7 +26,7 @@
 
             <div ng-switch-when="text" class="text" ng-controller="markdown">
                 <div class="markdown-guide">
-                    <p>{% trans 'This element uses <a href="http://markdown-guide.readthedocs.org/en/latest/basics.html">Markdown</a>.' %} {% trans 'For variable replacement use' %} <code ng-non-bindable>{% verbatim %}{{ var_name }}{% endverbatim %}</code>. {% trans "This markup will be replaced by the user's value for <code>var_name</code>, if available." %}</p>
+                    <p>{% trans 'This element uses <a href="http://markdown-guide.readthedocs.org/en/latest/basics.html">Markdown</a>. For variable replacement use <code ng-non-bindable>{{ var_name }}</code> This markup will be replaced by the user''s value for <code>var_name</code>, if available.' %}</p>
                 </div>
                 <textarea class="markdown-text" ng-model="pagelet.content" ng-change="md2html()"></textarea>
                 <div class="markdown-html" ng-bind-html="html"></div>
@@ -114,6 +115,69 @@
                         </div>
                     </div>
 
+                </div>
+            </div>
+
+            <div ng-switch-when="quiz" class="quiz">
+
+                <div class="toolbox">
+                    <div class="btn add" ng-click="add(pagelet.content, 'question')">{% trans 'Add question' %}</div>
+                </div>
+
+                <div class="field" ng-repeat="question in pagelet.content track by $index">
+
+                    <div class="fieldset">
+                        <div class="field-data">
+                            <label>{% trans 'Question' %}</label>
+                            <input type="text" class="wide" ng-model="question.question">
+                        </div>
+                        <div class="field-data">
+                            <label>{% trans 'Variable name' %}</label>
+                            <input type="text" ng-model="question.variable_name">
+                        </div>
+                    </div>
+                    <div class="field-data">
+                        <label>{% trans 'Right answer response' %}</label>
+                        <textarea class="input-xlarge" ng-model="question.right"></textarea>
+                    </div>
+                    <div class="field-data">
+                        <label>{% trans 'Wrong answer response' %}</label>
+                        <textarea class="input-xlarge" ng-model="question.wrong"></textarea>
+                    </div>
+
+                    <div class="field-data">
+                        <div class="toolbox">
+                            <div class="btn add" ng-click="add(question.alternatives, 'alternative')">{% trans 'Add alternative' %}</div>
+                        </div>
+
+                        <h5 class="title">{% trans 'Alternatives' %}</h5>
+
+                        <div class="alt" ng-repeat="alt in question.alternatives track by $index">
+
+                            <div class="ctrl right">
+                                <a ng-click="up(question.alternatives, $index)" ng-hide="$first"><i class="icon-arrow-up icon-alpha5"></i></a>
+                                <a ng-click="down(question.alternatives, $index)" ng-hide="$last"><i class="icon-arrow-down icon-alpha5"></i></a>
+                                <a ng-click="delete(question.alternatives, $index)"><i class="icon-trash icon-alpha5"></i></a>
+                            </div>
+
+                            <div class="fieldset">
+                                <div>
+                                    <label>{% trans 'Label' %}</label>
+                                    <input type="text" class="wide" ng-model="alt.label">
+                                </div>
+                                <div>
+                                    <label>{% trans 'Value' %}</label>
+                                    <input type="text" ng-model="alt.value">
+                                </div>
+                                <div class="pull-down">
+                                    <label>
+                                        <input type="checkbox" ng-model="alt.correct"> {% trans 'Correct?' %}
+                                    </label>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
                 </div>
             </div>
 

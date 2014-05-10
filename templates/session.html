@@ -4,10 +4,13 @@
 <div class="page" ng-controller="pages" ng-cloak ng-form="form">
     {% verbatim %}
     <div class="pagelet" ng-repeat="pagelet in page">
+
         <div class="text" ng-if="pagelet.content_type == 'text'" class="text" ng-bind-html="trust(pagelet.content)">
         </div>
+
         <form class="form" ng-if="pagelet.content_type == 'form'" novalidate>
             <div ng-repeat="field in pagelet.content" ng-form="subForm">
+
                 <div ng-if="field.field_type == 'numeric'">
                     {% endverbatim %}
                     <div class="error right" ng-show="(form.submitted || subForm.field.$dirty) && subForm.field.$error.required">{% trans 'Please enter a number' %}</div>
@@ -16,6 +19,7 @@
                     <label for="field"><strong>{{ field.label }}</strong></label>
                     <input name="field" type="number" min="{{ field.lower_limit }}" max="{{ field.upper_limit }}" ng-model="field.value" ng-required="field.required">
                 </div>
+
                 <div ng-if="field.field_type == 'string'">
                     {% endverbatim %}
                     <div class="error right" ng-show="(form.submitted || subForm.field.$dirty) && subForm.field.$error.required">{% trans 'This field is required' %}</div>
@@ -23,6 +27,7 @@
                     <label for="field"><strong>{{ field.label }}</strong></label>
                     <input name="field" type="text" ng-model="field.value" ng-required="field.required">
                 </div>
+
                 <div ng-if="field.field_type == 'text'">
                     {% endverbatim %}
                     <div class="error right" ng-show="(form.submitted || subForm.field.$dirty) && subForm.field.$error.required">{% trans 'This field is required' %}</div>
@@ -30,16 +35,18 @@
                     <label for="field"><strong>{{ field.label }}</strong></label>
                     <textarea name="field" ng-model="field.value" ng-required="field.required"></textarea>
                 </div>
+
                 <fieldset ng-if="field.field_type == 'multiplechoice'">
                     <legend>{{ field.label }}</legend>
                     {% endverbatim %}
-                    <div class="error right" ng-show="(form.submitted || subForm.field.$dirty) && subForm.field.$error.required">{% trans 'Please choose one' %}</div>
+                    <div class="error right" ng-show="form.submitted && subForm.$error.required">{% trans 'Please choose one' %}</div>
                     {% verbatim %}
                     <label ng-repeat="alt in field.alternatives">
                         <input name="field" type="radio" ng-model="field.value" value="{{ alt.value }}" ng-required="field.required">
                         {{ alt.label }}
                     </label>
                 </fieldset>
+
                 <fieldset ng-if="field.field_type == 'multipleselection'">
                     <legend>{{ field.label }}</legend>
                     <label ng-repeat="alt in field.alternatives">
@@ -47,29 +54,48 @@
                         {{ alt.label }}
                     </label>
                 </fieldset>
+
             </div>
         </form>
-        <div class="directive" ng-if="pagelet.content_type == 'directive'">
-            <!-- Add directive support -->
-        </div>
+
+        <form class="quiz" ng-if="pagelet.content_type == 'quiz'" novalidate>
+            <fieldset ng-repeat="question in pagelet.content" ng-form="subForm">
+                <legend>{{ question.question }}</legend>
+                {% endverbatim %}
+                <div class="error right" ng-show="form.submitted && subForm.$error.required">{% trans 'Please choose one' %}</div>
+                {% verbatim %}
+                <label ng-repeat="alt in question.alternatives">
+                    <input name="answer" type="radio" ng-model="question.value" ng-change="question.correct = alt.correct" value="{{ alt.value }}" required>
+                    {{ alt.label }}
+                </label>
+                <div ng-show="subForm.$dirty && question.correct">{{ question.right }}</div>
+                <div ng-show="subForm.$dirty && !question.correct">{{ question.wrong }}</div>
+                {{ question.selected }}
+            </fieldset>
+        </form>
+
         <div class="image" ng-if="pagelet.content_type == 'image'">
             <img ng-src="{{ pagelet.content.url }}" alt="{{ pagelet.content.alt }}" title="{{ pagelet.content.title }}">
         </div>
+
         <div class="video" ng-if="pagelet.content_type == 'video'">
             <label>{{ pagelet.content.title }}</label>
             <video ng-src="{{ pagelet.content.url }}">
                 <!-- Add fallback option -->
             </video>
         </div>
+
         <div class="audio" ng-if="pagelet.content_type == 'audio'">
             <label>{{ pagelet.content.title }}</label>
             <audio ng-src="{{ pagelet.content.url }}">
                 <!-- Add fallback option -->
             </audio>
         </div>
+
         <div class="file" ng-if="pagelet.content_type == 'file'">
             <a href="{{ pagelet.content.url }}">{{ pagelet.content.title }}</a>
         </div>
+
     </div>
     {% endverbatim %}
     <nav ng-if="!dead_end">

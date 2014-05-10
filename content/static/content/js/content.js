@@ -15,6 +15,10 @@ var dataTemplates = {
         content_type: 'form',
         content: []
     },
+    'quiz': {
+        content_type: 'quiz',
+        content: []
+    },
     'image': {
         content_type: 'image',
         content: fileTemplate
@@ -63,6 +67,13 @@ var dataTemplates = {
         required: false,
         value: {},
         alternatives: []
+    },
+    'question': {
+        question: '',
+        variable_name: '',
+        right: '',
+        wrong: '',
+        alternatives: [],
     },
     'alternative': {
         label: '',
