@@ -86,7 +86,7 @@ plumbing.run(['$rootScope', function(scope) {
     } else {
         scope.data = initData;
     }
-    scope.currentNoderef = '';
+
     scope.variables = initVars;
     scope.showConditions = -1;
     scope.showDelay = -1;
@@ -95,65 +95,71 @@ plumbing.run(['$rootScope', function(scope) {
 
 plumbing.controller('graph', ['$scope', 'jsPlumb', function(scope, jsPlumbService) {
 
-        scope.addNode = function(type) {
-            var id = scope.data.nodes.length;
+    var SystemUrl = function(type) {
+        this.type = type;
 
-            if (type == 'delay') {
-                scope.data.nodes.push({
-                    id: id,
-                    type: 'delay',
-                    delay: {
-                        number: 0,
-                        unit: '',
-                    },
-                    metrics: {
-                        left: '300px',
-                        top: '100px'
-                    }
-                });
-                return;
-            }
+        this.get = function() {
+            return adminUrl + 'system/' + this.type + '/';
+        };
 
-            var newNodeUrl = newPageUrl;
-            var addNodeUrl = addPageUrl;
-            if (type == 'email') {
-                newNodeUrl = newEmailUrl;
-                addNodeUrl = addEmailUrl;
-            } else if (type == 'sms') {
-                newNodeUrl = newSMSUrl;
-                addNodeUrl = addSMSUrl;
-            }
+        this.add = function() {
+            return adminUrl + 'system/' + this.type + '/add/';
+        };
+    };
 
+    scope.addNode = function(type) {
+        var id = scope.data.nodes.length;
+
+        if (type == 'delay') {
             scope.data.nodes.push({
                 id: id,
-                type: type,
-                ref_id: '',
-                ref_url: newNodeUrl,
-                title: '?',
+                type: 'delay',
+                delay: {
+                    number: 0,
+                    unit: '',
+                },
                 metrics: {
                     left: '300px',
                     top: '100px'
                 }
             });
+            return;
+        }
 
-            // immediately opens a django popup to select the source for the node
-            scope.currentNoderef = 'noderef_' + id;
-            window.open(
-                addNodeUrl + '?t=id&_popup=1',
-                scope.currentNoderef,
-                'height=800,width=1024,resizable=yes,scrollbars=yes'
-            ).focus();
-        };
+        var url = new SystemUrl(type)
 
-        scope.deleteNode = function(index) {
-            var node = scope.data.nodes[index];
-            scope.jsPlumb.detachAllConnections('node_' + node.id);
-            scope.data.nodes.splice(index, 1);
-        };
+        scope.data.nodes.push({
+            id: id,
+            type: type,
+            ref_id: '',
+            ref_url: url.add(),
+            title: '?',
+            metrics: {
+                left: '300px',
+                top: '100px'
+            }
+        });
 
-        scope.close = function() {
-            scope.showDelay = -1;
-        };
+        scope.popup(url.get(), id);
+    };
+
+    scope.deleteNode = function(index) {
+        var node = scope.data.nodes[index];
+        scope.jsPlumb.detachAllConnections('node_' + node.id);
+        scope.data.nodes.splice(index, 1);
+    };
+
+    scope.close = function() {
+        scope.showDelay = -1;
+    };
+
+    scope.popup = function(url, id) {
+        window.open(
+            url + '?t=id&_popup=1',
+            'noderef_' + id,
+            'height=800,width=1024,resizable=yes,scrollbars=yes'
+        );
+    };
 }]);
 
 plumbing.directive('node', ['$timeout', 'jsPlumb', function(timeout, jsPlumbService) {
@@ -202,6 +208,7 @@ plumbing.directive('node', ['$timeout', 'jsPlumb', function(timeout, jsPlumbServ
 
             // open a django popup or delay conditions on double click
             element.bind('dblclick', function() {
+
                 if (scope.node.id > 0) {
                     if (scope.node.type == 'delay') {
                         scope.$apply(function() {
@@ -209,11 +216,10 @@ plumbing.directive('node', ['$timeout', 'jsPlumb', function(timeout, jsPlumbServ
                             scope.$parent.showConditions = -1;
                         });
                     } else {
-                        window.open(
-                            scope.node.ref_url + '?_popup=1',
-                            'noderef_' + scope.node.id,
-                            'height=800,width=1024,resizable=yes,scrollbars=yes'
-                        ).focus();
+                        scope.popup(
+                            scope.node.ref_url,
+                            scope.node.id
+                        );
                     }
                 }
             });
@@ -225,10 +231,6 @@ plumbing.directive('noderef', ['$http', function(http) {
     return {
         restrict: 'C',
         link: function(scope, element, attrs) {
-
-            // set id here to avoid race condition
-            element[0].id = 'noderef_' + scope.node.id;
-
             // focus will return to the window when a popup closes
             // if the value of a noderef has changed, it will not be picked up automatically
             // add it to the scope if it has changed

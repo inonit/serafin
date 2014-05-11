@@ -10,12 +10,12 @@
 
     <ul class="variables">
         <p><strong>{% trans 'Available variables' %}</strong></p>
-        <li class="variable" ng-repeat="variable in variables">{% verbatim %}{{ variable }}{% endverbatim %}</li>
+        <li class="variable" ng-repeat="variable in variables track by $index">{% verbatim %}{{ variable }}{% endverbatim %}</li>
     </ul>
 
     <div class="floatbox"></div>
 
-    <div class="node box" ng-class="node.type" ng-repeat="node in data.nodes" ng-style="node.metrics" ng-model="data.nodes">
+    <div class="node box" ng-class="node.type" ng-repeat="node in data.nodes track by $index" ng-style="node.metrics" ng-model="data.nodes">
         <span ng-if="node.type == 'email'">
             <i class="icon-envelope icon-alpha5"></i>
         </span>
@@ -25,13 +25,16 @@
         <span ng-if="node.type == 'delay'">
             <i class="icon-time icon-alpha5"></i>
         </span>
-        {% verbatim %}{{ node.title }}{% endverbatim %}
+
+        {% verbatim %}
+        {{ node.title }}
         <span ng-if="node.type == 'delay'">
-            {% verbatim %}t + {{ node.delay.number }} {{ node.delay.unit }}{% endverbatim %}
+            t + {{ node.delay.number }} {{ node.delay.unit }}
         </span>
         <div class="ep"></div>
         <div class="delete" ng-click="deleteNode($index)" ng-hide="node.id == 0">×</div>
-        <input type="hidden" class="noderef" value="{% verbatim %}{{ node.ref_id }}{% endverbatim %}">
+        <input type="hidden" class="noderef" id="noderef_{{ node.id }}" value="{{ node.ref_id }}">
+        {% endverbatim %}
 
         <div ng-if="node.type == 'delay'" class="settings box" ng-show="showDelay == $index">
             <div class="close" ng-click="close()">×</div>
@@ -43,10 +46,10 @@
         </div>
     </div>
 
-    <div class="edge" ng-repeat="edge in data.edges" ng-model="data.edges">
+    <div class="edge" ng-repeat="edge in data.edges track by $index" ng-model="data.edges">
 
         <div class="overlay box">
-            <div class="summary" ng-repeat="condition in edge.conditions">
+            <div class="summary" ng-repeat="condition in edge.conditions track by $index">
                 {% verbatim %}{{ condition.var_name }}{% endverbatim %}
                 <span ng-switch="condition.operator">
                     <span ng-switch-when="eq"> = </span>
@@ -67,7 +70,7 @@
 
         <div class="conditions box" ng-show="showConditions == $index">
             <div class="close" ng-click="close()">×</div>
-            <div class="condition" ng-repeat="condition in edge.conditions">
+            <div class="condition" ng-repeat="condition in edge.conditions track by $index">
                 <input type="text" placeholder="{% trans 'Variable name' %}" ng-model="condition.var_name">
                 <select ng-model="condition.operator">
                     <option value="eq"> = </option>
@@ -92,11 +95,6 @@
 <script>
     var initData = {{ value|safe }};
     var initVars = {{ vars|safe }};
-    var newPageUrl = '{{ admin_page_new }}';
-    var addPageUrl = '{{ admin_page_add }}';
-    var newEmailUrl = '{{ admin_email_new }}';
-    var addEmailUrl = '{{ admin_email_add }}';
-    var newSMSUrl = '{{ admin_sms_new }}';
-    var addSMSUrl = '{{ admin_sms_add }}';
+    var adminUrl = '{{ admin_url }}';
     var nodeApiUrl = '{{ node_api }}';
 </script>
