@@ -3,7 +3,7 @@
 {% block content %}
 <div class="page" ng-controller="pages" ng-cloak ng-form="form">
     {% verbatim %}
-    <div class="pagelet" ng-repeat="pagelet in page">
+    <div class="pagelet" ng-repeat="pagelet in page track by $index">
 
         <div class="text" ng-if="pagelet.content_type == 'text'" class="text" ng-bind-html="trust(pagelet.content)">
         </div>
@@ -19,18 +19,18 @@
                 {% endverbatim %}
                 <div class="error right" ng-show="form.submitted && subForm.$error.required">{% trans 'Please choose one' %}</div>
                 {% verbatim %}
-                <label ng-repeat="alt in pagelet.content.alternatives">
+                <label ng-repeat="alt in pagelet.content.alternatives track by $index">
                     <input name="answer" type="radio" ng-model="pagelet.content.value" value="{{ alt.value }}" required>
                     {{ alt.label }}
                 </label>
-                <div ng-repeat="alt in pagelet.content.alternatives" ng-show="subForm.$dirty && pagelet.content.value == alt.value">
+                <div ng-repeat="alt in pagelet.content.alternatives track by $index" ng-show="subForm.$dirty && pagelet.content.value == alt.value">
                     {{ alt.text }}
                 </div>
             </fieldset>
         </form>
 
         <form class="form" ng-if="pagelet.content_type == 'form'" novalidate>
-            <div ng-repeat="field in pagelet.content" ng-form="subForm">
+            <div ng-repeat="field in pagelet.content track by $index" ng-form="subForm">
 
                 <div ng-if="field.field_type == 'numeric'">
                     {% endverbatim %}
@@ -62,7 +62,7 @@
                     {% endverbatim %}
                     <div class="error right" ng-show="form.submitted && subForm.$error.required">{% trans 'Please choose one' %}</div>
                     {% verbatim %}
-                    <label ng-repeat="alt in field.alternatives">
+                    <label ng-repeat="alt in field.alternatives track by $index">
                         <input name="field" type="radio" ng-model="field.value" value="{{ alt.value }}" ng-required="field.required">
                         {{ alt.label }}
                     </label>
@@ -70,7 +70,7 @@
 
                 <fieldset ng-if="field.field_type == 'multipleselection'">
                     <legend>{{ field.label }}</legend>
-                    <label ng-repeat="alt in field.alternatives">
+                    <label ng-repeat="alt in field.alternatives track by $index">
                         <input name="field" type="checkbox" ng-model="field.value[alt.value]" value="field.value[alt.value] == true">
                         {{ alt.label }}
                     </label>
@@ -80,12 +80,12 @@
         </form>
 
         <form class="quiz" ng-if="pagelet.content_type == 'quiz'" novalidate>
-            <fieldset ng-repeat="question in pagelet.content" ng-form="subForm">
+            <fieldset ng-repeat="question in pagelet.content track by $index" ng-form="subForm">
                 <legend>{{ question.question }}</legend>
                 {% endverbatim %}
                 <div class="error right" ng-show="form.submitted && subForm.$error.required">{% trans 'Please choose one' %}</div>
                 {% verbatim %}
-                <label ng-repeat="alt in question.alternatives">
+                <label ng-repeat="alt in question.alternatives track by $index">
                     <input name="answer" type="radio" ng-model="question.value" ng-change="question.correct = alt.correct" value="{{ alt.value }}" required>
                     {{ alt.label }}
                 </label>
