@@ -7,13 +7,6 @@ from huey.djhuey import db_task
 import datetime
 
 
-RESERVED_NAMES = [
-    'current_session',
-    'current_node',
-    'group'
-]
-
-
 class Engine(object):
     '''A simplified decision engine to traverse the graph for a user'''
 
@@ -53,6 +46,11 @@ class Engine(object):
 
                     user_val = self.user.data.get(key)
 
+                    if key == 'group':
+                        user_val = ', '.join(
+                            [group.__unicode__() for group in self.user.groups.all()]
+                        )
+
                     if user_val:
 
                         if op == 'eq':
@@ -80,7 +78,7 @@ class Engine(object):
                                 return edge
 
                         if op == 'in':
-                            if user_val in val:
+                            if unicode(val).lower() in unicode(user_val).lower():
                                 return edge
 
     def get_node_edges(self, source_id):
