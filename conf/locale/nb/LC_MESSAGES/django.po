@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Serafin\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-05-07 01:23+0200\n"
-"PO-Revision-Date: 2014-05-06 14:50+0200\n"
+"POT-Creation-Date: 2014-05-12 02:24+0200\n"
+"PO-Revision-Date: 2014-05-12 02:24+0200\n"
 "Last-Translator: Eirik Krogstad <eirikkr@gmail.com>\n"
 "Language: nb\n"
 "MIME-Version: 1.0\n"
@@ -15,140 +15,190 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 
 #: content/templates/admin/content_widget.html:7
-#: content/templates/admin/content_widget.html:39
+#: content/templates/admin/content_widget.html:100
 msgid "Add text"
 msgstr "Legg til tekst"
 
 #: content/templates/admin/content_widget.html:8
+msgid "Add toggle"
+msgstr "Legg til vis/skjul-tekst"
+
+#: content/templates/admin/content_widget.html:9
+msgid "Add toggleset"
+msgstr "Legg til valg med tekst"
+
+#: content/templates/admin/content_widget.html:10
 msgid "Add form"
 msgstr "Legg til skjema"
 
-#: content/templates/admin/content_widget.html:9
+#: content/templates/admin/content_widget.html:11
+msgid "Add quiz"
+msgstr "Legg til quiz"
+
+#: content/templates/admin/content_widget.html:12
 msgid "Add image"
 msgstr "Legg til bilde"
 
-#: content/templates/admin/content_widget.html:10
+#: content/templates/admin/content_widget.html:13
 msgid "Add video"
 msgstr "Legg til video"
 
-#: content/templates/admin/content_widget.html:11
+#: content/templates/admin/content_widget.html:14
 msgid "Add audio"
 msgstr "Legg til lydklipp"
 
-#: content/templates/admin/content_widget.html:12
+#: content/templates/admin/content_widget.html:15
 msgid "Add file"
 msgstr "Legg til fil"
 
-#: content/templates/admin/content_widget.html:28
+#: content/templates/admin/content_widget.html:31
+#: content/templates/admin/content_widget.html:43
 #: content/templates/admin/text_content_widget.html:12
 msgid ""
 "This element uses <a href=\"http://markdown-guide.readthedocs.org/en/latest/"
-"basics.html\">Markdown</a>."
+"basics.html\">Markdown</a>. For variable replacement use <code ng-non-"
+"bindable>&#123;&#123; var_name &#125;&#125;</code>. This markup will be "
+"replaced by the user's value for <code>var_name</code>, if available."
 msgstr ""
-"Dette elementet bruker <a href=\"http://markdown-guide.readthedocs.org/en/"
-"latest/basics.html\">Markdown</a>."
+"Dette elementet burker <a href=\"http://markdown-guide.readthedocs.org/en/latest/"
+"basics.html\">Markdown</a>. For å erstatte variabler, bruk <code ng-non-"
+"bindable>&#123;&#123; var_name &#125;&#125;</code>. Denne teksten vil "
+"brukerens verdi for <code>var_name</code>, dersom den er tilgjengelig."
 
-#: content/templates/admin/content_widget.html:28
-#: content/templates/admin/text_content_widget.html:12
-msgid "For variable replacement use"
-msgstr "For å erstatte variabler, bruk"
+#: content/templates/admin/content_widget.html:39
+msgid "Toggle text"
+msgstr "Vis/skjul-tekst"
 
-#: content/templates/admin/content_widget.html:28
-#: content/templates/admin/text_content_widget.html:12
-msgid ""
-"This markup will be replaced by the user's value for <code>var_name</code>, "
-"if available."
-msgstr ""
-"Denne kodingen vil erstattes med brukerens verdi for <code>var_name</code>, "
-"dersom den finnes."
-
-#: content/templates/admin/content_widget.html:37
-msgid "Add numeric"
-msgstr "Legg til tallverdi"
-
-#: content/templates/admin/content_widget.html:38
-msgid "Add string"
-msgstr "Legg til tekststreng"
-
-#: content/templates/admin/content_widget.html:40
-msgid "Add multiple choice"
-msgstr "Legg til enkeltvalg"
-
-#: content/templates/admin/content_widget.html:41
-msgid "Add multiple selection"
-msgstr "Legg til flervalg"
-
-#: content/templates/admin/content_widget.html:56
-#: content/templates/admin/content_widget.html:105
+#: content/templates/admin/content_widget.html:53
+#: content/templates/admin/content_widget.html:78
+#: content/templates/admin/content_widget.html:117
+#: content/templates/admin/content_widget.html:166
+#: content/templates/admin/content_widget.html:225
 msgid "Label"
 msgstr "Feltnavn"
 
-#: content/templates/admin/content_widget.html:60
+#: content/templates/admin/content_widget.html:57
+#: content/templates/admin/content_widget.html:121
+#: content/templates/admin/content_widget.html:195
 #: plumbing/templates/admin/plumbing_widget.html:74
 msgid "Variable name"
 msgstr "Variabelnavn"
 
-#: content/templates/admin/content_widget.html:67
-msgid "Default value"
-msgstr "Standardverdi"
+#: content/templates/admin/content_widget.html:63
+msgid "Add item"
+msgstr "Legg til elemnt"
 
-#: content/templates/admin/content_widget.html:72
-msgid "Required?"
-msgstr "Påkrevet?"
-
-#: content/templates/admin/content_widget.html:79
-msgid "Lower limit"
-msgstr "Nedre grense"
-
-#: content/templates/admin/content_widget.html:83
-msgid "Upper limit"
-msgstr "Øvre grense"
-
-#: content/templates/admin/content_widget.html:90
-msgid "Add alternative"
-msgstr "Legg til alternativ"
-
-#: content/templates/admin/content_widget.html:93
+#: content/templates/admin/content_widget.html:66
+#: content/templates/admin/content_widget.html:154
+#: content/templates/admin/content_widget.html:213
 msgid "Alternatives"
 msgstr "Alternativer"
 
-#: content/templates/admin/content_widget.html:109
+#: content/templates/admin/content_widget.html:82
+#: content/templates/admin/content_widget.html:170
+#: content/templates/admin/content_widget.html:229
 #: plumbing/templates/admin/plumbing_widget.html:84
 msgid "Value"
 msgstr "Verdi"
 
-#: content/templates/admin/content_widget.html:125
+#: content/templates/admin/content_widget.html:88
+#: lib/python2.7/site-packages/django/db/models/fields/__init__.py:1295
+msgid "Text"
+msgstr "Tekst"
+
+#: content/templates/admin/content_widget.html:98
+msgid "Add numeric"
+msgstr "Legg til tallverdi"
+
+#: content/templates/admin/content_widget.html:99
+msgid "Add string"
+msgstr "Legg til tekststreng"
+
+#: content/templates/admin/content_widget.html:101
+msgid "Add multiple choice"
+msgstr "Legg til enkeltvalg"
+
+#: content/templates/admin/content_widget.html:102
+msgid "Add multiple selection"
+msgstr "Legg til flervalg"
+
+#: content/templates/admin/content_widget.html:128
+msgid "Default value"
+msgstr "Standardverdi"
+
+#: content/templates/admin/content_widget.html:133
+msgid "Required?"
+msgstr "Påkrevet?"
+
+#: content/templates/admin/content_widget.html:140
+msgid "Lower limit"
+msgstr "Nedre grense"
+
+#: content/templates/admin/content_widget.html:144
+msgid "Upper limit"
+msgstr "Øvre grense"
+
+#: content/templates/admin/content_widget.html:151
+#: content/templates/admin/content_widget.html:210
+msgid "Add alternative"
+msgstr "Legg til alternativ"
+
+#: content/templates/admin/content_widget.html:184
+msgid "Add question"
+msgstr "Legg til spørsmål"
+
+#: content/templates/admin/content_widget.html:191
+msgid "Question"
+msgstr "Spørsmål"
+
+#: content/templates/admin/content_widget.html:200
+msgid "Right answer response"
+msgstr "Respons for riktig svar"
+
+#: content/templates/admin/content_widget.html:204
+msgid "Wrong answer response"
+msgstr "Respons for feil svar"
+
+#: content/templates/admin/content_widget.html:234
+msgid "Correct?"
+msgstr "Korrekt?"
+
+#: content/templates/admin/content_widget.html:249
 msgid "Alt title"
 msgstr "Alternativtittel"
 
-#: content/templates/admin/content_widget.html:129
-#: content/templates/admin/content_widget.html:139
-#: content/templates/admin/content_widget.html:149
-#: content/templates/admin/content_widget.html:159
+#: content/templates/admin/content_widget.html:253
+#: content/templates/admin/content_widget.html:263
+#: content/templates/admin/content_widget.html:273
+#: content/templates/admin/content_widget.html:283
 msgid "Title"
 msgstr "Tittel"
+
+#: content/templates/admin/sms_content_widget.html:11
+msgid "characters used"
+msgstr "tegn brukt"
 
 #: events/admin.py:21
 msgid "Actor"
 msgstr "Utført av"
 
-#: events/middleware.py:54
+#: events/middleware.py:55
 msgid "Other"
 msgstr "Annen"
 
-#: events/middleware.py:56
+#: events/middleware.py:57
 msgid "Mobile"
 msgstr "Mobil"
 
-#: events/middleware.py:58
+#: events/middleware.py:59
 msgid "Tablet"
 msgstr "Nettbrett"
 
-#: events/middleware.py:60
+#: events/middleware.py:61
 msgid "PC"
 msgstr "PC"
 
-#: events/models.py:11 tasks/models.py:22
+#: events/models.py:11 tasker/models.py:39
 msgid "time"
 msgstr "tidspunkt"
 
@@ -160,7 +210,7 @@ msgstr "domene"
 msgid "actor"
 msgstr "utført av"
 
-#: events/models.py:14 system/models.py:26
+#: events/models.py:14 system/models.py:28
 msgid "variable"
 msgstr "variabel"
 
@@ -746,10 +796,6 @@ msgstr ""
 #: lib/python2.7/site-packages/django/db/models/fields/__init__.py:1289
 msgid "Small integer"
 msgstr ""
-
-#: lib/python2.7/site-packages/django/db/models/fields/__init__.py:1295
-msgid "Text"
-msgstr "Tekst"
 
 #: lib/python2.7/site-packages/django/db/models/fields/__init__.py:1313
 #, python-format
@@ -1513,7 +1559,8 @@ msgstr ""
 
 #: lib/python2.7/site-packages/django_extensions/db/models.py:36
 #: lib/python2.7/site-packages/django_extensions/mongodb/models.py:29
-#: system/models.py:50 system/models.py:72 system/models.py:138
+#: system/models.py:38 system/models.py:60 system/models.py:126
+#: system/models.py:127
 msgid "title"
 msgstr "tittel"
 
@@ -1781,7 +1828,7 @@ msgstr "Område for viktigste innhold i bildet."
 
 #: lib/python2.7/site-packages/filer/models/clipboardmodels.py:9
 #: lib/python2.7/site-packages/filer/models/foldermodels.py:253
-#: users/models.py:140
+#: users/models.py:144
 msgid "user"
 msgstr "bruker"
 
@@ -1843,7 +1890,7 @@ msgstr "originalt filnavn"
 
 #: lib/python2.7/site-packages/filer/models/filemodels.py:44
 #: lib/python2.7/site-packages/filer/models/foldermodels.py:99
-#: system/models.py:15
+#: system/models.py:17
 msgid "name"
 msgstr "navn"
 
@@ -3393,21 +3440,17 @@ msgstr "Legg til forsinkelse"
 msgid "Available variables"
 msgstr "Tilgjengelige variabler"
 
-#: plumbing/templates/admin/plumbing_widget.html:38
+#: plumbing/templates/admin/plumbing_widget.html:41
 msgid "Number"
 msgstr "Antall"
 
-#: plumbing/templates/admin/plumbing_widget.html:40
+#: plumbing/templates/admin/plumbing_widget.html:43
 msgid "minutes"
 msgstr "minutter"
 
-#: plumbing/templates/admin/plumbing_widget.html:41 system/models.py:78
+#: plumbing/templates/admin/plumbing_widget.html:44 system/models.py:66
 msgid "hours"
 msgstr "timer"
-
-#: plumbing/templates/admin/plumbing_widget.html:44
-msgid "Relative to start time for part"
-msgstr "Relativt til starttid for delen"
 
 #: plumbing/templates/admin/plumbing_widget.html:61
 #: plumbing/templates/admin/plumbing_widget.html:82
@@ -3462,171 +3505,181 @@ msgstr "Innhold mangler"
 msgid "Page excerpt"
 msgstr "Sideutdrag"
 
-#: system/models.py:17
+#: system/engine.py:155
+msgid "Delayed node execution"
+msgstr "Forsinket hendelse"
+
+#: system/models.py:19
 msgid "numeric"
 msgstr "tallverdi"
 
-#: system/models.py:18
+#: system/models.py:20
 msgid "string"
 msgstr "kort tekst"
 
-#: system/models.py:19
+#: system/models.py:21
 msgid "text"
 msgstr "tekst"
 
-#: system/models.py:20
+#: system/models.py:22
 msgid "multiple choice"
 msgstr "enkeltvalg"
 
-#: system/models.py:21
+#: system/models.py:23
 msgid "multiple selection"
 msgstr "flervalg"
 
-#: system/models.py:23
+#: system/models.py:25
 msgid "variable type"
 msgstr "type variabel"
 
-#: system/models.py:27
+#: system/models.py:29
 msgid "variables"
 msgstr "variabler"
 
-#: system/models.py:36
-msgid "key"
-msgstr "nøkkel"
-
-#: system/models.py:40
-msgid "system variable"
-msgstr "systemvariabel"
-
-#: system/models.py:41
-msgid "system variables"
-msgstr "systemvariabler"
-
-#: system/models.py:51 system/models.py:75 system/models.py:139
+#: system/models.py:39 system/models.py:63 system/models.py:128
 msgid "admin note"
 msgstr "administratornotat"
 
-#: system/models.py:53 system/models.py:85
+#: system/models.py:41 system/models.py:73
 msgid "start time"
 msgstr "starttid"
 
-#: system/models.py:54
+#: system/models.py:42
 msgid "time factor"
 msgstr "tidsfaktor"
 
-#: system/models.py:57 system/models.py:73
+#: system/models.py:45 system/models.py:61
 msgid "program"
 msgstr "program"
 
-#: system/models.py:58
+#: system/models.py:46
 msgid "programs"
 msgstr "programmer"
 
-#: system/models.py:74 system/models.py:146
+#: system/models.py:62 system/models.py:135
 msgid "content"
 msgstr "innhold"
 
-#: system/models.py:79
+#: system/models.py:67
 msgid "days"
 msgstr "dager"
 
-#: system/models.py:81
+#: system/models.py:69
 msgid "start time delta"
 msgstr "avvik starttid"
 
-#: system/models.py:82
+#: system/models.py:70
 msgid "start time unit"
 msgstr "enhet starttid"
 
-#: system/models.py:83
+#: system/models.py:71
 msgid "end time delta"
 msgstr "avvik sluttid"
 
-#: system/models.py:84
+#: system/models.py:72
 msgid "end time unit"
 msgstr "enhet sluttid"
 
-#: system/models.py:92
-msgid "part"
-msgstr "del"
+#: system/models.py:80
+msgid "session"
+msgstr "økt"
 
-#: system/models.py:93
-msgid "parts"
-msgstr "deler"
+#: system/models.py:81
+msgid "sessions"
+msgstr "økter"
 
-#: system/models.py:96
+#: system/models.py:84
 #, python-format
-msgid "Part %s"
-msgstr "Del %s"
+msgid "Session %s"
+msgstr "Økt %s"
 
-#: system/models.py:147
+#: system/models.py:136
 msgid "contents"
 msgstr "innhold"
 
-#: system/models.py:161
+#: system/models.py:160
 msgid "page"
 msgstr "side"
 
-#: system/models.py:162
+#: system/models.py:161
 msgid "pages"
 msgstr "sider"
 
-#: system/models.py:194
+#: system/models.py:207
 msgid "e-mail"
 msgstr "e-post"
 
-#: system/models.py:195
+#: system/models.py:208
 msgid "e-mails"
 msgstr "e-poster"
 
-#: system/models.py:203
+#: system/models.py:236
 msgid "SMS"
 msgstr "SMS"
 
-#: system/models.py:204
+#: system/models.py:237
 msgid "SMSs"
 msgstr "SMSer"
 
-#: tasks/admin.py:22
+#: system/signals.py:24
+msgid "Send login link and start traversal for all users"
+msgstr "Send innloggingslenke og start økt for alle brukere"
+
+#: system/tasks.py:34
+msgid "Session initialized and user e-mails sent"
+msgstr "Økt startet og e-post for innlogging sendt"
+
+#: tasker/admin.py:22
 msgid "Task result"
 msgstr "Oppgaveresultat"
 
-#: tasks/models.py:15
+#: tasker/models.py:32
 msgid "sender"
 msgstr "avsender"
 
-#: tasks/models.py:19
+#: tasker/models.py:36
 msgid "action"
 msgstr "handling"
 
-#: tasks/models.py:20 tasks/models.py:32
+#: tasker/models.py:37 tasker/models.py:51
 msgid "task"
 msgstr "oppgave"
 
-#: tasks/models.py:25
+#: tasker/models.py:44
 #, python-format
 msgid "%(time)s: %(sender)s, %(action)s"
 msgstr ""
 
-#: tasks/models.py:33
+#: tasker/models.py:52
 msgid "tasks"
 msgstr "oppgaver"
-
-#: tasks/signals.py:34
-#, python-format
-msgid "Send login link for %(part)s"
-msgstr "Send innloggingslenke for %(part)s"
-
-#: tasks/tasks.py:25
-#, python-format
-msgid "%(counter)i e-mails with subject \"%(subject)s\" sent"
-msgstr "%(counter)i e-poster med tittel \"%(subject)s\" sendt"
 
 #: templates/base.html:22
 msgid "Quit / sign out"
 msgstr "Avslutt / logg ut"
 
-#: templates/part.html:63
+#: templates/session.html:20 templates/session.html.py:63
+#: templates/session.html:86
+msgid "Please choose one"
+msgstr "Velg én"
+
+#: templates/session.html:37
+msgid "Please enter a number"
+msgstr "Skriv inn et tall"
+
+#: templates/session.html:38
+msgid ""
+"Please enter a number between {{ field.lower_limit }} and {{ field."
+"upper_limit }}"
+msgstr ""
+"Skriv inn et tall mellom {{ field.lower_limit }} og {{ field.upper_limit }}"
+
+#: templates/session.html:46 templates/session.html.py:54
+msgid "This field is required"
+msgstr "Dette feltet er påkrevet"
+
+#: templates/session.html:122
 msgid "Next page"
 msgstr "Neste side"
 
@@ -3808,17 +3861,9 @@ msgstr "Bruker %i"
 msgid "Today's login link"
 msgstr "Dagens innloggingslenke"
 
-#: users/models.py:141
+#: users/models.py:145
 msgid "users"
 msgstr "brukere"
-
-#: users/views.py:27
-msgid "Logged in"
-msgstr "Innlogget"
-
-#: users/views.py:29
-msgid "Not logged in"
-msgstr "Ikke innlogget"
 
 #: users/templates/login.html:20
 msgid "Forgot your password?"
@@ -3866,3 +3911,20 @@ msgstr "Hvelvbruker"
 #: vault/models.py:56
 msgid "vault users"
 msgstr "Hvelvbrukere"
+
+#~ msgid ""
+#~ "This element uses <a href=\"http://markdown-guide.readthedocs.org/en/"
+#~ "latest/basics.html\">Markdown</a>."
+#~ msgstr ""
+#~ "Dette elementet bruker <a href=\"http://markdown-guide.readthedocs.org/en/"
+#~ "latest/basics.html\">Markdown</a>."
+
+#~ msgid "For variable replacement use"
+#~ msgstr "For å erstatte variabler, bruk"
+
+#~ msgid ""
+#~ "This markup will be replaced by the user's value for <code>var_name</"
+#~ "code>, if available."
+#~ msgstr ""
+#~ "Denne kodingen vil erstattes med brukerens verdi for <code>var_name</"
+#~ "code>, dersom den finnes."
