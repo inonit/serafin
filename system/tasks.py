@@ -15,16 +15,15 @@ def transition(user, node_id):
 
 
 @db_task()
-def init_session(session):
+def init_session(session, group):
     '''Initialize a given session from start and traverse on behalf of user'''
 
-    users = get_user_model().objects.filter(is_active=True)
     init = {
         'current_session': session.id,
         'current_node': 0,
     }
 
-    for user in users:
+    for user in group.user_set.filter(is_active=True):
 
         engine = Engine(user, init)
         engine.run()
