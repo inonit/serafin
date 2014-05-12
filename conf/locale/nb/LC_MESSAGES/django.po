@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Serafin\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-05-12 02:24+0200\n"
-"PO-Revision-Date: 2014-05-12 02:24+0200\n"
+"POT-Creation-Date: 2014-05-12 12:08+0200\n"
+"PO-Revision-Date: 2014-05-12 12:08+0200\n"
 "Last-Translator: Eirik Krogstad <eirikkr@gmail.com>\n"
 "Language: nb\n"
 "MIME-Version: 1.0\n"
@@ -60,10 +60,11 @@ msgid ""
 "bindable>&#123;&#123; var_name &#125;&#125;</code>. This markup will be "
 "replaced by the user's value for <code>var_name</code>, if available."
 msgstr ""
-"Dette elementet bruker <a href=\"http://markdown-guide.readthedocs.org/en/latest/"
-"basics.html\">Markdown</a>. For å erstatte variabler, bruk <code ng-non-"
-"bindable>&#123;&#123; var_name &#125;&#125;</code>. Denne teksten vil "
-"brukerens verdi for <code>var_name</code>, dersom den er tilgjengelig."
+"Dette elementet bruker <a href=\"http://markdown-guide.readthedocs.org/en/"
+"latest/basics.html\">Markdown</a>. For å erstatte variabler, bruk <code ng-"
+"non-bindable>&#123;&#123; var_name &#125;&#125;</code>. Denne koden vil "
+"erstattes av brukerens verdi for <code>var_name</code>, dersom den er "
+"tilgjengelig."
 
 #: content/templates/admin/content_widget.html:39
 msgid "Toggle text"
@@ -182,19 +183,19 @@ msgstr "tegn brukt"
 msgid "Actor"
 msgstr "Utført av"
 
-#: events/middleware.py:55
+#: events/middleware.py:54
 msgid "Other"
 msgstr "Annen"
 
-#: events/middleware.py:57
+#: events/middleware.py:56
 msgid "Mobile"
 msgstr "Mobil"
 
-#: events/middleware.py:59
+#: events/middleware.py:58
 msgid "Tablet"
 msgstr "Nettbrett"
 
-#: events/middleware.py:61
+#: events/middleware.py:60
 msgid "PC"
 msgstr "PC"
 
@@ -3485,25 +3486,43 @@ msgstr "Media"
 msgid "Settings"
 msgstr "Oppsett"
 
-#: system/admin.py:36 system/admin.py:108 system/admin.py:156
+#: system/admin.py:37 system/admin.py:134 system/admin.py:202
 msgid "Admin note excerpt"
 msgstr "Utdrag fra administratornotat"
 
-#: system/admin.py:113
+#: system/admin.py:42 system/admin.py:47 system/admin.py:56
+#: system/admin.py:149 system/admin.py:157 system/admin.py:207
+#, python-format
+msgid "Copy of %(title)s"
+msgstr "Kopi av %(title)s"
+
+#: system/admin.py:62
+msgid "Copy selected programs"
+msgstr "Kopier valgte programmer"
+
+#: system/admin.py:139
 msgid "Program start time"
 msgstr "Starttid program"
 
-#: system/admin.py:118
+#: system/admin.py:144
 msgid "Program time factor"
 msgstr "Tidsfaktor program"
 
-#: system/admin.py:143
+#: system/admin.py:163
+msgid "Copy selected sessions"
+msgstr "Kopier valgte økter"
+
+#: system/admin.py:189
 msgid "No content"
 msgstr "Innhold mangler"
 
-#: system/admin.py:151
+#: system/admin.py:197
 msgid "Page excerpt"
 msgstr "Sideutdrag"
+
+#: system/admin.py:210
+msgid "Copy selected content"
+msgstr "Kopier valgt innhold"
 
 #: system/engine.py:155
 msgid "Delayed node execution"

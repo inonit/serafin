@@ -4,7 +4,7 @@ from django.utils.translation import ugettext_lazy as _
 from django import forms
 from django.db import models
 from django.contrib import admin
-from suit.widgets import SuitSplitDateTimeWidget, LinkedSelect, AutosizedTextarea, NumberInput
+from suit.widgets import SuitSplitDateTimeWidget, AutosizedTextarea, NumberInput
 from jsonfield import JSONField
 
 from system.models import Program, Session, Page, Email, SMS
@@ -17,6 +17,7 @@ class ProgramAdmin(admin.ModelAdmin):
     search_fields = ['title', 'admin_note']
     ordering = ['start_time']
     date_hierarchy = 'start_time'
+    actions = ['copy']
 
     formfield_overrides = {
         models.TextField: {
@@ -35,6 +36,44 @@ class ProgramAdmin(admin.ModelAdmin):
 
     note_excerpt.short_description = _('Admin note excerpt')
 
+    def copy(modeladmin, request, queryset):
+        for program in queryset:
+            sessions = list(program.session_set.all())
+
+            program.pk = None
+            program.title = _('Copy of %(title)s' % {'title': program.title})
+            program.save()
+
+            for session in sessions:
+                contents = list(session.content.all())
+
+                session.pk = None
+                session.title = _('Copy of %(title)s' % {'title': session.title})
+                session.program_id = program.id
+                session.save()
+                session.content = []
+
+                nodes = session.data.get('nodes')
+
+                for content in contents:
+                    orig_id = content.id
+
+                    content.pk = None
+                    content.title = _('Copy of %(title)s' % {'title': content.title})
+                    content.save()
+
+                    session.content.add(content)
+
+                    for node in nodes:
+                        ref_id = node.get('ref_id')
+                        if ref_id and int(ref_id) == orig_id:
+                            node['ref_id'] = content.id
+                            node['title'] = content.title
+
+                session.data['nodes'] = nodes
+                session.save()
+
+    copy.short_description = _('Copy selected programs')
 
 class SessionForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
@@ -68,6 +107,7 @@ class SessionAdmin(admin.ModelAdmin):
     search_fields = ['title', 'admin_note', 'program']
     ordering = ['start_time']
     date_hierarchy = 'start_time'
+    actions = ['copy']
 
     form = SessionForm
     formfield_overrides = {
@@ -117,6 +157,37 @@ class SessionAdmin(admin.ModelAdmin):
 
     program_time_factor.short_description = _('Program time factor')
 
+    def copy(modeladmin, request, queryset):
+        for session in queryset:
+            contents = list(session.content.all())
+
+            session.pk = None
+            session.title = _('Copy of %(title)s' % {'title': session.title})
+            session.save()
+            session.content = []
+
+            nodes = session.data.get('nodes')
+
+            for content in contents:
+                orig_id = content.id
+
+                content.pk = None
+                content.title = _('Copy of %(title)s' % {'title': content.title})
+                content.save()
+
+                session.content.add(content)
+
+                for node in nodes:
+                    ref_id = node.get('ref_id')
+                    if ref_id and int(ref_id) == orig_id:
+                        node['ref_id'] = content.id
+                        node['title'] = content.title
+
+            session.data['nodes'] = nodes
+            session.save()
+
+    copy.short_description = _('Copy selected sessions')
+
 
 class ContentForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
@@ -127,6 +198,7 @@ class ContentForm(forms.ModelForm):
 class ContentAdmin(admin.ModelAdmin):
     list_display = ['title', 'note_excerpt', 'page_excerpt']
     search_fields = ['title', 'admin_note', 'data']
+    actions = ['copy']
 
     form = ContentForm
     fields = ['title', 'admin_note', 'data']
@@ -154,6 +226,14 @@ class ContentAdmin(admin.ModelAdmin):
         return obj.admin_note[:100] + '...'
 
     note_excerpt.short_description = _('Admin note excerpt')
+
+    def copy(modeladmin, request, queryset):
+        for content in queryset:
+            content.pk = None
+            content.title = _('Copy of %(title)s' % {'title': content.title})
+            content.save()
+
+    copy.short_description = _('Copy selected content')
 
 
 class PageForm(ContentForm):
