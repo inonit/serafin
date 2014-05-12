@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Serafin\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-05-12 14:34+0200\n"
+"POT-Creation-Date: 2014-05-12 18:17+0200\n"
 "PO-Revision-Date: 2014-05-12 12:08+0200\n"
 "Last-Translator: Eirik Krogstad <eirikkr@gmail.com>\n"
 "Language: nb\n"
@@ -1560,8 +1560,8 @@ msgstr ""
 
 #: lib/python2.7/site-packages/django_extensions/db/models.py:36
 #: lib/python2.7/site-packages/django_extensions/mongodb/models.py:29
-#: system/models.py:38 system/models.py:60 system/models.py:126
-#: system/models.py:127
+#: system/models.py:38 system/models.py:79 system/models.py:146
+#: system/models.py:147
 msgid "title"
 msgstr "tittel"
 
@@ -1960,6 +1960,7 @@ msgid "type"
 msgstr "type"
 
 #: lib/python2.7/site-packages/filer/models/foldermodels.py:256
+#: system/models.py:63
 msgid "group"
 msgstr "gruppe"
 
@@ -3449,7 +3450,7 @@ msgstr "Antall"
 msgid "minutes"
 msgstr "minutter"
 
-#: plumbing/templates/admin/plumbing_widget.html:44 system/models.py:66
+#: plumbing/templates/admin/plumbing_widget.html:44 system/models.py:85
 msgid "hours"
 msgstr "timer"
 
@@ -3486,41 +3487,37 @@ msgstr "Media"
 msgid "Settings"
 msgstr "Oppsett"
 
-#: system/admin.py:37 system/admin.py:148 system/admin.py:228
+#: system/admin.py:49 system/admin.py:164 system/admin.py:234
 msgid "Admin note excerpt"
 msgstr "Utdrag fra administratornotat"
 
-#: system/admin.py:44 system/admin.py:51 system/admin.py:62
-#: system/admin.py:165 system/admin.py:175 system/admin.py:233
+#: system/admin.py:54
+msgid "Group access"
+msgstr "Gruppetilgang"
+
+#: system/admin.py:61 system/admin.py:68 system/admin.py:79
+#: system/admin.py:171 system/admin.py:181 system/admin.py:239
 #, python-format
 msgid "Copy of %(title)s"
 msgstr "Kopi av %(title)s"
 
-#: system/admin.py:76
+#: system/admin.py:93
 msgid "Copy selected programs"
 msgstr "Kopier valgte programmer"
 
-#: system/admin.py:153
-msgid "Program start time"
-msgstr "Starttid program"
-
-#: system/admin.py:158
-msgid "Program time factor"
-msgstr "Tidsfaktor program"
-
-#: system/admin.py:189
+#: system/admin.py:195
 msgid "Copy selected sessions"
 msgstr "Kopier valgte økter"
 
-#: system/admin.py:215
+#: system/admin.py:221
 msgid "No content"
 msgstr "Innhold mangler"
 
-#: system/admin.py:223
+#: system/admin.py:229
 msgid "Page excerpt"
 msgstr "Sideutdrag"
 
-#: system/admin.py:236
+#: system/admin.py:242
 msgid "Copy selected content"
 msgstr "Kopier valgt innhold"
 
@@ -3556,96 +3553,113 @@ msgstr "type variabel"
 msgid "variables"
 msgstr "variabler"
 
-#: system/models.py:39 system/models.py:63 system/models.py:128
+#: system/models.py:39 system/models.py:82 system/models.py:148
 msgid "admin note"
 msgstr "administratornotat"
 
-#: system/models.py:41 system/models.py:73
-msgid "start time"
-msgstr "starttid"
+#: system/models.py:41
+msgid "groups"
+msgstr "grupper"
 
-#: system/models.py:42
-msgid "time factor"
-msgstr "tidsfaktor"
-
-#: system/models.py:45 system/models.py:61
+#: system/models.py:44 system/models.py:62 system/models.py:80
 msgid "program"
 msgstr "program"
 
-#: system/models.py:46
+#: system/models.py:45
 msgid "programs"
 msgstr "programmer"
 
-#: system/models.py:62 system/models.py:135
+#: system/models.py:65
+msgid "start time"
+msgstr "starttid"
+
+#: system/models.py:66
+msgid "time factor"
+msgstr "tidsfaktor"
+
+#: system/models.py:69
+msgid "group access"
+msgstr "gruppetilgang"
+
+#: system/models.py:70
+msgid "group accesses"
+msgstr "gruppetilgang"
+
+#: system/models.py:81 system/models.py:155
 msgid "content"
 msgstr "innhold"
 
-#: system/models.py:67
+#: system/models.py:86
 msgid "days"
 msgstr "dager"
 
-#: system/models.py:69
+#: system/models.py:88
 msgid "start time delta"
 msgstr "avvik starttid"
 
-#: system/models.py:70
+#: system/models.py:89
 msgid "start time unit"
 msgstr "enhet starttid"
 
-#: system/models.py:71
+#: system/models.py:90
 msgid "end time delta"
 msgstr "avvik sluttid"
 
-#: system/models.py:72
+#: system/models.py:91
 msgid "end time unit"
 msgstr "enhet sluttid"
 
-#: system/models.py:80
+#: system/models.py:92
+msgid "first start time"
+msgstr "første starttid"
+
+#: system/models.py:99
 msgid "session"
 msgstr "økt"
 
-#: system/models.py:81
+#: system/models.py:100
 msgid "sessions"
 msgstr "økter"
 
-#: system/models.py:84
+#: system/models.py:103
 #, python-format
 msgid "Session %s"
 msgstr "Økt %s"
 
-#: system/models.py:136
+#: system/models.py:156
 msgid "contents"
 msgstr "innhold"
 
-#: system/models.py:160
+#: system/models.py:180
 msgid "page"
 msgstr "side"
 
-#: system/models.py:161
+#: system/models.py:181
 msgid "pages"
 msgstr "sider"
 
-#: system/models.py:207
+#: system/models.py:227
 msgid "e-mail"
 msgstr "e-post"
 
-#: system/models.py:208
+#: system/models.py:228
 msgid "e-mails"
 msgstr "e-poster"
 
-#: system/models.py:236
+#: system/models.py:256
 msgid "SMS"
 msgstr "SMS"
 
-#: system/models.py:237
+#: system/models.py:257
 msgid "SMSs"
 msgstr "SMSer"
 
-#: system/signals.py:24
-msgid "Send login link and start traversal for all users"
-msgstr "Send innloggingslenke og start økt for alle brukere"
+#: system/signals.py:25
+#, python-format
+msgid "Send login link and start traversal for %(pga)s"
+msgstr "Send innloggingslenke og start økt for %(pga)s"
 
-#: system/tasks.py:34
+#: system/tasks.py:33
 msgid "Session initialized and user e-mails sent"
 msgstr "Økt startet og e-post for innlogging sendt"
 
