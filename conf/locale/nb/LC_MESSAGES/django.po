@@ -60,7 +60,7 @@ msgid ""
 "bindable>&#123;&#123; var_name &#125;&#125;</code>. This markup will be "
 "replaced by the user's value for <code>var_name</code>, if available."
 msgstr ""
-"Dette elementet burker <a href=\"http://markdown-guide.readthedocs.org/en/latest/"
+"Dette elementet bruker <a href=\"http://markdown-guide.readthedocs.org/en/latest/"
 "basics.html\">Markdown</a>. For å erstatte variabler, bruk <code ng-non-"
 "bindable>&#123;&#123; var_name &#125;&#125;</code>. Denne teksten vil "
 "brukerens verdi for <code>var_name</code>, dersom den er tilgjengelig."
@@ -3662,7 +3662,7 @@ msgstr "Avslutt / logg ut"
 #: templates/session.html:20 templates/session.html.py:63
 #: templates/session.html:86
 msgid "Please choose one"
-msgstr "Velg én"
+msgstr "Gjør et valg"
 
 #: templates/session.html:37
 msgid "Please enter a number"
@@ -3911,20 +3911,3 @@ msgstr "Hvelvbruker"
 #: vault/models.py:56
 msgid "vault users"
 msgstr "Hvelvbrukere"
-
-#~ msgid ""
-#~ "This element uses <a href=\"http://markdown-guide.readthedocs.org/en/"
-#~ "latest/basics.html\">Markdown</a>."
-#~ msgstr ""
-#~ "Dette elementet bruker <a href=\"http://markdown-guide.readthedocs.org/en/"
-#~ "latest/basics.html\">Markdown</a>."
-
-#~ msgid "For variable replacement use"
-#~ msgstr "For å erstatte variabler, bruk"
-
-#~ msgid ""
-#~ "This markup will be replaced by the user's value for <code>var_name</"
-#~ "code>, if available."
-#~ msgstr ""
-#~ "Denne kodingen vil erstattes med brukerens verdi for <code>var_name</"
-#~ "code>, dersom den finnes."
