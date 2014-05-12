@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Serafin\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-05-12 12:08+0200\n"
+"POT-Creation-Date: 2014-05-12 14:34+0200\n"
 "PO-Revision-Date: 2014-05-12 12:08+0200\n"
 "Last-Translator: Eirik Krogstad <eirikkr@gmail.com>\n"
 "Language: nb\n"
@@ -203,7 +203,7 @@ msgstr "PC"
 msgid "time"
 msgstr "tidspunkt"
 
-#: events/models.py:12 users/admin.py:109
+#: events/models.py:12 users/admin.py:113
 msgid "domain"
 msgstr "domene"
 
@@ -2496,7 +2496,7 @@ msgstr "Slett \"%(item_label)s\""
 
 #: lib/python2.7/site-packages/filer/templates/admin/filer/folder/directory_table.html:46
 #: lib/python2.7/site-packages/suit/templates/admin/filer/folder/directory_table.html:45
-#: users/admin.py:123 users/admin.py:137
+#: users/admin.py:127 users/admin.py:141
 msgid "Permissions"
 msgstr "Tillatelser"
 
@@ -3151,7 +3151,7 @@ msgstr ""
 
 #: lib/python2.7/site-packages/suit/templates/admin/login.html:48
 #: lib/python2.7/site-packages/suit/templates/admin/auth/user/change_password.html:54
-#: users/admin.py:18 users/admin.py:63
+#: users/admin.py:18 users/admin.py:67
 msgid "Password"
 msgstr ""
 
@@ -3486,41 +3486,41 @@ msgstr "Media"
 msgid "Settings"
 msgstr "Oppsett"
 
-#: system/admin.py:37 system/admin.py:134 system/admin.py:202
+#: system/admin.py:37 system/admin.py:148 system/admin.py:228
 msgid "Admin note excerpt"
 msgstr "Utdrag fra administratornotat"
 
-#: system/admin.py:42 system/admin.py:47 system/admin.py:56
-#: system/admin.py:149 system/admin.py:157 system/admin.py:207
+#: system/admin.py:44 system/admin.py:51 system/admin.py:62
+#: system/admin.py:165 system/admin.py:175 system/admin.py:233
 #, python-format
 msgid "Copy of %(title)s"
 msgstr "Kopi av %(title)s"
 
-#: system/admin.py:62
+#: system/admin.py:76
 msgid "Copy selected programs"
 msgstr "Kopier valgte programmer"
 
-#: system/admin.py:139
+#: system/admin.py:153
 msgid "Program start time"
 msgstr "Starttid program"
 
-#: system/admin.py:144
+#: system/admin.py:158
 msgid "Program time factor"
 msgstr "Tidsfaktor program"
 
-#: system/admin.py:163
+#: system/admin.py:189
 msgid "Copy selected sessions"
 msgstr "Kopier valgte økter"
 
-#: system/admin.py:189
+#: system/admin.py:215
 msgid "No content"
 msgstr "Innhold mangler"
 
-#: system/admin.py:197
+#: system/admin.py:223
 msgid "Page excerpt"
 msgstr "Sideutdrag"
 
-#: system/admin.py:210
+#: system/admin.py:236
 msgid "Copy selected content"
 msgstr "Kopier valgt innhold"
 
@@ -3821,33 +3821,41 @@ msgstr ""
 msgid "Bad authentication"
 msgstr ""
 
-#: users/admin.py:28
+#: users/admin.py:20
+msgid "E-mail"
+msgstr "E-post"
+
+#: users/admin.py:21
+msgid "Phone"
+msgstr "Telefonnummer"
+
+#: users/admin.py:30
 msgid "The passwords are not equal."
 msgstr "Passordene er ikke like."
 
-#: users/admin.py:64
+#: users/admin.py:68
 msgid "Password can be changed with <a href=\"password/\">this form</a>."
 msgstr "Passord kan endres med <a href=\"password/\">dette skjemaet</a>."
 
-#: users/admin.py:70
+#: users/admin.py:74
 msgid ""
 "Designates whether this user should be treated as active. Unselect this "
 "instead of deleting accounts."
 msgstr ""
 
-#: users/admin.py:71
+#: users/admin.py:75
 msgid "Designates whether the user can log into this admin site."
 msgstr ""
 
-#: users/admin.py:152
+#: users/admin.py:156
 msgid "User info"
 msgstr "Brukerinfo"
 
-#: users/admin.py:153
+#: users/admin.py:157
 msgid "User data"
 msgstr "Brukerdata"
 
-#: users/admin.py:154
+#: users/admin.py:158
 msgid "Log entries"
 msgstr "Logghendelser"
 
