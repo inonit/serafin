@@ -17,6 +17,8 @@ class UserCreationForm(forms.ModelForm):
     '''Custom User creation form'''
     password1 = forms.CharField(label=_('Password'), widget=forms.PasswordInput)
     password2 = forms.CharField(label=_('Password (again)'), widget=forms.PasswordInput)
+    email = forms.EmailField(label=_('E-mail'))
+    phone = forms.CharField(label=_('Phone'))
 
     class Meta:
         model = User
@@ -31,6 +33,8 @@ class UserCreationForm(forms.ModelForm):
     def save(self, commit=True):
         user = super(UserCreationForm, self).save(commit=False)
         user.set_password(self.cleaned_data['password1'])
+        user.data['email'] = self.cleaned_data['email']
+        user.data['phone'] = self.cleaned_data['phone']
         if commit:
             user.save()
         return user
@@ -131,7 +135,7 @@ class UserAdmin(UserAdmin, ImportExportModelAdmin):
     )
     add_fieldsets = (
         (None, {
-            'fields': ('password1', 'password2'),
+            'fields': ('password1', 'password2', 'email', 'phone'),
             'classes': ('suit-tab suit-tab-info', ),
         }),
         (_('Permissions'), {
