@@ -4,24 +4,23 @@ from django.utils.translation import ugettext_lazy as _
 from django import forms
 from django.db import models
 from django.contrib import admin
-from suit.widgets import SuitSplitDateTimeWidget, AutosizedTextarea, NumberInput
+from suit.widgets import SuitSplitDateTimeWidget, LinkedSelect, AutosizedTextarea, NumberInput
 from jsonfield import JSONField
 
-from system.models import Program, Session, Page, Email, SMS
+from django.contrib.auth.models import Group
+from system.models import Program, ProgramGroupAccess, Session, Page, Email, SMS
 from plumbing.widgets import PlumbingWidget
 from content.widgets import ContentWidget, TextContentWidget, SMSContentWidget
 
 
-class ProgramAdmin(admin.ModelAdmin):
-    list_display = ['title', 'note_excerpt', 'start_time', 'time_factor']
-    search_fields = ['title', 'admin_note']
+class ProgramGroupAccessInline(admin.TabularInline):
+    model = Program.groups.through
+    extra = 0
     ordering = ['start_time']
-    date_hierarchy = 'start_time'
-    actions = ['copy']
 
     formfield_overrides = {
-        models.TextField: {
-            'widget': AutosizedTextarea(attrs={'rows': 3, 'class': 'input-xlarge'})
+        models.ForeignKey: {
+            'widget': LinkedSelect
         },
         models.DateTimeField: {
             'widget': SuitSplitDateTimeWidget
@@ -31,10 +30,28 @@ class ProgramAdmin(admin.ModelAdmin):
         },
     }
 
+
+class ProgramAdmin(admin.ModelAdmin):
+    list_display = ['title', 'note_excerpt', 'group_access']
+    search_fields = ['title', 'admin_note', 'groups__name']
+    actions = ['copy']
+
+    inlines = [ProgramGroupAccessInline]
+    formfield_overrides = {
+        models.TextField: {
+            'widget': AutosizedTextarea(attrs={'rows': 3, 'class': 'input-xlarge'})
+        },
+    }
+
     def note_excerpt(self, obj):
         return obj.admin_note[:100] + '...'
 
     note_excerpt.short_description = _('Admin note excerpt')
+
+    def group_access(self, obj):
+        return ', '.join([group.__unicode__() for group in obj.groups.all()])
+
+    group_access.short_description = _('Group access')
 
     def copy(modeladmin, request, queryset):
         for program in queryset:
@@ -75,6 +92,7 @@ class ProgramAdmin(admin.ModelAdmin):
 
     copy.short_description = _('Copy selected programs')
 
+
 class SessionForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         super(SessionForm, self).__init__(*args, **kwargs)
@@ -94,13 +112,11 @@ class SessionAdmin(admin.ModelAdmin):
         'title',
         'program',
         'note_excerpt',
-        'program_start_time',
         'start_time_delta',
         'start_time_unit',
         'end_time_delta',
         'end_time_unit',
-        'program_time_factor',
-        'start_time',
+        'start_time'
     ]
     list_editable = ['start_time_delta', 'start_time_unit', 'end_time_delta', 'end_time_unit']
     list_filter = ['program__title']
@@ -146,16 +162,6 @@ class SessionAdmin(admin.ModelAdmin):
         return obj.admin_note[:100] + '...'
 
     note_excerpt.short_description = _('Admin note excerpt')
-
-    def program_start_time(self, obj):
-        return obj.program.start_time
-
-    program_start_time.short_description = _('Program start time')
-
-    def program_time_factor(self, obj):
-        return obj.program.time_factor
-
-    program_time_factor.short_description = _('Program time factor')
 
     def copy(modeladmin, request, queryset):
         for session in queryset:

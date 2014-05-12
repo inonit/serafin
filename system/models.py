@@ -38,8 +38,7 @@ class Program(models.Model):
     title = models.CharField(_('title'), max_length=64, unique=True)
     admin_note = models.TextField(_('admin note'), blank=True)
 
-    start_time = models.DateTimeField(_('start time'), default=lambda: timezone.localtime(timezone.now()))
-    time_factor = models.DecimalField(_('time factor'), default=1.0, max_digits=5, decimal_places=2)
+    groups = models.ManyToManyField('auth.Group', verbose_name=_('groups'), through='ProgramGroupAccess')
 
     class Meta:
         verbose_name = _('program')
@@ -52,6 +51,26 @@ class Program(models.Model):
         super(Program, self).save(*args, **kwargs)
         for session in self.session_set.all():
             session.save()
+
+
+class ProgramGroupAccess(models.Model):
+    '''
+    A relational model that allows Groups (and thus Users) to have access to a Program,
+    with a shared start time and time factor
+    '''
+
+    program = models.ForeignKey('Program', verbose_name=_('program'))
+    group = models.ForeignKey('auth.Group', verbose_name=_('group'))
+
+    start_time = models.DateTimeField(_('start time'), default=lambda: timezone.localtime(timezone.now()))
+    time_factor = models.DecimalField(_('time factor'), default=1.0, max_digits=5, decimal_places=2)
+
+    class Meta:
+        verbose_name = _('group access')
+        verbose_name_plural = _('group accesses')
+
+    def __unicode__(self):
+        return '%s: %s' % (self.program, self.group)
 
 
 class Session(models.Model):
@@ -70,7 +89,7 @@ class Session(models.Model):
     start_time_unit = models.CharField(_('start time unit'), max_length=32, choices=TIME_UNITS, default='hours')
     end_time_delta = models.IntegerField(_('end time delta'), default=0)
     end_time_unit = models.CharField(_('end time unit'), max_length=32, choices=TIME_UNITS, default='hours')
-    start_time = models.DateTimeField(_('start time'))
+    start_time = models.DateTimeField(_('first start time'))
 
     data = JSONField(load_kwargs={'object_pairs_hook': OrderedDict}, default='undefined')
 
@@ -90,7 +109,8 @@ class Session(models.Model):
         )
 
     def save(self, *args, **kwargs):
-        self.start_time = self.get_start_time()
+        first_pga = self.program.programgroupaccess_set.order_by('start_time').first()
+        self.start_time = self.get_start_time(first_pga.start_time, first_pga.time_factor)
         super(Session, self).save(*args, **kwargs)
 
         self.content = []
@@ -112,12 +132,12 @@ class Session(models.Model):
 
                 self.vars_used.add(variable)
 
-    def get_start_time(self):
+    def get_start_time(self, start_time, time_factor):
         kwargs = {
-            self.start_time_unit: float(self.start_time_delta * self.program.time_factor)
+            self.start_time_unit: float(self.start_time_delta * time_factor)
         }
         timedelta = datetime.timedelta(**kwargs)
-        return self.program.start_time + timedelta
+        return start_time + timedelta
 
 
 class Content(models.Model):
