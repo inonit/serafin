@@ -110,7 +110,9 @@ class Session(models.Model):
 
     def save(self, *args, **kwargs):
         first_pga = self.program.programgroupaccess_set.order_by('start_time').first()
-        self.start_time = self.get_start_time(first_pga.start_time, first_pga.time_factor)
+        if first_pga:
+            self.start_time = self.get_start_time(first_pga.start_time, first_pga.time_factor)
+
         super(Session, self).save(*args, **kwargs)
 
         self.content = []
