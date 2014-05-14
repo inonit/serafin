@@ -87,7 +87,7 @@ msgstr "Variabelnavn"
 
 #: content/templates/admin/content_widget.html:63
 msgid "Add item"
-msgstr "Legg til elemnt"
+msgstr "Legg til element"
 
 #: content/templates/admin/content_widget.html:66
 #: content/templates/admin/content_widget.html:154
