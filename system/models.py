@@ -89,7 +89,7 @@ class Session(models.Model):
     start_time_unit = models.CharField(_('start time unit'), max_length=32, choices=TIME_UNITS, default='hours')
     end_time_delta = models.IntegerField(_('end time delta'), default=0)
     end_time_unit = models.CharField(_('end time unit'), max_length=32, choices=TIME_UNITS, default='hours')
-    start_time = models.DateTimeField(_('first start time'))
+    start_time = models.DateTimeField(_('first start time'), null=True, blank=True)
 
     data = JSONField(load_kwargs={'object_pairs_hook': OrderedDict}, default='undefined')
 
