@@ -14,6 +14,9 @@ import json
 @login_required
 def get_session(request):
 
+    if request.is_ajax():
+        return get_page(request)
+
     # admin preview support
     session_id = request.GET.get('session_id')
     if request.user.is_staff and session_id:
@@ -21,14 +24,15 @@ def get_session(request):
         request.user.data['current_node'] = 0
         request.user.save()
 
-    if request.is_ajax():
-        return get_page(request)
-
-    session_id = request.user.data['current_session']
-    session = Session.objects.get(id=session_id)
+    try:
+        session_id = request.user.data['current_session']
+        session = Session.objects.get(id=session_id)
+        program = session.program
+    except:
+        program = ''
 
     context = {
-        'program': session.program,
+        'program': program,
         'api': reverse('content_api'),
     }
 
