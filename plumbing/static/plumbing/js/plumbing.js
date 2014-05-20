@@ -126,7 +126,7 @@ plumbing.controller('graph', ['$scope', 'jsPlumb', function(scope, jsPlumbServic
             return;
         }
 
-        var url = new SystemUrl(type)
+        var url = new SystemUrl(type);
 
         scope.data.nodes.push({
             id: id,
@@ -277,6 +277,20 @@ plumbing.directive('edge', ['jsPlumb', function(jsPlumbService) {
         }],
         link: function(scope, element, attrs) {
 
+            // ensure connection is detached on edge destruction
+            scope.$on('$destroy', function() {
+                scope.jsPlumb.detach(scope.connection);
+                scope.$parent.showConditions = -1;
+            });
+
+            // show full interface on double click
+            element.find('.overlay').bind('dblclick', function() {
+                scope.$apply(function() {
+                    scope.$parent.showConditions = scope.$index;
+                    scope.$parent.showDelay = -1;
+                });
+            });
+
             jsPlumb.ready(function() {
 
                 var source_type = scope.data.nodes[scope.edge.source].type;
@@ -310,20 +324,6 @@ plumbing.directive('edge', ['jsPlumb', function(jsPlumbService) {
                             }
                         }
                     ]]
-                });
-            });
-
-            // ensure connection is detached on edge destruction
-            scope.$on('$destroy', function() {
-                scope.jsPlumb.detach(scope.connection);
-                scope.$parent.showConditions = -1;
-            });
-
-            // show full interface on double click
-            element.find('.overlay').bind('dblclick', function() {
-                scope.$apply(function() {
-                    scope.$parent.showConditions = scope.$index;
-                    scope.$parent.showDelay = -1;
                 });
             });
         }

@@ -31,5 +31,5 @@ class PlumbingWidget(forms.Widget):
             'plumbing/jquery/jquery.min.js',
             'plumbing/jqueryui/jquery-ui.min.js',
             'plumbing/jsplumb/jquery.jsPlumb-1.5.5.js',
-            'plumbing/js/plumbing.js?v=1.0',
+            'plumbing/js/plumbing.js?v=1.01',
         )
