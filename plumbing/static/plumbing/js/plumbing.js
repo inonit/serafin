@@ -55,6 +55,7 @@ plumbing.service('jsPlumb', ['$rootScope', function(scope) {
 
         // intercept connection
         scope.jsPlumb.bind('beforeDrop', function(c) {
+            //var id =
             scope.$apply(function() {
                 scope.data.edges.push({
                     id: scope.data.edges.length + 1,
@@ -253,9 +254,11 @@ plumbing.directive('noderef', ['$http', function(http) {
 plumbing.directive('edge', ['jsPlumb', function(jsPlumbService) {
     return {
         restrict: 'C',
-        controller: ['$scope', function(scope) {
+        controller: ['$scope', 'jsPlumb', function(scope, jsPlumb) {
 
             scope.deleteEdge = function(index) {
+                scope.jsPlumb.detach(scope.connection);
+                scope.$parent.showConditions = -1;
                 scope.data.edges.splice(index, 1);
             };
 
@@ -276,12 +279,6 @@ plumbing.directive('edge', ['jsPlumb', function(jsPlumbService) {
             };
         }],
         link: function(scope, element, attrs) {
-
-            // ensure connection is detached on edge destruction
-            scope.$on('$destroy', function() {
-                scope.jsPlumb.detach(scope.connection);
-                scope.$parent.showConditions = -1;
-            });
 
             // show full interface on double click
             element.find('.overlay').bind('dblclick', function() {
