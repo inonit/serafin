@@ -86,11 +86,10 @@
                 <div class="error right" ng-show="form.submitted && subForm.$error.required">{% trans 'Please choose one' %}</div>
                 {% verbatim %}
                 <label ng-repeat="alt in question.alternatives track by $index">
-                    <input name="answer" type="radio" ng-model="question.value" ng-change="question.correct = alt.correct" value="{{ alt.value }}" required>
+                    <input name="answer" type="radio" ng-model="question.value" ng-change="question.correct = alt.correct; question.response = alt.response" value="{{ alt.value }}" required>
                     {{ alt.label }}
                 </label>
-                <div ng-show="subForm.$dirty && question.correct">{{ question.right }}</div>
-                <div ng-show="subForm.$dirty && !question.correct">{{ question.wrong }}</div>
+                <div ng-show="subForm.$dirty">{{ question.response }}</div>
             </fieldset>
         </form>
 

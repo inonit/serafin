@@ -205,14 +205,6 @@
                             <input type="text" ng-model="question.variable_name">
                         </div>
                     </div>
-                    <div class="field-data">
-                        <label>{% trans 'Right answer response' %}</label>
-                        <textarea class="input-xlarge" ng-model="question.right"></textarea>
-                    </div>
-                    <div class="field-data">
-                        <label>{% trans 'Wrong answer response' %}</label>
-                        <textarea class="input-xlarge" ng-model="question.wrong"></textarea>
-                    </div>
 
                     <div class="field-data">
                         <div class="toolbox">
@@ -243,6 +235,11 @@
                                         <input type="checkbox" ng-model="alt.correct"> {% trans 'Correct?' %}
                                     </label>
                                 </div>
+                            </div>
+
+                            <div class="field-data">
+                                <label>{% trans 'Response' %}</label>
+                                <textarea class="input-xlarge" ng-model="alt.response"></textarea>
                             </div>
 
                         </div>
