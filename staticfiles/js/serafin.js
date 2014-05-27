@@ -38,6 +38,12 @@ serafin.controller('pages', ['$scope', '$http', '$sce', function(scope, http, sc
                     });
                 });
             }
+            if (pagelet.content_type == 'toggleset') {
+                data.push({
+                    key: pagelet.content.variable_name,
+                    value: pagelet.content.value,
+                });
+            }
         });
 
         var request = {
@@ -54,7 +60,7 @@ serafin.controller('pages', ['$scope', '$http', '$sce', function(scope, http, sc
             scope.$emit('title', data['title']);
             scope.page = data['data'];
             scope.dead_end = data['dead_end'];
-            scope.index++;
+            scope.form.submitted = false;
         });
     };
 
