@@ -12,26 +12,32 @@ class EventTrackingMiddleware(object):
 
     def process_request(self, request):
 
+        print request.body
+
         if (request.is_ajax() and
             request.method == 'POST' and
             not request.user.is_anonymous() and
+            not request.FILES and
             getattr(
                 settings, 'LOG_AJAX_USER_DATA', False
             )
         ):
-            post_data = json.loads(request.body)
-            for item in post_data:
-                key = item.get('key', '')
-                value = item.get('value', '')
-                event = Event(
-                    time=timezone.localtime(timezone.now()),
-                    domain='userdata',
-                    actor=request.user,
-                    variable=key,
-                    pre_value=request.user.data.get(key, ''),
-                    post_value=unicode(value),
-                )
-                event.save()
+            try:
+                post_data = json.loads(request.body)
+                for item in post_data:
+                    key = item.get('key', '')
+                    value = item.get('value', '')
+                    event = Event(
+                        time=timezone.localtime(timezone.now()),
+                        domain='userdata',
+                        actor=request.user,
+                        variable=key,
+                        pre_value=request.user.data.get(key, ''),
+                        post_value=unicode(value),
+                    )
+                    event.save()
+            except:
+                pass
 
         if request.is_ajax() and not getattr(
             settings, 'LOG_AJAX_REQUESTS', False
