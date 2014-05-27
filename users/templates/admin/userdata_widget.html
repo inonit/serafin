@@ -5,7 +5,7 @@
             <strong>{{ key }}:</strong>
         </div>
         <div class="span4">
-            {{ value }}
+            {{ display(value) }}
         </div>
     </div>
     <textarea name="data" class="data ng-hide">{{ data }}</textarea>
@@ -14,5 +14,8 @@
 <script>
     angular.module('userdata', []).run(['$rootScope', function(scope) {
         scope.data = {{ value|safe }};
+        scope.display = function(value) {
+            return typeof(value.join) == 'function' ? value.join(', ') : value;
+        }
     }]);
 </script>

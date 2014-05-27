@@ -71,7 +71,7 @@
                 <fieldset ng-if="field.field_type == 'multipleselection'">
                     <legend>{{ field.label }}</legend>
                     <label ng-repeat="alt in field.alternatives track by $index">
-                        <input name="field" type="checkbox" ng-model="field.value[alt.value]" value="field.value[alt.value] == true">
+                        <input name="field" type="checkbox" ng-controller="checkboxlist" ng-click="toggle(field.value, alt.value)">
                         {{ alt.label }}
                     </label>
                 </fieldset>

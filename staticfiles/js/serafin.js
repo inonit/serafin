@@ -70,6 +70,17 @@ serafin.controller('pages', ['$scope', '$http', '$sce', function(scope, http, sc
 
 }]);
 
+serafin.controller('checkboxlist', ['$scope', function(scope) {
+    scope.toggle = function(list, item) {
+        var index = list.indexOf(item);
+        if (index == -1) {
+            list.push(item);
+        } else {
+            list.splice(index, 1);
+        }
+    };
+}]);
+
 serafin.directive('title', function() {
     return {
         restrict: 'CE',

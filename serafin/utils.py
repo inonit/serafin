@@ -1,4 +1,5 @@
 from __future__ import unicode_literals
+from django.utils.translation import ugettext_lazy as _
 
 from django.http import HttpResponse
 import json
@@ -13,6 +14,18 @@ class JSONResponse(HttpResponse):
         )
 
 
+def natural_join(listing):
+    if len(listing) == 1:
+        return listing[0]
+
+    if len(listing) > 1:
+        first = ', '.join(listing[:-1])
+        last = listing[-1]
+        return _('%(first)s and %(last)s') % locals()
+
+    return ''
+
+
 def user_data_replace(user, text):
     user_data = user.data
 
@@ -21,6 +34,8 @@ def user_data_replace(user, text):
 
         variable = code[2:-2].strip()
         value = user_data.get(variable, '')
+        if isinstance(value, list):
+            value = natural_join(value)
         text = text.replace(code, unicode(value))
 
     return text
