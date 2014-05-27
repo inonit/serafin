@@ -231,6 +231,7 @@ REST_FRAMEWORK = {
 from django.utils.translation import ugettext_lazy as _
 
 SUIT_CONFIG = {
+    'CONFIRM_UNSAVED_CHANGES': False,
     'ADMIN_NAME': 'Serafin admin',
     'HEADER_DATE_FORMAT': 'l j. F Y',
 
