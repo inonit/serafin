@@ -30,7 +30,7 @@
                 <div class="markdown-guide">
                     <p>{% blocktrans %}This element uses <a href="http://markdown-guide.readthedocs.org/en/latest/basics.html">Markdown</a>. For variable replacement use <code ng-non-bindable>&#123;&#123; var_name &#125;&#125;</code>. This markup will be replaced by the user's value for <code>var_name</code>, if available.{% endblocktrans %}</p>
                 </div>
-                <textarea class="markdown-text" ng-model="pagelet.content" ng-change="md2html()"></textarea>
+                <textarea class="markdown-text ignore-changes" ng-model="pagelet.content" ng-change="md2html()"></textarea>
                 <div class="markdown-html" ng-bind-html="html"></div>
             </div>
 
@@ -42,7 +42,7 @@
                 <div class="markdown-guide">
                     <p>{% blocktrans %}This element uses <a href="http://markdown-guide.readthedocs.org/en/latest/basics.html">Markdown</a>. For variable replacement use <code ng-non-bindable>&#123;&#123; var_name &#125;&#125;</code>. This markup will be replaced by the user's value for <code>var_name</code>, if available.{% endblocktrans %}</p>
                 </div>
-                <textarea class="markdown-text" ng-model="pagelet.content" ng-change="md2html()"></textarea>
+                <textarea class="markdown-text ignore-changes" ng-model="pagelet.content" ng-change="md2html()"></textarea>
                 <div class="markdown-html" ng-bind-html="html"></div>
             </div>
 
