@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Serafin\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-05-12 18:17+0200\n"
-"PO-Revision-Date: 2014-05-12 12:08+0200\n"
+"POT-Creation-Date: 2014-05-27 15:09+0200\n"
+"PO-Revision-Date: 2014-05-27 14:39+0200\n"
 "Last-Translator: Eirik Krogstad <eirikkr@gmail.com>\n"
 "Language: nb\n"
 "MIME-Version: 1.0\n"
@@ -74,13 +74,13 @@ msgstr "Vis/skjul-tekst"
 #: content/templates/admin/content_widget.html:78
 #: content/templates/admin/content_widget.html:117
 #: content/templates/admin/content_widget.html:166
-#: content/templates/admin/content_widget.html:225
+#: content/templates/admin/content_widget.html:226
 msgid "Label"
 msgstr "Feltnavn"
 
 #: content/templates/admin/content_widget.html:57
 #: content/templates/admin/content_widget.html:121
-#: content/templates/admin/content_widget.html:195
+#: content/templates/admin/content_widget.html:204
 #: plumbing/templates/admin/plumbing_widget.html:74
 msgid "Variable name"
 msgstr "Variabelnavn"
@@ -91,13 +91,13 @@ msgstr "Legg til element"
 
 #: content/templates/admin/content_widget.html:66
 #: content/templates/admin/content_widget.html:154
-#: content/templates/admin/content_widget.html:213
+#: content/templates/admin/content_widget.html:214
 msgid "Alternatives"
 msgstr "Alternativer"
 
 #: content/templates/admin/content_widget.html:82
 #: content/templates/admin/content_widget.html:170
-#: content/templates/admin/content_widget.html:229
+#: content/templates/admin/content_widget.html:230
 #: plumbing/templates/admin/plumbing_widget.html:84
 msgid "Value"
 msgstr "Verdi"
@@ -140,7 +140,7 @@ msgid "Upper limit"
 msgstr "Øvre grense"
 
 #: content/templates/admin/content_widget.html:151
-#: content/templates/admin/content_widget.html:210
+#: content/templates/admin/content_widget.html:211
 msgid "Add alternative"
 msgstr "Legg til alternativ"
 
@@ -148,30 +148,27 @@ msgstr "Legg til alternativ"
 msgid "Add question"
 msgstr "Legg til spørsmål"
 
-#: content/templates/admin/content_widget.html:191
+#: content/templates/admin/content_widget.html:196
+#: content/templates/admin/content_widget.html:200
 msgid "Question"
 msgstr "Spørsmål"
 
-#: content/templates/admin/content_widget.html:200
-msgid "Right answer response"
-msgstr "Respons for riktig svar"
-
-#: content/templates/admin/content_widget.html:204
-msgid "Wrong answer response"
-msgstr "Respons for feil svar"
-
-#: content/templates/admin/content_widget.html:234
+#: content/templates/admin/content_widget.html:235
 msgid "Correct?"
 msgstr "Korrekt?"
 
-#: content/templates/admin/content_widget.html:249
+#: content/templates/admin/content_widget.html:241
+msgid "Response"
+msgstr "Respons"
+
+#: content/templates/admin/content_widget.html:255
 msgid "Alt title"
 msgstr "Alternativtittel"
 
-#: content/templates/admin/content_widget.html:253
-#: content/templates/admin/content_widget.html:263
-#: content/templates/admin/content_widget.html:273
-#: content/templates/admin/content_widget.html:283
+#: content/templates/admin/content_widget.html:259
+#: content/templates/admin/content_widget.html:269
+#: content/templates/admin/content_widget.html:279
+#: content/templates/admin/content_widget.html:289
 msgid "Title"
 msgstr "Tittel"
 
@@ -183,19 +180,19 @@ msgstr "tegn brukt"
 msgid "Actor"
 msgstr "Utført av"
 
-#: events/middleware.py:54
+#: events/middleware.py:58
 msgid "Other"
 msgstr "Annen"
 
-#: events/middleware.py:56
+#: events/middleware.py:60
 msgid "Mobile"
 msgstr "Mobil"
 
-#: events/middleware.py:58
+#: events/middleware.py:62
 msgid "Tablet"
 msgstr "Nettbrett"
 
-#: events/middleware.py:60
+#: events/middleware.py:64
 msgid "PC"
 msgstr "PC"
 
@@ -1560,8 +1557,8 @@ msgstr ""
 
 #: lib/python2.7/site-packages/django_extensions/db/models.py:36
 #: lib/python2.7/site-packages/django_extensions/mongodb/models.py:29
-#: system/models.py:38 system/models.py:79 system/models.py:146
-#: system/models.py:147
+#: system/models.py:38 system/models.py:79 system/models.py:148
+#: system/models.py:149
 msgid "title"
 msgstr "tittel"
 
@@ -2497,7 +2494,7 @@ msgstr "Slett \"%(item_label)s\""
 
 #: lib/python2.7/site-packages/filer/templates/admin/filer/folder/directory_table.html:46
 #: lib/python2.7/site-packages/suit/templates/admin/filer/folder/directory_table.html:45
-#: users/admin.py:127 users/admin.py:141
+#: users/admin.py:128 users/admin.py:142
 msgid "Permissions"
 msgstr "Tillatelser"
 
@@ -3487,6 +3484,11 @@ msgstr "Media"
 msgid "Settings"
 msgstr "Oppsett"
 
+#: serafin/utils.py:24
+#, python-format
+msgid "%(first)s and %(last)s"
+msgstr "%(first)s og %(last)s"
+
 #: system/admin.py:49 system/admin.py:164 system/admin.py:234
 msgid "Admin note excerpt"
 msgstr "Utdrag fra administratornotat"
@@ -3521,7 +3523,7 @@ msgstr "Sideutdrag"
 msgid "Copy selected content"
 msgstr "Kopier valgt innhold"
 
-#: system/engine.py:155
+#: system/engine.py:154
 msgid "Delayed node execution"
 msgstr "Forsinket hendelse"
 
@@ -3553,7 +3555,7 @@ msgstr "type variabel"
 msgid "variables"
 msgstr "variabler"
 
-#: system/models.py:39 system/models.py:82 system/models.py:148
+#: system/models.py:39 system/models.py:82 system/models.py:150
 msgid "admin note"
 msgstr "administratornotat"
 
@@ -3585,7 +3587,7 @@ msgstr "gruppetilgang"
 msgid "group accesses"
 msgstr "gruppetilgang"
 
-#: system/models.py:81 system/models.py:155
+#: system/models.py:81 system/models.py:157
 msgid "content"
 msgstr "innhold"
 
@@ -3626,31 +3628,31 @@ msgstr "økter"
 msgid "Session %s"
 msgstr "Økt %s"
 
-#: system/models.py:156
+#: system/models.py:158
 msgid "contents"
 msgstr "innhold"
 
-#: system/models.py:180
+#: system/models.py:182
 msgid "page"
 msgstr "side"
 
-#: system/models.py:181
+#: system/models.py:183
 msgid "pages"
 msgstr "sider"
 
-#: system/models.py:227
+#: system/models.py:229
 msgid "e-mail"
 msgstr "e-post"
 
-#: system/models.py:228
+#: system/models.py:230
 msgid "e-mails"
 msgstr "e-poster"
 
-#: system/models.py:256
+#: system/models.py:258
 msgid "SMS"
 msgstr "SMS"
 
-#: system/models.py:257
+#: system/models.py:259
 msgid "SMSs"
 msgstr "SMSer"
 
@@ -3712,7 +3714,7 @@ msgstr ""
 msgid "This field is required"
 msgstr "Dette feltet er påkrevet"
 
-#: templates/session.html:122
+#: templates/session.html:121
 msgid "Next page"
 msgstr "Neste side"
 
@@ -3861,15 +3863,15 @@ msgstr ""
 msgid "Designates whether the user can log into this admin site."
 msgstr ""
 
-#: users/admin.py:156
+#: users/admin.py:157
 msgid "User info"
 msgstr "Brukerinfo"
 
-#: users/admin.py:157
+#: users/admin.py:158
 msgid "User data"
 msgstr "Brukerdata"
 
-#: users/admin.py:158
+#: users/admin.py:159
 msgid "Log entries"
 msgstr "Logghendelser"
 
