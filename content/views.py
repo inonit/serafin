@@ -17,8 +17,8 @@ def get_session(request):
     if request.is_ajax():
         return get_page(request)
 
-    # admin preview support
-    session_id = request.GET.get('session_id')
+    # admin session preview support
+    session_id = request.GET.get('session_id', None)
     if request.user.is_staff and session_id:
         request.user.data['current_session'] = session_id
         request.user.data['current_node'] = 0
@@ -33,6 +33,7 @@ def get_session(request):
 
     context = {
         'program': program,
+        'title': session.title,
         'api': reverse('content_api'),
     }
 
@@ -49,12 +50,13 @@ def get_page(request):
         post_data = {item.get('key'): item.get('value') for item in post_data}
         context.update(post_data)
 
-    # admin preview support
-    page_id = request.GET.get('page_id')
+    # admin page preview support
+    page_id = request.GET.get('page_id', None)
     if request.user.is_staff and page_id:
         page = Page.objects.get(id=page_id)
         page.update_html(request.user)
         page.dead_end = True
+
     # engine selection
     else:
         next = request.GET.get('next', None)
@@ -62,7 +64,6 @@ def get_page(request):
         page = engine.run(next)
 
     response = {
-        'title': page.title,
         'data': page.data,
         'dead_end': page.dead_end,
     }
