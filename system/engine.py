@@ -18,7 +18,8 @@ class Engine(object):
         # process context if available, save to user data
         if context:
             for key, value in context.items():
-                self.user.data[key] = value
+                if key and value is not None:
+                    self.user.data[key] = value
 
             self.user.save()
 
