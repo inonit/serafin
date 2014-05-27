@@ -120,7 +120,7 @@ class SessionAdmin(admin.ModelAdmin):
     ]
     list_editable = ['start_time_delta', 'start_time_unit', 'end_time_delta', 'end_time_unit']
     list_filter = ['program__title']
-    search_fields = ['title', 'admin_note', 'program']
+    search_fields = ['title', 'admin_note', 'program__title']
     ordering = ['start_time']
     date_hierarchy = 'start_time'
     actions = ['copy']

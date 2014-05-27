@@ -8,7 +8,7 @@ from tasker.models import Task
 
 class TaskAdmin(admin.ModelAdmin):
     list_display = ['sender', 'action', 'time', 'task_result']
-    search_fields = ['sender', 'action']
+    search_fields = ['action']
     ordering = ['time']
     date_hierarchy = 'time'
 

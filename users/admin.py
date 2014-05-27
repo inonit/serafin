@@ -115,6 +115,7 @@ class EventInline(admin.TabularInline):
 
 class UserAdmin(UserAdmin, ImportExportModelAdmin):
     list_display = ['id', 'date_joined', 'last_login', 'is_superuser', 'is_staff', 'is_active']
+    search_fields = ['id', 'data']
     ordering = ['id']
 
     form = UserChangeForm
