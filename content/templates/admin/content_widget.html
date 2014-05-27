@@ -184,7 +184,16 @@
                     <div class="btn add" ng-click="add(pagelet.content, 'question')">{% trans 'Add question' %}</div>
                 </div>
 
+
                 <div class="field" ng-repeat="question in pagelet.content track by $index">
+
+                    <div class="ctrl right">
+                        <a ng-click="up(pagelet.content, $index)" ng-hide="$first"><i class="icon-arrow-up icon-alpha5"></i></a>
+                        <a ng-click="down(pagelet.content, $index)" ng-hide="$last"><i class="icon-arrow-down icon-alpha5"></i></a>
+                        <a ng-click="delete(pagelet.content, $index)"><i class="icon-trash icon-alpha5"></i></a>
+                    </div>
+
+                    <h4 class="title">{% trans 'Question' %}</h4>
 
                     <div class="fieldset">
                         <div class="field-data">
