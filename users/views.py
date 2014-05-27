@@ -15,7 +15,7 @@ def manual_login(request):
 
 def manual_logout(request):
     if request.user.is_authenticated():
-        logout(request.user)
+        logout(request)
     return redirect('/')
 
 
