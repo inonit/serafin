@@ -12,8 +12,6 @@ class EventTrackingMiddleware(object):
 
     def process_request(self, request):
 
-        print request.body
-
         if (request.is_ajax() and
             request.method == 'POST' and
             not request.user.is_anonymous() and
