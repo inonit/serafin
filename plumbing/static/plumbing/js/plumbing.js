@@ -174,21 +174,20 @@ plumbing.directive('node', ['$timeout', 'jsPlumb', function(timeout, jsPlumbServ
             timeout(function() {
                 scope.settings = element.find('.settings');
                 element.parent().find('.floatbox').append(scope.settings);
-
-                // ensure connection is detached on edge destruction
-                scope.$on('$destroy', function() {
-                    scope.settings.remove();
-                    scope.$parent.showDelay = -1;
-                    scope.data.edges.forEach(function(edge) {
-                        if (edge.source == scope.node.id ||
-                            edge.target == scope.node.id) {
-                            var index = scope.data.edges.indexOf(edge);
-                            scope.data.edges.splice(index, 1);
-                        }
-                    });
-                });
             });
 
+            // ensure connection is detached on edge destruction
+            scope.$on('$destroy', function() {
+                scope.settings.remove();
+                scope.$parent.showDelay = -1;
+                scope.data.edges.forEach(function(edge) {
+                    if (edge.source == scope.node.id ||
+                        edge.target == scope.node.id) {
+                        var index = scope.data.edges.indexOf(edge);
+                        scope.data.edges.splice(index, 1);
+                    }
+                });
+            });
 
             // set up jsPlumb for this node
             jsPlumb.ready(function() {
@@ -254,11 +253,9 @@ plumbing.directive('noderef', ['$http', function(http) {
 plumbing.directive('edge', ['jsPlumb', function(jsPlumbService) {
     return {
         restrict: 'C',
-        controller: ['$scope', 'jsPlumb', function(scope, jsPlumb) {
+        controller: ['$scope', function(scope) {
 
             scope.deleteEdge = function(index) {
-                scope.jsPlumb.detach(scope.connection);
-                scope.$parent.showConditions = -1;
                 scope.data.edges.splice(index, 1);
             };
 
@@ -279,6 +276,12 @@ plumbing.directive('edge', ['jsPlumb', function(jsPlumbService) {
             };
         }],
         link: function(scope, element, attrs) {
+
+            // ensure connection is detached on edge destruction
+            scope.$on('$destroy', function() {
+                scope.jsPlumb.detach(scope.connection);
+                scope.$parent.showConditions = -1;
+            });
 
             // show full interface on double click
             element.find('.overlay').bind('dblclick', function() {

@@ -15,7 +15,7 @@
 
     <div class="floatbox"></div>
 
-    <div class="node box" ng-class="node.type" ng-repeat="node in data.nodes track by $index" ng-style="node.metrics" ng-model="data.nodes">
+    <div class="node box" ng-class="node.type" ng-repeat="node in data.nodes track by node.id" ng-style="node.metrics" ng-model="data.nodes">
         <span ng-if="node.type == 'email'">
             <i class="icon-envelope icon-alpha5"></i>
         </span>
@@ -46,7 +46,7 @@
         </div>
     </div>
 
-    <div class="edge" ng-repeat="edge in data.edges track by $index" ng-model="data.edges">
+    <div class="edge" ng-repeat="edge in data.edges track by edge.id" ng-model="data.edges">
 
         <div class="overlay box">
             <div class="summary" ng-repeat="condition in edge.conditions track by $index">
