@@ -91,6 +91,10 @@ class Engine(object):
     def get_special_edges(self, edges):
         return [edge for edge in edges if edge.get('type') == 'special']
 
+    def get_dead_end(self, node_id):
+        target_edges = self.get_node_edges(node_id)
+        return len(self.get_normal_edges(target_edges)) == 0
+
     def transition(self, source_id):
         '''Transition from a given node and trigger a new node'''
 
@@ -117,9 +121,7 @@ class Engine(object):
                 self.user.data['current_node'] = target_id
                 self.user.save()
 
-                # notify frontend of dead end
-                target_edges = self.get_node_edges(target_id)
-                node.dead_end = len(self.get_normal_edges(target_edges)) == 0
+                node.dead_end = self.get_dead_end(target_id)
 
                 return node
 
@@ -134,6 +136,8 @@ class Engine(object):
 
             page = Page.objects.get(id=ref_id)
             page.update_html(self.user)
+
+            page.dead_end = self.get_dead_end(node_id)
 
             return page
 
