@@ -40,3 +40,27 @@ def user_data_replace(user, text):
 
     return text
 
+
+def process_session_links(user, text):
+    '''Replaces session link markup with login link, activates session for given user'''
+
+    from system.engine import Engine
+
+    matches = re.findall(r'\[.*?\]\((session:(.*?))\)', text)
+    for match in matches:
+        session_str = match[0]
+        session_id = match[1]
+
+        init = {
+            'current_session': session_id,
+            'current_node': 0,
+        }
+
+        engine = Engine(user, init)
+        engine.run()
+
+        link = user.generate_login_link()
+        text = text.replace(session_str, link)
+
+    return text
+
