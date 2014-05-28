@@ -7,14 +7,13 @@ from django.contrib import admin
 from suit.widgets import SuitSplitDateTimeWidget, LinkedSelect, AutosizedTextarea, NumberInput
 from jsonfield import JSONField
 
-from django.contrib.auth.models import Group
-from system.models import Program, ProgramGroupAccess, Session, Page, Email, SMS
+from system.models import Program, Session, Page, Email, SMS
 from plumbing.widgets import PlumbingWidget
 from content.widgets import ContentWidget, TextContentWidget, SMSContentWidget
 
 
-class ProgramGroupAccessInline(admin.TabularInline):
-    model = Program.groups.through
+class ProgramUserAccessInline(admin.TabularInline):
+    model = Program.users.through
     extra = 0
     ordering = ['start_time']
 
@@ -32,11 +31,11 @@ class ProgramGroupAccessInline(admin.TabularInline):
 
 
 class ProgramAdmin(admin.ModelAdmin):
-    list_display = ['title', 'note_excerpt', 'group_access']
-    search_fields = ['title', 'admin_note', 'groups__name']
+    list_display = ['title', 'note_excerpt']
+    search_fields = ['title', 'admin_note']
     actions = ['copy']
 
-    inlines = [ProgramGroupAccessInline]
+    inlines = [ProgramUserAccessInline]
     formfield_overrides = {
         models.TextField: {
             'widget': AutosizedTextarea(attrs={'rows': 3, 'class': 'input-xlarge'})
@@ -47,11 +46,6 @@ class ProgramAdmin(admin.ModelAdmin):
         return obj.admin_note[:100] + '...'
 
     note_excerpt.short_description = _('Admin note excerpt')
-
-    def group_access(self, obj):
-        return ', '.join([group.__unicode__() for group in obj.groups.all()])
-
-    group_access.short_description = _('Group access')
 
     def copy(modeladmin, request, queryset):
         for program in queryset:

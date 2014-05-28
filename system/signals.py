@@ -16,13 +16,13 @@ def schedule_session(sender, **kwargs):
     session = kwargs['instance']
 
     if kwargs['created']:
-        for pga in session.program.programgroupaccess_set.all():
+        for useraccess in session.program.programuseraccess_set.all():
             Task.objects.create_task(
                 sender=session,
-                time=session.get_start_time(pga.start_time, pga.time_factor),
+                time=session.get_start_time(useraccess.start_time, useraccess.time_factor),
                 task=init_session,
-                args=(session, pga.group),
-                action=_('Send login link and start traversal for %(pga)s') % locals()
+                args=(session, useraccess.user),
+                action=_('Send login link and start traversal for %(useraccess)s') % locals()
             )
 
 
@@ -32,7 +32,7 @@ def reschedule_session(sender, **kwargs):
     session = kwargs['instance']
 
     if not kwargs['created']:
-        for pga in session.program.programgroupaccess_set.all():
+        for useraccess in session.program.programuseraccess_set.all():
             try:
                 session_type = ContentType.objects.get_for_model(session)
                 task = Task.objects.get(content_type=session_type, object_id=session.id)
@@ -42,8 +42,8 @@ def reschedule_session(sender, **kwargs):
 
             task.reschedule(
                 task=init_session,
-                args=(session, pga.group),
-                time=session.get_start_time(pga.start_time, pga.time_factor)
+                args=(session, useraccess.user),
+                time=session.get_start_time(useraccess.start_time, useraccess.time_factor)
             )
             task.save()
 

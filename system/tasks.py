@@ -14,7 +14,7 @@ def transition(user, node_id):
 
 
 @db_task()
-def init_session(session, group):
+def init_session(session, user):
     '''Initialize a given session from start and traverse on behalf of user'''
 
     init = {
@@ -22,13 +22,11 @@ def init_session(session, group):
         'current_node': 0,
     }
 
-    for user in group.user_set.filter(is_active=True):
+    engine = Engine(user, init)
+    engine.run()
 
-        engine = Engine(user, init)
-        engine.run()
+    user.send_login_link()
 
-        user.send_login_link()
-
-    message = _('Session initialized and user e-mails sent') % locals()
+    message = _('Session initialized and e-mail sent to user %i') % user.id
 
     return message

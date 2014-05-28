@@ -2,6 +2,7 @@ from __future__ import unicode_literals
 from django.utils.translation import ugettext_lazy as _
 
 from django.db import models
+from django.conf import settings
 from django.core.urlresolvers import reverse
 from django.utils import timezone
 from jsonfield import JSONField
@@ -38,7 +39,7 @@ class Program(models.Model):
     title = models.CharField(_('title'), max_length=64, unique=True)
     admin_note = models.TextField(_('admin note'), blank=True)
 
-    groups = models.ManyToManyField('auth.Group', verbose_name=_('groups'), through='ProgramGroupAccess')
+    users = models.ManyToManyField(settings.AUTH_USER_MODEL, verbose_name=_('users'), through='ProgramUserAccess')
 
     class Meta:
         verbose_name = _('program')
@@ -53,24 +54,24 @@ class Program(models.Model):
             session.save()
 
 
-class ProgramGroupAccess(models.Model):
+class ProgramUserAccess(models.Model):
     '''
-    A relational model that allows Groups (and thus Users) to have access to a Program,
-    with a shared start time and time factor
+    A relational model that allows Users to have access to a Program,
+    with their own start time and time factor
     '''
 
     program = models.ForeignKey('Program', verbose_name=_('program'))
-    group = models.ForeignKey('auth.Group', verbose_name=_('group'))
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, verbose_name=_('user'))
 
     start_time = models.DateTimeField(_('start time'), default=lambda: timezone.localtime(timezone.now()))
-    time_factor = models.DecimalField(_('time factor'), default=1.0, max_digits=5, decimal_places=2)
+    time_factor = models.DecimalField(_('time factor'), default=1.0, max_digits=5, decimal_places=3)
 
     class Meta:
-        verbose_name = _('group access')
-        verbose_name_plural = _('group accesses')
+        verbose_name = _('user access')
+        verbose_name_plural = _('user accesses')
 
     def __unicode__(self):
-        return '%s: %s' % (self.program, self.group)
+        return '%s: %s' % (self.program, self.user.__unicode__())
 
 
 class Session(models.Model):
@@ -109,9 +110,12 @@ class Session(models.Model):
         )
 
     def save(self, *args, **kwargs):
-        first_pga = self.program.programgroupaccess_set.order_by('start_time').first()
-        if first_pga:
-            self.start_time = self.get_start_time(first_pga.start_time, first_pga.time_factor)
+        first_useraccess = self.program.programuseraccess_set.order_by('start_time').first()
+        if first_useraccess:
+            self.start_time = self.get_start_time(
+                first_useraccess.start_time,
+                first_useraccess.time_factor
+            )
 
         super(Session, self).save(*args, **kwargs)
 
