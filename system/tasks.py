@@ -30,6 +30,6 @@ def init_session(session, group):
 
         user.send_login_link()
 
-    message = _('Session initialized and user e-mails sent' % locals())
+    message = _('Session initialized and user e-mails sent') % locals()
 
     return message

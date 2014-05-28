@@ -22,7 +22,7 @@ def schedule_session(sender, **kwargs):
                 time=session.get_start_time(pga.start_time, pga.time_factor),
                 task=init_session,
                 args=(session, pga.group),
-                action=_('Send login link and start traversal for %(pga)s' % locals())
+                action=_('Send login link and start traversal for %(pga)s') % locals()
             )
 
 
