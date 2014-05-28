@@ -91,7 +91,7 @@ class Engine(object):
     def get_special_edges(self, edges):
         return [edge for edge in edges if edge.get('type') == 'special']
 
-    def get_dead_end(self, node_id):
+    def is_dead_end(self, node_id):
         target_edges = self.get_node_edges(node_id)
         return len(self.get_normal_edges(target_edges)) == 0
 
@@ -121,7 +121,7 @@ class Engine(object):
                 self.user.data['current_node'] = target_id
                 self.user.save()
 
-                node.dead_end = self.get_dead_end(target_id)
+                node.dead_end = self.is_dead_end(target_id)
 
                 return node
 
@@ -137,7 +137,7 @@ class Engine(object):
             page = Page.objects.get(id=ref_id)
             page.update_html(self.user)
 
-            page.dead_end = self.get_dead_end(node_id)
+            page.dead_end = self.is_dead_end(node_id)
 
             return page
 
@@ -180,7 +180,7 @@ class Engine(object):
     def run(self, next=None):
         '''Run the Engine after initializing and return some result'''
 
-        node_id = self.user.data.get('current_node')
+        node_id = int(self.user.data.get('current_node', 0))
 
         if next:
             return self.transition(node_id)
