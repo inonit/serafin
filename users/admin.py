@@ -2,6 +2,7 @@ from __future__ import unicode_literals
 from django.utils.translation import ugettext_lazy as _
 
 from django import forms
+from django.conf import settings
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
 from django.template.loader import render_to_string
@@ -86,6 +87,7 @@ class UserDataWidget(forms.Widget):
     def render(self, name, value, attrs=None):
         context = {
             'value': value,
+            'debug': unicode(settings.DEBUG).lower()
         }
         html = render_to_string('admin/userdata_widget.html', context)
         return mark_safe(html)
