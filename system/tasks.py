@@ -3,7 +3,6 @@ from django.utils.translation import ugettext_lazy as _
 
 from huey.djhuey import db_task
 from system.engine import Engine
-from django.contrib.auth import get_user_model
 
 
 @db_task()
