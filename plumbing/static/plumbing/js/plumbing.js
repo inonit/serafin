@@ -55,10 +55,13 @@ plumbing.service('jsPlumb', ['$rootScope', function(scope) {
 
         // intercept connection
         scope.jsPlumb.bind('beforeDrop', function(c) {
-            //var id =
+            var id = 1;
+            if (scope.data.edges.length) {
+                id = scope.data.edges[scope.data.edges.length-1].id + 1;
+            }
             scope.$apply(function() {
                 scope.data.edges.push({
-                    id: scope.data.edges.length + 1,
+                    id: id,
                     type: '',
                     source: +c.sourceId.substr(5),
                     target: +c.targetId.substr(5),
@@ -109,7 +112,10 @@ plumbing.controller('graph', ['$scope', 'jsPlumb', function(scope, jsPlumbServic
     };
 
     scope.addNode = function(type) {
-        var id = scope.data.nodes.length;
+        var id = 1;
+        if (scope.data.nodes.length) {
+            id = scope.data.nodes[scope.data.nodes.length - 1].id + 1;
+        }
 
         if (type == 'delay') {
             scope.data.nodes.push({
