@@ -47,6 +47,10 @@ class Engine(object):
 
                     user_val = self.user.data.get(key)
 
+                    # variable comparison:
+                    # if val is actually another key, assign users value to it
+                    val = self.user.data.get(val, val)
+
                     if key == 'group':
                         user_val = ', '.join(
                             [group.__unicode__() for group in self.user.groups.all()]
