@@ -3,11 +3,11 @@ var serafin = angular.module('serafin', ['ngAnimate']);
 serafin.config(['$httpProvider', function(httpProvider) {
     httpProvider.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
     httpProvider.defaults.headers.post['X-CSRFToken'] = csrf_token;
-    if (!$httpProvider.defaults.headers.get) {
-        $httpProvider.defaults.headers.get = {};
+    if (!httpProvider.defaults.headers.get) {
+        httpProvider.defaults.headers.get = {};
     }
     // disable IE AJAX request caching
-    $httpProvider.defaults.headers.get['If-Modified-Since'] = '0';
+    httpProvider.defaults.headers.get['If-Modified-Since'] = '0';
 }]);
 
 serafin.run(['$rootScope', '$http', function(scope, http) {
