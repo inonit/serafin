@@ -240,6 +240,10 @@ class Email(Content):
     def send(self, user):
         message = self.data[0].get('content')
         message = process_session_links(user, message)
+        message = user_data_replace(
+            user,
+            message
+        )
         html_message = mistune.markdown(message)
 
         user.send_email(
@@ -271,6 +275,10 @@ class SMS(Content):
     def send(self, user):
         message = self.data[0].get('content')
         message = process_session_links(user, message)
+        message = user_data_replace(
+            user,
+            message
+        )
 
         user.send_sms(
             message=message
