@@ -27,8 +27,6 @@ serafin.run(['$rootScope', '$http', function(scope, http) {
 
 serafin.controller('pages', ['$scope', '$http', '$sce', function(scope, http, sce) {
 
-    scope.form.submitted = false;
-
     scope.next = function() {
         scope.form.submitted = true;
         if (scope.form.$invalid) {
@@ -76,6 +74,15 @@ serafin.controller('pages', ['$scope', '$http', '$sce', function(scope, http, sc
     };
 
 }]);
+
+serafin.directive('page', function() {
+    return {
+        restrict: 'C',
+        link: function(scope, element, attrs) {
+            scope.form.submitted = false;
+        }
+    };
+});
 
 serafin.controller('checkboxlist', ['$scope', function(scope) {
     scope.toggle = function(list, item) {
