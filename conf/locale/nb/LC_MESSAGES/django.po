@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Serafin\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-05-27 15:09+0200\n"
-"PO-Revision-Date: 2014-05-27 14:39+0200\n"
+"POT-Creation-Date: 2014-06-21 02:07+0200\n"
+"PO-Revision-Date: 2014-06-21 02:07+0200\n"
 "Last-Translator: Eirik Krogstad <eirikkr@gmail.com>\n"
 "Language: nb\n"
 "MIME-Version: 1.0\n"
@@ -176,7 +176,7 @@ msgstr "Tittel"
 msgid "characters used"
 msgstr "tegn brukt"
 
-#: events/admin.py:21
+#: events/admin.py:21 tasker/admin.py:28
 msgid "Actor"
 msgstr "Utført av"
 
@@ -200,7 +200,7 @@ msgstr "PC"
 msgid "time"
 msgstr "tidspunkt"
 
-#: events/models.py:12 users/admin.py:113
+#: events/models.py:12 users/admin.py:115
 msgid "domain"
 msgstr "domene"
 
@@ -208,7 +208,7 @@ msgstr "domene"
 msgid "actor"
 msgstr "utført av"
 
-#: events/models.py:14 system/models.py:28
+#: events/models.py:14 system/models.py:34
 msgid "variable"
 msgstr "variabel"
 
@@ -1557,8 +1557,8 @@ msgstr ""
 
 #: lib/python2.7/site-packages/django_extensions/db/models.py:36
 #: lib/python2.7/site-packages/django_extensions/mongodb/models.py:29
-#: system/models.py:38 system/models.py:79 system/models.py:148
-#: system/models.py:149
+#: system/models.py:64 system/models.py:105 system/models.py:177
+#: system/models.py:178
 msgid "title"
 msgstr "tittel"
 
@@ -1826,7 +1826,7 @@ msgstr "Område for viktigste innhold i bildet."
 
 #: lib/python2.7/site-packages/filer/models/clipboardmodels.py:9
 #: lib/python2.7/site-packages/filer/models/foldermodels.py:253
-#: users/models.py:144
+#: system/models.py:89 users/models.py:144
 msgid "user"
 msgstr "bruker"
 
@@ -1888,7 +1888,7 @@ msgstr "originalt filnavn"
 
 #: lib/python2.7/site-packages/filer/models/filemodels.py:44
 #: lib/python2.7/site-packages/filer/models/foldermodels.py:99
-#: system/models.py:17
+#: system/models.py:19
 msgid "name"
 msgstr "navn"
 
@@ -1957,7 +1957,6 @@ msgid "type"
 msgstr "type"
 
 #: lib/python2.7/site-packages/filer/models/foldermodels.py:256
-#: system/models.py:63
 msgid "group"
 msgstr "gruppe"
 
@@ -2494,7 +2493,7 @@ msgstr "Slett \"%(item_label)s\""
 
 #: lib/python2.7/site-packages/filer/templates/admin/filer/folder/directory_table.html:46
 #: lib/python2.7/site-packages/suit/templates/admin/filer/folder/directory_table.html:45
-#: users/admin.py:128 users/admin.py:142
+#: users/admin.py:130 users/admin.py:144
 msgid "Permissions"
 msgstr "Tillatelser"
 
@@ -3149,7 +3148,7 @@ msgstr ""
 
 #: lib/python2.7/site-packages/suit/templates/admin/login.html:48
 #: lib/python2.7/site-packages/suit/templates/admin/auth/user/change_password.html:54
-#: users/admin.py:18 users/admin.py:67
+#: users/admin.py:19 users/admin.py:68
 msgid "Password"
 msgstr ""
 
@@ -3243,7 +3242,7 @@ msgstr ""
 
 #: lib/python2.7/site-packages/suit/templates/admin/auth/user/change_password.html:64
 #: lib/python2.7/site-packages/suit/templates/registration/password_change_form.html:77
-#: users/admin.py:19
+#: users/admin.py:20
 msgid "Password (again)"
 msgstr ""
 
@@ -3447,7 +3446,7 @@ msgstr "Antall"
 msgid "minutes"
 msgstr "minutter"
 
-#: plumbing/templates/admin/plumbing_widget.html:44 system/models.py:85
+#: plumbing/templates/admin/plumbing_widget.html:44 system/models.py:111
 msgid "hours"
 msgstr "timer"
 
@@ -3464,23 +3463,23 @@ msgstr ""
 msgid "Add condition"
 msgstr "Legg til forutsetning"
 
-#: serafin/settings.py:242
+#: serafin/settings.py:243
 msgid "Users"
 msgstr "Brukere"
 
-#: serafin/settings.py:252
+#: serafin/settings.py:253
 msgid "Program"
 msgstr "Program"
 
-#: serafin/settings.py:265
+#: serafin/settings.py:267
 msgid "Events"
 msgstr "Hendelser"
 
-#: serafin/settings.py:275
+#: serafin/settings.py:277
 msgid "Media"
 msgstr "Media"
 
-#: serafin/settings.py:280
+#: serafin/settings.py:282
 msgid "Settings"
 msgstr "Oppsett"
 
@@ -3489,183 +3488,236 @@ msgstr "Oppsett"
 msgid "%(first)s and %(last)s"
 msgstr "%(first)s og %(last)s"
 
-#: system/admin.py:49 system/admin.py:164 system/admin.py:234
+#: system/admin.py:19
+msgid ""
+"Initial value remains static unless set as a user value using a hidden set "
+"value field."
+msgstr ""
+"Startverdien forblir den samme, med mindre den settes som brukerverdi via et "
+"skjult felt."
+
+#: system/admin.py:21
+msgid ""
+"User editable fields can be changed at any time by the user on their profile "
+"page."
+msgstr ""
+"Brukerredigerbare felter kan endres av brukerne selv på deres profilside."
+
+#: system/admin.py:23
+msgid "Setting a randomization type will set the variable to a random value."
+msgstr ""
+"Om en tilfeldig type settes, vil variabelen settes til en tilfeldig verdi."
+
+#: system/admin.py:25
+msgid ""
+"If set, this value will be randomized once for each user when the Variable "
+"is first saved OR changed, then once for each new user."
+msgstr ""
+"Verdien vil settes tilfeldig én gang når variabelen først lagres eller "
+"endres, deretter én gang for hver nyregistrerte bruker."
+
+#: system/admin.py:28
+msgid ""
+"The value of the Variable will be randomly selected from a set of comma "
+"separated strings in this field."
+msgstr ""
+"Verdien av variabelen vil velges tilfeldig fra et sett av kommaseparerte "
+"tekststrenger i dette feltet."
+
+#: system/admin.py:61
+msgid "Variable"
+msgstr "Variabel"
+
+#: system/admin.py:102 system/admin.py:217 system/admin.py:287
 msgid "Admin note excerpt"
 msgstr "Utdrag fra administratornotat"
 
-#: system/admin.py:54
-msgid "Group access"
-msgstr "Gruppetilgang"
-
-#: system/admin.py:61 system/admin.py:68 system/admin.py:79
-#: system/admin.py:171 system/admin.py:181 system/admin.py:239
+#: system/admin.py:109 system/admin.py:116 system/admin.py:127
+#: system/admin.py:224 system/admin.py:234 system/admin.py:292
 #, python-format
 msgid "Copy of %(title)s"
 msgstr "Kopi av %(title)s"
 
-#: system/admin.py:93
+#: system/admin.py:141
 msgid "Copy selected programs"
 msgstr "Kopier valgte programmer"
 
-#: system/admin.py:195
+#: system/admin.py:248
 msgid "Copy selected sessions"
 msgstr "Kopier valgte økter"
 
-#: system/admin.py:221
+#: system/admin.py:274
 msgid "No content"
 msgstr "Innhold mangler"
 
-#: system/admin.py:229
+#: system/admin.py:282
 msgid "Page excerpt"
 msgstr "Sideutdrag"
 
-#: system/admin.py:242
+#: system/admin.py:295
 msgid "Copy selected content"
 msgstr "Kopier valgt innhold"
 
-#: system/engine.py:154
+#: system/engine.py:184
 msgid "Delayed node execution"
 msgstr "Forsinket hendelse"
 
-#: system/models.py:19
+#: system/models.py:20
+msgid "initial value"
+msgstr "startverdi"
+
+#: system/models.py:21
+msgid "user editable"
+msgstr "brukerredigerbar"
+
+#: system/models.py:23
+msgid "boolean"
+msgstr "boolsk verdi"
+
+#: system/models.py:24
 msgid "numeric"
 msgstr "tallverdi"
 
-#: system/models.py:20
-msgid "string"
-msgstr "kort tekst"
-
-#: system/models.py:21
-msgid "text"
-msgstr "tekst"
-
-#: system/models.py:22
-msgid "multiple choice"
-msgstr "enkeltvalg"
-
-#: system/models.py:23
-msgid "multiple selection"
-msgstr "flervalg"
-
 #: system/models.py:25
-msgid "variable type"
-msgstr "type variabel"
+msgid "string"
+msgstr "tekststreng"
+
+#: system/models.py:27
+msgid "randomization type"
+msgstr "tilfeldig type"
+
+#: system/models.py:28
+msgid "randomize once"
+msgstr "tilfeldig første gang"
 
 #: system/models.py:29
+msgid "range min (inclusive)"
+msgstr "nedre grense (fra og med)"
+
+#: system/models.py:30
+msgid "range max (inclusive)"
+msgstr "øvre grense (til og med)"
+
+#: system/models.py:31
+msgid "random string set"
+msgstr "tekstsett"
+
+#: system/models.py:35
 msgid "variables"
 msgstr "variabler"
 
-#: system/models.py:39 system/models.py:82 system/models.py:150
+#: system/models.py:65 system/models.py:108 system/models.py:179
 msgid "admin note"
 msgstr "administratornotat"
 
-#: system/models.py:41
-msgid "groups"
-msgstr "grupper"
+#: system/models.py:67 users/models.py:145
+msgid "users"
+msgstr "brukere"
 
-#: system/models.py:44 system/models.py:62 system/models.py:80
+#: system/models.py:70 system/models.py:88 system/models.py:106
 msgid "program"
 msgstr "program"
 
-#: system/models.py:45
+#: system/models.py:71
 msgid "programs"
 msgstr "programmer"
 
-#: system/models.py:65
+#: system/models.py:91
 msgid "start time"
 msgstr "starttid"
 
-#: system/models.py:66
+#: system/models.py:92
 msgid "time factor"
 msgstr "tidsfaktor"
 
-#: system/models.py:69
-msgid "group access"
-msgstr "gruppetilgang"
+#: system/models.py:95
+msgid "user access"
+msgstr "brukertilgang"
 
-#: system/models.py:70
-msgid "group accesses"
-msgstr "gruppetilgang"
+#: system/models.py:96
+msgid "user accesses"
+msgstr "brukertilganger"
 
-#: system/models.py:81 system/models.py:157
+#: system/models.py:107 system/models.py:186
 msgid "content"
 msgstr "innhold"
 
-#: system/models.py:86
+#: system/models.py:112
 msgid "days"
 msgstr "dager"
 
-#: system/models.py:88
+#: system/models.py:114
 msgid "start time delta"
 msgstr "avvik starttid"
 
-#: system/models.py:89
+#: system/models.py:115
 msgid "start time unit"
 msgstr "enhet starttid"
 
-#: system/models.py:90
+#: system/models.py:116
 msgid "end time delta"
 msgstr "avvik sluttid"
 
-#: system/models.py:91
+#: system/models.py:117
 msgid "end time unit"
 msgstr "enhet sluttid"
 
-#: system/models.py:92
+#: system/models.py:118
 msgid "first start time"
 msgstr "første starttid"
 
-#: system/models.py:99
+#: system/models.py:125
 msgid "session"
 msgstr "økt"
 
-#: system/models.py:100
+#: system/models.py:126
 msgid "sessions"
 msgstr "økter"
 
-#: system/models.py:103
+#: system/models.py:129
 #, python-format
 msgid "Session %s"
 msgstr "Økt %s"
 
-#: system/models.py:158
+#: system/models.py:187
 msgid "contents"
 msgstr "innhold"
 
-#: system/models.py:182
+#: system/models.py:211
 msgid "page"
 msgstr "side"
 
-#: system/models.py:183
+#: system/models.py:212
 msgid "pages"
 msgstr "sider"
 
-#: system/models.py:229
+#: system/models.py:254
 msgid "e-mail"
 msgstr "e-post"
 
-#: system/models.py:230
+#: system/models.py:255
 msgid "e-mails"
 msgstr "e-poster"
 
-#: system/models.py:258
+#: system/models.py:286
 msgid "SMS"
 msgstr "SMS"
 
-#: system/models.py:259
+#: system/models.py:287
 msgid "SMSs"
 msgstr "SMSer"
 
-#: system/signals.py:25
+#: system/signals.py:44
 #, python-format
-msgid "Send login link and start traversal for %(pga)s"
-msgstr "Send innloggingslenke og start økt for %(pga)s"
+msgid "Send login link and start traversal for %(useraccess)s"
+msgstr "Send innloggingslenke og start økt for %(useraccess)s"
 
-#: system/tasks.py:33
-msgid "Session initialized and user e-mails sent"
-msgstr "Økt startet og e-post for innlogging sendt"
+#: system/tasks.py:30
+#, python-format
+msgid "Session initialized and e-mail sent to user %i"
+msgstr "Økt startet og e-post for innlogging sendt til bruker %i"
 
-#: tasker/admin.py:22
+#: tasker/admin.py:33
 msgid "Task result"
 msgstr "Oppgaveresultat"
 
@@ -3837,41 +3889,41 @@ msgstr ""
 msgid "Bad authentication"
 msgstr ""
 
-#: users/admin.py:20
+#: users/admin.py:21
 msgid "E-mail"
 msgstr "E-post"
 
-#: users/admin.py:21
+#: users/admin.py:22
 msgid "Phone"
 msgstr "Telefonnummer"
 
-#: users/admin.py:30
+#: users/admin.py:31
 msgid "The passwords are not equal."
 msgstr "Passordene er ikke like."
 
-#: users/admin.py:68
+#: users/admin.py:69
 msgid "Password can be changed with <a href=\"password/\">this form</a>."
 msgstr "Passord kan endres med <a href=\"password/\">dette skjemaet</a>."
 
-#: users/admin.py:74
+#: users/admin.py:75
 msgid ""
 "Designates whether this user should be treated as active. Unselect this "
 "instead of deleting accounts."
 msgstr ""
 
-#: users/admin.py:75
+#: users/admin.py:76
 msgid "Designates whether the user can log into this admin site."
 msgstr ""
 
-#: users/admin.py:157
+#: users/admin.py:159
 msgid "User info"
 msgstr "Brukerinfo"
 
-#: users/admin.py:158
+#: users/admin.py:160
 msgid "User data"
 msgstr "Brukerdata"
 
-#: users/admin.py:159
+#: users/admin.py:161
 msgid "Log entries"
 msgstr "Logghendelser"
 
@@ -3903,10 +3955,6 @@ msgstr "Bruker %i"
 #: users/models.py:118
 msgid "Today's login link"
 msgstr "Dagens innloggingslenke"
-
-#: users/models.py:145
-msgid "users"
-msgstr "brukere"
 
 #: users/templates/login.html:20
 msgid "Forgot your password?"
