@@ -26,7 +26,7 @@ def natural_join(listing):
     return ''
 
 
-def user_data_replace(user, text):
+def variable_replace(user, text):
     user_data = user.data
 
     markup = re.findall(r'{{.*?}}', text)
@@ -36,6 +36,14 @@ def user_data_replace(user, text):
         value = user_data.get(variable, '')
         if isinstance(value, list):
             value = natural_join(value)
+
+        if not value:
+            try:
+                from system.models import Variable
+                value = Variable.objects.get(name=variable).get_value()
+            except:
+                pass
+
         text = text.replace(code, unicode(value))
 
     return text

@@ -259,6 +259,7 @@ SUIT_CONFIG = {
                     'page',
                     'email',
                     'sms',
+                    'variable',
                 ]
         },
         {

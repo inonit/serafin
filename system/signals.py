@@ -1,13 +1,32 @@
 from __future__ import unicode_literals
 from django.utils.translation import ugettext_lazy as _
 
+from django.contrib.auth import get_user_model
 from django.contrib.contenttypes.models import ContentType
 from django.db.models import signals
 from django.dispatch import receiver
 
-from .models import Session
+from .models import Variable, Session
 from system.tasks import init_session
 from tasker.models import Task
+
+
+@receiver(signals.post_save, sender=Variable)
+def randomize_variable_once(sender, **kwargs):
+    variable = kwargs['instance']
+    created = kwargs['created']
+    changed = False
+
+    if not created:
+        original = Variable.objects.get(id=variable.id)
+        for field in variable._meta.get_all_field_names():
+            if getattr(variable, field) != getattr(original, field):
+                changed = True
+
+    if (variable.random_type and variable.randomize_once) and (created or changed):
+        for user in get_user_model().objects.all():
+            user.data[variable.name] = variable.get_value()
+            user.save()
 
 
 @receiver(signals.post_save, sender=Session)

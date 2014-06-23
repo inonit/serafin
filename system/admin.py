@@ -4,12 +4,66 @@ from django.utils.translation import ugettext_lazy as _
 from django import forms
 from django.db import models
 from django.contrib import admin
+from django.contrib.auth import get_user_model
 from suit.widgets import SuitSplitDateTimeWidget, LinkedSelect, AutosizedTextarea, NumberInput
 from jsonfield import JSONField
 
-from system.models import Program, Session, Page, Email, SMS
+from system.models import Variable, Program, Session, Page, Email, SMS
 from plumbing.widgets import PlumbingWidget
 from content.widgets import ContentWidget, TextContentWidget, SMSContentWidget
+
+
+class VariableForm(forms.ModelForm):
+    def __init__(self, *args, **kwargs):
+        super(VariableForm, self).__init__(*args, **kwargs)
+        self.fields['value'].help_text = _('Initial value remains static unless '
+            'set as a user value using a hidden set value field.')
+        self.fields['user_editable'].help_text = _('User editable fields can be changed '
+            'at any time by the user on their profile page.')
+        self.fields['random_type'].help_text = _('Setting a randomization type will '
+            'set the variable to a random value.')
+        self.fields['randomize_once'].help_text = _('If set, this value will be randomized '
+            'once for each user when the Variable is first saved OR changed, then once for '
+            'each new user.')
+        self.fields['random_set'].help_text = _('The value of the Variable will be randomly '
+            'selected from a set of comma separated strings in this field.')
+
+    class Meta:
+        model = Variable
+        widgets = {
+            'range_min': forms.NumberInput(attrs={'class': 'input-mini'}),
+            'range_max': forms.NumberInput(attrs={'class': 'input-mini'}),
+            'random_set': AutosizedTextarea(attrs={'rows': 3, 'class': 'input-xlarge'})
+        }
+
+
+class VariableAdmin(admin.ModelAdmin):
+    list_display = ['name', 'value', 'random_type', 'user_editable']
+    search_fields = ['name']
+    form = VariableForm
+
+    fieldsets = (
+        (None, {
+            'fields': (
+                'name',
+                'value',
+                'user_editable',
+                'random_type',
+                'randomize_once',
+                'range_min',
+                'range_max',
+                'random_set',
+            ),
+            'classes': ('suit-tab suit-tab-variable', ),
+        }),
+    )
+    suit_form_tabs = (
+        ('variable', _('Variable')),
+        #('values', _('User values')),
+    )
+
+    class Media:
+        js = ['admin/variable.js']
 
 
 class ProgramUserAccessInline(admin.TabularInline):
@@ -110,9 +164,14 @@ class SessionAdmin(admin.ModelAdmin):
         'start_time_unit',
         'end_time_delta',
         'end_time_unit',
-        'start_time'
+        'start_time',
     ]
-    list_editable = ['start_time_delta', 'start_time_unit', 'end_time_delta', 'end_time_unit']
+    list_editable = [
+        'start_time_delta',
+        'start_time_unit',
+        'end_time_delta',
+        'end_time_unit',
+    ]
     list_filter = ['program__title']
     search_fields = ['title', 'admin_note', 'program__title']
     ordering = ['start_time']
@@ -289,6 +348,7 @@ class SMSAdmin(ContentAdmin):
     }
 
 
+admin.site.register(Variable, VariableAdmin)
 admin.site.register(Program, ProgramAdmin)
 admin.site.register(Session, SessionAdmin)
 admin.site.register(Page, PageAdmin)

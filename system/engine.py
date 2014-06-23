@@ -1,7 +1,7 @@
 from __future__ import unicode_literals
 from django.utils.translation import ugettext_lazy as _
 
-from system.models import Session, Page, Email, SMS
+from system.models import Variable, Session, Page, Email, SMS
 from tasker.models import Task
 from huey.djhuey import db_task
 import datetime
@@ -29,6 +29,13 @@ class Engine(object):
         self.nodes = {node['id']: node for node in self.session.data.get('nodes')}
         self.edges = self.session.data.get('edges')
 
+    def get_system_var(var_name):
+        try:
+            var = Variable.objects.get(name=var_name)
+            return var.get_value()
+        except:
+            return None
+
     def traverse(self, edges, source_id):
         '''Select and return first edge where the user passes edge conditions'''
 
@@ -41,49 +48,64 @@ class Engine(object):
             else:
                 for condition in conditions:
 
-                    key = condition.get('var_name')
-                    op = condition.get('operator')
-                    val = condition.get('value')
-
-                    user_val = self.user.data.get(key)
+                    var_name = condition.get('var_name')
+                    operator = condition.get('operator')
+                    value_a = condition.get('value')
 
                     # variable comparison:
-                    # if val is actually another key, assign users value to it
-                    val = self.user.data.get(val, val)
+                    # if value_a is actually another var_name, assign users value to it
+                    value_a = self.user.data.get(value_a, value_a)
+                    value_b = self.user.data.get(var_name)
 
-                    if key == 'group':
-                        user_val = ', '.join(
+                    if not value_a:
+                        value_a = self.get_system_var(var_name)
+
+                    if not value_b:
+                        value_b = self.get_system_var(var_name)
+
+                    try:
+                        # try converting to float for numeric comparisons
+                        value_a_float = float(value_a)
+                        value_b_float = float(value_b)
+
+                        # only set to float if both pass conversion
+                        value_a = value_a_float
+                        value_b = value_b_float
+                    except:
+                        pass
+
+                    if var_name == 'group':
+                        value_b = ', '.join(
                             [group.__unicode__() for group in self.user.groups.all()]
                         )
 
-                    if user_val:
-
-                        if op == 'eq':
-                            if user_val == val:
+                    if value_b:
+                        if operator == 'eq':
+                            if value_b == value_a:
                                 return edge
 
-                        if op == 'ne':
-                            if user_val != val:
+                        if operator == 'ne':
+                            if value_b != value_a:
                                 return edge
 
-                        if op == 'lt':
-                            if user_val < val:
+                        if operator == 'lt':
+                            if value_b < value_a:
                                 return edge
 
-                        if op == 'le':
-                            if user_val <= val:
+                        if operator == 'le':
+                            if value_b <= value_a:
                                 return edge
 
-                        if op == 'gt':
-                            if user_val > val:
+                        if operator == 'gt':
+                            if value_b > value_a:
                                 return edge
 
-                        if op == 'ge':
-                            if user_val >= val:
+                        if operator == 'ge':
+                            if value_b >= value_a:
                                 return edge
 
-                        if op == 'in':
-                            if unicode(val).lower() in unicode(user_val).lower():
+                        if operator == 'in':
+                            if unicode(value_a).lower() in unicode(value_b).lower():
                                 return edge
 
     def get_node_edges(self, source_id):

@@ -7,23 +7,28 @@ from django.core.urlresolvers import reverse
 from django.utils import timezone
 from jsonfield import JSONField
 from collections import OrderedDict
-from serafin.utils import user_data_replace, process_session_links
+from serafin.utils import variable_replace, process_session_links
 import datetime
 import mistune
+import random
 
 
 class Variable(models.Model):
-    '''A variable reference for more efficient lookup'''
+    '''A variable model allowing different options'''
 
     name = models.CharField(_('name'), max_length=64, unique=True)
-    VAR_TYPES = (
+    value = models.CharField(_('initial value'), max_length=32, null=True, blank=True)
+    user_editable = models.BooleanField(_('user editable'), default=False)
+    RANDOM_TYPES = (
+        ('boolean', _('boolean')),
         ('numeric', _('numeric')),
         ('string', _('string')),
-        ('text', _('text')),
-        ('multiplechoice', _('multiple choice')),
-        ('multipleselection', _('multiple selection')),
     )
-    var_type = models.CharField(_('variable type'), max_length=32, choices=VAR_TYPES)
+    random_type = models.CharField(_('randomization type'), max_length=16, choices=RANDOM_TYPES, null=True, blank=True)
+    randomize_once = models.BooleanField(_('randomize once'), default=False)
+    range_min = models.IntegerField(_('range min (inclusive)'), null=True, blank=True)
+    range_max = models.IntegerField(_('range max (inclusive)'), null=True, blank=True)
+    random_set = models.TextField(_('random string set'), blank=True)
 
     class Meta:
         verbose_name = _('variable')
@@ -31,6 +36,26 @@ class Variable(models.Model):
 
     def __unicode__(self):
         return self.name
+
+    def get_value(self):
+        random.seed()
+
+        if self.random_type == 'boolean':
+            return random.choice([True, False])
+
+        elif self.random_type == 'numeric':
+            range_min = self.range_min or 0
+            range_max = self.range_max or 0
+            return random.randint(range_min, range_max)
+
+        elif self.random_type == 'string':
+            try:
+                random_set = [item.strip() for item in self.random_set.split(',')]
+                return random.choice(random_set)
+            except:
+                return ''
+        else:
+            return self.value
 
 
 class Program(models.Model):
@@ -202,7 +227,6 @@ class Page(Content):
                         name=field['variable_name']
                     )
                     if created:
-                        variable.var_type = field['field_type']
                         variable.save()
 
                     self.vars_used.add(variable)
@@ -211,10 +235,7 @@ class Page(Content):
         for pagelet in self.data:
             if pagelet['content_type'] in ['text', 'toggle']:
                 content = pagelet.get('content')
-                content = user_data_replace(
-                    user,
-                    content
-                )
+                content = variable_replace(user, content)
                 pagelet['content'] = mistune.markdown(content)
 
 
@@ -240,10 +261,7 @@ class Email(Content):
     def send(self, user):
         message = self.data[0].get('content')
         message = process_session_links(user, message)
-        message = user_data_replace(
-            user,
-            message
-        )
+        message = variable_replace(user, message)
         html_message = mistune.markdown(message)
 
         user.send_email(
@@ -275,10 +293,7 @@ class SMS(Content):
     def send(self, user):
         message = self.data[0].get('content')
         message = process_session_links(user, message)
-        message = user_data_replace(
-            user,
-            message
-        )
+        message = variable_replace(user, message)
 
         user.send_sms(
             message=message
