@@ -85,8 +85,8 @@ class ProgramUserAccessInline(admin.TabularInline):
 
 
 class ProgramAdmin(admin.ModelAdmin):
-    list_display = ['title', 'note_excerpt']
-    search_fields = ['title', 'admin_note']
+    list_display = ['title', 'display_title', 'note_excerpt']
+    search_fields = ['title', 'display_title', 'admin_note']
     actions = ['copy']
 
     inlines = [ProgramUserAccessInline]
@@ -158,6 +158,7 @@ class SessionForm(forms.ModelForm):
 class SessionAdmin(admin.ModelAdmin):
     list_display = [
         'title',
+        'display_title',
         'program',
         'note_excerpt',
         'start_time_delta',
@@ -173,7 +174,7 @@ class SessionAdmin(admin.ModelAdmin):
         'end_time_unit',
     ]
     list_filter = ['program__title']
-    search_fields = ['title', 'admin_note', 'program__title']
+    search_fields = ['title', 'display_title', 'admin_note', 'program__title']
     ordering = ['start_time']
     date_hierarchy = 'start_time'
     actions = ['copy']
@@ -260,7 +261,6 @@ class ContentAdmin(admin.ModelAdmin):
     actions = ['copy']
 
     form = ContentForm
-    fields = ['title', 'admin_note', 'data']
     formfield_overrides = {
         models.TextField: {
             'widget': AutosizedTextarea(attrs={'rows': 3, 'class': 'input-xlarge'})
@@ -301,6 +301,9 @@ class PageForm(ContentForm):
 
 
 class PageAdmin(ContentAdmin):
+    list_display = ['title', 'display_title', 'note_excerpt', 'page_excerpt']
+    search_fields = ['title', 'display_title', 'admin_note', 'data']
+    fields = ['title', 'display_title', 'admin_note', 'data']
     form = PageForm
 
 
@@ -315,11 +318,18 @@ class TextContentForm(ContentForm):
 
 
 class EmailForm(TextContentForm):
+    def __init__(self, *args, **kwargs):
+        super(EmailForm, self).__init__(*args, **kwargs)
+        self.fields['display_title'].label = _('Subject')
+
     class Meta:
         model = Email
 
 
 class EmailAdmin(ContentAdmin):
+    list_display = ['title', 'subject', 'note_excerpt', 'page_excerpt']
+    search_fields = ['title', 'display_title', 'admin_note', 'data']
+    fields = ['title', 'display_title', 'admin_note', 'data']
     form = EmailForm
     formfield_overrides = {
         models.TextField: {
@@ -330,6 +340,11 @@ class EmailAdmin(ContentAdmin):
         }
     }
 
+    def subject(self, obj):
+        return obj.display_title
+
+    subject.short_description = _('Subject')
+
 
 class SMSForm(TextContentForm):
     class Meta:
@@ -337,6 +352,7 @@ class SMSForm(TextContentForm):
 
 
 class SMSAdmin(ContentAdmin):
+    fields = ['title', 'admin_note', 'data']
     form = SMSForm
     formfield_overrides = {
         models.TextField: {

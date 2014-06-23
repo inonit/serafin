@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Serafin\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-06-21 02:07+0200\n"
-"PO-Revision-Date: 2014-06-21 02:07+0200\n"
+"POT-Creation-Date: 2014-06-23 21:40+0200\n"
+"PO-Revision-Date: 2014-06-23 21:40+0200\n"
 "Last-Translator: Eirik Krogstad <eirikkr@gmail.com>\n"
 "Language: nb\n"
 "MIME-Version: 1.0\n"
@@ -1557,8 +1557,7 @@ msgstr ""
 
 #: lib/python2.7/site-packages/django_extensions/db/models.py:36
 #: lib/python2.7/site-packages/django_extensions/mongodb/models.py:29
-#: system/models.py:64 system/models.py:105 system/models.py:177
-#: system/models.py:178
+#: system/models.py:64 system/models.py:106 system/models.py:179
 msgid "title"
 msgstr "tittel"
 
@@ -1826,7 +1825,7 @@ msgstr "Område for viktigste innhold i bildet."
 
 #: lib/python2.7/site-packages/filer/models/clipboardmodels.py:9
 #: lib/python2.7/site-packages/filer/models/foldermodels.py:253
-#: system/models.py:89 users/models.py:144
+#: system/models.py:90 users/models.py:144
 msgid "user"
 msgstr "bruker"
 
@@ -3446,7 +3445,7 @@ msgstr "Antall"
 msgid "minutes"
 msgstr "minutter"
 
-#: plumbing/templates/admin/plumbing_widget.html:44 system/models.py:111
+#: plumbing/templates/admin/plumbing_widget.html:44 system/models.py:113
 msgid "hours"
 msgstr "timer"
 
@@ -3528,12 +3527,12 @@ msgstr ""
 msgid "Variable"
 msgstr "Variabel"
 
-#: system/admin.py:102 system/admin.py:217 system/admin.py:287
+#: system/admin.py:102 system/admin.py:218 system/admin.py:287
 msgid "Admin note excerpt"
 msgstr "Utdrag fra administratornotat"
 
 #: system/admin.py:109 system/admin.py:116 system/admin.py:127
-#: system/admin.py:224 system/admin.py:234 system/admin.py:292
+#: system/admin.py:225 system/admin.py:235 system/admin.py:292
 #, python-format
 msgid "Copy of %(title)s"
 msgstr "Kopi av %(title)s"
@@ -3542,7 +3541,7 @@ msgstr "Kopi av %(title)s"
 msgid "Copy selected programs"
 msgstr "Kopier valgte programmer"
 
-#: system/admin.py:248
+#: system/admin.py:249
 msgid "Copy selected sessions"
 msgstr "Kopier valgte økter"
 
@@ -3557,6 +3556,10 @@ msgstr "Sideutdrag"
 #: system/admin.py:295
 msgid "Copy selected content"
 msgstr "Kopier valgt innhold"
+
+#: system/admin.py:323 system/admin.py:346
+msgid "Subject"
+msgstr "Emne"
 
 #: system/engine.py:184
 msgid "Delayed node execution"
@@ -3606,104 +3609,112 @@ msgstr "tekstsett"
 msgid "variables"
 msgstr "variabler"
 
-#: system/models.py:65 system/models.py:108 system/models.py:179
+#: system/models.py:65 system/models.py:107 system/models.py:180
+msgid "display title"
+msgstr "visningstittel"
+
+#: system/models.py:66 system/models.py:110 system/models.py:182
 msgid "admin note"
 msgstr "administratornotat"
 
-#: system/models.py:67 users/models.py:145
+#: system/models.py:68 users/models.py:145
 msgid "users"
 msgstr "brukere"
 
-#: system/models.py:70 system/models.py:88 system/models.py:106
+#: system/models.py:71 system/models.py:89 system/models.py:108
 msgid "program"
 msgstr "program"
 
-#: system/models.py:71
+#: system/models.py:72
 msgid "programs"
 msgstr "programmer"
 
-#: system/models.py:91
+#: system/models.py:92
 msgid "start time"
 msgstr "starttid"
 
-#: system/models.py:92
+#: system/models.py:93
 msgid "time factor"
 msgstr "tidsfaktor"
 
-#: system/models.py:95
+#: system/models.py:96
 msgid "user access"
 msgstr "brukertilgang"
 
-#: system/models.py:96
+#: system/models.py:97
 msgid "user accesses"
 msgstr "brukertilganger"
 
-#: system/models.py:107 system/models.py:186
+#: system/models.py:109 system/models.py:189
 msgid "content"
 msgstr "innhold"
 
-#: system/models.py:112
+#: system/models.py:114
 msgid "days"
 msgstr "dager"
 
-#: system/models.py:114
+#: system/models.py:116
 msgid "start time delta"
 msgstr "avvik starttid"
 
-#: system/models.py:115
+#: system/models.py:117
 msgid "start time unit"
 msgstr "enhet starttid"
 
-#: system/models.py:116
+#: system/models.py:118
 msgid "end time delta"
 msgstr "avvik sluttid"
 
-#: system/models.py:117
+#: system/models.py:119
 msgid "end time unit"
 msgstr "enhet sluttid"
 
-#: system/models.py:118
+#: system/models.py:120
 msgid "first start time"
 msgstr "første starttid"
 
-#: system/models.py:125
+#: system/models.py:127
 msgid "session"
 msgstr "økt"
 
-#: system/models.py:126
+#: system/models.py:128
 msgid "sessions"
 msgstr "økter"
 
-#: system/models.py:129
+#: system/models.py:131
 #, python-format
 msgid "Session %s"
 msgstr "Økt %s"
 
-#: system/models.py:187
+#: system/models.py:181
+msgid "content type"
+msgstr "innholdstype"
+
+#: system/models.py:190
 msgid "contents"
 msgstr "innhold"
 
-#: system/models.py:211
+#: system/models.py:214
 msgid "page"
 msgstr "side"
 
-#: system/models.py:212
+#: system/models.py:215
 msgid "pages"
 msgstr "sider"
 
-#: system/models.py:254
+#: system/models.py:257
 msgid "e-mail"
 msgstr "e-post"
 
-#: system/models.py:255
+#: system/models.py:258
 msgid "e-mails"
 msgstr "e-poster"
 
-#: system/models.py:286
+#: system/models.py:289
 msgid "SMS"
 msgstr "SMS"
 
-#: system/models.py:287
+#: system/models.py:290
 msgid "SMSs"
 msgstr "SMSer"
 

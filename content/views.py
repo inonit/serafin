@@ -33,7 +33,7 @@ def get_session(request):
 
     context = {
         'program': program,
-        'title': session.title,
+        'title': session.display_title,
         'api': reverse('content_api'),
     }
 
@@ -64,6 +64,7 @@ def get_page(request):
         page = engine.run(next)
 
     response = {
+        'title': page.display_title,
         'data': page.data,
         'dead_end': page.dead_end,
     }

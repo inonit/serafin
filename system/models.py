@@ -62,6 +62,7 @@ class Program(models.Model):
     '''A top level model for a separate Program, having one or more sessions'''
 
     title = models.CharField(_('title'), max_length=64, unique=True)
+    display_title = models.CharField(_('display title'), max_length=64)
     admin_note = models.TextField(_('admin note'), blank=True)
 
     users = models.ManyToManyField(settings.AUTH_USER_MODEL, verbose_name=_('users'), through='ProgramUserAccess')
@@ -103,6 +104,7 @@ class Session(models.Model):
     '''A program Session, with layout and logic encoded in JSON'''
 
     title = models.CharField(_('title'), max_length=64, unique=True)
+    display_title = models.CharField(_('display title'), max_length=64)
     program = models.ForeignKey('Program', verbose_name=_('program'))
     content = models.ManyToManyField('Content', verbose_name=_('content'), null=True, blank=True)
     admin_note = models.TextField(_('admin note'), blank=True)
@@ -175,7 +177,8 @@ class Content(models.Model):
     '''An ordered collection of JSON content'''
 
     title = models.CharField(_('title'), max_length=64, unique=True)
-    content_type = models.CharField(_('title'), max_length=32, editable=False)
+    display_title = models.CharField(_('display title'), max_length=64)
+    content_type = models.CharField(_('content type'), max_length=32, editable=False)
     admin_note = models.TextField(_('admin note'), blank=True)
 
     data = JSONField(load_kwargs={'object_pairs_hook': OrderedDict}, default='[]')
@@ -265,7 +268,7 @@ class Email(Content):
         html_message = mistune.markdown(message)
 
         user.send_email(
-            subject=self.title,
+            subject=self.display_title,
             message=message,
             html_message=html_message
         )
@@ -289,6 +292,7 @@ class SMS(Content):
     def __init__(self, *args, **kwargs):
         super(SMS, self).__init__(*args, **kwargs)
         self.content_type = 'sms'
+        self.display_title = ''
 
     def send(self, user):
         message = self.data[0].get('content')
