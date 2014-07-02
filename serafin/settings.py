@@ -39,11 +39,6 @@ INSTALLED_APPS = (
     'django.contrib.staticfiles',
     'django.contrib.sites',
 
-    'suit',
-    'south',
-    'django_extensions',
-    'django.contrib.admin',
-
     'tokens',
     'users',
     'vault',
@@ -53,6 +48,10 @@ INSTALLED_APPS = (
     'plumbing',
     'system',
 
+    'suit',
+    'south',
+    'django_extensions',
+    'django.contrib.admin',
     'rest_framework',
     'filer',
     'mptt',
