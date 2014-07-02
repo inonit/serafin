@@ -64,16 +64,23 @@ def reschedule_session(sender, **kwargs):
     session = kwargs['instance']
 
     if not kwargs['created']:
+        session_type = ContentType.objects.get_for_model(Session)
         for useraccess in session.program.programuseraccess_set.all():
             try:
-                session_type = ContentType.objects.get_for_model(Session)
                 task = Task.objects.get(
                     content_type=session_type,
                     object_id=session.id,
                     subject=useraccess.user
                 )
-            except:
-                schedule_session(sender, instance=session, created=True)
+            except Task.DoesNotExist:
+                Task.objects.create_task(
+                    sender=session,
+                    time=session.get_start_time(useraccess.start_time, useraccess.time_factor),
+                    task=init_session,
+                    args=(session, useraccess.user),
+                    action=_('Send login link and start traversal'),
+                    subject=useraccess.user
+                )
                 return
 
             task.reschedule(
