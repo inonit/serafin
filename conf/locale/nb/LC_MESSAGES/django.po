@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Serafin\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-06-23 21:40+0200\n"
-"PO-Revision-Date: 2014-06-23 21:40+0200\n"
+"POT-Creation-Date: 2014-07-02 15:24+0200\n"
+"PO-Revision-Date: 2014-07-02 15:11+020\n"
 "Last-Translator: Eirik Krogstad <eirikkr@gmail.com>\n"
 "Language: nb\n"
 "MIME-Version: 1.0\n"
@@ -72,15 +72,15 @@ msgstr "Vis/skjul-tekst"
 
 #: content/templates/admin/content_widget.html:53
 #: content/templates/admin/content_widget.html:78
-#: content/templates/admin/content_widget.html:117
-#: content/templates/admin/content_widget.html:166
-#: content/templates/admin/content_widget.html:226
+#: content/templates/admin/content_widget.html:118
+#: content/templates/admin/content_widget.html:167
+#: content/templates/admin/content_widget.html:227
 msgid "Label"
 msgstr "Feltnavn"
 
 #: content/templates/admin/content_widget.html:57
-#: content/templates/admin/content_widget.html:121
-#: content/templates/admin/content_widget.html:204
+#: content/templates/admin/content_widget.html:122
+#: content/templates/admin/content_widget.html:205
 #: plumbing/templates/admin/plumbing_widget.html:74
 msgid "Variable name"
 msgstr "Variabelnavn"
@@ -90,14 +90,14 @@ msgid "Add item"
 msgstr "Legg til element"
 
 #: content/templates/admin/content_widget.html:66
-#: content/templates/admin/content_widget.html:154
-#: content/templates/admin/content_widget.html:214
+#: content/templates/admin/content_widget.html:155
+#: content/templates/admin/content_widget.html:215
 msgid "Alternatives"
 msgstr "Alternativer"
 
 #: content/templates/admin/content_widget.html:82
-#: content/templates/admin/content_widget.html:170
-#: content/templates/admin/content_widget.html:230
+#: content/templates/admin/content_widget.html:171
+#: content/templates/admin/content_widget.html:231
 #: plumbing/templates/admin/plumbing_widget.html:84
 msgid "Value"
 msgstr "Verdi"
@@ -123,52 +123,56 @@ msgstr "Legg til enkeltvalg"
 msgid "Add multiple selection"
 msgstr "Legg til flervalg"
 
-#: content/templates/admin/content_widget.html:128
+#: content/templates/admin/content_widget.html:103
+msgid "Add hidden field"
+msgstr "Legg til skjult felt"
+
+#: content/templates/admin/content_widget.html:129
 msgid "Default value"
 msgstr "Standardverdi"
 
-#: content/templates/admin/content_widget.html:133
+#: content/templates/admin/content_widget.html:134
 msgid "Required?"
 msgstr "Påkrevet?"
 
-#: content/templates/admin/content_widget.html:140
+#: content/templates/admin/content_widget.html:141
 msgid "Lower limit"
 msgstr "Nedre grense"
 
-#: content/templates/admin/content_widget.html:144
+#: content/templates/admin/content_widget.html:145
 msgid "Upper limit"
 msgstr "Øvre grense"
 
-#: content/templates/admin/content_widget.html:151
-#: content/templates/admin/content_widget.html:211
+#: content/templates/admin/content_widget.html:152
+#: content/templates/admin/content_widget.html:212
 msgid "Add alternative"
 msgstr "Legg til alternativ"
 
-#: content/templates/admin/content_widget.html:184
+#: content/templates/admin/content_widget.html:185
 msgid "Add question"
 msgstr "Legg til spørsmål"
 
-#: content/templates/admin/content_widget.html:196
-#: content/templates/admin/content_widget.html:200
+#: content/templates/admin/content_widget.html:197
+#: content/templates/admin/content_widget.html:201
 msgid "Question"
 msgstr "Spørsmål"
 
-#: content/templates/admin/content_widget.html:235
+#: content/templates/admin/content_widget.html:236
 msgid "Correct?"
 msgstr "Korrekt?"
 
-#: content/templates/admin/content_widget.html:241
+#: content/templates/admin/content_widget.html:242
 msgid "Response"
 msgstr "Respons"
 
-#: content/templates/admin/content_widget.html:255
+#: content/templates/admin/content_widget.html:256
 msgid "Alt title"
 msgstr "Alternativtittel"
 
-#: content/templates/admin/content_widget.html:259
-#: content/templates/admin/content_widget.html:269
-#: content/templates/admin/content_widget.html:279
-#: content/templates/admin/content_widget.html:289
+#: content/templates/admin/content_widget.html:260
+#: content/templates/admin/content_widget.html:270
+#: content/templates/admin/content_widget.html:280
+#: content/templates/admin/content_widget.html:290
 msgid "Title"
 msgstr "Tittel"
 
@@ -176,7 +180,7 @@ msgstr "Tittel"
 msgid "characters used"
 msgstr "tegn brukt"
 
-#: events/admin.py:21 tasker/admin.py:28
+#: events/admin.py:21
 msgid "Actor"
 msgstr "Utført av"
 
@@ -196,7 +200,7 @@ msgstr "Nettbrett"
 msgid "PC"
 msgstr "PC"
 
-#: events/models.py:11 tasker/models.py:39
+#: events/models.py:11 tasker/models.py:45
 msgid "time"
 msgstr "tidspunkt"
 
@@ -635,7 +639,7 @@ msgstr ""
 #: lib/python2.7/site-packages/django/db/models/base.py:912
 #: lib/python2.7/site-packages/django/forms/models.py:695
 #: lib/python2.7/site-packages/django_extensions/admin/__init__.py:131
-#: lib/python2.7/site-packages/filer/templates/admin/filer/tools/search_form.html:18
+#: lib/python2.7/site-packages/filer/templates/admin/filer/tools/search_form.html:17
 #: lib/python2.7/site-packages/suit/templates/admin/filer/tools/search_form.html:19
 msgid "and"
 msgstr "og"
@@ -972,7 +976,7 @@ msgid "Order"
 msgstr ""
 
 #: lib/python2.7/site-packages/django/forms/formsets.py:354
-#: lib/python2.7/site-packages/filer/templates/admin/filer/folder/directory_table.html:42
+#: lib/python2.7/site-packages/filer/templates/admin/filer/folder/directory_table.html:43
 #: lib/python2.7/site-packages/import_export/templates/admin/import_export/import.html:101
 #: lib/python2.7/site-packages/suit/templates/admin/delete_confirmation.html:18
 #: lib/python2.7/site-packages/suit/templates/admin/delete_confirmation.html:49
@@ -1036,7 +1040,7 @@ msgstr ""
 #: lib/python2.7/site-packages/django/forms/widgets.py:324
 #: lib/python2.7/site-packages/filer/templates/admin/filer/folder/directory_listing.html:81
 #: lib/python2.7/site-packages/filer/templates/admin/filer/folder/directory_table.html:27
-#: lib/python2.7/site-packages/filer/templates/admin/filer/folder/directory_table.html:43
+#: lib/python2.7/site-packages/filer/templates/admin/filer/folder/directory_table.html:44
 #: lib/python2.7/site-packages/suit/templates/admin/index.html:26
 #: lib/python2.7/site-packages/suit/templates/admin/filer/folder/change_form.html:24
 #: lib/python2.7/site-packages/suit/templates/admin/filer/folder/directory_listing.html:86
@@ -1568,7 +1572,7 @@ msgstr ""
 
 #: lib/python2.7/site-packages/django_extensions/db/models.py:38
 #: lib/python2.7/site-packages/django_extensions/mongodb/models.py:31
-#: lib/python2.7/site-packages/filer/models/filemodels.py:46
+#: lib/python2.7/site-packages/filer/models/filemodels.py:50
 msgid "description"
 msgstr "beskrivelse"
 
@@ -1619,7 +1623,7 @@ msgid_plural "Ensure this value has at most %(limit_value)d characters"
 msgstr[0] ""
 msgstr[1] ""
 
-#: lib/python2.7/site-packages/filer/views.py:103
+#: lib/python2.7/site-packages/filer/views.py:106
 msgid "Folder with this name already exists."
 msgstr "En mappe med dette navnet eksisterer allerede."
 
@@ -1627,8 +1631,8 @@ msgstr "En mappe med dette navnet eksisterer allerede."
 msgid "Advanced"
 msgstr "Avansert"
 
-#: lib/python2.7/site-packages/filer/admin/folderadmin.py:357
-#: lib/python2.7/site-packages/filer/admin/folderadmin.py:462
+#: lib/python2.7/site-packages/filer/admin/folderadmin.py:338
+#: lib/python2.7/site-packages/filer/admin/folderadmin.py:466
 msgid ""
 "Items must be selected in order to perform actions on them. No items have "
 "been changed."
@@ -1636,76 +1640,76 @@ msgstr ""
 "Du må velge noen elementer for å utføre handlinger på dem. Ingen elementer "
 "er endret."
 
-#: lib/python2.7/site-packages/filer/admin/folderadmin.py:377
+#: lib/python2.7/site-packages/filer/admin/folderadmin.py:358
 #, python-format
 msgid "%(total_count)s selected"
 msgid_plural "All %(total_count)s selected"
 msgstr[0] "%(total_count)s valgt"
 msgstr[1] "Alle %(total_count)s valgt"
 
-#: lib/python2.7/site-packages/filer/admin/folderadmin.py:412
+#: lib/python2.7/site-packages/filer/admin/folderadmin.py:393
 #, python-format
 msgid "0 of %(cnt)s selected"
 msgstr "0 av %(cnt)s valgt"
 
-#: lib/python2.7/site-packages/filer/admin/folderadmin.py:491
+#: lib/python2.7/site-packages/filer/admin/folderadmin.py:495
 msgid "No action selected."
 msgstr "Ingen handling valgt."
 
-#: lib/python2.7/site-packages/filer/admin/folderadmin.py:532
+#: lib/python2.7/site-packages/filer/admin/folderadmin.py:536
 #, python-format
 msgid "Successfully moved %(count)d files to clipboard."
 msgstr "Flyttet %(count)d filer til utklippstavlen."
 
-#: lib/python2.7/site-packages/filer/admin/folderadmin.py:538
+#: lib/python2.7/site-packages/filer/admin/folderadmin.py:542
 msgid "Move selected files to clipboard"
 msgstr "Flytt valgte filer til utklippstavlen"
 
-#: lib/python2.7/site-packages/filer/admin/folderadmin.py:572
+#: lib/python2.7/site-packages/filer/admin/folderadmin.py:576
 #, python-format
 msgid "Successfully disabled permissions for %(count)d files."
 msgstr "Fjernet tillatelser for %(count)d filer."
 
-#: lib/python2.7/site-packages/filer/admin/folderadmin.py:576
+#: lib/python2.7/site-packages/filer/admin/folderadmin.py:580
 #, python-format
 msgid "Successfully enabled permissions for %(count)d files."
 msgstr "Satte tillatelser for %(count)d filer."
 
-#: lib/python2.7/site-packages/filer/admin/folderadmin.py:585
+#: lib/python2.7/site-packages/filer/admin/folderadmin.py:589
 msgid "Enable permissions for selected files"
 msgstr "Sett tillatelser for valgte filer"
 
-#: lib/python2.7/site-packages/filer/admin/folderadmin.py:590
+#: lib/python2.7/site-packages/filer/admin/folderadmin.py:594
 msgid "Disable permissions for selected files"
 msgstr "Fjern tillatelser for valgte filer"
 
-#: lib/python2.7/site-packages/filer/admin/folderadmin.py:658
+#: lib/python2.7/site-packages/filer/admin/folderadmin.py:655
 #, python-format
 msgid "Successfully deleted %(count)d files and/or folders."
 msgstr "Slettet %(count)d filer og/eller mapper."
 
-#: lib/python2.7/site-packages/filer/admin/folderadmin.py:665
+#: lib/python2.7/site-packages/filer/admin/folderadmin.py:662
 msgid "Cannot delete files and/or folders"
 msgstr "Kan ikke slette filer og/eller mapper"
 
-#: lib/python2.7/site-packages/filer/admin/folderadmin.py:667
+#: lib/python2.7/site-packages/filer/admin/folderadmin.py:664
 msgid "Are you sure?"
 msgstr "Er du sikker?"
 
-#: lib/python2.7/site-packages/filer/admin/folderadmin.py:672
+#: lib/python2.7/site-packages/filer/admin/folderadmin.py:669
 msgid "Delete files and/or folders"
 msgstr "Slett filer og/eller mapper"
 
-#: lib/python2.7/site-packages/filer/admin/folderadmin.py:691
+#: lib/python2.7/site-packages/filer/admin/folderadmin.py:688
 msgid "Delete selected files and/or folders"
 msgstr "Slett valgte filer og/eller mapper"
 
-#: lib/python2.7/site-packages/filer/admin/folderadmin.py:808
+#: lib/python2.7/site-packages/filer/admin/folderadmin.py:805
 #, python-format
 msgid "Folders with names %s already exist at the selected destination"
 msgstr ""
 
-#: lib/python2.7/site-packages/filer/admin/folderadmin.py:812
+#: lib/python2.7/site-packages/filer/admin/folderadmin.py:809
 #, python-format
 msgid ""
 "Successfully moved %(count)d files and/or folders to folder "
@@ -1713,27 +1717,27 @@ msgid ""
 msgstr ""
 "Flyttet %(count)d filer og/eller mapper til mappen \"%(destination)s\"."
 
-#: lib/python2.7/site-packages/filer/admin/folderadmin.py:819
-#: lib/python2.7/site-packages/filer/admin/folderadmin.py:821
+#: lib/python2.7/site-packages/filer/admin/folderadmin.py:816
+#: lib/python2.7/site-packages/filer/admin/folderadmin.py:818
 msgid "Move files and/or folders"
 msgstr "Flytt filer og/eller mapper"
 
-#: lib/python2.7/site-packages/filer/admin/folderadmin.py:838
+#: lib/python2.7/site-packages/filer/admin/folderadmin.py:835
 msgid "Move selected files and/or folders"
 msgstr "Flytt valgte filer og/eller mapper"
 
-#: lib/python2.7/site-packages/filer/admin/folderadmin.py:895
+#: lib/python2.7/site-packages/filer/admin/folderadmin.py:892
 #, python-format
 msgid "Successfully renamed %(count)d files."
 msgstr "Endret navn på %(count)d filer."
 
-#: lib/python2.7/site-packages/filer/admin/folderadmin.py:903
-#: lib/python2.7/site-packages/filer/admin/folderadmin.py:905
-#: lib/python2.7/site-packages/filer/admin/folderadmin.py:922
+#: lib/python2.7/site-packages/filer/admin/folderadmin.py:900
+#: lib/python2.7/site-packages/filer/admin/folderadmin.py:902
+#: lib/python2.7/site-packages/filer/admin/folderadmin.py:919
 msgid "Rename files"
 msgstr "Endre navn på filer"
 
-#: lib/python2.7/site-packages/filer/admin/folderadmin.py:1016
+#: lib/python2.7/site-packages/filer/admin/folderadmin.py:1013
 #, python-format
 msgid ""
 "Successfully copied %(count)d files and/or folders to folder "
@@ -1741,26 +1745,26 @@ msgid ""
 msgstr ""
 "Kopierte %(count)d filer og/eller mapper til mappen \"%(destination)s\"."
 
-#: lib/python2.7/site-packages/filer/admin/folderadmin.py:1032
-#: lib/python2.7/site-packages/filer/admin/folderadmin.py:1034
+#: lib/python2.7/site-packages/filer/admin/folderadmin.py:1029
+#: lib/python2.7/site-packages/filer/admin/folderadmin.py:1031
 msgid "Copy files and/or folders"
 msgstr "Kopier filer og/eller mapper"
 
-#: lib/python2.7/site-packages/filer/admin/folderadmin.py:1053
+#: lib/python2.7/site-packages/filer/admin/folderadmin.py:1050
 msgid "Copy selected files and/or folders"
 msgstr "Kopier valgte filer og/eller mapper"
 
-#: lib/python2.7/site-packages/filer/admin/folderadmin.py:1147
+#: lib/python2.7/site-packages/filer/admin/folderadmin.py:1144
 #, python-format
 msgid "Successfully resized %(count)d images."
 msgstr "Endret størrelse på %(count)d bilder."
 
-#: lib/python2.7/site-packages/filer/admin/folderadmin.py:1155
-#: lib/python2.7/site-packages/filer/admin/folderadmin.py:1157
+#: lib/python2.7/site-packages/filer/admin/folderadmin.py:1152
+#: lib/python2.7/site-packages/filer/admin/folderadmin.py:1154
 msgid "Resize images"
 msgstr "Endre størrelse på bilder"
 
-#: lib/python2.7/site-packages/filer/admin/folderadmin.py:1175
+#: lib/python2.7/site-packages/filer/admin/folderadmin.py:1172
 msgid "Resize selected images"
 msgstr "Endre størrelse på valgte bilder"
 
@@ -1823,41 +1827,41 @@ msgstr "Fokuseringsområde"
 msgid "Location of the main subject of the scene."
 msgstr "Område for viktigste innhold i bildet."
 
-#: lib/python2.7/site-packages/filer/models/clipboardmodels.py:9
-#: lib/python2.7/site-packages/filer/models/foldermodels.py:253
-#: system/models.py:90 users/models.py:144
+#: lib/python2.7/site-packages/filer/models/clipboardmodels.py:13
+#: lib/python2.7/site-packages/filer/models/foldermodels.py:258
+#: system/models.py:85 users/models.py:144
 msgid "user"
 msgstr "bruker"
 
-#: lib/python2.7/site-packages/filer/models/clipboardmodels.py:11
-#: lib/python2.7/site-packages/filer/models/filemodels.py:287
+#: lib/python2.7/site-packages/filer/models/clipboardmodels.py:15
+#: lib/python2.7/site-packages/filer/models/filemodels.py:295
 msgid "files"
 msgstr "filer"
 
-#: lib/python2.7/site-packages/filer/models/clipboardmodels.py:29
-#: lib/python2.7/site-packages/filer/models/clipboardmodels.py:35
+#: lib/python2.7/site-packages/filer/models/clipboardmodels.py:33
+#: lib/python2.7/site-packages/filer/models/clipboardmodels.py:39
 msgid "clipboard"
 msgstr "utklippstavle"
 
-#: lib/python2.7/site-packages/filer/models/clipboardmodels.py:30
+#: lib/python2.7/site-packages/filer/models/clipboardmodels.py:34
 msgid "clipboards"
 msgstr "utklippstavler"
 
-#: lib/python2.7/site-packages/filer/models/clipboardmodels.py:34
-#: lib/python2.7/site-packages/filer/models/filemodels.py:35
-#: lib/python2.7/site-packages/filer/models/filemodels.py:286
+#: lib/python2.7/site-packages/filer/models/clipboardmodels.py:38
+#: lib/python2.7/site-packages/filer/models/filemodels.py:39
+#: lib/python2.7/site-packages/filer/models/filemodels.py:294
 msgid "file"
 msgstr "fil"
 
-#: lib/python2.7/site-packages/filer/models/clipboardmodels.py:39
+#: lib/python2.7/site-packages/filer/models/clipboardmodels.py:43
 msgid "clipboard item"
 msgstr "element på utklippstavle"
 
-#: lib/python2.7/site-packages/filer/models/clipboardmodels.py:40
+#: lib/python2.7/site-packages/filer/models/clipboardmodels.py:44
 msgid "clipboard items"
 msgstr "elementer på utklippstavle"
 
-#: lib/python2.7/site-packages/filer/models/filemodels.py:33
+#: lib/python2.7/site-packages/filer/models/filemodels.py:37
 #: lib/python2.7/site-packages/filer/templates/admin/filer/folder/change_form.html:9
 #: lib/python2.7/site-packages/filer/templates/admin/filer/folder/directory_listing.html:75
 #: lib/python2.7/site-packages/filer/templates/admin/filer/folder/new_folder_form.html:4
@@ -1869,47 +1873,47 @@ msgstr "elementer på utklippstavle"
 msgid "folder"
 msgstr "mappe"
 
-#: lib/python2.7/site-packages/filer/models/filemodels.py:36
+#: lib/python2.7/site-packages/filer/models/filemodels.py:40
 msgid "file size"
 msgstr "filstørrelse"
 
-#: lib/python2.7/site-packages/filer/models/filemodels.py:38
+#: lib/python2.7/site-packages/filer/models/filemodels.py:42
 msgid "sha1"
 msgstr "sha1"
 
-#: lib/python2.7/site-packages/filer/models/filemodels.py:40
+#: lib/python2.7/site-packages/filer/models/filemodels.py:44
 msgid "has all mandatory data"
 msgstr "har alle påkrevde data"
 
-#: lib/python2.7/site-packages/filer/models/filemodels.py:42
+#: lib/python2.7/site-packages/filer/models/filemodels.py:46
 msgid "original filename"
 msgstr "originalt filnavn"
 
-#: lib/python2.7/site-packages/filer/models/filemodels.py:44
-#: lib/python2.7/site-packages/filer/models/foldermodels.py:99
+#: lib/python2.7/site-packages/filer/models/filemodels.py:48
+#: lib/python2.7/site-packages/filer/models/foldermodels.py:103
 #: system/models.py:19
 msgid "name"
 msgstr "navn"
 
-#: lib/python2.7/site-packages/filer/models/filemodels.py:50
+#: lib/python2.7/site-packages/filer/models/filemodels.py:54
 msgid "owner"
 msgstr "eier"
 
-#: lib/python2.7/site-packages/filer/models/filemodels.py:52
-#: lib/python2.7/site-packages/filer/models/foldermodels.py:105
+#: lib/python2.7/site-packages/filer/models/filemodels.py:56
+#: lib/python2.7/site-packages/filer/models/foldermodels.py:109
 msgid "uploaded at"
 msgstr "lastet opp"
 
-#: lib/python2.7/site-packages/filer/models/filemodels.py:53
-#: lib/python2.7/site-packages/filer/models/foldermodels.py:108
+#: lib/python2.7/site-packages/filer/models/filemodels.py:57
+#: lib/python2.7/site-packages/filer/models/foldermodels.py:112
 msgid "modified at"
 msgstr "endret"
 
-#: lib/python2.7/site-packages/filer/models/filemodels.py:57
+#: lib/python2.7/site-packages/filer/models/filemodels.py:61
 msgid "Permissions disabled"
 msgstr "Tillatelser er deaktivert"
 
-#: lib/python2.7/site-packages/filer/models/filemodels.py:58
+#: lib/python2.7/site-packages/filer/models/filemodels.py:62
 msgid ""
 "Disable any permission checking for this file. File will be publicly "
 "accessible to anyone."
@@ -1917,119 +1921,119 @@ msgstr ""
 "Deaktiver kontroll av tillatelse for denne filen. Den vil være tilgjengelig "
 "for alle."
 
-#: lib/python2.7/site-packages/filer/models/foldermodels.py:107
+#: lib/python2.7/site-packages/filer/models/foldermodels.py:111
 msgid "created at"
 msgstr "opprettet"
 
-#: lib/python2.7/site-packages/filer/models/foldermodels.py:219
+#: lib/python2.7/site-packages/filer/models/foldermodels.py:223
 #: lib/python2.7/site-packages/filer/templates/admin/filer/widgets/admin_folder.html:3
 #: lib/python2.7/site-packages/filer/templates/admin/filer/widgets/admin_folder.html:5
 msgid "Folder"
 msgstr "Mappe"
 
-#: lib/python2.7/site-packages/filer/models/foldermodels.py:220
+#: lib/python2.7/site-packages/filer/models/foldermodels.py:224
 msgid "Folders"
 msgstr "Mapper"
 
-#: lib/python2.7/site-packages/filer/models/foldermodels.py:238
+#: lib/python2.7/site-packages/filer/models/foldermodels.py:243
 msgid "all items"
 msgstr "alle elementer"
 
-#: lib/python2.7/site-packages/filer/models/foldermodels.py:239
+#: lib/python2.7/site-packages/filer/models/foldermodels.py:244
 msgid "this item only"
 msgstr "kun dette elementet"
 
-#: lib/python2.7/site-packages/filer/models/foldermodels.py:240
+#: lib/python2.7/site-packages/filer/models/foldermodels.py:245
 msgid "this item and all children"
 msgstr "dette elementet og alle underliggende nivå"
 
-#: lib/python2.7/site-packages/filer/models/foldermodels.py:244
+#: lib/python2.7/site-packages/filer/models/foldermodels.py:249
 msgid "allow"
 msgstr ""
 
-#: lib/python2.7/site-packages/filer/models/foldermodels.py:245
+#: lib/python2.7/site-packages/filer/models/foldermodels.py:250
 msgid "deny"
 msgstr ""
 
-#: lib/python2.7/site-packages/filer/models/foldermodels.py:250
+#: lib/python2.7/site-packages/filer/models/foldermodels.py:255
 msgid "type"
 msgstr "type"
 
-#: lib/python2.7/site-packages/filer/models/foldermodels.py:256
+#: lib/python2.7/site-packages/filer/models/foldermodels.py:261
 msgid "group"
 msgstr "gruppe"
 
-#: lib/python2.7/site-packages/filer/models/foldermodels.py:257
+#: lib/python2.7/site-packages/filer/models/foldermodels.py:262
 msgid "everybody"
 msgstr "alle"
 
-#: lib/python2.7/site-packages/filer/models/foldermodels.py:259
+#: lib/python2.7/site-packages/filer/models/foldermodels.py:264
 msgid "can edit"
 msgstr "kan redigere"
 
-#: lib/python2.7/site-packages/filer/models/foldermodels.py:260
+#: lib/python2.7/site-packages/filer/models/foldermodels.py:265
 msgid "can read"
 msgstr "kan lese"
 
-#: lib/python2.7/site-packages/filer/models/foldermodels.py:261
+#: lib/python2.7/site-packages/filer/models/foldermodels.py:266
 msgid "can add children"
 msgstr "kan legge til undernivåer"
 
-#: lib/python2.7/site-packages/filer/models/foldermodels.py:303
+#: lib/python2.7/site-packages/filer/models/foldermodels.py:308
 msgid "folder permission"
 msgstr "tillatelse for mappe"
 
-#: lib/python2.7/site-packages/filer/models/foldermodels.py:304
+#: lib/python2.7/site-packages/filer/models/foldermodels.py:309
 msgid "folder permissions"
 msgstr "tillatelser for mappe"
 
-#: lib/python2.7/site-packages/filer/models/imagemodels.py:39
+#: lib/python2.7/site-packages/filer/models/imagemodels.py:45
 msgid "date taken"
 msgstr "dato bildet ble tatt"
 
-#: lib/python2.7/site-packages/filer/models/imagemodels.py:42
+#: lib/python2.7/site-packages/filer/models/imagemodels.py:48
 msgid "default alt text"
 msgstr "standard alternativtekst"
 
-#: lib/python2.7/site-packages/filer/models/imagemodels.py:43
+#: lib/python2.7/site-packages/filer/models/imagemodels.py:49
 msgid "default caption"
 msgstr "standard undertekst"
 
-#: lib/python2.7/site-packages/filer/models/imagemodels.py:45
+#: lib/python2.7/site-packages/filer/models/imagemodels.py:51
 msgid "author"
 msgstr "opphavsperson"
 
-#: lib/python2.7/site-packages/filer/models/imagemodels.py:47
+#: lib/python2.7/site-packages/filer/models/imagemodels.py:53
 msgid "must always publish author credit"
 msgstr "må alltid publisere opphavsperson"
 
-#: lib/python2.7/site-packages/filer/models/imagemodels.py:48
+#: lib/python2.7/site-packages/filer/models/imagemodels.py:54
 msgid "must always publish copyright"
 msgstr "må alltid publisere opphavsrett"
 
-#: lib/python2.7/site-packages/filer/models/imagemodels.py:50
+#: lib/python2.7/site-packages/filer/models/imagemodels.py:56
 msgid "subject location"
 msgstr "fokuseringsområde"
 
-#: lib/python2.7/site-packages/filer/models/imagemodels.py:193
+#: lib/python2.7/site-packages/filer/models/imagemodels.py:205
 msgid "image"
 msgstr "bilde"
 
-#: lib/python2.7/site-packages/filer/models/imagemodels.py:194
+#: lib/python2.7/site-packages/filer/models/imagemodels.py:206
 msgid "images"
 msgstr "bilder"
 
-#: lib/python2.7/site-packages/filer/models/virtualitems.py:45
+#: lib/python2.7/site-packages/filer/models/virtualitems.py:46
 #: lib/python2.7/site-packages/filer/templates/admin/filer/tools/clipboard/clipboard.html:26
 #: lib/python2.7/site-packages/suit/templates/admin/filer/tools/clipboard/clipboard.html:15
 msgid "unfiled files"
 msgstr "ukategoriserte filer"
 
-#: lib/python2.7/site-packages/filer/models/virtualitems.py:59
+#: lib/python2.7/site-packages/filer/models/virtualitems.py:60
 msgid "files with missing metadata"
 msgstr "filer med manglende metadata"
 
-#: lib/python2.7/site-packages/filer/models/virtualitems.py:73
+#: lib/python2.7/site-packages/filer/models/virtualitems.py:74
 #: lib/python2.7/site-packages/filer/templates/admin/filer/breadcrumbs.html:6
 #: lib/python2.7/site-packages/filer/templates/admin/filer/folder/change_form.html:9
 #: lib/python2.7/site-packages/filer/templates/admin/filer/folder/directory_listing.html:75
@@ -2132,50 +2136,6 @@ msgstr "Gå tilbake til mappen \"%(folder_name)s\""
 msgid "duplicates"
 msgstr "duplikater"
 
-#: lib/python2.7/site-packages/filer/templates/admin/filer/delete_confirmation.html:12
-#: lib/python2.7/site-packages/suit/templates/admin/delete_confirmation.html:26
-#: lib/python2.7/site-packages/suit/templates/admin/filer/delete_confirmation.html:12
-#, python-format
-msgid ""
-"Deleting the %(object_name)s '%(escaped_object)s' would result in deleting "
-"related objects, but your account doesn't have permission to delete the "
-"following types of objects:"
-msgstr ""
-"Å slette %(object_name)s \"%(escaped_object)s\" ville resultere i sletting "
-"av relaterte objekter, men din konto har ikke tillatelse til å slette "
-"objekter av følgende typer:"
-
-#: lib/python2.7/site-packages/filer/templates/admin/filer/delete_confirmation.html:20
-#: lib/python2.7/site-packages/suit/templates/admin/delete_confirmation.html:36
-#: lib/python2.7/site-packages/suit/templates/admin/filer/delete_confirmation.html:21
-#, python-format
-msgid ""
-"Deleting the %(object_name)s '%(escaped_object)s' would require deleting the "
-"following protected related objects:"
-msgstr ""
-"Å slette %(object_name)s \"%(escaped_object)s\" ville kreve å slette "
-"følgende beskyttede relaterte objekter:"
-
-#: lib/python2.7/site-packages/filer/templates/admin/filer/delete_confirmation.html:28
-#: lib/python2.7/site-packages/suit/templates/admin/delete_confirmation.html:51
-#: lib/python2.7/site-packages/suit/templates/admin/filer/delete_confirmation.html:31
-#, python-format
-msgid ""
-"Are you sure you want to delete the %(object_name)s \"%(escaped_object)s\"? "
-"All of the following related items will be deleted:"
-msgstr ""
-"Er du sikker på at du vil slette %(object_name)s \"%(escaped_object)s\"? "
-"Alle de følgende relaterte elementer vil bli slettet:"
-
-#: lib/python2.7/site-packages/filer/templates/admin/filer/delete_confirmation.html:33
-#: lib/python2.7/site-packages/filer/templates/admin/filer/delete_selected_files_confirmation.html:45
-#: lib/python2.7/site-packages/suit/templates/admin/delete_confirmation.html:57
-#: lib/python2.7/site-packages/suit/templates/admin/delete_selected_confirmation.html:61
-#: lib/python2.7/site-packages/suit/templates/admin/filer/delete_confirmation.html:36
-#: lib/python2.7/site-packages/suit/templates/admin/filer/delete_selected_files_confirmation.html:47
-msgid "Yes, I'm sure"
-msgstr "Ja, jeg er sikker"
-
 #: lib/python2.7/site-packages/filer/templates/admin/filer/delete_selected_files_confirmation.html:11
 #: lib/python2.7/site-packages/suit/templates/admin/filer/delete_selected_files_confirmation.html:11
 msgid ""
@@ -2203,6 +2163,14 @@ msgid ""
 msgstr ""
 "Er du sikker på at du vil slette de valgte filene og/eller mappene? Alle de "
 "følgende objektene og deres relaterte elementer vil bli slettet:"
+
+#: lib/python2.7/site-packages/filer/templates/admin/filer/delete_selected_files_confirmation.html:45
+#: lib/python2.7/site-packages/suit/templates/admin/delete_confirmation.html:57
+#: lib/python2.7/site-packages/suit/templates/admin/delete_selected_confirmation.html:61
+#: lib/python2.7/site-packages/suit/templates/admin/filer/delete_confirmation.html:36
+#: lib/python2.7/site-packages/suit/templates/admin/filer/delete_selected_files_confirmation.html:47
+msgid "Yes, I'm sure"
+msgstr "Ja, jeg er sikker"
 
 #: lib/python2.7/site-packages/filer/templates/admin/filer/folder/change_form.html:7
 #: lib/python2.7/site-packages/filer/templates/admin/filer/folder/change_form.html:8
@@ -2233,8 +2201,8 @@ msgstr "Historie"
 
 #: lib/python2.7/site-packages/filer/templates/admin/filer/folder/change_form.html:23
 #: lib/python2.7/site-packages/filer/templates/admin/filer/image/change_form.html:10
-#: lib/python2.7/site-packages/mptt/admin.py:221
-#: lib/python2.7/site-packages/mptt/admin.py:223
+#: lib/python2.7/site-packages/mptt/admin.py:113
+#: lib/python2.7/site-packages/mptt/admin.py:115
 #: lib/python2.7/site-packages/suit/templates/admin/change_form.html:107
 #: lib/python2.7/site-packages/suit/templates/admin/cms/page/change_form.html:104
 #: lib/python2.7/site-packages/suit/templates/admin/edit_inline/stacked.html:9
@@ -2420,7 +2388,7 @@ msgstr "Gå tilbake til overordnet nivå"
 
 #: lib/python2.7/site-packages/filer/templates/admin/filer/folder/directory_listing.html:77
 #: lib/python2.7/site-packages/filer/templates/admin/filer/folder/directory_table.html:29
-#: lib/python2.7/site-packages/filer/templates/admin/filer/tools/search_form.html:18
+#: lib/python2.7/site-packages/filer/templates/admin/filer/tools/search_form.html:17
 #: lib/python2.7/site-packages/suit/templates/admin/filer/folder/directory_listing.html:82
 #: lib/python2.7/site-packages/suit/templates/admin/filer/folder/directory_table.html:30
 #: lib/python2.7/site-packages/suit/templates/admin/filer/tools/search_form.html:19
@@ -2432,7 +2400,7 @@ msgstr[1] "%(counter)s mapper"
 
 #: lib/python2.7/site-packages/filer/templates/admin/filer/folder/directory_listing.html:77
 #: lib/python2.7/site-packages/filer/templates/admin/filer/folder/directory_table.html:29
-#: lib/python2.7/site-packages/filer/templates/admin/filer/tools/search_form.html:19
+#: lib/python2.7/site-packages/filer/templates/admin/filer/tools/search_form.html:18
 #: lib/python2.7/site-packages/suit/templates/admin/filer/folder/directory_listing.html:82
 #: lib/python2.7/site-packages/suit/templates/admin/filer/folder/directory_table.html:30
 #: lib/python2.7/site-packages/suit/templates/admin/filer/tools/search_form.html:20
@@ -2463,7 +2431,7 @@ msgid "Change '%(item_label)s' folder details"
 msgstr "Endre detaljer for mappen \"%(item_label)s\""
 
 #: lib/python2.7/site-packages/filer/templates/admin/filer/folder/directory_table.html:30
-#: lib/python2.7/site-packages/filer/templates/admin/filer/folder/directory_table.html:45
+#: lib/python2.7/site-packages/filer/templates/admin/filer/folder/directory_table.html:47
 #: lib/python2.7/site-packages/suit/templates/admin/filer/folder/directory_table.html:30
 #: lib/python2.7/site-packages/suit/templates/admin/filer/folder/directory_table.html:45
 msgid "Owner"
@@ -2475,8 +2443,8 @@ msgid "Select this file"
 msgstr "Velg denne filen"
 
 #: lib/python2.7/site-packages/filer/templates/admin/filer/folder/directory_table.html:39
-#: lib/python2.7/site-packages/filer/templates/admin/filer/folder/directory_table.html:43
 #: lib/python2.7/site-packages/filer/templates/admin/filer/folder/directory_table.html:44
+#: lib/python2.7/site-packages/filer/templates/admin/filer/folder/directory_table.html:46
 #: lib/python2.7/site-packages/suit/templates/admin/filer/folder/directory_table.html:39
 #: lib/python2.7/site-packages/suit/templates/admin/filer/folder/directory_table.html:43
 #: lib/python2.7/site-packages/suit/templates/admin/filer/folder/directory_table.html:44
@@ -2484,44 +2452,44 @@ msgstr "Velg denne filen"
 msgid "Change '%(item_label)s' details"
 msgstr "Endre detaljer for \"%(item_label)s\""
 
-#: lib/python2.7/site-packages/filer/templates/admin/filer/folder/directory_table.html:42
+#: lib/python2.7/site-packages/filer/templates/admin/filer/folder/directory_table.html:43
 #: lib/python2.7/site-packages/suit/templates/admin/filer/folder/directory_table.html:42
 #, python-format
 msgid "Delete '%(item_label)s'"
 msgstr "Slett \"%(item_label)s\""
 
-#: lib/python2.7/site-packages/filer/templates/admin/filer/folder/directory_table.html:46
+#: lib/python2.7/site-packages/filer/templates/admin/filer/folder/directory_table.html:48
 #: lib/python2.7/site-packages/suit/templates/admin/filer/folder/directory_table.html:45
 #: users/admin.py:130 users/admin.py:144
 msgid "Permissions"
 msgstr "Tillatelser"
 
-#: lib/python2.7/site-packages/filer/templates/admin/filer/folder/directory_table.html:46
+#: lib/python2.7/site-packages/filer/templates/admin/filer/folder/directory_table.html:48
 #: lib/python2.7/site-packages/suit/templates/admin/filer/folder/directory_table.html:45
 msgid "disabled"
 msgstr "deaktivert"
 
-#: lib/python2.7/site-packages/filer/templates/admin/filer/folder/directory_table.html:46
+#: lib/python2.7/site-packages/filer/templates/admin/filer/folder/directory_table.html:48
 #: lib/python2.7/site-packages/suit/templates/admin/filer/folder/directory_table.html:45
 msgid "enabled"
 msgstr "aktivert"
 
-#: lib/python2.7/site-packages/filer/templates/admin/filer/folder/directory_table.html:50
+#: lib/python2.7/site-packages/filer/templates/admin/filer/folder/directory_table.html:52
 #: lib/python2.7/site-packages/suit/templates/admin/filer/folder/directory_table.html:49
 msgid "Move to clipboard"
 msgstr "Flytt til utklippstavle"
 
-#: lib/python2.7/site-packages/filer/templates/admin/filer/folder/directory_table.html:58
+#: lib/python2.7/site-packages/filer/templates/admin/filer/folder/directory_table.html:60
 #: lib/python2.7/site-packages/suit/templates/admin/filer/folder/directory_table.html:57
 msgid "there are no files or subfolders"
 msgstr "det er ingen filer eller undermapper"
 
-#: lib/python2.7/site-packages/filer/templates/admin/filer/folder/directory_table.html:65
+#: lib/python2.7/site-packages/filer/templates/admin/filer/folder/directory_table.html:67
 #: lib/python2.7/site-packages/suit/templates/admin/filer/folder/directory_table.html:64
 msgid "previous"
 msgstr "forrige"
 
-#: lib/python2.7/site-packages/filer/templates/admin/filer/folder/directory_table.html:69
+#: lib/python2.7/site-packages/filer/templates/admin/filer/folder/directory_table.html:71
 #, python-format
 msgid ""
 "\n"
@@ -2532,7 +2500,7 @@ msgstr ""
 "            Side %(number)s av %(num_pages)s.\n"
 "            "
 
-#: lib/python2.7/site-packages/filer/templates/admin/filer/folder/directory_table.html:75
+#: lib/python2.7/site-packages/filer/templates/admin/filer/folder/directory_table.html:77
 #: lib/python2.7/site-packages/suit/templates/admin/filer/folder/directory_table.html:74
 msgid "next"
 msgstr "neste"
@@ -2570,45 +2538,45 @@ msgstr "Lagre"
 msgid "Full size preview"
 msgstr "Vis full størrelse"
 
-#: lib/python2.7/site-packages/filer/templates/admin/filer/tools/search_form.html:8
-#: lib/python2.7/site-packages/filer/templates/admin/filer/tools/search_form.html:14
+#: lib/python2.7/site-packages/filer/templates/admin/filer/tools/search_form.html:7
+#: lib/python2.7/site-packages/filer/templates/admin/filer/tools/search_form.html:13
 #: lib/python2.7/site-packages/suit/templates/admin/search_form.html:26
 #: lib/python2.7/site-packages/suit/templates/admin/filer/tools/search_form.html:12
 msgid "Search"
 msgstr "Søk"
 
-#: lib/python2.7/site-packages/filer/templates/admin/filer/tools/search_form.html:13
+#: lib/python2.7/site-packages/filer/templates/admin/filer/tools/search_form.html:12
 #: lib/python2.7/site-packages/suit/templates/admin/filer/tools/search_form.html:11
 msgid "Enter your search phrase here"
 msgstr "Skriv søkeord her"
 
-#: lib/python2.7/site-packages/filer/templates/admin/filer/tools/search_form.html:14
+#: lib/python2.7/site-packages/filer/templates/admin/filer/tools/search_form.html:13
 #: lib/python2.7/site-packages/suit/templates/admin/filer/tools/search_form.html:12
 msgid "Click here to"
 msgstr "Klikk her for å"
 
-#: lib/python2.7/site-packages/filer/templates/admin/filer/tools/search_form.html:14
+#: lib/python2.7/site-packages/filer/templates/admin/filer/tools/search_form.html:13
 #: lib/python2.7/site-packages/suit/templates/admin/filer/tools/search_form.html:12
 msgid "run search for entered phrase"
 msgstr "søk med valgte søkeord"
 
-#: lib/python2.7/site-packages/filer/templates/admin/filer/tools/search_form.html:15
+#: lib/python2.7/site-packages/filer/templates/admin/filer/tools/search_form.html:14
 #: lib/python2.7/site-packages/suit/templates/admin/filer/tools/search_form.html:15
 msgid "Check it to"
 msgstr "Velg for å"
 
+#: lib/python2.7/site-packages/filer/templates/admin/filer/tools/search_form.html:14
 #: lib/python2.7/site-packages/filer/templates/admin/filer/tools/search_form.html:15
-#: lib/python2.7/site-packages/filer/templates/admin/filer/tools/search_form.html:16
 #: lib/python2.7/site-packages/suit/templates/admin/filer/tools/search_form.html:15
 msgid "limit the search to current folder"
 msgstr "begrens søk til gjeldende mappe"
 
-#: lib/python2.7/site-packages/filer/templates/admin/filer/tools/search_form.html:18
+#: lib/python2.7/site-packages/filer/templates/admin/filer/tools/search_form.html:17
 #: lib/python2.7/site-packages/suit/templates/admin/filer/tools/search_form.html:19
 msgid "found"
 msgstr "funnet"
 
-#: lib/python2.7/site-packages/filer/templates/admin/filer/tools/search_form.html:19
+#: lib/python2.7/site-packages/filer/templates/admin/filer/tools/search_form.html:18
 #: lib/python2.7/site-packages/suit/templates/admin/filer/tools/search_form.html:20
 msgid "cancel search"
 msgstr "avbryt søk"
@@ -2781,155 +2749,139 @@ msgstr "Oppdater"
 msgid "Enter valid JSON"
 msgstr "Skriv inn gyldig JSON"
 
-#: lib/python2.7/site-packages/mptt/admin.py:96
-msgid "Database error"
-msgstr ""
-
-#: lib/python2.7/site-packages/mptt/admin.py:132
-#, python-format
-msgid "%(count)s %(name)s was changed successfully."
-msgid_plural "%(count)s %(name)s were changed successfully."
-msgstr[0] ""
-msgstr[1] ""
-
-#: lib/python2.7/site-packages/mptt/admin.py:213
-#: lib/python2.7/site-packages/mptt/admin.py:215
+#: lib/python2.7/site-packages/mptt/admin.py:105
+#: lib/python2.7/site-packages/mptt/admin.py:107
 msgid "Add child"
 msgstr ""
 
-#: lib/python2.7/site-packages/mptt/admin.py:235
+#: lib/python2.7/site-packages/mptt/admin.py:127
 #, python-format
 msgid "Successfully deleted %s items."
 msgstr ""
 
-#: lib/python2.7/site-packages/mptt/admin.py:240
+#: lib/python2.7/site-packages/mptt/admin.py:132
 #, python-format
 msgid "Delete selected %(verbose_name_plural)s"
 msgstr ""
 
-#: lib/python2.7/site-packages/mptt/forms.py:72
+#: lib/python2.7/site-packages/mptt/forms.py:62
 msgid "First child"
 msgstr ""
 
-#: lib/python2.7/site-packages/mptt/forms.py:73
+#: lib/python2.7/site-packages/mptt/forms.py:63
 msgid "Last child"
 msgstr ""
 
-#: lib/python2.7/site-packages/mptt/forms.py:74
+#: lib/python2.7/site-packages/mptt/forms.py:64
 msgid "Left sibling"
 msgstr ""
 
-#: lib/python2.7/site-packages/mptt/forms.py:75
+#: lib/python2.7/site-packages/mptt/forms.py:65
 msgid "Right sibling"
 msgstr ""
 
-#: lib/python2.7/site-packages/mptt/forms.py:177
+#: lib/python2.7/site-packages/mptt/forms.py:182
 msgid "Invalid parent"
 msgstr ""
 
-#: lib/python2.7/site-packages/mptt/managers.py:206
+#: lib/python2.7/site-packages/mptt/managers.py:366
 msgid "Cannot insert a node which has already been saved."
 msgstr ""
 
-#: lib/python2.7/site-packages/mptt/managers.py:385
-#: lib/python2.7/site-packages/mptt/managers.py:557
-#: lib/python2.7/site-packages/mptt/managers.py:593
-#: lib/python2.7/site-packages/mptt/managers.py:748
+#: lib/python2.7/site-packages/mptt/managers.py:574
+#: lib/python2.7/site-packages/mptt/managers.py:747
+#: lib/python2.7/site-packages/mptt/managers.py:783
+#: lib/python2.7/site-packages/mptt/managers.py:947
 #, python-format
 msgid "An invalid position was given: %s."
 msgstr ""
 
-#: lib/python2.7/site-packages/mptt/managers.py:543
-#: lib/python2.7/site-packages/mptt/managers.py:728
+#: lib/python2.7/site-packages/mptt/managers.py:733
+#: lib/python2.7/site-packages/mptt/managers.py:927
 msgid "A node may not be made a sibling of itself."
 msgstr ""
 
-#: lib/python2.7/site-packages/mptt/managers.py:707
-#: lib/python2.7/site-packages/mptt/managers.py:829
+#: lib/python2.7/site-packages/mptt/managers.py:906
+#: lib/python2.7/site-packages/mptt/managers.py:1031
 msgid "A node may not be made a child of itself."
 msgstr ""
 
-#: lib/python2.7/site-packages/mptt/managers.py:709
-#: lib/python2.7/site-packages/mptt/managers.py:831
+#: lib/python2.7/site-packages/mptt/managers.py:908
+#: lib/python2.7/site-packages/mptt/managers.py:1033
 msgid "A node may not be made a child of any of its descendants."
 msgstr ""
 
-#: lib/python2.7/site-packages/mptt/managers.py:730
+#: lib/python2.7/site-packages/mptt/managers.py:929
 msgid "A node may not be made a sibling of any of its descendants."
 msgstr ""
 
-#: lib/python2.7/site-packages/mptt/models.py:44
-msgid ""
-"`tree_manager_attr` is deprecated; just instantiate a TreeManager as a "
-"normal manager on your model"
-msgstr ""
-
-#: lib/python2.7/site-packages/mptt/models.py:201
+#: lib/python2.7/site-packages/mptt/models.py:271
 msgid "register() expects a Django model class argument"
 msgstr ""
 
-#: lib/python2.7/site-packages/mptt/templatetags/mptt_tags.py:28
+#: lib/python2.7/site-packages/mptt/templatetags/mptt_tags.py:32
 #, python-format
 msgid "full_tree_for_model tag was given an invalid model: %s"
 msgstr ""
 
-#: lib/python2.7/site-packages/mptt/templatetags/mptt_tags.py:52
+#: lib/python2.7/site-packages/mptt/templatetags/mptt_tags.py:56
 #, python-format
 msgid "drilldown_tree_for_node tag was given an invalid model: %s"
 msgstr ""
 
-#: lib/python2.7/site-packages/mptt/templatetags/mptt_tags.py:59
+#: lib/python2.7/site-packages/mptt/templatetags/mptt_tags.py:63
 #, python-format
 msgid "drilldown_tree_for_node tag was given an invalid model field: %s"
 msgstr ""
 
-#: lib/python2.7/site-packages/mptt/templatetags/mptt_tags.py:86
+#: lib/python2.7/site-packages/mptt/templatetags/mptt_tags.py:90
 #, python-format
 msgid "%s tag requires three arguments"
 msgstr ""
 
-#: lib/python2.7/site-packages/mptt/templatetags/mptt_tags.py:88
-#: lib/python2.7/site-packages/mptt/templatetags/mptt_tags.py:143
+#: lib/python2.7/site-packages/mptt/templatetags/mptt_tags.py:92
+#: lib/python2.7/site-packages/mptt/templatetags/mptt_tags.py:147
 #, python-format
 msgid "second argument to %s tag must be 'as'"
 msgstr ""
 
-#: lib/python2.7/site-packages/mptt/templatetags/mptt_tags.py:140
+#: lib/python2.7/site-packages/mptt/templatetags/mptt_tags.py:144
 #, python-format
 msgid "%s tag requires either three, seven or eight arguments"
 msgstr ""
 
-#: lib/python2.7/site-packages/mptt/templatetags/mptt_tags.py:147
+#: lib/python2.7/site-packages/mptt/templatetags/mptt_tags.py:151
 #, python-format
 msgid "if seven arguments are given, fourth argument to %s tag must be 'with'"
 msgstr ""
 
-#: lib/python2.7/site-packages/mptt/templatetags/mptt_tags.py:150
+#: lib/python2.7/site-packages/mptt/templatetags/mptt_tags.py:154
 #, python-format
 msgid "if seven arguments are given, sixth argument to %s tag must be 'in'"
 msgstr ""
 
-#: lib/python2.7/site-packages/mptt/templatetags/mptt_tags.py:155
+#: lib/python2.7/site-packages/mptt/templatetags/mptt_tags.py:159
 #, python-format
 msgid ""
 "if eight arguments are given, fourth argument to %s tag must be 'cumulative'"
 msgstr ""
 
-#: lib/python2.7/site-packages/mptt/templatetags/mptt_tags.py:158
+#: lib/python2.7/site-packages/mptt/templatetags/mptt_tags.py:162
 #, python-format
 msgid "if eight arguments are given, fifth argument to %s tag must be 'count'"
 msgstr ""
 
-#: lib/python2.7/site-packages/mptt/templatetags/mptt_tags.py:161
+#: lib/python2.7/site-packages/mptt/templatetags/mptt_tags.py:165
 #, python-format
 msgid "if eight arguments are given, seventh argument to %s tag must be 'in'"
 msgstr ""
 
-#: lib/python2.7/site-packages/mptt/templatetags/mptt_tags.py:251
-msgid "cache_tree_children was passed nodes in the wrong order!"
+#: lib/python2.7/site-packages/mptt/templatetags/mptt_tags.py:268
+#, python-format
+msgid "Node %s not in depth-first order"
 msgstr ""
 
-#: lib/python2.7/site-packages/mptt/templatetags/mptt_tags.py:313
+#: lib/python2.7/site-packages/mptt/templatetags/mptt_tags.py:345
 #, python-format
 msgid "%s tag requires a queryset"
 msgstr ""
@@ -3078,6 +3030,38 @@ msgstr ""
 msgid "Remove from sorting"
 msgstr ""
 
+#: lib/python2.7/site-packages/suit/templates/admin/delete_confirmation.html:26
+#: lib/python2.7/site-packages/suit/templates/admin/filer/delete_confirmation.html:12
+#, python-format
+msgid ""
+"Deleting the %(object_name)s '%(escaped_object)s' would result in deleting "
+"related objects, but your account doesn't have permission to delete the "
+"following types of objects:"
+msgstr ""
+"Å slette %(object_name)s \"%(escaped_object)s\" ville resultere i sletting "
+"av relaterte objekter, men din konto har ikke tillatelse til å slette "
+"objekter av følgende typer:"
+
+#: lib/python2.7/site-packages/suit/templates/admin/delete_confirmation.html:36
+#: lib/python2.7/site-packages/suit/templates/admin/filer/delete_confirmation.html:21
+#, python-format
+msgid ""
+"Deleting the %(object_name)s '%(escaped_object)s' would require deleting the "
+"following protected related objects:"
+msgstr ""
+"Å slette %(object_name)s \"%(escaped_object)s\" ville kreve å slette "
+"følgende beskyttede relaterte objekter:"
+
+#: lib/python2.7/site-packages/suit/templates/admin/delete_confirmation.html:51
+#: lib/python2.7/site-packages/suit/templates/admin/filer/delete_confirmation.html:31
+#, python-format
+msgid ""
+"Are you sure you want to delete the %(object_name)s \"%(escaped_object)s\"? "
+"All of the following related items will be deleted:"
+msgstr ""
+"Er du sikker på at du vil slette %(object_name)s \"%(escaped_object)s\"? "
+"Alle de følgende relaterte elementer vil bli slettet:"
+
 #: lib/python2.7/site-packages/suit/templates/admin/delete_selected_confirmation.html:15
 msgid "Delete multiple objects"
 msgstr ""
@@ -3170,6 +3154,7 @@ msgstr ""
 
 #: lib/python2.7/site-packages/suit/templates/admin/object_history.html:28
 #: lib/python2.7/site-packages/suit/templates/reversion/object_history.html:16
+#: tasker/admin.py:40
 msgid "User"
 msgstr ""
 
@@ -3621,7 +3606,7 @@ msgstr "administratornotat"
 msgid "users"
 msgstr "brukere"
 
-#: system/models.py:71 system/models.py:89 system/models.py:108
+#: system/models.py:71 system/models.py:84 system/models.py:108
 msgid "program"
 msgstr "program"
 
@@ -3629,19 +3614,19 @@ msgstr "program"
 msgid "programs"
 msgstr "programmer"
 
-#: system/models.py:92
+#: system/models.py:87
 msgid "start time"
 msgstr "starttid"
 
-#: system/models.py:93
+#: system/models.py:88
 msgid "time factor"
 msgstr "tidsfaktor"
 
-#: system/models.py:96
+#: system/models.py:91
 msgid "user access"
 msgstr "brukertilgang"
 
-#: system/models.py:97
+#: system/models.py:92
 msgid "user accesses"
 msgstr "brukertilganger"
 
@@ -3718,38 +3703,45 @@ msgstr "SMS"
 msgid "SMSs"
 msgstr "SMSer"
 
-#: system/signals.py:44
-#, python-format
-msgid "Send login link and start traversal for %(useraccess)s"
-msgstr "Send innloggingslenke og start økt for %(useraccess)s"
+#: system/signals.py:56 system/signals.py:81
+msgid "Send login link and start traversal"
+msgstr "Send innloggingslenke og start økt"
 
 #: system/tasks.py:30
 #, python-format
 msgid "Session initialized and e-mail sent to user %i"
 msgstr "Økt startet og e-post for innlogging sendt til bruker %i"
 
-#: tasker/admin.py:33
+#: tasker/admin.py:28
+msgid "Source"
+msgstr "Kilde"
+
+#: tasker/admin.py:45
 msgid "Task result"
 msgstr "Oppgaveresultat"
 
-#: tasker/models.py:32
+#: tasker/models.py:37
 msgid "sender"
 msgstr "avsender"
 
-#: tasker/models.py:36
+#: tasker/models.py:40
+msgid "subject"
+msgstr "bruker"
+
+#: tasker/models.py:42
 msgid "action"
 msgstr "handling"
 
-#: tasker/models.py:37 tasker/models.py:51
+#: tasker/models.py:43 tasker/models.py:57
 msgid "task"
 msgstr "oppgave"
 
-#: tasker/models.py:44
+#: tasker/models.py:50
 #, python-format
 msgid "%(time)s: %(sender)s, %(action)s"
 msgstr ""
 
-#: tasker/models.py:52
+#: tasker/models.py:58
 msgid "tasks"
 msgstr "oppgaver"
 
@@ -3758,7 +3750,7 @@ msgid "Quit / sign out"
 msgstr "Avslutt / logg ut"
 
 #: templates/session.html:20 templates/session.html.py:63
-#: templates/session.html:86
+#: templates/session.html:90
 msgid "Please choose one"
 msgstr "Gjør et valg"
 
@@ -3777,7 +3769,7 @@ msgstr ""
 msgid "This field is required"
 msgstr "Dette feltet er påkrevet"
 
-#: templates/session.html:121
+#: templates/session.html:125
 msgid "Next page"
 msgstr "Neste side"
 
