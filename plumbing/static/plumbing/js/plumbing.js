@@ -300,12 +300,12 @@ plumbing.directive('edge', ['jsPlumb', function(jsPlumbService) {
             jsPlumb.ready(function() {
 
                 var source_type, target_type;
-                for (var node in scope.data.nodes) {
+                scope.data.nodes.forEach(function(node) {
                     if (node.id === scope.edge.source)
-                        source_type = scope.data.nodes[i].type;
+                        source_type = node.type;
                     if (node.id === scope.edge.target)
-                        target_type = scope.data.nodes[i].type;
-                }
+                        target_type = node.type;
+                });
 
                 // if edge is from special node to page, delete and return
                 if ((source_type == 'email' ||
