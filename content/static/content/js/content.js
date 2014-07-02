@@ -86,6 +86,10 @@ var dataTemplates = {
         value: {},
         alternatives: []
     },
+    'hiddenfield': {
+        field_type: 'hiddenfield',
+        variable_name: '',
+    },
     'question': {
         question: '',
         variable_name: '',

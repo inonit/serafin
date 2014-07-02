@@ -100,6 +100,7 @@
                     <div class="btn add" ng-click="add(pagelet.content, 'textarea')">{% trans 'Add text' %}</div>
                     <div class="btn add" ng-click="add(pagelet.content, 'multiplechoice')">{% trans 'Add multiple choice' %}</div>
                     <div class="btn add" ng-click="add(pagelet.content, 'multipleselection')">{% trans 'Add multiple selection' %}</div>
+                    <div class="btn add" ng-click="add(pagelet.content, 'hiddenfield')">{% trans 'Add hidden field' %}</div>
                 </div>
 
                 <div class="field" ng-repeat="field in pagelet.content track by $index">
@@ -113,7 +114,7 @@
                     <h4 class="title">{% verbatim %}{{ field.field_type }}{% endverbatim %}</h4>
 
                     <div class="fieldset">
-                        <div class="field-data">
+                        <div class="field-data" ng-if="field.field_type != 'hiddenfield'">
                             <label>{% trans 'Label' %}</label>
                             <input type="text" class="wide" ng-model="field.label">
                         </div>
@@ -125,13 +126,17 @@
 
                     <div class="fieldset">
                         <div class="field-data" ng-if="field.field_type != 'multipleselection'">
-                            <label>{% trans 'Default value' %}</label>
+                            <label>{% trans 'Value' %}</label>
                             <input type="text" ng-model="field.value">
                         </div>
-                        <div class="field-data pull-down">
+                        <div class="field-data pull-down" ng-if="field.field_type != 'hiddenfield'">
                             <label>
                                 <input type="checkbox" ng-model="field.required"> {% trans 'Required?' %}
                             </label>
+                        </div>
+                        <div class="field-data" ng-if="field.field_type == 'hiddenfield'">
+                            <label>{% trans 'Value' %}</label>
+                            <input type="text" ng-model="field.value">
                         </div>
                     </div>
 
