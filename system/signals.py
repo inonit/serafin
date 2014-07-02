@@ -19,7 +19,14 @@ def randomize_variable_once(sender, **kwargs):
 
     if not created:
         original = Variable.objects.get(id=variable.id)
-        for field in variable._meta.get_all_field_names():
+        for field in [
+            'name',
+            'value',
+            'random_type',
+            'randomize_once',
+            'range_min',
+            'range_max',
+            'random_set']:
             if getattr(variable, field) != getattr(original, field):
                 changed = True
 
