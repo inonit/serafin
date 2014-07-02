@@ -299,8 +299,13 @@ plumbing.directive('edge', ['jsPlumb', function(jsPlumbService) {
 
             jsPlumb.ready(function() {
 
-                var source_type = scope.data.nodes[scope.edge.source].type;
-                var target_type = scope.data.nodes[scope.edge.target].type;
+                var source_type, target_type;
+                for (var node in scope.data.nodes) {
+                    if (node.id === scope.edge.source)
+                        source_type = scope.data.nodes[i].type;
+                    if (node.id === scope.edge.target)
+                        target_type = scope.data.nodes[i].type;
+                }
 
                 // if edge is from special node to page, delete and return
                 if ((source_type == 'email' ||
