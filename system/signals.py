@@ -11,14 +11,19 @@ from system.tasks import init_session
 from tasker.models import Task
 
 
-@receiver(signals.post_save, sender=Variable)
+@receiver(signals.pre_save, sender=Variable)
 def randomize_variable_once(sender, **kwargs):
     variable = kwargs['instance']
-    created = kwargs['created']
+    original = None
     changed = False
+    created = False
+
+    try:
+        original = Variable.objects.get(id=variable.id)
+    except Variable.DoesNotExist:
+        created = True
 
     if not created:
-        original = Variable.objects.get(id=variable.id)
         for field in [
             'name',
             'value',
@@ -30,7 +35,7 @@ def randomize_variable_once(sender, **kwargs):
             if getattr(variable, field) != getattr(original, field):
                 changed = True
 
-    if (variable.random_type and variable.randomize_once) and (created or changed):
+    if variable.random_type and variable.randomize_once and (created or changed):
         for user in get_user_model().objects.all():
             user.data[variable.name] = variable.get_value()
             user.save()
