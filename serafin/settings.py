@@ -40,17 +40,9 @@ INSTALLED_APPS = (
     'django.contrib.sites',
 
     'suit',
-    'django.contrib.admin',
-
     'south',
     'django_extensions',
-    'rest_framework',
-    'filer',
-    'mptt',
-    'easy_thumbnails',
-    'huey.djhuey',
-    'django_user_agents',
-    'import_export',
+    'django.contrib.admin',
 
     'tokens',
     'users',
@@ -60,6 +52,14 @@ INSTALLED_APPS = (
     'content',
     'plumbing',
     'system',
+
+    'rest_framework',
+    'filer',
+    'mptt',
+    'easy_thumbnails',
+    'huey.djhuey',
+    'django_user_agents',
+    'import_export',
 )
 
 MIDDLEWARE_CLASSES = (
