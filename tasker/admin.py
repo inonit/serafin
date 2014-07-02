@@ -10,7 +10,7 @@ from tasker.models import Task
 class TaskAdmin(admin.ModelAdmin):
     list_display = ['sender_link', 'action', 'subject_link', 'time', 'task_result']
     list_display_links = []
-    search_fields = ['action']
+    search_fields = ['action', 'result', 'sender', 'subject']
     ordering = ['time']
     date_hierarchy = 'time'
 
@@ -25,7 +25,7 @@ class TaskAdmin(admin.ModelAdmin):
             instance.content_type.model
         ), args=[instance.object_id])
         return '<a href="%s">%s</a>' % (url, instance.sender)
-    sender_link.short_description = _('Actor')
+    sender_link.short_description = _('Source')
     sender_link.allow_tags = True
 
     def subject_link(self, instance):
@@ -37,7 +37,7 @@ class TaskAdmin(admin.ModelAdmin):
             return '<a href="%s">%s</a>' % (url, instance.subject)
         else:
             return None
-    subject_link.short_description = _('Subject')
+    subject_link.short_description = _('User')
     subject_link.allow_tags = True
 
     def task_result(self, obj):
