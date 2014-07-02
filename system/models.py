@@ -74,11 +74,6 @@ class Program(models.Model):
     def __unicode__(self):
         return self.title
 
-    def save(self, *args, **kwargs):
-        super(Program, self).save(*args, **kwargs)
-        for session in self.session_set.all():
-            session.save()
-
 
 class ProgramUserAccess(models.Model):
     '''
@@ -98,6 +93,11 @@ class ProgramUserAccess(models.Model):
 
     def __unicode__(self):
         return '%s: %s' % (self.program, self.user.__unicode__())
+
+    def save(self, *args, **kwargs):
+        super(ProgramUserAccess, self).save(*args, **kwargs)
+        for session in self.program.session_set.all():
+            session.save()
 
 
 class Session(models.Model):
