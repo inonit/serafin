@@ -6,7 +6,7 @@ from django.contrib.contenttypes.models import ContentType
 from django.db.models import signals
 from django.dispatch import receiver
 
-from .models import Variable, Session
+from .models import Variable, ProgramUserAccess, Session
 from system.tasks import init_session
 from tasker.models import Task
 
@@ -53,7 +53,8 @@ def schedule_session(sender, **kwargs):
                 time=session.get_start_time(useraccess.start_time, useraccess.time_factor),
                 task=init_session,
                 args=(session, useraccess.user),
-                action=_('Send login link and start traversal for %(useraccess)s') % locals()
+                action=_('Send login link and start traversal'),
+                subject=useraccess.user
             )
 
 
@@ -65,8 +66,12 @@ def reschedule_session(sender, **kwargs):
     if not kwargs['created']:
         for useraccess in session.program.programuseraccess_set.all():
             try:
-                session_type = ContentType.objects.get_for_model(session)
-                task = Task.objects.get(content_type=session_type, object_id=session.id)
+                session_type = ContentType.objects.get_for_model(Session)
+                task = Task.objects.get(
+                    content_type=session_type,
+                    object_id=session.id,
+                    subject=useraccess.user
+                )
             except:
                 schedule_session(sender, instance=session, created=True)
                 return
@@ -84,10 +89,19 @@ def revoke_session(sender, **kwargs):
 
     session = kwargs['instance']
 
-    try:
-        session_type = ContentType.objects.get_for_model(session)
-        task = Task.objects.get(content_type=session_type, object_id=session.id)
-    except:
-        return
+    session_type = ContentType.objects.get_for_model(Session)
+    Task.objects.filter(content_type=session_type, object_id=session.id).delete()
 
-    task.delete()
+
+@receiver(signals.pre_delete, sender=ProgramUserAccess)
+def revoke_tasks(sender, **kwargs):
+
+    useraccess = kwargs['instance']
+
+    session_type = ContentType.objects.get_for_model(Session)
+    for session in useraccess.program.session_set.all():
+        Task.objects.filter(
+            content_type=session_type,
+            object_id=session.id,
+            subject=useraccess.user
+        ).delete()

@@ -8,7 +8,7 @@ from tasker.models import Task
 
 
 class TaskAdmin(admin.ModelAdmin):
-    list_display = ['sender_link', 'action', 'time', 'task_result']
+    list_display = ['sender_link', 'action', 'subject_link', 'time', 'task_result']
     list_display_links = []
     search_fields = ['action']
     ordering = ['time']
@@ -27,6 +27,18 @@ class TaskAdmin(admin.ModelAdmin):
         return '<a href="%s">%s</a>' % (url, instance.sender)
     sender_link.short_description = _('Actor')
     sender_link.allow_tags = True
+
+    def subject_link(self, instance):
+        if instance.subject:
+            url = reverse('admin:%s_%s_change' % (
+                instance.subject._meta.app_label,
+                instance.subject._meta.model_name
+            ), args=[instance.subject_id])
+            return '<a href="%s">%s</a>' % (url, instance.subject)
+        else:
+            return None
+    subject_link.short_description = _('Subject')
+    subject_link.allow_tags = True
 
     def task_result(self, obj):
         return obj.task

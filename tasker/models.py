@@ -2,6 +2,7 @@ from __future__ import unicode_literals
 from django.utils.translation import ugettext_lazy as _
 
 from django.db import models
+from django.conf import settings
 from django.contrib.contenttypes.generic import GenericForeignKey
 from django.contrib.contenttypes.models import ContentType
 from django.utils import timezone
@@ -11,7 +12,7 @@ import pickle
 
 
 class TaskManager(models.Manager):
-    def create_task(self, sender, time, task, args, action):
+    def create_task(self, sender, time, task, args, action, subject=None):
         task_ref = task.schedule(
             args=args,
             eta=timezone.localtime(time).replace(tzinfo=None),
@@ -23,6 +24,10 @@ class TaskManager(models.Manager):
         task.time = time
         task.action = action
         task.task = task_ref
+
+        if subject:
+            task.subject = subject
+
         task.save()
 
 
@@ -32,6 +37,7 @@ class Task(models.Model):
     content_type = models.ForeignKey(ContentType, verbose_name=_('sender'))
     object_id = models.PositiveIntegerField()
     sender = GenericForeignKey('content_type', 'object_id')
+    subject = models.ForeignKey(settings.AUTH_USER_MODEL, verbose_name=_('subject'), null=True, blank=True)
 
     action = models.CharField(_('action'), max_length=255, blank=True)
     task_id = models.CharField(_('task'), max_length=255)
