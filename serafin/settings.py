@@ -327,7 +327,12 @@ LOGGING = {
             'handlers': ['huey_log'],
             'level': 'DEBUG',
             'propagate': True,
-        }
+        },
+         'django.request': {
+            'handlers': ['mail_admins'],
+            'level': 'ERROR',
+            'propagate': True,
+        },
     }
 }
 
