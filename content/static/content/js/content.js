@@ -16,6 +16,18 @@ var dataTemplates = {
         content: '',
         toggle: '',
     },
+    'conditionalset': {
+        content_type: 'conditionalset',
+        content: [],
+    },
+    'conditionaltext': {
+        conditions: [{
+            var_name: '',
+            operator: '',
+            value: ''
+        }],
+        content: '',
+    },
     'toggleset': {
         content_type: 'toggleset',
         content: {
@@ -131,12 +143,27 @@ content.controller('contentArray', ['$scope', function(scope) {
 
 content.controller('markdown', ['$scope', '$window', '$sce', function(scope, window, sce) {
     scope.html = '';
-    scope.md2html = function() {
-        var marked = window.marked(scope.pagelet.content);
+    scope.md2html = function(content) {
+        var marked = window.marked(content);
         marked = marked.replace(/({{.*?}})/g, '<span class="markup">$&</span>');
         scope.html = sce.trustAsHtml(marked);
     };
-    scope.md2html();
+}]);
+
+content.directive('markdownText', ['$timeout', function(timeout) {
+    return {
+        restrict: 'C',
+        require: 'ngModel',
+        controller: 'markdown',
+        link: function(scope, elem, attrs, ngModel) {
+            timeout(function() {
+                scope.md2html(ngModel.$modelValue);
+            });
+            ngModel.$viewChangeListeners.push(function() {
+                scope.md2html(ngModel.$modelValue);
+            });
+        }
+    };
 }]);
 
 content.directive('textarea', function() {

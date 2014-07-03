@@ -7,6 +7,7 @@
         <div class="btn add" ng-click="add(data, 'text')">{% trans 'Add text' %}</div>
         <div class="btn add" ng-click="add(data, 'toggle')">{% trans 'Add toggle' %}</div>
         <div class="btn add" ng-click="add(data, 'toggleset')">{% trans 'Add toggleset' %}</div>
+        <div class="btn add" ng-click="add(data, 'conditionalset')">{% trans 'Add conditional set' %}</div>
         <div class="btn add" ng-click="add(data, 'form')">{% trans 'Add form' %}</div>
         <div class="btn add" ng-click="add(data, 'quiz')">{% trans 'Add quiz' %}</div>
         <div class="btn add" ng-click="add(data, 'image')">{% trans 'Add image' %}</div>
@@ -30,7 +31,7 @@
                 <div class="markdown-guide">
                     <p>{% blocktrans %}This element uses <a href="http://markdown-guide.readthedocs.org/en/latest/basics.html">Markdown</a>. For variable replacement use <code ng-non-bindable>&#123;&#123; var_name &#125;&#125;</code>. This markup will be replaced by the user's value for <code>var_name</code>, if available.{% endblocktrans %}</p>
                 </div>
-                <textarea class="markdown-text" ng-model="pagelet.content" ng-change="md2html()"></textarea>
+                <textarea class="markdown-text" ng-model="pagelet.content"></textarea>
                 <div class="markdown-html" ng-bind-html="html"></div>
             </div>
 
@@ -42,7 +43,7 @@
                 <div class="markdown-guide">
                     <p>{% blocktrans %}This element uses <a href="http://markdown-guide.readthedocs.org/en/latest/basics.html">Markdown</a>. For variable replacement use <code ng-non-bindable>&#123;&#123; var_name &#125;&#125;</code>. This markup will be replaced by the user's value for <code>var_name</code>, if available.{% endblocktrans %}</p>
                 </div>
-                <textarea class="markdown-text" ng-model="pagelet.content" ng-change="md2html()"></textarea>
+                <textarea class="markdown-text" ng-model="pagelet.content"></textarea>
                 <div class="markdown-html" ng-bind-html="html"></div>
             </div>
 
@@ -89,6 +90,55 @@
                         <textarea class="input-xlarge" ng-model="alt.text"></textarea>
                     </div>
 
+                </div>
+            </div>
+
+            <div ng-switch-when="conditionalset" class="conditionalset">
+
+                <div class="toolbox">
+                    <div class="btn add" ng-click="add(pagelet.content, 'conditionaltext')">{% trans 'Add conditional text' %}</div>
+                </div>
+
+                <div class="field" ng-repeat="content in pagelet.content track by $index">
+
+                    <div class="ctrl right">
+                        <a ng-click="up(pagelet.content, $index)" ng-hide="$first"><i class="icon-arrow-up icon-alpha5"></i></a>
+                        <a ng-click="down(pagelet.content, $index)" ng-hide="$last"><i class="icon-arrow-down icon-alpha5"></i></a>
+                        <a ng-click="delete(pagelet.content, $index)"><i class="icon-trash icon-alpha5"></i></a>
+                    </div>
+
+                    <h4 class="title">{% trans 'Text' %}</h4>
+
+                    <div class="fieldset" ng-repeat="condition in content.conditions track by $index">
+                        <div class="field-data">
+                            <label>{% trans 'Variable name' %}</label>
+                            <input type="text" ng-model="condition.var_name">
+                        </div>
+                        <div class="field-data">
+                            <label>{% trans 'Condition' %}</label>
+                            <select ng-model="condition.operator" class="input-small">
+                                <option value="eq"> = </option>
+                                <option value="ne"> &ne; </option>
+                                <option value="lt"> &lt; </option>
+                                <option value="le"> &le; </option>
+                                <option value="gt"> &gt; </option>
+                                <option value="ge"> &ge; </option>
+                                <option value="in"> {% trans 'contains' %} </option>
+                            </select>
+                        </div>
+                        <div class="field-data">
+                            <label>{% trans 'Value' %}</label>
+                            <input type="text" ng-model="condition.value">
+                        </div>
+                    </div>
+
+                    <div class="field-data text" ng-controller="markdown">
+                        <div class="markdown-guide">
+                            <p>{% blocktrans %}This element uses <a href="http://markdown-guide.readthedocs.org/en/latest/basics.html">Markdown</a>. For variable replacement use <code ng-non-bindable>&#123;&#123; var_name &#125;&#125;</code>. This markup will be replaced by the user's value for <code>var_name</code>, if available.{% endblocktrans %}</p>
+                        </div>
+                        <textarea class="markdown-text" ng-model="content.content"></textarea>
+                        <div class="markdown-html" ng-bind-html="html"></div>
+                    </div>
                 </div>
             </div>
 
