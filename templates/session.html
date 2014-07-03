@@ -29,6 +29,10 @@
             </fieldset>
         </form>
 
+        <div class="toggle" ng-if="pagelet.content_type == 'conditionalset'" class="conditionalset">
+            <div ng-repeat="text in pagelet.content track by $index" ng-bind-html="trust(text.content)"></div>
+        </div>
+
         <form class="form" ng-if="pagelet.content_type == 'form'" novalidate>
             <div ng-repeat="field in pagelet.content track by $index" ng-form="subForm">
 
@@ -75,6 +79,10 @@
                         {{ alt.label }}
                     </label>
                 </fieldset>
+
+                <div ng-if="field.field_type == 'hiddenfield'">
+                    <input type="hidden" name="{{ field.name }}" value="{{ field.value }}">
+                </div>
 
             </div>
         </form>

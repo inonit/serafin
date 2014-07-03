@@ -241,6 +241,21 @@ class Page(Content):
                 content = variable_replace(user, content)
                 pagelet['content'] = mistune.markdown(content)
 
+            if pagelet['content_type'] == 'conditionalset':
+                from system.engine import Engine
+
+                for text in pagelet['content']:
+
+                    conditions = text.get('conditions')
+                    passing = Engine.check_conditions(conditions, user, True)
+
+                    if passing:
+                        content = text.get('content')
+                        content = variable_replace(user, content)
+                        text['content'] = mistune.markdown(content)
+                    else:
+                        text['content'] = ''
+
 
 class EmailManager(models.Manager):
     def get_queryset(self):
