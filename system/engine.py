@@ -36,6 +36,71 @@ class Engine(object):
         except:
             return None
 
+    @classmethod
+    def check_conditions(cls, conditions, user, return_value):
+        '''Return a value for the first passing condition in a list of conditions'''
+
+        for condition in conditions:
+            var_name = condition.get('var_name')
+            operator = condition.get('operator')
+            value_a = condition.get('value')
+
+            # variable comparison:
+            # if value_a is actually another var_name, assign users value to it
+            value_a = user.data.get(value_a, value_a)
+            value_b = user.data.get(var_name)
+
+            if not value_a:
+                value_a = cls.get_system_var(var_name)
+
+            if not value_b:
+                value_b = cls.get_system_var(var_name)
+
+            try:
+                # try converting to float for numeric comparisons
+                value_a_float = float(value_a)
+                value_b_float = float(value_b)
+
+                # only set to float if both pass conversion
+                value_a = value_a_float
+                value_b = value_b_float
+            except:
+                pass
+
+            if var_name == 'group':
+                value_b = ', '.join(
+                    [group.__unicode__() for group in user.groups.all()]
+                )
+
+            if value_b:
+                if operator == 'eq':
+                    if value_b == value_a:
+                        return return_value
+
+                if operator == 'ne':
+                    if value_b != value_a:
+                        return return_value
+
+                if operator == 'lt':
+                    if value_b < value_a:
+                        return return_value
+
+                if operator == 'le':
+                    if value_b <= value_a:
+                        return return_value
+
+                if operator == 'gt':
+                    if value_b > value_a:
+                        return return_value
+
+                if operator == 'ge':
+                    if value_b >= value_a:
+                        return return_value
+
+                if operator == 'in':
+                    if unicode(value_a).lower() in unicode(value_b).lower():
+                        return return_value
+
     def traverse(self, edges, source_id):
         '''Select and return first edge where the user passes edge conditions'''
 
@@ -44,69 +109,9 @@ class Engine(object):
 
             if not conditions:
                 return edge
-
             else:
-                for condition in conditions:
+                return check_conditions(conditions, self.user, edge)
 
-                    var_name = condition.get('var_name')
-                    operator = condition.get('operator')
-                    value_a = condition.get('value')
-
-                    # variable comparison:
-                    # if value_a is actually another var_name, assign users value to it
-                    value_a = self.user.data.get(value_a, value_a)
-                    value_b = self.user.data.get(var_name)
-
-                    if not value_a:
-                        value_a = self.get_system_var(var_name)
-
-                    if not value_b:
-                        value_b = self.get_system_var(var_name)
-
-                    try:
-                        # try converting to float for numeric comparisons
-                        value_a_float = float(value_a)
-                        value_b_float = float(value_b)
-
-                        # only set to float if both pass conversion
-                        value_a = value_a_float
-                        value_b = value_b_float
-                    except:
-                        pass
-
-                    if var_name == 'group':
-                        value_b = ', '.join(
-                            [group.__unicode__() for group in self.user.groups.all()]
-                        )
-
-                    if value_b:
-                        if operator == 'eq':
-                            if value_b == value_a:
-                                return edge
-
-                        if operator == 'ne':
-                            if value_b != value_a:
-                                return edge
-
-                        if operator == 'lt':
-                            if value_b < value_a:
-                                return edge
-
-                        if operator == 'le':
-                            if value_b <= value_a:
-                                return edge
-
-                        if operator == 'gt':
-                            if value_b > value_a:
-                                return edge
-
-                        if operator == 'ge':
-                            if value_b >= value_a:
-                                return edge
-
-                        if operator == 'in':
-                            if unicode(value_a).lower() in unicode(value_b).lower():
-                                return edge
 
     def get_node_edges(self, source_id):
         return [edge for edge in self.edges if edge.get('source') == source_id]
