@@ -16,6 +16,24 @@ var dataTemplates = {
         content: '',
         toggle: '',
     },
+    'toggleset': {
+        content_type: 'toggleset',
+        content: {
+            variable_name: '',
+            label: '',
+            value: '',
+            alternatives: [],
+        },
+    },
+    'togglesetmulti': {
+        content_type: 'togglesetmulti',
+        content: {
+            variable_name: '',
+            label: '',
+            value: [],
+            alternatives: [],
+        },
+    },
     'conditionalset': {
         content_type: 'conditionalset',
         content: [],
@@ -27,14 +45,6 @@ var dataTemplates = {
             value: ''
         }],
         content: '',
-    },
-    'toggleset': {
-        content_type: 'toggleset',
-        content: {
-            variable_name: '',
-            label: '',
-            alternatives: [],
-        },
     },
     'form': {
         content_type: 'form',
@@ -95,7 +105,7 @@ var dataTemplates = {
         variable_name: '',
         label: '',
         required: false,
-        value: {},
+        value: [],
         alternatives: []
     },
     'hiddenfield': {

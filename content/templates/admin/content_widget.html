@@ -7,6 +7,7 @@
         <div class="btn add" ng-click="add(data, 'text')">{% trans 'Add text' %}</div>
         <div class="btn add" ng-click="add(data, 'toggle')">{% trans 'Add toggle' %}</div>
         <div class="btn add" ng-click="add(data, 'toggleset')">{% trans 'Add toggleset' %}</div>
+        <div class="btn add" ng-click="add(data, 'togglesetmulti')">{% trans 'Add toggleset multi' %}</div>
         <div class="btn add" ng-click="add(data, 'conditionalset')">{% trans 'Add conditional set' %}</div>
         <div class="btn add" ng-click="add(data, 'form')">{% trans 'Add form' %}</div>
         <div class="btn add" ng-click="add(data, 'quiz')">{% trans 'Add quiz' %}</div>
@@ -25,325 +26,322 @@
 
         <h3 class="title">{% verbatim %}{{ pagelet.content_type }}{% endverbatim %}</h3>
 
-        <div ng-switch on="pagelet.content_type">
-
-            <div ng-switch-when="text" class="text" ng-controller="markdown">
-                <div class="markdown-guide">
-                    <p>{% blocktrans %}This element uses <a href="http://markdown-guide.readthedocs.org/en/latest/basics.html">Markdown</a>. For variable replacement use <code ng-non-bindable>&#123;&#123; var_name &#125;&#125;</code>. This markup will be replaced by the user's value for <code>var_name</code>, if available.{% endblocktrans %}</p>
-                </div>
-                <textarea class="markdown-text" ng-model="pagelet.content"></textarea>
-                <div class="markdown-html" ng-bind-html="html"></div>
+        <div ng-if="pagelet.content_type == 'text'" class="text" ng-controller="markdown">
+            <div class="markdown-guide">
+                <p>{% blocktrans %}This element uses <a href="http://markdown-guide.readthedocs.org/en/latest/basics.html">Markdown</a>. For variable replacement use <code ng-non-bindable>&#123;&#123; var_name &#125;&#125;</code>. This markup will be replaced by the user's value for <code>var_name</code>, if available.{% endblocktrans %}</p>
             </div>
+            <textarea class="markdown-text" ng-model="pagelet.content"></textarea>
+            <div class="markdown-html" ng-bind-html="html"></div>
+        </div>
 
-            <div ng-switch-when="toggle" class="toggle" ng-controller="markdown">
+        <div ng-if="pagelet.content_type == 'toggle'" class="toggle" ng-controller="markdown">
+            <div class="field-data">
+                <label>{% trans 'Toggle text' %}</label>
+                <input type="text" class="wide" ng-model="pagelet.toggle">
+            </div>
+            <div class="markdown-guide">
+                <p>{% blocktrans %}This element uses <a href="http://markdown-guide.readthedocs.org/en/latest/basics.html">Markdown</a>. For variable replacement use <code ng-non-bindable>&#123;&#123; var_name &#125;&#125;</code>. This markup will be replaced by the user's value for <code>var_name</code>, if available.{% endblocktrans %}</p>
+            </div>
+            <textarea class="markdown-text" ng-model="pagelet.content"></textarea>
+            <div class="markdown-html" ng-bind-html="html"></div>
+        </div>
+
+        <div ng-if="pagelet.content_type == 'toggleset' || pagelet.content_type == 'togglesetmulti'" class="toggleset">
+
+            <div class="fieldset">
                 <div class="field-data">
-                    <label>{% trans 'Toggle text' %}</label>
-                    <input type="text" class="wide" ng-model="pagelet.toggle">
+                    <label>{% trans 'Label' %}</label>
+                    <input type="text" class="wide" ng-model="pagelet.content.label">
                 </div>
-                <div class="markdown-guide">
-                    <p>{% blocktrans %}This element uses <a href="http://markdown-guide.readthedocs.org/en/latest/basics.html">Markdown</a>. For variable replacement use <code ng-non-bindable>&#123;&#123; var_name &#125;&#125;</code>. This markup will be replaced by the user's value for <code>var_name</code>, if available.{% endblocktrans %}</p>
+                <div class="field-data">
+                    <label>{% trans 'Variable name' %}</label>
+                    <input type="text" ng-model="pagelet.content.variable_name">
                 </div>
-                <textarea class="markdown-text" ng-model="pagelet.content"></textarea>
-                <div class="markdown-html" ng-bind-html="html"></div>
             </div>
 
-            <div ng-switch-when="toggleset" class="toggleset">
+            <div class="toolbox">
+                <div class="btn add" ng-click="add(pagelet.content.alternatives, 'toggleitem')">{% trans 'Add item' %}</div>
+            </div>
+
+            <h4 class="title">{% trans 'Alternatives' %}</h4>
+
+            <div class="alt" ng-repeat="alt in pagelet.content.alternatives track by $index">
+
+                <div class="ctrl right">
+                    <a ng-click="up(pagelet.content, $index)" ng-hide="$first"><i class="icon-arrow-up icon-alpha5"></i></a>
+                    <a ng-click="down(pagelet.content, $index)" ng-hide="$last"><i class="icon-arrow-down icon-alpha5"></i></a>
+                    <a ng-click="delete(pagelet.content, $index)"><i class="icon-trash icon-alpha5"></i></a>
+                </div>
 
                 <div class="fieldset">
                     <div class="field-data">
                         <label>{% trans 'Label' %}</label>
-                        <input type="text" class="wide" ng-model="pagelet.content.label">
+                        <input type="text" class="wide" ng-model="alt.label">
+                    </div>
+                    <div class="field-data">
+                        <label>{% trans 'Value' %}</label>
+                        <input type="text" ng-model="alt.value">
+                    </div>
+                </div>
+
+                <div class="field-data">
+                    <label>{% trans 'Text' %}</label>
+                    <textarea class="input-xlarge" ng-model="alt.text"></textarea>
+                </div>
+
+            </div>
+        </div>
+
+        <div ng-if="pagelet.content_type == 'conditionalset'" class="conditionalset">
+
+            <div class="toolbox">
+                <div class="btn add" ng-click="add(pagelet.content, 'conditionaltext')">{% trans 'Add conditional text' %}</div>
+            </div>
+
+            <div class="field" ng-repeat="content in pagelet.content track by $index">
+
+                <div class="ctrl right">
+                    <a ng-click="up(pagelet.content, $index)" ng-hide="$first"><i class="icon-arrow-up icon-alpha5"></i></a>
+                    <a ng-click="down(pagelet.content, $index)" ng-hide="$last"><i class="icon-arrow-down icon-alpha5"></i></a>
+                    <a ng-click="delete(pagelet.content, $index)"><i class="icon-trash icon-alpha5"></i></a>
+                </div>
+
+                <h4 class="title">{% trans 'Text' %}</h4>
+
+                <div class="fieldset" ng-repeat="condition in content.conditions track by $index">
+                    <div class="field-data">
+                        <label>{% trans 'Variable name' %}</label>
+                        <input type="text" ng-model="condition.var_name">
+                    </div>
+                    <div class="field-data">
+                        <label>{% trans 'Condition' %}</label>
+                        <select ng-model="condition.operator" class="input-small">
+                            <option value="eq"> = </option>
+                            <option value="ne"> &ne; </option>
+                            <option value="lt"> &lt; </option>
+                            <option value="le"> &le; </option>
+                            <option value="gt"> &gt; </option>
+                            <option value="ge"> &ge; </option>
+                            <option value="in"> {% trans 'contains' %} </option>
+                        </select>
+                    </div>
+                    <div class="field-data">
+                        <label>{% trans 'Value' %}</label>
+                        <input type="text" ng-model="condition.value">
+                    </div>
+                </div>
+
+                <div class="field-data text" ng-controller="markdown">
+                    <div class="markdown-guide">
+                        <p>{% blocktrans %}This element uses <a href="http://markdown-guide.readthedocs.org/en/latest/basics.html">Markdown</a>. For variable replacement use <code ng-non-bindable>&#123;&#123; var_name &#125;&#125;</code>. This markup will be replaced by the user's value for <code>var_name</code>, if available.{% endblocktrans %}</p>
+                    </div>
+                    <textarea class="markdown-text" ng-model="content.content"></textarea>
+                    <div class="markdown-html" ng-bind-html="html"></div>
+                </div>
+            </div>
+        </div>
+
+        <div ng-if="pagelet.content_type == 'form'" class="form">
+
+            <div class="toolbox">
+                <div class="btn add" ng-click="add(pagelet.content, 'numeric')">{% trans 'Add numeric' %}</div>
+                <div class="btn add" ng-click="add(pagelet.content, 'string')">{% trans 'Add string' %}</div>
+                <div class="btn add" ng-click="add(pagelet.content, 'textarea')">{% trans 'Add text' %}</div>
+                <div class="btn add" ng-click="add(pagelet.content, 'multiplechoice')">{% trans 'Add multiple choice' %}</div>
+                <div class="btn add" ng-click="add(pagelet.content, 'multipleselection')">{% trans 'Add multiple selection' %}</div>
+                <div class="btn add" ng-click="add(pagelet.content, 'hiddenfield')">{% trans 'Add hidden field' %}</div>
+            </div>
+
+            <div class="field" ng-repeat="field in pagelet.content track by $index">
+
+                <div class="ctrl right">
+                    <a ng-click="up(pagelet.content, $index)" ng-hide="$first"><i class="icon-arrow-up icon-alpha5"></i></a>
+                    <a ng-click="down(pagelet.content, $index)" ng-hide="$last"><i class="icon-arrow-down icon-alpha5"></i></a>
+                    <a ng-click="delete(pagelet.content, $index)"><i class="icon-trash icon-alpha5"></i></a>
+                </div>
+
+                <h4 class="title">{% verbatim %}{{ field.field_type }}{% endverbatim %}</h4>
+
+                <div class="fieldset">
+                    <div class="field-data" ng-if="field.field_type != 'hiddenfield'">
+                        <label>{% trans 'Label' %}</label>
+                        <input type="text" class="wide" ng-model="field.label">
                     </div>
                     <div class="field-data">
                         <label>{% trans 'Variable name' %}</label>
-                        <input type="text" ng-model="pagelet.content.variable_name">
+                        <input type="text" ng-model="field.variable_name">
                     </div>
                 </div>
 
-                <div class="toolbox">
-                    <div class="btn add" ng-click="add(pagelet.content.alternatives, 'toggleitem')">{% trans 'Add item' %}</div>
+                <div class="fieldset">
+                    <div class="field-data" ng-if="field.field_type != 'multipleselection'">
+                        <label>{% trans 'Value' %}</label>
+                        <input type="text" ng-model="field.value">
+                    </div>
+                    <div class="field-data pull-down" ng-if="field.field_type != 'hiddenfield'">
+                        <label>
+                            <input type="checkbox" ng-model="field.required"> {% trans 'Required?' %}
+                        </label>
+                    </div>
+                    <div class="field-data" ng-if="field.field_type == 'hiddenfield'">
+                        <label>{% trans 'Value' %}</label>
+                        <input type="text" ng-model="field.value">
+                    </div>
                 </div>
 
-                <h4 class="title">{% trans 'Alternatives' %}</h4>
+                <div class="fieldset">
+                    <div class="field-data" ng-if="field.field_type == 'numeric'">
+                        <label>{% trans 'Lower limit' %}</label>
+                        <input type="text" ng-model="field.lower_limit">
+                    </div>
+                    <div class="field-data" ng-if="field.field_type == 'numeric'">
+                        <label>{% trans 'Upper limit' %}</label>
+                        <input type="text" ng-model="field.upper_limit">
+                    </div>
+                </div>
 
-                <div class="alt" ng-repeat="alt in pagelet.content.alternatives track by $index">
-
-                    <div class="ctrl right">
-                        <a ng-click="up(pagelet.content, $index)" ng-hide="$first"><i class="icon-arrow-up icon-alpha5"></i></a>
-                        <a ng-click="down(pagelet.content, $index)" ng-hide="$last"><i class="icon-arrow-down icon-alpha5"></i></a>
-                        <a ng-click="delete(pagelet.content, $index)"><i class="icon-trash icon-alpha5"></i></a>
+                <div class="field-data" ng-if="field.field_type == 'multiplechoice' || field.field_type == 'multipleselection'">
+                    <div class="toolbox">
+                        <div class="btn add" ng-click="add(field.alternatives, 'alternative')">{% trans 'Add alternative' %}</div>
                     </div>
 
-                    <div class="fieldset">
-                        <div class="field-data">
-                            <label>{% trans 'Label' %}</label>
-                            <input type="text" class="wide" ng-model="alt.label">
-                        </div>
-                        <div class="field-data">
-                            <label>{% trans 'Value' %}</label>
-                            <input type="text" ng-model="alt.value">
-                        </div>
-                    </div>
+                    <h5 class="title">{% trans 'Alternatives' %}</h5>
 
+                    <div class="alt" ng-repeat="alt in field.alternatives track by $index">
+
+                        <div class="ctrl right">
+                            <a ng-click="up(field.alternatives, $index)" ng-hide="$first"><i class="icon-arrow-up icon-alpha5"></i></a>
+                            <a ng-click="down(field.alternatives, $index)" ng-hide="$last"><i class="icon-arrow-down icon-alpha5"></i></a>
+                            <a ng-click="delete(field.alternatives, $index)"><i class="icon-trash icon-alpha5"></i></a>
+                        </div>
+
+                        <div class="fieldset">
+                            <div>
+                                <label>{% trans 'Label' %}</label>
+                                <input type="text" class="wide" ng-model="alt.label">
+                            </div>
+                            <div>
+                                <label>{% trans 'Value' %}</label>
+                                <input type="text" ng-model="alt.value">
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <div ng-if="pagelet.content_type == 'quiz'" class="quiz">
+
+            <div class="toolbox">
+                <div class="btn add" ng-click="add(pagelet.content, 'question')">{% trans 'Add question' %}</div>
+            </div>
+
+
+            <div class="field" ng-repeat="question in pagelet.content track by $index">
+
+                <div class="ctrl right">
+                    <a ng-click="up(pagelet.content, $index)" ng-hide="$first"><i class="icon-arrow-up icon-alpha5"></i></a>
+                    <a ng-click="down(pagelet.content, $index)" ng-hide="$last"><i class="icon-arrow-down icon-alpha5"></i></a>
+                    <a ng-click="delete(pagelet.content, $index)"><i class="icon-trash icon-alpha5"></i></a>
+                </div>
+
+                <h4 class="title">{% trans 'Question' %}</h4>
+
+                <div class="fieldset">
                     <div class="field-data">
-                        <label>{% trans 'Text' %}</label>
-                        <textarea class="input-xlarge" ng-model="alt.text"></textarea>
+                        <label>{% trans 'Question' %}</label>
+                        <input type="text" class="wide" ng-model="question.question">
                     </div>
-
-                </div>
-            </div>
-
-            <div ng-switch-when="conditionalset" class="conditionalset">
-
-                <div class="toolbox">
-                    <div class="btn add" ng-click="add(pagelet.content, 'conditionaltext')">{% trans 'Add conditional text' %}</div>
-                </div>
-
-                <div class="field" ng-repeat="content in pagelet.content track by $index">
-
-                    <div class="ctrl right">
-                        <a ng-click="up(pagelet.content, $index)" ng-hide="$first"><i class="icon-arrow-up icon-alpha5"></i></a>
-                        <a ng-click="down(pagelet.content, $index)" ng-hide="$last"><i class="icon-arrow-down icon-alpha5"></i></a>
-                        <a ng-click="delete(pagelet.content, $index)"><i class="icon-trash icon-alpha5"></i></a>
-                    </div>
-
-                    <h4 class="title">{% trans 'Text' %}</h4>
-
-                    <div class="fieldset" ng-repeat="condition in content.conditions track by $index">
-                        <div class="field-data">
-                            <label>{% trans 'Variable name' %}</label>
-                            <input type="text" ng-model="condition.var_name">
-                        </div>
-                        <div class="field-data">
-                            <label>{% trans 'Condition' %}</label>
-                            <select ng-model="condition.operator" class="input-small">
-                                <option value="eq"> = </option>
-                                <option value="ne"> &ne; </option>
-                                <option value="lt"> &lt; </option>
-                                <option value="le"> &le; </option>
-                                <option value="gt"> &gt; </option>
-                                <option value="ge"> &ge; </option>
-                                <option value="in"> {% trans 'contains' %} </option>
-                            </select>
-                        </div>
-                        <div class="field-data">
-                            <label>{% trans 'Value' %}</label>
-                            <input type="text" ng-model="condition.value">
-                        </div>
-                    </div>
-
-                    <div class="field-data text" ng-controller="markdown">
-                        <div class="markdown-guide">
-                            <p>{% blocktrans %}This element uses <a href="http://markdown-guide.readthedocs.org/en/latest/basics.html">Markdown</a>. For variable replacement use <code ng-non-bindable>&#123;&#123; var_name &#125;&#125;</code>. This markup will be replaced by the user's value for <code>var_name</code>, if available.{% endblocktrans %}</p>
-                        </div>
-                        <textarea class="markdown-text" ng-model="content.content"></textarea>
-                        <div class="markdown-html" ng-bind-html="html"></div>
-                    </div>
-                </div>
-            </div>
-
-            <div ng-switch-when="form" class="form">
-
-                <div class="toolbox">
-                    <div class="btn add" ng-click="add(pagelet.content, 'numeric')">{% trans 'Add numeric' %}</div>
-                    <div class="btn add" ng-click="add(pagelet.content, 'string')">{% trans 'Add string' %}</div>
-                    <div class="btn add" ng-click="add(pagelet.content, 'textarea')">{% trans 'Add text' %}</div>
-                    <div class="btn add" ng-click="add(pagelet.content, 'multiplechoice')">{% trans 'Add multiple choice' %}</div>
-                    <div class="btn add" ng-click="add(pagelet.content, 'multipleselection')">{% trans 'Add multiple selection' %}</div>
-                    <div class="btn add" ng-click="add(pagelet.content, 'hiddenfield')">{% trans 'Add hidden field' %}</div>
-                </div>
-
-                <div class="field" ng-repeat="field in pagelet.content track by $index">
-
-                    <div class="ctrl right">
-                        <a ng-click="up(pagelet.content, $index)" ng-hide="$first"><i class="icon-arrow-up icon-alpha5"></i></a>
-                        <a ng-click="down(pagelet.content, $index)" ng-hide="$last"><i class="icon-arrow-down icon-alpha5"></i></a>
-                        <a ng-click="delete(pagelet.content, $index)"><i class="icon-trash icon-alpha5"></i></a>
-                    </div>
-
-                    <h4 class="title">{% verbatim %}{{ field.field_type }}{% endverbatim %}</h4>
-
-                    <div class="fieldset">
-                        <div class="field-data" ng-if="field.field_type != 'hiddenfield'">
-                            <label>{% trans 'Label' %}</label>
-                            <input type="text" class="wide" ng-model="field.label">
-                        </div>
-                        <div class="field-data">
-                            <label>{% trans 'Variable name' %}</label>
-                            <input type="text" ng-model="field.variable_name">
-                        </div>
-                    </div>
-
-                    <div class="fieldset">
-                        <div class="field-data" ng-if="field.field_type != 'multipleselection'">
-                            <label>{% trans 'Value' %}</label>
-                            <input type="text" ng-model="field.value">
-                        </div>
-                        <div class="field-data pull-down" ng-if="field.field_type != 'hiddenfield'">
-                            <label>
-                                <input type="checkbox" ng-model="field.required"> {% trans 'Required?' %}
-                            </label>
-                        </div>
-                        <div class="field-data" ng-if="field.field_type == 'hiddenfield'">
-                            <label>{% trans 'Value' %}</label>
-                            <input type="text" ng-model="field.value">
-                        </div>
-                    </div>
-
-                    <div class="fieldset">
-                        <div class="field-data" ng-if="field.field_type == 'numeric'">
-                            <label>{% trans 'Lower limit' %}</label>
-                            <input type="text" ng-model="field.lower_limit">
-                        </div>
-                        <div class="field-data" ng-if="field.field_type == 'numeric'">
-                            <label>{% trans 'Upper limit' %}</label>
-                            <input type="text" ng-model="field.upper_limit">
-                        </div>
-                    </div>
-
-                    <div class="field-data" ng-if="field.field_type == 'multiplechoice' || field.field_type == 'multipleselection'">
-                        <div class="toolbox">
-                            <div class="btn add" ng-click="add(field.alternatives, 'alternative')">{% trans 'Add alternative' %}</div>
-                        </div>
-
-                        <h5 class="title">{% trans 'Alternatives' %}</h5>
-
-                        <div class="alt" ng-repeat="alt in field.alternatives track by $index">
-
-                            <div class="ctrl right">
-                                <a ng-click="up(field.alternatives, $index)" ng-hide="$first"><i class="icon-arrow-up icon-alpha5"></i></a>
-                                <a ng-click="down(field.alternatives, $index)" ng-hide="$last"><i class="icon-arrow-down icon-alpha5"></i></a>
-                                <a ng-click="delete(field.alternatives, $index)"><i class="icon-trash icon-alpha5"></i></a>
-                            </div>
-
-                            <div class="fieldset">
-                                <div>
-                                    <label>{% trans 'Label' %}</label>
-                                    <input type="text" class="wide" ng-model="alt.label">
-                                </div>
-                                <div>
-                                    <label>{% trans 'Value' %}</label>
-                                    <input type="text" ng-model="alt.value">
-                                </div>
-                            </div>
-
-                        </div>
-                    </div>
-
-                </div>
-            </div>
-
-            <div ng-switch-when="quiz" class="quiz">
-
-                <div class="toolbox">
-                    <div class="btn add" ng-click="add(pagelet.content, 'question')">{% trans 'Add question' %}</div>
-                </div>
-
-
-                <div class="field" ng-repeat="question in pagelet.content track by $index">
-
-                    <div class="ctrl right">
-                        <a ng-click="up(pagelet.content, $index)" ng-hide="$first"><i class="icon-arrow-up icon-alpha5"></i></a>
-                        <a ng-click="down(pagelet.content, $index)" ng-hide="$last"><i class="icon-arrow-down icon-alpha5"></i></a>
-                        <a ng-click="delete(pagelet.content, $index)"><i class="icon-trash icon-alpha5"></i></a>
-                    </div>
-
-                    <h4 class="title">{% trans 'Question' %}</h4>
-
-                    <div class="fieldset">
-                        <div class="field-data">
-                            <label>{% trans 'Question' %}</label>
-                            <input type="text" class="wide" ng-model="question.question">
-                        </div>
-                        <div class="field-data">
-                            <label>{% trans 'Variable name' %}</label>
-                            <input type="text" ng-model="question.variable_name">
-                        </div>
-                    </div>
-
                     <div class="field-data">
-                        <div class="toolbox">
-                            <div class="btn add" ng-click="add(question.alternatives, 'alternative')">{% trans 'Add alternative' %}</div>
+                        <label>{% trans 'Variable name' %}</label>
+                        <input type="text" ng-model="question.variable_name">
+                    </div>
+                </div>
+
+                <div class="field-data">
+                    <div class="toolbox">
+                        <div class="btn add" ng-click="add(question.alternatives, 'alternative')">{% trans 'Add alternative' %}</div>
+                    </div>
+
+                    <h5 class="title">{% trans 'Alternatives' %}</h5>
+
+                    <div class="alt" ng-repeat="alt in question.alternatives track by $index">
+
+                        <div class="ctrl right">
+                            <a ng-click="up(question.alternatives, $index)" ng-hide="$first"><i class="icon-arrow-up icon-alpha5"></i></a>
+                            <a ng-click="down(question.alternatives, $index)" ng-hide="$last"><i class="icon-arrow-down icon-alpha5"></i></a>
+                            <a ng-click="delete(question.alternatives, $index)"><i class="icon-trash icon-alpha5"></i></a>
                         </div>
 
-                        <h5 class="title">{% trans 'Alternatives' %}</h5>
-
-                        <div class="alt" ng-repeat="alt in question.alternatives track by $index">
-
-                            <div class="ctrl right">
-                                <a ng-click="up(question.alternatives, $index)" ng-hide="$first"><i class="icon-arrow-up icon-alpha5"></i></a>
-                                <a ng-click="down(question.alternatives, $index)" ng-hide="$last"><i class="icon-arrow-down icon-alpha5"></i></a>
-                                <a ng-click="delete(question.alternatives, $index)"><i class="icon-trash icon-alpha5"></i></a>
+                        <div class="fieldset">
+                            <div>
+                                <label>{% trans 'Label' %}</label>
+                                <input type="text" class="wide" ng-model="alt.label">
                             </div>
-
-                            <div class="fieldset">
-                                <div>
-                                    <label>{% trans 'Label' %}</label>
-                                    <input type="text" class="wide" ng-model="alt.label">
-                                </div>
-                                <div>
-                                    <label>{% trans 'Value' %}</label>
-                                    <input type="text" ng-model="alt.value">
-                                </div>
-                                <div class="pull-down">
-                                    <label>
-                                        <input type="checkbox" ng-model="alt.correct"> {% trans 'Correct?' %}
-                                    </label>
-                                </div>
+                            <div>
+                                <label>{% trans 'Value' %}</label>
+                                <input type="text" ng-model="alt.value">
                             </div>
-
-                            <div class="field-data">
-                                <label>{% trans 'Response' %}</label>
-                                <textarea class="input-xlarge" ng-model="alt.response"></textarea>
+                            <div class="pull-down">
+                                <label>
+                                    <input type="checkbox" ng-model="alt.correct"> {% trans 'Correct?' %}
+                                </label>
                             </div>
-
                         </div>
+
+                        <div class="field-data">
+                            <label>{% trans 'Response' %}</label>
+                            <textarea class="input-xlarge" ng-model="alt.response"></textarea>
+                        </div>
+
                     </div>
                 </div>
             </div>
+        </div>
 
-            <div ng-switch-when="image" class="image">
-                <div class="filer">
-                    {{ file_widget|safe }}
-                </div>
-                <div class="field-data">
-                    <label>{% trans 'Alt title' %}</label>
-                    <input type="text" ng-model="pagelet.content.alt">
-                </div>
-                <div class="field-data">
-                    <label>{% trans 'Title' %}</label>
-                    <input type="text" ng-model="pagelet.content.title">
-                </div>
+        <div ng-if="pagelet.content_type == 'image'" class="image">
+            <div class="filer">
+                {{ file_widget|safe }}
             </div>
-
-            <div ng-switch-when="video" class="video">
-                <div class="filer">
-                    {{ file_widget|safe }}
-                </div>
-                <div class="field-data">
-                    <label>{% trans 'Title' %}</label>
-                    <input type="text" ng-model="pagelet.content.title">
-                </div>
+            <div class="field-data">
+                <label>{% trans 'Alt title' %}</label>
+                <input type="text" ng-model="pagelet.content.alt">
             </div>
-
-            <div ng-switch-when="audio" class="audio">
-                <div class="filer">
-                    {{ file_widget|safe }}
-                </div>
-                <div class="field-data">
-                    <label>{% trans 'Title' %}</label>
-                    <input type="text" ng-model="pagelet.content.title">
-                </div>
+            <div class="field-data">
+                <label>{% trans 'Title' %}</label>
+                <input type="text" ng-model="pagelet.content.title">
             </div>
+        </div>
 
-            <div ng-switch-when="file" class="file">
-                <div class="filer">
-                    {{ file_widget|safe }}
-                </div>
-                <div class="field-data">
-                    <label>{% trans 'Title' %}</label>
-                    <input type="text" ng-model="pagelet.content.title">
-                </div>
+        <div ng-if="pagelet.content_type == 'video'" class="video">
+            <div class="filer">
+                {{ file_widget|safe }}
+            </div>
+            <div class="field-data">
+                <label>{% trans 'Title' %}</label>
+                <input type="text" ng-model="pagelet.content.title">
+            </div>
+        </div>
+
+        <div ng-if="pagelet.content_type == 'audio'" class="audio">
+            <div class="filer">
+                {{ file_widget|safe }}
+            </div>
+            <div class="field-data">
+                <label>{% trans 'Title' %}</label>
+                <input type="text" ng-model="pagelet.content.title">
+            </div>
+        </div>
+
+        <div ng-if="pagelet.content_type == 'file'" class="file">
+            <div class="filer">
+                {{ file_widget|safe }}
+            </div>
+            <div class="field-data">
+                <label>{% trans 'Title' %}</label>
+                <input type="text" ng-model="pagelet.content.title">
             </div>
         </div>
     </div>

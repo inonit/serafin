@@ -29,7 +29,21 @@
             </fieldset>
         </form>
 
-        <div class="toggle" ng-if="pagelet.content_type == 'conditionalset'" class="conditionalset">
+        <form class="togglesetmulti" ng-if="pagelet.content_type == 'togglesetmulti'" novalidate>
+            <fieldset ng-form="subForm">
+                <legend>{{ pagelet.content.label }}</legend>
+                {% endverbatim %}
+                <div class="error right" ng-show="form.submitted && subForm.$error.required">{% trans 'Please choose one' %}</div>
+                {% verbatim %}
+                <label ng-repeat="alt in pagelet.content.alternatives track by $index">
+                    <input name="answer" type="checkbox" ng-controller="checkboxlist" ng-model="alt.selected" ng-click="toggle(pagelet.content.value, alt.value)">
+                    {{ alt.label }}
+                </label>
+                <div>{{ pagelet.content.text }}</div>
+            </fieldset>
+        </form>
+
+        <div class="conditionalset" ng-if="pagelet.content_type == 'conditionalset'" class="conditionalset">
             <div ng-repeat="text in pagelet.content track by $index" ng-bind-html="trust(text.content)"></div>
         </div>
 

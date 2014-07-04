@@ -35,7 +35,7 @@ serafin.controller('pages', ['$scope', '$http', '$sce', function(scope, http, sc
 
         var data = [];
         scope.page.forEach(function(pagelet) {
-            if (pagelet.content_type == 'form') {
+            if (['form', 'quiz'].indexOf(pagelet.content_type) > -1) {
                 pagelet.content.forEach(function(field) {
                     data.push({
                         key: field.variable_name,
@@ -43,7 +43,7 @@ serafin.controller('pages', ['$scope', '$http', '$sce', function(scope, http, sc
                     });
                 });
             }
-            if (pagelet.content_type == 'toggleset') {
+            if (['toggleset', 'togglesetmulti'].indexOf(pagelet.content_type) > -1) {
                 data.push({
                     key: pagelet.content.variable_name,
                     value: pagelet.content.value,
@@ -93,6 +93,13 @@ serafin.controller('checkboxlist', ['$scope', function(scope) {
             list.splice(index, 1);
         }
     };
+    scope.$watch('alt.selected', function(newVal, oldVal) {
+        if (newVal) {
+            scope.pagelet.content.text = scope.alt.text;
+        } else {
+            scope.pagelet.content.text = '';
+        }
+    });
 }]);
 
 serafin.directive('title', function() {
