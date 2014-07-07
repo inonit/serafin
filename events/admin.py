@@ -3,11 +3,13 @@ from django.utils.translation import ugettext_lazy as _
 
 from django.contrib import admin
 from django.core.urlresolvers import reverse
+from import_export.admin import ImportExportModelAdmin
 
+from events.importexport import EventResource
 from events.models import Event
 
 
-class EventAdmin(admin.ModelAdmin):
+class EventAdmin(ImportExportModelAdmin):
     list_display = ['actor_link', 'time', 'domain', 'variable', 'pre_value', 'post_value']
     list_display_links = []
     list_filter = ['time', 'domain']
@@ -35,5 +37,10 @@ class EventAdmin(admin.ModelAdmin):
     def has_delete_permission(self, request, obj=None):
         return False
 
+    resource_class = EventResource
+    change_list_template = 'admin/events/event/change_list.html'
+
+
+print EventAdmin.change_list_template
 
 admin.site.register(Event, EventAdmin)
