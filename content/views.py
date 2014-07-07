@@ -28,12 +28,14 @@ def get_session(request):
         session_id = request.user.data['current_session']
         session = Session.objects.get(id=session_id)
         program = session.program
-    except:
-        program = ''
+    except Exception, e:
+        # TODO: redirect to front page or user profile
+        session = None
+        program = None
 
     context = {
         'program': program,
-        'title': session.display_title,
+        'title': session.display_title if session else '',
         'api': reverse('content_api'),
     }
 
