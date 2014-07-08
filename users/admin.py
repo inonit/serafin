@@ -5,6 +5,7 @@ from django import forms
 from django.conf import settings
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
+from django.db.models import Q
 from django.template.loader import render_to_string
 from django.utils.safestring import mark_safe
 from import_export.admin import ImportExportModelAdmin
@@ -12,6 +13,9 @@ from jsonfield import JSONField
 from events.models import Event
 from users.importexport import UserResource
 from users.models import User
+
+from filer.admin import FolderAdmin
+from filer.models import Folder
 
 
 class UserCreationForm(forms.ModelForm):
@@ -164,4 +168,26 @@ class UserAdmin(UserAdmin, ImportExportModelAdmin):
     resource_class = UserResource
 
 
+class CustomUserModelFilerAdmin(FolderAdmin):
+    @staticmethod
+    def filter_folder(qs, terms=[]):
+        for term in terms:
+            qs = qs.filter(
+                Q(name__icontains=term)
+            )
+        return qs
+
+    @staticmethod
+    def filter_file(qs, terms=[]):
+        for term in terms:
+            qs = qs.filter(
+                Q(name__icontains=term) |
+                Q(description__icontains=term) |
+                Q(original_filename__icontains=term)
+            )
+        return qs
+
+
+admin.site.unregister(Folder)
 admin.site.register(User, UserAdmin)
+admin.site.register(Folder, CustomUserModelFilerAdmin)
