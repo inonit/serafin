@@ -24,14 +24,22 @@ class EventTrackingMiddleware(object):
                 post_data = json.loads(request.body)
                 for item in post_data:
                     key = item.get('key', '')
-                    value = item.get('value', '')
+                    pre_value = request.user.data.get(key, '')
+                    post_value = item.get('value', '')
+
+                    if isinstance(pre_value, list):
+                        pre_value = ', '.join([v.strip() for v in pre_value])
+
+                    if isinstance(post_value, list):
+                        post_value = ', '.join([v.strip() for v in post_value])
+
                     event = Event(
                         time=timezone.localtime(timezone.now()),
                         domain='userdata',
                         actor=request.user,
                         variable=key,
-                        pre_value=request.user.data.get(key, ''),
-                        post_value=unicode(value),
+                        pre_value=unicode(pre_value),
+                        post_value=unicode(post_value),
                     )
                     event.save()
             except:
