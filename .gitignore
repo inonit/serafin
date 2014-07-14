@@ -28,3 +28,5 @@ local_settings.py
 *.db
 /media
 /static
+/.emacs.desktop
+/.emacs.desktop.lock

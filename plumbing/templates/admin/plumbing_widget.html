@@ -1,5 +1,12 @@
 {% load i18n %}
-<div id="plumbing" class="plumbing" ng-app="plumbing" ng-controller="graph">
+<div id="plumbing" class="plumbing" ng-app="plumbing"
+     ng-controller="graph" 
+     ng-mousedown="startScrolling()"
+     ng-mouseup="stopScrolling()"
+     ng-mouseenter="stopScrolling()"
+     ng-mouseleave="stopScrolling()"
+     ng-blur="stopScrolling()"
+     ng-mousemove="scroll($event)">
 
     <div class="toolbox">
         <div class="btn" ng-click="addNode('page')" id="lookup_{% verbatim %}{{ current_noderef }}{% endverbatim %}">{% trans 'Add page' %}</div>
@@ -15,7 +22,7 @@
 
     <div class="floatbox"></div>
 
-    <div class="node box" ng-class="node.type" ng-repeat="node in data.nodes track by node.id" ng-style="node.metrics" ng-model="data.nodes">
+    <div class="node box" ng-class="node.type" ng-repeat="node in data.nodes track by node.id" ng-style="getMetrics(node)" ng-model="data.nodes">
         <span ng-if="node.type == 'email'">
             <i class="icon-envelope icon-alpha5"></i>
         </span>

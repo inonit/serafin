@@ -111,6 +111,46 @@ plumbing.controller('graph', ['$scope', 'jsPlumb', function(scope, jsPlumbServic
         };
     };
 
+    // scrolling
+    scope.scrolling = {locked: false, x: 0, y: 0, prevX: null, prevY: null};
+
+    scope.startScrolling = function() {
+        if (scope.scrolling.locked !== "node") {
+            scope.scrolling.locked = true;
+        }
+    };
+    scope.scroll = function(e) {
+        if (scope.scrolling.locked === true) {
+            var x = e.clientX;
+            var y = e.clientY;
+            if (scope.scrolling.prevX === null || scope.scrolling.prevY === null) {
+                scope.scrolling.prevX = x;
+                scope.scrolling.prevY = y;
+            }
+            var shiftX = 
+                scope.scrolling.prevX === x ? 0 :
+                scope.scrolling.prevX - x;
+            var shiftY =
+                scope.scrolling.prevY === y ? 0 :
+                scope.scrolling.prevY - y;
+            
+            scope.scrolling.x -= shiftX;
+            scope.scrolling.y -= shiftY;
+            scope.scrolling.prevX = x;
+            scope.scrolling.prevY = y;
+            
+            scope.jsPlumb.repaintEverything();
+        }
+    };
+    scope.stopScrolling = function() {
+        scope.scrolling.prevX = null;
+        scope.scrolling.prevY = null;
+        scope.scrolling.locked = false;
+        scope.jsPlumb.repaintEverything();
+    }
+
+    // end of scrolling
+
     scope.addNode = function(type) {
         var id = 1;
         if (scope.data.nodes.length) {
@@ -126,8 +166,8 @@ plumbing.controller('graph', ['$scope', 'jsPlumb', function(scope, jsPlumbServic
                     unit: '',
                 },
                 metrics: {
-                    left: '300px',
-                    top: '100px'
+                    left: "300px",
+                    top: "100px"
                 }
             });
             return;
@@ -142,12 +182,17 @@ plumbing.controller('graph', ['$scope', 'jsPlumb', function(scope, jsPlumbServic
             ref_url: url.add(),
             title: '?',
             metrics: {
-                left: '300px',
-                top: '100px'
+                left: (300 - scope.scrolling.x) + "px",
+                top: (100 - scope.scrolling.y) + "px"
             }
         });
 
         scope.popup(url.get(), id);
+    };
+    scope.getMetrics = function(node) {
+        var x = parseInt(node.metrics.left) + scope.scrolling.x;
+        var y = parseInt(node.metrics.top) + scope.scrolling.y;
+        return {"left": x + "px", "top": y + "px"};
     };
 
     scope.deleteNode = function(index) {
@@ -207,8 +252,16 @@ plumbing.directive('node', ['$timeout', 'jsPlumb', function(timeout, jsPlumbServ
             // apply changes in metrics when a drag move ends
             element.bind('mouseup', function(e) {
                 scope.$apply(function() {
-                    scope.node.metrics.left = element[0].style.left;
-                    scope.node.metrics.top = element[0].style.top;
+                    scope.scrolling.locked = false;
+                    var x = parseInt(element[0].style.left) - scope.scrolling.x;
+                    var y = parseInt(element[0].style.top) - scope.scrolling.y;
+                    scope.node.metrics.left = x + "px";
+                    scope.node.metrics.top = y + "px";
+                });
+            });
+            element.bind('mousedown', function(e) {
+                scope.$apply(function() {
+                    scope.scrolling.locked = "node";
                 });
             });
 
