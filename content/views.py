@@ -5,6 +5,7 @@ from django.contrib.admin.views.decorators import staff_member_required
 from django.core.urlresolvers import reverse
 from django.shortcuts import get_object_or_404, render
 from filer.models import File, Image
+from serafin.decorators import in_session
 from serafin.utils import JSONResponse
 from system.models import Session, Page
 from system.engine import Engine
@@ -12,6 +13,7 @@ import json
 
 
 @login_required
+@in_session("/login")
 def get_session(request):
 
     if request.is_ajax():
@@ -24,14 +26,9 @@ def get_session(request):
         request.user.data['current_node'] = 0
         request.user.save()
 
-    try:
-        session_id = request.user.data['current_session']
-        session = Session.objects.get(id=session_id)
-        program = session.program
-    except Exception, e:
-        # TODO: redirect to front page or user profile
-        session = None
-        program = None
+    session_id = request.user.data['current_session']
+    session = Session.objects.get(id=session_id)
+    program = session.program
 
     context = {
         'program': program,
