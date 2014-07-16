@@ -52,12 +52,11 @@ serafin.controller('pages', ['$scope', '$http', '$sce', function(scope, http, sc
         });
 
         var request = {
-            method: 'GET',
+            method: 'POST',
             url: api + '?next=1',
         };
 
         if (data.length > 0) {
-            request.method = 'POST';
             request.data = data;
         }
 

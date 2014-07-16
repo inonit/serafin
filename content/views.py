@@ -58,7 +58,7 @@ def get_page(request):
 
     # engine selection
     else:
-        next = request.GET.get('next', None)
+        next = request.GET.get('next', None) if request.method == 'POST' else None
         engine = Engine(request.user, context)
         page = engine.run(next)
 
