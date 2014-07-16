@@ -1,4 +1,5 @@
 from django.conf.urls import patterns, include, url
+from events import receivers
 
 urlpatterns = patterns('',
     url(r'^$', 'content.views.get_session', name='content'),

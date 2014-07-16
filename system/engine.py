@@ -1,6 +1,8 @@
 from __future__ import unicode_literals
+from django.core.signals import request_finished
 from django.utils.translation import ugettext_lazy as _
 
+from events.signals import log_event
 from system.models import Variable, Session, Page, Email, SMS
 from tasker.models import Task
 from huey.djhuey import db_task
@@ -149,6 +151,11 @@ class Engine(object):
             node = self.trigger_node(target_id)
 
             if isinstance(node, Page):
+                log_event.send(self, domain="session", actor=self.user,
+                               variable="transition",
+                               pre_value=self.nodes[int(self.user.data.get("current_node"))].get("ref_id"),
+                               post_value=node.id)
+
                 self.user.data['current_node'] = target_id
                 self.user.save()
 
@@ -189,6 +196,16 @@ class Engine(object):
                 action=_('Delayed node execution')
             )
 
+            log_event.send(self, domain="session", actor=self.user,
+                           variable="delay",
+                           pre_value="",
+                           post_value=u"Delay: {number} {unit}, Node id: {node_id}, Session start time: {start_time}".format(
+                               unit=delay.get("unit"),
+                               number=delay.get("number"),
+                               node_id=node_id,
+                               start_time=self.session.start_time
+                           ))
+
             return None
 
         if node_type == 'email':
@@ -196,12 +213,22 @@ class Engine(object):
             email = Email.objects.get(id=ref_id)
             email.send(self.user)
 
+            log_event.send(self, domain="session", actor=self.user,
+                           variable="email",
+                           pre_value="",
+                           post_value=u"ID: {id}".format(id=ref_id))
+
             return self.transition(node_id)
 
         if node_type == 'sms':
 
             sms = SMS.objects.get(id=ref_id)
             sms.send(self.user)
+
+            log_event.send(self, domain="session", actor=self.user,
+                           variable="SMS",
+                           pre_value="",
+                           post_value=u"ID: {id}".format(id=ref_id))
 
             return self.transition(node_id)
 
