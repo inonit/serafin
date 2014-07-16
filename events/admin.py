@@ -40,7 +40,4 @@ class EventAdmin(ImportExportModelAdmin):
     resource_class = EventResource
     change_list_template = 'admin/events/event/change_list.html'
 
-
-print EventAdmin.change_list_template
-
 admin.site.register(Event, EventAdmin)
