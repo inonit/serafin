@@ -153,8 +153,8 @@ class Engine(object):
             if isinstance(node, Page):
                 log_event.send(self, domain="session", actor=self.user,
                                variable="transition",
-                               pre_value=self.nodes[int(self.user.data.get("current_node"))].get("ref_id"),
-                               post_value=node.id)
+                               pre_value=self.nodes[int(self.user.data.get("current_node"))].get("title"),
+                               post_value=node)
 
                 self.user.data['current_node'] = target_id
                 self.user.save()
