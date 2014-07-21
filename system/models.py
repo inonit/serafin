@@ -2,6 +2,8 @@ from __future__ import unicode_literals
 from django.utils.translation import ugettext_lazy as _
 
 from django.db import models
+from django.db.models.signals import pre_save
+from django.dispatch import receiver
 from django.conf import settings
 from django.core.urlresolvers import reverse
 from django.utils import timezone
@@ -11,6 +13,7 @@ from serafin.utils import variable_replace, process_session_links
 import datetime
 import mistune
 import random
+import re
 
 
 class Variable(models.Model):
@@ -171,6 +174,22 @@ class Session(models.Model):
         }
         timedelta = datetime.timedelta(**kwargs)
         return start_time + timedelta
+
+
+@receiver(pre_save, sender=Session)
+def session_ref_id_fix(sender, instance, *args, **kwargs):
+    """Sometimes ref_id gets set to an empty string for unknown reasons. This is a dirty fix for that problem"""
+    nodes = instance.data.get("nodes", [])
+    for node in nodes:
+        ref_id = node.get("ref_id")
+        type = node.get("type")
+        if type in ["page", "email", "sms"] and ref_id == "":
+            ref_url = node.get("ref_url")
+            try:
+                node["ref_id"] = int(re.findall("\d+", ref_url)[0])
+            except Exception, (e):
+                pass
+
 
 
 class Content(models.Model):
