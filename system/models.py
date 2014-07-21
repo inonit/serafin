@@ -3,6 +3,7 @@ from django.utils.translation import ugettext_lazy as _
 
 from django.db import models
 from django.db.models.signals import pre_save
+from django.db.models.signals import post_save
 from django.dispatch import receiver
 from django.conf import settings
 from django.core.urlresolvers import reverse
@@ -177,7 +178,7 @@ class Session(models.Model):
 
 
 @receiver(pre_save, sender=Session)
-def session_ref_id_fix(sender, instance, *args, **kwargs):
+def session_pre_save(sender, instance, *args, **kwargs):
     """Sometimes ref_id gets set to an empty string for unknown reasons. This is a dirty fix for that problem"""
     nodes = instance.data.get("nodes", [])
     for node in nodes:
@@ -274,6 +275,19 @@ class Page(Content):
                         text['content'] = mistune.markdown(content)
                     else:
                         text['content'] = ''
+
+
+@receiver(post_save, sender=Page)
+def page_post_save(sender, instance, *args, **kwargs):
+    for session in Session.objects.all():
+        nodes = session.data.get("nodes", [])
+        for node in nodes:
+            try:
+                if instance.id == int(node.get("ref_id")):
+                    node["title"] = instance.title
+                    session.save()
+            except Exception, (e):
+                pass
 
 
 class EmailManager(models.Manager):
