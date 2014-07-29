@@ -341,6 +341,9 @@ SOUTH_MIGRATION_MODULES = {
     'easy_thumbnails': 'easy_thumbnails.south_migrations',
 }
 
+# Variables
+
+FORBIDDEN_VARIABLES = ['group', 'current_node', 'current_session']
 
 try:
     from local_settings import *

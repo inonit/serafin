@@ -18,6 +18,9 @@
     <ul class="variables">
         <p><strong>{% trans 'Available variables' %}</strong></p>
         <li class="variable" ng-repeat="variable in variables track by $index">{% verbatim %}{{ variable }}{% endverbatim %}</li>
+        <li class="disallowed"><span>group</span> Not Allowed</li>
+        <li class="disallowed"><span>current_node</span> Not Allowed</li>
+        <li class="disallowed"><span>current_session</span> Not Allowed</li>
     </ul>
 
     <div class="floatbox"></div>

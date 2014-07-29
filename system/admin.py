@@ -2,9 +2,10 @@ from __future__ import unicode_literals
 
 from django.utils.translation import ugettext_lazy as _
 from django import forms
-from django.db import models
+from django.conf import settings
 from django.contrib import admin
 from django.contrib.auth import get_user_model
+from django.db import models
 from suit.widgets import SuitSplitDateTimeWidget, LinkedSelect, AutosizedTextarea, NumberInput
 from jsonfield import JSONField
 
@@ -27,6 +28,12 @@ class VariableForm(forms.ModelForm):
             'each new user.')
         self.fields['random_set'].help_text = _('The value of the Variable will be randomly '
             'selected from a set of comma separated strings in this field.')
+
+    def clean_name(self):
+        data = self.cleaned_data['name']
+        if data in settings.FORBIDDEN_VARIABLES:
+            raise forms.ValidationError(_('You are trying to use a forbidden variable name'))
+        return data
 
     class Meta:
         model = Variable

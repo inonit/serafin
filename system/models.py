@@ -183,13 +183,23 @@ def session_pre_save(sender, instance, *args, **kwargs):
     nodes = instance.data.get("nodes", [])
     for node in nodes:
         ref_id = node.get("ref_id")
-        type = node.get("type")
-        if type in ["page", "email", "sms"] and ref_id == "":
+        _type = node.get("type")
+        if _type in ["page", "email", "sms"] and ref_id == "":
             ref_url = node.get("ref_url")
             try:
                 node["ref_id"] = int(re.findall("\d+", ref_url)[0])
             except Exception, (e):
                 pass
+    edges = instance.data.get("edges", [])
+    for edge in edges:
+        conditions = edge.get("conditions", [])
+        if len(conditions) > 0:
+            new_conditions = []
+            for condition in conditions:
+                var_name = condition.get("var_name", None)
+                if var_name not in settings.FORBIDDEN_VARIABLES:
+                    new_conditions.append(condition)
+            edge["conditions"] = new_conditions
 
 
 
