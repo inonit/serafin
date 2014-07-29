@@ -2,10 +2,12 @@ from __future__ import unicode_literals
 from django.core.signals import request_finished
 from django.utils.translation import ugettext_lazy as _
 
+from datetime import date
 from events.signals import log_event
+from huey.djhuey import db_task
 from system.models import Variable, Session, Page, Email, SMS
 from tasker.models import Task
-from huey.djhuey import db_task
+
 import datetime
 
 
@@ -31,13 +33,17 @@ class Engine(object):
         self.nodes = {node['id']: node for node in self.session.data.get('nodes')}
         self.edges = self.session.data.get('edges')
 
+    @staticmethod
     def get_system_var(var_name):
-        try:
-            var = Variable.objects.get(name=var_name)
-            return var.get_value()
-        except:
-            return None
-
+        if var_name == 'current_day':
+                return date.isoweekday(date.today())
+        else:
+            try:
+                var = Variable.objects.get(name=var_name)
+                return var.get_value()
+            except:
+                return None
+    
     @classmethod
     def check_conditions(cls, conditions, user, return_value):
         '''Return a value for the first passing condition in a list of conditions'''
@@ -73,7 +79,6 @@ class Engine(object):
                 value_b = ', '.join(
                     [group.__unicode__() for group in user.groups.all()]
                 )
-
             if value_b:
                 if operator == 'eq':
                     if value_b == value_a:
@@ -112,7 +117,7 @@ class Engine(object):
             if not conditions:
                 return edge
             else:
-                return check_conditions(conditions, self.user, edge)
+                return self.check_conditions(conditions, self.user, edge)
 
 
     def get_node_edges(self, source_id):
