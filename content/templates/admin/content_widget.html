@@ -68,9 +68,9 @@
             <div class="alt" ng-repeat="alt in pagelet.content.alternatives track by $index">
 
                 <div class="ctrl right">
-                    <a ng-click="up(pagelet.content, $index)" ng-hide="$first"><i class="icon-arrow-up icon-alpha5"></i></a>
-                    <a ng-click="down(pagelet.content, $index)" ng-hide="$last"><i class="icon-arrow-down icon-alpha5"></i></a>
-                    <a ng-click="delete(pagelet.content, $index)"><i class="icon-trash icon-alpha5"></i></a>
+                    <a ng-click="up(pagelet.content.alternatives, $index)" ng-hide="$first"><i class="icon-arrow-up icon-alpha5"></i></a>
+                    <a ng-click="down(pagelet.content.alternatives, $index)" ng-hide="$last"><i class="icon-arrow-down icon-alpha5"></i></a>
+                    <a ng-click="delete(pagelet.content.alternatives, $index)"><i class="icon-trash icon-alpha5"></i></a>
                 </div>
 
                 <div class="fieldset">
