@@ -1,3 +1,7 @@
+var undefined_p = function(value) {
+    return typeof value === 'undefined';
+}
+
 var instanceConfig = {
     Container: 'plumbing',
     Endpoint: [
@@ -91,10 +95,28 @@ plumbing.run(['$rootScope', function(scope) {
         scope.data = initData;
     }
 
-    scope.variables = initVars;
     scope.showConditions = -1;
     scope.showDelay = -1;
 
+}]);
+
+plumbing.controller('variablesSearch', ['$scope', function(scope){
+    scope.variables = [];
+    for (var i = 0, ii = initVars.length; i < ii; i++) {
+        scope.variables.push({show: true, name: initVars[i]});
+    }
+    scope.$watch("query", function(newValue, oldValue) {
+        if (! undefined_p(newValue)) {
+            var pattern = new RegExp(newValue.toLowerCase(), "i");
+            for (var i = 0, ii = scope.variables.length; i < ii; i++) {
+                if (pattern.test(scope.variables[i].name)) {
+                    scope.variables[i].show = true;
+                } else {
+                    scope.variables[i].show = false;
+                }
+            }
+        }
+    });
 }]);
 
 plumbing.controller('graph', ['$scope', 'jsPlumb', function(scope, jsPlumbService) {
