@@ -100,23 +100,8 @@ plumbing.run(['$rootScope', function(scope) {
 
 }]);
 
-plumbing.controller('variablesSearch', ['$scope', function(scope){
-    scope.variables = [];
-    for (var i = 0, ii = initVars.length; i < ii; i++) {
-        scope.variables.push({show: true, name: initVars[i]});
-    }
-    scope.$watch("query", function(newValue, oldValue) {
-        if (! undefined_p(newValue)) {
-            var pattern = new RegExp(newValue.toLowerCase(), "i");
-            for (var i = 0, ii = scope.variables.length; i < ii; i++) {
-                if (pattern.test(scope.variables[i].name)) {
-                    scope.variables[i].show = true;
-                } else {
-                    scope.variables[i].show = false;
-                }
-            }
-        }
-    });
+plumbing.controller('varSearch', ['$scope', function(scope){
+    scope.variables = initVars;
 }]);
 
 plumbing.controller('graph', ['$scope', 'jsPlumb', function(scope, jsPlumbService) {
@@ -149,18 +134,18 @@ plumbing.controller('graph', ['$scope', 'jsPlumb', function(scope, jsPlumbServic
                 scope.scrolling.prevX = x;
                 scope.scrolling.prevY = y;
             }
-            var shiftX = 
+            var shiftX =
                 scope.scrolling.prevX === x ? 0 :
                 scope.scrolling.prevX - x;
             var shiftY =
                 scope.scrolling.prevY === y ? 0 :
                 scope.scrolling.prevY - y;
-            
+
             scope.scrolling.x -= shiftX;
             scope.scrolling.y -= shiftY;
             scope.scrolling.prevX = x;
             scope.scrolling.prevY = y;
-            
+
             scope.jsPlumb.repaintEverything();
         }
     };

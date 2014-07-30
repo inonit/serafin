@@ -15,11 +15,11 @@
         <div class="btn" ng-click="addNode('delay')" id="lookup_{% verbatim %}{{ current_noderef }}{% endverbatim %}">{% trans '+ Delay' %}</div>
     </div>
 
-    <ul class="variables" ng-controller="variablesSearch">
+    <ul class="variables" ng-controller="varSearch">
         <p><strong>{% trans 'Available variables' %}</strong></p>
-        <p><input type="text" ng-model="query" value="" placeholder="{% trans 'Search' %}" /></p>
-        <li class="variable" ng-repeat="variable in variables track by
-        $index" ng-if="variable.show">{% verbatim %}{{ variable.name }}{% endverbatim %}</li>
+        <p><input type="text" ng-model="query" placeholder="{% trans 'Search' %}" /></p>
+        <li class="variable" ng-repeat="variable in variables | filter:query track by
+        $index">{% verbatim %}{{ variable }}{% endverbatim %}</li>
         <li class="variable disallowed"><span>{% trans 'Reserved' %}</span> group</li>
         <li class="variable disallowed"><span>{% trans 'Reserved' %}</span> current_node</li>
         <li class="variable disallowed"><span>{% trans 'Reserved' %}</span> current_session</li>
