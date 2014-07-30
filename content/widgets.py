@@ -39,14 +39,14 @@ class ContentWidget(forms.Widget):
     class Media:
         css = {
             'all': (
-                'content/css/content.css',
+                'content/css/content.css?v=1.02',
             )
         }
         js = (
             filer_settings.FILER_STATICMEDIA_PREFIX + 'js/popup_handling.js',
             'content/angular/angular.min.js',
             'content/marked/marked.js',
-            'content/js/content.js?v=1.01',
+            'content/js/content.js?v=1.02',
         )
 
 
@@ -63,13 +63,13 @@ class TextContentWidget(forms.Widget):
     class Media:
         css = {
             'all': (
-                'content/css/content.css',
+                'content/css/content.css?v=1.02',
             )
         }
         js = (
             'content/angular/angular.min.js',
             'content/marked/marked.js',
-            'content/js/content.js?v=1.01',
+            'content/js/content.js?v=1.02',
         )
 
 
@@ -86,10 +86,10 @@ class SMSContentWidget(forms.Widget):
     class Media:
         css = {
             'all': (
-                'content/css/content.css',
+                'content/css/content.css?v=1.02',
             )
         }
         js = (
             'content/angular/angular.min.js',
-            'content/js/content.js?v=1.01',
+            'content/js/content.js?v=1.02',
         )
