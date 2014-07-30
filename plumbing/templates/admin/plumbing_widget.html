@@ -1,6 +1,6 @@
 {% load i18n %}
 <div id="plumbing" class="plumbing" ng-app="plumbing"
-     ng-controller="graph" 
+     ng-controller="graph"
      ng-mousedown="startScrolling()"
      ng-mouseup="stopScrolling()"
      ng-mouseenter="stopScrolling()"
@@ -9,20 +9,20 @@
      ng-mousemove="scroll($event)">
 
     <div class="toolbox">
-        <div class="btn" ng-click="addNode('page')" id="lookup_{% verbatim %}{{ current_noderef }}{% endverbatim %}">{% trans 'Add page' %}</div>
-        <div class="btn" ng-click="addNode('email')" id="lookup_{% verbatim %}{{ current_noderef }}{% endverbatim %}">{% trans 'Add email' %}</div>
-        <div class="btn" ng-click="addNode('sms')" id="lookup_{% verbatim %}{{ current_noderef }}{% endverbatim %}">{% trans 'Add sms' %}</div>
-        <div class="btn" ng-click="addNode('delay')" id="lookup_{% verbatim %}{{ current_noderef }}{% endverbatim %}">{% trans 'Add delay' %}</div>
+        <div class="btn" ng-click="addNode('page')" id="lookup_{% verbatim %}{{ current_noderef }}{% endverbatim %}">{% trans '+ Page' %}</div>
+        <div class="btn" ng-click="addNode('email')" id="lookup_{% verbatim %}{{ current_noderef }}{% endverbatim %}">{% trans '+ Email' %}</div>
+        <div class="btn" ng-click="addNode('sms')" id="lookup_{% verbatim %}{{ current_noderef }}{% endverbatim %}">{% trans '+ Sms' %}</div>
+        <div class="btn" ng-click="addNode('delay')" id="lookup_{% verbatim %}{{ current_noderef }}{% endverbatim %}">{% trans '+ Delay' %}</div>
     </div>
 
     <ul class="variables" ng-controller="variablesSearch">
         <p><strong>{% trans 'Available variables' %}</strong></p>
-        <p><input ng-model="query" value="" placeholder="{% trans 'Search'%}" /></p>
+        <p><input type="text" ng-model="query" value="" placeholder="{% trans 'Search' %}" /></p>
         <li class="variable" ng-repeat="variable in variables track by
         $index" ng-if="variable.show">{% verbatim %}{{ variable.name }}{% endverbatim %}</li>
-        <li class="disallowed"><span>group</span> {% trans 'Reserved' %}</li>
-        <li class="disallowed"><span>current_node</span> {% trans 'Reserved' %}</li>
-        <li class="disallowed"><span>current_session</span> {% trans 'Reserved' %}</li>
+        <li class="variable disallowed"><span>{% trans 'Reserved' %}</span> group</li>
+        <li class="variable disallowed"><span>{% trans 'Reserved' %}</span> current_node</li>
+        <li class="variable disallowed"><span>{% trans 'Reserved' %}</span> current_session</li>
     </ul>
 
     <div class="floatbox"></div>
@@ -96,7 +96,7 @@
                 <input type="text" placeholder="{% trans 'Value' %}" ng-model="condition.value">
                 <a class="trash" ng-click="deleteCondition($index)"><i class="icon-trash icon-alpha5"></i></a>
             </div>
-            <div class="btn" ng-click="addCondition()">{% trans 'Add condition' %}</div>
+            <div class="btn" ng-click="addCondition()">{% trans '+ Condition' %}</div>
         </div>
 
     </div>

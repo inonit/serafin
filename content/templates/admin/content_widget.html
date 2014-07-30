@@ -4,17 +4,17 @@
     <textarea id="id_data" name="data" class="data ng-hide">{% verbatim %}{{ data }}{% endverbatim %}</textarea>
 
     <div class="toolbox">
-        <div class="btn add" ng-click="add(data, 'text')">{% trans 'Add text' %}</div>
-        <div class="btn add" ng-click="add(data, 'toggle')">{% trans 'Add toggle' %}</div>
-        <div class="btn add" ng-click="add(data, 'toggleset')">{% trans 'Add toggleset' %}</div>
-        <div class="btn add" ng-click="add(data, 'togglesetmulti')">{% trans 'Add toggleset multi' %}</div>
-        <div class="btn add" ng-click="add(data, 'conditionalset')">{% trans 'Add conditional set' %}</div>
-        <div class="btn add" ng-click="add(data, 'form')">{% trans 'Add form' %}</div>
-        <div class="btn add" ng-click="add(data, 'quiz')">{% trans 'Add quiz' %}</div>
-        <div class="btn add" ng-click="add(data, 'image')">{% trans 'Add image' %}</div>
-        <div class="btn add" ng-click="add(data, 'video')">{% trans 'Add video' %}</div>
-        <div class="btn add" ng-click="add(data, 'audio')">{% trans 'Add audio' %}</div>
-        <div class="btn add" ng-click="add(data, 'file')">{% trans 'Add file' %}</div>
+        <div class="btn add" ng-click="add(data, 'text')">{% trans '+ Text' %}</div>
+        <div class="btn add" ng-click="add(data, 'toggle')">{% trans '+ Toggle' %}</div>
+        <div class="btn add" ng-click="add(data, 'toggleset')">{% trans '+ Toggleset' %}</div>
+        <div class="btn add" ng-click="add(data, 'togglesetmulti')">{% trans '+ Toggleset multi' %}</div>
+        <div class="btn add" ng-click="add(data, 'conditionalset')">{% trans '+ Conditional set' %}</div>
+        <div class="btn add" ng-click="add(data, 'form')">{% trans '+ Form' %}</div>
+        <div class="btn add" ng-click="add(data, 'quiz')">{% trans '+ Quiz' %}</div>
+        <div class="btn add" ng-click="add(data, 'image')">{% trans '+ Image' %}</div>
+        <div class="btn add" ng-click="add(data, 'video')">{% trans '+ Video' %}</div>
+        <div class="btn add" ng-click="add(data, 'audio')">{% trans '+ Audio' %}</div>
+        <div class="btn add" ng-click="add(data, 'file')">{% trans '+ File' %}</div>
 
     <div class="pagelet" ng-repeat="pagelet in data track by $index">
 
@@ -60,7 +60,7 @@
             </div>
 
             <div class="toolbox">
-                <div class="btn add" ng-click="add(pagelet.content.alternatives, 'toggleitem')">{% trans 'Add item' %}</div>
+                <div class="btn add" ng-click="add(pagelet.content.alternatives, 'toggleitem')">{% trans '+ Item' %}</div>
             </div>
 
             <h4 class="title">{% trans 'Alternatives' %}</h4>
@@ -95,7 +95,7 @@
         <div ng-if="pagelet.content_type == 'conditionalset'" class="conditionalset">
 
             <div class="toolbox">
-                <div class="btn add" ng-click="add(pagelet.content, 'conditionaltext')">{% trans 'Add conditional text' %}</div>
+                <div class="btn add" ng-click="add(pagelet.content, 'conditionaltext')">{% trans '+ Conditional text' %}</div>
             </div>
 
             <div class="field" ng-repeat="content in pagelet.content track by $index">
@@ -144,12 +144,12 @@
         <div ng-if="pagelet.content_type == 'form'" class="form">
 
             <div class="toolbox">
-                <div class="btn add" ng-click="add(pagelet.content, 'numeric')">{% trans 'Add numeric' %}</div>
-                <div class="btn add" ng-click="add(pagelet.content, 'string')">{% trans 'Add string' %}</div>
-                <div class="btn add" ng-click="add(pagelet.content, 'textarea')">{% trans 'Add text' %}</div>
-                <div class="btn add" ng-click="add(pagelet.content, 'multiplechoice')">{% trans 'Add multiple choice' %}</div>
-                <div class="btn add" ng-click="add(pagelet.content, 'multipleselection')">{% trans 'Add multiple selection' %}</div>
-                <div class="btn add" ng-click="add(pagelet.content, 'hiddenfield')">{% trans 'Add hidden field' %}</div>
+                <div class="btn add" ng-click="add(pagelet.content, 'numeric')">{% trans '+ Numeric' %}</div>
+                <div class="btn add" ng-click="add(pagelet.content, 'string')">{% trans '+ String' %}</div>
+                <div class="btn add" ng-click="add(pagelet.content, 'textarea')">{% trans '+ Text' %}</div>
+                <div class="btn add" ng-click="add(pagelet.content, 'multiplechoice')">{% trans '+ Multiple choice' %}</div>
+                <div class="btn add" ng-click="add(pagelet.content, 'multipleselection')">{% trans '+ Multiple selection' %}</div>
+                <div class="btn add" ng-click="add(pagelet.content, 'hiddenfield')">{% trans '+ Hidden field' %}</div>
             </div>
 
             <div class="field" ng-repeat="field in pagelet.content track by $index">
@@ -202,7 +202,7 @@
 
                 <div class="field-data" ng-if="field.field_type == 'multiplechoice' || field.field_type == 'multipleselection'">
                     <div class="toolbox">
-                        <div class="btn add" ng-click="add(field.alternatives, 'alternative')">{% trans 'Add alternative' %}</div>
+                        <div class="btn add" ng-click="add(field.alternatives, 'alternative')">{% trans '+ Alternative' %}</div>
                     </div>
 
                     <h5 class="title">{% trans 'Alternatives' %}</h5>
@@ -235,7 +235,7 @@
         <div ng-if="pagelet.content_type == 'quiz'" class="quiz">
 
             <div class="toolbox">
-                <div class="btn add" ng-click="add(pagelet.content, 'question')">{% trans 'Add question' %}</div>
+                <div class="btn add" ng-click="add(pagelet.content, 'question')">{% trans '+ Question' %}</div>
             </div>
 
 
@@ -262,7 +262,7 @@
 
                 <div class="field-data">
                     <div class="toolbox">
-                        <div class="btn add" ng-click="add(question.alternatives, 'alternative')">{% trans 'Add alternative' %}</div>
+                        <div class="btn add" ng-click="add(question.alternatives, 'alternative')">{% trans '+ Alternative' %}</div>
                     </div>
 
                     <h5 class="title">{% trans 'Alternatives' %}</h5>
