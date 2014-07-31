@@ -43,7 +43,7 @@ class Engine(object):
                 return var.get_value()
             except:
                 return None
-    
+
     @classmethod
     def check_conditions(cls, conditions, user, return_value):
         '''Return a value for the first passing condition in a list of conditions'''
@@ -117,7 +117,9 @@ class Engine(object):
             if not conditions:
                 return edge
             else:
-                return self.check_conditions(conditions, self.user, edge)
+                return_edge = self.check_conditions(conditions, self.user, edge)
+                if return_edge:
+                    return return_edge
 
 
     def get_node_edges(self, source_id):
