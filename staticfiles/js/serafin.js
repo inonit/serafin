@@ -54,11 +54,8 @@ serafin.controller('pages', ['$scope', '$http', '$sce', function(scope, http, sc
         var request = {
             method: 'POST',
             url: api + '?next=1',
+            data: data,
         };
-
-        if (data.length > 0) {
-            request.data = data;
-        }
 
         http(request).success(function(data) {
             scope.$emit('title', data['title']);
