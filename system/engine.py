@@ -75,6 +75,12 @@ class Engine(object):
             except:
                 pass
 
+            if isinstance(value_a, list):
+                value_a = ', '.join(value_a)
+
+            if isinstance(value_b, list):
+                value_b = ', '.join(value_b)
+
             if var_name == 'group':
                 value_b = ', '.join(
                     [group.__unicode__() for group in user.groups.all()]
