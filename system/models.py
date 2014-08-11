@@ -10,7 +10,7 @@ from django.core.urlresolvers import reverse
 from django.utils import timezone
 from jsonfield import JSONField
 from collections import OrderedDict
-from serafin.utils import variable_replace, process_session_links
+from serafin.utils import remove_comments, variable_replace, process_session_links
 import datetime
 import mistune
 import random
@@ -268,6 +268,7 @@ class Page(Content):
         for pagelet in self.data:
             if pagelet['content_type'] in ['text', 'toggle']:
                 content = pagelet.get('content')
+                content = remove_comments(content)
                 content = variable_replace(user, content)
                 pagelet['content'] = mistune.markdown(content)
 
@@ -281,6 +282,7 @@ class Page(Content):
 
                     if passing:
                         content = text.get('content')
+                        content = remove_comments(content)
                         content = variable_replace(user, content)
                         text['content'] = mistune.markdown(content)
                     else:
@@ -322,6 +324,7 @@ class Email(Content):
     def send(self, user):
         message = self.data[0].get('content')
         message = process_session_links(user, message)
+        message = remove_comments(message)
         message = variable_replace(user, message)
         html_message = mistune.markdown(message)
 
@@ -355,6 +358,7 @@ class SMS(Content):
     def send(self, user):
         message = self.data[0].get('content')
         message = process_session_links(user, message)
+        message = remove_comments(message)
         message = variable_replace(user, message)
 
         user.send_sms(

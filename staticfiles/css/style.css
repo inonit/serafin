@@ -96,6 +96,7 @@ fieldset label:last-child input {
 }
 
 .table {
+    margin: 1.625rem 0;
     border: solid 1px #DDD;
     padding: 1rem;
 }

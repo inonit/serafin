@@ -26,6 +26,10 @@ def natural_join(listing):
     return ''
 
 
+def remove_comments(text):
+    return re.sub(r'\[\[.*?\]\]', '', text)
+
+
 def variable_replace(user, text):
     user_data = user.data
 
