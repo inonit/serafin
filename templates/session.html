@@ -14,7 +14,7 @@
         </div>
 
         <form class="toggleset" ng-if="pagelet.content_type == 'toggleset'" novalidate>
-            <fieldset ng-form="subForm">
+            <fieldset ng-form="subForm" ng-if="!pagelet.content.horizontal">
                 <legend>{{ pagelet.content.label }}</legend>
                 {% endverbatim %}
                 <div class="error right" ng-show="form.submitted && subForm.$error.required">{% trans 'Please choose one' %}</div>
@@ -27,10 +27,30 @@
                     {{ alt.text }}
                 </div>
             </fieldset>
+            <div ng-form="subForm" ng-if="pagelet.content.horizontal" class="table">
+                {% endverbatim %}
+                <div class="error right" ng-show="form.submitted && subForm.$error.required">{% trans 'Please choose one' %}</div>
+                {% verbatim %}
+                <table>
+                    <div class="caption">{{ pagelet.content.label }}</div>
+                    <tbody>
+                        <tr>
+                            <td ng-repeat="alt in pagelet.content.alternatives track by $index" style="text-align: center">
+                                <input name="answer" type="radio" ng-model="pagelet.content.value" value="{{ alt.value }}" required>
+                                <br>
+                                {{ alt.label }}
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+                <div ng-repeat="alt in pagelet.content.alternatives track by $index" ng-show="subForm.$dirty && pagelet.content.value == alt.value">
+                    {{ alt.text }}
+                </div>
+            </div>
         </form>
 
         <form class="togglesetmulti" ng-if="pagelet.content_type == 'togglesetmulti'" novalidate>
-            <fieldset ng-form="subForm">
+            <fieldset ng-form="subForm" ng-if="pagelet.content.horizontal">
                 <legend>{{ pagelet.content.label }}</legend>
                 {% endverbatim %}
                 <div class="error right" ng-show="form.submitted && subForm.$error.required">{% trans 'Please choose one' %}</div>
@@ -41,6 +61,24 @@
                 </label>
                 <div>{{ pagelet.content.text }}</div>
             </fieldset>
+            <div ng-form="subForm" ng-if="!pagelet.content.horizontal" class="table">
+                {% endverbatim %}
+                <div class="error right" ng-show="form.submitted && subForm.$error.required">{% trans 'Please choose one' %}</div>
+                {% verbatim %}
+                <table>
+                    <div class="caption">{{ pagelet.content.label }}</div>
+                    <tbody>
+                        <tr>
+                            <td ng-repeat="alt in pagelet.content.alternatives track by $index" style="text-align: center">
+                                <input name="answer" type="checkbox" ng-controller="checkboxlist" ng-model="alt.selected" ng-click="toggle(pagelet.content.value, alt.value)">
+                                <br>
+                                {{ alt.label }}
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+                <div>{{ pagelet.content.text }}</div>
+            </div>
         </form>
 
         <div class="conditionalset" ng-if="pagelet.content_type == 'conditionalset'" class="conditionalset">
