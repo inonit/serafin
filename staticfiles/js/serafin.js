@@ -13,6 +13,7 @@ serafin.config(['$httpProvider', function(httpProvider) {
 serafin.run(['$rootScope', '$http', function(scope, http) {
     scope.title = '...';
     scope.page = {};
+    scope.variables = {};
 
     http.get(api + window.location.search).success(function(data) {
         scope.title = data['title'];
@@ -25,8 +26,7 @@ serafin.run(['$rootScope', '$http', function(scope, http) {
     });
 }]);
 
-serafin.controller('pages', ['$scope', '$http', '$sce', function(scope, http, sce) {
-
+serafin.controller('pages', ['$scope', '$http', function(scope, http) {
     scope.next = function() {
         scope.form.submitted = true;
         if (scope.form.$invalid) {
@@ -64,11 +64,6 @@ serafin.controller('pages', ['$scope', '$http', '$sce', function(scope, http, sc
             scope.form.submitted = false;
         });
     };
-
-    scope.trust = function(html) {
-        return sce.trustAsHtml(html);
-    };
-
 }]);
 
 serafin.directive('page', function() {
@@ -89,6 +84,7 @@ serafin.controller('checkboxlist', ['$scope', function(scope) {
             list.splice(index, 1);
         }
     };
+
     scope.$watch('alt.selected', function(newVal, oldVal) {
         if (newVal) {
             scope.pagelet.content.text = scope.alt.text;
@@ -102,7 +98,7 @@ serafin.directive('title', function() {
     return {
         restrict: 'CE',
         link: function(scope, element, attrs) {
-            scope.$watch('title', function(oldVal, newVal) {
+            scope.$watch('title', function(newVal, oldVal) {
                 if (newVal !== oldVal) {
                     element.text(scope.title);
                 }
@@ -110,3 +106,39 @@ serafin.directive('title', function() {
         }
     };
 });
+
+serafin.directive('input', ['$rootScope', function(rootScope) {
+    return {
+        restrict: 'E',
+        require: 'ngModel',
+        link: function(scope, element, attrs, ngModel) {
+            if (typeof scope.$parent.field !== 'undefined') {
+                scope.$watch(function () {
+                    return ngModel.$modelValue;
+                }, function(newVal) {
+                    if (!newVal) newVal = '...'
+                    rootScope.variables[scope.$parent.field.variable_name] = newVal;
+                });
+            }
+        }
+    };
+}]);
+
+serafin.directive('livereplace', ['$compile', function(compile) {
+    return {
+        restrict: 'A',
+        controller: 'pages',
+        scope: {
+            text: '=livereplace',
+        },
+        link: function(scope, element, attrs) {
+            scope.variables = scope.$parent.variables;
+            scope.$watch('text', function() {
+                var template = scope.text;
+                var compiled = compile(template)(scope);
+                element.html('');
+                element.append(compiled);
+            })
+        }
+    };
+}]);

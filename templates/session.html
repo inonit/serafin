@@ -5,12 +5,13 @@
     {% verbatim %}
     <div class="pagelet" ng-repeat="pagelet in page track by $index">
 
-        <div class="text" ng-if="pagelet.content_type == 'text'" class="text" ng-bind-html="trust(pagelet.content)">
+        <div class="text" ng-if="pagelet.content_type == 'text'" livereplace="pagelet.content">
         </div>
 
-        <div class="toggle" ng-if="pagelet.content_type == 'toggle'" class="toggle">
+        <div class="toggle" ng-if="pagelet.content_type == 'toggle'">
             <p><a ng-click="toggled = !toggled">{{ pagelet.toggle }}</a></p>
-            <div ng-show="toggled" ng-bind-html="trust(pagelet.content)"></div>
+            <div ng-show="toggled" livereplace="pagelet.content">
+            </div>
         </div>
 
         <form class="toggleset" ng-if="pagelet.content_type == 'toggleset'" novalidate>
@@ -82,7 +83,8 @@
         </form>
 
         <div class="conditionalset" ng-if="pagelet.content_type == 'conditionalset'" class="conditionalset">
-            <div ng-repeat="text in pagelet.content track by $index" ng-bind-html="trust(text.content)"></div>
+            <div ng-repeat="text in pagelet.content track by $index" livereplace="text.content">
+            </div>
         </div>
 
         <form class="form" ng-if="pagelet.content_type == 'form'" novalidate>

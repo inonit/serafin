@@ -50,6 +50,12 @@ def variable_replace(user, text):
 
         text = text.replace(code, unicode(value))
 
+    markup = re.findall(r'\(\(.*?\)\)', text)
+    for code in markup:
+
+        variable = code[2:-2].strip()
+        text = text.replace(code, '{{ variables.%s }}' % variable)
+
     return text
 
 
