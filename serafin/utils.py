@@ -50,13 +50,32 @@ def variable_replace(user, text):
 
         text = text.replace(code, unicode(value))
 
-    markup = re.findall(r'\(\(.*?\)\)', text)
+    return text
+
+
+def get_variables(user, text):
+    user_data = user.data
+
+    variables = {}
+    markup = re.findall(r'{{.*?}}', text)
     for code in markup:
 
         variable = code[2:-2].strip()
-        text = text.replace(code, '{{ variables.%s }}' % variable)
+        value = user_data.get(variable, '')
+        if isinstance(value, list):
+            value = natural_join(value)
 
-    return text
+        if not value:
+            try:
+                from system.models import Variable
+                value = Variable.objects.get(name=variable).get_value()
+            except:
+                pass
+
+        variables[variable] = unicode(value)
+        text = text.replace(code, '{{ variables.%s }}' % unicode(variable))
+
+    return text, variables
 
 
 def process_session_links(user, text):

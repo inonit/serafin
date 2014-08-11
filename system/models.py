@@ -10,7 +10,7 @@ from django.core.urlresolvers import reverse
 from django.utils import timezone
 from jsonfield import JSONField
 from collections import OrderedDict
-from serafin.utils import remove_comments, variable_replace, process_session_links
+from serafin.utils import remove_comments, get_variables, variable_replace, process_session_links
 import datetime
 import mistune
 import random
@@ -269,7 +269,8 @@ class Page(Content):
             if pagelet['content_type'] in ['text', 'toggle']:
                 content = pagelet.get('content')
                 content = remove_comments(content)
-                content = variable_replace(user, content)
+                #content = variable_replace(user, content)
+                content, pagelet['variables'] = get_variables(user, content)
                 pagelet['content'] = mistune.markdown(content)
 
             if pagelet['content_type'] == 'conditionalset':
@@ -283,7 +284,8 @@ class Page(Content):
                     if passing:
                         content = text.get('content')
                         content = remove_comments(content)
-                        content = variable_replace(user, content)
+                        #content = variable_replace(user, content)
+                        content, pagelet['variables'] = get_variables(user, content)
                         text['content'] = mistune.markdown(content)
                     else:
                         text['content'] = ''
