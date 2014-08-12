@@ -14,12 +14,18 @@ def api_node(request, node_type=None, node_id=None):
     if node_type == 'page':
         node = get_object_or_404(Page, id=node_id)
         url = reverse('admin:system_page_change', args=[node.id])
-    if node_type == 'email':
+    elif node_type == 'email':
         node = get_object_or_404(Email, id=node_id)
         url = reverse('admin:system_email_change', args=[node.id])
-    if node_type == 'sms':
+    elif node_type == 'sms':
         node = get_object_or_404(SMS, id=node_id)
         url = reverse('admin:system_sms_change', args=[node.id])
+    else:
+        class Dummy: pass
+        node = Dummy()
+        node.id = 0
+        node.title = ''
+        url = ''
 
     response = {
         'id': node.id,
