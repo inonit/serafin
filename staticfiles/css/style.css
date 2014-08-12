@@ -171,13 +171,6 @@ div.error {
     margin-right: 1em;
 }
 
-.center {
-    text-align: center;
-    width: auto;
-    margin: 0 auto;
-    display: inline-block;
-}
-
 .fade {
     opacity: 1;
     -webkit-transition: opacity .25s ease;

@@ -24,7 +24,7 @@ def api_node(request, node_type=None, node_id=None):
         class Dummy: pass
         node = Dummy()
         node.id = 0
-        node.title = ''
+        node.title = 'Start' if node_type == 'start' else ''
         url = ''
 
     response = {
