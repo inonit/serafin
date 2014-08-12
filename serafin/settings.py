@@ -303,10 +303,6 @@ LOGGING = {
         },
     },
     'handlers': {
-        'console': {
-            'level': 'DEBUG',
-            'class': 'logging.StreamHandler',
-        },
         'huey_log': {
             'level': 'DEBUG',
             'class': 'logging.handlers.RotatingFileHandler',
@@ -315,22 +311,11 @@ LOGGING = {
             'backupCount': 2,
             'formatter': 'standard',
         },
-        'mail_admins': {
-            'level': 'ERROR',
-            'filters': [],
-            'class': 'django.utils.log.AdminEmailHandler',
-            'include_html': True,
-        }
     },
     'loggers': {
         'huey.consumer': {
             'handlers': ['huey_log'],
             'level': 'DEBUG',
-            'propagate': True,
-        },
-         'django.request': {
-            'handlers': ['mail_admins'],
-            'level': 'ERROR',
             'propagate': True,
         },
     }
