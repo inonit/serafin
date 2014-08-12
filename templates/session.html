@@ -9,7 +9,7 @@
         </div>
 
         <div class="toggle" ng-if="pagelet.content_type == 'toggle'">
-            <p><a ng-click="toggled = !toggled">{{ pagelet.toggle }}</a></p>
+            <a class="button" ng-click="toggled = !toggled">{{ pagelet.toggle }}</a>
             <div ng-show="toggled" livereplace="pagelet.content">
             </div>
         </div>

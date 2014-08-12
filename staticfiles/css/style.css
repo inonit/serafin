@@ -20,13 +20,10 @@ h3,
 h4,
 h5,
 h6 {
-    font-family: Georgia, serif;
-    font-weight: normal;
+    font-family: 'PT Sans', sans-serif;
+    font-weight: 700;
+    text-transform: uppercase;
     margin: 0 0 1rem;
-}
-
-.top-bar h1 {
-    font-family: sans-serif;
 }
 
 .messages {
@@ -37,25 +34,33 @@ h6 {
 }
 
 .button {
-    border-radius: 2px;
     padding: .5em 1em;
+}
+
+.top-bar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 500;
 }
 
 .top-bar,
 .footer {
-    background: #444;
-    color: white;
+    background: white;
+    color: #444;
     max-width: 100%;
 }
 
 .top-bar .entry {
     display: inline-block;
-    color: white;
+    color: #444;
     line-height: 1.4;
     padding: 8px 15px;
 }
 
 .top-bar h1 {
+    font-family: sans-serif;
     font-size: 16px;
 }
 
@@ -68,7 +73,7 @@ h6 {
 }
 
 .page {
-    margin: 2em auto;
+    margin: 4em auto 2em;
     max-width: 40em;
     padding: 0 1em;
 }
@@ -77,12 +82,31 @@ h6 {
     margin-top: 1.5rem;
 }
 
+input[type="text"],
+input[type="password"],
+input[type="date"],
+input[type="datetime"],
+input[type="datetime-local"],
+input[type="month"],
+input[type="week"],
+input[type="email"],
+input[type="number"],
+input[type="search"],
+input[type="tel"],
+input[type="time"],
+input[type="url"],
+textarea {
+    -webkit-box-shadow: none;
+    box-shadow: none;
+}
+
 textarea {
     min-height: 7em;
 }
 
 fieldset {
     padding: 1rem;
+    border: 1px solid #ccc;
 }
 
 fieldset legend,
@@ -97,7 +121,7 @@ fieldset label:last-child input {
 
 .table {
     margin: 1.625rem 0;
-    border: solid 1px #DDD;
+    border: 1px solid #ccc;
     padding: 1rem;
 }
 
@@ -173,7 +197,6 @@ div.error {
 .slide {
     max-height: 500px;
     overflow: hidden;
-
     -webkit-transition: max-height .15s linear;
     transition: max-height .15s linear;
 }

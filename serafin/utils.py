@@ -53,7 +53,7 @@ def variable_replace(user, text):
     return text
 
 
-def get_variables(user, text):
+def live_variable_replace(user, text):
     user_data = user.data
 
     variables = {}
