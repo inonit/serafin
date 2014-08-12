@@ -34,7 +34,7 @@ h6 {
 }
 
 .button {
-    padding: .5em 1em;
+    padding: .5rem 1rem;
 }
 
 .top-bar {
@@ -73,9 +73,9 @@ h6 {
 }
 
 .page {
-    margin: 4em auto 2em;
+    margin: 4rem auto 2rem;
     max-width: 40em;
-    padding: 0 1em;
+    padding: 0 1rem;
 }
 
 .page nav {
@@ -169,6 +169,13 @@ div.error {
 
 .login.button {
     margin-right: 1em;
+}
+
+.center {
+    text-align: center;
+    width: auto;
+    margin: 0 auto;
+    display: inline-block;
 }
 
 .fade {
