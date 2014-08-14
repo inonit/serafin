@@ -85,24 +85,46 @@ serafin.directive('page', function() {
     };
 });
 
-serafin.controller('checkboxlist', ['$scope', function(scope) {
-    scope.toggle = function(list, item) {
-        var index = list.indexOf(item);
-        if (index == -1) {
-            list.push(item);
-        } else {
-            list.splice(index, 1);
-        }
-    };
+serafin.directive('checkboxlist', function() {
+    return {
+        restrict: 'A',
+        link: function(scope, element, attrs, ngModel) {
 
-    scope.$watch('alt.selected', function(newVal, oldVal) {
-        if (newVal) {
-            scope.pagelet.content.text = scope.alt.text;
-        } else {
-            scope.pagelet.content.text = '';
+            var clScope = scope.$parent.$parent;
+
+            if (clScope.field && clScope.field.required) {
+                clScope.subForm.$setValidity(
+                    'required',
+                    clScope.field.value.length > 0
+                )
+            }
+
+            scope.toggle = function(list, item) {
+                var index = list.indexOf(item);
+                if (index == -1) {
+                    list.push(item);
+                } else {
+                    list.splice(index, 1);
+                }
+
+                if (clScope.field && clScope.field.required) {
+                    clScope.subForm.$setValidity(
+                        'required',
+                        list.length > 0
+                    )
+                }
+            };
+
+            scope.$watch('alt.selected', function(newVal, oldVal) {
+                if (newVal) {
+                    scope.pagelet.content.text = scope.alt.text;
+                } else {
+                    scope.pagelet.content.text = '';
+                }
+            });
         }
-    });
-}]);
+    }
+});
 
 serafin.directive('title', function() {
     return {
@@ -117,19 +139,17 @@ serafin.directive('title', function() {
     };
 });
 
-serafin.directive('input', ['$rootScope', function(rootScope) {
+serafin.directive('liveinput', ['$rootScope', function(rootScope) {
     return {
-        restrict: 'E',
+        restrict: 'A',
         require: 'ngModel',
         link: function(scope, element, attrs, ngModel) {
-            if (typeof scope.$parent.field !== 'undefined') {
-                scope.$watch(function () {
-                    return ngModel.$modelValue;
-                }, function(newVal) {
-                    if (!newVal) newVal = '...'
-                    rootScope.variables[scope.$parent.field.variable_name] = newVal;
-                });
-            }
+            scope.$watch(function () {
+                return ngModel.$modelValue;
+            }, function(newVal) {
+                if (!newVal) newVal = '...'
+                rootScope.variables[scope.$parent.field.variable_name] = newVal;
+            });
         }
     };
 }]);

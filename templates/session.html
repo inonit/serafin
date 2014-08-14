@@ -9,7 +9,7 @@
         </div>
 
         <div class="toggle" ng-if="pagelet.content_type == 'toggle'">
-            <a class="button" ng-click="toggled = !toggled">{{ pagelet.toggle }}</a>
+            <p><a ng-click="toggled = !toggled">{{ pagelet.toggle }}</a></p>
             <div ng-show="toggled" livereplace="pagelet.content">
             </div>
         </div>
@@ -57,10 +57,11 @@
                 <div class="error right" ng-show="form.submitted && subForm.$error.required">{% trans 'Please choose one' %}</div>
                 {% verbatim %}
                 <label ng-repeat="alt in pagelet.content.alternatives track by $index">
-                    <input name="answer" type="checkbox" ng-controller="checkboxlist" ng-model="alt.selected" ng-click="toggle(pagelet.content.value, alt.value)">
+                    <input name="answer" type="checkbox" checkboxlist ng-model="alt.selected" ng-click="toggle(pagelet.content.value, alt.value)">
                     {{ alt.label }}
                 </label>
                 <div>{{ pagelet.content.text }}</div>
+                {{ pagelet.content.value }}
             </fieldset>
             <div ng-form="subForm" ng-if="pagelet.content.horizontal" class="table">
                 {% endverbatim %}
@@ -71,7 +72,7 @@
                     <tbody>
                         <tr>
                             <td ng-repeat="alt in pagelet.content.alternatives track by $index" style="text-align: center">
-                                <input name="answer" type="checkbox" ng-controller="checkboxlist" ng-model="alt.selected" ng-click="toggle(pagelet.content.value, alt.value)">
+                                <input name="answer" type="checkbox" checkboxlist ng-model="alt.selected" ng-click="toggle(pagelet.content.value, alt.value)">
                                 <br>
                                 {{ alt.label }}
                             </td>
@@ -96,7 +97,7 @@
                     <div class="error right" ng-show="(form.submitted || subForm.field.$dirty) && (subForm.field.$error.min || subForm.field.$error.max )">{% trans 'Please enter a number between {{ field.lower_limit }} and {{ field.upper_limit }}' %}</div>
                     {% verbatim %}
                     <label for="field"><strong>{{ field.label }}</strong></label>
-                    <input name="field" type="number" min="{{ field.lower_limit }}" max="{{ field.upper_limit }}" ng-model="field.value" ng-required="field.required">
+                    <input name="field" type="number" min="{{ field.lower_limit }}" max="{{ field.upper_limit }}" ng-model="field.value" ng-required="field.required" liveinput>
                 </div>
 
                 <div ng-if="field.field_type == 'string'">
@@ -104,7 +105,7 @@
                     <div class="error right" ng-show="(form.submitted || subForm.field.$dirty) && subForm.field.$error.required">{% trans 'This field is required' %}</div>
                     {% verbatim %}
                     <label for="field"><strong>{{ field.label }}</strong></label>
-                    <input name="field" type="text" ng-model="field.value" ng-required="field.required">
+                    <input name="field" type="text" ng-model="field.value" ng-required="field.required" liveinput>
                 </div>
 
                 <div ng-if="field.field_type == 'text'">
@@ -112,7 +113,7 @@
                     <div class="error right" ng-show="(form.submitted || subForm.field.$dirty) && subForm.field.$error.required">{% trans 'This field is required' %}</div>
                     {% verbatim %}
                     <label for="field"><strong>{{ field.label }}</strong></label>
-                    <textarea name="field" ng-model="field.value" ng-required="field.required"></textarea>
+                    <textarea name="field" ng-model="field.value" ng-required="field.required" liveinput></textarea>
                 </div>
 
                 <fieldset ng-if="field.field_type == 'multiplechoice'">
@@ -128,14 +129,17 @@
 
                 <fieldset ng-if="field.field_type == 'multipleselection'">
                     <legend>{{ field.label }}</legend>
+                    {% endverbatim %}
+                    <div class="error right" ng-show="form.submitted && subForm.$error.required">{% trans 'Please choose one' %}</div>
+                    {% verbatim %}
                     <label ng-repeat="alt in field.alternatives track by $index">
-                        <input name="field" type="checkbox" ng-controller="checkboxlist" ng-click="toggle(field.value, alt.value)">
+                        <input name="field" type="checkbox" checkboxlist ng-click="toggle(field.value, alt.value)" ng-required="field.required">
                         {{ alt.label }}
                     </label>
                 </fieldset>
 
                 <div ng-if="field.field_type == 'hiddenfield'">
-                    <input type="hidden" name="{{ field.name }}" value="{{ field.value }}">
+                    <input type="hidden" name="{{ field.name }}" value="{{ field.value }}" ng-model="field.value">
                 </div>
 
             </div>
