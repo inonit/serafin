@@ -36,7 +36,7 @@
                     <div class="caption">{{ pagelet.content.label }}</div>
                     <tbody>
                         <tr>
-                            <td ng-repeat="alt in pagelet.content.alternatives track by $index" style="text-align: center">
+                            <td ng-repeat="alt in pagelet.content.alternatives track by $index">
                                 <input name="answer" type="radio" ng-model="pagelet.content.value" value="{{ alt.value }}" required>
                                 <br>
                                 {{ alt.label }}
@@ -61,7 +61,6 @@
                     {{ alt.label }}
                 </label>
                 <div>{{ pagelet.content.text }}</div>
-                {{ pagelet.content.value }}
             </fieldset>
             <div ng-form="subForm" ng-if="pagelet.content.horizontal" class="table">
                 {% endverbatim %}
@@ -71,7 +70,7 @@
                     <div class="caption">{{ pagelet.content.label }}</div>
                     <tbody>
                         <tr>
-                            <td ng-repeat="alt in pagelet.content.alternatives track by $index" style="text-align: center">
+                            <td ng-repeat="alt in pagelet.content.alternatives track by $index">
                                 <input name="answer" type="checkbox" checkboxlist ng-model="alt.selected" ng-click="toggle(pagelet.content.value, alt.value)">
                                 <br>
                                 {{ alt.label }}

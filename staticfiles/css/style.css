@@ -141,6 +141,7 @@ fieldset label:last-child input {
 
 .table td {
     width: auto;
+    text-align: center;
     vertical-align: top;
 }
 
@@ -151,6 +152,10 @@ label.large {
 div.error {
     font-size: .875em;
     color: red;
+}
+
+.error.right {
+    margin-top: 3px;
 }
 
 .large input[type="radio"] {
