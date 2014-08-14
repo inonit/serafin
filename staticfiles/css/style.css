@@ -37,11 +37,10 @@ h6 {
     padding: .5rem 1rem;
 }
 
-.top-bar {
+header {
     position: fixed;
     top: 0;
-    left: 0;
-    right: 0;
+    width: 100%;
     z-index: 500;
 }
 
@@ -73,9 +72,9 @@ h6 {
 }
 
 .page {
-    margin: 4rem auto 2rem;
+    margin: 0 auto;
     max-width: 40em;
-    padding: 0 1rem;
+    padding: 4rem 1rem;
 }
 
 .page nav {
