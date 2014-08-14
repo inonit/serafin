@@ -59,6 +59,7 @@ INSTALLED_APPS = (
     'huey.djhuey',
     'django_user_agents',
     'import_export',
+    'compressor',
 )
 
 MIDDLEWARE_CLASSES = (
@@ -144,6 +145,12 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 STATICFILES_DIRS = (
     os.path.join(BASE_DIR, 'staticfiles'),
+)
+
+STATICFILES_FINDERS = (
+    'django.contrib.staticfiles.finders.FileSystemFinder',
+    'django.contrib.staticfiles.finders.AppDirectoriesFinder',
+    'compressor.finders.CompressorFinder',
 )
 
 

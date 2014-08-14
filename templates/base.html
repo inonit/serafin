@@ -6,22 +6,25 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>{% block title %}Serafin{% endblock %}</title>
     {% block meta %}{% endblock %}
-    {% load staticfiles %}
     <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=PT+Sans:700" />
+    {% load staticfiles %}
+    {% load compress %}
+    {% compress css %}
     <link rel="stylesheet" href="{% static 'css/foundation.css' %}" />
-    <link rel="stylesheet" href="{% static 'css/style.css' %}?v=1.03" />
+    <link rel="stylesheet" href="{% static 'css/style.css' %}" />
     {% block styles %}{% endblock %}
     <script src="{% static 'js/vendor/modernizr.js' %}"></script>
+    {% endcompress %}
   </head>
   <body>
     <div class="wrapper">
       <header>
         <nav class="top-bar" data-topbar>
-          <h1 class="entry">{{ program }}</h1>
-          <div class="entry title">{{ title }}</div>
           <ul class="right">
             <li><a class="button" href="{% url 'logout' %}">{% trans 'Quit / sign out' %}</a></li>
           </ul>
+          <h1 class="entry">{{ program }}</h1>
+          <div class="entry title">{{ title }}</div>
         </nav>
       </header>
 
@@ -55,10 +58,12 @@
       </div>
     </footer>
 
+    {% compress js %}
     <script src="{% static 'js/angular/angular.min.js' %}"></script>
     <script src="{% static 'js/angular-animate/angular-animate.min.js' %}"></script>
-    <script src="{% static 'js/serafin.js' %}?v=1.07"></script>
+    <script src="{% static 'js/serafin.js' %}"></script>
     {% block scripts %}{% endblock %}
+    {% endcompress %}
     <script>
       /*
       var _gaq = _gaq || [];

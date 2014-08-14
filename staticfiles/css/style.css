@@ -40,7 +40,6 @@ h6 {
 header {
     position: fixed;
     top: 0;
-    width: 100%;
     z-index: 500;
 }
 
@@ -48,7 +47,6 @@ header {
 .footer {
     background: white;
     color: #444;
-    max-width: 100%;
 }
 
 .top-bar .entry {
@@ -74,7 +72,7 @@ header {
 .page {
     margin: 0 auto;
     max-width: 40em;
-    padding: 4rem 1rem;
+    padding: 4rem 1rem 2rem;
 }
 
 .page nav {
