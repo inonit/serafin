@@ -16,18 +16,18 @@ serafin.run(['$rootScope', '$http', function(scope, http) {
     scope.variables = {};
 
     http.get(api + window.location.search).success(function(data) {
-        scope.title = data['title'];
-        scope.page = data['data'];
-        scope.dead_end = data['dead_end'];
-        scope.getVariables();
+        scope.getVariables(data.data);
+        scope.title = data.title;
+        scope.page = data.data;
+        scope.dead_end = data.dead_end;
     });
 
     scope.$on('title', function(event, data) {
         scope.title = data;
     });
 
-    scope.getVariables = function() {
-        scope.page.forEach(function(pagelet) {
+    scope.getVariables = function(data) {
+        data.forEach(function(pagelet) {
             for (var variableName in pagelet.variables) {
                 scope.variables[variableName] = pagelet.variables[variableName];
             }
@@ -67,11 +67,11 @@ serafin.controller('pages', ['$scope', '$http', function(scope, http) {
         };
 
         http(request).success(function(data) {
-            scope.$emit('title', data['title']);
-            scope.page = data['data'];
-            scope.dead_end = data['dead_end'];
+            scope.getVariables(data.data);
+            scope.$emit('title', data.title);
+            scope.page = data.data;
+            scope.dead_end = data.dead_end;
             scope.form.submitted = false;
-            scope.getVariables();
         });
     };
 }]);

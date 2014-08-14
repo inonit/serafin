@@ -202,7 +202,6 @@ def session_pre_save(sender, instance, *args, **kwargs):
             edge["conditions"] = new_conditions
 
 
-
 class Content(models.Model):
     '''An ordered collection of JSON content'''
 
@@ -269,7 +268,6 @@ class Page(Content):
             if pagelet['content_type'] in ['text', 'toggle']:
                 content = pagelet.get('content')
                 content = remove_comments(content)
-                #content = variable_replace(user, content)
                 content, pagelet['variables'] = live_variable_replace(user, content)
                 pagelet['content'] = mistune.markdown(content)
 
@@ -284,7 +282,6 @@ class Page(Content):
                     if passing:
                         content = text.get('content')
                         content = remove_comments(content)
-                        #content = variable_replace(user, content)
                         content, pagelet['variables'] = live_variable_replace(user, content)
                         text['content'] = mistune.markdown(content)
                     else:
