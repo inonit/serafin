@@ -46,8 +46,9 @@ class Engine(object):
 
     @classmethod
     def check_conditions(cls, conditions, user, return_value):
-        '''Return a value for the first passing condition in a list of conditions'''
+        '''Return a value if all conditions in a list of conditions pass (or no conditions)'''
 
+        passing = []
         for condition in conditions:
             var_name = condition.get('var_name')
             operator = condition.get('operator')
@@ -58,8 +59,9 @@ class Engine(object):
             value_a = user.data.get(value_a, value_a)
             value_b = user.data.get(var_name)
 
+            # if either value is still not assigned, try system vars
             if not value_a:
-                value_a = cls.get_system_var(var_name)
+                value_a = cls.get_system_var(value_a)
 
             if not value_b:
                 value_b = cls.get_system_var(var_name)
@@ -85,34 +87,31 @@ class Engine(object):
                 value_b = ', '.join(
                     [group.__unicode__() for group in user.groups.all()]
                 )
-            if value_b:
-                if operator == 'eq':
-                    if value_b == value_a:
-                        return return_value
 
-                if operator == 'ne':
-                    if value_b != value_a:
-                        return return_value
+            if operator == 'eq':
+                passing.append(value_b == value_a)
 
-                if operator == 'lt':
-                    if value_b < value_a:
-                        return return_value
+            if operator == 'ne':
+                passing.append(value_b != value_a)
 
-                if operator == 'le':
-                    if value_b <= value_a:
-                        return return_value
+            if operator == 'lt':
+                passing.append(value_b < value_a)
 
-                if operator == 'gt':
-                    if value_b > value_a:
-                        return return_value
+            if operator == 'le':
+                passing.append(value_b <= value_a)
 
-                if operator == 'ge':
-                    if value_b >= value_a:
-                        return return_value
+            if operator == 'gt':
+                passing.append(value_b > value_a)
 
-                if operator == 'in':
-                    if unicode(value_a).lower() in unicode(value_b).lower():
-                        return return_value
+            if operator == 'ge':
+                passing.append(value_b >= value_a)
+
+            if operator == 'in':
+                passing.append(unicode(value_a).lower() in unicode(value_b).lower())
+
+        if all(passing):
+            return return_value
+
 
     def traverse(self, edges, source_id):
         '''Select and return first edge where the user passes edge conditions'''
@@ -120,12 +119,9 @@ class Engine(object):
         for edge in edges:
             conditions = edge.get('conditions')
 
-            if not conditions:
-                return edge
-            else:
-                return_edge = self.check_conditions(conditions, self.user, edge)
-                if return_edge:
-                    return return_edge
+            return_edge = self.check_conditions(conditions, self.user, edge)
+            if return_edge:
+                return return_edge
 
 
     def get_node_edges(self, source_id):
