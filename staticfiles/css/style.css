@@ -22,8 +22,8 @@ h5,
 h6 {
     font-family: 'PT Sans', sans-serif;
     font-weight: 700;
-    text-transform: uppercase;
     margin: 0 0 1rem;
+    line-height: 1.1;
 }
 
 .messages {
@@ -82,17 +82,7 @@ header {
 
 input[type="text"],
 input[type="password"],
-input[type="date"],
-input[type="datetime"],
-input[type="datetime-local"],
-input[type="month"],
-input[type="week"],
-input[type="email"],
 input[type="number"],
-input[type="search"],
-input[type="tel"],
-input[type="time"],
-input[type="url"],
 textarea {
     -webkit-box-shadow: none;
     box-shadow: none;
@@ -104,13 +94,11 @@ textarea {
 
 fieldset {
     padding: 1rem;
-    border: 1px solid #ccc;
 }
 
 fieldset legend,
 .table .caption {
     font-size: 0.875rem;
-    color: #4d4d4d;
 }
 
 fieldset label:last-child input {
@@ -119,7 +107,6 @@ fieldset label:last-child input {
 
 .table {
     margin: 1.625rem 0;
-    border: 1px solid #ccc;
     padding: 1rem;
 }
 
@@ -150,7 +137,6 @@ label.large {
 
 div.error {
     font-size: .875em;
-    color: red;
 }
 
 .error.right {
@@ -216,6 +202,106 @@ div.error {
 .ng-cloak {
     display: none !important;
 }
+
+/* COLOUR */
+
+body,
+table,
+input[type="text"],
+input[type="password"],
+input[type="number"],
+textarea {
+    color: #444;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    color: #444;
+}
+
+a {
+    color: #34D298;
+    transition: all 300ms ease-out;
+}
+
+a:hover {
+    color: #34A278;
+}
+
+button,
+.button {
+    background: #34D298;
+}
+
+button:hover,
+.button:hover {
+    background: #34A278;
+}
+
+button.disabled,
+button[disabled],
+.button.disabled,
+.button[disabled] {
+    background: #74E2B8;
+}
+
+button.disabled:hover,
+button[disabled]:hover,
+.button.disabled:hover,
+.button[disabled]:hover {
+    background: #74E2B8;
+}
+
+input[type="text"],
+input[type="password"],
+input[type="number"],
+textarea,
+fieldset,
+.table {
+    border: 1px solid #ccc;
+}
+
+fieldset legend,
+.table .caption {
+    color: #444;
+}
+
+.top-bar {
+    background: #332f38;
+    border-bottom: 1px solid #1A1A21;
+}
+
+.top-bar .entry {
+    color: #ccc;
+}
+
+.top-bar h1.entry {
+    color: #73E0B8;
+}
+
+.footer {
+    background: #332f38;
+    color: #ccc;
+    border-top: 1px solid #1A1A21;
+}
+
+.footer a {
+    color: #73E0B8;
+}
+
+.footer a:hover {
+    color: #73E0B8;
+}
+
+div.error {
+    color: #f23a14;
+}
+
+/* RESPONSIVE */
 
 @media only screen and (max-width: 64.063em) {
     .top-bar ul.right {
