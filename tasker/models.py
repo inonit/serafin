@@ -66,6 +66,7 @@ class Task(models.Model):
                 return pickle.loads(result)
             else:
                 return None
+
         return None
 
     @task.setter
@@ -77,11 +78,11 @@ class Task(models.Model):
 
         if self.task_id:
 
-            result = huey._get(self.task_id, peek=True)
-            serialized = pickle.dumps((False, False))
+            result = huey._get(self.task_id, peek=False)
+            serialized = pickle.dumps((None, False))
             huey._put('r:%s' % self.task_id, serialized)
-
             return result
+
         return None
 
     def reschedule(self, task, args, time):
