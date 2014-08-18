@@ -114,6 +114,7 @@
                 <h4 class="title">{% trans 'Text' %}</h4>
 
                 <div class="fieldset" ng-repeat="condition in content.conditions track by $index">
+
                     <div class="field-data">
                         <label>{% trans 'Variable name' %}</label>
                         <input type="text" ng-model="condition.var_name">
@@ -134,7 +135,9 @@
                         <label>{% trans 'Value' %}</label>
                         <input type="text" ng-model="condition.value">
                     </div>
+                    <a class="trash" ng-click="delete(content.conditions, $index)"><i class="icon-trash icon-alpha5"></i></a>
                 </div>
+                <div class="btn" ng-click="add(content.conditions, 'condition')">{% trans '+ Condition' %}</div>
 
                 <div class="field-data text" ng-controller="markdown">
                     <div class="markdown-guide">

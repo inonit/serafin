@@ -46,6 +46,11 @@ var dataTemplates = {
         }],
         content: '',
     },
+    'condition': {
+        var_name: '',
+        operator: '',
+        value: ''
+    },
     'form': {
         content_type: 'form',
         content: []
