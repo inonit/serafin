@@ -26,6 +26,25 @@ h6 {
     line-height: 1.1;
 }
 
+h2 {
+    font-size: 1.75rem;
+}
+
+h3 {
+    font-size: 1.5rem;
+}
+
+h4 {
+    font-size: 1.25rem;
+}
+
+* + h1,
+* + h2,
+* + h3,
+* + h4 {
+    margin: 2rem 0 1rem;
+}
+
 .messages {
     position: fixed;
     bottom: 0;
@@ -48,6 +67,7 @@ header {
 .footer {
     background: white;
     color: #444;
+    font-weight: bold;
 }
 
 .top-bar .entry {
@@ -58,22 +78,30 @@ header {
 }
 
 .top-bar h1 {
-    font-family: sans-serif;
-    font-size: 16px;
+    font-size: 17px;
+    height: 100%;
+    margin: 0;
+    text-transform: uppercase;
 }
 
-.top-bar li {
-    padding: 0 15px;
+.top-bar .button {
+    position: relative;
+    top: 0;
+    margin: 0 15px;
 }
 
 .footer {
     padding: 10px 15px 0;
 }
 
+.footer p {
+    font-weight: bold;
+}
+
 .page {
     margin: 0 auto;
     max-width: 40em;
-    padding: 4rem 1rem 2rem;
+    padding: 6rem 1rem 4rem;
 }
 
 .page nav {
@@ -113,7 +141,6 @@ fieldset label:last-child input {
 .table .caption {
     position: relative;
     top: -1.75em;
-    background: white;
     padding: 0 0.1875rem;
     margin-left: -0.1875rem;
     font-weight: bold;
@@ -205,6 +232,10 @@ div.error {
 
 /* COLOUR */
 
+body {
+    background: url('../img/congruent_pentagon_grey.png');
+}
+
 body,
 table,
 input[type="text"],
@@ -224,36 +255,36 @@ h6 {
 }
 
 a {
-    color: #34D298;
+    color: #34a278;
     transition: all 300ms ease-out;
 }
 
 a:hover {
-    color: #34A278;
+    color: #348268;
 }
 
 button,
 .button {
-    background: #34D298;
+    background: #34d298;
 }
 
 button:hover,
 .button:hover {
-    background: #34A278;
+    background: #34a278;
 }
 
 button.disabled,
 button[disabled],
 .button.disabled,
 .button[disabled] {
-    background: #74E2B8;
+    background: #74e2b8;
 }
 
 button.disabled:hover,
 button[disabled]:hover,
 .button.disabled:hover,
 .button[disabled]:hover {
-    background: #74E2B8;
+    background: #74e2b8;
 }
 
 input[type="text"],
@@ -262,17 +293,28 @@ input[type="number"],
 textarea,
 fieldset,
 .table {
+    background: transparent;
     border: 1px solid #ccc;
+    border-left: 2px solid #34d298;
+}
+
+input[type="text"]:focus,
+input[type="password"]:focus,
+input[type="number"]:focus,
+textarea:focus {
+    background: transparent;
+    border-left: 2px solid #34d298;
 }
 
 fieldset legend,
 .table .caption {
     color: #444;
+    background: transparent;
 }
 
 .top-bar {
-    background: #332f38;
-    border-bottom: 1px solid #1A1A21;
+    background: #332f3f;
+    border-bottom: 1px solid #1a1a21;
 }
 
 .top-bar .entry {
@@ -280,21 +322,21 @@ fieldset legend,
 }
 
 .top-bar h1.entry {
-    color: #73E0B8;
+    color: #73e0b8;
 }
 
 .footer {
-    background: #332f38;
+    background: #332f3f;
     color: #ccc;
-    border-top: 1px solid #1A1A21;
+    border-top: 1px solid #1a1a21;
 }
 
 .footer a {
-    color: #73E0B8;
+    color: #73e0b8;
 }
 
 .footer a:hover {
-    color: #73E0B8;
+    color: #73e0b8;
 }
 
 div.error {

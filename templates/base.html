@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>{% block title %}Serafin{% endblock %}</title>
     {% block meta %}{% endblock %}
-    <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=PT+Sans:700" />
+    <link rel="stylesheet" href="//brick.a.ssl.fastly.net/PT+Sans:700" />
     {% load staticfiles %}
     {% load compress %}
     {% compress css %}
@@ -20,9 +20,9 @@
     <div class="wrapper">
       <header>
         <nav class="top-bar" data-topbar>
-          <ul class="right">
-            <li><a class="button" href="{% url 'logout' %}">{% trans 'Quit / sign out' %}</a></li>
-          </ul>
+          <div class="right">
+            <a class="button" href="{% url 'logout' %}">{% trans 'Quit / sign out' %}</a>
+          </div>
           <h1 class="entry">{{ program }}</h1>
           <div class="entry title">{{ title }}</div>
         </nav>
