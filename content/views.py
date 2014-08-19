@@ -3,6 +3,7 @@ from __future__ import unicode_literals
 from django.contrib.auth.decorators import login_required
 from django.contrib.admin.views.decorators import staff_member_required
 from django.core.urlresolvers import reverse
+from django.http import Http404
 from django.shortcuts import get_object_or_404, render
 from filer.models import File, Image
 from serafin.decorators import in_session
@@ -13,7 +14,7 @@ import json
 
 
 @login_required
-@in_session("/login")
+@in_session('/login')
 def get_session(request):
 
     if request.is_ajax():
@@ -27,12 +28,11 @@ def get_session(request):
         request.user.save()
 
     session_id = request.user.data['current_session']
-    session = Session.objects.get(id=session_id)
-    program = session.program
+    session = get_object_or_404(Session, id=session_id)
 
     context = {
-        'program': program,
-        'title': session.display_title if session else '',
+        'program': session.program,
+        'title': session.display_title,
         'api': reverse('content_api'),
     }
 
@@ -52,15 +52,18 @@ def get_page(request):
     # admin page preview support
     page_id = request.GET.get('page_id', None)
     if request.user.is_staff and page_id:
-        page = Page.objects.get(id=page_id)
+        page = get_object_or_404(Page, id=page_id)
         page.update_html(request.user)
         page.dead_end = True
 
     # engine selection
     else:
-        next = request.GET.get('next', None) if request.method == 'POST' else None
+        next = request.GET.get('next', None)
         engine = Engine(request.user, context)
         page = engine.run(next)
+
+    if not page:
+        raise Http404
 
     response = {
         'title': page.display_title,
