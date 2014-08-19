@@ -1,9 +1,9 @@
 {% extends 'base.html' %}
 {% load i18n %}
 {% block content %}
-<div class="page" ng-controller="pages" ng-cloak ng-form="form">
+<div class="page" ng-controller="pages" ng-form="form">
     {% verbatim %}
-    <div class="pagelet" ng-repeat="pagelet in page track by $index">
+    <div class="pagelet" ng-repeat="pagelet in page track by $index" ng-cloak>
 
         <div class="text" ng-if="pagelet.content_type == 'text'" livereplace="pagelet.content">
         </div>
