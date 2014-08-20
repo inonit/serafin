@@ -173,14 +173,16 @@ class SessionAdmin(admin.ModelAdmin):
         'end_time_delta',
         'end_time_unit',
         'start_time',
+        'scheduled',
     ]
     list_editable = [
         'start_time_delta',
         'start_time_unit',
         'end_time_delta',
         'end_time_unit',
+        'scheduled',
     ]
-    list_filter = ['program__title']
+    list_filter = ['program__title', 'scheduled']
     search_fields = ['title', 'display_title', 'admin_note', 'program__title']
     ordering = ['start_time']
     date_hierarchy = 'start_time'

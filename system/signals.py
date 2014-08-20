@@ -46,7 +46,7 @@ def schedule_session(sender, **kwargs):
 
     session = kwargs['instance']
 
-    if kwargs['created']:
+    if kwargs['created'] and session.scheduled:
         for useraccess in session.program.programuseraccess_set.all():
             Task.objects.create_task(
                 sender=session,
@@ -63,7 +63,7 @@ def reschedule_session(sender, **kwargs):
 
     session = kwargs['instance']
 
-    if not kwargs['created']:
+    if not kwargs['created'] and session.scheduled:
         session_type = ContentType.objects.get_for_model(Session)
         for useraccess in session.program.programuseraccess_set.all():
             try:
@@ -96,8 +96,9 @@ def revoke_session(sender, **kwargs):
 
     session = kwargs['instance']
 
-    session_type = ContentType.objects.get_for_model(Session)
-    Task.objects.filter(content_type=session_type, object_id=session.id).delete()
+    if session.scheduled:
+        session_type = ContentType.objects.get_for_model(Session)
+        Task.objects.filter(content_type=session_type, object_id=session.id).delete()
 
 
 @receiver(signals.pre_delete, sender=ProgramUserAccess)

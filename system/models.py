@@ -122,6 +122,7 @@ class Session(models.Model):
     end_time_delta = models.IntegerField(_('end time delta'), default=0)
     end_time_unit = models.CharField(_('end time unit'), max_length=32, choices=TIME_UNITS, default='hours')
     start_time = models.DateTimeField(_('first start time'), null=True, blank=True)
+    scheduled = models.BooleanField(_('scheduled'), default=False)
 
     data = JSONField(load_kwargs={'object_pairs_hook': OrderedDict}, default='undefined')
 
@@ -142,11 +143,13 @@ class Session(models.Model):
 
     def save(self, *args, **kwargs):
         first_useraccess = self.program.programuseraccess_set.order_by('start_time').first()
-        if first_useraccess:
+        if first_useraccess and self.scheduled:
             self.start_time = self.get_start_time(
                 first_useraccess.start_time,
                 first_useraccess.time_factor
             )
+        else:
+            self.start_time = None
 
         super(Session, self).save(*args, **kwargs)
 
