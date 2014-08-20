@@ -35,7 +35,7 @@ def vault_post(func):
             status = response.json().get('status')
 
             if status and status == STATUS_OK:
-                return True
+                return response.json()
 
         return False
 

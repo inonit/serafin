@@ -1,7 +1,9 @@
 from __future__ import unicode_literals
+from django.utils.translation import ugettext_lazy as _
 
 from django.template import Context
 from django.template.loader import get_template
+from django.http import HttpResponse
 from django.utils.encoding import force_bytes
 from django.utils.http import urlsafe_base64_encode
 from django.views.decorators.csrf import csrf_exempt
@@ -9,6 +11,7 @@ from tokens.json_responses import JsonResponse
 from tokens.tokens import token_generator
 from vault.decorators import json_response
 from vault.models import VaultUser
+from twilio.twiml import Response
 import json
 
 
@@ -72,14 +75,20 @@ def send_sms(request, *args, **kwargs):
 
 
 @csrf_exempt
-@json_response
-def fetch_sms(request, *args, **kwargs):
-    '''Fetch sms response from user'''
-    pass
+def receive_sms(request):
+    '''Receive sms message from user, process and respond'''
+
+    print request.POST
+    print request.body
+
+    response = Response()
+    #response.message(_('Thank you, your answer has been recorded.'))
+    response.message(request.body)
+    return HttpResponse(response, content_type='text/xml')
 
 
 @csrf_exempt
-def password_reset(request, *args, **kwargs):
+def password_reset(request):
     '''Send password reset email'''
 
     data = json.loads(request.body)

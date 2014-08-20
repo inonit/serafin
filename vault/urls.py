@@ -8,6 +8,6 @@ urlpatterns = patterns('vault.views',
     url(r'^delete_mirror$', 'delete_mirror', name='delete_mirror'),
     url(r'^send_email$', 'send_email', name='send_email'),
     url(r'^send_sms$', 'send_sms', name='send_sms'),
-    url(r'^fetch_sms$', 'fetch_sms', name='fetch_sms'),
+    url(r'^receive_sms$', 'receive_sms', name='receive_sms'),
     url(r'^password_reset$', 'password_reset', name='vault_password_reset'),
 )

@@ -88,12 +88,6 @@ class User(AbstractBaseUser, PermissionsMixin):
         path = settings.VAULT_SEND_SMS_PATH
         return path, self.id, token_generator.make_token(self.id)
 
-    @vault_post
-    def fetch_sms(self, message=None):
-        '''Sends an SMS to the User through the Vault'''
-        path = settings.VAULT_SEND_SMS_PATH
-        return path, self.id, token_generator.make_token(self.id)
-
     def generate_login_link(self):
         '''Generates a login link URL'''
         current_site = Site.objects.get_current()

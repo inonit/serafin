@@ -21,8 +21,9 @@ def json_response(func):
             if user_id and token:
                 if token_generator.check_token(user_id, token):
                     try:
-                        func(request, user_id=user_id, data=data)
-                        response['status'] = STATUS_OK
+                        response = func(request, user_id=user_id, data=data)
+                        if not response:
+                            response['status'] = STATUS_OK
                     except:
                         pass # fail assumed above
                 else:
