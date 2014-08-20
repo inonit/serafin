@@ -72,6 +72,7 @@ serafin.controller('pages', ['$scope', '$http', function(scope, http) {
             scope.page = data.data;
             scope.dead_end = data.dead_end;
             scope.form.submitted = false;
+            window.scrollTo(0,0);
         });
     };
 }]);
@@ -179,3 +180,18 @@ serafin.directive('livereplace', ['$compile', function(compile) {
         }
     };
 }]);
+
+// serafin.directive('sheet', ['$http', function(http) {
+//     return {
+//         restrict: 'C',
+//         link: function(scope, element, attrs) {
+//             var style = angular.element(document.querySelector('#style'));
+//             element.on('click', function(e) {
+//                 e.preventDefault();
+//                 http.get(attrs.href).success(function(data) {
+//                     style.html(data);
+//                 });
+//             });
+//         }
+//     }
+// }]);

@@ -1,5 +1,6 @@
 html, body {
     height: 100%;
+    font-size: 110%;
 }
 
 .wrapper {
@@ -95,7 +96,6 @@ header {
 .footer {
     background: white;
     color: #444;
-    font-weight: bold;
 }
 
 .top-bar .entry {
@@ -106,7 +106,7 @@ header {
 }
 
 .top-bar h1 {
-    font-size: 17px;
+    font-size: 1.1rem;
     height: 100%;
     margin: 0;
     text-transform: uppercase;
@@ -116,14 +116,11 @@ header {
     position: relative;
     top: 0;
     margin: 0 15px;
+    font-size: 85%;
 }
 
 .footer {
     padding: 10px 15px 0;
-}
-
-.footer p {
-    font-weight: bold;
 }
 
 .page {
@@ -153,8 +150,9 @@ fieldset {
 }
 
 fieldset legend,
-.table .caption {
-    font-size: 0.875rem;
+.table .caption,
+label {
+    font-size: 85%;
 }
 
 fieldset label:last-child input {
@@ -184,10 +182,6 @@ fieldset label:last-child input {
     width: auto;
     text-align: center;
     vertical-align: top;
-}
-
-label.large {
-    font-size: 18px;
 }
 
 div.error {
@@ -258,11 +252,7 @@ div.error {
     display: none !important;
 }
 
-/* COLOUR */
-
-body {
-    background: url('../img/congruent_pentagon_grey.png');
-}
+/* COLOR */
 
 body,
 table,
@@ -389,5 +379,16 @@ div.error {
 @media only screen and (max-width: 64.063em) {
     .top-bar ul.right {
         margin-top: .55em;
+    }
+}
+
+
+@media only screen and (max-width: 40em) {
+    html {
+        font-size: 100%;
+    }
+    blockquote:after {
+        left: -15px;
+        border-width: 0 15px 10px 0;
     }
 }

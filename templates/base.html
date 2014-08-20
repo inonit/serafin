@@ -3,7 +3,7 @@
   {% load i18n %}
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
     <title>{% block title %}Serafin{% endblock %}</title>
     {% block meta %}{% endblock %}
     <link rel="stylesheet" href="//brick.a.ssl.fastly.net/PT+Sans:700" />
@@ -46,14 +46,14 @@
 
     <footer class="footer">
       <div class="left">
-        <p>© {% now 'Y' %} SERAF, UiO</p>
+        <p>© {% now 'Y' %} <a href="http://www.med.uio.no/klinmed/forskning/sentre/seraf/">SERAF</a>, UiO</p>
       </div>
 
       <div class="right">
         <ul class="inline-list">
-          <li><a href="">Lenke</a></li>
-          <li><a href="">Lenke</a></li>
-          <li><a href="">Lenke</a></li>
+          {#<li><a class="sheet" href="{% static 'css/a.css' %}">Design A</a></li>#}
+          {#<li><a class="sheet" href="{% static 'css/b.css' %}">Design B</a></li>#}
+          {#<li><a class="sheet" href="{% static 'css/c.css' %}">Design C</a></li>#}
         </ul>
       </div>
     </footer>
@@ -78,5 +78,7 @@
       })();
       */
     </script>
+    {#<style id="style">#}
+    {#</style>#}
   </body>
 </html>

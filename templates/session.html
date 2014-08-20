@@ -9,7 +9,13 @@
         </div>
 
         <div class="toggle" ng-if="pagelet.content_type == 'toggle'">
-            <p><a ng-click="toggled = !toggled">{{ pagelet.toggle }}</a></p>
+            <p>
+                <a ng-click="toggled = !toggled" ng-init="toggled = false">
+                    <span ng-hide="toggled">▼</span>
+                    <span ng-show="toggled">▲</span>
+                    {{ pagelet.toggle }}
+                </a>
+            </p>
             <div ng-show="toggled" livereplace="pagelet.content">
             </div>
         </div>
