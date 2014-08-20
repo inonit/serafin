@@ -1,18 +1,23 @@
 from __future__ import unicode_literals
 from django.utils.translation import ugettext_lazy as _
 
+from django.conf import settings
+from django.http import HttpResponse
+from django.shortcuts import get_object_or_404
 from django.template import Context
 from django.template.loader import get_template
-from django.http import HttpResponse
 from django.utils.encoding import force_bytes
 from django.utils.http import urlsafe_base64_encode
 from django.views.decorators.csrf import csrf_exempt
-from tokens.json_responses import JsonResponse
+
+from serafin.utils import JSONResponse
+from system.engine import Engine
 from tokens.tokens import token_generator
 from vault.decorators import json_response
 from vault.models import VaultUser
 from twilio.twiml import Response
 import json
+import requests
 
 
 @csrf_exempt
@@ -78,12 +83,31 @@ def send_sms(request, *args, **kwargs):
 def receive_sms(request):
     '''Receive sms message from user, process and respond'''
 
-    print request.POST
-    print request.body
-
     response = Response()
-    #response.message(_('Thank you, your answer has been recorded.'))
-    response.message(request.body)
+    if request.method == 'POST':
+
+        sender = request.POST.get('From')
+        body = request.POST.get('Body')
+        url = getattr(settings, 'USERS_RECEIVE_SMS_URL', None)
+        try:
+            vault_user = VaultUser.objects.get(phone=sender)
+            token = token_generator.make_token(vault_user.id)
+            data = {
+                'user_id': vault_user.id,
+                'token': token,
+                'message': body,
+            }
+
+            result = requests.post(url, data=json.dumps(data))
+            result.raise_for_status()
+
+            response.message(result.json().get('message'))
+        except:
+            response.message(_('Sorry, there was an error processing your SMS.'))
+            vault_user = None
+    else:
+        response.message(_('No data received.'))
+
     return HttpResponse(response, content_type='text/xml')
 
 

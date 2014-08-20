@@ -29,4 +29,5 @@ urlpatterns = patterns('',
     url(r'^recover_password/done/$',
         'django.contrib.auth.views.password_reset_complete'
     ),
+    url(r'^api/users/receive_sms$', 'users.views.receive_sms', name='receive_sms'),
 )

@@ -2,15 +2,21 @@ from __future__ import unicode_literals
 from django.utils.translation import ugettext_lazy as _
 
 from django.contrib.auth import login, logout, authenticate
+from django.contrib.auth.views import login as login_view
 from django.http.response import HttpResponse
 from django.shortcuts import redirect
-from django.contrib.auth.views import login as django_login
+from django.views.decorators.csrf import csrf_exempt
+
+from serafin.utils import JSONResponse
+from system.engine import Engine
+from users.models import User
+import json
 
 
 def manual_login(request):
     if request.user.is_authenticated():
         return redirect('/')
-    return django_login(request, template_name='login.html')
+    return login_view(request, template_name='login.html')
 
 
 def manual_logout(request):
@@ -27,3 +33,31 @@ def login_via_email(request, user_id=None, token=None):
         return redirect('/')
 
     return redirect('login')
+
+
+@csrf_exempt
+def receive_sms(request):
+
+    response = {'message': 'Go away.'}
+    if request.method == 'POST':
+        data = json.loads(request.body)
+
+        user_id = data.get('user_id')
+        token = data.get('token')
+        message = data.get('message')
+
+        if user_id and token:
+            if token_generator.check_token(user_id, token):
+                try:
+                    user = User.objects.get(id=user_id)
+
+                    engine = Engine(user, {'sms_response': message})
+                    engine.run(1)
+
+                    response = {'message': 'OK'}
+                except:
+                    response = {'message': 'Fail'}
+
+        return JSONResponse(response)
+
+    return JSONResponse(response)
