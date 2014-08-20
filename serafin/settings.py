@@ -164,8 +164,9 @@ VAULT_MIRROR_USER_PATH = 'mirror_user'
 VAULT_DELETE_MIRROR_PATH = 'delete_mirror'
 VAULT_SEND_EMAIL_PATH = 'send_email'
 VAULT_SEND_SMS_PATH = 'send_sms'
-VAULT_FETCH_SMS_PATH = 'fetch_sms'
 VAULT_PASSWORD_RESET_PATH = 'password_reset'
+
+USERS_RECEIVE_SMS_URL = 'http://localhost:8000/api/users/response_sms'
 
 AUTHENTICATION_BACKENDS = (
     'django.contrib.auth.backends.ModelBackend',
@@ -315,7 +316,7 @@ LOGGING = {
             'class': 'logging.handlers.RotatingFileHandler',
             'filename': 'huey.log',
             'maxBytes': 1024*1024*5,
-            'backupCount': 2,
+            'backupCount': 0,
             'formatter': 'standard',
         },
     },
