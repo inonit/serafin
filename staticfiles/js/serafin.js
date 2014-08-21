@@ -180,18 +180,3 @@ serafin.directive('livereplace', ['$compile', function(compile) {
         }
     };
 }]);
-
-// serafin.directive('sheet', ['$http', function(http) {
-//     return {
-//         restrict: 'C',
-//         link: function(scope, element, attrs) {
-//             var style = angular.element(document.querySelector('#style'));
-//             element.on('click', function(e) {
-//                 e.preventDefault();
-//                 http.get(attrs.href).success(function(data) {
-//                     style.html(data);
-//                 });
-//             });
-//         }
-//     }
-// }]);

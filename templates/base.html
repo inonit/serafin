@@ -1,5 +1,5 @@
 <!doctype html>
-<html class="no-js" lang="{{ LANGUAGE_CODE|default:'no' }}" ng-app="serafin">
+<html lang="{{ LANGUAGE_CODE|default:'no' }}" ng-app="serafin">
   {% load i18n %}
   <head>
     <meta charset="utf-8" />
@@ -13,7 +13,6 @@
     <link rel="stylesheet" href="{% static 'css/foundation.css' %}" />
     <link rel="stylesheet" href="{% static 'css/style.css' %}" />
     {% block styles %}{% endblock %}
-    <script src="{% static 'js/vendor/modernizr.js' %}"></script>
     {% endcompress %}
   </head>
   <body>
@@ -51,9 +50,6 @@
 
       <div class="right">
         <ul class="inline-list">
-          {#<li><a class="sheet" href="{% static 'css/a.css' %}">Design A</a></li>#}
-          {#<li><a class="sheet" href="{% static 'css/b.css' %}">Design B</a></li>#}
-          {#<li><a class="sheet" href="{% static 'css/c.css' %}">Design C</a></li>#}
         </ul>
       </div>
     </footer>
@@ -78,7 +74,5 @@
       })();
       */
     </script>
-    {#<style id="style">#}
-    {#</style>#}
   </body>
 </html>
