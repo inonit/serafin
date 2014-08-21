@@ -119,13 +119,21 @@ plumbing.controller('graph', ['$scope', 'jsPlumb', function(scope, jsPlumbServic
     };
 
     // scrolling
-    scope.scrolling = {locked: false, x: 0, y: 0, prevX: null, prevY: null};
+    scope.scrolling = {
+        locked: false,
+        x: 0,
+        y: 0,
+        prevX: null,
+        prevY: null
+    };
 
-    scope.startScrolling = function() {
-        if (scope.scrolling.locked !== "node") {
+    scope.startScrolling = function(e) {
+        var graph = document.querySelector('#plumbing');
+        if (e.target === graph) {
             scope.scrolling.locked = true;
         }
     };
+
     scope.scroll = function(e) {
         if (scope.scrolling.locked === true) {
             var x = e.clientX;
@@ -149,13 +157,13 @@ plumbing.controller('graph', ['$scope', 'jsPlumb', function(scope, jsPlumbServic
             scope.jsPlumb.repaintEverything();
         }
     };
+
     scope.stopScrolling = function() {
         scope.scrolling.prevX = null;
         scope.scrolling.prevY = null;
         scope.scrolling.locked = false;
         scope.jsPlumb.repaintEverything();
     }
-
     // end of scrolling
 
     scope.addNode = function(type) {
