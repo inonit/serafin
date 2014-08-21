@@ -93,7 +93,7 @@ def process_session_links(user, text):
             'current_page': 0,
         }
 
-        engine = Engine(user, init)
+        engine = Engine(user.id, init)
         engine.run()
 
         link = user.generate_login_link()

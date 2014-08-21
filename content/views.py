@@ -59,7 +59,7 @@ def get_page(request):
     # engine selection
     else:
         next = request.GET.get('next', None)
-        engine = Engine(request.user, context)
+        engine = Engine(request.user.id, context)
         page = engine.run(next)
 
     if not page:

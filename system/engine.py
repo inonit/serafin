@@ -1,6 +1,7 @@
 from __future__ import unicode_literals
 from django.utils.translation import ugettext_lazy as _
 
+from django.contrib.auth import get_user_model
 from django.core.signals import request_finished
 from django.utils import timezone
 
@@ -14,10 +15,10 @@ from tasker.models import Task
 class Engine(object):
     '''A simplified decision engine to traverse the graph for a user'''
 
-    def __init__(self, user, context={}):
+    def __init__(self, user_id, context={}):
         '''Initialize Engine with a User instance and optional context'''
 
-        self.user = user
+        self.user = get_user_model().objects.get(id=user_id)
 
         # process context if available, save to user data
         if context:
@@ -214,7 +215,7 @@ class Engine(object):
                 sender=self.session,
                 time=start_time + delta,
                 task=transition,
-                args=(self.user, node_id),
+                args=(self.user.id, node_id),
                 action=_('Delayed node execution')
             )
 
