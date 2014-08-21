@@ -311,6 +311,14 @@ LOGGING = {
         },
     },
     'handlers': {
+        'django_log': {
+            'level': 'DEBUG',
+            'class': 'logging.handlers.RotatingFileHandler',
+            'filename': 'django.log',
+            'maxBytes': 1024*1024*5,
+            'backupCount': 0,
+            'formatter': 'standard',
+        },
         'huey_log': {
             'level': 'DEBUG',
             'class': 'logging.handlers.RotatingFileHandler',
@@ -321,6 +329,11 @@ LOGGING = {
         },
     },
     'loggers': {
+        'django.request': {
+            'handlers': ['django_log'],
+            'level': 'DEBUG',
+            'propagate': True,
+        },
         'huey.consumer': {
             'handlers': ['huey_log'],
             'level': 'DEBUG',
