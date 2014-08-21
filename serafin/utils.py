@@ -83,7 +83,7 @@ def process_session_links(user, text):
 
     from system.engine import Engine
 
-    matches = re.findall(r'\[.*?\]\((session:(.*?))\)', text)
+    matches = re.findall(r'(session:(\d+))', text)
     for match in matches:
         session_str = match[0]
         session_id = match[1]

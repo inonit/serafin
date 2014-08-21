@@ -6,9 +6,7 @@ from django.contrib.contenttypes.models import ContentType
 from django.db.models import signals
 from django.dispatch import receiver
 
-from .models import Variable, ProgramUserAccess, Session
-from system.tasks import init_session
-from tasker.models import Task
+from .models import Variable, ProgramUserAccess, Session, Content, Page
 
 
 @receiver(signals.pre_save, sender=Variable)
@@ -113,3 +111,37 @@ def revoke_tasks(sender, **kwargs):
             object_id=session.id,
             subject=useraccess.user
         ).delete()
+
+
+@receiver(signals.pre_save, sender=Session)
+def session_pre_save(sender, instance, *args, **kwargs):
+
+    # Temp. dirty fix for occational empty ref_ids
+    for node in instance.data.get('nodes', []):
+        ref_id = node.get('ref_id')
+        node_type = node.get('type')
+        if ref_id == '' and node_type in ['page', 'email', 'sms']:
+
+            ref_url = node.get('ref_url')
+            try:
+                node['ref_id'] = re.findall('\d+', ref_url)[0]
+
+                # Update title of all content
+                content = Content.objects.filter(id=node['ref_id'])
+                node['title'] = content.title
+            except:
+                pass
+
+@receiver(signals.post_save, sender=Content)
+def content_post_save(sender, instance, *args, **kwargs):
+
+    # Update title in all sessions
+    for session in Session.objects.all():
+        nodes = session.data.get('nodes', [])
+        for node in nodes:
+            try:
+                if int(node.get('ref_id')) == instance.id:
+                    node['title'] = instance.title
+                    session.save()
+            except:
+                pass

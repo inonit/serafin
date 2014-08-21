@@ -2,9 +2,6 @@ from __future__ import unicode_literals
 from django.utils.translation import ugettext_lazy as _
 
 from django.db import models
-from django.db.models.signals import pre_save
-from django.db.models.signals import post_save
-from django.dispatch import receiver
 from django.conf import settings
 from django.core.urlresolvers import reverse
 from django.utils import timezone
@@ -180,31 +177,6 @@ class Session(models.Model):
         return start_time + timedelta
 
 
-@receiver(pre_save, sender=Session)
-def session_pre_save(sender, instance, *args, **kwargs):
-    """Sometimes ref_id gets set to an empty string for unknown reasons. This is a dirty fix for that problem"""
-    nodes = instance.data.get("nodes", [])
-    for node in nodes:
-        ref_id = node.get("ref_id")
-        _type = node.get("type")
-        if _type in ["page", "email", "sms"] and ref_id == "":
-            ref_url = node.get("ref_url")
-            try:
-                node["ref_id"] = int(re.findall("\d+", ref_url)[0])
-            except Exception, (e):
-                pass
-    edges = instance.data.get("edges", [])
-    for edge in edges:
-        conditions = edge.get("conditions", [])
-        if len(conditions) > 0:
-            new_conditions = []
-            for condition in conditions:
-                var_name = condition.get("var_name", None)
-                if var_name not in settings.FORBIDDEN_VARIABLES:
-                    new_conditions.append(condition)
-            edge["conditions"] = new_conditions
-
-
 class Content(models.Model):
     '''An ordered collection of JSON content'''
 
@@ -289,19 +261,6 @@ class Page(Content):
                         text['content'] = mistune.markdown(content)
                     else:
                         text['content'] = ''
-
-
-@receiver(post_save, sender=Page)
-def page_post_save(sender, instance, *args, **kwargs):
-    for session in Session.objects.all():
-        nodes = session.data.get("nodes", [])
-        for node in nodes:
-            try:
-                if instance.id == int(node.get("ref_id")):
-                    node["title"] = instance.title
-                    session.save()
-            except Exception, (e):
-                pass
 
 
 class EmailManager(models.Manager):
