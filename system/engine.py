@@ -1,14 +1,14 @@
 from __future__ import unicode_literals
-from django.core.signals import request_finished
 from django.utils.translation import ugettext_lazy as _
 
-from datetime import date
+from django.core.signals import request_finished
+from django.utils import timezone
+
+from datetime import date, timedelta
 from events.signals import log_event
 from huey.djhuey import db_task
 from system.models import Variable, Session, Page, Email, SMS
 from tasker.models import Task
-
-import datetime
 
 
 class Engine(object):
@@ -142,30 +142,42 @@ class Engine(object):
 
         edges = self.get_node_edges(source_id)
 
-        # traverse all special edges
         special_edges = self.get_special_edges(edges)
+        normal_edges = self.get_normal_edges(edges)
+
+        # traverse all special edges
         while special_edges:
             edge = self.traverse(special_edges, source_id)
+
             if edge:
+                target_id = edge.get('target')
                 special_edges.remove(edge)
-                node = self.trigger_node(edge.get('target'))
+
+                self.user.data['current_background'] = target_id
+                self.user.save()
+
+                self.trigger_node(target_id)
             else:
                 break
 
         # traverse first applicable normal edge
-        normal_edges = self.get_normal_edges(edges)
         edge = self.traverse(normal_edges, source_id)
         if edge:
             target_id = edge.get('target')
             node = self.trigger_node(target_id)
 
             if isinstance(node, Page):
-                log_event.send(self, domain="session", actor=self.user,
-                               variable="transition",
-                               pre_value=self.nodes[int(self.user.data.get("current_node"))].get("title"),
-                               post_value=node)
 
-                self.user.data['current_node'] = target_id
+                log_event.send(
+                    self,
+                    domain='session',
+                    actor=self.user,
+                    variable='transition',
+                    pre_value=self.nodes[self.user.data['current_page']]['title'],
+                    post_value=node.title
+                )
+
+                self.user.data['current_page'] = target_id
                 self.user.save()
 
                 node.dead_end = self.is_dead_end(target_id)
@@ -194,26 +206,30 @@ class Engine(object):
             kwargs = {
                 delay.get('unit'): delay.get('number'),
             }
-            delta = datetime.timedelta(**kwargs)
+            start_time = self.session.start_time or timezone.localtime(timezone.now())
+            delta = timedelta(**kwargs)
 
             from system.tasks import transition
             Task.objects.create_task(
                 sender=self.session,
-                time=self.session.start_time + delta,
+                time=start_time + delta,
                 task=transition,
                 args=(self.user, node_id),
                 action=_('Delayed node execution')
             )
 
-            log_event.send(self, domain="session", actor=self.user,
-                           variable="delay",
-                           pre_value="",
-                           post_value=u"Delay: {number} {unit}, Node id: {node_id}, Session start time: {start_time}".format(
-                               unit=delay.get("unit"),
-                               number=delay.get("number"),
-                               node_id=node_id,
-                               start_time=self.session.start_time
-                           ))
+            log_event.send(
+                self,
+                domain='session',
+                actor=self.user,
+                variable='delay',
+                pre_value='',
+                post_value='%r delay: %r + %r %r' % (
+                    self.session.title,
+                    start_time,
+                    delay.get('unit'),
+                    delay.get('number'),
+                ))
 
             return None
 
@@ -222,10 +238,14 @@ class Engine(object):
             email = Email.objects.get(id=ref_id)
             email.send(self.user)
 
-            log_event.send(self, domain="session", actor=self.user,
-                           variable="email",
-                           pre_value="",
-                           post_value=u"ID: {id}".format(id=ref_id))
+            log_event.send(
+                self,
+                domain='session',
+                actor=self.user,
+                variable='email',
+                pre_value='',
+                post_value=email.title
+            )
 
             return self.transition(node_id)
 
@@ -234,10 +254,14 @@ class Engine(object):
             sms = SMS.objects.get(id=ref_id)
             sms.send(self.user)
 
-            log_event.send(self, domain="session", actor=self.user,
-                           variable="SMS",
-                           pre_value="",
-                           post_value=u"ID: {id}".format(id=ref_id))
+            log_event.send(
+                self,
+                domain='session',
+                actor=self.user,
+                variable='sms',
+                pre_value='',
+                post_value=sms.title
+            )
 
             return self.transition(node_id)
 
@@ -247,7 +271,7 @@ class Engine(object):
     def run(self, next=None):
         '''Run the Engine after initializing and return some result'''
 
-        node_id = int(self.user.data.get('current_node', 0))
+        node_id = self.user.data.get('current_page', 0)
 
         if next:
             return self.transition(node_id)

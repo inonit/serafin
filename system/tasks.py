@@ -19,7 +19,7 @@ def init_session(session, user):
 
     init = {
         'current_session': session.id,
-        'current_node': 0,
+        'current_page': 0,
     }
 
     engine = Engine(user, init)

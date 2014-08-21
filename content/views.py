@@ -24,7 +24,7 @@ def get_session(request):
     session_id = request.GET.get('session_id', None)
     if request.user.is_staff and session_id:
         request.user.data['current_session'] = session_id
-        request.user.data['current_node'] = 0
+        request.user.data['current_page'] = 0
         request.user.save()
 
     session_id = request.user.data['current_session']

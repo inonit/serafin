@@ -88,7 +88,8 @@ def receive_sms(request):
 
         sender = request.POST.get('From')
         body = request.POST.get('Body')
-        url = getattr(settings, 'USERS_RECEIVE_SMS_URL', None)
+        url = settings.USERS_RECEIVE_SMS_URL
+
         try:
             vault_user = VaultUser.objects.get(phone=sender)
             token = token_generator.make_token(vault_user.id)
@@ -100,11 +101,8 @@ def receive_sms(request):
 
             result = requests.post(url, data=json.dumps(data))
             result.raise_for_status()
-
-            response.message(result.json().get('message'))
         except:
             response.message(_('Sorry, there was an error processing your SMS.'))
-            vault_user = None
     else:
         response.message(_('No data received.'))
 

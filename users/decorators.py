@@ -21,7 +21,7 @@ def vault_post(func):
             data.update(kwargs)
 
             url = '%(server_url)s%(path)s' % {
-                'server_url': getattr(settings, 'VAULT_SERVER_API_URL', None),
+                'server_url': settings.VAULT_SERVER_API_URL,
                 'path': path
             }
 
@@ -32,10 +32,7 @@ def vault_post(func):
             response = requests.post(url, data=json.dumps(data), headers=headers)
             response.raise_for_status()
 
-            status = response.json().get('status')
-
-            if status and status == STATUS_OK:
-                return response.json()
+            return response.json()
 
         return False
 

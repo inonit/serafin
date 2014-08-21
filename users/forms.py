@@ -18,8 +18,8 @@ class PasswordResetForm(forms.Form):
         current_site = Site.objects.get_current()
 
         url = '%(server_url)s%(path)s' % {
-            'server_url': getattr(settings, 'VAULT_SERVER_API_URL', None),
-            'path': getattr(settings, 'VAULT_PASSWORD_RESET_PATH', None),
+            'server_url': settings.VAULT_SERVER_API_URL,
+            'path': settings.VAULT_PASSWORD_RESET_PATH,
         }
 
         data = {

@@ -10,10 +10,11 @@ def json_response(func):
     '''Handle JSON POST requests and respond in JSON'''
 
     def _json_response(request, *args, **kwargs):
-        response = {
-            'status': STATUS_FAIL,
-        }
+
+        response = {'status': 'Fail.'}
+
         if request.method == 'POST':
+
             data = json.loads(request.body)
             user_id = data.get('user_id')
             token = data.get('token')
@@ -23,11 +24,9 @@ def json_response(func):
                     try:
                         response = func(request, user_id=user_id, data=data)
                         if not response:
-                            response['status'] = STATUS_OK
+                            response = {'status': 'OK'}
                     except:
                         pass # fail assumed above
-                else:
-                    response['status'] = STATUS_INVALID_TOKEN
 
         return JSONResponse(response)
 

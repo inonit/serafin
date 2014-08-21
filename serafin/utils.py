@@ -90,7 +90,7 @@ def process_session_links(user, text):
 
         init = {
             'current_session': session_id,
-            'current_node': 0,
+            'current_page': 0,
         }
 
         engine = Engine(user, init)

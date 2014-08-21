@@ -10,6 +10,7 @@ from django.views.decorators.csrf import csrf_exempt
 from serafin.utils import JSONResponse
 from system.engine import Engine
 from users.models import User
+from tokens.tokens import token_generator
 import json
 
 
@@ -39,6 +40,7 @@ def login_via_email(request, user_id=None, token=None):
 def receive_sms(request):
 
     response = {'message': 'Go away.'}
+
     if request.method == 'POST':
         data = json.loads(request.body)
 
@@ -48,16 +50,13 @@ def receive_sms(request):
 
         if user_id and token:
             if token_generator.check_token(user_id, token):
-                try:
-                    user = User.objects.get(id=user_id)
+                user = User.objects.get(id=user_id)
 
-                    engine = Engine(user, {'sms_response': message})
-                    engine.run(1)
+                node_id = user.data.get('current_background', 0)
 
-                    response = {'message': 'OK'}
-                except:
-                    response = {'message': 'Fail'}
+                engine = Engine(user, {'sms_response': message})
+                engine.transition(node_id)
 
-        return JSONResponse(response)
+                response = {'message': 'OK'}
 
     return JSONResponse(response)

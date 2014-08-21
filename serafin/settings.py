@@ -166,7 +166,7 @@ VAULT_SEND_EMAIL_PATH = 'send_email'
 VAULT_SEND_SMS_PATH = 'send_sms'
 VAULT_PASSWORD_RESET_PATH = 'password_reset'
 
-USERS_RECEIVE_SMS_URL = 'http://localhost:8000/api/users/response_sms'
+USERS_RECEIVE_SMS_URL = 'http://localhost:8000/api/users/receive_sms'
 
 AUTHENTICATION_BACKENDS = (
     'django.contrib.auth.backends.ModelBackend',
@@ -334,9 +334,16 @@ SOUTH_MIGRATION_MODULES = {
     'easy_thumbnails': 'easy_thumbnails.south_migrations',
 }
 
+
 # Variables
 
-FORBIDDEN_VARIABLES = ['group', 'current_node', 'current_session']
+FORBIDDEN_VARIABLES = [
+    'group',
+    'current_day',
+    'current_session',
+    'current_page',
+    'current_background',
+]
 
 try:
     from local_settings import *
