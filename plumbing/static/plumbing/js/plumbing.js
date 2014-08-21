@@ -102,6 +102,7 @@ plumbing.run(['$rootScope', function(scope) {
 
 plumbing.controller('varSearch', ['$scope', function(scope){
     scope.variables = initVars;
+    scope.reserved = reserved;
 }]);
 
 plumbing.controller('graph', ['$scope', 'jsPlumb', function(scope, jsPlumbService) {

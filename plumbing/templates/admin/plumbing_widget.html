@@ -1,6 +1,5 @@
 {% load i18n %}
-<div id="plumbing" class="plumbing" ng-app="plumbing"
-     ng-controller="graph"
+<div id="plumbing" class="plumbing" ng-app="plumbing" ng-controller="graph"
      ng-mousedown="startScrolling($event)"
      ng-mouseup="stopScrolling()"
      ng-mouseenter="stopScrolling()"
@@ -20,9 +19,8 @@
         <p><input type="text" ng-model="query" placeholder="{% trans 'Search' %}" /></p>
         <li class="variable" ng-repeat="variable in variables | filter:query track by
         $index">{% verbatim %}{{ variable }}{% endverbatim %}</li>
-        <li class="variable disallowed"><span>{% trans 'Reserved' %}</span> group</li>
-        <li class="variable disallowed"><span>{% trans 'Reserved' %}</span> current_node</li>
-        <li class="variable disallowed"><span>{% trans 'Reserved' %}</span> current_session</li>
+        <li class="variable disallowed" ng-repeat="variable in reserved track by
+        $index"><span>{% trans 'Reserved' %}</span> {% verbatim %}{{ variable }}{% endverbatim %}</li>
     </ul>
 
     <div class="floatbox"></div>
@@ -109,4 +107,5 @@
     var initVars = {{ vars|safe }};
     var adminUrl = '{{ admin_url }}';
     var nodeApiUrl = '{{ node_api }}';
+    var reserved = {{ reserved_vars|safe }};
 </script>

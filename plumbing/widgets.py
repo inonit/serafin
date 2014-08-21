@@ -1,9 +1,10 @@
 from __future__ import unicode_literals
 
 from django import forms
+from django.core.urlresolvers import reverse
+from django.conf import settings
 from django.template.loader import render_to_string
 from django.utils.safestring import mark_safe
-from django.core.urlresolvers import reverse
 from system.models import Variable
 import json
 
@@ -16,6 +17,7 @@ class PlumbingWidget(forms.Widget):
             'vars': json.dumps(list(Variable.objects.values_list('name', flat=True))),
             'admin_url': reverse('admin:index'),
             'node_api': reverse('api_node'),
+            'reserved_vars': json.dumps(settings.FORBIDDEN_VARIABLES)
         }
         html = render_to_string('admin/plumbing_widget.html', context)
         return mark_safe(html)
