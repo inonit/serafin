@@ -218,19 +218,6 @@ class Engine(object):
                 action=_('Delayed node execution')
             )
 
-            log_event.send(
-                self,
-                domain='session',
-                actor=self.user,
-                variable='delay',
-                pre_value='',
-                post_value='%r delay: %r + %r %r' % (
-                    self.session.title,
-                    start_time,
-                    delay.get('unit'),
-                    delay.get('number'),
-                ))
-
             return None
 
         if node_type == 'email':
