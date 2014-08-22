@@ -115,34 +115,51 @@ def revoke_tasks(sender, **kwargs):
 
 
 @receiver(signals.pre_save, sender=Session)
-def session_pre_save(sender, instance, *args, **kwargs):
+def session_pre_save(sender, **kwargs):
 
-    # Temp. dirty fix for occational empty ref_ids
-    for node in instance.data.get('nodes', []):
+    session = kwargs['instance']
+
+    nodes = session.data.get('nodes', [])
+    for node in nodes:
         ref_id = node.get('ref_id')
         node_type = node.get('type')
-        if ref_id == '' and node_type in ['page', 'email', 'sms']:
 
-            ref_url = node.get('ref_url')
-            try:
-                node['ref_id'] = re.findall(r'\d+', ref_url)[0]
+        if node_type in ['page', 'email', 'sms']:
 
-                # Update title of all content
-                content = Content.objects.filter(id=node['ref_id'])
-                node['title'] = content.title
-            except:
-                pass
+            # Temp. dirty fix for occational empty ref_ids
+            if not ref_id:
+                ref_url = node.get('ref_url')
+                try:
+                    node['ref_id'] = re.findall(r'\d+', ref_url)[0]
+                except:
+                    pass
 
-@receiver(signals.post_save, sender=Content)
-def content_post_save(sender, instance, *args, **kwargs):
+            # Update title of all content
+            content = Content.objects.get(id=node['ref_id'])
+            node['title'] = content.title
 
-    # Update title in all sessions
-    for session in Session.objects.all():
-        nodes = session.data.get('nodes', [])
-        for node in nodes:
-            try:
-                if int(node.get('ref_id')) == instance.id:
-                    node['title'] = instance.title
-                    session.save()
-            except:
-                pass
+    session.data['nodes'] = nodes
+
+
+@receiver(signals.post_save)
+def content_post_save(sender, **kwargs):
+
+    content_types = ['Page', 'Email', 'SMS']
+    if sender.__name__ in content_types:
+
+        content = kwargs['instance']
+
+        # Update title in all sessions
+        for session in Session.objects.all():
+
+            data = session.data
+            nodes = data.get('nodes', [])
+            for node in nodes:
+                try:
+                    if int(node['ref_id']) == content.id:
+                        node['title'] = content.title
+
+                        # ...gently
+                        Session.objects.filter(id=session.id).update(data=data)
+                except:
+                    pass
