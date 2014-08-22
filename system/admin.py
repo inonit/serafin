@@ -31,7 +31,7 @@ class VariableForm(forms.ModelForm):
 
     def clean_name(self):
         data = self.cleaned_data['name']
-        if data in settings.FORBIDDEN_VARIABLES:
+        if data in settings.RESERVED_VARIABLES:
             raise forms.ValidationError(_('You are trying to use a forbidden variable name'))
         return data
 
