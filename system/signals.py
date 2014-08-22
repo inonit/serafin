@@ -8,6 +8,7 @@ from django.dispatch import receiver
 
 from .models import Variable, ProgramUserAccess, Session, Content, Page
 from tasker.models import Task
+from system.tasks import init_session
 
 
 @receiver(signals.pre_save, sender=Variable)
