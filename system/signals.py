@@ -7,6 +7,7 @@ from django.db.models import signals
 from django.dispatch import receiver
 
 from .models import Variable, ProgramUserAccess, Session, Content, Page
+from tasker.models import Task
 
 
 @receiver(signals.pre_save, sender=Variable)
