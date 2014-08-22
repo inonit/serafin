@@ -404,10 +404,9 @@ div.error {
         z-index: 100;
     }
     .top-bar .menu .items {
-        position: relative;
+        position: absolute;
         top: 45px;
         right: 0;
-        width: auto;
         background: #332f3f;
         padding: .5rem;
         line-height: 2;
@@ -422,6 +421,7 @@ div.error {
     }
     .top-bar .button {
         margin: 0;
+        width: 9rem;
     }
     .footer {
         padding: .95rem .5rem;
