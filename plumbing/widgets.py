@@ -17,7 +17,7 @@ class PlumbingWidget(forms.Widget):
             'vars': json.dumps(list(Variable.objects.values_list('name', flat=True))),
             'admin_url': reverse('admin:index'),
             'node_api': reverse('api_node'),
-            'reserved_vars': json.dumps(settings.RESERVED_VARIABLES)
+            'reserved_vars': json.dumps(settings.FORBIDDEN_VARIABLES)
         }
         html = render_to_string('admin/plumbing_widget.html', context)
         return mark_safe(html)

@@ -7,7 +7,7 @@ from django.core.urlresolvers import reverse
 from django.utils import timezone
 from jsonfield import JSONField
 from collections import OrderedDict
-from serafin.utils import *
+from serafin.utils import remove_comments, live_variable_replace, variable_replace, process_session_links
 import datetime
 import mistune
 import random
@@ -319,7 +319,6 @@ class SMS(Content):
     def send(self, user):
         message = self.data[0].get('content')
         message = process_session_links(user, message)
-        message = process_reply_variable(user, message)
         message = remove_comments(message)
         message = variable_replace(user, message)
 

@@ -39,7 +39,7 @@ def login_via_email(request, user_id=None, token=None):
 @csrf_exempt
 def receive_sms(request):
 
-    response = {'status': 'Fail.'}
+    response = {'message': 'Go away.'}
 
     if request.method == 'POST':
         data = json.loads(request.body)
@@ -53,17 +53,10 @@ def receive_sms(request):
                 user = User.objects.get(id=user_id)
 
                 node_id = user.data.get('current_background', 0)
-                reply_var = user.data.get('reply_variable')
 
-                context = {}
-                if reply_var:
-                    context[reply_var] = message
-                else:
-                    context['sms_response'] = message
-
-                engine = Engine(user_id, context)
+                engine = Engine(user_id, {'sms_response': message})
                 engine.transition(node_id)
 
-                response = {'status': 'OK'}
+                response = {'message': 'OK'}
 
     return JSONResponse(response)
