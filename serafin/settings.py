@@ -337,12 +337,13 @@ SOUTH_MIGRATION_MODULES = {
 
 # Variables
 
-FORBIDDEN_VARIABLES = [
+RESERVED_VARIABLES = [
     'group',
     'current_day',
     'current_session',
     'current_page',
     'current_background',
+    'reply_variable',
 ]
 
 try:
