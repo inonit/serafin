@@ -180,3 +180,25 @@ serafin.directive('livereplace', ['$compile', function(compile) {
         }
     };
 }]);
+
+serafin.directive('menu', ['$timeout', function(timeout) {
+    return {
+        restrict: 'C',
+        link: function(scope, element, attrs) {
+            var win = angular.element(window)
+            win.on('resize', function() {
+                timeout(function() {
+                    scope.desktop = win[0].innerWidth > 640;
+                    scope.menu = win[0].innerWidth > 640;
+                });
+            })
+            win.triggerHandler('resize');
+
+            scope.toggleMenu = function() {
+                if (!scope.desktop) {
+                    scope.menu = !scope.menu;
+                }
+            }
+        }
+    }
+}])

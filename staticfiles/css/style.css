@@ -306,7 +306,7 @@ button[disabled]:hover,
 }
 
 blockquote {
-    background: #ddefe8;
+    background: #ddf5e8;
 }
 
 blockquote,
@@ -315,7 +315,7 @@ blockquote p {
 }
 
 blockquote:after {
-    border-color: transparent #ddefe8;
+    border-color: transparent #ddf5e8;
 }
 
 input[type="text"],
@@ -374,14 +374,16 @@ div.error {
     color: #f23a14;
 }
 
-/* RESPONSIVE */
-
-@media only screen and (max-width: 64.063em) {
-    .top-bar ul.right {
-        margin-top: .55em;
-    }
+.hamburger {
+    display: none;
+    background: url('../img/menu.png') no-repeat center center;
+    height: 32px;
+    width: 32px;
+    cursor: pointer;
+    margin: .4rem .5rem;
 }
 
+/* RESPONSIVE */
 
 @media only screen and (max-width: 40em) {
     html {
@@ -390,5 +392,35 @@ div.error {
     blockquote:after {
         left: -15px;
         border-width: 0 15px 10px 0;
+    }
+    .hamburger {
+        display: inline-block;
+    }
+    .top-bar .menu {
+        position: relative;
+        z-index: 100;
+    }
+    .top-bar .menu .items {
+        position: absolute;
+        top: 45px;
+        right: 0;
+        width: 8.75rem;
+        background: #332f3f;
+        padding: .5rem;
+        line-height: 2;
+    }
+    .top-bar,
+    .footer {
+        font-size: 90%;
+        overflow: visible;
+    }
+    .top-bar .entry {
+        padding: .4rem .5rem;
+    }
+    .top-bar .button {
+        margin: 0;
+    }
+    .footer {
+        padding: .95rem .5rem;
     }
 }

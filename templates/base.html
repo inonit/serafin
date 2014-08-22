@@ -19,8 +19,11 @@
     <div class="wrapper">
       <header>
         <nav class="top-bar" data-topbar>
-          <div class="right">
-            <a class="button" href="{% url 'logout' %}">{% trans 'Quit / sign out' %}</a>
+          <div class="right menu">
+            <div class="hamburger" ng-click="toggleMenu()" ng-hide="desktop"></div>
+            <div class="items" ng-click="toggleMenu()" ng-show="menu">
+              <a class="button" href="{% url 'logout' %}">{% trans 'Quit / sign out' %}</a>
+            </div>
           </div>
           <h1 class="entry">{{ program }}</h1>
           <div class="entry title">{{ title }}</div>
@@ -45,12 +48,10 @@
 
     <footer class="footer">
       <div class="left">
-        <p>© {% now 'Y' %} <a href="http://www.med.uio.no/klinmed/forskning/sentre/seraf/">SERAF</a>, UiO</p>
+        © {% now 'Y' %} <a href="http://www.med.uio.no/klinmed/forskning/sentre/seraf/">SERAF</a>, UiO
       </div>
 
       <div class="right">
-        <ul class="inline-list">
-        </ul>
       </div>
     </footer>
 
