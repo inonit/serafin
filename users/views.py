@@ -54,7 +54,7 @@ def receive_sms(request):
 
                 node_id = user.data.get('current_background', 0)
 
-                engine = Engine(user, {'sms_response': message})
+                engine = Engine(user_id, {'sms_response': message})
                 engine.transition(node_id)
 
                 response = {'message': 'OK'}
