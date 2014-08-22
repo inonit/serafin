@@ -58,8 +58,6 @@ def receive_sms(request):
                 context = {}
                 if reply_var:
                     context[reply_var] = message
-                else:
-                    context['sms_response'] = message
 
                 engine = Engine(user_id, context)
                 engine.transition(node_id)

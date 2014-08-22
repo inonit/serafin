@@ -158,35 +158,38 @@ class SessionForm(forms.ModelForm):
         model = Session
         widgets = {
             'start_time_unit': forms.Select(attrs={'class': 'input-small'}),
-            'end_time_unit': forms.Select(attrs={'class': 'input-small'}),
+            #'end_time_unit': forms.Select(attrs={'class': 'input-small'}),
         }
 
 
 class SessionAdmin(admin.ModelAdmin):
     list_display = [
+        'id',
         'title',
         'display_title',
         'program',
         'note_excerpt',
         'start_time_delta',
         'start_time_unit',
-        'end_time_delta',
-        'end_time_unit',
+        #'end_time_delta',
+        #'end_time_unit',
         'start_time',
         'scheduled',
     ]
     list_editable = [
         'start_time_delta',
         'start_time_unit',
-        'end_time_delta',
-        'end_time_unit',
+        #'end_time_delta',
+        #'end_time_unit',
         'scheduled',
     ]
     list_filter = ['program__title', 'scheduled']
+    list_display_links = ['title']
     search_fields = ['title', 'display_title', 'admin_note', 'program__title']
     ordering = ['start_time']
     date_hierarchy = 'start_time'
     actions = ['copy']
+    readonly_fields = ['id']
 
     form = SessionForm
     formfield_overrides = {
@@ -203,13 +206,14 @@ class SessionAdmin(admin.ModelAdmin):
     fieldsets = [
         (None, {
             'fields': [
+                'id',
                 'title',
                 'program',
                 'admin_note',
                 'start_time_delta',
                 'start_time_unit',
-                'end_time_delta',
-                'end_time_unit',
+                #'end_time_delta',
+                #'end_time_unit',
                 'scheduled'
             ]
         }),
