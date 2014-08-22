@@ -125,7 +125,7 @@ def session_pre_save(sender, instance, *args, **kwargs):
 
             ref_url = node.get('ref_url')
             try:
-                node['ref_id'] = re.findall('\d+', ref_url)[0]
+                node['ref_id'] = re.findall(r'\d+', ref_url)[0]
 
                 # Update title of all content
                 content = Content.objects.filter(id=node['ref_id'])
