@@ -135,9 +135,11 @@ def session_pre_save(sender, **kwargs):
                 except:
                     pass
 
-            # Update title of all content
-            content = Content.objects.get(id=node['ref_id'])
-            node['title'] = content.title
+            # Update title of content
+            try:
+                node['title'] = Content.objects.get(id=node['ref_id']).title
+            except:
+                pass
 
     session.data['nodes'] = nodes
 
