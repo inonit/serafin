@@ -5,6 +5,7 @@ from django.contrib.auth import get_user_model
 from django.contrib.contenttypes.models import ContentType
 from django.db.models import signals
 from django.dispatch import receiver
+from django.utils import timezone
 
 from .models import Variable, ProgramUserAccess, Session, Content, Page
 from tasker.models import Task
@@ -48,9 +49,13 @@ def schedule_session(sender, **kwargs):
 
     if kwargs['created'] and session.scheduled:
         for useraccess in session.program.programuseraccess_set.all():
+            start_time = session.get_start_time(
+                useraccess.start_time,
+                useraccess.time_factor
+            )
             Task.objects.create_task(
                 sender=session,
-                time=session.get_start_time(useraccess.start_time, useraccess.time_factor),
+                time=start_time,
                 task=init_session,
                 args=(session.id, useraccess.user.id),
                 action=_('Send login link and start traversal'),
@@ -66,6 +71,10 @@ def reschedule_session(sender, **kwargs):
     if not kwargs['created'] and session.scheduled:
         session_type = ContentType.objects.get_for_model(Session)
         for useraccess in session.program.programuseraccess_set.all():
+            start_time = session.get_start_time(
+                useraccess.start_time,
+                useraccess.time_factor
+            )
             try:
                 task = Task.objects.get(
                     content_type=session_type,
@@ -75,7 +84,7 @@ def reschedule_session(sender, **kwargs):
             except Task.DoesNotExist:
                 Task.objects.create_task(
                     sender=session,
-                    time=session.get_start_time(useraccess.start_time, useraccess.time_factor),
+                    time=start_time,
                     task=init_session,
                     args=(session.id, useraccess.user.id),
                     action=_('Send login link and start traversal'),
@@ -83,12 +92,13 @@ def reschedule_session(sender, **kwargs):
                 )
                 return
 
-            task.reschedule(
-                task=init_session,
-                args=(session, useraccess.user),
-                time=session.get_start_time(useraccess.start_time, useraccess.time_factor)
-            )
-            task.save()
+            if start_time > timezone.localtime(timezone.now()):
+                task.reschedule(
+                    task=init_session,
+                    args=(session, useraccess.user),
+                    time=start_time
+                )
+                task.save()
 
 
 @receiver(signals.pre_delete, sender=Session)
