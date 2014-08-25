@@ -141,12 +141,27 @@ textarea {
     box-shadow: none;
 }
 
+input[type="file"],
+input[type="checkbox"],
+input[type="radio"],
+select {
+    margin: 0;
+}
+
 textarea {
     min-height: 7em;
 }
 
 fieldset {
     padding: 1rem;
+}
+
+fieldset label {
+    margin: 0 0 .5rem;
+}
+
+fieldset label:last-child {
+    margin: 0;
 }
 
 fieldset legend,
