@@ -102,23 +102,6 @@ class UserDataWidget(forms.Widget):
         )
 
 
-class EventInline(admin.TabularInline):
-    model = Event
-    extra = 0
-    can_delete = False
-    suit_classes = 'suit-tab suit-tab-log'
-
-    readonly_fields = ('time', 'domain', 'variable', 'pre_value', 'post_value')
-
-    def has_add_permission(self, request):
-        return False
-
-    def domain_display(self, instance):
-        return instance.get_domain_display()
-
-    domain_display.short_description = _('domain')
-
-
 class UserAdmin(UserAdmin, ImportExportModelAdmin):
     list_display = ['id', 'date_joined', 'last_login', 'is_superuser', 'is_staff', 'is_active']
     search_fields = ['id', 'data']
@@ -158,12 +141,20 @@ class UserAdmin(UserAdmin, ImportExportModelAdmin):
     formfield_overrides = {
         JSONField: { 'widget': UserDataWidget }
     }
-    inlines = (EventInline, )
     suit_form_tabs = (
         ('info', _('User info')),
         ('data', _('User data')),
         ('log', _('Log entries'))
     )
+    suit_form_includes = (
+        ('admin/userlog.html', 'top', 'log'),
+    )
+
+    def change_view(self, request, object_id, form_url='', extra_context=None):
+        extra_context = extra_context or {}
+        extra_context['log'] = Event.objects.filter(actor=object_id)
+        return super(UserAdmin, self).change_view(request, object_id,
+            form_url, extra_context=extra_context)
 
     resource_class = UserResource
 

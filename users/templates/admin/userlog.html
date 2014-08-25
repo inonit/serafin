@@ -1,0 +1,28 @@
+{% load i18n %}
+<div class="tabular inline-related">
+    <fieldset style="margin: 0">
+        <h2>{% trans 'events'|capfirst %}</h2>
+        <table class="table table-bordered table-condensed table-striped">
+            <thead>
+                <tr>
+                    <th>{% trans 'time'|capfirst %}</th>
+                    <th>{% trans 'domain'|capfirst %}</th>
+                    <th>{% trans 'variable'|capfirst %}</th>
+                    <th>{% trans 'pre value'|capfirst %}</th>
+                    <th>{% trans 'post value'|capfirst %}</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for event in log %}
+                <tr class="form-row {% cycle 'row1' 'row2' %}">
+                    <td><p>{{ event.time }}</p></td>
+                    <td><p>{{ event.domain }}</p></td>
+                    <td><p>{{ event.variable }}</p></td>
+                    <td><p>{{ event.pre_value }}</p></td>
+                    <td><p>{{ event.post_value }}</p></td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </fieldset>
+</div>
