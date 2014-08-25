@@ -17,7 +17,7 @@ import json
 def manual_login(request):
     if request.user.is_authenticated():
         return redirect('/')
-    return login_view(request, template_name='login.html')
+    return login_view(request, template_name='login.html', extra_context={'title': _('Log in')})
 
 
 def manual_logout(request):

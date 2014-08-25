@@ -15,12 +15,14 @@ serafin.run(['$rootScope', '$http', function(scope, http) {
     scope.page = {};
     scope.variables = {};
 
-    http.get(api + window.location.search).success(function(data) {
-        scope.getVariables(data.data);
-        scope.title = data.title;
-        scope.page = data.data;
-        scope.dead_end = data.dead_end;
-    });
+    if (api) {
+        http.get(api + window.location.search).success(function(data) {
+            scope.getVariables(data.data);
+            scope.title = data.title;
+            scope.page = data.data;
+            scope.dead_end = data.dead_end;
+        });
+    }
 
     scope.$on('title', function(event, data) {
         scope.title = data;
@@ -81,7 +83,9 @@ serafin.directive('page', function() {
     return {
         restrict: 'C',
         link: function(scope, element, attrs) {
-            scope.form.submitted = false;
+            if (scope.form) {
+                scope.form.submitted = false;
+            };
         }
     };
 });
@@ -201,4 +205,4 @@ serafin.directive('menu', ['$timeout', function(timeout) {
             }
         }
     }
-}])
+}]);
