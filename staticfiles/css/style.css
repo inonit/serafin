@@ -98,17 +98,20 @@ header {
     color: #444;
 }
 
+.top-bar .left {
+    overflow: hidden;
+    height: 44px;
+}
+
 .top-bar .entry {
-    display: inline-block;
+    display: inline;
     color: #444;
-    line-height: 1.4;
-    padding: 8px 15px;
+    line-height: 44px;
+    padding: 0 1rem;
 }
 
 .top-bar h1 {
     font-size: 1.1rem;
-    height: 100%;
-    margin: 0;
     text-transform: uppercase;
 }
 
@@ -389,12 +392,11 @@ div.error {
 
 .hamburger {
     display: none;
-    background: url('../img/menu.png') no-repeat center center;
+    background: #332f3f url('../img/menu.png') no-repeat center center;
     background-size: 24px 24px;
-    height: 32px;
-    width: 32px;
+    height: 44px;
+    width: 45px;
     cursor: pointer;
-    margin: .4rem .5rem;
     position: absolute;
     top: 0;
     right: 0;
@@ -431,7 +433,7 @@ div.error {
         overflow: visible;
     }
     .top-bar .entry {
-        padding: .4rem .5rem;
+        padding: 0 .5rem;
     }
     .top-bar .button {
         margin: 0;
