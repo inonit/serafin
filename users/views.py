@@ -78,6 +78,7 @@ def profile(request):
         if var.user_editable:
             user_editable_vars.append({
                 'name': var.name,
+                'label': var.display_name,
                 'value': request.user.data[var.name] or var.value
             })
 
@@ -90,8 +91,8 @@ def profile(request):
         request.user.save()
         return redirect('profile')
 
-    progress_set = {}
     now = timezone.localtime(timezone.now())
+    progress_set = {}
     for ua in request.user.programuseraccess_set.all():
 
         sessions_done = 0

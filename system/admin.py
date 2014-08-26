@@ -53,6 +53,7 @@ class VariableAdmin(admin.ModelAdmin):
         (None, {
             'fields': (
                 'name',
+                'display_name',
                 'value',
                 'user_editable',
                 'random_type',

@@ -18,6 +18,7 @@ class Variable(models.Model):
     '''A variable model allowing different options'''
 
     name = models.CharField(_('name'), max_length=64, unique=True)
+    display_name = models.CharField(_('display name'), max_length=64, blank=True)
     value = models.CharField(_('initial value'), max_length=32, null=True, blank=True)
     user_editable = models.BooleanField(_('user editable'), default=False)
     RANDOM_TYPES = (
