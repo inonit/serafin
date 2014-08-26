@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Serafin\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-08-20 12:27+0200\n"
-"PO-Revision-Date: 2014-07-30 16:35+0200\n"
+"POT-Creation-Date: 2014-08-26 11:35+0200\n"
+"PO-Revision-Date: 2014-08-26 11:35+0200\n"
 "Last-Translator: Eirik Krogstad <eirikkr@gmail.com>\n"
 "Language: nb\n"
 "MIME-Version: 1.0\n"
@@ -91,7 +91,7 @@ msgstr "Feltnavn"
 #: content/templates/admin/content_widget.html:119
 #: content/templates/admin/content_widget.html:179
 #: content/templates/admin/content_widget.html:262
-#: plumbing/templates/admin/plumbing_widget.html:86
+#: plumbing/templates/admin/plumbing_widget.html:84
 msgid "Variable name"
 msgstr "Variabelnavn"
 
@@ -114,13 +114,12 @@ msgstr "Alternativer"
 #: content/templates/admin/content_widget.html:186
 #: content/templates/admin/content_widget.html:228
 #: content/templates/admin/content_widget.html:288
-#: plumbing/templates/admin/plumbing_widget.html:96
+#: plumbing/templates/admin/plumbing_widget.html:94
 msgid "Value"
 msgstr "Verdi"
 
 #: content/templates/admin/content_widget.html:93
 #: content/templates/admin/content_widget.html:114
-#: lib/python2.7/site-packages/django/db/models/fields/__init__.py:1295
 msgid "Text"
 msgstr "Tekst"
 
@@ -133,13 +132,13 @@ msgid "Condition"
 msgstr "Forutsetning"
 
 #: content/templates/admin/content_widget.html:131
-#: plumbing/templates/admin/plumbing_widget.html:73
-#: plumbing/templates/admin/plumbing_widget.html:94
+#: plumbing/templates/admin/plumbing_widget.html:71
+#: plumbing/templates/admin/plumbing_widget.html:92
 msgid "contains"
 msgstr "inneholder"
 
 #: content/templates/admin/content_widget.html:140
-#: plumbing/templates/admin/plumbing_widget.html:99
+#: plumbing/templates/admin/plumbing_widget.html:97
 msgid "+ Condition"
 msgstr "+ Forutsetning"
 
@@ -233,10 +232,11 @@ msgid "PC"
 msgstr "PC"
 
 #: events/models.py:11 tasker/models.py:45
+#: users/templates/admin/userlog.html:7
 msgid "time"
 msgstr "tidspunkt"
 
-#: events/models.py:12 users/admin.py:119
+#: events/models.py:12 users/templates/admin/userlog.html:8
 msgid "domain"
 msgstr "domene"
 
@@ -244,15 +244,16 @@ msgstr "domene"
 msgid "actor"
 msgstr "utført av"
 
-#: events/models.py:14 system/models.py:38
+#: events/models.py:14 system/models.py:36
+#: users/templates/admin/userlog.html:9
 msgid "variable"
 msgstr "variabel"
 
-#: events/models.py:15
+#: events/models.py:15 users/templates/admin/userlog.html:10
 msgid "pre value"
 msgstr "førverdi"
 
-#: events/models.py:16
+#: events/models.py:16 users/templates/admin/userlog.html:11
 msgid "post value"
 msgstr "ny verdi"
 
@@ -276,64 +277,19 @@ msgstr "hendelser"
 msgid "Export"
 msgstr "Eksport"
 
-#: lib/python2.7/site-packages/django/db/models/base.py:912
-#: lib/python2.7/site-packages/django/forms/models.py:695
-#: lib/python2.7/site-packages/django_extensions/admin/__init__.py:131
 #: lib/python2.7/site-packages/filer/templates/admin/filer/tools/search_form.html:17
 #: lib/python2.7/site-packages/suit/templates/admin/filer/tools/search_form.html:19
 msgid "and"
 msgstr "og"
 
-
-#: lib/python2.7/site-packages/django/forms/formsets.py:354
-#: lib/python2.7/site-packages/filer/templates/admin/filer/folder/directory_table.html:43
-#: lib/python2.7/site-packages/import_export/templates/admin/import_export/import.html:101
-#: lib/python2.7/site-packages/suit/templates/admin/delete_confirmation.html:18
-#: lib/python2.7/site-packages/suit/templates/admin/delete_confirmation.html:49
-#: lib/python2.7/site-packages/suit/templates/admin/page_submit_line.html:8
-#: lib/python2.7/site-packages/suit/templates/admin/submit_line.html:8
-#: lib/python2.7/site-packages/suit/templates/admin/filer/folder/directory_table.html:42
-#: lib/python2.7/site-packages/suit/templates/admin/import_export/import.html:69
-msgid "Delete"
-msgstr "Slett"
-
-#: lib/python2.7/site-packages/django/forms/widgets.py:324
-#: lib/python2.7/site-packages/filer/templates/admin/filer/folder/directory_listing.html:81
-#: lib/python2.7/site-packages/filer/templates/admin/filer/folder/directory_table.html:27
-#: lib/python2.7/site-packages/filer/templates/admin/filer/folder/directory_table.html:44
-#: lib/python2.7/site-packages/suit/templates/admin/index.html:26
-#: lib/python2.7/site-packages/suit/templates/admin/filer/folder/change_form.html:24
-#: lib/python2.7/site-packages/suit/templates/admin/filer/folder/directory_listing.html:86
-#: lib/python2.7/site-packages/suit/templates/admin/filer/folder/directory_table.html:27
-#: lib/python2.7/site-packages/suit/templates/admin/filer/folder/directory_table.html:43
-msgid "Change"
-msgstr "Endre"
-
-#: lib/python2.7/site-packages/django/forms/widgets.py:325
-#: lib/python2.7/site-packages/filer/templates/admin/filer/widgets/admin_file.html:17
-#: lib/python2.7/site-packages/filer/templates/admin/filer/widgets/admin_folder.html:10
-msgid "Clear"
-msgstr "Tøm"
-
-#. Translators: This string is used as a separator between list elements
-#: lib/python2.7/site-packages/django/utils/text.py:241
-#: lib/python2.7/site-packages/django/utils/timesince.py:56
-msgid ", "
-msgstr ", "
-
-#: lib/python2.7/site-packages/django_extensions/db/models.py:36
-#: lib/python2.7/site-packages/django_extensions/mongodb/models.py:29
-#: system/models.py:68 system/models.py:110 system/models.py:209
+#: system/models.py:66 system/models.py:108 system/models.py:184
 msgid "title"
 msgstr "tittel"
 
-#: lib/python2.7/site-packages/django_extensions/db/models.py:38
-#: lib/python2.7/site-packages/django_extensions/mongodb/models.py:31
 #: lib/python2.7/site-packages/filer/models/filemodels.py:50
 msgid "description"
 msgstr "beskrivelse"
 
-#: lib/python2.7/site-packages/django_extensions/templates/django_extensions/widgets/foreignkey_searchinput.html:4
 #: lib/python2.7/site-packages/filer/templates/admin/filer/widgets/admin_file.html:14
 #: lib/python2.7/site-packages/filer/templates/admin/filer/widgets/admin_file.html:15
 #: lib/python2.7/site-packages/filer/templates/admin/filer/widgets/admin_folder.html:7
@@ -341,8 +297,6 @@ msgstr "beskrivelse"
 msgid "Lookup"
 msgstr "Slå opp"
 
-#: lib/python2.7/site-packages/djangocms_admin_style/templates/admin/delete_confirmation.html:10
-#: lib/python2.7/site-packages/djangocms_admin_style/templates/admin/delete_selected_confirmation.html:10
 #: lib/python2.7/site-packages/filer/templates/admin/filer/breadcrumbs.html:4
 #: lib/python2.7/site-packages/filer/templates/admin/filer/folder/change_form.html:7
 #: lib/python2.7/site-packages/import_export/templates/admin/import_export/base.html:11
@@ -369,6 +323,94 @@ msgstr "Slå opp"
 #: templates/admin/base.html:103
 msgid "Home"
 msgstr "Hjem"
+
+#: lib/python2.7/site-packages/filer/templates/admin/filer/folder/directory_table.html:43
+#: lib/python2.7/site-packages/import_export/templates/admin/import_export/import.html:101
+#: lib/python2.7/site-packages/suit/templates/admin/delete_confirmation.html:18
+#: lib/python2.7/site-packages/suit/templates/admin/delete_confirmation.html:49
+#: lib/python2.7/site-packages/suit/templates/admin/page_submit_line.html:8
+#: lib/python2.7/site-packages/suit/templates/admin/submit_line.html:8
+#: lib/python2.7/site-packages/suit/templates/admin/filer/folder/directory_table.html:42
+#: lib/python2.7/site-packages/suit/templates/admin/import_export/import.html:69
+msgid "Delete"
+msgstr "Slett"
+
+#: lib/python2.7/site-packages/suit/templates/admin/delete_confirmation.html:26
+#: lib/python2.7/site-packages/suit/templates/admin/filer/delete_confirmation.html:12
+#, python-format
+msgid ""
+"Deleting the %(object_name)s '%(escaped_object)s' would result in deleting "
+"related objects, but your account doesn't have permission to delete the "
+"following types of objects:"
+msgstr ""
+"Å slette %(object_name)s '%(escaped_object)s' ville resultere i sletting av "
+"relaterte objekter, men din konto har ikke tillatelse til å slette objekter "
+"av følgende typer:"
+
+#: lib/python2.7/site-packages/suit/templates/admin/delete_confirmation.html:36
+#: lib/python2.7/site-packages/suit/templates/admin/filer/delete_confirmation.html:21
+#, python-format
+msgid ""
+"Deleting the %(object_name)s '%(escaped_object)s' would require deleting the "
+"following protected related objects:"
+msgstr ""
+"Å slette %(object_name)s '%(escaped_object)s' ville kreve å slette følgende "
+"beskyttede relaterte objekter:"
+
+#: lib/python2.7/site-packages/suit/templates/admin/delete_confirmation.html:51
+#: lib/python2.7/site-packages/suit/templates/admin/filer/delete_confirmation.html:31
+#, python-format
+msgid ""
+"Are you sure you want to delete the %(object_name)s \"%(escaped_object)s\"? "
+"All of the following related items will be deleted:"
+msgstr ""
+"Er du sikker på at du vil slette %(object_name)s \"%(escaped_object)s\"? Alle de "
+"følgende objektene og deres relaterte elementer vil bli slettet:"
+
+#: lib/python2.7/site-packages/filer/templates/admin/filer/delete_selected_files_confirmation.html:45
+#: lib/python2.7/site-packages/suit/templates/admin/delete_confirmation.html:57
+#: lib/python2.7/site-packages/suit/templates/admin/delete_selected_confirmation.html:61
+#: lib/python2.7/site-packages/suit/templates/admin/filer/delete_confirmation.html:36
+#: lib/python2.7/site-packages/suit/templates/admin/filer/delete_selected_files_confirmation.html:47
+msgid "Yes, I'm sure"
+msgstr ""
+
+#: lib/python2.7/site-packages/suit/templates/admin/delete_selected_confirmation.html:15
+msgid "Delete multiple objects"
+msgstr ""
+
+#: lib/python2.7/site-packages/suit/templates/admin/delete_selected_confirmation.html:23
+#, python-format
+msgid ""
+"Deleting the selected %(objects_name)s would result in deleting related "
+"objects, but your account doesn't have permission to delete the following "
+"types of objects:"
+msgstr ""
+"Å slette de valgte %(objects_name)s ville resultere i sletting av "
+"relaterte objekter, men din konto har ikke tillatelse til å slette objekter "
+"av følgende typer:"
+
+#: lib/python2.7/site-packages/suit/templates/admin/delete_selected_confirmation.html:33
+#, python-format
+msgid ""
+"Deleting the selected %(objects_name)s would require deleting the following "
+"protected related objects:"
+msgstr ""
+"Å slette de valgte %(objects_name)s ville kreve å slette følgende "
+"beskyttede relaterte objekter:"
+
+#: lib/python2.7/site-packages/suit/templates/admin/delete_selected_confirmation.html:54
+#, python-format
+msgid ""
+"Are you sure you want to delete the selected %(objects_name)s? All of the "
+"following objects and their related items will be deleted:"
+msgstr ""
+"Er du sikker på at du vil slette de valgte %(objects_name)s? Alle de "
+"følgende objektene og deres relaterte elementer vil bli slettet:"
+
+#: lib/python2.7/site-packages/filer/views.py:106
+msgid "Folder with this name already exists."
+msgstr ""
 
 #: lib/python2.7/site-packages/filer/admin/fileadmin.py:41
 msgid "Advanced"
@@ -572,7 +614,7 @@ msgstr "Område for viktigste innhold i bildet."
 
 #: lib/python2.7/site-packages/filer/models/clipboardmodels.py:13
 #: lib/python2.7/site-packages/filer/models/foldermodels.py:258
-#: system/models.py:89 users/models.py:144
+#: system/models.py:87 users/models.py:145
 msgid "user"
 msgstr "bruker"
 
@@ -634,7 +676,7 @@ msgstr "originalt filnavn"
 
 #: lib/python2.7/site-packages/filer/models/filemodels.py:48
 #: lib/python2.7/site-packages/filer/models/foldermodels.py:103
-#: system/models.py:23
+#: system/models.py:20
 msgid "name"
 msgstr "navn"
 
@@ -1124,6 +1166,17 @@ msgstr[1] "%(counter)s filer"
 msgid "Change current folder details"
 msgstr "Endre detaljer for gjeldende mappe"
 
+#: lib/python2.7/site-packages/filer/templates/admin/filer/folder/directory_listing.html:81
+#: lib/python2.7/site-packages/filer/templates/admin/filer/folder/directory_table.html:27
+#: lib/python2.7/site-packages/filer/templates/admin/filer/folder/directory_table.html:44
+#: lib/python2.7/site-packages/suit/templates/admin/index.html:26
+#: lib/python2.7/site-packages/suit/templates/admin/filer/folder/change_form.html:24
+#: lib/python2.7/site-packages/suit/templates/admin/filer/folder/directory_listing.html:86
+#: lib/python2.7/site-packages/suit/templates/admin/filer/folder/directory_table.html:27
+#: lib/python2.7/site-packages/suit/templates/admin/filer/folder/directory_table.html:43
+msgid "Change"
+msgstr "Endre"
+
 #: lib/python2.7/site-packages/filer/templates/admin/filer/folder/directory_table.html:13
 #: lib/python2.7/site-packages/suit/templates/admin/filer/folder/directory_table.html:13
 msgid "Name"
@@ -1169,7 +1222,7 @@ msgstr "Slett \"%(item_label)s\""
 
 #: lib/python2.7/site-packages/filer/templates/admin/filer/folder/directory_table.html:48
 #: lib/python2.7/site-packages/suit/templates/admin/filer/folder/directory_table.html:45
-#: users/admin.py:134 users/admin.py:148
+#: users/admin.py:117 users/admin.py:131
 msgid "Permissions"
 msgstr "Tillatelser"
 
@@ -1239,6 +1292,7 @@ msgstr[1] "Vennligst rett feilene under."
 #: lib/python2.7/site-packages/suit/templates/admin/submit_line.html:3
 #: lib/python2.7/site-packages/suit/templates/admin/cms/page/plugin_change_form.html:128
 #: lib/python2.7/site-packages/suit/templates/admin/filer/folder/new_folder_form.html:43
+#: users/templates/profile.html:39
 msgid "Save"
 msgstr "Lagre"
 
@@ -1251,7 +1305,7 @@ msgstr "Vis full størrelse"
 #: lib/python2.7/site-packages/filer/templates/admin/filer/tools/search_form.html:13
 #: lib/python2.7/site-packages/suit/templates/admin/search_form.html:26
 #: lib/python2.7/site-packages/suit/templates/admin/filer/tools/search_form.html:12
-#: plumbing/templates/admin/plumbing_widget.html:20
+#: plumbing/templates/admin/plumbing_widget.html:19
 msgid "Search"
 msgstr "Søk"
 
@@ -1330,6 +1384,11 @@ msgstr "feil ved opplasting"
 #: lib/python2.7/site-packages/filer/templates/admin/filer/widgets/admin_file.html:11
 msgid "no file selected"
 msgstr "ingen fil valgt"
+
+#: lib/python2.7/site-packages/filer/templates/admin/filer/widgets/admin_file.html:17
+#: lib/python2.7/site-packages/filer/templates/admin/filer/widgets/admin_folder.html:10
+msgid "Clear"
+msgstr "Tøm"
 
 #: lib/python2.7/site-packages/filer/templates/admin/filer/widgets/admin_folder.html:5
 msgid "none selected"
@@ -1781,7 +1840,7 @@ msgid "Forgotten your password or username?"
 msgstr ""
 
 #: lib/python2.7/site-packages/suit/templates/admin/login.html:60
-#: templates/registration/password_reset_complete.html:12
+#: templates/registration/password_reset_complete.html:12 users/views.py:23
 #: users/templates/login.html:5 users/templates/login.html.py:9
 #: users/templates/login.html:19
 msgid "Log in"
@@ -2043,65 +2102,63 @@ msgstr ""
 msgid "Press the save button below to revert to this version of the object."
 msgstr ""
 
-#: plumbing/templates/admin/plumbing_widget.html:12
+#: plumbing/templates/admin/plumbing_widget.html:11
 msgid "+ Page"
 msgstr "+ Side"
 
-#: plumbing/templates/admin/plumbing_widget.html:13
+#: plumbing/templates/admin/plumbing_widget.html:12
 msgid "+ Email"
 msgstr "+ E-post"
 
-#: plumbing/templates/admin/plumbing_widget.html:14
+#: plumbing/templates/admin/plumbing_widget.html:13
 msgid "+ Sms"
 msgstr "+ SMS"
 
-#: plumbing/templates/admin/plumbing_widget.html:15
+#: plumbing/templates/admin/plumbing_widget.html:14
 msgid "+ Delay"
 msgstr "+ Forsinkelse"
 
-#: plumbing/templates/admin/plumbing_widget.html:19
+#: plumbing/templates/admin/plumbing_widget.html:18
 msgid "Available variables"
 msgstr "Tilgjengelige variabler"
 
 #: plumbing/templates/admin/plumbing_widget.html:23
-#: plumbing/templates/admin/plumbing_widget.html:24
-#: plumbing/templates/admin/plumbing_widget.html:25
 msgid "Reserved"
 msgstr "Reservert"
 
-#: plumbing/templates/admin/plumbing_widget.html:53
+#: plumbing/templates/admin/plumbing_widget.html:51
 msgid "Number"
 msgstr "Antall"
 
-#: plumbing/templates/admin/plumbing_widget.html:55
+#: plumbing/templates/admin/plumbing_widget.html:53
 msgid "minutes"
 msgstr "minutter"
 
-#: plumbing/templates/admin/plumbing_widget.html:56 system/models.py:117
+#: plumbing/templates/admin/plumbing_widget.html:54 system/models.py:115
 msgid "hours"
 msgstr "timer"
 
-#: plumbing/templates/admin/plumbing_widget.html:78
+#: plumbing/templates/admin/plumbing_widget.html:76
 msgid "Pass"
 msgstr ""
 
-#: serafin/settings.py:249
+#: serafin/settings.py:250
 msgid "Users"
 msgstr "Brukere"
 
-#: serafin/settings.py:259
+#: serafin/settings.py:260
 msgid "Program"
 msgstr "Program"
 
-#: serafin/settings.py:273
+#: serafin/settings.py:274
 msgid "Events"
 msgstr "Hendelser"
 
-#: serafin/settings.py:283
+#: serafin/settings.py:284
 msgid "Media"
 msgstr "Media"
 
-#: serafin/settings.py:288
+#: serafin/settings.py:289
 msgid "Settings"
 msgstr "Oppsett"
 
@@ -2154,12 +2211,12 @@ msgstr "Du forsøker å bruke et reservert variabelnavn"
 msgid "Variable"
 msgstr "Variabel"
 
-#: system/admin.py:109 system/admin.py:227 system/admin.py:296
+#: system/admin.py:109 system/admin.py:232 system/admin.py:301
 msgid "Admin note excerpt"
 msgstr "Utdrag fra administratornotat"
 
 #: system/admin.py:116 system/admin.py:123 system/admin.py:134
-#: system/admin.py:234 system/admin.py:244 system/admin.py:301
+#: system/admin.py:239 system/admin.py:249 system/admin.py:306
 #, python-format
 msgid "Copy of %(title)s"
 msgstr "Kopi av %(title)s"
@@ -2168,188 +2225,188 @@ msgstr "Kopi av %(title)s"
 msgid "Copy selected programs"
 msgstr "Kopier valgte programmer"
 
-#: system/admin.py:258
+#: system/admin.py:263
 msgid "Copy selected sessions"
 msgstr "Kopier valgte økter"
 
-#: system/admin.py:283
+#: system/admin.py:288
 msgid "No content"
 msgstr "Innhold mangler"
 
-#: system/admin.py:291
+#: system/admin.py:296
 msgid "Page excerpt"
 msgstr "Sideutdrag"
 
-#: system/admin.py:304
+#: system/admin.py:309
 msgid "Copy selected content"
 msgstr "Kopier valgt innhold"
 
-#: system/admin.py:332 system/admin.py:355
+#: system/admin.py:337 system/admin.py:360
 msgid "Subject"
 msgstr "Emne"
 
-#: system/engine.py:205
+#: system/engine.py:219
 msgid "Delayed node execution"
 msgstr "Forsinket hendelse"
 
-#: system/models.py:24
+#: system/models.py:22
 msgid "initial value"
 msgstr "startverdi"
 
-#: system/models.py:25
+#: system/models.py:23
 msgid "user editable"
 msgstr "brukerredigerbar"
 
-#: system/models.py:27
+#: system/models.py:25
 msgid "boolean"
 msgstr "boolsk verdi"
 
-#: system/models.py:28
+#: system/models.py:26
 msgid "numeric"
 msgstr "tallverdi"
 
-#: system/models.py:29
+#: system/models.py:27
 msgid "string"
 msgstr "tekststreng"
 
-#: system/models.py:31
+#: system/models.py:29
 msgid "randomization type"
 msgstr "tilfeldig type"
 
-#: system/models.py:32
+#: system/models.py:30
 msgid "randomize once"
 msgstr "tilfeldig første gang"
 
-#: system/models.py:33
+#: system/models.py:31
 msgid "range min (inclusive)"
 msgstr "nedre grense (fra og med)"
 
-#: system/models.py:34
+#: system/models.py:32
 msgid "range max (inclusive)"
 msgstr "øvre grense (til og med)"
 
-#: system/models.py:35
+#: system/models.py:33
 msgid "random string set"
 msgstr "tekstsett"
 
-#: system/models.py:39
+#: system/models.py:37
 msgid "variables"
 msgstr "variabler"
 
-#: system/models.py:69 system/models.py:111 system/models.py:210
+#: system/models.py:67 system/models.py:109 system/models.py:185
 msgid "display title"
 msgstr "visningstittel"
 
-#: system/models.py:70 system/models.py:114 system/models.py:212
+#: system/models.py:68 system/models.py:112 system/models.py:187
 msgid "admin note"
 msgstr "administratornotat"
 
-#: system/models.py:72 users/models.py:145
+#: system/models.py:70 users/models.py:146
 msgid "users"
 msgstr "brukere"
 
-#: system/models.py:75 system/models.py:88 system/models.py:112
+#: system/models.py:73 system/models.py:86 system/models.py:110
 msgid "program"
 msgstr "program"
 
-#: system/models.py:76
+#: system/models.py:74
 msgid "programs"
 msgstr "programmer"
 
-#: system/models.py:91
+#: system/models.py:89
 msgid "start time"
 msgstr "starttid"
 
-#: system/models.py:92
+#: system/models.py:90
 msgid "time factor"
 msgstr "tidsfaktor"
 
-#: system/models.py:95
+#: system/models.py:93
 msgid "user access"
 msgstr "brukertilgang"
 
-#: system/models.py:96
+#: system/models.py:94
 msgid "user accesses"
 msgstr "brukertilganger"
 
-#: system/models.py:113 system/models.py:219
+#: system/models.py:111 system/models.py:194
 msgid "content"
 msgstr "innhold"
 
-#: system/models.py:118
+#: system/models.py:116
 msgid "days"
 msgstr "dager"
 
-#: system/models.py:120
+#: system/models.py:118
 msgid "start time delta"
 msgstr "avvik starttid"
 
-#: system/models.py:121
+#: system/models.py:119
 msgid "start time unit"
 msgstr "enhet starttid"
 
-#: system/models.py:122
+#: system/models.py:120
 msgid "end time delta"
 msgstr "avvik sluttid"
 
-#: system/models.py:123
+#: system/models.py:121
 msgid "end time unit"
 msgstr "enhet sluttid"
 
-#: system/models.py:124
+#: system/models.py:122
 msgid "first start time"
 msgstr "første starttid"
 
-#: system/models.py:125
+#: system/models.py:123
 msgid "scheduled"
 msgstr "i tidsplan"
 
-#: system/models.py:132
+#: system/models.py:130
 msgid "session"
 msgstr "økt"
 
-#: system/models.py:133
+#: system/models.py:131
 msgid "sessions"
 msgstr "økter"
 
-#: system/models.py:136
+#: system/models.py:134
 #, python-format
 msgid "Session %s"
 msgstr "Økt %s"
 
-#: system/models.py:211
+#: system/models.py:186
 msgid "content type"
 msgstr "innholdstype"
 
-#: system/models.py:220
+#: system/models.py:195
 msgid "contents"
 msgstr "innhold"
 
-#: system/models.py:244
+#: system/models.py:219
 msgid "page"
 msgstr "side"
 
-#: system/models.py:245
+#: system/models.py:220
 msgid "pages"
 msgstr "sider"
 
-#: system/models.py:317
+#: system/models.py:279
 msgid "e-mail"
 msgstr "e-post"
 
-#: system/models.py:318
+#: system/models.py:280
 msgid "e-mails"
 msgstr "e-poster"
 
-#: system/models.py:350
+#: system/models.py:312
 msgid "SMS"
 msgstr "SMS"
 
-#: system/models.py:351
+#: system/models.py:313
 msgid "SMSs"
 msgstr "SMSer"
 
-#: system/signals.py:56 system/signals.py:81
+#: system/signals.py:61 system/signals.py:90
 msgid "Send login link and start traversal"
 msgstr "Send innloggingslenke og start økt"
 
@@ -2391,7 +2448,11 @@ msgstr ""
 msgid "tasks"
 msgstr "oppgaver"
 
-#: templates/base.html:24
+#: templates/base.html:26 users/views.py:125 users/templates/profile.html:5
+msgid "User profile"
+msgstr "Brukerprofil"
+
+#: templates/base.html:27
 msgid "Quit / sign out"
 msgstr "Avslutt / logg ut"
 
@@ -2566,21 +2627,25 @@ msgstr ""
 msgid "Designates whether the user can log into this admin site."
 msgstr ""
 
-#: users/admin.py:163
+#: users/admin.py:145
 msgid "User info"
 msgstr "Brukerinfo"
 
-#: users/admin.py:164
+#: users/admin.py:146
 msgid "User data"
 msgstr "Brukerdata"
 
-#: users/admin.py:165
+#: users/admin.py:147
 msgid "Log entries"
 msgstr "Logghendelser"
 
-#: users/forms.py:13
+#: users/forms.py:15
 msgid "Email"
 msgstr "E-post"
+
+#: users/forms.py:50
+msgid "ID should be an integer value"
+msgstr "ID må være et heltall"
 
 #: users/models.py:38
 msgid "staff status"
@@ -2603,7 +2668,7 @@ msgstr "nøkkel"
 msgid "User %i"
 msgstr "Bruker %i"
 
-#: users/models.py:118
+#: users/models.py:113
 msgid "Today's login link"
 msgstr "Dagens innloggingslenke"
 
@@ -2611,19 +2676,39 @@ msgstr "Dagens innloggingslenke"
 msgid "Forgot your password?"
 msgstr "Glemt passordet ditt?"
 
-#: users/templates/email/html/login_link.html:14
-#: users/templates/email/text/login_link.txt:3
+#: users/templates/profile.html:9
+msgid "Profile for user"
+msgstr ""
+
+#: users/templates/profile.html:16
+msgid "days since start"
+msgstr ""
+
+#: users/templates/profile.html:21
+msgid "sessions done"
+msgstr "økter utført"
+
+#: users/templates/profile.html:26
+msgid "sessions remaining"
+msgstr "økter igjen"
+
+#: users/templates/profile.html:32
+msgid "Edit your data"
+msgstr "Endre dine data"
+
+#: users/templates/email/login_link.html:14
+#: users/templates/email/login_link.txt:3
 #, python-format
 msgid "Here is your login link for today's program at %(site_name)s."
 msgstr "Her er innloggingslenken for dagens program på %(site_name)s."
 
-#: users/templates/email/html/login_link.html:18
-#: users/templates/email/text/login_link.txt:7
+#: users/templates/email/login_link.html:18
+#: users/templates/email/login_link.txt:7
 msgid "Please keep in mind that you should never share your login link."
 msgstr "Merk at du aldri må dele din innloggingslenke med andre."
 
-#: users/templates/email/html/login_link.html:20
-#: users/templates/email/text/login_link.txt:9
+#: users/templates/email/login_link.html:20
+#: users/templates/email/login_link.txt:9
 #, python-format
 msgid ""
 "Should you have trouble logging in using the login link, you can log in with "
@@ -2632,8 +2717,8 @@ msgstr ""
 "Skulle du ha problemer med å logge inn med innloggingslenken, kan du logge "
 "inn med din ID og passord på %(manual_login)s."
 
-#: users/templates/email/html/login_link.html:25
-#: users/templates/email/text/login_link.txt:11
+#: users/templates/email/login_link.html:25
+#: users/templates/email/login_link.txt:11
 #, python-format
 msgid "%(site_name)s"
 msgstr ""
@@ -2653,3 +2738,11 @@ msgstr "Hvelvbruker"
 #: vault/models.py:56
 msgid "vault users"
 msgstr "Hvelvbrukere"
+
+#: vault/views.py:105
+msgid "Sorry, there was an error processing your SMS."
+msgstr "Beklager, noe gikk galt i behandling av din SMS."
+
+#: vault/views.py:107
+msgid "No data received."
+msgstr ""
