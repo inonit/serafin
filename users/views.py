@@ -2,13 +2,16 @@ from __future__ import unicode_literals
 from django.utils.translation import ugettext_lazy as _
 
 from django.contrib.auth import login, logout, authenticate
+from django.contrib.auth.decorators import login_required
 from django.contrib.auth.views import login as login_view
 from django.http.response import HttpResponse
-from django.shortcuts import redirect
+from django.shortcuts import redirect, render
+from django.utils import timezone
 from django.views.decorators.csrf import csrf_exempt
 
 from serafin.utils import JSONResponse
 from system.engine import Engine
+from system.models import Variable
 from users.models import User
 from tokens.tokens import token_generator
 import json
@@ -65,3 +68,63 @@ def receive_sms(request):
                 response = {'status': 'OK'}
 
     return JSONResponse(response)
+
+
+@login_required
+def profile(request):
+
+    user_editable_vars = []
+    for var in Variable.objects.all():
+        if var.user_editable:
+            user_editable_vars.append({
+                'name': var.name,
+                'value': request.user.data[var.name] or var.value
+            })
+
+    if request.method == 'POST':
+        for key, value in request.POST.items():
+            for var in user_editable_vars:
+                if key == var['name']:
+                    request.user.data[key] = value
+
+        request.user.save()
+        return redirect('profile')
+
+    progress_set = {}
+    now = timezone.localtime(timezone.now())
+    for ua in request.user.programuseraccess_set.all():
+
+        sessions_done = 0
+        sessions_remaining = 0
+        days_since_start = 0
+
+        start_times = [
+            s.get_start_time(
+                ua.start_time,
+                ua.time_factor
+            ) for s in ua.program.session_set.all()
+        ]
+
+        for start_time in start_times:
+
+            if start_time <= now:
+                sessions_done += 1
+
+            if start_time > now:
+                sessions_remaining += 1
+
+        days_since_start = (now - min(start_times)).days
+
+        progress_set[ua.program] = {
+            'sessions_done': sessions_done,
+            'sessions_remaining': sessions_remaining,
+            'days_since_start': days_since_start
+        }
+
+    context = {
+        'title': _('User profile'),
+        'user_editable_vars': user_editable_vars,
+        'progress_set': progress_set
+    }
+
+    return render(request, 'profile.html', context)

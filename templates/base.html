@@ -23,12 +23,17 @@
             <div class="hamburger" ng-click="toggleMenu()" ng-hide="desktop"></div>
             <div class="items" ng-click="toggleMenu()" ng-show="menu">
               {% if user.is_authenticated %}
+              <a href="{% url 'profile' %}">{% trans 'User profile' %}</a>
               <a class="button" href="{% url 'logout' %}">{% trans 'Quit / sign out' %}</a>
               {% endif %}
             </div>
           </div>
           <div class="left">
+            {% if request.path_info %}
+            <a href="/"><h1 class="entry">{{ program|default:'Serafin' }}</h1></a>
+            {% else %}
             <h1 class="entry">{{ program|default:'Serafin' }}</h1>
+            {% endif %}
             <div class="entry title">{{ title }}</div>
           </div>
         </nav>

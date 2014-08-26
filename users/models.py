@@ -90,6 +90,7 @@ class User(AbstractBaseUser, PermissionsMixin):
 
     def generate_login_link(self):
         '''Generates a login link URL'''
+
         current_site = Site.objects.get_current()
 
         link = '%(protocol)s://%(domain)s%(link)s' % {
@@ -111,14 +112,20 @@ class User(AbstractBaseUser, PermissionsMixin):
 
         subject = unicode(_("Today's login link"))
 
-        html_template = get_template('email/html/login_link.html')
-        text_template = get_template('email/text/login_link.txt')
+        html_template = get_template('email/login_link.txt')
+        text_template = get_template('email/login_link.html')
 
         current_site = Site.objects.get_current()
 
+        manual_login = '%s://%s%s' % (
+            'https' if settings.USE_HTTPS else 'http',
+            current_site.domain,
+            reverse('login'),
+        )
+
         context = {
             'link': self.generate_login_link(),
-            'manual_login': reverse('login'),
+            'manual_login': manual_login,
             'site_name': current_site.name,
         }
 

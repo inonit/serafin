@@ -378,12 +378,14 @@ fieldset legend,
     border-top: 1px solid #1a1a21;
 }
 
+.top-bar a,
 .footer a {
-    color: #73e0b8;
+    color: white;
 }
 
+.top-bar a:hover,
 .footer a:hover {
-    color: #73e0b8;
+    color: #ccc;
 }
 
 div.error {
@@ -400,6 +402,17 @@ div.error {
     position: absolute;
     top: 0;
     right: 0;
+}
+
+.stats {
+    font-family: 'PT Sans', sans-serif;
+    font-weight: 700;
+    text-align: center;
+    margin: 1rem 0;
+}
+
+.bignum {
+    font-size: 5rem;
 }
 
 /* RESPONSIVE */
