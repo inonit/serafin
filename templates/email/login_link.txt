@@ -1,0 +1,13 @@
+{% autoescape off %}
+Hei!
+
+Her er innloggingslenken for dagens program med røykesluttprogrammet Endre. Klikk på den blå teksten for å komme til dagens økt.
+
+{{ link }}
+
+Merk deg at du aldri må dele din innloggingslenke med andre.
+
+Skulle du har problemer med å logge inn med innloggingslenken, kan du logge inn med din ID og passord på {{ manual_login }}. Dette fikk du oppgitt i den første e-posten fra meg.
+
+Hilsen Endre
+{% endautoescape %}
