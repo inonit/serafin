@@ -63,7 +63,7 @@
                 <div class="error right" ng-show="form.submitted && subForm.$error.required">{% trans 'Please choose one' %}</div>
                 {% verbatim %}
                 <label ng-repeat="alt in pagelet.content.alternatives track by $index">
-                    <input name="answer" type="checkbox" checkboxlist ng-model="alt.selected" ng-click="toggle(pagelet.content.value, alt.value)">
+                    <input name="answer" type="checkbox" checkboxlist ng-model="alt.selected" ng-click="toggle(pagelet.content.value, alt.value)" ng-required="field.required">
                     {{ alt.label }}
                 </label>
                 <div>{{ pagelet.content.text }}</div>
@@ -77,7 +77,7 @@
                     <tbody>
                         <tr>
                             <td ng-repeat="alt in pagelet.content.alternatives track by $index">
-                                <input name="answer" type="checkbox" checkboxlist ng-model="alt.selected" ng-click="toggle(pagelet.content.value, alt.value)">
+                                <input name="answer" type="checkbox" checkboxlist ng-model="alt.selected" ng-click="toggle(pagelet.content.value, alt.value)" ng-required="field.required">
                                 <br>
                                 {{ alt.label }}
                             </td>
@@ -121,27 +121,67 @@
                     <textarea name="field" ng-model="field.value" ng-required="field.required" liveinput></textarea>
                 </div>
 
-                <fieldset ng-if="field.field_type == 'multiplechoice'">
-                    <legend>{{ field.label }}</legend>
-                    {% endverbatim %}
-                    <div class="error right" ng-show="form.submitted && subForm.$error.required">{% trans 'Please choose one' %}</div>
-                    {% verbatim %}
-                    <label ng-repeat="alt in field.alternatives track by $index">
-                        <input name="field" type="radio" ng-model="field.value" value="{{ alt.value }}" ng-required="field.required">
-                        {{ alt.label }}
-                    </label>
-                </fieldset>
+                <div ng-if="field.field_type == 'multiplechoice'">
+                    <fieldset ng-if="!field.horizontal">
+                        <legend>{{ field.label }}</legend>
+                        {% endverbatim %}
+                        <div class="error right" ng-show="form.submitted && subForm.$error.required">{% trans 'Please choose one' %}</div>
+                        {% verbatim %}
+                        <label ng-repeat="alt in field.alternatives track by $index">
+                            <input name="field" type="radio" ng-model="field.value" value="{{ alt.value }}" ng-required="field.required">
+                            {{ alt.label }}
+                        </label>
+                    </fieldset>
 
-                <fieldset ng-if="field.field_type == 'multipleselection'">
-                    <legend>{{ field.label }}</legend>
-                    {% endverbatim %}
-                    <div class="error right" ng-show="form.submitted && subForm.$error.required">{% trans 'Please choose one' %}</div>
-                    {% verbatim %}
-                    <label ng-repeat="alt in field.alternatives track by $index">
-                        <input name="field" type="checkbox" checkboxlist ng-click="toggle(field.value, alt.value)" ng-required="field.required">
-                        {{ alt.label }}
-                    </label>
-                </fieldset>
+                    <div ng-if="field.horizontal" class="table">
+                        {% endverbatim %}
+                        <div class="error right" ng-show="form.submitted && subForm.$error.required">{% trans 'Please choose one' %}</div>
+                        {% verbatim %}
+                        <table ng-if="field.field_type == 'multiplechoice'">
+                            <div class="caption">{{ field.label }}</div>
+                            <tbody>
+                                <tr>
+                                    <td ng-repeat="alt in field.alternatives track by $index">
+                                        <input name="field" type="radio" ng-model="field.value" value="{{ alt.value }}" ng-required="field.required">
+                                        <br>
+                                        {{ alt.label }}
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <div ng-if="field.field_type == 'multipleselection'">
+                    <fieldset ng-if="!field.horizontal">
+                        <legend>{{ field.label }}</legend>
+                        {% endverbatim %}
+                        <div class="error right" ng-show="form.submitted && subForm.$error.required">{% trans 'Please choose one' %}</div>
+                        {% verbatim %}
+                        <label ng-repeat="alt in field.alternatives track by $index">
+                            <input name="field" type="checkbox" checkboxlist ng-click="toggle(field.value, alt.value)" ng-required="field.required">
+                            {{ alt.label }}
+                        </label>
+                    </fieldset>
+
+                    <div ng-if="field.horizontal" class="table">
+                        {% endverbatim %}
+                        <div class="error right" ng-show="form.submitted && subForm.$error.required">{% trans 'Please choose one' %}</div>
+                        {% verbatim %}
+                        <table>
+                            <div class="caption">{{ field.label }}</div>
+                            <tbody>
+                                <tr>
+                                    <td ng-repeat="alt in field.alternatives track by $index">
+                                        <input name="field" type="checkbox" checkboxlist ng-model="alt.selected" ng-click="toggle(field.value, alt.value)" ng-required="field.required">
+                                        <br>
+                                        {{ alt.label }}
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
 
                 <div ng-if="field.field_type == 'hiddenfield'">
                     <input type="hidden" name="{{ field.name }}" value="{{ field.value }}" ng-model="field.value">

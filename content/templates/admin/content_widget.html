@@ -191,6 +191,11 @@
                             <input type="checkbox" ng-model="field.required"> {% trans 'Required?' %}
                         </label>
                     </div>
+                    <div class="field-data pull-down" ng-if="field.field_type == 'multiplechoice' || field.field_type == 'multipleselection'">
+                        <label>
+                            <input type="checkbox" ng-model="field.horizontal"> {% trans 'Horizontal?' %}
+                        </label>
+                    </div>
                 </div>
 
                 <div class="fieldset">

@@ -340,7 +340,7 @@ input[type="number"],
 textarea,
 fieldset,
 .table {
-    background: transparent;
+    background: white;
     border: 1px solid #ccc;
     border-left: 2px solid #34d298;
 }
@@ -349,14 +349,14 @@ input[type="text"]:focus,
 input[type="password"]:focus,
 input[type="number"]:focus,
 textarea:focus {
-    background: transparent;
+    background: white;
     border-left: 2px solid #34d298;
 }
 
 fieldset legend,
 .table .caption {
     color: #444;
-    background: transparent;
+    background: white;
 }
 
 .top-bar {
