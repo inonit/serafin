@@ -2,11 +2,17 @@
 
 {% load i18n %}
 
-{% block title %}{% trans 'User profile' %}{% endblock %}
+{% block title %}
+{% trans 'User profile' %}
+{% endblock title %}
+
+{% block program_title %}
+{% trans "Today's session" %}
+{% endblock program_title %}
 
 {% block content %}
 <div class="page">
-    <h1>{% trans 'Profile for user' %} {{ user.id }}</h1>
+    <h1>{% trans 'User profile' %}</h1>
 
     {% for program, values in progress_set.items %}
     <div class="row">

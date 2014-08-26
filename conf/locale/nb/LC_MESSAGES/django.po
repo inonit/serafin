@@ -2448,9 +2448,13 @@ msgstr ""
 msgid "tasks"
 msgstr "oppgaver"
 
-#: templates/base.html:26 users/views.py:125 users/templates/profile.html:5
+#: templates/base.html:26 users/views.py:125 users/templates/profile.html:6
 msgid "User profile"
-msgstr "Brukerprofil"
+msgstr "Min side"
+
+#: users/templates/profile.html:10
+msgid "Today's session"
+msgstr "Dagens tema"
 
 #: templates/base.html:27
 msgid "Quit / sign out"

@@ -29,12 +29,18 @@
             </div>
           </div>
           <div class="left">
-            {% if request.path_info %}
-            <a href="/"><h1 class="entry">{{ program|default:'Serafin' }}</h1></a>
-            {% else %}
-            <h1 class="entry">{{ program|default:'Serafin' }}</h1>
-            {% endif %}
-            <div class="entry title">{{ title }}</div>
+            <a href="/">
+              <h1 class="entry">
+                {% block program_title %}
+                {{ program|default:'Serafin' }}
+                {% endblock program_title %}
+              </h1>
+            </a>
+            <div class="entry title">
+              {% block page_title %}
+              {{ title }}
+              {% endblock page_title %}
+            </div>
           </div>
         </nav>
       </header>

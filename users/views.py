@@ -122,7 +122,6 @@ def profile(request):
         }
 
     context = {
-        'title': _('User profile'),
         'user_editable_vars': user_editable_vars,
         'progress_set': progress_set
     }
