@@ -112,8 +112,8 @@ class User(AbstractBaseUser, PermissionsMixin):
 
         subject = unicode(_("Today's login link"))
 
-        html_template = get_template('email/login_link.txt')
-        text_template = get_template('email/login_link.html')
+        html_template = get_template('email/login_link.html')
+        text_template = get_template('email/login_link.txt')
 
         current_site = Site.objects.get_current()
 
