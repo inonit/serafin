@@ -79,7 +79,7 @@ def profile(request):
             user_editable_vars.append({
                 'name': var.name,
                 'label': var.display_name,
-                'value': request.user.data[var.name] or var.value
+                'value': request.user.data.get(var.name) or var.value
             })
 
     if request.method == 'POST':
