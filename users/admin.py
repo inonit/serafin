@@ -76,6 +76,7 @@ class UserChangeForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         super(UserChangeForm, self).__init__(*args, **kwargs)
         self.fields['data'].help_text = ''
+        self.fields['data'].required = False
         self.fields['is_active'].help_text = _('Designates whether this user should be treated as active. Unselect this instead of deleting accounts.')
         self.fields['is_staff'].help_text = _('Designates whether the user can log into this admin site.')
 
