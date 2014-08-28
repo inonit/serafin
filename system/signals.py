@@ -95,7 +95,7 @@ def reschedule_session(sender, **kwargs):
             if start_time > timezone.localtime(timezone.now()):
                 task.reschedule(
                     task=init_session,
-                    args=(session, useraccess.user),
+                    args=(session, useraccess.user.id),
                     time=start_time
                 )
                 task.save()
