@@ -213,7 +213,16 @@ plumbing.controller('graph', ['$scope', 'jsPlumb', function(scope, jsPlumbServic
 
     scope.deleteNode = function(index) {
         var node = scope.data.nodes[index];
-        scope.jsPlumb.detachAllConnections('node_' + node.id);
+
+        var validEdges = [];
+        scope.data.edges.forEach(function(edge) {
+            if (edge.source != node.id &&
+                edge.target != node.id) {
+                edges.push(edge)
+            }
+        });
+
+        scope.data.edges = validEdges;
         scope.data.nodes.splice(index, 1);
     };
 
@@ -247,13 +256,6 @@ plumbing.directive('node', ['$timeout', 'jsPlumb', function(timeout, jsPlumbServ
             scope.$on('$destroy', function() {
                 scope.settings.remove();
                 scope.$parent.showDelay = -1;
-                scope.data.edges.forEach(function(edge) {
-                    if (edge.source == scope.node.id ||
-                        edge.target == scope.node.id) {
-                        var index = scope.data.edges.indexOf(edge);
-                        scope.data.edges.splice(index, 1);
-                    }
-                });
             });
 
             // set up jsPlumb for this node
@@ -354,8 +356,8 @@ plumbing.directive('edge', ['jsPlumb', function(jsPlumbService) {
 
             // ensure connection is detached on edge destruction
             scope.$on('$destroy', function() {
-                scope.jsPlumb.detach(scope.connection);
                 scope.$parent.showConditions = -1;
+                scope.jsPlumb.detach(scope.connection);
             });
 
             // show full interface on double click
