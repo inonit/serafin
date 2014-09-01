@@ -218,7 +218,7 @@ plumbing.controller('graph', ['$scope', 'jsPlumb', function(scope, jsPlumbServic
         scope.data.edges.forEach(function(edge) {
             if (edge.source != node.id &&
                 edge.target != node.id) {
-                edges.push(edge)
+                validEdges.push(edge)
             }
         });
 
