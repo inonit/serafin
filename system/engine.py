@@ -36,6 +36,9 @@ class Engine(object):
 
     @staticmethod
     def get_system_var(var_name):
+        if not var_name:
+            return ''
+
         if var_name == 'current_day':
                 return date.isoweekday(date.today())
         else:
@@ -43,7 +46,7 @@ class Engine(object):
                 var = Variable.objects.get(name=var_name)
                 return var.get_value()
             except:
-                return None
+                return ''
 
     @classmethod
     def check_conditions(cls, conditions, user, return_value):
@@ -53,19 +56,19 @@ class Engine(object):
         for condition in conditions:
             var_name = condition.get('var_name')
             operator = condition.get('operator')
-            value_a = condition.get('value')
+            value_b = condition.get('value')
 
             # variable comparison:
-            # if value_a is actually another var_name, assign users value to it
-            value_a = user.data.get(value_a, value_a)
-            value_b = user.data.get(var_name)
+            # if value_b is actually another var_name, assign users value to it
+            value_b = user.data.get(value_b, value_b)
+            value_a = user.data.get(var_name)
 
             # if either value is still not assigned, try system vars
             if not value_a:
-                value_a = cls.get_system_var(value_a)
+                value_a = cls.get_system_var(var_name)
 
             if not value_b:
-                value_b = cls.get_system_var(var_name)
+                value_b = cls.get_system_var(value_b)
 
             try:
                 # try converting to float for numeric comparisons
@@ -85,30 +88,30 @@ class Engine(object):
                 value_b = ', '.join(value_b)
 
             if var_name == 'group':
-                value_b = ', '.join(
+                value_a = ', '.join(
                     [group.__unicode__() for group in user.groups.all()]
                 )
 
             if operator == 'eq':
-                passing.append(value_b == value_a)
+                passing.append(value_a == value_b)
 
             if operator == 'ne':
-                passing.append(value_b != value_a)
+                passing.append(value_a != value_b)
 
             if operator == 'lt':
-                passing.append(value_b < value_a)
+                passing.append(value_a < value_b)
 
             if operator == 'le':
-                passing.append(value_b <= value_a)
+                passing.append(value_a <= value_b)
 
             if operator == 'gt':
-                passing.append(value_b > value_a)
+                passing.append(value_a > value_b)
 
             if operator == 'ge':
-                passing.append(value_b >= value_a)
+                passing.append(value_a >= value_b)
 
             if operator == 'in':
-                passing.append(unicode(value_a).lower() in unicode(value_b).lower())
+                passing.append(unicode(value_b).lower() in unicode(value_a).lower())
 
         if all(passing):
             return return_value
