@@ -44,7 +44,7 @@ class Engine(object):
         else:
             try:
                 var = Variable.objects.get(name=var_name)
-                return var.get_value()
+                return var.get_value() or ''
             except:
                 return ''
 
