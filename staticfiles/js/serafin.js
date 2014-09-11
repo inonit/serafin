@@ -177,9 +177,11 @@ serafin.directive('livereplace', ['$compile', function(compile) {
             scope.variables = scope.$parent.variables;
             scope.$watch('text', function() {
                 var template = scope.text;
-                var compiled = compile(template)(scope);
-                element.html('');
-                element.append(compiled);
+                if (template) {
+                    var compiled = compile(template)(scope);
+                    element.html('');
+                    element.append(compiled);
+                }
             })
         }
     };
