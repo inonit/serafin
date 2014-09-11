@@ -11,7 +11,15 @@ def transition(user_id, node_id):
     '''A task to schedule an Engine transition'''
 
     engine = Engine(user_id)
-    engine.transition(node_id)
+    node = engine.transition(node_id)
+
+    if node:
+        message = _('%(session)s transitioned to %(node)s') % {
+            'session': engine.session.name,
+            'node': node.name
+        }
+
+        return message
 
 
 @db_task()

@@ -219,7 +219,8 @@ class Engine(object):
                 time=start_time + delta,
                 task=transition,
                 args=(self.user.id, node_id),
-                action=_('Delayed node execution')
+                action=_('Delayed node execution'),
+                subject=self.user
             )
 
             return None

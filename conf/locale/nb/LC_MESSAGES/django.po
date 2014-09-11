@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Serafin\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-08-26 11:35+0200\n"
+"POT-Creation-Date: 2014-09-11 12:49+0200\n"
 "PO-Revision-Date: 2014-08-26 11:35+0200\n"
 "Last-Translator: Eirik Krogstad <eirikkr@gmail.com>\n"
 "Language: nb\n"
@@ -82,20 +82,21 @@ msgstr "Vis/skjul-tekst"
 #: content/templates/admin/content_widget.html:53
 #: content/templates/admin/content_widget.html:83
 #: content/templates/admin/content_widget.html:175
-#: content/templates/admin/content_widget.html:224
-#: content/templates/admin/content_widget.html:284
+#: content/templates/admin/content_widget.html:229
+#: content/templates/admin/content_widget.html:289
 msgid "Label"
 msgstr "Feltnavn"
 
 #: content/templates/admin/content_widget.html:57
 #: content/templates/admin/content_widget.html:119
 #: content/templates/admin/content_widget.html:179
-#: content/templates/admin/content_widget.html:262
+#: content/templates/admin/content_widget.html:267
 #: plumbing/templates/admin/plumbing_widget.html:84
 msgid "Variable name"
 msgstr "Variabelnavn"
 
 #: content/templates/admin/content_widget.html:62
+#: content/templates/admin/content_widget.html:196
 msgid "Horizontal?"
 msgstr "Horisontal?"
 
@@ -104,16 +105,16 @@ msgid "+ Item"
 msgstr "+ Element"
 
 #: content/templates/admin/content_widget.html:71
-#: content/templates/admin/content_widget.html:212
-#: content/templates/admin/content_widget.html:272
+#: content/templates/admin/content_widget.html:217
+#: content/templates/admin/content_widget.html:277
 msgid "Alternatives"
 msgstr "Alternativer"
 
 #: content/templates/admin/content_widget.html:87
 #: content/templates/admin/content_widget.html:135
 #: content/templates/admin/content_widget.html:186
-#: content/templates/admin/content_widget.html:228
-#: content/templates/admin/content_widget.html:288
+#: content/templates/admin/content_widget.html:233
+#: content/templates/admin/content_widget.html:293
 #: plumbing/templates/admin/plumbing_widget.html:94
 msgid "Value"
 msgstr "Verdi"
@@ -166,44 +167,44 @@ msgstr "+ Skjult felt"
 msgid "Required?"
 msgstr "Påkrevet?"
 
-#: content/templates/admin/content_widget.html:198
+#: content/templates/admin/content_widget.html:203
 msgid "Lower limit"
 msgstr "Nedre grense"
 
-#: content/templates/admin/content_widget.html:202
+#: content/templates/admin/content_widget.html:207
 msgid "Upper limit"
 msgstr "Øvre grense"
 
-#: content/templates/admin/content_widget.html:209
-#: content/templates/admin/content_widget.html:269
+#: content/templates/admin/content_widget.html:214
+#: content/templates/admin/content_widget.html:274
 msgid "+ Alternative"
 msgstr "+ Alternativ"
 
-#: content/templates/admin/content_widget.html:242
+#: content/templates/admin/content_widget.html:247
 msgid "+ Question"
 msgstr "+ Spørsmål"
 
-#: content/templates/admin/content_widget.html:254
-#: content/templates/admin/content_widget.html:258
+#: content/templates/admin/content_widget.html:259
+#: content/templates/admin/content_widget.html:263
 msgid "Question"
 msgstr "Spørsmål"
 
-#: content/templates/admin/content_widget.html:293
+#: content/templates/admin/content_widget.html:298
 msgid "Correct?"
 msgstr "Korrekt?"
 
-#: content/templates/admin/content_widget.html:299
+#: content/templates/admin/content_widget.html:304
 msgid "Response"
 msgstr "Respons"
 
-#: content/templates/admin/content_widget.html:313
+#: content/templates/admin/content_widget.html:318
 msgid "Alt title"
 msgstr "Alternativtittel"
 
-#: content/templates/admin/content_widget.html:317
-#: content/templates/admin/content_widget.html:327
-#: content/templates/admin/content_widget.html:337
-#: content/templates/admin/content_widget.html:347
+#: content/templates/admin/content_widget.html:322
+#: content/templates/admin/content_widget.html:332
+#: content/templates/admin/content_widget.html:342
+#: content/templates/admin/content_widget.html:352
 msgid "Title"
 msgstr "Tittel"
 
@@ -276,137 +277,6 @@ msgstr "hendelser"
 #: lib/python2.7/site-packages/suit/templates/admin/import_export/export.html:12
 msgid "Export"
 msgstr "Eksport"
-
-#: lib/python2.7/site-packages/filer/templates/admin/filer/tools/search_form.html:17
-#: lib/python2.7/site-packages/suit/templates/admin/filer/tools/search_form.html:19
-msgid "and"
-msgstr "og"
-
-#: system/models.py:66 system/models.py:108 system/models.py:184
-msgid "title"
-msgstr "tittel"
-
-#: lib/python2.7/site-packages/filer/models/filemodels.py:50
-msgid "description"
-msgstr "beskrivelse"
-
-#: lib/python2.7/site-packages/filer/templates/admin/filer/widgets/admin_file.html:14
-#: lib/python2.7/site-packages/filer/templates/admin/filer/widgets/admin_file.html:15
-#: lib/python2.7/site-packages/filer/templates/admin/filer/widgets/admin_folder.html:7
-#: lib/python2.7/site-packages/filer/templates/admin/filer/widgets/admin_folder.html:8
-msgid "Lookup"
-msgstr "Slå opp"
-
-#: lib/python2.7/site-packages/filer/templates/admin/filer/breadcrumbs.html:4
-#: lib/python2.7/site-packages/filer/templates/admin/filer/folder/change_form.html:7
-#: lib/python2.7/site-packages/import_export/templates/admin/import_export/base.html:11
-#: lib/python2.7/site-packages/suit/templates/admin/app_index.html:8
-#: lib/python2.7/site-packages/suit/templates/admin/base.html:99
-#: lib/python2.7/site-packages/suit/templates/admin/change_form.html:61
-#: lib/python2.7/site-packages/suit/templates/admin/change_list.html:42
-#: lib/python2.7/site-packages/suit/templates/admin/delete_confirmation.html:7
-#: lib/python2.7/site-packages/suit/templates/admin/delete_selected_confirmation.html:7
-#: lib/python2.7/site-packages/suit/templates/admin/object_history.html:7
-#: lib/python2.7/site-packages/suit/templates/admin/auth/user/change_password.html:19
-#: lib/python2.7/site-packages/suit/templates/admin/cms/page/change_form.html:46
-#: lib/python2.7/site-packages/suit/templates/admin/cms/page/change_list.html:8
-#: lib/python2.7/site-packages/suit/templates/admin/cms/page/plugin_change_form.html:82
-#: lib/python2.7/site-packages/suit/templates/admin/filer/breadcrumbs.html:5
-#: lib/python2.7/site-packages/suit/templates/admin/filer/folder/change_form.html:8
-#: lib/python2.7/site-packages/suit/templates/admin/import_export/base.html:10
-#: lib/python2.7/site-packages/suit/templates/registration/logged_out.html:6
-#: lib/python2.7/site-packages/suit/templates/registration/password_change_form.html:26
-#: lib/python2.7/site-packages/suit/templates/reversion/recover_form.html:8
-#: lib/python2.7/site-packages/suit/templates/reversion/recover_list.html:8
-#: lib/python2.7/site-packages/suit/templates/reversion/revision_form.html:8
-#: lib/python2.7/site-packages/suit/templates/suit/menu.html:10
-#: templates/admin/base.html:103
-msgid "Home"
-msgstr "Hjem"
-
-#: lib/python2.7/site-packages/filer/templates/admin/filer/folder/directory_table.html:43
-#: lib/python2.7/site-packages/import_export/templates/admin/import_export/import.html:101
-#: lib/python2.7/site-packages/suit/templates/admin/delete_confirmation.html:18
-#: lib/python2.7/site-packages/suit/templates/admin/delete_confirmation.html:49
-#: lib/python2.7/site-packages/suit/templates/admin/page_submit_line.html:8
-#: lib/python2.7/site-packages/suit/templates/admin/submit_line.html:8
-#: lib/python2.7/site-packages/suit/templates/admin/filer/folder/directory_table.html:42
-#: lib/python2.7/site-packages/suit/templates/admin/import_export/import.html:69
-msgid "Delete"
-msgstr "Slett"
-
-#: lib/python2.7/site-packages/suit/templates/admin/delete_confirmation.html:26
-#: lib/python2.7/site-packages/suit/templates/admin/filer/delete_confirmation.html:12
-#, python-format
-msgid ""
-"Deleting the %(object_name)s '%(escaped_object)s' would result in deleting "
-"related objects, but your account doesn't have permission to delete the "
-"following types of objects:"
-msgstr ""
-"Å slette %(object_name)s '%(escaped_object)s' ville resultere i sletting av "
-"relaterte objekter, men din konto har ikke tillatelse til å slette objekter "
-"av følgende typer:"
-
-#: lib/python2.7/site-packages/suit/templates/admin/delete_confirmation.html:36
-#: lib/python2.7/site-packages/suit/templates/admin/filer/delete_confirmation.html:21
-#, python-format
-msgid ""
-"Deleting the %(object_name)s '%(escaped_object)s' would require deleting the "
-"following protected related objects:"
-msgstr ""
-"Å slette %(object_name)s '%(escaped_object)s' ville kreve å slette følgende "
-"beskyttede relaterte objekter:"
-
-#: lib/python2.7/site-packages/suit/templates/admin/delete_confirmation.html:51
-#: lib/python2.7/site-packages/suit/templates/admin/filer/delete_confirmation.html:31
-#, python-format
-msgid ""
-"Are you sure you want to delete the %(object_name)s \"%(escaped_object)s\"? "
-"All of the following related items will be deleted:"
-msgstr ""
-"Er du sikker på at du vil slette %(object_name)s \"%(escaped_object)s\"? Alle de "
-"følgende objektene og deres relaterte elementer vil bli slettet:"
-
-#: lib/python2.7/site-packages/filer/templates/admin/filer/delete_selected_files_confirmation.html:45
-#: lib/python2.7/site-packages/suit/templates/admin/delete_confirmation.html:57
-#: lib/python2.7/site-packages/suit/templates/admin/delete_selected_confirmation.html:61
-#: lib/python2.7/site-packages/suit/templates/admin/filer/delete_confirmation.html:36
-#: lib/python2.7/site-packages/suit/templates/admin/filer/delete_selected_files_confirmation.html:47
-msgid "Yes, I'm sure"
-msgstr ""
-
-#: lib/python2.7/site-packages/suit/templates/admin/delete_selected_confirmation.html:15
-msgid "Delete multiple objects"
-msgstr ""
-
-#: lib/python2.7/site-packages/suit/templates/admin/delete_selected_confirmation.html:23
-#, python-format
-msgid ""
-"Deleting the selected %(objects_name)s would result in deleting related "
-"objects, but your account doesn't have permission to delete the following "
-"types of objects:"
-msgstr ""
-"Å slette de valgte %(objects_name)s ville resultere i sletting av "
-"relaterte objekter, men din konto har ikke tillatelse til å slette objekter "
-"av følgende typer:"
-
-#: lib/python2.7/site-packages/suit/templates/admin/delete_selected_confirmation.html:33
-#, python-format
-msgid ""
-"Deleting the selected %(objects_name)s would require deleting the following "
-"protected related objects:"
-msgstr ""
-"Å slette de valgte %(objects_name)s ville kreve å slette følgende "
-"beskyttede relaterte objekter:"
-
-#: lib/python2.7/site-packages/suit/templates/admin/delete_selected_confirmation.html:54
-#, python-format
-msgid ""
-"Are you sure you want to delete the selected %(objects_name)s? All of the "
-"following objects and their related items will be deleted:"
-msgstr ""
-"Er du sikker på at du vil slette de valgte %(objects_name)s? Alle de "
-"følgende objektene og deres relaterte elementer vil bli slettet:"
 
 #: lib/python2.7/site-packages/filer/views.py:106
 msgid "Folder with this name already exists."
@@ -680,6 +550,10 @@ msgstr "originalt filnavn"
 msgid "name"
 msgstr "navn"
 
+#: lib/python2.7/site-packages/filer/models/filemodels.py:50
+msgid "description"
+msgstr "beskrivelse"
+
 #: lib/python2.7/site-packages/filer/models/filemodels.py:54
 msgid "owner"
 msgstr "eier"
@@ -863,6 +737,33 @@ msgstr "Tøm utvalg"
 msgid "Go back to admin homepage"
 msgstr "Gå tilbake til administrasjonssiden"
 
+#: lib/python2.7/site-packages/filer/templates/admin/filer/breadcrumbs.html:4
+#: lib/python2.7/site-packages/filer/templates/admin/filer/folder/change_form.html:7
+#: lib/python2.7/site-packages/import_export/templates/admin/import_export/base.html:11
+#: lib/python2.7/site-packages/suit/templates/admin/app_index.html:8
+#: lib/python2.7/site-packages/suit/templates/admin/base.html:99
+#: lib/python2.7/site-packages/suit/templates/admin/change_form.html:61
+#: lib/python2.7/site-packages/suit/templates/admin/change_list.html:42
+#: lib/python2.7/site-packages/suit/templates/admin/delete_confirmation.html:7
+#: lib/python2.7/site-packages/suit/templates/admin/delete_selected_confirmation.html:7
+#: lib/python2.7/site-packages/suit/templates/admin/object_history.html:7
+#: lib/python2.7/site-packages/suit/templates/admin/auth/user/change_password.html:19
+#: lib/python2.7/site-packages/suit/templates/admin/cms/page/change_form.html:46
+#: lib/python2.7/site-packages/suit/templates/admin/cms/page/change_list.html:8
+#: lib/python2.7/site-packages/suit/templates/admin/cms/page/plugin_change_form.html:82
+#: lib/python2.7/site-packages/suit/templates/admin/filer/breadcrumbs.html:5
+#: lib/python2.7/site-packages/suit/templates/admin/filer/folder/change_form.html:8
+#: lib/python2.7/site-packages/suit/templates/admin/import_export/base.html:10
+#: lib/python2.7/site-packages/suit/templates/registration/logged_out.html:6
+#: lib/python2.7/site-packages/suit/templates/registration/password_change_form.html:26
+#: lib/python2.7/site-packages/suit/templates/reversion/recover_form.html:8
+#: lib/python2.7/site-packages/suit/templates/reversion/recover_list.html:8
+#: lib/python2.7/site-packages/suit/templates/reversion/revision_form.html:8
+#: lib/python2.7/site-packages/suit/templates/suit/menu.html:10
+#: templates/admin/base.html:103
+msgid "Home"
+msgstr "Hjem"
+
 #: lib/python2.7/site-packages/filer/templates/admin/filer/breadcrumbs.html:5
 #: lib/python2.7/site-packages/suit/templates/admin/filer/breadcrumbs.html:8
 msgid "Go back to Filer app"
@@ -922,6 +823,14 @@ msgid ""
 msgstr ""
 "Er du sikker på at du vil slette de valgte filene og/eller mappene? Alle de "
 "følgende objektene og deres relaterte elementer vil bli slettet:"
+
+#: lib/python2.7/site-packages/filer/templates/admin/filer/delete_selected_files_confirmation.html:45
+#: lib/python2.7/site-packages/suit/templates/admin/delete_confirmation.html:57
+#: lib/python2.7/site-packages/suit/templates/admin/delete_selected_confirmation.html:61
+#: lib/python2.7/site-packages/suit/templates/admin/filer/delete_confirmation.html:36
+#: lib/python2.7/site-packages/suit/templates/admin/filer/delete_selected_files_confirmation.html:47
+msgid "Yes, I'm sure"
+msgstr ""
 
 #: lib/python2.7/site-packages/filer/templates/admin/filer/folder/change_form.html:7
 #: lib/python2.7/site-packages/filer/templates/admin/filer/folder/change_form.html:8
@@ -1220,9 +1129,20 @@ msgstr "Endre detaljer for \"%(item_label)s\""
 msgid "Delete '%(item_label)s'"
 msgstr "Slett \"%(item_label)s\""
 
+#: lib/python2.7/site-packages/filer/templates/admin/filer/folder/directory_table.html:43
+#: lib/python2.7/site-packages/import_export/templates/admin/import_export/import.html:101
+#: lib/python2.7/site-packages/suit/templates/admin/delete_confirmation.html:18
+#: lib/python2.7/site-packages/suit/templates/admin/delete_confirmation.html:49
+#: lib/python2.7/site-packages/suit/templates/admin/page_submit_line.html:8
+#: lib/python2.7/site-packages/suit/templates/admin/submit_line.html:8
+#: lib/python2.7/site-packages/suit/templates/admin/filer/folder/directory_table.html:42
+#: lib/python2.7/site-packages/suit/templates/admin/import_export/import.html:69
+msgid "Delete"
+msgstr "Slett"
+
 #: lib/python2.7/site-packages/filer/templates/admin/filer/folder/directory_table.html:48
 #: lib/python2.7/site-packages/suit/templates/admin/filer/folder/directory_table.html:45
-#: users/admin.py:117 users/admin.py:131
+#: users/admin.py:118 users/admin.py:132
 msgid "Permissions"
 msgstr "Tillatelser"
 
@@ -1292,7 +1212,7 @@ msgstr[1] "Vennligst rett feilene under."
 #: lib/python2.7/site-packages/suit/templates/admin/submit_line.html:3
 #: lib/python2.7/site-packages/suit/templates/admin/cms/page/plugin_change_form.html:128
 #: lib/python2.7/site-packages/suit/templates/admin/filer/folder/new_folder_form.html:43
-#: users/templates/profile.html:39
+#: users/templates/profile.html:45
 msgid "Save"
 msgstr "Lagre"
 
@@ -1340,6 +1260,11 @@ msgstr "begrens søk til gjeldende mappe"
 msgid "found"
 msgstr "funnet"
 
+#: lib/python2.7/site-packages/filer/templates/admin/filer/tools/search_form.html:17
+#: lib/python2.7/site-packages/suit/templates/admin/filer/tools/search_form.html:19
+msgid "and"
+msgstr "og"
+
 #: lib/python2.7/site-packages/filer/templates/admin/filer/tools/search_form.html:18
 #: lib/python2.7/site-packages/suit/templates/admin/filer/tools/search_form.html:20
 msgid "cancel search"
@@ -1384,6 +1309,13 @@ msgstr "feil ved opplasting"
 #: lib/python2.7/site-packages/filer/templates/admin/filer/widgets/admin_file.html:11
 msgid "no file selected"
 msgstr "ingen fil valgt"
+
+#: lib/python2.7/site-packages/filer/templates/admin/filer/widgets/admin_file.html:14
+#: lib/python2.7/site-packages/filer/templates/admin/filer/widgets/admin_file.html:15
+#: lib/python2.7/site-packages/filer/templates/admin/filer/widgets/admin_folder.html:7
+#: lib/python2.7/site-packages/filer/templates/admin/filer/widgets/admin_folder.html:8
+msgid "Lookup"
+msgstr "Slå opp"
 
 #: lib/python2.7/site-packages/filer/templates/admin/filer/widgets/admin_file.html:17
 #: lib/python2.7/site-packages/filer/templates/admin/filer/widgets/admin_folder.html:10
@@ -1792,9 +1724,74 @@ msgstr ""
 msgid "Remove from sorting"
 msgstr ""
 
+#: lib/python2.7/site-packages/suit/templates/admin/delete_confirmation.html:26
+#: lib/python2.7/site-packages/suit/templates/admin/filer/delete_confirmation.html:12
+#, python-format
+msgid ""
+"Deleting the %(object_name)s '%(escaped_object)s' would result in deleting "
+"related objects, but your account doesn't have permission to delete the "
+"following types of objects:"
+msgstr ""
+"Å slette %(object_name)s '%(escaped_object)s' ville resultere i sletting av "
+"relaterte objekter, men din konto har ikke tillatelse til å slette objekter "
+"av følgende typer:"
+
+#: lib/python2.7/site-packages/suit/templates/admin/delete_confirmation.html:36
+#: lib/python2.7/site-packages/suit/templates/admin/filer/delete_confirmation.html:21
+#, python-format
+msgid ""
+"Deleting the %(object_name)s '%(escaped_object)s' would require deleting the "
+"following protected related objects:"
+msgstr ""
+"Å slette %(object_name)s '%(escaped_object)s' ville kreve å slette følgende "
+"beskyttede relaterte objekter:"
+
+#: lib/python2.7/site-packages/suit/templates/admin/delete_confirmation.html:51
+#: lib/python2.7/site-packages/suit/templates/admin/filer/delete_confirmation.html:31
+#, python-format
+msgid ""
+"Are you sure you want to delete the %(object_name)s \"%(escaped_object)s\"? "
+"All of the following related items will be deleted:"
+msgstr ""
+"Er du sikker på at du vil slette %(object_name)s \"%(escaped_object)s\"? "
+"Alle de følgende objektene og deres relaterte elementer vil bli slettet:"
+
+#: lib/python2.7/site-packages/suit/templates/admin/delete_selected_confirmation.html:15
+msgid "Delete multiple objects"
+msgstr ""
+
+#: lib/python2.7/site-packages/suit/templates/admin/delete_selected_confirmation.html:23
+#, python-format
+msgid ""
+"Deleting the selected %(objects_name)s would result in deleting related "
+"objects, but your account doesn't have permission to delete the following "
+"types of objects:"
+msgstr ""
+"Å slette de valgte %(objects_name)s ville resultere i sletting av relaterte "
+"objekter, men din konto har ikke tillatelse til å slette objekter av "
+"følgende typer:"
+
+#: lib/python2.7/site-packages/suit/templates/admin/delete_selected_confirmation.html:33
+#, python-format
+msgid ""
+"Deleting the selected %(objects_name)s would require deleting the following "
+"protected related objects:"
+msgstr ""
+"Å slette de valgte %(objects_name)s ville kreve å slette følgende beskyttede "
+"relaterte objekter:"
+
 #: lib/python2.7/site-packages/suit/templates/admin/delete_selected_confirmation.html:51
 msgid "Confirm deletion"
 msgstr ""
+
+#: lib/python2.7/site-packages/suit/templates/admin/delete_selected_confirmation.html:54
+#, python-format
+msgid ""
+"Are you sure you want to delete the selected %(objects_name)s? All of the "
+"following objects and their related items will be deleted:"
+msgstr ""
+"Er du sikker på at du vil slette de valgte %(objects_name)s? Alle de "
+"følgende objektene og deres relaterte elementer vil bli slettet:"
 
 #: lib/python2.7/site-packages/suit/templates/admin/index.html:19
 #, python-format
@@ -1840,7 +1837,7 @@ msgid "Forgotten your password or username?"
 msgstr ""
 
 #: lib/python2.7/site-packages/suit/templates/admin/login.html:60
-#: templates/registration/password_reset_complete.html:12 users/views.py:23
+#: templates/registration/password_reset_complete.html:12 users/views.py:27
 #: users/templates/login.html:5 users/templates/login.html.py:9
 #: users/templates/login.html:19
 msgid "Log in"
@@ -2207,47 +2204,51 @@ msgstr ""
 msgid "You are trying to use a forbidden variable name"
 msgstr "Du forsøker å bruke et reservert variabelnavn"
 
-#: system/admin.py:68
+#: system/admin.py:69
 msgid "Variable"
 msgstr "Variabel"
 
-#: system/admin.py:109 system/admin.py:232 system/admin.py:301
+#: system/admin.py:110 system/admin.py:233 system/admin.py:302
 msgid "Admin note excerpt"
 msgstr "Utdrag fra administratornotat"
 
-#: system/admin.py:116 system/admin.py:123 system/admin.py:134
-#: system/admin.py:239 system/admin.py:249 system/admin.py:306
+#: system/admin.py:117 system/admin.py:124 system/admin.py:135
+#: system/admin.py:240 system/admin.py:250 system/admin.py:307
 #, python-format
 msgid "Copy of %(title)s"
 msgstr "Kopi av %(title)s"
 
-#: system/admin.py:148
+#: system/admin.py:149
 msgid "Copy selected programs"
 msgstr "Kopier valgte programmer"
 
-#: system/admin.py:263
+#: system/admin.py:264
 msgid "Copy selected sessions"
 msgstr "Kopier valgte økter"
 
-#: system/admin.py:288
+#: system/admin.py:289
 msgid "No content"
 msgstr "Innhold mangler"
 
-#: system/admin.py:296
+#: system/admin.py:297
 msgid "Page excerpt"
 msgstr "Sideutdrag"
 
-#: system/admin.py:309
+#: system/admin.py:310
 msgid "Copy selected content"
 msgstr "Kopier valgt innhold"
 
-#: system/admin.py:337 system/admin.py:360
+#: system/admin.py:338 system/admin.py:361
 msgid "Subject"
 msgstr "Emne"
 
-#: system/engine.py:219
+#: system/engine.py:224
 msgid "Delayed node execution"
 msgstr "Forsinket hendelse"
+
+#: system/models.py:21
+msgid "display name"
+msgstr "visningsnavn"
 
 #: system/models.py:22
 msgid "initial value"
@@ -2292,6 +2293,10 @@ msgstr "tekstsett"
 #: system/models.py:37
 msgid "variables"
 msgstr "variabler"
+
+#: system/models.py:66 system/models.py:108 system/models.py:184
+msgid "title"
+msgstr "tittel"
 
 #: system/models.py:67 system/models.py:109 system/models.py:185
 msgid "display title"
@@ -2410,7 +2415,12 @@ msgstr "SMSer"
 msgid "Send login link and start traversal"
 msgstr "Send innloggingslenke og start økt"
 
-#: system/tasks.py:30
+#: system/tasks.py:17
+#, python-format
+msgid "%(session)s transitioned to %(node)s"
+msgstr "%(session)s ble overført til %(node)s"
+
+#: system/tasks.py:38
 #, python-format
 msgid "Session initialized and e-mail sent to user %i"
 msgstr "Økt startet og e-post for innlogging sendt til bruker %i"
@@ -2448,13 +2458,10 @@ msgstr ""
 msgid "tasks"
 msgstr "oppgaver"
 
-#: templates/base.html:26 users/views.py:125 users/templates/profile.html:6
+#: templates/base.html:26 users/templates/profile.html:6
+#: users/templates/profile.html.py:15
 msgid "User profile"
 msgstr "Min side"
-
-#: users/templates/profile.html:10
-msgid "Today's session"
-msgstr "Dagens tema"
 
 #: templates/base.html:27
 msgid "Quit / sign out"
@@ -2462,8 +2469,9 @@ msgstr "Avslutt / logg ut"
 
 #: templates/session.html:27 templates/session.html.py:39
 #: templates/session.html:63 templates/session.html.py:73
-#: templates/session.html:127 templates/session.html.py:138
-#: templates/session.html:157
+#: templates/session.html:128 templates/session.html.py:138
+#: templates/session.html:159 templates/session.html.py:169
+#: templates/session.html:197
 msgid "Please choose one"
 msgstr "Gjør et valg"
 
@@ -2482,7 +2490,7 @@ msgstr ""
 msgid "This field is required"
 msgstr "Dette feltet er påkrevet"
 
-#: templates/session.html:192
+#: templates/session.html:232
 msgid "Next page"
 msgstr "Neste side"
 
@@ -2621,25 +2629,25 @@ msgstr "Passordene er ikke like."
 msgid "Password can be changed with <a href=\"password/\">this form</a>."
 msgstr "Passord kan endres med <a href=\"password/\">dette skjemaet</a>."
 
-#: users/admin.py:79
+#: users/admin.py:80
 msgid ""
 "Designates whether this user should be treated as active. Unselect this "
 "instead of deleting accounts."
 msgstr ""
 
-#: users/admin.py:80
+#: users/admin.py:81
 msgid "Designates whether the user can log into this admin site."
 msgstr ""
 
-#: users/admin.py:145
+#: users/admin.py:146
 msgid "User info"
 msgstr "Brukerinfo"
 
-#: users/admin.py:146
+#: users/admin.py:147
 msgid "User data"
 msgstr "Brukerdata"
 
-#: users/admin.py:147
+#: users/admin.py:148
 msgid "Log entries"
 msgstr "Logghendelser"
 
@@ -2680,23 +2688,23 @@ msgstr "Dagens innloggingslenke"
 msgid "Forgot your password?"
 msgstr "Glemt passordet ditt?"
 
-#: users/templates/profile.html:9
-msgid "Profile for user"
-msgstr ""
+#: users/templates/profile.html:10
+msgid "Today's session"
+msgstr "Dagens tema"
 
-#: users/templates/profile.html:16
+#: users/templates/profile.html:22
 msgid "days since start"
 msgstr ""
 
-#: users/templates/profile.html:21
+#: users/templates/profile.html:27
 msgid "sessions done"
 msgstr "økter utført"
 
-#: users/templates/profile.html:26
+#: users/templates/profile.html:32
 msgid "sessions remaining"
 msgstr "økter igjen"
 
-#: users/templates/profile.html:32
+#: users/templates/profile.html:38
 msgid "Edit your data"
 msgstr "Endre dine data"
 
