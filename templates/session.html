@@ -10,13 +10,13 @@
 
         <div class="toggle" ng-if="pagelet.content_type == 'toggle'">
             <p>
-                <a ng-click="toggled = !toggled" ng-init="toggled = false">
-                    <span ng-hide="toggled">▼</span>
-                    <span ng-show="toggled">▲</span>
+                <a ng-click="pagelet.toggled = !pagelet.toggled">
+                    <span ng-hide="pagelet.toggled">▼</span>
+                    <span ng-show="pagelet.toggled">▲</span>
                     {{ pagelet.toggle }}
                 </a>
             </p>
-            <div ng-show="toggled" livereplace="pagelet.content">
+            <div ng-show="pagelet.toggled" livereplace="pagelet.content">
             </div>
         </div>
 
