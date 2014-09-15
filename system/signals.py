@@ -57,6 +57,7 @@ def schedule_session(sender, **kwargs):
                 sender=session,
                 time=start_time,
                 task=init_session,
+                args=(session.id, useraccess.user.id),
                 action=_('Send login link and start traversal'),
                 subject=useraccess.user
             )
@@ -79,7 +80,6 @@ def reschedule_session(sender, **kwargs):
                     content_type=session_type,
                     object_id=session.id,
                     task=init_session,
-                    args=(session.id, useraccess.user.id),
                     subject=useraccess.user
                 )
             except Task.DoesNotExist:
