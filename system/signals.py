@@ -79,6 +79,8 @@ def reschedule_session(sender, **kwargs):
                 task = Task.objects.get(
                     content_type=session_type,
                     object_id=session.id,
+                    task=init_session,
+                    args=(session.id, useraccess.user.id),
                     subject=useraccess.user
                 )
             except Task.DoesNotExist:
