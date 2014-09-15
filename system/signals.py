@@ -57,7 +57,6 @@ def schedule_session(sender, **kwargs):
                 sender=session,
                 time=start_time,
                 task=init_session,
-                args=(session.id, useraccess.user.id),
                 action=_('Send login link and start traversal'),
                 subject=useraccess.user
             )
