@@ -55,6 +55,7 @@ def schedule_session(sender, **kwargs):
             )
             Task.objects.create_task(
                 sender=session,
+                domain='init',
                 time=start_time,
                 task=init_session,
                 args=(session.id, useraccess.user.id),
@@ -79,12 +80,13 @@ def reschedule_session(sender, **kwargs):
                 task = Task.objects.get(
                     content_type=session_type,
                     object_id=session.id,
-                    action=_('Send login link and start traversal'),
+                    domain='init',
                     subject=useraccess.user
                 )
             except Task.DoesNotExist:
                 Task.objects.create_task(
                     sender=session,
+                    domain='init',
                     time=start_time,
                     task=init_session,
                     args=(session.id, useraccess.user.id),
@@ -109,7 +111,10 @@ def revoke_session(sender, **kwargs):
 
     if session.scheduled:
         session_type = ContentType.objects.get_for_model(Session)
-        Task.objects.filter(content_type=session_type, object_id=session.id).delete()
+        Task.objects.filter(
+            content_type=session_type,
+            object_id=session.id
+        ).delete()
 
 
 @receiver(signals.pre_delete, sender=ProgramUserAccess)

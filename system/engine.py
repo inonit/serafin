@@ -216,6 +216,7 @@ class Engine(object):
             from system.tasks import transition
             Task.objects.create_task(
                 sender=self.session,
+                domain='delay',
                 time=start_time + delta,
                 task=transition,
                 args=(self.user.id, node_id),

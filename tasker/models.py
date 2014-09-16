@@ -12,7 +12,7 @@ import pickle
 
 
 class TaskManager(models.Manager):
-    def create_task(self, sender, time, task, args, action, subject=None):
+    def create_task(self, sender, domain, time, task, args, action, subject=None):
         task_ref = task.schedule(
             args=args,
             eta=timezone.localtime(time).replace(tzinfo=None),
@@ -21,6 +21,7 @@ class TaskManager(models.Manager):
 
         task = Task()
         task.sender = sender
+        task.domain = domain
         task.time = time
         task.action = action
         task.task = task_ref
@@ -39,6 +40,7 @@ class Task(models.Model):
     sender = GenericForeignKey('content_type', 'object_id')
     subject = models.ForeignKey(settings.AUTH_USER_MODEL, verbose_name=_('subject'), null=True, blank=True)
 
+    domain = models.CharField(_('domain'), max_length=32)
     action = models.CharField(_('action'), max_length=255, blank=True)
     task_id = models.CharField(_('task'), max_length=255)
 
