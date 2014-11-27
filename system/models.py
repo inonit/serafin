@@ -121,6 +121,7 @@ class Session(models.Model):
     end_time_unit = models.CharField(_('end time unit'), max_length=32, choices=TIME_UNITS, default='hours')
     start_time = models.DateTimeField(_('first start time'), null=True, blank=True)
     scheduled = models.BooleanField(_('scheduled'), default=False)
+    trigger_login = models.BooleanField(_('trigger login'), default=True)
 
     data = JSONField(load_kwargs={'object_pairs_hook': OrderedDict}, default='undefined')
 

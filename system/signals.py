@@ -59,7 +59,7 @@ def schedule_session(sender, **kwargs):
                 time=start_time,
                 task=init_session,
                 args=(session.id, useraccess.user.id),
-                action=_('Send login link and start traversal'),
+                action=_('Initialize session'),
                 subject=useraccess.user
             )
 
@@ -88,7 +88,7 @@ def reschedule_session(sender, **kwargs):
                 time=start_time,
                 task=init_session,
                 args=(session.id, useraccess.user.id),
-                action=_('Send login link and start traversal'),
+                action=_('Initialize session'),
                 subject=useraccess.user
             )
 

@@ -33,8 +33,11 @@ def init_session(session_id, user_id):
 
     engine = Engine(user_id, init)
     engine.run()
-    engine.user.send_login_link()
 
-    message = _('Session initialized and e-mail sent to user %i') % user_id
+    if engine.session.trigger_login:
+        engine.user.send_login_link()
+        message = _('Session initialized and login e-mail sent')
+    else:
+        message = _('Session initialized')
 
     return message

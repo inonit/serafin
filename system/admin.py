@@ -176,6 +176,7 @@ class SessionAdmin(admin.ModelAdmin):
         #'end_time_unit',
         'start_time',
         'scheduled',
+        'trigger_login'
     ]
     list_editable = [
         'start_time_delta',
@@ -183,8 +184,9 @@ class SessionAdmin(admin.ModelAdmin):
         #'end_time_delta',
         #'end_time_unit',
         'scheduled',
+        'trigger_login',
     ]
-    list_filter = ['program__title', 'scheduled']
+    list_filter = ['program__title', 'scheduled', 'trigger_login']
     list_display_links = ['title']
     search_fields = ['title', 'display_title', 'admin_note', 'program__title']
     ordering = ['start_time']
@@ -215,7 +217,8 @@ class SessionAdmin(admin.ModelAdmin):
                 'start_time_unit',
                 #'end_time_delta',
                 #'end_time_unit',
-                'scheduled'
+                'scheduled',
+                'trigger_login'
             ]
         }),
         (None, {
