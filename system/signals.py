@@ -72,36 +72,25 @@ def reschedule_session(sender, **kwargs):
     if not kwargs['created'] and session.scheduled:
         session_type = ContentType.objects.get_for_model(Session)
         for useraccess in session.program.programuseraccess_set.all():
+            Task.objects.filter(
+                content_type=session_type,
+                object_id=session.id,
+                subject=useraccess.user
+            ).delete()
+
             start_time = session.get_start_time(
                 useraccess.start_time,
                 useraccess.time_factor
             )
-            try:
-                task = Task.objects.get(
-                    content_type=session_type,
-                    object_id=session.id,
-                    domain='init',
-                    subject=useraccess.user
-                )
-            except Task.DoesNotExist:
-                Task.objects.create_task(
-                    sender=session,
-                    domain='init',
-                    time=start_time,
-                    task=init_session,
-                    args=(session.id, useraccess.user.id),
-                    action=_('Send login link and start traversal'),
-                    subject=useraccess.user
-                )
-                return
-
-            if start_time > timezone.localtime(timezone.now()):
-                task.reschedule(
-                    task=init_session,
-                    args=(session.id, useraccess.user.id),
-                    time=start_time
-                )
-                task.save()
+            Task.objects.create_task(
+                sender=session,
+                domain='init',
+                time=start_time,
+                task=init_session,
+                args=(session.id, useraccess.user.id),
+                action=_('Send login link and start traversal'),
+                subject=useraccess.user
+            )
 
 
 @receiver(signals.pre_delete, sender=Session)
