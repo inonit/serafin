@@ -40,7 +40,7 @@ class Engine(object):
             return ''
 
         if var_name == 'current_day':
-                return date.isoweekday(date.today())
+            return date.isoweekday(date.today())
         else:
             try:
                 var = Variable.objects.get(name=var_name)
@@ -116,7 +116,6 @@ class Engine(object):
         if all(passing):
             return return_value
 
-
     def traverse(self, edges, source_id):
         '''Select and return first edge where the user passes edge conditions'''
 
@@ -126,7 +125,6 @@ class Engine(object):
             return_edge = self.check_conditions(conditions, self.user, edge)
             if return_edge:
                 return return_edge
-
 
     def get_node_edges(self, source_id):
         return [edge for edge in self.edges if edge.get('source') == source_id]
@@ -206,23 +204,28 @@ class Engine(object):
 
         if node_type == 'delay':
 
-            delay = node.get('delay')
-            kwargs = {
-                delay.get('unit'): delay.get('number'),
-            }
-            start_time = self.session.start_time or timezone.localtime(timezone.now())
-            delta = timedelta(**kwargs)
+            useraccesses = self.session.program.programuseraccess_set.filter(user=self.user)
+            for useraccess in useraccesses:
+                start_time = self.session.get_start_time(
+                    useraccess.start_time,
+                    useraccess.time_factor
+                )
+                delay = node.get('delay')
+                kwargs = {
+                    delay.get('unit'): float(delay.get('number') * useraccess.time_factor),
+                }
+                delta = timedelta(**kwargs)
 
-            from system.tasks import transition
-            Task.objects.create_task(
-                sender=self.session,
-                domain='delay',
-                time=start_time + delta,
-                task=transition,
-                args=(self.user.id, node_id),
-                action=_('Delayed node execution'),
-                subject=self.user
-            )
+                from system.tasks import transition
+                Task.objects.create_task(
+                    sender=self.session,
+                    domain='delay',
+                    time=start_time + delta,
+                    task=transition,
+                    args=(self.user.id, node_id),
+                    action=_('Delayed node execution'),
+                    subject=self.user
+                )
 
             return None
 
@@ -264,7 +267,11 @@ class Engine(object):
     def run(self, next=None):
         '''Run the Engine after initializing and return some result'''
 
-        node_id = self.user.data.get('current_page', 0)
+        node_id = self.user.data.get('current_page')
+
+        if node_id == None:
+            self.user.data['current_page'] = 0
+            self.user.save()
 
         if next:
             return self.transition(node_id)
