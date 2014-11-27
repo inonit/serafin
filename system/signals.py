@@ -69,7 +69,7 @@ def reschedule_session(sender, **kwargs):
 
     session = kwargs['instance']
 
-    if not kwargs['created'] and session.scheduled:
+    if not kwargs['created']:
         session_type = ContentType.objects.get_for_model(Session)
         for useraccess in session.program.programuseraccess_set.all():
             Task.objects.filter(
@@ -82,15 +82,16 @@ def reschedule_session(sender, **kwargs):
                 useraccess.start_time,
                 useraccess.time_factor
             )
-            Task.objects.create_task(
-                sender=session,
-                domain='init',
-                time=start_time,
-                task=init_session,
-                args=(session.id, useraccess.user.id),
-                action=_('Initialize session'),
-                subject=useraccess.user
-            )
+            if start_time > timezone.localtime(timezone.now()) and session.scheduled:
+                Task.objects.create_task(
+                    sender=session,
+                    domain='init',
+                    time=start_time,
+                    task=init_session,
+                    args=(session.id, useraccess.user.id),
+                    action=_('Initialize session'),
+                    subject=useraccess.user
+                )
 
 
 @receiver(signals.pre_delete, sender=Session)
@@ -98,12 +99,11 @@ def revoke_session(sender, **kwargs):
 
     session = kwargs['instance']
 
-    if session.scheduled:
-        session_type = ContentType.objects.get_for_model(Session)
-        Task.objects.filter(
-            content_type=session_type,
-            object_id=session.id
-        ).delete()
+    session_type = ContentType.objects.get_for_model(Session)
+    Task.objects.filter(
+        content_type=session_type,
+        object_id=session.id
+    ).delete()
 
 
 @receiver(signals.pre_delete, sender=ProgramUserAccess)
