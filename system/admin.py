@@ -37,6 +37,7 @@ class VariableForm(forms.ModelForm):
 
     class Meta:
         model = Variable
+        exclude = []
         widgets = {
             'range_min': forms.NumberInput(attrs={'class': 'input-mini'}),
             'range_max': forms.NumberInput(attrs={'class': 'input-mini'}),
@@ -157,6 +158,7 @@ class SessionForm(forms.ModelForm):
 
     class Meta:
         model = Session
+        exclude = []
         widgets = {
             'start_time_unit': forms.Select(attrs={'class': 'input-small'}),
             #'end_time_unit': forms.Select(attrs={'class': 'input-small'}),
@@ -316,6 +318,7 @@ class ContentAdmin(admin.ModelAdmin):
 class PageForm(ContentForm):
     class Meta:
         model = Page
+        exclude = []
 
 
 class PageAdmin(ContentAdmin):
@@ -342,6 +345,7 @@ class EmailForm(TextContentForm):
 
     class Meta:
         model = Email
+        exclude = []
 
 
 class EmailAdmin(ContentAdmin):
@@ -367,6 +371,7 @@ class EmailAdmin(ContentAdmin):
 class SMSForm(TextContentForm):
     class Meta:
         model = SMS
+        exclude = []
 
 
 class SMSAdmin(ContentAdmin):

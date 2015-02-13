@@ -86,7 +86,7 @@ class ProgramUserAccess(models.Model):
     program = models.ForeignKey('Program', verbose_name=_('program'))
     user = models.ForeignKey(settings.AUTH_USER_MODEL, verbose_name=_('user'))
 
-    start_time = models.DateTimeField(_('start time'), default=lambda: timezone.localtime(timezone.now()))
+    start_time = models.DateTimeField(_('start time'), default=timezone.now)
     time_factor = models.DecimalField(_('time factor'), default=1.0, max_digits=5, decimal_places=3)
 
     class Meta:

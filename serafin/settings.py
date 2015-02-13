@@ -49,7 +49,6 @@ INSTALLED_APPS = (
     'system',
 
     'suit',
-    'south',
     'django_extensions',
     'django.contrib.admin',
     'rest_framework',

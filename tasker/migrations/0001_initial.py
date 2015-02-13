@@ -1,47 +1,31 @@
 # -*- coding: utf-8 -*-
-from south.utils import datetime_utils as datetime
-from south.db import db
-from south.v2 import SchemaMigration
-from django.db import models
+from __future__ import unicode_literals
+
+from django.db import models, migrations
 
 
-class Migration(SchemaMigration):
+class Migration(migrations.Migration):
 
-    def forwards(self, orm):
-        # Adding model 'Task'
-        db.create_table(u'tasker_task', (
-            (u'id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
-            ('content_type', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['contenttypes.ContentType'])),
-            ('object_id', self.gf('django.db.models.fields.PositiveIntegerField')()),
-            ('action', self.gf('django.db.models.fields.CharField')(max_length=255, blank=True)),
-            ('task_id', self.gf('django.db.models.fields.CharField')(max_length=255)),
-            ('time', self.gf('django.db.models.fields.DateTimeField')()),
-        ))
-        db.send_create_signal(u'tasker', ['Task'])
+    dependencies = [
+        ('contenttypes', '0001_initial'),
+    ]
 
-
-    def backwards(self, orm):
-        # Deleting model 'Task'
-        db.delete_table(u'tasker_task')
-
-
-    models = {
-        u'contenttypes.contenttype': {
-            'Meta': {'ordering': "('name',)", 'unique_together': "(('app_label', 'model'),)", 'object_name': 'ContentType', 'db_table': "'django_content_type'"},
-            'app_label': ('django.db.models.fields.CharField', [], {'max_length': '100'}),
-            u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
-            'model': ('django.db.models.fields.CharField', [], {'max_length': '100'}),
-            'name': ('django.db.models.fields.CharField', [], {'max_length': '100'})
-        },
-        u'tasker.task': {
-            'Meta': {'object_name': 'Task'},
-            'action': ('django.db.models.fields.CharField', [], {'max_length': '255', 'blank': 'True'}),
-            'content_type': ('django.db.models.fields.related.ForeignKey', [], {'to': u"orm['contenttypes.ContentType']"}),
-            u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
-            'object_id': ('django.db.models.fields.PositiveIntegerField', [], {}),
-            'task_id': ('django.db.models.fields.CharField', [], {'max_length': '255'}),
-            'time': ('django.db.models.fields.DateTimeField', [], {})
-        }
-    }
-
-    complete_apps = ['tasker']
+    operations = [
+        migrations.CreateModel(
+            name='Task',
+            fields=[
+                ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
+                ('object_id', models.PositiveIntegerField()),
+                ('domain', models.CharField(max_length=32, verbose_name='domain')),
+                ('action', models.CharField(max_length=255, verbose_name='action', blank=True)),
+                ('task_id', models.CharField(max_length=255, verbose_name='task')),
+                ('time', models.DateTimeField(verbose_name='time')),
+                ('content_type', models.ForeignKey(verbose_name='sender', to='contenttypes.ContentType')),
+            ],
+            options={
+                'verbose_name': 'task',
+                'verbose_name_plural': 'tasks',
+            },
+            bases=(models.Model,),
+        ),
+    ]

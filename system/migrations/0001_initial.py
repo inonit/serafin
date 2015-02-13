@@ -1,68 +1,109 @@
 # -*- coding: utf-8 -*-
-from south.utils import datetime_utils as datetime
-from south.db import db
-from south.v2 import SchemaMigration
-from django.db import models
+from __future__ import unicode_literals
+
+from django.db import models, migrations
+import django.utils.timezone
+import jsonfield.fields
 
 
-class Migration(SchemaMigration):
+class Migration(migrations.Migration):
 
-    def forwards(self, orm):
-        # Adding model 'Program'
-        db.create_table(u'system_program', (
-            (u'id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
-            ('title', self.gf('django.db.models.fields.CharField')(max_length=64)),
-        ))
-        db.send_create_signal(u'system', ['Program'])
+    dependencies = [
+    ]
 
-        # Adding model 'Part'
-        db.create_table(u'system_part', (
-            (u'id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
-            ('title', self.gf('django.db.models.fields.CharField')(max_length=64, blank=True)),
-            ('program', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['system.Program'])),
-            ('start_time', self.gf('django.db.models.fields.DateTimeField')(null=True, blank=True)),
-            ('end_time', self.gf('django.db.models.fields.DateTimeField')(null=True, blank=True)),
-        ))
-        db.send_create_signal(u'system', ['Part'])
-
-        # Adding model 'Page'
-        db.create_table(u'system_page', (
-            (u'id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
-            ('title', self.gf('django.db.models.fields.CharField')(max_length=64, blank=True)),
-        ))
-        db.send_create_signal(u'system', ['Page'])
-
-
-    def backwards(self, orm):
-        # Deleting model 'Program'
-        db.delete_table(u'system_program')
-
-        # Deleting model 'Part'
-        db.delete_table(u'system_part')
-
-        # Deleting model 'Page'
-        db.delete_table(u'system_page')
-
-
-    models = {
-        u'system.page': {
-            'Meta': {'object_name': 'Page'},
-            u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
-            'title': ('django.db.models.fields.CharField', [], {'max_length': '64', 'blank': 'True'})
-        },
-        u'system.part': {
-            'Meta': {'object_name': 'Part'},
-            'end_time': ('django.db.models.fields.DateTimeField', [], {'null': 'True', 'blank': 'True'}),
-            u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
-            'program': ('django.db.models.fields.related.ForeignKey', [], {'to': u"orm['system.Program']"}),
-            'start_time': ('django.db.models.fields.DateTimeField', [], {'null': 'True', 'blank': 'True'}),
-            'title': ('django.db.models.fields.CharField', [], {'max_length': '64', 'blank': 'True'})
-        },
-        u'system.program': {
-            'Meta': {'object_name': 'Program'},
-            u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
-            'title': ('django.db.models.fields.CharField', [], {'max_length': '64'})
-        }
-    }
-
-    complete_apps = ['system']
+    operations = [
+        migrations.CreateModel(
+            name='Content',
+            fields=[
+                ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
+                ('title', models.CharField(unique=True, max_length=64, verbose_name='title')),
+                ('display_title', models.CharField(max_length=64, verbose_name='display title')),
+                ('content_type', models.CharField(verbose_name='content type', max_length=32, editable=False)),
+                ('admin_note', models.TextField(verbose_name='admin note', blank=True)),
+                ('data', jsonfield.fields.JSONField(default='[]')),
+            ],
+            options={
+                'verbose_name': 'content',
+                'verbose_name_plural': 'contents',
+            },
+            bases=(models.Model,),
+        ),
+        migrations.CreateModel(
+            name='Program',
+            fields=[
+                ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
+                ('title', models.CharField(unique=True, max_length=64, verbose_name='title')),
+                ('display_title', models.CharField(max_length=64, verbose_name='display title')),
+                ('admin_note', models.TextField(verbose_name='admin note', blank=True)),
+            ],
+            options={
+                'verbose_name': 'program',
+                'verbose_name_plural': 'programs',
+            },
+            bases=(models.Model,),
+        ),
+        migrations.CreateModel(
+            name='ProgramUserAccess',
+            fields=[
+                ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
+                ('start_time', models.DateTimeField(default=django.utils.timezone.now, verbose_name='start time')),
+                ('time_factor', models.DecimalField(default=1.0, verbose_name='time factor', max_digits=5, decimal_places=3)),
+                ('program', models.ForeignKey(verbose_name='program', to='system.Program')),
+            ],
+            options={
+                'verbose_name': 'user access',
+                'verbose_name_plural': 'user accesses',
+            },
+            bases=(models.Model,),
+        ),
+        migrations.CreateModel(
+            name='Session',
+            fields=[
+                ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
+                ('title', models.CharField(unique=True, max_length=64, verbose_name='title')),
+                ('display_title', models.CharField(max_length=64, verbose_name='display title')),
+                ('admin_note', models.TextField(verbose_name='admin note', blank=True)),
+                ('start_time_delta', models.IntegerField(default=0, verbose_name='start time delta')),
+                ('start_time_unit', models.CharField(default='hours', max_length=32, verbose_name='start time unit', choices=[('hours', 'hours'), ('days', 'days')])),
+                ('end_time_delta', models.IntegerField(default=0, verbose_name='end time delta')),
+                ('end_time_unit', models.CharField(default='hours', max_length=32, verbose_name='end time unit', choices=[('hours', 'hours'), ('days', 'days')])),
+                ('start_time', models.DateTimeField(null=True, verbose_name='first start time', blank=True)),
+                ('scheduled', models.BooleanField(default=False, verbose_name='scheduled')),
+                ('trigger_login', models.BooleanField(default=True, verbose_name='trigger login')),
+                ('data', jsonfield.fields.JSONField(default='undefined')),
+                ('content', models.ManyToManyField(to='system.Content', null=True, verbose_name='content', blank=True)),
+                ('program', models.ForeignKey(verbose_name='program', to='system.Program')),
+            ],
+            options={
+                'verbose_name': 'session',
+                'verbose_name_plural': 'sessions',
+            },
+            bases=(models.Model,),
+        ),
+        migrations.CreateModel(
+            name='Variable',
+            fields=[
+                ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
+                ('name', models.CharField(unique=True, max_length=64, verbose_name='name')),
+                ('display_name', models.CharField(default='', max_length=64, verbose_name='display name', blank=True)),
+                ('value', models.CharField(default='', max_length=32, verbose_name='initial value', blank=True)),
+                ('user_editable', models.BooleanField(default=False, verbose_name='user editable')),
+                ('random_type', models.CharField(blank=True, max_length=16, null=True, verbose_name='randomization type', choices=[('boolean', 'boolean'), ('numeric', 'numeric'), ('string', 'string')])),
+                ('randomize_once', models.BooleanField(default=False, verbose_name='randomize once')),
+                ('range_min', models.IntegerField(null=True, verbose_name='range min (inclusive)', blank=True)),
+                ('range_max', models.IntegerField(null=True, verbose_name='range max (inclusive)', blank=True)),
+                ('random_set', models.TextField(verbose_name='random string set', blank=True)),
+            ],
+            options={
+                'verbose_name': 'variable',
+                'verbose_name_plural': 'variables',
+            },
+            bases=(models.Model,),
+        ),
+        migrations.AddField(
+            model_name='session',
+            name='vars_used',
+            field=models.ManyToManyField(to='system.Variable', editable=False),
+            preserve_default=True,
+        ),
+    ]
