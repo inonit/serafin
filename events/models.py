@@ -12,8 +12,8 @@ class Event(models.Model):
     domain = models.CharField(_('domain'), max_length=32)
     actor = models.ForeignKey(settings.AUTH_USER_MODEL, verbose_name=_('actor'))
     variable = models.CharField(_('variable'), max_length=64)
-    pre_value = models.CharField(_('pre value'), max_length=64, blank=True)
-    post_value = models.CharField(_('post value'), max_length=64, blank=True)
+    pre_value = models.CharField(_('pre value'), max_length=1024, blank=True)
+    post_value = models.CharField(_('post value'), max_length=1024, blank=True)
 
     def __unicode__(self):
         return '%s, %s' % (self.domain, self.time)
