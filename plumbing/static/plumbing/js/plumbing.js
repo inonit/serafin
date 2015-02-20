@@ -232,7 +232,7 @@ plumbing.controller('graph', ['$scope', 'jsPlumb', function(scope, jsPlumbServic
 
     scope.popup = function(url, id) {
         window.open(
-            url + '?t=id&_popup=1',
+            url + '?_popup=1',
             'noderef_' + id,
             'height=800,width=1024,resizable=yes,scrollbars=yes'
         );
