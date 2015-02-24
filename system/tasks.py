@@ -23,15 +23,15 @@ def transition(user_id, node_id):
 
 
 @db_task()
-def init_session(session_id, user_id):
+def init_session(session_id, user_id, push=False):
     '''Initialize a given session from start and traverse on behalf of user'''
 
-    init = {
-        'current_session': session_id,
-        'current_page': 0,
+    context = {
+        'session': session_id,
+        'node': 0,
     }
 
-    engine = Engine(user_id, init)
+    engine = Engine(user_id, context, push)
     engine.run()
 
     if engine.session.trigger_login:

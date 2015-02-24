@@ -12,6 +12,7 @@
         <div class="btn" ng-click="addNode('email')" id="lookup_{% verbatim %}{{ current_noderef }}{% endverbatim %}">{% trans '+ Email' %}</div>
         <div class="btn" ng-click="addNode('sms')" id="lookup_{% verbatim %}{{ current_noderef }}{% endverbatim %}">{% trans '+ Sms' %}</div>
         <div class="btn" ng-click="addNode('delay')" id="lookup_{% verbatim %}{{ current_noderef }}{% endverbatim %}">{% trans '+ Delay' %}</div>
+        <div class="btn" ng-click="addNode('session')" id="lookup_{% verbatim %}{{ current_noderef }}{% endverbatim %}">{% trans '+ Session' %}</div>
     </div>
 
     <ul class="variables" ng-controller="varSearch">
@@ -34,6 +35,9 @@
         </span>
         <span ng-if="node.type == 'delay'">
             <i class="icon-time icon-alpha5"></i>
+        </span>
+        <span ng-if="node.type == 'session'">
+            <i class="icon-tasks icon-alpha5"></i>
         </span>
 
         {% verbatim %}

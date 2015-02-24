@@ -88,12 +88,12 @@ def process_session_links(user, text):
         session_str = match[0]
         session_id = match[1]
 
-        init = {
-            'current_session': session_id,
-            'current_page': 0,
+        context = {
+            'session': session_id,
+            'node': 0,
         }
 
-        engine = Engine(user.id, init)
+        engine = Engine(user.id, context, push=True)
         engine.run()
 
         link = user.generate_login_link()

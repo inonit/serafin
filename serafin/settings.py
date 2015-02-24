@@ -339,9 +339,10 @@ SOUTH_MIGRATION_MODULES = {
 RESERVED_VARIABLES = [
     'group',
     'current_day',
-    'current_session',
-    'current_page',
-    'current_background',
+    'session',
+    'session_stack',
+    'node',
+    'background_node',
     'reply_variable',
 ]
 

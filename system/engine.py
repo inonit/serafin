@@ -15,24 +15,50 @@ from tasker.models import Task
 class Engine(object):
     '''A simplified decision engine to traverse the graph for a user'''
 
-    def __init__(self, user_id, context={}):
+    def __init__(self, user_id, context={}, push=False):
         '''Initialize Engine with a User instance and optional context'''
 
         self.user = get_user_model().objects.get(id=user_id)
 
-        # process context if available, save to user data
+        # push current session and node to stack if entering subsession
+        if push:
+
+            session = self.user.data.get('session')
+            node = self.user.data.get('node')
+
+            if session and node is not None:
+                if not self.user.data.get('stack'):
+                    self.user.data['stack'] = []
+                self.user.data['stack'].append((session, node))
+
+        # process context if available
         if context:
+
             for key, value in context.items():
                 if key and value is not None:
                     self.user.data[key] = value
 
+        # save
+        if push or context:
             self.user.save()
 
-        session_id = self.user.data.get('current_session')
+        self.init_session()
+
+
+    def init_session(self, session_id=None, node_id=None):
+
+        session_id = session_id or self.user.data.get('session')
+        node_id = node_id or self.user.data.get('node')
+
+        self.user.data['session'] = session_id
+        self.user.data['node'] = node_id
+        self.user.save()
+
         self.session = Session.objects.get(id=session_id)
 
         self.nodes = {node['id']: node for node in self.session.data.get('nodes')}
         self.edges = self.session.data.get('edges')
+
 
     @staticmethod
     def get_system_var(var_name):
@@ -136,8 +162,15 @@ class Engine(object):
         return [edge for edge in edges if edge.get('type') == 'special']
 
     def is_dead_end(self, node_id):
+        '''Check if current node is a dead end (end of session)'''
+
         target_edges = self.get_node_edges(node_id)
         return len(self.get_normal_edges(target_edges)) == 0
+
+    def is_stacked(self):
+        '''Check if current session has sessions below in stack'''
+
+        return bool(self.user.data.get('stack'))
 
     def transition(self, source_id):
         '''Transition from a given node and trigger a new node'''
@@ -152,19 +185,23 @@ class Engine(object):
             edge = self.traverse(special_edges, source_id)
 
             if edge:
+
                 target_id = edge.get('target')
                 special_edges.remove(edge)
 
-                self.user.data['current_background'] = target_id
+                self.user.data['background_node'] = target_id
                 self.user.save()
 
                 self.trigger_node(target_id)
+
             else:
                 break
 
         # traverse first applicable normal edge
         edge = self.traverse(normal_edges, source_id)
+
         if edge:
+
             target_id = edge.get('target')
             node = self.trigger_node(target_id)
 
@@ -175,14 +212,15 @@ class Engine(object):
                     domain='session',
                     actor=self.user,
                     variable='transition',
-                    pre_value=self.nodes[self.user.data['current_page']]['title'],
+                    pre_value=self.nodes[self.user.data['node']]['title'],
                     post_value=node.title
                 )
 
-                self.user.data['current_page'] = target_id
+                self.user.data['node'] = target_id
                 self.user.save()
 
                 node.dead_end = self.is_dead_end(target_id)
+                node.stacked = self.is_stacked()
 
                 return node
 
@@ -199,6 +237,7 @@ class Engine(object):
             page.update_html(self.user)
 
             page.dead_end = self.is_dead_end(node_id)
+            page.stacked = self.is_stacked()
 
             return page
 
@@ -206,6 +245,7 @@ class Engine(object):
 
             useraccesses = self.session.program.programuseraccess_set.filter(user=self.user)
             for useraccess in useraccesses:
+
                 start_time = self.session.get_start_time(
                     useraccess.start_time,
                     useraccess.time_factor
@@ -261,19 +301,41 @@ class Engine(object):
 
             return self.transition(node_id)
 
+        if node_type == 'session':
+
+            if not self.user.data.get('stack'):
+                self.user.data['stack'] = []
+
+            self.user.data['stack'].append(
+                (self.session.id, self.user.data.get('node'))
+            )
+
+            self.init_session(ref_id, 0)
+
+            return self.transition(0)
+
         if node_type == 'start':
             return self.transition(node_id)
 
-    def run(self, next=None):
+    def run(self, next=False, pop=False):
         '''Run the Engine after initializing and return some result'''
 
-        node_id = self.user.data.get('current_page')
+        node_id = self.user.data.get('node')
 
         if node_id == None:
-            self.user.data['current_page'] = 0
+            self.user.data['node'] = 0
             self.user.save()
 
+        # transition to next page
         if next:
+            return self.transition(node_id)
+
+        # pop stack data and set previous session
+        if pop:
+            session_id, node_id = self.user.data.get('stack').pop()
+
+            self.init_session(session_id, node_id)
+
             return self.transition(node_id)
 
         return self.trigger_node(node_id)

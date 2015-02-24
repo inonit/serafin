@@ -36,6 +36,11 @@
     background: #fee;
 }
 
+.plumbing .session  {
+    background: #efe;
+}
+
+
 #node_0:hover,
 .node:hover {
     background: #5C97BF;

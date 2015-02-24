@@ -231,6 +231,9 @@
     <nav ng-if="!dead_end">
         <a class="button next" ng-disabled="form.$invalid" ng-click="next()">{% trans 'Next page' %}</a>
     </nav>
+    <nav ng-if="dead_end && stacked">
+        <a class="button next" ng-disabled="form.$invalid" ng-click="next()">{% trans 'Next session' %}</a>
+    </nav>
 </div>
 {% endblock content %}
 

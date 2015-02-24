@@ -23,11 +23,11 @@ def get_session(request):
     # admin session preview support
     session_id = request.GET.get('session_id', None)
     if request.user.is_staff and session_id:
-        request.user.data['current_session'] = session_id
-        request.user.data['current_page'] = 0
+        request.user.data['session'] = session_id
+        request.user.data['node'] = 0
         request.user.save()
 
-    session_id = request.user.data['current_session']
+    session_id = request.user.data['session']
     session = get_object_or_404(Session, id=session_id)
 
     context = {
@@ -50,7 +50,7 @@ def get_page(request):
         context.update(post_data)
 
     # admin page preview support
-    page_id = request.GET.get('page_id', None)
+    page_id = request.GET.get('page_id')
     if request.user.is_staff and page_id:
         page = get_object_or_404(Page, id=page_id)
         page.update_html(request.user)
@@ -58,9 +58,10 @@ def get_page(request):
 
     # engine selection
     else:
-        next = request.GET.get('next', None)
+        next = request.GET.get('next')
+        pop = request.GET.get('pop')
         engine = Engine(request.user.id, context)
-        page = engine.run(next)
+        page = engine.run(next=next, pop=pop)
 
     if not page:
         raise Http404
@@ -69,6 +70,7 @@ def get_page(request):
         'title': page.display_title,
         'data': page.data,
         'dead_end': page.dead_end,
+        'stacked': page.stacked,
     }
 
     return JSONResponse(response)

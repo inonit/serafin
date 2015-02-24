@@ -182,8 +182,8 @@ plumbing.controller('graph', ['$scope', 'jsPlumb', function(scope, jsPlumbServic
                     unit: '',
                 },
                 metrics: {
-                    left: "300px",
-                    top: "100px"
+                    left: '300px',
+                    top: '100px'
                 }
             });
             return;
@@ -198,8 +198,8 @@ plumbing.controller('graph', ['$scope', 'jsPlumb', function(scope, jsPlumbServic
             ref_url: url.add(),
             title: '?',
             metrics: {
-                left: (300 - scope.scrolling.x) + "px",
-                top: (100 - scope.scrolling.y) + "px"
+                left: (300 - scope.scrolling.x) + 'px',
+                top: (100 - scope.scrolling.y) + 'px'
             }
         });
 
@@ -208,7 +208,7 @@ plumbing.controller('graph', ['$scope', 'jsPlumb', function(scope, jsPlumbServic
     scope.getMetrics = function(node) {
         var x = parseInt(node.metrics.left) + scope.scrolling.x;
         var y = parseInt(node.metrics.top) + scope.scrolling.y;
-        return {"left": x + "px", "top": y + "px"};
+        return {'left': x + 'px', 'top': y + 'px'};
     };
 
     scope.deleteNode = function(index) {
@@ -273,13 +273,13 @@ plumbing.directive('node', ['$timeout', 'jsPlumb', function(timeout, jsPlumbServ
                     scope.scrolling.locked = false;
                     var x = parseInt(element[0].style.left) - scope.scrolling.x;
                     var y = parseInt(element[0].style.top) - scope.scrolling.y;
-                    scope.node.metrics.left = x + "px";
-                    scope.node.metrics.top = y + "px";
+                    scope.node.metrics.left = x + 'px';
+                    scope.node.metrics.top = y + 'px';
                 });
             });
             element.bind('mousedown', function(e) {
                 scope.$apply(function() {
-                    scope.scrolling.locked = "node";
+                    scope.scrolling.locked = 'node';
                 });
             });
 
@@ -381,7 +381,8 @@ plumbing.directive('edge', ['jsPlumb', function(jsPlumbService) {
                 // if edge is from special node to page, delete and return
                 if ((source_type == 'email' ||
                      source_type == 'sms' ||
-                     source_type == 'delay') &&
+                     source_type == 'delay' ||
+                     source_type == 'session') &&
                     target_type == 'page') {
                     scope.deleteEdge(scope.$index);
                     return;
