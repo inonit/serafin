@@ -59,6 +59,8 @@ INSTALLED_APPS = (
     'django_user_agents',
     'import_export',
     'compressor',
+    'cachalot',
+    'serafin.apps.AppRenameConfig',
 )
 
 MIDDLEWARE_CLASSES = (

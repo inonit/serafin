@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Serafin\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-02-24 11:06+0100\n"
+"POT-Creation-Date: 2015-02-24 12:02+0100\n"
 "PO-Revision-Date: 2014-08-26 11:35+0200\n"
 "Last-Translator: Eirik Krogstad <eirikkr@gmail.com>\n"
 "Language: nb\n"
@@ -368,23 +368,31 @@ msgstr "timer"
 msgid "Pass"
 msgstr ""
 
-#: serafin/settings.py:249
+#: serafin/apps.py:9 users/admin.py:120 users/admin.py:134
+msgid "Permissions"
+msgstr "Tillatelser"
+
+#: serafin/apps.py:10
+msgid "Filer"
+msgstr "Media"
+
+#: serafin/settings.py:250
 msgid "Users"
 msgstr "Brukere"
 
-#: serafin/settings.py:259
+#: serafin/settings.py:260
 msgid "Program"
 msgstr "Program"
 
-#: serafin/settings.py:273
+#: serafin/settings.py:274
 msgid "Events"
 msgstr "Hendelser"
 
-#: serafin/settings.py:283
+#: serafin/settings.py:284
 msgid "Media"
 msgstr "Media"
 
-#: serafin/settings.py:288
+#: serafin/settings.py:289
 msgid "Settings"
 msgstr "Oppsett"
 
@@ -916,10 +924,6 @@ msgstr ""
 #: users/admin.py:82
 msgid "Designates whether the user can log into this admin site."
 msgstr ""
-
-#: users/admin.py:120 users/admin.py:134
-msgid "Permissions"
-msgstr "Tillatelser"
 
 #: users/admin.py:148
 msgid "User info"
