@@ -15,15 +15,6 @@
         <div class="btn" ng-click="addNode('session')" id="lookup_{% verbatim %}{{ current_noderef }}{% endverbatim %}">{% trans '+ Session' %}</div>
     </div>
 
-    <ul class="variables" ng-controller="varSearch">
-        <p><strong>{% trans 'Available variables' %}</strong></p>
-        <p><input type="text" ng-model="query" placeholder="{% trans 'Search' %}" /></p>
-        <li class="variable" ng-repeat="variable in variables | filter:query track by
-        $index">{% verbatim %}{{ variable }}{% endverbatim %}</li>
-        <li class="variable disallowed" ng-repeat="variable in reserved track by
-        $index"><span>{% trans 'Reserved' %}</span> {% verbatim %}{{ variable }}{% endverbatim %}</li>
-    </ul>
-
     <div class="floatbox"></div>
 
     <div class="node box" ng-class="node.type" ng-repeat="node in data.nodes track by node.id" ng-style="getMetrics(node)" ng-model="data.nodes">
@@ -85,7 +76,11 @@
         <div class="conditions box" ng-show="showConditions == $index">
             <div class="close" ng-click="close()">×</div>
             <div class="condition" ng-repeat="condition in edge.conditions track by $index">
-                <input type="text" placeholder="{% trans 'Variable name' %}" ng-model="condition.var_name">
+                {% verbatim %}
+                <select opt-title ng-model="condition.var_name">
+                    <option ng-repeat="variable in variables" ng-value="variable.name" title="{{ variable.admin_note }}">{{ variable.name }}</option>
+                </select>
+                {% endverbatim %}
                 <select ng-model="condition.operator">
                     <option value="eq"> = </option>
                     <option value="ne"> &ne; </option>
@@ -108,8 +103,6 @@
 
 <script>
     var initData = {{ value|safe }};
-    var initVars = {{ vars|safe }};
     var adminUrl = '{{ admin_url }}';
     var nodeApiUrl = '{{ node_api }}';
-    var reserved = {{ reserved_vars|safe }};
 </script>

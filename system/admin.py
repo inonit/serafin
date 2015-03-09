@@ -39,6 +39,7 @@ class VariableForm(forms.ModelForm):
         model = Variable
         exclude = []
         widgets = {
+            'admin_note': AutosizedTextarea(attrs={'rows': 3, 'class': 'input-xlarge'}),
             'range_min': forms.NumberInput(attrs={'class': 'input-mini'}),
             'range_max': forms.NumberInput(attrs={'class': 'input-mini'}),
             'random_set': AutosizedTextarea(attrs={'rows': 3, 'class': 'input-xlarge'})
@@ -55,6 +56,7 @@ class VariableAdmin(admin.ModelAdmin):
             'fields': (
                 'name',
                 'display_name',
+                'admin_note',
                 'value',
                 'user_editable',
                 'random_type',

@@ -55,7 +55,11 @@
                 </div>
                 <div class="field-data">
                     <label>{% trans 'Variable name' %}</label>
-                    <input type="text" ng-model="pagelet.content.variable_name">
+                    {% verbatim %}
+                    <select opt-title ng-model="pagelet.content.variable_name">
+                        <option ng-repeat="variable in variables" ng-value="variable.name" title="{{ variable.admin_note }}">{{ variable.name }}</option>
+                    </select>
+                    {% endverbatim %}
                 </div>
                 <div class="field-data pull-down">
                     <label>
@@ -117,7 +121,11 @@
 
                     <div class="field-data">
                         <label>{% trans 'Variable name' %}</label>
-                        <input type="text" ng-model="condition.var_name">
+                        {% verbatim %}
+                        <select opt-title ng-model="condition.var_name">
+                            <option ng-repeat="variable in variables" ng-value="variable.name" title="{{ variable.admin_note }}">{{ variable.name }}</option>
+                        </select>
+                        {% endverbatim %}
                     </div>
                     <div class="field-data">
                         <label>{% trans 'Condition' %}</label>
@@ -177,7 +185,11 @@
                     </div>
                     <div class="field-data">
                         <label>{% trans 'Variable name' %}</label>
-                        <input type="text" ng-model="field.variable_name">
+                        {% verbatim %}
+                        <select opt-title ng-model="field.variable_name">
+                            <option ng-repeat="variable in variables" ng-value="variable.name" title="{{ variable.admin_note }}">{{ variable.name }}</option>
+                        </select>
+                        {% endverbatim %}
                     </div>
                 </div>
 
@@ -265,7 +277,11 @@
                     </div>
                     <div class="field-data">
                         <label>{% trans 'Variable name' %}</label>
-                        <input type="text" ng-model="question.variable_name">
+                        {% verbatim %}
+                        <select opt-title ng-model="question.variable_name">
+                            <option ng-repeat="variable in variables" ng-value="variable.name" title="{{ variable.admin_note }}">{{ variable.name }}</option>
+                        </select>
+                        {% endverbatim %}
                     </div>
                 </div>
 

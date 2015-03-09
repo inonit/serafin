@@ -45,6 +45,7 @@ class ContentWidget(forms.Widget):
         js = (
             filer_settings.FILER_STATICMEDIA_PREFIX + 'js/popup_handling.js',
             'content/angular/angular.min.js',
+            'content/angular-ui-select/dist/select.min.js',
             'content/marked/marked.js',
             'content/js/content.js',
         )

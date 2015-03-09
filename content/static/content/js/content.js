@@ -130,12 +130,17 @@ var dataTemplates = {
     },
 };
 
-content.run(['$rootScope', function(scope) {
+content.run(['$rootScope', '$http', function(scope, http) {
     if (!initData) {
         scope.data = [];
     } else {
         scope.data = initData;
     }
+
+    scope.variables = [];
+    http.get('/api/system/variables/').success(function(data) {
+        scope.variables = data;
+    });
 }]);
 
 content.controller('contentArray', ['$scope', function(scope) {
@@ -295,6 +300,17 @@ content.directive('filer', ['$compile', '$http', function(compile, http) {
                     elem.find('#id_file_' + scope.index + '_clear').show();
                 });
             }
+        }
+    };
+}]);
+
+content.directive('optTitle', [function() {
+    return {
+        restrict: 'A',
+        link: function(scope, element, attrs) {
+            element.bind('mouseenter', function() {
+                element[0].title = element.children(':selected')[0].title
+            })
         }
     };
 }]);
