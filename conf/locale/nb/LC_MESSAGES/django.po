@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Serafin\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-02-24 12:02+0100\n"
+"POT-Creation-Date: 2015-03-11 11:59+0100\n"
 "PO-Revision-Date: 2014-08-26 11:35+0200\n"
 "Last-Translator: Eirik Krogstad <eirikkr@gmail.com>\n"
 "Language: nb\n"
@@ -271,6 +271,28 @@ msgstr "hendelser"
 msgid "Export"
 msgstr "Eksport"
 
+#: lib/python2.7/site-packages/cachalot/panels.py:65
+#, python-format
+msgid "Last invalidation: %s"
+msgstr ""
+
+#: lib/python2.7/site-packages/cachalot/templates/cachalot/panel.html:4
+#, python-format
+msgid "Database '%(db_alias)s'"
+msgstr ""
+
+#: lib/python2.7/site-packages/cachalot/templates/cachalot/panel.html:9
+msgid "Application"
+msgstr ""
+
+#: lib/python2.7/site-packages/cachalot/templates/cachalot/panel.html:10
+msgid "Model"
+msgstr ""
+
+#: lib/python2.7/site-packages/cachalot/templates/cachalot/panel.html:11
+msgid "Last invalidation"
+msgstr ""
+
 #: lib/python2.7/site-packages/httplib2/__init__.py:410
 #, python-format
 msgid "Content purported to be compressed with %s but failed to decompress."
@@ -376,23 +398,23 @@ msgstr "Tillatelser"
 msgid "Filer"
 msgstr "Media"
 
-#: serafin/settings.py:250
+#: serafin/settings.py:251
 msgid "Users"
 msgstr "Brukere"
 
-#: serafin/settings.py:260
+#: serafin/settings.py:261
 msgid "Program"
 msgstr "Program"
 
-#: serafin/settings.py:274
+#: serafin/settings.py:275
 msgid "Events"
 msgstr "Hendelser"
 
-#: serafin/settings.py:284
+#: serafin/settings.py:285
 msgid "Media"
 msgstr "Media"
 
-#: serafin/settings.py:289
+#: serafin/settings.py:290
 msgid "Settings"
 msgstr "Oppsett"
 
@@ -401,7 +423,7 @@ msgstr "Oppsett"
 msgid "%(first)s and %(last)s"
 msgstr "%(first)s og %(last)s"
 
-#: system/admin.py:20
+#: system/admin.py:23
 msgid ""
 "Initial value remains static unless set as a user value using a hidden set "
 "value field."
@@ -409,19 +431,19 @@ msgstr ""
 "Startverdien forblir den samme, med mindre den settes som brukerverdi via et "
 "skjult felt."
 
-#: system/admin.py:22
+#: system/admin.py:25
 msgid ""
 "User editable fields can be changed at any time by the user on their profile "
 "page."
 msgstr ""
 "Brukerredigerbare felter kan endres av brukerne selv på deres profilside."
 
-#: system/admin.py:24
+#: system/admin.py:27
 msgid "Setting a randomization type will set the variable to a random value."
 msgstr ""
 "Om en tilfeldig type settes, vil variabelen settes til en tilfeldig verdi."
 
-#: system/admin.py:26
+#: system/admin.py:29
 msgid ""
 "If set, this value will be randomized once for each user when the Variable "
 "is first saved OR changed, then once for each new user."
@@ -429,7 +451,7 @@ msgstr ""
 "Verdien vil settes tilfeldig én gang når variabelen først lagres eller "
 "endres, deretter én gang for hver nyregistrerte bruker."
 
-#: system/admin.py:29
+#: system/admin.py:32
 msgid ""
 "The value of the Variable will be randomly selected from a set of comma "
 "separated strings in this field."
@@ -437,45 +459,53 @@ msgstr ""
 "Verdien av variabelen vil velges tilfeldig fra et sett av kommaseparerte "
 "tekststrenger i dette feltet."
 
-#: system/admin.py:35
+#: system/admin.py:38
 msgid "You are trying to use a forbidden variable name"
 msgstr "Du forsøker å bruke et reservert variabelnavn"
 
-#: system/admin.py:70
+#: system/admin.py:73
 msgid "Variable"
 msgstr "Variabel"
 
-#: system/admin.py:111 system/admin.py:238 system/admin.py:307
+#: system/admin.py:114 system/admin.py:254 system/admin.py:323
 msgid "Admin note excerpt"
 msgstr "Utdrag fra administratornotat"
 
-#: system/admin.py:118 system/admin.py:125 system/admin.py:136
-#: system/admin.py:245 system/admin.py:255 system/admin.py:312
+#: system/admin.py:121 system/admin.py:128 system/admin.py:139
+#: system/admin.py:261 system/admin.py:271 system/admin.py:328
 #, python-format
 msgid "Copy of %(title)s"
 msgstr "Kopi av %(title)s"
 
-#: system/admin.py:150
+#: system/admin.py:153
 msgid "Copy selected programs"
 msgstr "Kopier valgte programmer"
 
-#: system/admin.py:269
+#: system/admin.py:160
+msgid "Export text of selected program"
+msgstr "Eksporter tekst fra valgte programmer"
+
+#: system/admin.py:166
+msgid "Import program text"
+msgstr "Importer tekst for program"
+
+#: system/admin.py:285
 msgid "Copy selected sessions"
 msgstr "Kopier valgte økter"
 
-#: system/admin.py:294
+#: system/admin.py:310
 msgid "No content"
 msgstr "Innhold mangler"
 
-#: system/admin.py:302
+#: system/admin.py:318
 msgid "Page excerpt"
 msgstr "Sideutdrag"
 
-#: system/admin.py:315
+#: system/admin.py:331
 msgid "Copy selected content"
 msgstr "Kopier valgt innhold"
 
-#: system/admin.py:344 system/admin.py:368
+#: system/admin.py:360 system/admin.py:384
 msgid "Subject"
 msgstr "Emne"
 
@@ -676,6 +706,14 @@ msgstr "Økt aktivert og e-post for innlogging sendt"
 #: system/tasks.py:41
 msgid "Session initialized"
 msgstr "Økt aktivert"
+
+#: system/templates/import_text.html:18
+msgid "Choose a text file to import"
+msgstr ""
+
+#: system/templates/import_text.html:19
+msgid "Upload"
+msgstr ""
 
 #: tasker/admin.py:28
 msgid "Source"

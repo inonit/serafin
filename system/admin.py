@@ -5,7 +5,10 @@ from django import forms
 from django.conf import settings
 from django.contrib import admin
 from django.contrib.auth import get_user_model
+from django.contrib.contenttypes.models import ContentType
 from django.db import models
+from django.http import HttpResponseRedirect
+
 from suit.widgets import SuitSplitDateTimeWidget, LinkedSelect, AutosizedTextarea, NumberInput
 from jsonfield import JSONField
 
@@ -96,7 +99,7 @@ class ProgramUserAccessInline(admin.TabularInline):
 class ProgramAdmin(admin.ModelAdmin):
     list_display = ['title', 'display_title', 'note_excerpt']
     search_fields = ['title', 'display_title', 'admin_note']
-    actions = ['copy']
+    actions = ['copy', 'export_text', 'import_text']
 
     inlines = [ProgramUserAccessInline]
     formfield_overrides = {
@@ -148,6 +151,19 @@ class ProgramAdmin(admin.ModelAdmin):
                 session.save()
 
     copy.short_description = _('Copy selected programs')
+
+    def export_text(modeladmin, request, queryset):
+        selected = request.POST.getlist(admin.ACTION_CHECKBOX_NAME)
+        ct = ContentType.objects.get_for_model(queryset.model)
+        return HttpResponseRedirect('/admin/export_text/?ct=%s&ids=%s' % (ct.pk, ','.join(selected)))
+
+    export_text.short_description = _('Export text of selected program')
+
+    def import_text(modeladmin, request, queryset):
+
+        return HttpResponseRedirect('/admin/import_text/?next=%s' % request.path)
+
+    import_text.short_description = _('Import program text')
 
 
 class SessionForm(forms.ModelForm):

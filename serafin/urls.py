@@ -13,4 +13,6 @@ urlpatterns = patterns('',
     url(r'^api/plumbing/', include('plumbing.urls')),
 
     url(r'^admin/', include(admin.site.urls)),
+    url(r'^admin/export_text/', 'system.views.export_text'),
+    url(r'^admin/import_text/', 'system.views.import_text'),
 ) + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

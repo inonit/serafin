@@ -1,0 +1,22 @@
+{% extends "admin/base_site.html" %}
+{% load i18n admin_static %}
+
+{% block extrastyle %}
+  {{ block.super }}
+{% endblock %}
+
+{% block coltype %}colMS{% endblock %}
+
+{% block bodyclass %}dashboard{% endblock %}
+
+{% block breadcrumbs %}{% endblock %}
+
+{% block content %}
+  <div id="content-main">
+    <form action="" method="post">
+      {% csrf_token %}
+      <input type="file" name="text" placeholder="{% trans 'Choose a text file to import' %}">
+      <input class="btn" type="submit" value="{% trans 'Upload' %}">
+    </form>
+  </div>
+{% endblock %}
