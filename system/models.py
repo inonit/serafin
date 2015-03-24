@@ -36,6 +36,7 @@ class Variable(models.Model):
     class Meta:
         verbose_name = _('variable')
         verbose_name_plural = _('variables')
+        ordering = ('display_name', 'name', 'value')
 
     def __unicode__(self):
         return self.name
