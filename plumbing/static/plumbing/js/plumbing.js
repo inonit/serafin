@@ -343,6 +343,7 @@ plumbing.directive('edge', ['jsPlumb', function(jsPlumbService) {
         controller: ['$scope', 'variables', function(scope, variables) {
 
             scope.variables = [];
+            scope.logical_operators = ['AND', 'OR'];
             variables.get().then(function(promise) {
                 scope.variables = promise.data;
             });
@@ -358,8 +359,9 @@ plumbing.directive('edge', ['jsPlumb', function(jsPlumbService) {
             scope.addCondition = function() {
                 scope.edge.conditions.push({
                     var_name: '',
+                    logical_operator: '',
                     operator: '',
-                    value: '',
+                    value: ''
                 });
             };
 
