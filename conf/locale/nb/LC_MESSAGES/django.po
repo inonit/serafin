@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Serafin\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-02-24 12:02+0100\n"
+"POT-Creation-Date: 2015-03-24 10:42+0100\n"
 "PO-Revision-Date: 2014-08-26 11:35+0200\n"
 "Last-Translator: Eirik Krogstad <eirikkr@gmail.com>\n"
 "Language: nb\n"
@@ -15,7 +15,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 
 #: content/templates/admin/content_widget.html:7
-#: content/templates/admin/content_widget.html:157
+#: content/templates/admin/content_widget.html:165
 msgid "+ Text"
 msgstr "+ Tekst"
 
@@ -61,7 +61,7 @@ msgstr "+ Fil"
 
 #: content/templates/admin/content_widget.html:31
 #: content/templates/admin/content_widget.html:43
-#: content/templates/admin/content_widget.html:144
+#: content/templates/admin/content_widget.html:152
 #: content/templates/admin/text_content_widget.html:12
 msgid ""
 "This element uses <a href=\"http://markdown-guide.readthedocs.org/en/latest/"
@@ -80,131 +80,130 @@ msgid "Toggle text"
 msgstr "Vis/skjul-tekst"
 
 #: content/templates/admin/content_widget.html:53
-#: content/templates/admin/content_widget.html:83
-#: content/templates/admin/content_widget.html:175
-#: content/templates/admin/content_widget.html:229
-#: content/templates/admin/content_widget.html:289
+#: content/templates/admin/content_widget.html:87
+#: content/templates/admin/content_widget.html:183
+#: content/templates/admin/content_widget.html:241
+#: content/templates/admin/content_widget.html:305
 msgid "Label"
 msgstr "Feltnavn"
 
 #: content/templates/admin/content_widget.html:57
-#: content/templates/admin/content_widget.html:119
-#: content/templates/admin/content_widget.html:179
-#: content/templates/admin/content_widget.html:267
-#: plumbing/templates/admin/plumbing_widget.html:88
+#: content/templates/admin/content_widget.html:123
+#: content/templates/admin/content_widget.html:187
+#: content/templates/admin/content_widget.html:279
 msgid "Variable name"
 msgstr "Variabelnavn"
 
-#: content/templates/admin/content_widget.html:62
-#: content/templates/admin/content_widget.html:196
+#: content/templates/admin/content_widget.html:66
+#: content/templates/admin/content_widget.html:208
 msgid "Horizontal?"
 msgstr "Horisontal?"
 
-#: content/templates/admin/content_widget.html:68
+#: content/templates/admin/content_widget.html:72
 msgid "+ Item"
 msgstr "+ Element"
 
-#: content/templates/admin/content_widget.html:71
-#: content/templates/admin/content_widget.html:217
-#: content/templates/admin/content_widget.html:277
+#: content/templates/admin/content_widget.html:75
+#: content/templates/admin/content_widget.html:229
+#: content/templates/admin/content_widget.html:293
 msgid "Alternatives"
 msgstr "Alternativer"
 
-#: content/templates/admin/content_widget.html:87
-#: content/templates/admin/content_widget.html:135
-#: content/templates/admin/content_widget.html:186
-#: content/templates/admin/content_widget.html:233
-#: content/templates/admin/content_widget.html:293
-#: plumbing/templates/admin/plumbing_widget.html:98
+#: content/templates/admin/content_widget.html:91
+#: content/templates/admin/content_widget.html:143
+#: content/templates/admin/content_widget.html:198
+#: content/templates/admin/content_widget.html:245
+#: content/templates/admin/content_widget.html:309
+#: plumbing/templates/admin/plumbing_widget.html:93
 msgid "Value"
 msgstr "Verdi"
 
-#: content/templates/admin/content_widget.html:93
-#: content/templates/admin/content_widget.html:114
+#: content/templates/admin/content_widget.html:97
+#: content/templates/admin/content_widget.html:118
 msgid "Text"
 msgstr "Tekst"
 
-#: content/templates/admin/content_widget.html:103
+#: content/templates/admin/content_widget.html:107
 msgid "+ Conditional text"
 msgstr "+ Verdiavhengig tekst"
 
-#: content/templates/admin/content_widget.html:123
+#: content/templates/admin/content_widget.html:131
 msgid "Condition"
 msgstr "Forutsetning"
 
-#: content/templates/admin/content_widget.html:131
-#: plumbing/templates/admin/plumbing_widget.html:75
-#: plumbing/templates/admin/plumbing_widget.html:96
+#: content/templates/admin/content_widget.html:139
+#: plumbing/templates/admin/plumbing_widget.html:66
+#: plumbing/templates/admin/plumbing_widget.html:91
 msgid "contains"
 msgstr "inneholder"
 
-#: content/templates/admin/content_widget.html:140
-#: plumbing/templates/admin/plumbing_widget.html:101
+#: content/templates/admin/content_widget.html:148
+#: plumbing/templates/admin/plumbing_widget.html:96
 msgid "+ Condition"
 msgstr "+ Forutsetning"
 
-#: content/templates/admin/content_widget.html:155
+#: content/templates/admin/content_widget.html:163
 msgid "+ Numeric"
 msgstr "+ Tallverdi"
 
-#: content/templates/admin/content_widget.html:156
+#: content/templates/admin/content_widget.html:164
 msgid "+ String"
 msgstr "+ Tekststreng"
 
-#: content/templates/admin/content_widget.html:158
+#: content/templates/admin/content_widget.html:166
 msgid "+ Multiple choice"
 msgstr "+ Enkeltvalg"
 
-#: content/templates/admin/content_widget.html:159
+#: content/templates/admin/content_widget.html:167
 msgid "+ Multiple selection"
 msgstr "+ Flervalg"
 
-#: content/templates/admin/content_widget.html:160
+#: content/templates/admin/content_widget.html:168
 msgid "+ Hidden field"
 msgstr "+ Skjult felt"
 
-#: content/templates/admin/content_widget.html:191
+#: content/templates/admin/content_widget.html:203
 msgid "Required?"
 msgstr "Påkrevet?"
 
-#: content/templates/admin/content_widget.html:203
+#: content/templates/admin/content_widget.html:215
 msgid "Lower limit"
 msgstr "Nedre grense"
 
-#: content/templates/admin/content_widget.html:207
+#: content/templates/admin/content_widget.html:219
 msgid "Upper limit"
 msgstr "Øvre grense"
 
-#: content/templates/admin/content_widget.html:214
-#: content/templates/admin/content_widget.html:274
+#: content/templates/admin/content_widget.html:226
+#: content/templates/admin/content_widget.html:290
 msgid "+ Alternative"
 msgstr "+ Alternativ"
 
-#: content/templates/admin/content_widget.html:247
+#: content/templates/admin/content_widget.html:259
 msgid "+ Question"
 msgstr "+ Spørsmål"
 
-#: content/templates/admin/content_widget.html:259
-#: content/templates/admin/content_widget.html:263
+#: content/templates/admin/content_widget.html:271
+#: content/templates/admin/content_widget.html:275
 msgid "Question"
 msgstr "Spørsmål"
 
-#: content/templates/admin/content_widget.html:298
+#: content/templates/admin/content_widget.html:314
 msgid "Correct?"
 msgstr "Korrekt?"
 
-#: content/templates/admin/content_widget.html:304
+#: content/templates/admin/content_widget.html:320
 msgid "Response"
 msgstr "Respons"
 
-#: content/templates/admin/content_widget.html:318
+#: content/templates/admin/content_widget.html:334
 msgid "Alt title"
 msgstr "Alternativtittel"
 
-#: content/templates/admin/content_widget.html:322
-#: content/templates/admin/content_widget.html:332
-#: content/templates/admin/content_widget.html:342
-#: content/templates/admin/content_widget.html:352
+#: content/templates/admin/content_widget.html:338
+#: content/templates/admin/content_widget.html:348
+#: content/templates/admin/content_widget.html:358
+#: content/templates/admin/content_widget.html:368
 msgid "Title"
 msgstr "Tittel"
 
@@ -246,7 +245,7 @@ msgstr "domene"
 msgid "actor"
 msgstr "utført av"
 
-#: events/models.py:14 system/models.py:36
+#: events/models.py:14 system/models.py:37
 #: users/templates/admin/userlog.html:9
 msgid "variable"
 msgstr "variabel"
@@ -271,55 +270,6 @@ msgstr "hendelser"
 msgid "Export"
 msgstr "Eksport"
 
-#: lib/python2.7/site-packages/httplib2/__init__.py:410
-#, python-format
-msgid "Content purported to be compressed with %s but failed to decompress."
-msgstr ""
-
-#: lib/python2.7/site-packages/httplib2/__init__.py:520
-#, python-format
-msgid "Unsupported value for qop: %s."
-msgstr ""
-
-#: lib/python2.7/site-packages/httplib2/__init__.py:523
-#: lib/python2.7/site-packages/httplib2/__init__.py:585
-#, python-format
-msgid "Unsupported value for algorithm: %s."
-msgstr ""
-
-#: lib/python2.7/site-packages/httplib2/__init__.py:582
-msgid "The challenge doesn't contain a server nonce, or this one is empty."
-msgstr ""
-
-#: lib/python2.7/site-packages/httplib2/__init__.py:588
-#, python-format
-msgid "Unsupported value for pw-algorithm: %s."
-msgstr ""
-
-#: lib/python2.7/site-packages/httplib2/__init__.py:1358
-msgid "Redirected but the response is missing a Location: header."
-msgstr ""
-
-#: lib/python2.7/site-packages/jsonfield/fields.py:31
-#: lib/python2.7/site-packages/jsonfield/fields.py:43
-#: lib/python2.7/site-packages/jsonfield/fields.py:81
-msgid "Enter valid JSON"
-msgstr "Skriv inn gyldig JSON"
-
-#: lib/python2.7/site-packages/polymorphic/admin.py:51
-#: lib/python2.7/site-packages/polymorphic/admin.py:66
-msgid "Type"
-msgstr ""
-
-#: lib/python2.7/site-packages/polymorphic/admin.py:364
-#, python-format
-msgid "Add %s"
-msgstr ""
-
-#: lib/python2.7/site-packages/polymorphic/admin.py:434
-msgid "Contents"
-msgstr ""
-
 #: plumbing/templates/admin/plumbing_widget.html:11
 msgid "+ Page"
 msgstr "+ Side"
@@ -340,31 +290,19 @@ msgstr "+ Forsinkelse"
 msgid "+ Session"
 msgstr "+ Økt"
 
-#: plumbing/templates/admin/plumbing_widget.html:19
-msgid "Available variables"
-msgstr "Tilgjengelige variabler"
-
-#: plumbing/templates/admin/plumbing_widget.html:20
-msgid "Search"
-msgstr "Søk"
-
-#: plumbing/templates/admin/plumbing_widget.html:24
-msgid "Reserved"
-msgstr "Reservert"
-
-#: plumbing/templates/admin/plumbing_widget.html:55
+#: plumbing/templates/admin/plumbing_widget.html:46
 msgid "Number"
 msgstr "Antall"
 
-#: plumbing/templates/admin/plumbing_widget.html:57
+#: plumbing/templates/admin/plumbing_widget.html:48
 msgid "minutes"
 msgstr "minutter"
 
-#: plumbing/templates/admin/plumbing_widget.html:58 system/models.py:115
+#: plumbing/templates/admin/plumbing_widget.html:49 system/models.py:116
 msgid "hours"
 msgstr "timer"
 
-#: plumbing/templates/admin/plumbing_widget.html:80
+#: plumbing/templates/admin/plumbing_widget.html:71
 msgid "Pass"
 msgstr ""
 
@@ -376,23 +314,23 @@ msgstr "Tillatelser"
 msgid "Filer"
 msgstr "Media"
 
-#: serafin/settings.py:250
+#: serafin/settings.py:251
 msgid "Users"
 msgstr "Brukere"
 
-#: serafin/settings.py:260
+#: serafin/settings.py:261
 msgid "Program"
 msgstr "Program"
 
-#: serafin/settings.py:274
+#: serafin/settings.py:275
 msgid "Events"
 msgstr "Hendelser"
 
-#: serafin/settings.py:284
+#: serafin/settings.py:285
 msgid "Media"
 msgstr "Media"
 
-#: serafin/settings.py:289
+#: serafin/settings.py:290
 msgid "Settings"
 msgstr "Oppsett"
 
@@ -441,41 +379,41 @@ msgstr ""
 msgid "You are trying to use a forbidden variable name"
 msgstr "Du forsøker å bruke et reservert variabelnavn"
 
-#: system/admin.py:70
+#: system/admin.py:72
 msgid "Variable"
 msgstr "Variabel"
 
-#: system/admin.py:111 system/admin.py:238 system/admin.py:307
+#: system/admin.py:113 system/admin.py:240 system/admin.py:309
 msgid "Admin note excerpt"
 msgstr "Utdrag fra administratornotat"
 
-#: system/admin.py:118 system/admin.py:125 system/admin.py:136
-#: system/admin.py:245 system/admin.py:255 system/admin.py:312
+#: system/admin.py:120 system/admin.py:127 system/admin.py:138
+#: system/admin.py:247 system/admin.py:257 system/admin.py:314
 #, python-format
 msgid "Copy of %(title)s"
 msgstr "Kopi av %(title)s"
 
-#: system/admin.py:150
+#: system/admin.py:152
 msgid "Copy selected programs"
 msgstr "Kopier valgte programmer"
 
-#: system/admin.py:269
+#: system/admin.py:271
 msgid "Copy selected sessions"
 msgstr "Kopier valgte økter"
 
-#: system/admin.py:294
+#: system/admin.py:296
 msgid "No content"
 msgstr "Innhold mangler"
 
-#: system/admin.py:302
+#: system/admin.py:304
 msgid "Page excerpt"
 msgstr "Sideutdrag"
 
-#: system/admin.py:315
+#: system/admin.py:317
 msgid "Copy selected content"
 msgstr "Kopier valgt innhold"
 
-#: system/admin.py:344 system/admin.py:368
+#: system/admin.py:346 system/admin.py:370
 msgid "Subject"
 msgstr "Emne"
 
@@ -491,172 +429,173 @@ msgstr "navn"
 msgid "display name"
 msgstr "visningsnavn"
 
-#: system/models.py:22
-msgid "initial value"
-msgstr "startverdi"
-
-#: system/models.py:23
-msgid "user editable"
-msgstr "brukerredigerbar"
-
-#: system/models.py:25
-msgid "boolean"
-msgstr "boolsk verdi"
-
-#: system/models.py:26
-msgid "numeric"
-msgstr "tallverdi"
-
-#: system/models.py:27
-msgid "string"
-msgstr "tekststreng"
-
-#: system/models.py:29
-msgid "randomization type"
-msgstr "tilfeldig type"
-
-#: system/models.py:30
-msgid "randomize once"
-msgstr "tilfeldig første gang"
-
-#: system/models.py:31
-msgid "range min (inclusive)"
-msgstr "nedre grense (fra og med)"
-
-#: system/models.py:32
-msgid "range max (inclusive)"
-msgstr "øvre grense (til og med)"
-
-#: system/models.py:33
-msgid "random string set"
-msgstr "tekstsett"
-
-#: system/models.py:37
-msgid "variables"
-msgstr "variabler"
-
-#: system/models.py:66 system/models.py:108 system/models.py:185
-msgid "title"
-msgstr "tittel"
-
-#: system/models.py:67 system/models.py:109 system/models.py:186
-msgid "display title"
-msgstr "visningstittel"
-
-#: system/models.py:68 system/models.py:112 system/models.py:188
+#: system/models.py:22 system/models.py:69 system/models.py:113
+#: system/models.py:189
 msgid "admin note"
 msgstr "administratornotat"
 
-#: system/models.py:70 users/models.py:146
+#: system/models.py:23
+msgid "initial value"
+msgstr "startverdi"
+
+#: system/models.py:24
+msgid "user editable"
+msgstr "brukerredigerbar"
+
+#: system/models.py:26
+msgid "boolean"
+msgstr "boolsk verdi"
+
+#: system/models.py:27
+msgid "numeric"
+msgstr "tallverdi"
+
+#: system/models.py:28
+msgid "string"
+msgstr "tekststreng"
+
+#: system/models.py:30
+msgid "randomization type"
+msgstr "tilfeldig type"
+
+#: system/models.py:31
+msgid "randomize once"
+msgstr "tilfeldig første gang"
+
+#: system/models.py:32
+msgid "range min (inclusive)"
+msgstr "nedre grense (fra og med)"
+
+#: system/models.py:33
+msgid "range max (inclusive)"
+msgstr "øvre grense (til og med)"
+
+#: system/models.py:34
+msgid "random string set"
+msgstr "tekstsett"
+
+#: system/models.py:38
+msgid "variables"
+msgstr "variabler"
+
+#: system/models.py:67 system/models.py:109 system/models.py:186
+msgid "title"
+msgstr "tittel"
+
+#: system/models.py:68 system/models.py:110 system/models.py:187
+msgid "display title"
+msgstr "visningstittel"
+
+#: system/models.py:71 users/models.py:146
 msgid "users"
 msgstr "brukere"
 
-#: system/models.py:73 system/models.py:86 system/models.py:110
+#: system/models.py:74 system/models.py:87 system/models.py:111
 msgid "program"
 msgstr "program"
 
-#: system/models.py:74
+#: system/models.py:75
 msgid "programs"
 msgstr "programmer"
 
-#: system/models.py:87 users/models.py:145
+#: system/models.py:88 users/models.py:145
 msgid "user"
 msgstr "bruker"
 
-#: system/models.py:89
+#: system/models.py:90
 msgid "start time"
 msgstr "starttid"
 
-#: system/models.py:90
+#: system/models.py:91
 msgid "time factor"
 msgstr "tidsfaktor"
 
-#: system/models.py:93
+#: system/models.py:94
 msgid "user access"
 msgstr "brukertilgang"
 
-#: system/models.py:94
+#: system/models.py:95
 msgid "user accesses"
 msgstr "brukertilganger"
 
-#: system/models.py:111 system/models.py:195
+#: system/models.py:112 system/models.py:196
 msgid "content"
 msgstr "innhold"
 
-#: system/models.py:116
+#: system/models.py:117
 msgid "days"
 msgstr "dager"
 
-#: system/models.py:118
+#: system/models.py:119
 msgid "start time delta"
 msgstr "avvik starttid"
 
-#: system/models.py:119
+#: system/models.py:120
 msgid "start time unit"
 msgstr "enhet starttid"
 
-#: system/models.py:120
+#: system/models.py:121
 msgid "end time delta"
 msgstr "avvik sluttid"
 
-#: system/models.py:121
+#: system/models.py:122
 msgid "end time unit"
 msgstr "enhet sluttid"
 
-#: system/models.py:122
+#: system/models.py:123
 msgid "first start time"
 msgstr "første starttid"
 
-#: system/models.py:123
+#: system/models.py:124
 msgid "scheduled"
 msgstr "i tidsplan"
 
-#: system/models.py:124
+#: system/models.py:125
 msgid "trigger login"
 msgstr "innlogging"
 
-#: system/models.py:131
+#: system/models.py:132
 msgid "session"
 msgstr "økt"
 
-#: system/models.py:132
+#: system/models.py:133
 msgid "sessions"
 msgstr "økter"
 
-#: system/models.py:135
+#: system/models.py:136
 #, python-format
 msgid "Session %s"
 msgstr "Økt %s"
 
-#: system/models.py:187
+#: system/models.py:188
 msgid "content type"
 msgstr "innholdstype"
 
-#: system/models.py:196
+#: system/models.py:197
 msgid "contents"
 msgstr "innhold"
 
-#: system/models.py:220
+#: system/models.py:221
 msgid "page"
 msgstr "side"
 
-#: system/models.py:221
+#: system/models.py:222
 msgid "pages"
 msgstr "sider"
 
-#: system/models.py:280
+#: system/models.py:281
 msgid "e-mail"
 msgstr "e-post"
 
-#: system/models.py:281
+#: system/models.py:282
 msgid "e-mails"
 msgstr "e-poster"
 
-#: system/models.py:313
+#: system/models.py:314
 msgid "SMS"
 msgstr "SMS"
 
-#: system/models.py:314
+#: system/models.py:315
 msgid "SMSs"
 msgstr "SMSer"
 
@@ -1048,3 +987,15 @@ msgstr "Beklager, noe gikk galt i behandling av din SMS."
 #: vault/views.py:107
 msgid "No data received."
 msgstr ""
+
+#~ msgid "Enter valid JSON"
+#~ msgstr "Skriv inn gyldig JSON"
+
+#~ msgid "Available variables"
+#~ msgstr "Tilgjengelige variabler"
+
+#~ msgid "Search"
+#~ msgstr "Søk"
+
+#~ msgid "Reserved"
+#~ msgstr "Reservert"
