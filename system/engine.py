@@ -88,12 +88,11 @@ class Engine(object):
             """
             # Pick out values from the condition
             lhs = condition['var_name']
-            operator = condition['operator']
             rhs = condition['value']
 
-            # switch out variables with actual values from the users data or default if not found
-            lhs = user.data.get(lhs, cls.get_system_var(lhs))
-            rhs = user.data.get(rhs, cls.get_system_var(rhs))
+            # Switch values for variables if defined.
+            lhs = user.data.get(lhs, cls.get_system_var(lhs))  # Left hand side must be a defined variable.
+            rhs = user.data.get(rhs, cls.get_system_var(rhs)) or rhs
 
             # Try converting values to float values
             try:
@@ -115,9 +114,10 @@ class Engine(object):
             condition.update({'var_name': lhs, 'value': rhs})
             return condition
 
-        # If we have no conditions, set the expression evaluation list to True,
-        # else we need to evaluate each condition to make out the result.
-        expr_evals = [True if not conditions else False]
+        # If we have no conditions, create a list with a True value in order to
+        # pass the reduce test below. If we have conditions, create an empty list
+        # and evaluate each condition separately.
+        expr_evals = [True] if not conditions else []
         conditions = map(prepare_conditional_values, conditions)
         try:
             for condition in conditions:
@@ -137,6 +137,8 @@ class Engine(object):
                         expr_evals = [six.moves.reduce(operator.or_, expr_evals)]
 
         except AttributeError:
+            # The Expression class raise AttributeError if passing an invalid
+            # operator parameter. Skip evaluating non-valid expressions.
             pass
 
         # We always need at least one passing condition in order to continue.
@@ -208,7 +210,6 @@ class Engine(object):
             node = self.trigger_node(target_id)
 
             if isinstance(node, Page):
-
                 log_event.send(
                     self,
                     domain='session',
@@ -234,7 +235,6 @@ class Engine(object):
         ref_id = node.get('ref_id')
 
         if node_type == 'page':
-
             page = Page.objects.get(id=ref_id)
             page.update_html(self.user)
 
@@ -247,7 +247,6 @@ class Engine(object):
 
             useraccesses = self.session.program.programuseraccess_set.filter(user=self.user)
             for useraccess in useraccesses:
-
                 start_time = self.session.get_start_time(
                     useraccess.start_time,
                     useraccess.time_factor
@@ -259,6 +258,7 @@ class Engine(object):
                 delta = timedelta(**kwargs)
 
                 from system.tasks import transition
+
                 Task.objects.create_task(
                     sender=self.session,
                     domain='delay',
@@ -272,7 +272,6 @@ class Engine(object):
             return None
 
         if node_type == 'email':
-
             email = Email.objects.get(id=ref_id)
             email.send(self.user)
 
@@ -288,7 +287,6 @@ class Engine(object):
             return self.transition(node_id)
 
         if node_type == 'sms':
-
             sms = SMS.objects.get(id=ref_id)
             sms.send(self.user)
 
