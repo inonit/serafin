@@ -43,7 +43,7 @@ class Expression(object):
 
     Valid operators are eq, ne, lt, le, gt, ge and in.
 
-    Expressions can implements a __nonzero__ method and can therefore
+    Expressions implements a __nonzero__ method and can therefore
     be used in boolean comparisons.
 
     Examples.
