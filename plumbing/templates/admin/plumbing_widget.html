@@ -56,8 +56,9 @@
         <div class="overlay box">
             <div class="summary" ng-repeat="condition in edge.conditions track by $index">
                 {% verbatim %}
-                <span ng-if="condition.logical_operator">{{ condition.logical_operator }} </span>
-                {{ condition.var_name }}{% endverbatim %}
+                    <span ng-if="condition.logical_operator">{{ condition.logical_operator }} </span>
+                    {{ condition.var_name }}
+                {% endverbatim %}
                 <span ng-switch="condition.operator">
                     <span ng-switch-when="eq"> = </span>
                     <span ng-switch-when="ne"> &ne; </span>
@@ -80,8 +81,8 @@
             <div class="condition" ng-repeat="condition in edge.conditions track by $index">
                 {% verbatim %}
                 <select ng-if="!$first" ng-model="condition.logical_operator" ng-required
-                        ng-init="condition.logical_operator = logical_operators[0]"
-                        ng-options="operator for operator in logical_operators"></select>
+                        ng-options="o for o in logical_operators">
+                </select>
                 <select opt-title ng-model="condition.var_name">
                     <option ng-repeat="variable in variables" ng-value="variable.name" title="{{ variable.admin_note }}">{{ variable.name }}</option>
                 </select>
