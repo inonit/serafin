@@ -55,7 +55,9 @@
 
         <div class="overlay box">
             <div class="summary" ng-repeat="condition in edge.conditions track by $index">
-                {% verbatim %}{{ condition.var_name }}{% endverbatim %}
+                {% verbatim %}
+                <span ng-if="condition.logical_operator">{{ condition.logical_operator }} </span>
+                {{ condition.var_name }}{% endverbatim %}
                 <span ng-switch="condition.operator">
                     <span ng-switch-when="eq"> = </span>
                     <span ng-switch-when="ne"> &ne; </span>
