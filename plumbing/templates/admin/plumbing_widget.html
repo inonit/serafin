@@ -105,10 +105,10 @@
                 <span ng-controller="autocompleteController">
                   <input type="text" placeholder="{% trans 'Value' %}" autocomplete="off"
                          ng-model="queryString.query" ng-change="addQuery('/api/system/variables/search/')">
+                  <a class="trash" ng-click="deleteCondition($index)"><i class="icon-trash icon-alpha5"></i></a>
                   <div autocomplete-choices ng-model="results" ng-show="isVisible" ng-cloak></div>
                 </span>
 
-                <a class="trash" ng-click="deleteCondition($index)"><i class="icon-trash icon-alpha5"></i></a>
             </div>
             <div class="btn" ng-click="addCondition()">{% trans '+ Condition' %}</div>
         </div>
@@ -123,5 +123,6 @@
     var adminUrl = '{{ admin_url }}';
     var nodeApiUrl = '{{ node_api }}';
 </script>
+<link rel="stylesheet" href="{% static "css/autocomplete.css" %}"/>
 <script type="application/javascript" src="{% static "js/vendor/lodash.min.js" %}"></script>
-<script type="application/javascript" src="{% static "content/js/autocomplete.js" %}"></script>
+<script type="application/javascript" src="{% static "js/autocomplete.js" %}"></script>
