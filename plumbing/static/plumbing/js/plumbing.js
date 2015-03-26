@@ -48,7 +48,7 @@ var targetConfig = {
 };
 
 
-var plumbing = angular.module('plumbing', []);
+var plumbing = angular.module('plumbing', ['autocompleteSearch']);
 
 plumbing.service('jsPlumb', ['$rootScope', function(scope) {
 
