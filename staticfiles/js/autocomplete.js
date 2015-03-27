@@ -143,6 +143,10 @@ angular.module("autocompleteSearch", [])
                         scope.setVisibility(true);
                     }
                 });
+
+                input.bind("blur", function(e) {
+                    scope.setVisibility(false);
+                });
             }
         }
     })
