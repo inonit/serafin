@@ -16,7 +16,7 @@ angular.module("autocompleteSearch", [])
         $httpProvider.defaults.headers.common["X-Requested-With"] = "XMLHttpRequest";
     })
 
-    .controller("autocompleteController", function($scope, $q, $http, QueryService, QueueService) {
+    .controller("autocompleteController", function($scope, QueryService, QueueService) {
 
         QueueService.configure({timeout: xhrWait});
 
@@ -42,7 +42,7 @@ angular.module("autocompleteSearch", [])
         };
     })
 
-    .directive("autocompleteChoices", function($timeout, $compile) {
+    .directive("autocompleteChoices", function($timeout) {
         /**
          * Directive for autocompleting variables into a custom "select" widget
          * (actually just a div with some spans in it).
