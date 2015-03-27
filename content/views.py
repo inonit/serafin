@@ -14,7 +14,6 @@ import json
 
 
 @login_required
-@in_session('/login')
 def get_session(request):
 
     if request.is_ajax():
