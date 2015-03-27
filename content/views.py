@@ -54,7 +54,7 @@ def get_page(request):
         page = get_object_or_404(Page, id=page_id)
         page.update_html(request.user)
         page.dead_end = True
-        page.dead_end = False
+        page.stacked = False
 
     # engine selection
     else:
