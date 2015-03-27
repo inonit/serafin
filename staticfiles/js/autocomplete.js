@@ -1,5 +1,7 @@
 /**
  * Angular module for autocompleting stuff.
+ * Requires lodash to be loaded (Could probably be avoided by rewriting some stuff,
+ * it was just convenient for me =))
  * */
 
 "use strict";
@@ -20,7 +22,6 @@ angular.module("autocompleteSearch", [])
 
         function fetch(endpoint, queryString) {
             QueryService.fetch(endpoint, queryString).then(function(response) {
-                // TODO: Must be able to append to existing results
                 $scope.results = response;
             });
         }
@@ -43,7 +44,8 @@ angular.module("autocompleteSearch", [])
 
     .directive("autocompleteChoices", function($timeout, $compile) {
         /**
-         * Directive for autocompleting variables into a select widget.
+         * Directive for autocompleting variables into a custom "select" widget
+         * (actually just a div with some spans in it).
          * */
         return {
             restrict: "A",
@@ -157,7 +159,7 @@ angular.module("autocompleteSearch", [])
     .factory("QueryService", function($q, $http) {
         /**
          * Service responsible for querying the requested endpoint
-         * and return a $http promise.
+         * and return a promise.
          * */
         return {
             fetch: function(endpoint, queryString) {
