@@ -2,6 +2,13 @@
  * Angular module for autocompleting stuff.
  * Requires lodash to be loaded (Could probably be avoided by rewriting some stuff,
  * it was just convenient for me =))
+ *
+ * Example:
+ * <span ng-controller="autocompleteController">
+ *   <input type="text" placeholder="{% trans 'Value' %}" autocomplete="off"
+ *          ng-model="queryString.query" ng-change="addQuery('/api/system/variables/search/')">
+ *   <div autocomplete-choices ng-model="results" ng-show="isVisible" ng-cloak></div>
+ *  </span>
  * */
 
 "use strict";
