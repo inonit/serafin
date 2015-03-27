@@ -5,7 +5,7 @@
 "use strict";
 
 var xhrWait = 200,
-    minCharacters = 2,
+    minCharacters = 3,
     resultLimit = 20;
 
 angular.module("autocompleteSearch", [])
@@ -25,31 +25,20 @@ angular.module("autocompleteSearch", [])
             });
         }
 
-        // Container for autocomplete results
         $scope.results = [];
-
         $scope.queryString = {
-            query: "",          // Bind this one to the input field.
+            query: "",                  // Bind this one to the input field.
             limit: resultLimit
         };
 
-        // Keep track of the currently selected item
-        $scope._selectedItem = {};
-        $scope.setSelectedItem = function(item) {
-            $scope._selectedItem = item;
-        };
-        $scope.getSelectedItem = function() {
-            return $scope._selectedItem;
-        };
-
         $scope.addQuery = function(endpoint) {
-            // TODO: cancel pending requests in QueueService
+            // TODO: Should cancel current request so we don't send a request for each character written.
             if ($scope.queryString.query.length >= minCharacters) {
                 QueueService.add(_.partial(fetch, endpoint, $scope.queryString));
             } else if (!$scope.queryString.query.length) {
                 $scope.results = [];
             }
-        }
+        };
     })
 
     .directive("autocompleteChoices", function($timeout, $compile) {
@@ -58,8 +47,8 @@ angular.module("autocompleteSearch", [])
          * */
         return {
             restrict: "A",
-            transclude: true,
             require: "?ngModel",
+            transclude: true,
             scope: {
                 results: "=ngModel",
                 _isVisible: "=ngShow"
@@ -85,11 +74,15 @@ angular.module("autocompleteSearch", [])
                     });
                 };
 
-                $scope.getSelectedItem = $scope.$parent.getSelectedItem;
+                $scope._selectedItem = {};
+                $scope.getSelectedItem = function() {
+                    return $scope._selectedItem;
+                };
                 $scope.setSelectedItem = function(item) {
-                    // TODO: Set focus back on parents input field when selected.
                     $timeout(function() {
-                        $scope.$parent.setSelectedItem(item);
+                        $scope._selectedItem = item;
+                        $scope.$parent.queryString.query = item.name;
+                        $scope.setVisibility(false);
                     });
                 };
 
@@ -103,6 +96,31 @@ angular.module("autocompleteSearch", [])
                     }
                 };
 
+                $scope.keys = [];
+                $scope.keys.push({code: 27, action: function() { $scope.setVisibility(false); }});
+                $scope.keys.push({code: 13, action: function() {
+                    $scope.setSelectedItem($scope.results[$scope.getSelectedIndex()]);
+                }});
+                $scope.keys.push({code: 38, action: function() {
+                    $scope.setVisibility(true);
+                    $scope.setSelectedIndex($scope._selectedIndex > 0 ? $scope._selectedIndex - 1 : $scope.results.length - 1);
+                }});
+                $scope.keys.push({code: 40, action: function() {
+                    $scope.setVisibility(true);
+                    $scope.setSelectedIndex($scope._selectedIndex < $scope.results.length - 1 ? $scope._selectedIndex + 1 : 0);
+                }});
+
+                $scope.$on("keydown", function(_, obj) {
+                    var code = obj.code;
+                    $scope.keys.forEach(function(o) {
+                        if (o.code !== code) {
+                            return;
+                        }
+                        o.action();
+                        $scope.$apply();
+                    });
+                });
+
                 $scope.$watch("results", function(newInstance, oldInstance) {
                     $scope.setVisibility($scope.results.length ? true : false);
                     if (newInstance !== oldInstance) {
@@ -111,8 +129,20 @@ angular.module("autocompleteSearch", [])
                 }, true);
 
             }],
-            link: function($scope, $element, attrs) {
+            link: function(scope, element, attrs) {
+                var input = element.parent().children("input[type=text]");
+                input.bind("keydown", function(e) {
+                    if (_.find(scope.keys, "code", e.keyCode)) {
+                        e.preventDefault();
+                        scope.$broadcast("keydown", {code: e.keyCode});
+                    }
+                });
 
+                input.bind("click", function(e) {
+                    if (scope.results.length) {
+                        scope.setVisibility(true);
+                    }
+                });
             }
         }
     })
