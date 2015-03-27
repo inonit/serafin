@@ -253,8 +253,10 @@ content.directive('filer', ['$compile', '$http', function(compile, http) {
                 elem.find('#id_file_' + scope.index + '_thumbnail_img').attr('src', scope.noimg);
                 elem.find('#id_file_' + scope.index + '_description_txt').html('');
                 elem.find('#id_file_' + scope.index + '_clear').hide();
-                scope.pagelet.content.file_id = '';
-                scope.pagelet.content.url = '';
+                scope.$apply(function() {
+                    scope.pagelet.content.file_id = '';
+                    scope.pagelet.content.url = '';
+                })
             });
 
             // set ng-model
