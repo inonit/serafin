@@ -257,19 +257,19 @@ content.directive('filer', ['$compile', '$http', function(compile, http) {
                 scope.pagelet.content.url = '';
             });
 
-            // differentiate repeated elements
-            for (var i = 0; i < elem.children().length; i++) {
-                var child = elem.children()[i];
-
-                if (child.id === 'id_file') {
-                    var file_id = angular.element(child).attr('ng-model', 'pagelet.content.file_id');
-                    compile(file_id)(scope);
-                }
-
-                if (child.id) {
-                    child.id = child.id.replace('id_file', 'id_file_' + scope.index);
-                }
+            // set ng-model
+            var input = elem.find('#id_file')[0];
+            if (input.id === 'id_file') {
+                var file_id = angular.element(input).attr('ng-model', 'pagelet.content.file_id');
+                compile(file_id)(scope);
             }
+
+            // differentiate repeated elements
+            elem.find('#id_file')[0].id = 'id_file_' + scope.index;
+            elem.find('#id_file_thumbnail_img')[0].id = 'id_file_' + scope.index + '_thumbnail_img';
+            elem.find('#id_file_description_txt')[0].id = 'id_file_' + scope.index + '_description_txt';
+            elem.find('#id_file_clear')[0].id = 'id_file_' + scope.index + '_clear';
+            elem.find('#lookup_id_file')[0].id = 'lookup_id_file_' + scope.index;
 
             scope.apiURL = filerApi + scope.pagelet.content_type + '/';
 
