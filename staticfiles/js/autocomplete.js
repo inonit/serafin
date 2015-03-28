@@ -5,7 +5,7 @@
  *
  * Example:
  * <autocomplete-input placeholder="{% trans 'Value' %}"
- *      endpoint="/api/system/variables/search/"></autocomplete-input>
+ *      url="/api/system/variables/search/"></autocomplete-input>
  * */
 
 "use strict";
