@@ -4,11 +4,8 @@
  * it was just convenient for me =))
  *
  * Example:
- * <span ng-controller="autocompleteController">
- *   <input type="text" placeholder="{% trans 'Value' %}" autocomplete="off"
- *          ng-model="queryString.query" ng-change="addQuery('/api/system/variables/search/')">
- *   <div autocomplete-choices ng-model="results" ng-show="isVisible" ng-cloak></div>
- *  </span>
+ * <autocomplete-input placeholder="{% trans 'Value' %}"
+ *      endpoint="/api/system/variables/search/"></autocomplete-input>
  * */
 
 "use strict";
@@ -23,55 +20,45 @@ angular.module("autocompleteSearch", [])
         $httpProvider.defaults.headers.common["X-Requested-With"] = "XMLHttpRequest";
     })
 
-    .controller("autocompleteController", function($scope, QueryService, QueueService) {
-
-        QueueService.configure({timeout: xhrWait});
-
-        function fetch(endpoint, queryString) {
-            QueryService.fetch(endpoint, queryString).then(function(response) {
-                $scope.results = response;
-            });
-        }
-
-        $scope.results = [];
-        $scope.queryString = {
-            query: "",                  // Bind this one to the input field.
-            limit: resultLimit
-        };
-
-        $scope.addQuery = function(endpoint) {
-            // TODO: Should cancel current request so we don't send a request for each character written.
-            if ($scope.queryString.query.length >= minCharacters) {
-                QueueService.add(_.partial(fetch, endpoint, $scope.queryString));
-            } else if (!$scope.queryString.query.length) {
-                $scope.results = [];
-            }
-        };
-    })
-
-    .directive("autocompleteChoices", function($timeout) {
-        /**
-         * Directive for autocompleting variables into a custom "select" widget
-         * (actually just a div with some spans in it).
-         * */
+    .directive("autocompleteSearch", function() {
         return {
-            restrict: "A",
+            restrict: "E",
+            replace: true,
             require: "?ngModel",
-            transclude: true,
             scope: {
-                results: "=ngModel",
-                _isVisible: "=ngShow"
+                placeholder: "@placeholder",
+                url: "@url"
             },
             template:
-                '<span ng-repeat="item in results track by $index" ' +
-                    'ng-click=setSelectedItem(item) ' +
-                    'ng-class="{active: ($index === getSelectedIndex())}" ' +
-                    'ng-mouseenter="setSelectedIndex($index)" ' +
-                    'data-id="{{ item.id }}" ' +
-                    'class="autocomplete-item">' +
-                        '{{ item.name }}' +
-                '</span>',
-            controller: ["$scope", function($scope) {
+                '<div class="autocomplete-wrapper">' +
+                '   <input type="text" autocomplete="off" placeholder="{{ placeholder }}"' +
+                '           ng-model="queryString.query" ng-change="addQuery(\'{{ url }}\')">' +
+                '       <div class="autocomplete-choices" ng-model="results" ng-show="_isVisible" ng-cloak>' +
+                '           <span ng-repeat="item in results track by $index" ' +
+                '               ng-click=setSelectedItem(item) ' +
+                '               ng-class="{active: ($index === getSelectedIndex())}" ' +
+                '               ng-mouseenter="setSelectedIndex($index)" ' +
+                '               data-id="{{ item.id }}" ' +
+                '               class="autocomplete-item">' +
+                '                   {{ item.name }}' +
+                '           </span>' +
+                '       </div>' +
+                '</div>',
+            controller: ["$scope", "$timeout", "QueryService", "QueueService", function($scope, $timeout, QueryService, QueueService) {
+
+                QueueService.configure({timeout: xhrWait});
+
+                function fetch(endpoint, queryString) {
+                    QueryService.fetch(endpoint, queryString).then(function(response) {
+                        $scope.results = response;
+                    });
+                }
+
+                $scope.results = [];
+                $scope.queryString = {
+                    query: "",
+                    limit: resultLimit
+                };
 
                 $scope._selectedIndex = -1;
                 $scope.getSelectedIndex = function() {
@@ -90,7 +77,7 @@ angular.module("autocompleteSearch", [])
                 $scope.setSelectedItem = function(item) {
                     $timeout(function() {
                         $scope._selectedItem = item;
-                        $scope.$parent.queryString.query = item.name;
+                        $scope.queryString.query = item.name;
                         $scope.setVisibility(false);
                     });
                 };
@@ -119,6 +106,15 @@ angular.module("autocompleteSearch", [])
                     $scope.setSelectedIndex($scope._selectedIndex < $scope.results.length - 1 ? $scope._selectedIndex + 1 : 0);
                 }});
 
+                $scope.addQuery = function(endpoint) {
+                    // TODO: Should cancel current request so we don't send a request for each character written.
+                    if ($scope.queryString.query.length >= minCharacters) {
+                        QueueService.add(_.partial(fetch, endpoint, $scope.queryString));
+                    } else if (!$scope.queryString.query.length) {
+                        $scope.results = [];
+                    }
+                };
+
                 $scope.$on("keydown", function(_, obj) {
                     var code = obj.code;
                     $scope.keys.forEach(function(o) {
@@ -136,10 +132,10 @@ angular.module("autocompleteSearch", [])
                         $scope.setSelectedIndex(-1);
                     }
                 }, true);
-
             }],
             link: function(scope, element, attrs) {
-                var input = element.parent().children("input[type=text]");
+                var input = element.children("input[type=text]");
+                console.log(input);
                 input.bind("keydown", function(e) {
                     if (_.find(scope.keys, "code", e.keyCode)) {
                         e.preventDefault();
