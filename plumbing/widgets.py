@@ -26,6 +26,7 @@ class PlumbingWidget(forms.Widget):
         css = {
             'all': (
                 'plumbing/css/plumbing.css',
+                'css/autocomplete.css',
             )
         }
         js = (
@@ -34,4 +35,6 @@ class PlumbingWidget(forms.Widget):
             'plumbing/jqueryui/jquery-ui.min.js',
             'plumbing/jsplumb/jquery.jsPlumb-1.6.2-min.js',
             'plumbing/js/plumbing.js',
+            'js/vendor/lodash.min.js',
+            'js/autocomplete.js',
         )

@@ -1,0 +1,36 @@
+/**
+ * CSS for the autocomplete directive.
+ */
+
+div.autocomplete-wrapper {
+  display: inline-block;
+}
+
+div.autocomplete-choices {
+  z-index: 1000;
+  position: absolute;
+  background: #fff;
+  text-align: left;
+  border: 1px solid rgba(0, 0 ,0, 0.2);
+  max-height: 250px;
+  overflow: auto;
+  width: auto;
+  min-width: 300px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+div.autocomplete-choices > span {
+  display: block;
+  padding: .25rem .35rem;
+  font-size: inherit;
+}
+
+div.autocomplete-choices > span.active {
+  color: #fff;
+  background: #34d298;
+}
+
+div.autocomplete-choices > span:hover {
+  cursor: pointer;
+}

@@ -1,17 +1,21 @@
-from __future__ import unicode_literals
-from django.utils.translation import ugettext_lazy as _
+# -*- coding: utf-8 -*-
+
+from __future__ import absolute_import, unicode_literals
+
+import datetime
+import mistune
+import random
 
 from django.db import models
 from django.conf import settings
 from django.core.urlresolvers import reverse
+from django.core.exceptions import ValidationError
 from django.utils import timezone
+from django.utils.translation import ugettext_lazy as _
+
 from jsonfield import JSONField
 from collections import OrderedDict
 from serafin.utils import *
-import datetime
-import mistune
-import random
-import re
 
 
 class Variable(models.Model):
@@ -19,6 +23,7 @@ class Variable(models.Model):
 
     name = models.CharField(_('name'), max_length=64, unique=True)
     display_name = models.CharField(_('display name'), max_length=64, blank=True, default='')
+    admin_note = models.TextField(_('admin note'), blank=True)
     value = models.CharField(_('initial value'), max_length=32, blank=True, default='')
     user_editable = models.BooleanField(_('user editable'), default=False)
     RANDOM_TYPES = (
@@ -35,6 +40,7 @@ class Variable(models.Model):
     class Meta:
         verbose_name = _('variable')
         verbose_name_plural = _('variables')
+        ordering = ('display_name', 'name', 'value')
 
     def __unicode__(self):
         return self.name
@@ -150,6 +156,15 @@ class Session(models.Model):
         else:
             self.start_time = None
 
+        vars_used = []
+        for edge in self.data['edges']:
+            for condition in edge['conditions']:
+                try:
+                    variable = Variable.objects.get(name=condition['var_name'])
+                    vars_used.append(variable)
+                except Variable.DoesNotExist:
+                    raise ValidationError(_("Could not find Variable `%s`. Please make sure all "
+                                            "variables are predefined." % condition['var_name']))
         super(Session, self).save(*args, **kwargs)
 
         self.content = []
@@ -160,16 +175,8 @@ class Session(models.Model):
                 pass
 
         self.vars_used = []
-        for edge in self.data['edges']:
-            for condition in edge['conditions']:
-
-                variable, created = Variable.objects.get_or_create(
-                    name=condition['var_name']
-                )
-                if created:
-                    variable.save()
-
-                self.vars_used.add(variable)
+        for var in vars_used:
+            self.vars_used.add(var)
 
     def get_start_time(self, start_time, time_factor):
         kwargs = {
@@ -225,20 +232,20 @@ class Page(Content):
         self.content_type = 'page'
 
     def save(self, *args, **kwargs):
-        super(Page, self).save(*args, **kwargs)
-
-        self.vars_used = []
+        vars_used = []
         for pagelet in self.data:
             if pagelet['content_type'] == 'form':
                 for field in pagelet['content']:
-
-                    variable, created = Variable.objects.get_or_create(
-                        name=field['variable_name']
-                    )
-                    if created:
-                        variable.save()
-
-                    self.vars_used.add(variable)
+                    try:
+                        variable = Variable.objects.get(name=field['variable_name'])
+                        vars_used.append(variable)
+                    except Variable.DoesNotExist:
+                        raise ValidationError(_("Could not find Variable `%s`. Please make sure all "
+                                                "variables are predefined." % field['variable_name']))
+        super(Page, self).save(*args, **kwargs)
+        self.vars_used = []
+        for var in vars_used:
+            self.vars_used.add(var)
 
     def update_html(self, user):
         for pagelet in self.data:

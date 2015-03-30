@@ -456,3 +456,8 @@ div.error {
         padding: .95rem .5rem;
     }
 }
+
+/* Prevent minor flickering while waiting for angular */
+[ng\:cloak], [ng-cloak], [data-ng-cloak], [x-ng-cloak], .ng-cloak, .x-ng-cloak {
+    display: none !important;
+}

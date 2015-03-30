@@ -48,7 +48,7 @@ var targetConfig = {
 };
 
 
-var plumbing = angular.module('plumbing', []);
+var plumbing = angular.module('plumbing', ['autocompleteSearch']);
 
 plumbing.service('jsPlumb', ['$rootScope', function(scope) {
 
@@ -100,9 +100,19 @@ plumbing.run(['$rootScope', function(scope) {
 
 }]);
 
-plumbing.controller('varSearch', ['$scope', function(scope){
-    scope.variables = initVars;
-    scope.reserved = reserved;
+plumbing.factory('variables', ['$http', function(http) {
+    var variables = null;
+    return {
+        get: function() {
+            if (variables) return variables;
+
+            variables = http.get('/api/system/variables/').success(function(data) {
+                return data;
+            });
+
+            return variables
+        }
+    }
 }]);
 
 plumbing.controller('graph', ['$scope', 'jsPlumb', function(scope, jsPlumbService) {
@@ -330,7 +340,17 @@ plumbing.directive('noderef', ['$http', function(http) {
 plumbing.directive('edge', ['jsPlumb', function(jsPlumbService) {
     return {
         restrict: 'C',
-        controller: ['$scope', function(scope) {
+        controller: ['$scope', 'variables', function(scope, variables) {
+
+            scope.variables = [];
+            scope.logical_operators = ['AND', 'OR'];
+            variables.get().then(function(promise) {
+                scope.variables = promise.data;
+            });
+
+            scope.log = function(log) {
+                console.log(log)
+            }
 
             scope.deleteEdge = function(index) {
                 scope.data.edges.splice(index, 1);
@@ -339,8 +359,9 @@ plumbing.directive('edge', ['jsPlumb', function(jsPlumbService) {
             scope.addCondition = function() {
                 scope.edge.conditions.push({
                     var_name: '',
+                    logical_operator: '',
                     operator: '',
-                    value: '',
+                    value: ''
                 });
             };
 
@@ -409,6 +430,17 @@ plumbing.directive('edge', ['jsPlumb', function(jsPlumbService) {
                     ]]
                 });
             });
+        }
+    };
+}]);
+
+plumbing.directive('optTitle', [function() {
+    return {
+        restrict: 'A',
+        link: function(scope, element, attrs) {
+            element.bind('mouseenter', function() {
+                element[0].title = element.children(':selected')[0].title
+            })
         }
     };
 }]);

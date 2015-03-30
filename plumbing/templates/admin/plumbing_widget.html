@@ -15,15 +15,6 @@
         <div class="btn" ng-click="addNode('session')" id="lookup_{% verbatim %}{{ current_noderef }}{% endverbatim %}">{% trans '+ Session' %}</div>
     </div>
 
-    <ul class="variables" ng-controller="varSearch">
-        <p><strong>{% trans 'Available variables' %}</strong></p>
-        <p><input type="text" ng-model="query" placeholder="{% trans 'Search' %}" /></p>
-        <li class="variable" ng-repeat="variable in variables | filter:query track by
-        $index">{% verbatim %}{{ variable }}{% endverbatim %}</li>
-        <li class="variable disallowed" ng-repeat="variable in reserved track by
-        $index"><span>{% trans 'Reserved' %}</span> {% verbatim %}{{ variable }}{% endverbatim %}</li>
-    </ul>
-
     <div class="floatbox"></div>
 
     <div class="node box" ng-class="node.type" ng-repeat="node in data.nodes track by node.id" ng-style="getMetrics(node)" ng-model="data.nodes">
@@ -64,7 +55,10 @@
 
         <div class="overlay box">
             <div class="summary" ng-repeat="condition in edge.conditions track by $index">
-                {% verbatim %}{{ condition.var_name }}{% endverbatim %}
+                {% verbatim %}
+                    <span ng-if="condition.logical_operator">{{ condition.logical_operator }} </span>
+                    {{ condition.var_name }}
+                {% endverbatim %}
                 <span ng-switch="condition.operator">
                     <span ng-switch-when="eq"> = </span>
                     <span ng-switch-when="ne"> &ne; </span>
@@ -85,7 +79,14 @@
         <div class="conditions box" ng-show="showConditions == $index">
             <div class="close" ng-click="close()">×</div>
             <div class="condition" ng-repeat="condition in edge.conditions track by $index">
-                <input type="text" placeholder="{% trans 'Variable name' %}" ng-model="condition.var_name">
+                {% verbatim %}
+                <select ng-if="!$first" ng-model="condition.logical_operator" ng-required
+                        ng-options="o for o in logical_operators">
+                </select>
+                <select opt-title ng-model="condition.var_name">
+                    <option ng-repeat="variable in variables" ng-value="variable.name" title="{{ variable.admin_note }}">{{ variable.name }}</option>
+                </select>
+                {% endverbatim %}
                 <select ng-model="condition.operator">
                     <option value="eq"> = </option>
                     <option value="ne"> &ne; </option>
@@ -95,8 +96,11 @@
                     <option value="ge"> &ge; </option>
                     <option value="in"> {% trans 'contains' %} </option>
                 </select>
-                <input type="text" placeholder="{% trans 'Value' %}" ng-model="condition.value">
+
+                <autocomplete-search placeholder="{% trans 'Enter a value or variable name' %}" ng-model="condition.value"
+                    url="/api/system/variables/search/"></autocomplete-search>
                 <a class="trash" ng-click="deleteCondition($index)"><i class="icon-trash icon-alpha5"></i></a>
+
             </div>
             <div class="btn" ng-click="addCondition()">{% trans '+ Condition' %}</div>
         </div>
@@ -108,8 +112,6 @@
 
 <script>
     var initData = {{ value|safe }};
-    var initVars = {{ vars|safe }};
     var adminUrl = '{{ admin_url }}';
     var nodeApiUrl = '{{ node_api }}';
-    var reserved = {{ reserved_vars|safe }};
 </script>
