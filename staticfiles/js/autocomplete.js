@@ -4,8 +4,8 @@
  * it was just convenient for me =))
  *
  * Example:
- * <autocomplete-input placeholder="{% trans 'Value' %}"
- *      url="/api/system/variables/search/"></autocomplete-input>
+ * <autocomplete-search placeholder="{% trans 'Value' %}"
+ *      url="/api/system/variables/search/"></autocomplete-search>
  * */
 
 "use strict";
@@ -48,11 +48,12 @@ angular.module("autocompleteSearch", [])
 
                 QueueService.configure({timeout: xhrWait});
 
-                function fetch(endpoint, queryString) {
-                    QueryService.fetch(endpoint, queryString).then(function(response) {
+                function fetch(url, queryString) {
+                    QueryService.fetch(url, queryString).then(function(response) {
                         $scope.results = response;
                     });
                 }
+
 
                 $scope.results = [];
                 $scope.queryString = {
@@ -93,7 +94,9 @@ angular.module("autocompleteSearch", [])
                 };
 
                 $scope.keys = [];
-                $scope.keys.push({code: 27, action: function() { $scope.setVisibility(false); }});
+                $scope.keys.push({code: 27, action: function() {
+                    $scope.setVisibility(false);
+                }});
                 $scope.keys.push({code: 13, action: function() {
                     $scope.setSelectedItem($scope.results[$scope.getSelectedIndex()]);
                 }});
@@ -106,22 +109,21 @@ angular.module("autocompleteSearch", [])
                     $scope.setSelectedIndex($scope._selectedIndex < $scope.results.length - 1 ? $scope._selectedIndex + 1 : 0);
                 }});
 
-                $scope.addQuery = function(endpoint) {
+                $scope.addQuery = function(url) {
                     // TODO: Should cancel current request so we don't send a request for each character written.
                     if ($scope.queryString.query.length >= minCharacters) {
-                        QueueService.add(_.partial(fetch, endpoint, $scope.queryString));
+                        QueueService.add(_.partial(fetch, url, $scope.queryString));
                     } else if (!$scope.queryString.query.length) {
                         $scope.results = [];
                     }
                 };
 
                 $scope.$on("keydown", function(_, obj) {
-                    var code = obj.code;
-                    $scope.keys.forEach(function(o) {
-                        if (o.code !== code) {
+                    $scope.keys.forEach(function(key) {
+                        if (key.code !== obj.code) {
                             return;
                         }
-                        o.action();
+                        key.action();
                         $scope.$apply();
                     });
                 });
@@ -135,7 +137,6 @@ angular.module("autocompleteSearch", [])
             }],
             link: function(scope, element, attrs) {
                 var input = element.children("input[type=text]");
-                console.log(input);
                 input.bind("keydown", function(e) {
                     if (_.find(scope.keys, "code", e.keyCode)) {
                         e.preventDefault();
@@ -143,14 +144,16 @@ angular.module("autocompleteSearch", [])
                     }
                 });
 
-                input.bind("click", function(e) {
+                input.bind("focus click", function(e) {
                     if (scope.results.length) {
                         scope.setVisibility(true);
                     }
                 });
 
                 input.bind("blur", function(e) {
-                    scope.setVisibility(false);
+                    // TODO: If clicking an item in the list,
+                    // make sure it's selected before closing!
+                    scope.setVisibility(false, 100);
                 });
             }
         }
@@ -165,11 +168,11 @@ angular.module("autocompleteSearch", [])
          * and return a promise.
          * */
         return {
-            fetch: function(endpoint, queryString) {
+            fetch: function(url, queryString) {
                 var deferred = $q.defer();
                 $http({
                     method: "GET",
-                    url: endpoint,
+                    url: url,
                     params: queryString
                 })
                 .success(function(response, status) {
