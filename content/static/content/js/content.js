@@ -1,4 +1,4 @@
-var content = angular.module('content', []);
+var content = angular.module('content', ["autocompleteSearch"]);
 
 var fileTemplate = {
     url: '',
@@ -41,6 +41,7 @@ var dataTemplates = {
     'conditionaltext': {
         conditions: [{
             var_name: '',
+            logical_operator: '',
             operator: '',
             value: ''
         }],
@@ -48,6 +49,7 @@ var dataTemplates = {
     },
     'condition': {
         var_name: '',
+        logical_operator: '',
         operator: '',
         value: ''
     },
@@ -144,6 +146,8 @@ content.run(['$rootScope', '$http', function(scope, http) {
 }]);
 
 content.controller('contentArray', ['$scope', function(scope) {
+
+    scope.logical_operators = ['AND', 'OR'];
     scope.add = function(array, type) {
         array.push(angular.copy(dataTemplates[type]));
     };

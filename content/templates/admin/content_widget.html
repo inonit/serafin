@@ -119,6 +119,13 @@
 
                 <div class="fieldset" ng-repeat="condition in content.conditions track by $index">
 
+                    <div class="field-data" ng-if="!$first">
+                      <label>{% trans 'Logical operator' %}</label>
+                        {% verbatim %}
+                        <select class="input-small" ng-model="condition.logical_operator" ng-required ng-options="o for o in logical_operators"></select>
+                        {% endverbatim %}
+                    </div>
+
                     <div class="field-data">
                         <label>{% trans 'Variable name' %}</label>
                         {% verbatim %}
@@ -141,7 +148,8 @@
                     </div>
                     <div class="field-data">
                         <label>{% trans 'Value' %}</label>
-                        <input type="text" ng-model="condition.value">
+                        <autocomplete-search placeholder="{% trans 'Value' %}" ng-model="condition.value"
+                            url="/api/system/variables/search/"></autocomplete-search>
                     </div>
                     <a class="trash" ng-click="delete(content.conditions, $index)"><i class="icon-trash icon-alpha5"></i></a>
                 </div>

@@ -1,3 +1,7 @@
+# -*- coding: utf-8 -*-
+
+from __future__ import absolute_import, unicode_literals
+
 from django import forms
 from django.template.loader import render_to_string
 from django.utils.safestring import mark_safe
@@ -40,12 +44,15 @@ class ContentWidget(forms.Widget):
         css = {
             'all': (
                 'content/css/content.css',
+                'css/autocomplete.css',
             )
         }
         js = (
             filer_settings.FILER_STATICMEDIA_PREFIX + 'js/popup_handling.js',
             'content/angular/angular.min.js',
-            'content/angular-ui-select/dist/select.min.js',
+            'js/vendor/lodash.min.js',
+            'js/autocomplete.js',
+            # 'content/angular-ui-select/dist/select.min.js',
             'content/marked/marked.js',
             'content/js/content.js',
         )
