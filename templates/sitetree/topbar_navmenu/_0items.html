@@ -1,0 +1,20 @@
+{% load i18n sitetree %}
+{% for item in sitetree_items %}
+    <section class="top-bar-section">
+        <ul class="{% if item.hint == "left" or item.hint == "right" %}{{ item.hint }}{% else %}left{% endif %}">
+            {% if item.has_children %}
+                <li class="has-dropdown">
+                    <a href="{{ item.url_resolved }}">
+                        {% trans item.title %}</a>
+                    <ul class="dropdown">
+                        {% sitetree_children of item for menu template "sitetree/topbar_navmenu/_1items.html" %}
+                    </ul>
+                </li>
+            {% else %}
+                <li><a href="{{ item.url_resolved }}">{% trans item.title %}</a></li>
+            {% endif %}
+        </ul>
+    </section>
+{% endfor %}
+
+

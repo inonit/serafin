@@ -1,3 +1,5 @@
+{% load i18n staticfiles sitetree %}
+
 <!doctype html>
 <html lang="{{ LANGUAGE_CODE|default:'no' }}" ng-app="serafin">
   {% load i18n %}
@@ -18,6 +20,8 @@
   <body>
     <div class="wrapper">
       <header>
+        {% sitetree_menu from "serafin_top_bar_menu" include "trunk, topmenu" template "sitetree/topbar_navmenu/navmenu.html" %}
+        {% comment %}
         <nav class="top-bar" data-topbar>
           <div class="right menu">
             <div class="hamburger" ng-click="toggleMenu()" ng-hide="desktop"></div>
@@ -43,6 +47,7 @@
             </div>
           </div>
         </nav>
+        {% endcomment %}
       </header>
 
       <section class="messages">
