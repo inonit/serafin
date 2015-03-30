@@ -1,5 +1,4 @@
 {% load i18n %}
-{% load staticfiles %}
 <div id="plumbing" class="plumbing" ng-app="plumbing" ng-controller="graph"
      ng-mousedown="startScrolling($event)"
      ng-mouseup="stopScrolling()"
@@ -116,6 +115,3 @@
     var adminUrl = '{{ admin_url }}';
     var nodeApiUrl = '{{ node_api }}';
 </script>
-<link rel="stylesheet" href="{% static "css/autocomplete.css" %}"/>
-<script type="application/javascript" src="{% static "js/vendor/lodash.min.js" %}"></script>
-<script type="application/javascript" src="{% static "js/autocomplete.js" %}"></script>
