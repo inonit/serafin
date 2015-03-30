@@ -4,7 +4,7 @@
  * it was just convenient for me =))
  *
  * Example:
- * <autocomplete-search placeholder="{% trans 'Value' %}"
+ * <autocomplete-search placeholder="{% trans 'Value' %}" ng-model="myModel"
  *      url="/api/system/variables/search/"></autocomplete-search>
  * */
 
@@ -24,15 +24,17 @@ angular.module("autocompleteSearch", [])
         return {
             restrict: "E",
             replace: true,
+            transclude: true,
             require: "?ngModel",
             scope: {
                 placeholder: "@placeholder",
+                model: "=ngModel",
                 url: "@url"
             },
             template:
                 '<div class="autocomplete-wrapper">' +
                 '   <input type="text" autocomplete="off" placeholder="{{ placeholder }}"' +
-                '           ng-model="queryString.query" ng-change="addQuery(\'{{ url }}\')">' +
+                '           ng-model=queryString.query ng-change="addQuery(\'{{ url }}\')">' +
                 '       <div class="autocomplete-choices" ng-model="results" ng-show="_isVisible" ng-cloak>' +
                 '           <span ng-repeat="item in results track by $index" ' +
                 '               ng-click=setSelectedItem(item) ' +
@@ -54,10 +56,9 @@ angular.module("autocompleteSearch", [])
                     });
                 }
 
-
                 $scope.results = [];
                 $scope.queryString = {
-                    query: "",
+                    query: $scope.model,
                     limit: resultLimit
                 };
 
@@ -155,6 +156,12 @@ angular.module("autocompleteSearch", [])
                     // make sure it's selected before closing!
                     scope.setVisibility(false, 100);
                 });
+
+                // Set up reverse binding for the `ng-model` attribute.
+                scope.$watch("queryString.query", function(value) {
+                    scope.model = value;
+                });
+
             }
         }
     })

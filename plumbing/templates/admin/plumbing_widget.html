@@ -98,14 +98,9 @@
                     <option value="in"> {% trans 'contains' %} </option>
                 </select>
 
-                <!--
-                <input type="text" placeholder="{% trans 'Value' %}" ng-model="condition.value">
-                -->
-
-                <autocomplete-search placeholder="{% trans 'Value' %}"
+                <autocomplete-search placeholder="{% trans 'Value' %}" ng-model="condition.value"
                     url="/api/system/variables/search/"></autocomplete-search>
                 <a class="trash" ng-click="deleteCondition($index)"><i class="icon-trash icon-alpha5"></i></a>
-
 
             </div>
             <div class="btn" ng-click="addCondition()">{% trans '+ Condition' %}</div>
