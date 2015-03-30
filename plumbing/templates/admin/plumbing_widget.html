@@ -97,7 +97,7 @@
                     <option value="in"> {% trans 'contains' %} </option>
                 </select>
 
-                <autocomplete-search placeholder="{% trans 'Value' %}" ng-model="condition.value"
+                <autocomplete-search placeholder="{% trans 'Enter a value or variable name' %}" ng-model="condition.value"
                     url="/api/system/variables/search/"></autocomplete-search>
                 <a class="trash" ng-click="deleteCondition($index)"><i class="icon-trash icon-alpha5"></i></a>
 
