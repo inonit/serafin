@@ -149,10 +149,6 @@ def import_text(request):
     return render(request, 'import_text.html', context)
 
 
-
-
-
-
 class VariableViewSet(viewsets.ModelViewSet):
 
     queryset = Variable.objects.all()
