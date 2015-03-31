@@ -1,9 +1,9 @@
 {% load i18n sitetree %}
 {% for item in sitetree_items %}
     {% if item.has_children %}
-        <li class="has-dropdown">
+        <li has-dropdown>
             <a href="{{ item.url_resolved }}">{% trans item.title %}</a>
-            <ul class="dropdown">
+            <ul top-bar-dropdown>
                 <li><label>{% trans item.title %}</label></li>
                 {% sitetree_children of item for menu template "sitetree/topbar_navmenu/_1items.html" %}
             </ul>

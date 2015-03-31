@@ -1,19 +1,20 @@
 {% load i18n staticfiles sitetree %}
 
-<nav class="top-bar" data-topbar data-options="is_hover:false" role="navigation">
-  {% for item in sitetree_items %}
-    {# make sure this is the parent item #}
-    {% if forloop.first %}
-      <ul class="title-area">
-        <li class="name">
-          <h1><a href="{{ item.url_resolved }}">{{ item.title_resolved }}</a>
-          </h1>
-        </li>
-        <li class="toggle-topbar menu-icon"><a href="#"><span>{# Empty for just hamburger icon #}</span></a></li>
-      </ul>
-    {% endif %}
-
-    {# top menu items #}
-    {% sitetree_children of item for menu template "sitetree/topbar_navmenu/_0items.html" %}
-  {% endfor %}
-</nav>
+<div ng-controller="TopbarMenuController" ng-cloak>
+  <top-bar is-hover="false">
+      {% for item in sitetree_items %}
+      {# make sure this is the parent item #}
+      {% if forloop.first %}
+        <ul class="title-area">
+          <li class="name">
+            <h1><a href="{{ item.url_resolved }}">{{ item.title_resolved }}</a>
+            </h1>
+          </li>
+          <li toggle-top-bar class="menu-icon"><a href="#"><span>{# Empty #}</span></a></li>
+        </ul>
+      {% endif %}
+      {# top menu items #}
+      {% sitetree_children of item for menu template "sitetree/topbar_navmenu/_0items.html" %}
+    {% endfor %}
+  </top-bar>
+</div>

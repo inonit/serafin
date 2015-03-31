@@ -1,4 +1,4 @@
-var serafin = angular.module('serafin', ['ngAnimate']);
+var serafin = angular.module('serafin', ['ngAnimate', 'serafinTopbarMenu']);
 
 serafin.config(['$httpProvider', function(httpProvider) {
     httpProvider.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
