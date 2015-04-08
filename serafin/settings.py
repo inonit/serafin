@@ -64,6 +64,7 @@ INSTALLED_APPS = (
 
 MIDDLEWARE_CLASSES = (
     'django.contrib.sessions.middleware.SessionMiddleware',
+    'django.middleware.locale.LocaleMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
@@ -102,6 +103,13 @@ DATABASE_ROUTERS = ['serafin.db_routers.VaultRouter']
 # https://docs.djangoproject.com/en/1.6/topics/i18n/
 
 LANGUAGE_CODE = 'en'
+
+from django.utils.translation import ugettext_lazy as _
+
+LANGUAGES = (
+    ('en', _('English')),
+    ('nb', _('Norwegian')),
+)
 
 LOCALE_PATHS = (
     os.path.join(BASE_DIR, 'conf/locale'),
@@ -234,8 +242,6 @@ REST_FRAMEWORK = {
 
 
 # Admin interface
-
-from django.utils.translation import ugettext_lazy as _
 
 SUIT_CONFIG = {
     'CONFIRM_UNSAVED_CHANGES': False,
