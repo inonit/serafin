@@ -1,15 +1,18 @@
+# -*- coding: utf-8 -*-
+
 from __future__ import unicode_literals
-from django.utils.translation import ugettext_lazy as _
+
+import operator
+from datetime import date, timedelta
 
 from django.contrib.auth import get_user_model
-from django.core.signals import request_finished
-from django.utils import timezone
+from django.utils import six
+from django.utils.translation import ugettext_lazy as _
 
-from datetime import date, timedelta
 from events.signals import log_event
-from huey.djhuey import db_task
 from system.models import Variable, Session, Page, Email, SMS
 from tasker.models import Task
+from .expressions import Expression
 
 
 class Engine(object):
@@ -78,68 +81,69 @@ class Engine(object):
     def check_conditions(cls, conditions, user, return_value):
         '''Return a value if all conditions in a list of conditions pass (or no conditions)'''
 
-        passing = []
-        for condition in conditions:
-            var_name = condition.get('var_name')
-            operator = condition.get('operator')
-            value_b = condition.get('value')
+        def prepare_conditional_values(condition):
+            """
+            Prepares the condition for evaluation by replacing variables
+            with user defined or system default values.
+            """
+            # Pick out values from the condition
+            lhs = condition['var_name']
+            rhs = condition['value']
 
-            # variable comparison:
-            # if value_b is actually another var_name, assign users value to it
-            value_b = user.data.get(value_b, value_b)
-            value_a = user.data.get(var_name)
+            # Switch values for variables if defined.
+            lhs = user.data.get(lhs, cls.get_system_var(lhs))  # Left hand side must be a defined variable.
+            rhs = user.data.get(rhs, cls.get_system_var(rhs)) or rhs
 
-            # if either value is still not assigned, try system vars
-            if not value_a:
-                value_a = cls.get_system_var(var_name)
-
-            if not value_b:
-                value_b = cls.get_system_var(value_b)
-
+            # Try converting values to float values
             try:
-                # try converting to float for numeric comparisons
-                value_a_float = float(value_a)
-                value_b_float = float(value_b)
-
-                # only set to float if both pass conversion
-                value_a = value_a_float
-                value_b = value_b_float
-            except:
+                lhs, rhs = map(float, [lhs, rhs])
+            except ValueError:
                 pass
 
-            if isinstance(value_a, list):
-                value_a = ', '.join(value_a)
+            # Fixing lists
+            if isinstance(lhs, list):
+                lhs = ', '.join(lhs)
 
-            if isinstance(value_b, list):
-                value_b = ', '.join(value_b)
+            if isinstance(rhs, list):
+                rhs = ', '.join(rhs)
 
-            if var_name == 'group':
-                value_a = ', '.join(
+            if condition['var_name'] == 'group':
+                lhs = ', '.join(
                     [group.__unicode__() for group in user.groups.all()]
                 )
+            condition.update({'var_name': lhs, 'value': rhs})
+            return condition
 
-            if operator == 'eq':
-                passing.append(value_a == value_b)
+        # If we have no conditions, create a list with a True value in order to
+        # pass the reduce test below. If we have conditions, create an empty list
+        # and evaluate each condition separately.
+        expr_evals = [True] if not conditions else []
+        conditions = map(prepare_conditional_values, conditions)
+        try:
+            for condition in conditions:
+                expr_evals.append(Expression(
+                    lhs=condition['var_name'],
+                    operator=condition['operator'],
+                    rhs=condition['value']
+                ).eval)
 
-            if operator == 'ne':
-                passing.append(value_a != value_b)
+                # On each iteration, if the condition contains a logical operator,
+                # reduce the expression evaluations to a single value using the
+                # desired operator.
+                if 'logical_operator' in condition and condition['logical_operator'] in ["AND", 'OR']:
+                    if condition['logical_operator'] == 'AND':
+                        expr_evals = [six.moves.reduce(operator.and_, expr_evals)]
+                    elif condition['logical_operator'] == 'OR':
+                        expr_evals = [six.moves.reduce(operator.or_, expr_evals)]
 
-            if operator == 'lt':
-                passing.append(value_a < value_b)
+        except AttributeError:
+            # The Expression class raise AttributeError if passing an invalid
+            # operator parameter. Skip evaluating non-valid expressions.
+            pass
 
-            if operator == 'le':
-                passing.append(value_a <= value_b)
-
-            if operator == 'gt':
-                passing.append(value_a > value_b)
-
-            if operator == 'ge':
-                passing.append(value_a >= value_b)
-
-            if operator == 'in':
-                passing.append(unicode(value_b).lower() in unicode(value_a).lower())
-
-        if all(passing):
+        # We always need at least one passing condition in order to continue.
+        passing = six.moves.reduce(operator.and_, expr_evals)
+        if passing:
             return return_value
 
     def traverse(self, edges, source_id):
@@ -206,7 +210,6 @@ class Engine(object):
             node = self.trigger_node(target_id)
 
             if isinstance(node, Page):
-
                 log_event.send(
                     self,
                     domain='session',
@@ -232,7 +235,6 @@ class Engine(object):
         ref_id = node.get('ref_id')
 
         if node_type == 'page':
-
             page = Page.objects.get(id=ref_id)
             page.update_html(self.user)
 
@@ -245,7 +247,6 @@ class Engine(object):
 
             useraccesses = self.session.program.programuseraccess_set.filter(user=self.user)
             for useraccess in useraccesses:
-
                 start_time = self.session.get_start_time(
                     useraccess.start_time,
                     useraccess.time_factor
@@ -257,6 +258,7 @@ class Engine(object):
                 delta = timedelta(**kwargs)
 
                 from system.tasks import transition
+
                 Task.objects.create_task(
                     sender=self.session,
                     domain='delay',
@@ -270,7 +272,6 @@ class Engine(object):
             return None
 
         if node_type == 'email':
-
             email = Email.objects.get(id=ref_id)
             email.send(self.user)
 
@@ -286,7 +287,6 @@ class Engine(object):
             return self.transition(node_id)
 
         if node_type == 'sms':
-
             sms = SMS.objects.get(id=ref_id)
             sms.send(self.user)
 

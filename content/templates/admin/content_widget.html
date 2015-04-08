@@ -55,7 +55,11 @@
                 </div>
                 <div class="field-data">
                     <label>{% trans 'Variable name' %}</label>
-                    <input type="text" ng-model="pagelet.content.variable_name">
+                    {% verbatim %}
+                    <select opt-title ng-model="pagelet.content.variable_name">
+                        <option ng-repeat="variable in variables" ng-value="variable.name" title="{{ variable.admin_note }}">{{ variable.name }}</option>
+                    </select>
+                    {% endverbatim %}
                 </div>
                 <div class="field-data pull-down">
                     <label>
@@ -115,9 +119,20 @@
 
                 <div class="fieldset" ng-repeat="condition in content.conditions track by $index">
 
+                    <div class="field-data" ng-if="!$first">
+                      <label>{% trans 'Logical operator' %}</label>
+                        {% verbatim %}
+                        <select class="input-small" ng-model="condition.logical_operator" ng-required ng-options="o for o in logical_operators"></select>
+                        {% endverbatim %}
+                    </div>
+
                     <div class="field-data">
                         <label>{% trans 'Variable name' %}</label>
-                        <input type="text" ng-model="condition.var_name">
+                        {% verbatim %}
+                        <select opt-title ng-model="condition.var_name">
+                            <option ng-repeat="variable in variables" ng-value="variable.name" title="{{ variable.admin_note }}">{{ variable.name }}</option>
+                        </select>
+                        {% endverbatim %}
                     </div>
                     <div class="field-data">
                         <label>{% trans 'Condition' %}</label>
@@ -133,7 +148,8 @@
                     </div>
                     <div class="field-data">
                         <label>{% trans 'Value' %}</label>
-                        <input type="text" ng-model="condition.value">
+                        <autocomplete-search placeholder="{% trans 'Enter a value or variable name' %}" ng-model="condition.value"
+                            url="/api/system/variables/search/"></autocomplete-search>
                     </div>
                     <a class="trash" ng-click="delete(content.conditions, $index)"><i class="icon-trash icon-alpha5"></i></a>
                 </div>
@@ -177,7 +193,11 @@
                     </div>
                     <div class="field-data">
                         <label>{% trans 'Variable name' %}</label>
-                        <input type="text" ng-model="field.variable_name">
+                        {% verbatim %}
+                        <select opt-title ng-model="field.variable_name">
+                            <option ng-repeat="variable in variables" ng-value="variable.name" title="{{ variable.admin_note }}">{{ variable.name }}</option>
+                        </select>
+                        {% endverbatim %}
                     </div>
                 </div>
 
@@ -265,7 +285,11 @@
                     </div>
                     <div class="field-data">
                         <label>{% trans 'Variable name' %}</label>
-                        <input type="text" ng-model="question.variable_name">
+                        {% verbatim %}
+                        <select opt-title ng-model="question.variable_name">
+                            <option ng-repeat="variable in variables" ng-value="variable.name" title="{{ variable.admin_note }}">{{ variable.name }}</option>
+                        </select>
+                        {% endverbatim %}
                     </div>
                 </div>
 

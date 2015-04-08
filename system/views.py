@@ -1,14 +1,19 @@
-from __future__ import unicode_literals
+# -*- coding: utf-8 -*-
+
+from __future__ import absolute_import, unicode_literals
+
+import textwrap
 
 from django.contrib.admin.views.decorators import staff_member_required
 from django.contrib.contenttypes.models import ContentType
 from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render
 
-from system.models import Program, Session, Page, Email, SMS
+from rest_framework import viewsets
 
-import textwrap
-
+from .models import Variable, Program, Session, Page, Email, SMS
+from .serializers import VariableSerializer
+from .filters import VariableSearchFilter
 
 @staff_member_required
 def export_text(request):
@@ -142,3 +147,19 @@ def import_text(request):
     }
 
     return render(request, 'import_text.html', context)
+
+
+class VariableViewSet(viewsets.ModelViewSet):
+
+    queryset = Variable.objects.all()
+    serializer_class = VariableSerializer
+
+
+class VariableSearchViewSet(viewsets.ModelViewSet):
+
+    queryset = Variable.objects.all()
+    serializer_class = VariableSerializer
+    filter_backends = [VariableSearchFilter]
+    search_fields = ["name", "display_name"]
+
+

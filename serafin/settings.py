@@ -49,6 +49,7 @@ INSTALLED_APPS = (
     'system',
 
     'suit',
+    'sitetree',
     'django_extensions',
     'django.contrib.admin',
     'rest_framework',

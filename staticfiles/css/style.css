@@ -92,37 +92,40 @@ header {
     width: 100%;
 }
 
-.top-bar,
+/* Top bar navigation menu */
+.top-bar {
+  background: #332f3f;
+  border-bottom: 1px solid #1a1a21;
+}
+
+.top-bar.expanded .title-area {
+  background: #332f3f;
+}
+
+.top-bar ul.title-area h1 a {
+  font-size: 1.1rem;
+  text-transform: uppercase;
+  color: #73e0b8;
+}
+
+.top-bar-section li:not(.has-form) a:not(.button) {
+  background: #332f3f;
+}
+
+.top-bar-section .has-dropdown > ul.dropdown {
+  border-top: 1px solid #34a278;
+}
+
+.top-bar-section .has-dropdown > a,
+.top-bar-section .dropdown li > a {
+  color: #fff;
+}
+
+/* End topbar navigation menu */
+
 .footer {
     background: white;
     color: #444;
-}
-
-.top-bar .left {
-    overflow: hidden;
-    height: 44px;
-}
-
-.top-bar .entry {
-    display: inline;
-    color: #444;
-    line-height: 44px;
-    padding: 0 1rem;
-}
-
-.top-bar h1 {
-    font-size: 1.1rem;
-    text-transform: uppercase;
-}
-
-.top-bar .button {
-    position: relative;
-    top: 0;
-    margin: 0 15px;
-    font-size: 85%;
-}
-
-.footer {
     padding: 10px 15px 0;
 }
 
@@ -359,49 +362,22 @@ fieldset legend,
     background: white;
 }
 
-.top-bar {
-    background: #332f3f;
-    border-bottom: 1px solid #1a1a21;
-}
-
-.top-bar .entry {
-    color: #ccc;
-}
-
-.top-bar h1.entry {
-    color: #73e0b8;
-}
-
 .footer {
     background: #332f3f;
     color: #ccc;
     border-top: 1px solid #1a1a21;
 }
 
-.top-bar a,
 .footer a {
     color: white;
 }
 
-.top-bar a:hover,
 .footer a:hover {
     color: #ccc;
 }
 
 div.error {
     color: #f23a14;
-}
-
-.hamburger {
-    display: none;
-    background: #332f3f url('../img/menu.png') no-repeat center center;
-    background-size: 24px 24px;
-    height: 44px;
-    width: 45px;
-    cursor: pointer;
-    position: absolute;
-    top: 0;
-    right: 0;
 }
 
 .stats {
@@ -428,31 +404,16 @@ div.error {
     .hamburger {
         display: inline-block;
     }
-    .top-bar .menu {
-        position: relative;
-        z-index: 100;
-    }
-    .top-bar .menu .items {
-        position: absolute;
-        top: 45px;
-        right: 0;
-        background: #332f3f;
-        padding: .5rem;
-        line-height: 2;
-    }
-    .top-bar,
     .footer {
         font-size: 90%;
         overflow: visible;
     }
-    .top-bar .entry {
-        padding: 0 .5rem;
-    }
-    .top-bar .button {
-        margin: 0;
-        width: 9rem;
-    }
     .footer {
         padding: .95rem .5rem;
     }
+}
+
+/* Prevent minor flickering while waiting for angular */
+[ng\:cloak], [ng-cloak], [data-ng-cloak], [x-ng-cloak], .ng-cloak, .x-ng-cloak {
+    display: none !important;
 }
