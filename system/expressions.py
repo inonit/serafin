@@ -5,8 +5,6 @@ from __future__ import absolute_import, unicode_literals, print_function
 import functools
 import operator as oper
 
-from django.core.exceptions import ImproperlyConfigured
-
 
 def chain(func):
     """
@@ -90,7 +88,7 @@ class _Expression(object):
 
     def _get_operator(self, operator):
         if not self.operators:
-            raise ImproperlyConfigured(
+            raise AttributeError(
                 "%(cls)s has no attribute 'operators'. Define a %(cls)s.operators "
                 "dictionary or override the `_get_operator()` function." % {
                     "cls": self.__class__.__name__
