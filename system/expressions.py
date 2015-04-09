@@ -74,6 +74,10 @@ class _Expression(object):
     def __lt__(self, other):
         return self.eval < other
 
+    def __nonzero__(self):
+        return self.eval
+    __bool__ = __nonzero__
+
     def _clone(self, **kwargs):
         """
         Returns a new clone of self with updated values
