@@ -25,10 +25,6 @@ class _Expression(object):
     """
     Base class for simple expressions.
     The class supports method chaining for defined operators.
-
-    Example:
-      - Expression(5, "pow", 2).add(3) would evaluate to ((5 ** 2) + 3)
-      - Expression(4, "add", 2).div(2) would evaluate to ((4 + 2) / 2)
     """
 
     operators = None
@@ -41,10 +37,14 @@ class _Expression(object):
         try:
             self.operator = self._get_operator(operator.lower())
         except KeyError:
-            raise AttributeError("Invalid operator parameter. Valid operators are %s." %
-                                 ", ".join(self.operators.keys()))
+            raise AttributeError("Invalid operator parameter '%s'. Valid operators are %s." %
+                                 (operator, ", ".join(self.operators.keys())))
 
     def __call__(self, param):
+        """
+        Sets the right hand parameter based on the output from
+        the chained operator call.
+        """
         self.rhs = getattr(param, "eval", param)
         return self
 
@@ -72,6 +72,10 @@ class _Expression(object):
     __bool__ = __nonzero__
 
     def _clone(self, **kwargs):
+        """
+        Returns a new clone of self with updated values
+        from kwargs.
+        """
         klass = self.__class__.__new__(self.__class__)
         klass.__dict__ = self.__dict__.copy()
         klass.__dict__.update(**kwargs)
@@ -81,7 +85,7 @@ class _Expression(object):
         if not self.operators:
             raise ImproperlyConfigured(
                 "%(cls)s has no attribute 'operators'. Define a %(cls)s.operators "
-                "dictionary or override the `_get_operator` function." % {
+                "dictionary or override the `_get_operator()` function." % {
                     "cls": self.__class__.__name__
                 }
             )
@@ -100,19 +104,14 @@ class BoolExpression(_Expression):
             lhs="NOBODY expects the Spanish Inquisition!",
             operator="eq",
             rhs="NOBODY expects the Spanish Inquisition!"
-        )
+        ).eval
 
-    Valid operators are eq, ne, lt, le, gt, ge and in.
+    Expressions can be chained ie. like this:
+        BoolExpression(4, "gt", 3).and_(BoolExpression(["apple", "fish"], "in", "fish")).eval
+        would evaluate to (4 > 3) and ("fish" in ["apple", "fish"])
 
-    BoolExpression implements a __nonzero__ method and can therefore
-    be used in boolean comparisons.
-
-    Examples.
-        if BoolExpression(10, "gt", 9):
-            <my code goes here>
-
-        if BoolExpression(True, "eq" True) & BoolExpression("Foo", "ne", "Bar"):
-            <something clever>
+    Valid operators are
+      eq, ne, lt, le, gt, ge, in, contains (alias in), and_, or_.
     """
     operators = {
         "eq": oper.eq,
@@ -121,7 +120,10 @@ class BoolExpression(_Expression):
         "le": oper.le,
         "gt": oper.gt,
         "ge": oper.ge,
-        "in": oper.contains
+        "in": oper.contains,
+        "contains": oper.contains,
+        "and_": oper.and_,
+        "or_": oper.or_
     }
 
 
@@ -133,10 +135,15 @@ class MathExpression(_Expression):
             lhs=1,
             operator="add",
             rhs=2
-        )
+        ).eval
 
-    Valid operators are add, div, floordiv, pow, exponent (alias pow),
-    mod, modulo (alias mod), multiply, sub, subtract (alias sub).
+    Expressions can be chained ie. like this:
+        MathExpression(10, "add", 5).sub(1).div(MathExpression(1, "add", 1)).eval
+        would evaluate to ((10 + 5) - 1) / (1 + 1)
+
+    Valid operators are
+      add, div, floordiv, pow, exponent (alias pow), mod,
+      modulo (alias mod), multiply, sub, subtract (alias sub).
     """
 
     operators = {
