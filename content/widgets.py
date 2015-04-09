@@ -52,7 +52,6 @@ class ContentWidget(forms.Widget):
             'content/angular/angular.min.js',
             'js/vendor/lodash.min.js',
             'js/autocomplete.js',
-            # 'content/angular-ui-select/dist/select.min.js',
             'content/marked/marked.js',
             'content/js/content.js',
         )
@@ -76,6 +75,8 @@ class TextContentWidget(forms.Widget):
         }
         js = (
             'content/angular/angular.min.js',
+            'js/vendor/lodash.min.js',
+            'js/autocomplete.js',
             'content/marked/marked.js',
             'content/js/content.js',
         )
@@ -99,5 +100,7 @@ class SMSContentWidget(forms.Widget):
         }
         js = (
             'content/angular/angular.min.js',
+            'js/vendor/lodash.min.js',
+            'js/autocomplete.js',
             'content/js/content.js',
         )

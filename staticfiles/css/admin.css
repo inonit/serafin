@@ -3,3 +3,25 @@
     max-width: 700px;
     max-height: 500px
 }
+
+#language-switcher {
+    display: inline-block;
+    margin: 0;
+    padding: 0;
+}
+
+#language-switcher select {
+    background: transparent;
+    color: white;
+    border: none;
+    padding: 0;
+    margin: 0;
+    width: auto;
+    height: auto;
+    line-height: 1;
+    vertical-align: baseline;
+}
+
+#language-switcher option {
+    color: black;
+}
