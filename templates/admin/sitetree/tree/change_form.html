@@ -1,0 +1,49 @@
+{% extends "admin/change_form.html" %}
+{% load i18n admin_list sitetree %}
+
+{% block after_related_objects %}
+{% if change %}
+<style type="text/css">
+    #result_list tbody tr:hover{
+        background-color: #EDF3FE;
+    }
+    .align-center{
+        text-align: center;
+    }
+</style>
+
+{% if has_add_permission %}
+<div class="object-tools">
+    <a href="item_add/" class="addlink btn btn-success">
+        <i class="icon-plus-sign icon-white"></i>
+        {% trans "Add Site Tree item" %}
+    </a>
+</div>
+{% endif %}
+<div class="module aligned">
+    <h2>{% trans "Site Tree Items" %} {{ original.alias }}</h2>
+</div>
+
+<div class="module">
+    <table id="result_list" class="table table-bordered table-hover table-condensed">
+        <thead>
+            <tr>
+                <th width="1%">{% trans "Hidden" %}</th>
+                <th width="1%">{% trans "Menu" %}</th>
+                <th width="1%">{% trans "Breadcrumbs" %}</th>
+                <th width="1%">{% trans "Tree" %}</th>
+                <th width="1%"><nobr>{% trans "Restricted" %}</nobr></th>
+                <th width="1%"><nobr>{% trans "Users only" %}</nobr></th>
+                <th width="1%"><nobr>{% trans "Guests only" %}</nobr></th>
+                <th width="25%">{% trans "Title" %}</th>
+                <th width="20%">{% trans "URL" %}</th>
+                <th>{% trans "Sort order" %}</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% sitetree_tree from original.alias template "admin/sitetree/tree/tree.html" %}
+        </tbody>
+    </table>
+</div>
+{% endif %}
+{% endblock %}

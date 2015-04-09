@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Serafin\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-03-30 14:29+0200\n"
+"POT-Creation-Date: 2015-04-10 00:29+0200\n"
 "PO-Revision-Date: 2014-08-26 11:35+0200\n"
 "Last-Translator: Eirik Krogstad <eirikkr@gmail.com>\n"
 "Language: nb\n"
@@ -212,6 +212,7 @@ msgstr "Alternativtittel"
 #: content/templates/admin/content_widget.html:356
 #: content/templates/admin/content_widget.html:366
 #: content/templates/admin/content_widget.html:376
+#: templates/admin/sitetree/tree/change_form.html:38
 msgid "Title"
 msgstr "Tittel"
 
@@ -278,6 +279,12 @@ msgstr "hendelser"
 msgid "Export"
 msgstr "Eksport"
 
+#: lib/python2.7/site-packages/jsonfield/fields.py:31
+#: lib/python2.7/site-packages/jsonfield/fields.py:43
+#: lib/python2.7/site-packages/jsonfield/fields.py:81
+msgid "Enter valid JSON"
+msgstr "Skriv inn gyldig JSON"
+
 #: plumbing/templates/admin/plumbing_widget.html:11
 msgid "+ Page"
 msgstr "+ Side"
@@ -322,23 +329,31 @@ msgstr "Tillatelser"
 msgid "Filer"
 msgstr "Media"
 
-#: serafin/settings.py:250
+#: serafin/settings.py:111
+msgid "English"
+msgstr ""
+
+#: serafin/settings.py:112
+msgid "Norwegian"
+msgstr "Norsk bokmål"
+
+#: serafin/settings.py:257
 msgid "Users"
 msgstr "Brukere"
 
-#: serafin/settings.py:260
+#: serafin/settings.py:267
 msgid "Program"
 msgstr "Program"
 
-#: serafin/settings.py:274
+#: serafin/settings.py:281
 msgid "Events"
 msgstr "Hendelser"
 
-#: serafin/settings.py:284
+#: serafin/settings.py:291
 msgid "Media"
 msgstr "Media"
 
-#: serafin/settings.py:289
+#: serafin/settings.py:296
 msgid "Settings"
 msgstr "Oppsett"
 
@@ -691,26 +706,65 @@ msgstr ""
 msgid "Documentation"
 msgstr ""
 
-#: templates/admin/base.html:81
+#: templates/admin/base.html:98
 msgid "Change password"
 msgstr ""
 
-#: templates/admin/base.html:83
+#: templates/admin/base.html:100
 msgid "Log out"
 msgstr ""
 
-#: templates/admin/base.html:103
+#: templates/admin/base.html:120
 msgid "Home"
 msgstr "Hjem"
 
-#: templates/base.html:26 users/templates/profile.html:6
-#: users/templates/profile.html.py:15
-msgid "User profile"
-msgstr "Min side"
+#: templates/admin/base_site.html:43
+msgid "Developed by"
+msgstr "Utviklet av"
 
-#: templates/base.html:27
-msgid "Quit / sign out"
-msgstr "Avslutt / logg ut"
+#: templates/admin/sitetree/tree/change_form.html:19
+msgid "Add Site Tree item"
+msgstr "Legg til menypunkt"
+
+#: templates/admin/sitetree/tree/change_form.html:24
+msgid "Site Tree Items"
+msgstr "Menypunkter"
+
+#: templates/admin/sitetree/tree/change_form.html:31
+msgid "Hidden"
+msgstr "Skjult"
+
+#: templates/admin/sitetree/tree/change_form.html:32
+msgid "Menu"
+msgstr "Meny"
+
+#: templates/admin/sitetree/tree/change_form.html:33
+msgid "Breadcrumbs"
+msgstr "Navigasjonssti"
+
+#: templates/admin/sitetree/tree/change_form.html:34
+msgid "Tree"
+msgstr "Tre"
+
+#: templates/admin/sitetree/tree/change_form.html:35
+msgid "Restricted"
+msgstr "Avgrenset"
+
+#: templates/admin/sitetree/tree/change_form.html:36
+msgid "Users only"
+msgstr "Kun brukere"
+
+#: templates/admin/sitetree/tree/change_form.html:37
+msgid "Guests only"
+msgstr "Kun gjester"
+
+#: templates/admin/sitetree/tree/change_form.html:39
+msgid "URL"
+msgstr ""
+
+#: templates/admin/sitetree/tree/change_form.html:40
+msgid "Sort order"
+msgstr "Sortering"
 
 #: templates/registration/password_reset_complete.html:4
 #: templates/registration/password_reset_complete.html:8
@@ -970,6 +1024,14 @@ msgstr ""
 msgid "Forgot your password?"
 msgstr "Glemt passordet ditt?"
 
+#: users/templates/sitetree/topbar_navmenu/navmenu.html:17
+msgid "Account"
+msgstr "Konto"
+
+#: users/templates/profile.html:6 users/templates/profile.html.py:15
+msgid "User profile"
+msgstr "Min side"
+
 #: users/templates/profile.html:10
 msgid "Today's session"
 msgstr "Dagens tema"
@@ -1017,15 +1079,3 @@ msgstr "Beklager, noe gikk galt i behandling av din SMS."
 #: vault/views.py:107
 msgid "No data received."
 msgstr "Ingen data mottatt"
-
-#~ msgid "Enter valid JSON"
-#~ msgstr "Skriv inn gyldig JSON"
-
-#~ msgid "Available variables"
-#~ msgstr "Tilgjengelige variabler"
-
-#~ msgid "Search"
-#~ msgstr "Søk"
-
-#~ msgid "Reserved"
-#~ msgstr "Reservert"

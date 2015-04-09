@@ -14,6 +14,7 @@
         </ul>
       {% endif %}
       {# top menu items #}
+      <div style="display:none">{% trans "Account" %}</div>
       {% sitetree_children of item for menu template "sitetree/topbar_navmenu/_0items.html" %}
     {% endfor %}
   </top-bar>
