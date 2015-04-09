@@ -5,18 +5,24 @@
 {#{% block extrahead %}#}
 {#{% endblock %}#}
 
-
 {# Additional CSS includes #}
 {% block extrastyle %}
-  <link rel="stylesheet" href="{% static 'css/admin.css' %}" media="all">
+    <style>
+        {% for group in user.groups.all %}
+        {% if group.name == 'Admin visitor' %}
+        .save-box {
+            display: none;
+        }
+        {% endif %}
+        {% endfor %}
+    </style>
+    <link rel="stylesheet" href="{% static 'css/admin.css' %}" media="all">
 {% endblock %}
-
 
 {# Additional JS files in footer, right before </body> #}
 {% block extrajs %}
-  <script type="text/javascript" src="{% static 'js/admin.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/admin.js' %}"></script>
 {% endblock %}
-
 
 {# Footer links (left side) #}
 {% block footer_links %}
@@ -25,33 +31,14 @@
 
 {# Additional header content like notifications or language switcher #}
 {% block header_content %}
-{#    {{ block.super }}#}
-{#    <div class="header-content">#}
-{#        <!-- First icon column -->#}
-{#        <div class="header-column icon">#}
-{#            <i class="icon-home"></i><br>#}
-{#            <i class="icon-cog"></i>#}
-{#        </div>#}
-{#        <div class="header-column" style="margin-right: 20px">#}
-{#            <a href="/" class="grey">Front-end</a><br>#}
-{#            <a href="" class="grey">One more link</a>#}
-{#        </div>#}
-{#        <!-- Second icon column -->#}
-{#        <div class="header-column icon">#}
-{#            <i class="icon-comment"></i>#}
-{#        </div>#}
-{#        <div class="header-column">#}
-{#            <a href="" class="grey">5 new messages</a>#}
-{#        </div>#}
-{#    </div>#}
 {% endblock %}
 
 {# Footer branding name (center) #}
 {#{% block footer_branding %}#}
 {#{% endblock %}#}
 
-
 {# Footer copyright (right side) #}
 {% block copyright %}
-Copyright &copy; {% now 'Y' %} SERAF, UiO<br>Utviklet av <a href="mailto:support@inonit.no" target="_blank">Inonit AS</a>
+{% load i18n %}
+Copyright &copy; {% now 'Y' %} SERAF, UiO<br>{% trans 'Developed by' %} <a href="mailto:support@inonit.no" target="_blank">Inonit AS</a>
 {% endblock %}
