@@ -3,40 +3,40 @@
 from __future__ import absolute_import, unicode_literals
 from django.test import TestCase
 
-from ..expressions import Expression
+from ..expressions import BoolExpression
 
 
-class ExpressionTestCase(TestCase):
+class BoolExpressionTestCase(TestCase):
 
     # "eq" operator
     def test_expression_string_eq(self):
-        self.assertTrue(Expression(
+        self.assertTrue(BoolExpression(
             lhs="NOBODY expects the Spanish Inquisition!",
             operator="eq",
             rhs="NOBODY expects the Spanish Inquisition!"
         ))
-        self.assertFalse(Expression("Foo", "eq", "Bar"))
+        self.assertFalse(BoolExpression("Foo", "eq", "Bar"))
 
     def test_expression_int_eq(self):
-        self.assertTrue(Expression(1, "eq", 1))
-        self.assertFalse(Expression(1, "eq", 2))
+        self.assertTrue(BoolExpression(1, "eq", 1))
+        self.assertFalse(BoolExpression(1, "eq", 2))
 
     def test_expression_bool_eq(self):
-        self.assertTrue(Expression(True, "eq", True))
-        self.assertFalse(Expression(True, "eq", False))
+        self.assertTrue(BoolExpression(True, "eq", True))
+        self.assertFalse(BoolExpression(True, "eq", False))
 
     # "ne" operator
     def test_expression_string_ne(self):
-        self.assertTrue(Expression("Foo", "ne", "Bar"))
-        self.assertFalse(Expression("Foo", "ne", "Foo"))
+        self.assertTrue(BoolExpression("Foo", "ne", "Bar"))
+        self.assertFalse(BoolExpression("Foo", "ne", "Foo"))
 
     def test_expression_int_ne(self):
-        self.assertTrue(Expression(1, "ne", 2))
-        self.assertFalse(Expression(1, "ne", 1))
+        self.assertTrue(BoolExpression(1, "ne", 2))
+        self.assertFalse(BoolExpression(1, "ne", 1))
 
     def test_expression_bool_ne(self):
-        self.assertTrue(Expression(True, "ne", False))
-        self.assertFalse(Expression(True, "ne", True))
+        self.assertTrue(BoolExpression(True, "ne", False))
+        self.assertFalse(BoolExpression(True, "ne", True))
 
     # "lt" operator
     def test_expression_string_lt(self):
@@ -44,89 +44,89 @@ class ExpressionTestCase(TestCase):
         self.assertTrue(
             ord("a") < ord("b")
         )
-        self.assertTrue(Expression("a", "lt", "b"))
-        self.assertFalse(Expression("b", "lt", "a"))
+        self.assertTrue(BoolExpression("a", "lt", "b"))
+        self.assertFalse(BoolExpression("b", "lt", "a"))
 
     def test_expression_int_lt(self):
-        self.assertTrue(Expression(1, "lt", 2))
-        self.assertFalse(Expression(1, "lt", 1))
-        self.assertFalse(Expression(2, "lt", 1))
+        self.assertTrue(BoolExpression(1, "lt", 2))
+        self.assertFalse(BoolExpression(1, "lt", 1))
+        self.assertFalse(BoolExpression(2, "lt", 1))
 
     def test_expression_bool_lt(self):
-        self.assertTrue(Expression(False, "lt", True))
-        self.assertFalse(Expression(True, "lt", False))
+        self.assertTrue(BoolExpression(False, "lt", True))
+        self.assertFalse(BoolExpression(True, "lt", False))
 
     # "le" operator
     def test_expression_string_le(self):
         self.assertTrue(
             ord("a") <= ord("b")
         )
-        self.assertTrue(Expression("a", "le", "a"))
-        self.assertTrue(Expression("a", "le", "b"))
-        self.assertFalse(Expression("b", "le", "a"))
+        self.assertTrue(BoolExpression("a", "le", "a"))
+        self.assertTrue(BoolExpression("a", "le", "b"))
+        self.assertFalse(BoolExpression("b", "le", "a"))
 
     def test_expression_int_le(self):
-        self.assertTrue(Expression(1, "le", 1))
-        self.assertTrue(Expression(1, "le", 2))
-        self.assertFalse(Expression(2, "le", 1))
+        self.assertTrue(BoolExpression(1, "le", 1))
+        self.assertTrue(BoolExpression(1, "le", 2))
+        self.assertFalse(BoolExpression(2, "le", 1))
 
     def test_expression_bool_le(self):
-        self.assertTrue(Expression(False, "le", True))
-        self.assertTrue(Expression(False, "le", False))
-        self.assertTrue(Expression(True, "le", True))
-        self.assertFalse(Expression(True, "le", False))
+        self.assertTrue(BoolExpression(False, "le", True))
+        self.assertTrue(BoolExpression(False, "le", False))
+        self.assertTrue(BoolExpression(True, "le", True))
+        self.assertFalse(BoolExpression(True, "le", False))
 
     # "gt" operator
     def test_expression_string_gt(self):
         self.assertTrue(
             ord("b") > ord("a")
         )
-        self.assertTrue(Expression("b", "gt", "a"))
-        self.assertFalse(Expression("a", "gt", "b"))
+        self.assertTrue(BoolExpression("b", "gt", "a"))
+        self.assertFalse(BoolExpression("a", "gt", "b"))
 
     def test_expression_int_gt(self):
-        self.assertTrue(Expression(2, "gt", 1))
-        self.assertFalse(Expression(1, "gt", 2))
+        self.assertTrue(BoolExpression(2, "gt", 1))
+        self.assertFalse(BoolExpression(1, "gt", 2))
 
     def test_expression_bool_gt(self):
-        self.assertTrue(Expression(True, "gt", False))
-        self.assertFalse(Expression(False, "gt", True))
+        self.assertTrue(BoolExpression(True, "gt", False))
+        self.assertFalse(BoolExpression(False, "gt", True))
 
     # "ge" operator
     def test_expression_string_ge(self):
         self.assertTrue(
             ord("b") >= ord("a")
         )
-        self.assertTrue(Expression("a", "ge", "a"))
-        self.assertTrue(Expression("b", "ge", "a"))
-        self.assertFalse(Expression("a", "ge", "b"))
+        self.assertTrue(BoolExpression("a", "ge", "a"))
+        self.assertTrue(BoolExpression("b", "ge", "a"))
+        self.assertFalse(BoolExpression("a", "ge", "b"))
 
     def test_expression_int_ge(self):
-        self.assertTrue(Expression(1, "ge", 1))
-        self.assertTrue(Expression(2, "ge", 1))
-        self.assertFalse(Expression(1, "ge", 2))
+        self.assertTrue(BoolExpression(1, "ge", 1))
+        self.assertTrue(BoolExpression(2, "ge", 1))
+        self.assertFalse(BoolExpression(1, "ge", 2))
 
     def test_expression_bool_ge(self):
-        self.assertTrue(Expression(True, "ge", False))
-        self.assertTrue(Expression(False, "ge", False))
-        self.assertTrue(Expression(True, "ge", False))
-        self.assertFalse(Expression(False, "ge", True))
+        self.assertTrue(BoolExpression(True, "ge", False))
+        self.assertTrue(BoolExpression(False, "ge", False))
+        self.assertTrue(BoolExpression(True, "ge", False))
+        self.assertFalse(BoolExpression(False, "ge", True))
 
     # "in" operator
     def test_expression_string_in(self):
-        self.assertTrue(Expression("The Castle of aaarrrrggh", "in", "aaarrrrggh"))
-        self.assertFalse(Expression("The Castle of aaarrrrggh", "in", "AAARRRRGGH"))
+        self.assertTrue(BoolExpression("The Castle of aaarrrrggh", "in", "aaarrrrggh"))
+        self.assertFalse(BoolExpression("The Castle of aaarrrrggh", "in", "AAARRRRGGH"))
 
     def test_expression_list_in(self):
         l = ["Blasphemy!", "He", "said", "it", "again"]
-        self.assertTrue(Expression(l, "in", "Blasphemy!"))
-        self.assertFalse(Expression(l, "in", "Parrot"))
+        self.assertTrue(BoolExpression(l, "in", "Blasphemy!"))
+        self.assertFalse(BoolExpression(l, "in", "Parrot"))
 
     def test_expression_dict_in(self):
         d = {"a herring": "Then you must cut down the mightiest tree in the forest with..."}
-        self.assertTrue(Expression(d, "in", "a herring"))
-        self.assertFalse(Expression(d, "in", "an axe"))
+        self.assertTrue(BoolExpression(d, "in", "a herring"))
+        self.assertFalse(BoolExpression(d, "in", "an axe"))
 
     def test_expression_bool_in(self):
-        self.assertTrue(Expression([True, False], "in", True))
-        self.assertFalse(Expression([False], "in", True))
+        self.assertTrue(BoolExpression([True, False], "in", True))
+        self.assertFalse(BoolExpression([False], "in", True))

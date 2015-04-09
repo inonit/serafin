@@ -2,40 +2,101 @@
 
 from __future__ import absolute_import, unicode_literals, print_function
 
-# import functools
+import functools
 import operator as oper
 
-
-# def chain(func):
-#     """
-#     Function wrapper that clones and returns a new
-#     instance of the class in order to make functions chainable.
-#     """
-#
-#     @functools.wraps(func)
-#     def wrapper(self, *args, **kwargs):
-#         self = self.chain()
-#         func(self, *args, **kwargs)
-#         return self
-#     return wrapper
-#
-#
-# class Chainable(object):
-#     """
-#     A Base class which implements functionality
-#     to clone itself with the @chain decorator
-#     """
-#     def chain(self):
-#         klass = self.__class__.__new__(self.__class__)
-#         klass.__dict__ = self.__dict__.copy()
-#         return klass
+from django.core.exceptions import ImproperlyConfigured
 
 
-class Expression(object):
+def chain(func):
     """
-    Simple class for abstracting conditional expressions.
+    Function wrapper that clones and returns a new
+    instance of the class in order to make functions chainable.
+    """
+
+    @functools.wraps(func)
+    def wrapper(self, *args, **kwargs):
+        self = self._clone(lhs=self.eval, operator=func(self, *args, **kwargs))
+        return self
+    return wrapper
+
+
+class _Expression(object):
+    """
+    Base class for simple expressions.
+    The class supports method chaining for defined operators.
+
     Example:
-        Expression(
+      - Expression(5, "pow", 2).add(3) would evaluate to ((5 ** 2) + 3)
+      - Expression(4, "add", 2).div(2) would evaluate to ((4 + 2) / 2)
+    """
+
+    operators = None
+
+    def __init__(self, lhs, operator, rhs):
+
+        self.lhs = lhs  # Left Hand Side
+        self.rhs = rhs  # Right Hand Side
+
+        try:
+            self.operator = self._get_operator(operator.lower())
+        except KeyError:
+            raise AttributeError("Invalid operator parameter. Valid operators are %s." %
+                                 ", ".join(self.operators.keys()))
+
+    def __call__(self, param):
+        self.rhs = getattr(param, "eval", param)
+        return self
+
+    @chain
+    def __getattr__(self, name):
+        """
+        Returns the chained operator function
+        """
+        if name in self.operators:
+            return self.operators[name]
+        raise AttributeError(
+            "'%(cls)s' object has no attribute '%(name)s'" % {
+                "cls": self.__class__.__name__,
+                "name": name
+            })
+
+    def __repr__(self):
+        return "<%(cls)s: %(lhs)s '%(operator)s' %(rhs)s>" % {
+            "cls": self.__class__.__name__, "lhs": self.lhs,
+            "operator": self.operator.__name__, "rhs": self.rhs
+        }
+
+    def __nonzero__(self):
+        return self.eval
+    __bool__ = __nonzero__
+
+    def _clone(self, **kwargs):
+        klass = self.__class__.__new__(self.__class__)
+        klass.__dict__ = self.__dict__.copy()
+        klass.__dict__.update(**kwargs)
+        return klass
+
+    def _get_operator(self, operator):
+        if not self.operators:
+            raise ImproperlyConfigured(
+                "%(cls)s has no attribute 'operators'. Define a %(cls)s.operators "
+                "dictionary or override the `_get_operator` function." % {
+                    "cls": self.__class__.__name__
+                }
+            )
+        return self.operators[operator]
+
+    @property
+    def eval(self):
+        return self.operator(self.lhs, self.rhs)
+
+
+class BoolExpression(_Expression):
+    """
+    Simple class for abstracting boolean expressions.
+    Example:
+        BoolExpression(
             lhs="NOBODY expects the Spanish Inquisition!",
             operator="eq",
             rhs="NOBODY expects the Spanish Inquisition!"
@@ -43,14 +104,14 @@ class Expression(object):
 
     Valid operators are eq, ne, lt, le, gt, ge and in.
 
-    Expressions implements a __nonzero__ method and can therefore
+    BoolExpression implements a __nonzero__ method and can therefore
     be used in boolean comparisons.
 
     Examples.
-        if Expression(10, "gt", 9):
+        if BoolExpression(10, "gt", 9):
             <my code goes here>
 
-        if Expression(True, "eq" True) & Expression("Foo", "ne", "Bar"):
+        if BoolExpression(True, "eq" True) & BoolExpression("Foo", "ne", "Bar"):
             <something clever>
     """
     operators = {
@@ -63,64 +124,31 @@ class Expression(object):
         "in": oper.contains
     }
 
-    def __init__(self, lhs, operator, rhs):
 
-        self.lhs = lhs  # Left Hand Side
-        self.rhs = rhs  # Right Hand Side
+class MathExpression(_Expression):
+    """
+    Simple class for abstracting simple mathematical expressions.
+    Example:
+        MathExpression(
+            lhs=1,
+            operator="add",
+            rhs=2
+        )
 
-        try:
-            self.operator = self.operators[operator.lower()]
-        except KeyError:
-            raise AttributeError("Invalid operator parameter. Valid operators are %s." %
-                                 ", ".join(self.operators.keys()))
+    Valid operators are add, div, floordiv, pow, exponent (alias pow),
+    mod, modulo (alias mod), multiply, sub, subtract (alias sub).
+    """
 
-    def __repr__(self):
-        return "<%(cls)s: %(lhs)s '%(operator)s' %(rhs)s>" % {
-            "cls": self.__class__.__name__, "lhs": self.lhs,
-            "operator": self.operator.__name__, "rhs": self.rhs
-        }
+    operators = {
+        "add": oper.add,
+        "div": oper.truediv,
+        "floordiv": oper.floordiv,
+        "pow": oper.pow,
+        "exponent": oper.pow,
+        "mod": oper.mod,
+        "modulo": oper.mod,
+        "multiply": oper.mul,
+        "sub": oper.sub,
+        "subtract": oper.sub
+    }
 
-    def __nonzero__(self):
-        return self.eval
-    __bool__ = __nonzero__
-
-    @property
-    def eval(self):
-        return self.operator(self.lhs, self.rhs)
-
-
-# class ExpressionEngine(Chainable):
-#     """
-#     A simple engine for evaluating expressions in the SERAF project
-#
-#     An expression consists of variables, operators and values.
-#     Expressions can be chained using the binary operators `AND` or `OR`
-#
-#     is_valid = ExpressionEngine(expr).and_(expr2).or_(expr3).eval()
-#
-#     Example:
-#         ($variable$ <operator> value) AND ($variable <operator> $variable)
-#     """
-#
-#     def __init__(self, expr_obj):
-#         self._expr = expr_obj
-#
-#     @property
-#     def expr(self):
-#         return self._expr
-#
-#     @expr.setter
-#     def expr(self, expr):
-#         self._expr = expr
-#
-#     @chain
-#     def and_(self, expr):
-#         self.expr = expr
-#         return oper.and_(self.expr.eval, expr.eval)
-#
-#     @chain
-#     def or_(self, expr):
-#         return oper.or_(self.expr.eval, expr.eval)
-#
-#     def eval(self):
-#         return self.expr.eval

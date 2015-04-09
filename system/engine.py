@@ -12,7 +12,7 @@ from django.utils.translation import ugettext_lazy as _
 from events.signals import log_event
 from system.models import Variable, Session, Page, Email, SMS
 from tasker.models import Task
-from .expressions import Expression
+from .expressions import BoolExpression
 
 
 class Engine(object):
@@ -121,7 +121,7 @@ class Engine(object):
         conditions = map(prepare_conditional_values, conditions)
         try:
             for condition in conditions:
-                expr_evals.append(Expression(
+                expr_evals.append(BoolExpression(
                     lhs=condition['var_name'],
                     operator=condition['operator'],
                     rhs=condition['value']
