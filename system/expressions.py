@@ -21,6 +21,7 @@ def chain(func):
     return wrapper
 
 
+@functools.total_ordering
 class _Expression(object):
     """
     Base class for simple expressions.
@@ -67,9 +68,11 @@ class _Expression(object):
             "operator": self.operator.__name__, "rhs": self.rhs
         }
 
-    def __nonzero__(self):
-        return self.eval
-    __bool__ = __nonzero__
+    def __eq__(self, other):
+        return self.eval == other
+
+    def __lt__(self, other):
+        return self.eval < other
 
     def _clone(self, **kwargs):
         """
