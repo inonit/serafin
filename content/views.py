@@ -76,6 +76,31 @@ def get_page(request):
     return JSONResponse(response)
 
 
+@login_required
+def content_route(request, route_slug=None):
+
+    if request.is_ajax():
+        return get_page(request)
+
+    session = get_object_or_404(Session, route_slug=route_slug)
+
+    context = {
+        'session': session.id,
+        'node': 0
+    }
+
+    engine = Engine(request.user.id, context, push=True)
+    engine.run()
+
+    context = {
+        'program': session.program,
+        'title': session.display_title,
+        'api': reverse('content_api'),
+    }
+
+    return render(request, 'session.html', context)
+
+
 @staff_member_required
 def api_filer_file(request, content_type=None, file_id=None):
 

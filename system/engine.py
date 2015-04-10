@@ -333,9 +333,9 @@ class Engine(object):
         # pop stack data and set previous session
         if pop:
             session_id, node_id = self.user.data.get('stack').pop()
-
+            # pop again if still on the same session
+            while self.user.data.get('stack') and session_id == self.user.data.get('session'):
+                session_id, node_id = self.user.data.get('stack').pop()
             self.init_session(session_id, node_id)
-
-            return self.transition(node_id)
 
         return self.trigger_node(node_id)

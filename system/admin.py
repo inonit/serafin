@@ -173,6 +173,11 @@ class SessionForm(forms.ModelForm):
         super(SessionForm, self).__init__(*args, **kwargs)
         if 'data' in self.fields:
             self.fields['data'].help_text = ''
+        if 'route_slug' in self.fields:
+            self.fields['route_slug'].help_text = _('If you want this Session to be available to users at all times, enter a URL-friendly slug here')
+
+    def clean_route_alias(self):
+        return self.cleaned_data['route_slug'] or None
 
     class Meta:
         model = Session
@@ -188,6 +193,7 @@ class SessionAdmin(admin.ModelAdmin):
         'id',
         'title',
         'display_title',
+        'route_slug',
         'program',
         'note_excerpt',
         'start_time_delta',
@@ -231,6 +237,8 @@ class SessionAdmin(admin.ModelAdmin):
             'fields': [
                 'id',
                 'title',
+                #'display_title',
+                'route_slug',
                 'program',
                 'admin_note',
                 'start_time_delta',

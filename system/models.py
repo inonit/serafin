@@ -113,6 +113,7 @@ class Session(models.Model):
 
     title = models.CharField(_('title'), max_length=64, unique=True)
     display_title = models.CharField(_('display title'), max_length=64)
+    route_slug = models.CharField(_('route slug'), max_length=64, null=True, unique=True)
     program = models.ForeignKey('Program', verbose_name=_('program'))
     content = models.ManyToManyField('Content', verbose_name=_('content'), null=True, blank=True)
     admin_note = models.TextField(_('admin note'), blank=True)
