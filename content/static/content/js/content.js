@@ -1,4 +1,4 @@
-var content = angular.module('content', ["autocompleteSearch"]);
+var content = angular.module('content', ['autocompleteSearch']);
 
 var fileTemplate = {
     url: '',
@@ -15,6 +15,7 @@ var dataTemplates = {
         content_type: 'toggle',
         content: '',
         toggle: '',
+        //img_content: fileTemplate
     },
     'toggleset': {
         content_type: 'toggleset',
@@ -256,6 +257,14 @@ content.directive('filer', ['$compile', '$http', function(compile, http) {
             scope.noimg = elem.find('#id_file_thumbnail_img').attr('src');
             scope.index = scope.$parent.$index;
 
+            if (scope.pagelet.content_type == 'toggle') {
+                if (scope.pagelet.img_content == undefined)
+                    scope.pagelet.img_content = fileTemplate;
+                scope.contentProxy = scope.pagelet.img_content
+            } else {
+                scope.contentProxy = scope.pagelet.content
+            }
+
             // clear on click
             elem.find('#id_file_clear').addClass('clear').on('click', function() {
                 elem.find('#id_file_' + scope.index ).removeAttr('value');
@@ -263,8 +272,8 @@ content.directive('filer', ['$compile', '$http', function(compile, http) {
                 elem.find('#id_file_' + scope.index + '_description_txt').html('');
                 elem.find('#id_file_' + scope.index + '_clear').hide();
                 scope.$apply(function() {
-                    scope.pagelet.content.file_id = '';
-                    scope.pagelet.content.url = '';
+                    scope.contentProxy.file_id = '';
+                    scope.contentProxy.url = '';
                 })
             });
 
@@ -287,25 +296,32 @@ content.directive('filer', ['$compile', '$http', function(compile, http) {
             // receive on select
             angular.element(window).bind('focus', function(val) {
                 var value = elem.find('#id_file_' + scope.index).attr('value');
-                if (value !== scope.pagelet.content.file_id) {
+                if (value !== scope.contentProxy.file_id) {
                     scope.$apply(function() {
-                        scope.pagelet.content.file_id = value;
+                        scope.contentProxy.file_id = value;
                     });
                     http.get(scope.apiURL + value).success(function(data) {
-                        scope.pagelet.content.url = data['url'];
+                        scope.contentProxy.url = data['url'];
                     });
                 }
             });
 
             // populate on load
-            if (scope.pagelet.content.file_id !== '') {
-                http.get(scope.apiURL + scope.pagelet.content.file_id).success(function(data) {
+            if (scope.contentProxy.file_id !== '') {
+                http.get(scope.apiURL + scope.contentProxy.file_id).success(function(data) {
                     elem.find('#id_file_' + scope.index ).attr('value', data['id']);
                     elem.find('#id_file_' + scope.index + '_thumbnail_img').attr('src', data['thumbnail']);
                     elem.find('#id_file_' + scope.index + '_description_txt').html(data['description']);
                     elem.find('#id_file_' + scope.index + '_clear').show();
                 });
             }
+
+            scope.$watchCollection('contentProxy', function(content) {
+                if (scope.pagelet.content_type == 'toggle')
+                    scope.pagelet.img_content = content
+                else
+                    scope.pagelet.content = content
+            })
         }
     };
 }]);

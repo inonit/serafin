@@ -35,6 +35,9 @@
         </div>
 
         <div ng-if="pagelet.content_type == 'toggle'" class="toggle" ng-controller="markdown">
+            <div class="filer">
+                {{ file_widget|safe }}
+            </div>
             <div class="field-data">
                 <label>{% trans 'Toggle text' %}</label>
                 <input type="text" class="wide" ng-model="pagelet.toggle">

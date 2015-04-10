@@ -137,6 +137,22 @@ header {
 
 .page nav {
     margin-top: 1.5rem;
+    width: 100%;
+    text-align: center;
+}
+
+.image img {
+    min-width: 100%;
+}
+
+.toggle.hasimage blockquote {
+    margin: 0 0 1.25rem 30px;
+}
+
+.toggle img {
+    width: 150px;
+    float: left;
+    margin-left: -175px;
 }
 
 input[type="text"],
@@ -217,11 +233,6 @@ div.error {
     margin-right: 5px;
     width: 20px;
     height: 20px;
-}
-
-.page nav {
-    width: 100%;
-    text-align: center;
 }
 
 .login.button {
@@ -393,13 +404,30 @@ div.error {
 
 /* RESPONSIVE */
 
-@media only screen and (max-width: 40em) {
-    html {
-        font-size: 100%;
+@media only screen and (max-width: 75rem) {
+    .toggle img {
+        margin-left: 0;
+        margin-right: .5rem;
+        width: 100px;
     }
+
+    .toggle > p {
+        margin-bottom: .75rem;
+    }
+
+    .toggle.hasimage blockquote {
+        margin-left: 130px;
+    }
+
     blockquote:after {
         left: -15px;
         border-width: 0 15px 10px 0;
+    }
+}
+
+@media only screen and (max-width: 40rem) {
+    html {
+        font-size: 100%;
     }
     .hamburger {
         display: inline-block;
