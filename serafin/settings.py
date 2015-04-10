@@ -162,6 +162,19 @@ STATICFILES_FINDERS = (
     'compressor.finders.CompressorFinder',
 )
 
+THUMBNAIL_ALIASES = {
+    '': {
+        'small': {
+            'size': (150, 150),
+        },
+        'medium': {
+            'size': (739, 739),
+        },
+    }
+}
+
+THUMBNAIL_QUALITY = 90
+
 
 # User model and vault separation
 

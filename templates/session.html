@@ -1,5 +1,5 @@
 {% extends 'base.html' %}
-{% load i18n %}
+{% load i18n thumbnail %}
 {% block content %}
 <div class="page" ng-controller="pages" ng-form="form">
     {% verbatim %}
@@ -9,7 +9,7 @@
         </div>
 
         <div class="toggle" ng-class="{'hasimage': pagelet.img_content}" ng-if="pagelet.content_type == 'toggle'">
-            <img ng-if="pagelet.img_content" ng-click="pagelet.toggled = !pagelet.toggled" ng-src="{{ pagelet.img_content.url }}" alt="{{ pagelet.toggle }}" title="{{ pagelet.toggle }}">
+            <img ng-if="pagelet.img_content" ng-click="pagelet.toggled = !pagelet.toggled" ng-src="{{ pagelet.img_content.thumbnail || pagelet.img_content.url }}" alt="{{ pagelet.toggle }}" title="{{ pagelet.toggle }}">
             <p>
                 <a ng-click="pagelet.toggled = !pagelet.toggled">
                     <span ng-hide="pagelet.toggled">▼</span>
@@ -206,7 +206,7 @@
         </form>
 
         <div class="image" ng-if="pagelet.content_type == 'image'">
-            <img ng-src="{{ pagelet.content.url }}" alt="{{ pagelet.content.alt }}" title="{{ pagelet.content.title }}">
+            <img ng-src="{{ pagelet.content.thumbnail || pagelet.content.url }}" alt="{{ pagelet.content.alt }}" title="{{ pagelet.content.title }}">
         </div>
 
         <div class="video" ng-if="pagelet.content_type == 'video'">
