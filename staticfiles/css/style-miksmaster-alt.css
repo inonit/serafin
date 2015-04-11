@@ -1,0 +1,519 @@
+html, body {
+    height: 100%;
+    font-size: 110%;
+    font-family: 'Open Sans', sans-serif;
+}
+
+.wrapper {
+    min-height: 100%;
+    height: auto !important;
+    margin: 0 auto -45px;
+}
+
+.footer, .push {
+    height: 45px;
+    overflow: hidden;
+    clear: both;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    font-family: 'Open Sans', sans-serif;
+    font-weight: 700;
+    margin: 0 0 1.25rem;
+    line-height: 1.1;
+    font-size: 2.4rem;
+}
+
+h2 {
+    font-size: 1.8rem;
+}
+
+h3 {
+    font-size: 1.6rem;
+}
+
+h4 {
+    font-size: 1.4rem;
+}
+
+* + h1,
+* + h2,
+* + h3,
+* + h4 {
+    margin: 2rem 0 1rem;
+}
+
+blockquote {
+    position: relative;
+    left: 0;
+    width: auto;
+    height: auto;
+    padding: .5rem .75rem;
+    margin: 0 0 1.25rem 0;
+    border: none;
+}
+
+blockquote:after {
+    content: "";
+    position: absolute;
+    top: 10px;
+    left: -30px;
+    border-style: solid;
+    border-width: 0 30px 15px 0;
+    display: block;
+    width: 0;
+    z-index: 1;
+}
+
+blockquote p:last-child {
+    margin: 0;
+}
+
+.messages {
+    position: fixed;
+    bottom: 0;
+    right: 0;
+    width: 25%;
+}
+
+.button {
+    padding: .5rem 1rem;
+}
+
+blockquote,
+input[type="text"],
+input[type="password"],
+input[type="number"],
+textarea,
+.button {
+    border-radius: 2px;
+}
+
+header {
+    position: fixed;
+    top: 0;
+    z-index: 500;
+    width: 100%;
+}
+
+.footer {
+    padding: 15px 15px 0;
+}
+
+.page {
+    margin: 0 auto;
+    max-width: 40em;
+    padding: 8rem 1rem 4rem;
+}
+
+.page nav {
+    margin-top: 1.5rem;
+    width: 100%;
+    text-align: center;
+}
+
+.image img {
+    min-width: 100%;
+}
+
+.toggle.hasimage blockquote {
+    margin: 0 0 1.25rem 130px;
+}
+
+.toggle.hasimage {
+    min-height: 100px;
+}
+
+.toggle img {
+    width: 100px;
+    float: left;
+    margin-right: 1.5rem;
+}
+
+input[type="text"],
+input[type="password"],
+input[type="number"],
+textarea {
+    -webkit-box-shadow: none;
+    box-shadow: none;
+}
+
+textarea {
+    min-height: 7em;
+}
+
+fieldset {
+    padding: 1rem;
+}
+
+fieldset input[type="checkbox"],
+fieldset input[type="radio"] {
+    margin: 0;
+}
+
+fieldset label {
+    margin: 0 0 .5rem;
+}
+
+fieldset label:last-child {
+    margin: 0;
+}
+
+fieldset legend,
+.table .caption,
+label {
+    font-size: 85%;
+}
+
+fieldset label:last-child input {
+    margin-bottom: 0;
+}
+
+.table {
+    margin: 1.625rem 0;
+    padding: 1rem;
+}
+
+.table .caption {
+    position: relative;
+    top: -1.75em;
+    padding: 0 0.1875rem;
+    margin-left: -0.1875rem;
+    font-weight: bold;
+    display: inline-block;
+}
+
+.table table {
+    border: none;
+    width: 100%;
+}
+
+.table td {
+    width: auto;
+    text-align: center;
+    vertical-align: top;
+}
+
+div.error {
+    font-size: .875em;
+}
+
+.error.right {
+    margin-top: 3px;
+}
+
+.large input[type="radio"] {
+    display: inline-block;
+    vertical-align: text-top;
+    margin-right: 5px;
+    width: 20px;
+    height: 20px;
+}
+
+.login.button {
+    margin-right: 1em;
+}
+
+.fade {
+    opacity: 1;
+    -webkit-transition: opacity .25s ease;
+    transition: opacity .25s ease;
+}
+
+.fade.ng-hide-add,
+.fade.ng-hide-remove {
+    display: block !important;
+}
+
+.fade.in.ng-hide-add {
+    display: none !important;
+}
+
+.fade.out.ng-hide-remove {
+    display: none !important;
+}
+
+.fade.ng-hide {
+    opacity: 0;
+}
+
+.slide {
+    max-height: 500px;
+    overflow: hidden;
+    -webkit-transition: max-height .15s linear;
+    transition: max-height .15s linear;
+}
+
+.slide.ng-hide-add,
+.slide.ng-hide-remove {
+    display: block !important;
+}
+
+.slide.ng-hide {
+    max-height: 0;
+}
+
+.ng-cloak {
+    display: none !important;
+}
+
+.stats {
+    font-weight: 700;
+    text-align: center;
+    margin: 1rem 0;
+}
+
+.bignum {
+    font-size: 5rem;
+}
+
+/* COLOR */
+
+/*
+Hovedbakgrunn (der hvor teksten står): Mørk grønn #006633
+Standard tekst (overskrifter og brødtekst): Kremhvit #FFFBDC
+Banner øverst på siden:  Kremhvit banner #FFFBDC
+Banner nederst på siden: Frisk grønn #95C11F
+Tekst på bannere (oppe og nede): Mørk grønn #006633
+Blockquote #FFFBDC Tekst: Ekstra mørk tekstgrønn #002E10
+*/
+
+body,
+label,
+table,
+input[type="text"],
+input[type="password"],
+input[type="number"],
+textarea,
+fieldset,
+.table {
+    background: #FFF;
+    color: #444;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    color: #006633;
+}
+
+a {
+    color: #95C11F;
+    transition: all 300ms ease-out;
+}
+
+a:hover {
+    color: #659100;
+}
+
+button,
+.button {
+    background: #95C11F;
+    color: #FFF;
+}
+
+button:hover,
+.button:hover {
+    background: #85B10F;
+    color: #FFF;
+}
+
+button.disabled,
+button[disabled],
+.button.disabled,
+.button[disabled] {
+    background: #F5F5F5;
+    color: #BBB;
+}
+
+button.disabled:hover,
+button[disabled]:hover,
+.button.disabled:hover,
+.button[disabled]:hover {
+    background: #F5F5F5;
+    color: #BBB;
+}
+
+blockquote {
+    background: #F5F5F5;
+}
+
+blockquote,
+blockquote p {
+    color: #444;
+}
+
+blockquote:after {
+    border-color: transparent #F5F5F5;
+}
+
+input[type="text"],
+input[type="password"],
+input[type="number"],
+textarea,
+fieldset,
+.table {
+    border: 1px solid #ccc;
+}
+
+input[type="text"]:focus,
+input[type="password"]:focus,
+input[type="number"]:focus,
+textarea:focus {
+    background: #F5F5F5;
+}
+
+fieldset legend,
+.table .caption {
+    background: #FFF;
+}
+
+.top-bar {
+    background: #95C11F;
+}
+
+.top-bar.expanded .title-area {
+    background: #95C11F;
+}
+
+.top-bar ul.title-area h1 a {
+    color: #FFF;
+}
+
+.top-bar-section ul,
+.top-bar-section li:not(.has-form) a:not(.button) {
+    background: #95C11F;
+}
+
+.top-bar-section li:not(.has-form) a:not(.button):hover {
+    background: #85B10F;
+}
+
+.top-bar-section .has-dropdown > ul.dropdown {
+    border-top: 1px solid #85B10F;
+}
+
+.top-bar-section ul li > a,
+.top-bar-section .has-dropdown > a,
+.top-bar-section .dropdown li > a {
+    color: #FFF;
+}
+
+.footer {
+    background: #F5F5F5;
+    color: #444;
+}
+
+.footer a {
+    color: #85B10F;
+}
+
+.footer a:hover {
+    color: #002E10;
+}
+
+div.error {
+    color: #f23a14;
+}
+
+/* RESPONSIVE */
+
+@media only screen and (min-width: 640px) {
+    .top-bar {
+        height: 70px;
+    }
+
+    .top-bar .title-area li,
+    .top-bar .title-area .logo {
+        height: 30px;
+    }
+
+    .top-bar .title-area {
+        padding: 20px;
+    }
+
+    .top-bar .title-area h1 a {
+        font-size: 1.2rem;
+        text-transform: uppercase;
+    }
+
+    .top-bar-section ul {
+        height: 70px;
+    }
+
+    .top-bar-section li:not(.has-form) a:not(.button),
+    .top-bar-section .dropdown li.title h5 a {
+        font-size: 1rem;
+        height: 70px;
+        line-height: 70px;
+        padding: 0 30px;
+    }
+
+    .top-bar-section .has-dropdown > a {
+        padding-right: 55px !important;
+    }
+
+    .top-bar-section .has-dropdown > a:after {
+        top: 50%;
+        right: 15px;
+    }
+}
+
+@media only screen and (max-width: 75rem) {
+    .toggle img {
+        margin-left: 0;
+        margin-right: .5rem;
+        width: 100px;
+    }
+
+    .toggle > p {
+        margin-bottom: .75rem;
+    }
+
+    .toggle.hasimage blockquote {
+        margin-left: 130px;
+    }
+
+    blockquote:after {
+        left: -15px;
+        border-width: 0 15px 10px 0;
+    }
+}
+
+@media only screen and (max-width: 40rem) {
+    html {
+        font-size: 100%;
+    }
+
+    .top-bar .title-area .logo {
+        height: 25px;
+        margin: 10px;
+    }
+
+    .top-bar-section ul li > a,
+    .top-bar-section .dropdown li.title h5 a {
+        font-size: 1rem;
+    }
+
+    .footer {
+        font-size: 90%;
+        overflow: visible;
+    }
+
+    .footer {
+        padding: .95rem .5rem;
+    }
+}
+
+/* Prevent minor flickering while waiting for angular */
+[ng\:cloak], [ng-cloak], [data-ng-cloak], [x-ng-cloak], .ng-cloak, .x-ng-cloak {
+    display: none !important;
+}
