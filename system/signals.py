@@ -182,19 +182,33 @@ def content_post_save(sender, **kwargs):
         for pagelet in data:
 
             if pagelet.get('content_type') == 'image':
+
                 url = pagelet['content']['url'].replace(settings.MEDIA_URL, '')
+
                 if url:
+
                     options = aliases.get('medium')
                     thumbnail = get_thumbnailer(url).get_thumbnail(options).url
+
                     if thumbnail:
+
                         pagelet['content']['thumbnail'] = thumbnail
                         Content.objects.filter(id=content.id).update(data=data)
 
             if pagelet.get('content_type') == 'toggle':
+                if not pagelet['img_content']:
+                    pagelet['img_content'] = {
+                        'url': ''
+                    }
+
                 url = pagelet['img_content']['url'].replace(settings.MEDIA_URL, '')
+
                 if url:
+
                     options = aliases.get('small')
                     thumbnail = get_thumbnailer(url).get_thumbnail(options).url
+
                     if thumbnail:
+
                         pagelet['img_content']['thumbnail'] = thumbnail
                         Content.objects.filter(id=content.id).update(data=data)
