@@ -401,14 +401,13 @@ fieldset legend,
     color: #95C11F;
 }
 
-.top-bar-section li:not(.has-form) a:not(.button) {
+.top-bar-section li:not(.has-form) a:not(.button),
+.top-bar-section ul.active li:not(.has-form) a:not(.button):hover {
     background: #FFFBDC;
-    color: #006633;
 }
 
 .top-bar-section li:not(.has-form) a:not(.button):hover {
     background: #EEEBCC;
-    color: #006633;
 }
 
 .top-bar-section .has-dropdown > ul.dropdown {
@@ -416,9 +415,16 @@ fieldset legend,
 }
 
 .top-bar-section ul li > a,
+.top-bar-section ul li > a:hover,
 .top-bar-section .has-dropdown > a,
 .top-bar-section .dropdown li > a {
     color: #006633;
+}
+
+.top-bar-section ul.active li > a,
+.top-bar-section ul.active li > a:hover {
+    color: #999;
+    cursor: default;
 }
 
 .top-bar .toggle-topbar.menu-icon a::after {

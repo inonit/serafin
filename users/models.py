@@ -155,9 +155,6 @@ class StatefulAnonymousUser(AnonymousUser):
         self.session = session
         self.data = session.get('user_data', {})
 
-    def is_authenticated(self):
-        return True
-
     def save(self):
         self.session['user_data'] = self.data
 

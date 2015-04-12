@@ -402,7 +402,8 @@ fieldset legend,
 }
 
 .top-bar-section ul,
-.top-bar-section li:not(.has-form) a:not(.button) {
+.top-bar-section li:not(.has-form) a:not(.button),
+.top-bar-section ul.active li:not(.has-form) a:not(.button):hover {
     background: #95C11F;
 }
 
@@ -415,9 +416,15 @@ fieldset legend,
 }
 
 .top-bar-section ul li > a,
+.top-bar-section ul li > a:hover,
 .top-bar-section .has-dropdown > a,
 .top-bar-section .dropdown li > a {
     color: #FFF;
+}
+
+.top-bar-section ul.active li > a,
+.top-bar-section ul.active li > a:hover {
+    cursor: default;
 }
 
 .footer {

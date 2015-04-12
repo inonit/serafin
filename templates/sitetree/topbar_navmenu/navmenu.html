@@ -1,6 +1,5 @@
 {% load i18n staticfiles sitetree %}
 
-
 <div ng-controller="TopbarMenuController" ng-cloak>
   <top-bar is-hover="false">
       {% for item in sitetree_items %}
@@ -20,7 +19,7 @@
         </ul>
       {% endif %}
       {# top menu items #}
-      <div style="display:none">{% trans "Account" %}</div>
+      <div style="display:none">{% trans "Register" %} {% trans "Account" %}</div>
       {% sitetree_children of item for menu template "sitetree/topbar_navmenu/_0items.html" %}
     {% endfor %}
   </top-bar>
