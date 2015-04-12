@@ -91,7 +91,8 @@ input[type="password"],
 input[type="number"],
 textarea,
 .button {
-    border-radius: 2px;
+    border-radius: 3px;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.2);
 }
 
 header {
@@ -272,6 +273,10 @@ div.error {
     font-size: 5rem;
 }
 
+.center {
+    text-align: center;
+}
+
 /* COLOR */
 
 /*
@@ -317,11 +322,18 @@ a:hover {
 button,
 .button {
     background: #95C11F;
+    border-bottom: 2px solid rgba(0, 0, 0, 0.2);
     color: #FFF;
 }
 
+.large.button {
+    border-bottom: 3px solid rgba(0, 0, 0, 0.2);
+}
+
 button:hover,
-.button:hover {
+.button:hover,
+button:focus,
+.button:focus {
     background: #85B10F;
     color: #FFF;
 }
@@ -331,6 +343,7 @@ button[disabled],
 .button.disabled,
 .button[disabled] {
     background: #F5F5F5;
+    border-bottom: 2px solid rgba(0, 0, 0, 0.2);
     color: #BBB;
 }
 
@@ -361,14 +374,14 @@ input[type="number"],
 textarea,
 fieldset,
 .table {
-    border: 1px solid #ccc;
+    border: 1px solid #CCC;
 }
 
 input[type="text"]:focus,
 input[type="password"]:focus,
 input[type="number"]:focus,
 textarea:focus {
-    background: #F5F5F5;
+    background: #FEFEFE;
 }
 
 fieldset legend,
@@ -394,11 +407,11 @@ fieldset legend,
 }
 
 .top-bar-section li:not(.has-form) a:not(.button):hover {
-    background: #85B10F;
+    background: rgba(0, 0, 0, 0.1);
 }
 
 .top-bar-section .has-dropdown > ul.dropdown {
-    border-top: 1px solid #85B10F;
+    border-top: 1px solid rgba(0, 0, 0, 0.1);
 }
 
 .top-bar-section ul li > a,
@@ -408,16 +421,16 @@ fieldset legend,
 }
 
 .footer {
-    background: #F5F5F5;
-    color: #444;
+    background: #95C11F;
+    color: #FFF;
 }
 
 .footer a {
-    color: #85B10F;
+    color: rgba(255, 255, 255, 0.5);
 }
 
 .footer a:hover {
-    color: #002E10;
+    color: rgba(255, 255, 255, 0.25);
 }
 
 div.error {

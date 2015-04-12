@@ -90,7 +90,7 @@ input[type="password"],
 input[type="number"],
 textarea,
 .button {
-    border-radius: 2px;
+    border-radius: 3px;
 }
 
 header {
@@ -106,6 +106,7 @@ header .logo {
 
 .footer {
     padding: 15px 15px 0;
+    font-size: 1rem;
 }
 
 .page {
@@ -275,6 +276,10 @@ div.error {
     font-size: 5rem;
 }
 
+.center {
+    text-align: center;
+}
+
 /* COLOR */
 
 /*
@@ -320,6 +325,11 @@ a:hover {
 button,
 .button {
     background: #95C11F;
+    border-bottom: 2px solid rgba(0, 0, 0, 0.2);
+}
+
+.large.button {
+    border-bottom: 3px solid rgba(0, 0, 0, 0.2);
 }
 
 button:hover,
@@ -332,6 +342,7 @@ button[disabled],
 .button.disabled,
 .button[disabled] {
     background: #558100;
+    border-bottom: 2px solid rgba(0, 0, 0, 0.2);
     color: #95C11F;
 }
 
