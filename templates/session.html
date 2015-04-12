@@ -184,6 +184,22 @@
                     </div>
                 </div>
 
+                <div ng-if="field.field_type == 'email'">
+                    {% endverbatim %}
+                    <div class="error right" ng-show="form.submitted && subForm.field.$error.required">{% trans 'This field is required' %}</div>
+                    {% verbatim %}
+                    <label for="field"><strong>{{ field.label }}</strong></label>
+                    <input name="field" type="email" ng-model="field.value" ng-required="field.required" liveinput>
+                </div>
+
+                <div ng-if="field.field_type == 'password'">
+                    {% endverbatim %}
+                    <div class="error right" ng-show="form.submitted && subForm.field.$error.required">{% trans 'This field is required' %}</div>
+                    {% verbatim %}
+                    <label for="field"><strong>{{ field.label }}</strong></label>
+                    <input name="field" type="password" ng-model="field.value" ng-required="field.required">
+                </div>
+
                 <div ng-if="field.field_type == 'hiddenfield'">
                     <input type="hidden" name="{{ field.name }}" value="{{ field.value }}" ng-model="field.value">
                 </div>

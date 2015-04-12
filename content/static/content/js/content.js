@@ -116,6 +116,14 @@ var dataTemplates = {
         value: [],
         alternatives: []
     },
+    'email': {
+        field_type: 'email',
+        variable_name: '',
+    },
+    'password': {
+        field_type: 'password',
+        variable_name: '',
+    },
     'hiddenfield': {
         field_type: 'hiddenfield',
         variable_name: '',

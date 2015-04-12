@@ -86,6 +86,7 @@ blockquote p:last-child {
 
 blockquote,
 input[type="text"],
+input[type="email"],
 input[type="password"],
 input[type="number"],
 textarea,
@@ -140,6 +141,7 @@ header .logo {
 }
 
 input[type="text"],
+input[type="email"],
 input[type="password"],
 input[type="number"],
 textarea {
@@ -295,6 +297,7 @@ body,
 label,
 table,
 input[type="text"],
+input[type="email"],
 input[type="password"],
 input[type="number"],
 textarea,
@@ -368,6 +371,7 @@ blockquote:after {
 }
 
 input[type="text"],
+input[type="email"],
 input[type="password"],
 input[type="number"],
 textarea,
@@ -377,6 +381,7 @@ fieldset,
 }
 
 input[type="text"]:focus,
+input[type="email"]:focus,
 input[type="password"]:focus,
 input[type="number"]:focus,
 textarea:focus {
