@@ -18,6 +18,7 @@ def mirror_user(sender, **kwargs):
         del user.data['email']
     if 'phone' in user.data:
         del user.data['phone']
+
     User.objects.filter(id=user.id).update(data=user.data)
 
 

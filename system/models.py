@@ -111,11 +111,6 @@ class ProgramUserAccess(models.Model):
     def __unicode__(self):
         return '%s: %s' % (self.program, self.user.__unicode__())
 
-    def save(self, *args, **kwargs):
-        super(ProgramUserAccess, self).save(*args, **kwargs)
-        for session in self.program.session_set.all():
-            session.save()
-
 
 class Session(models.Model):
     '''A program Session, with layout and logic encoded in JSON'''

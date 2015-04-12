@@ -45,6 +45,28 @@ def randomize_variable_once(sender, **kwargs):
             user.save()
 
 
+@receiver(signals.post_save, sender=ProgramUserAccess)
+def schedule_sessions(sender, **kwargs):
+
+    useraccess = kwargs['instance']
+
+    for session in useraccess.program.session_set.all():
+        if session.scheduled:
+            start_time = session.get_start_time(
+                useraccess.start_time,
+                useraccess.time_factor
+            )
+            Task.objects.create_task(
+                sender=session,
+                domain='init',
+                time=start_time,
+                task=init_session,
+                args=(session.id, useraccess.user.id),
+                action=_('Initialize session'),
+                subject=useraccess.user
+            )
+
+
 @receiver(signals.post_save, sender=Session)
 def schedule_session(sender, **kwargs):
 
