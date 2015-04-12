@@ -12,8 +12,8 @@
             <img ng-if="pagelet.img_content" ng-click="pagelet.toggled = !pagelet.toggled" ng-src="{{ pagelet.img_content.thumbnail || pagelet.img_content.url }}" alt="{{ pagelet.toggle }}" title="{{ pagelet.toggle }}">
             <p>
                 <a ng-click="pagelet.toggled = !pagelet.toggled">
-                    <span ng-hide="pagelet.toggled">▼</span>
-                    <span ng-show="pagelet.toggled">▲</span>
+                    <span ng-hide="pagelet.toggled">▶</span>
+                    <span ng-show="pagelet.toggled">▼</span>
                     {{ pagelet.toggle }}
                 </a>
             </p>
