@@ -26,14 +26,13 @@
     z-index: 4;
 }
 
-#node_0 {
-    background: #eee;
-}
-
+#node_0,
 .plumbing .delay,
 .plumbing .email,
-.plumbing .sms {
-    background: #fee;
+.plumbing .sms,
+.plumbing .register,
+.plumbing .enroll {
+    background: #eee;
 }
 
 .plumbing .session  {

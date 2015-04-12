@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+{% load i18n static thumbnail %}
+{% block title %}
+Endre - et program for deg som vil slutte å røyke
+{% endblock title %}
+{% block content %}
+<div class="page center">
+
+    <br>
+    <h1><img class="logo" src="{% static 'img/logo_negativ.png' %}" alt="Endre"></h1>
+    <!--
+    <h1><img class="logo" src="{% static 'img/logo_positiv.png' %}" alt="Endre"></h1>
+    -->
+    <br>
+
+    <h2>Et program for deg som vil slutte å røyke</h2>
+    <br>
+
+    <p>Endre er et program satt sammen av Senter for Rus- og Avhengighetsforskning ved Universitetet i Oslo. Det er frivillig, uforpliktende og gratis å delta.</p>
+    <br>
+
+    <br>
+    <a class="large button" href="/register" title=""><strong>Registrer deg her</strong></a>
+</div>
+{% endblock content %}

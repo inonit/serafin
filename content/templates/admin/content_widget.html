@@ -384,5 +384,6 @@
     <script>
         var initData = {{ value|safe }};
         var filerApi = '{{ filer_api }}';
+        var reservedVars = {{ reserved_vars|default:'undefined'|safe }};
     </script>
 </div>

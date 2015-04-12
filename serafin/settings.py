@@ -68,7 +68,7 @@ MIDDLEWARE_CLASSES = (
     'django.middleware.locale.LocaleMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
-    'django.contrib.auth.middleware.AuthenticationMiddleware',
+    'users.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'django_user_agents.middleware.UserAgentMiddleware',
@@ -117,13 +117,9 @@ LOCALE_PATHS = (
 )
 
 TIME_ZONE = 'Europe/Oslo'
-
 USE_I18N = True
-
 USE_L10N = True
-
 USE_TZ = True
-
 USE_HTTPS = True
 
 
@@ -199,6 +195,9 @@ AUTHENTICATION_BACKENDS = (
 
 LOGIN_URL = '/login'
 LOGIN_REDIRECT_URL = '/'
+
+HOME_URL = '/home'
+REGISTER_URL = '/register'
 
 TOKEN_TIMEOUT_DAYS = 1
 SESSION_COOKIE_NAME = 'serafin_session'
@@ -309,7 +308,12 @@ SUIT_CONFIG = {
         {
             'app': 'sites',
             'label': _('Settings'),
-            'icon': 'icon-cog'
+            'icon': 'icon-cog',
+            'models':
+                [
+                    'site',
+                    'sitetree.tree'
+                ]
         },
     ]
 }
@@ -360,13 +364,54 @@ SOUTH_MIGRATION_MODULES = {
 # Variables
 
 RESERVED_VARIABLES = [
-    'group',
-    'current_day',
-    'session',
-    'session_stack',
-    'node',
-    'background_node',
-    'reply_variable',
+    {
+        'name': 'email',
+        'admin_note': 'Do not use in conditions. Used in registration.',
+    },
+    {
+        'name': 'phone',
+        'admin_note': 'Do not use in conditions. Used in registration.',
+    },
+    {
+        'name': 'password',
+        'admin_note': 'Do not use in conditions. Used in registration.',
+    },
+    {
+        'name': 'registered',
+        'admin_note': 'Returns True if the user is registered',
+    },
+    {
+        'name': 'enrolled',
+        'admin_note': 'Returns True if the user is enrolled with the current Program',
+    },
+    {
+        'name': 'group',
+        'admin_note': 'Returns a list of the Groups the user is a member of',
+    },
+    {
+        'name': 'current_day',
+        'admin_note': 'Returns the current weekday, in english',
+    },
+    {
+        'name': 'session',
+        'admin_note': 'For system use. Returns the id of the current Session.',
+    },
+    {
+        'name': 'session_stack',
+        'admin_note': 'For system use. Returns a list of (session, node) id pairs.',
+    },
+    {
+        'name': 'node',
+        'admin_note': 'For system use. Returns the current node id (relative to Session).',
+    },
+    {
+        'name': 'background_node',
+        'admin_note': 'For system use. Returns the current special node id (relative to Session).',
+    },
+    {
+        'name': 'reply_variable',
+        'admin_note': 'For system use. Returns the name of the last SMS reply variable.',
+    },
 ]
 
 try:

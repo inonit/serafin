@@ -15,6 +15,7 @@ from .models import Variable, Program, Session, Page, Email, SMS
 from .serializers import VariableSerializer
 from .filters import VariableSearchFilter
 
+
 @staff_member_required
 def export_text(request):
 

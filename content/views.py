@@ -1,9 +1,10 @@
 from __future__ import unicode_literals
 
+from django.conf import settings
 from django.contrib.auth.decorators import login_required
 from django.contrib.admin.views.decorators import staff_member_required
 from django.core.urlresolvers import reverse
-from django.http import Http404
+from django.http import Http404, HttpResponseRedirect
 from django.shortcuts import get_object_or_404, render
 from filer.models import File, Image
 from serafin.decorators import in_session
@@ -13,7 +14,10 @@ from system.engine import Engine
 import json
 
 
-@login_required
+def home(request):
+    return render(request, 'home.html', {})
+
+
 def get_session(request):
 
     if request.is_ajax():
@@ -26,7 +30,11 @@ def get_session(request):
         request.user.data['node'] = 0
         request.user.save()
 
-    session_id = request.user.data['session']
+    session_id = request.user.data.get('session')
+
+    if not session_id:
+        return HttpResponseRedirect(settings.HOME_URL)
+
     session = get_object_or_404(Session, id=session_id)
 
     context = {
@@ -38,7 +46,6 @@ def get_session(request):
     return render(request, 'session.html', context)
 
 
-@login_required
 def get_page(request):
 
     context = {}
@@ -60,7 +67,7 @@ def get_page(request):
     else:
         next = request.GET.get('next')
         pop = request.GET.get('pop')
-        engine = Engine(request.user.id, context)
+        engine = Engine(None, context, user=request.user)
         page = engine.run(next=next, pop=pop)
 
     if not page:
@@ -70,13 +77,12 @@ def get_page(request):
         'title': page.display_title,
         'data': page.data,
         'dead_end': page.dead_end,
-        'stacked': page.stacked,
+        'stacked': page.stacked
     }
 
     return JSONResponse(response)
 
 
-@login_required
 def content_route(request, route_slug=None):
 
     if request.is_ajax():
@@ -84,12 +90,17 @@ def content_route(request, route_slug=None):
 
     session = get_object_or_404(Session, route_slug=route_slug)
 
+    if (not session.is_open and
+        session.program and
+        session.program.programuseraccess_set.filter(user=request.user).exists()):
+        return HttpResponseRedirect(settings.HOME_URL)
+
     context = {
         'session': session.id,
         'node': 0
     }
 
-    engine = Engine(request.user.id, context, push=True)
+    engine = Engine(None, context, push=True, user=request.user)
     engine.run()
 
     context = {

@@ -6,7 +6,7 @@ from django.core.urlresolvers import reverse
 from django.template import Context
 from django.template.loader import get_template
 from django.db import models
-from django.contrib.auth.models import BaseUserManager, AbstractBaseUser, PermissionsMixin
+from django.contrib.auth.models import BaseUserManager, AbstractBaseUser, PermissionsMixin, AnonymousUser
 from django.conf import settings
 from jsonfield import JSONField
 from collections import OrderedDict
@@ -138,9 +138,42 @@ class User(AbstractBaseUser, PermissionsMixin):
             html_message=html_content
         )
 
+    def register(self):
+        return self, False
+
     def __unicode__(self):
         return u'%s' % self.id
 
     class Meta:
         verbose_name = _('user')
         verbose_name_plural = _('users')
+
+
+class StatefulAnonymousUser(AnonymousUser):
+
+    def __init__(self, session):
+        self.session = session
+        self.data = session.get('user_data', {})
+
+    def is_authenticated(self):
+        return True
+
+    def save(self):
+        self.session['user_data'] = self.data
+
+    def register(self):
+        password = self.data['password']
+        del self.data['password']
+
+        user = User.objects.create_user(None, password)
+
+        try:
+            del self.data['email']
+            del self.data['phone']
+        except:
+            pass
+
+        User.objects.filter(id=user.id).update(data=self.data)
+        user.data = self.data
+
+        return user, True

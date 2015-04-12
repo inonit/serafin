@@ -82,6 +82,15 @@ class Program(models.Model):
     def __unicode__(self):
         return self.title
 
+    def enroll(self, user, start_time=None, time_factor=None):
+        ProgramUserAccess.objects.create(
+            program=self,
+            user=user,
+            start_time=start_time or timezone.now(),
+            time_factor=time_factor or 1.0
+        )
+        return True
+
 
 class ProgramUserAccess(models.Model):
     '''
@@ -114,6 +123,7 @@ class Session(models.Model):
     title = models.CharField(_('title'), max_length=64, unique=True)
     display_title = models.CharField(_('display title'), max_length=64)
     route_slug = models.CharField(_('route slug'), max_length=64, null=True, unique=True)
+    is_open = models.BooleanField(_('is open'), default=False)
     program = models.ForeignKey('Program', verbose_name=_('program'))
     content = models.ManyToManyField('Content', verbose_name=_('content'), null=True, blank=True)
     admin_note = models.TextField(_('admin note'), blank=True)
@@ -164,8 +174,9 @@ class Session(models.Model):
                     variable = Variable.objects.get(name=condition['var_name'])
                     vars_used.append(variable)
                 except Variable.DoesNotExist:
-                    raise ValidationError(_("Could not find Variable `%s`. Please make sure all "
-                                            "variables are predefined." % condition['var_name']))
+                    if not condition['var_name'] in [var['name'] for var in settings.RESERVED_VARIABLES]:
+                        raise ValidationError(_("Could not find Variable `%s`. Please make sure all "
+                                                "variables are predefined." % condition['var_name']))
         super(Session, self).save(*args, **kwargs)
 
         self.content = []
@@ -241,8 +252,9 @@ class Page(Content):
                         variable = Variable.objects.get(name=field['variable_name'])
                         vars_used.append(variable)
                     except Variable.DoesNotExist:
-                        raise ValidationError(_("Could not find Variable `%s`. Please make sure all "
-                                                "variables are predefined." % field['variable_name']))
+                        if not field['variable_name'] in [var['name'] for var in settings.RESERVED_VARIABLES]:
+                            raise ValidationError(_("Could not find Variable `%s`. Please make sure all "
+                                                    "variables are predefined." % field['variable_name']))
         super(Page, self).save(*args, **kwargs)
         self.vars_used = []
         for var in vars_used:
