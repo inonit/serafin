@@ -1,9 +1,54 @@
 # -*- coding: utf-8 -*-
+"""
+Serafin Expression mini-language implementation details.
 
-from __future__ import absolute_import, unicode_literals, print_function
+Variables:
+  Variables must be prefixed with `$` like eg. $MyLittlePony.
+  Any variables must be predefined in the `system.models.Variable` django model
+  and will be looked up whenever encountered. If a variable is not found, an
+  will be raised.
+
+Operators:
+  We have two sets of expression types; MathExpressions and BoolExpressions.
+  Expression evaluation between mixed types are not supported, and each Expression
+  type supports a predefined set of operators.
+
+  BoolExpression operators:
+    - == (eq)   - >= (ge)
+    - != (ne)   - in (in/contains)
+    - <  (lt)   - &  (AND)
+    - <= (le)   - |  (OR)
+    - >  (gt)
+
+
+  MathExpression operators:
+    - +  (add)              - %  (mod/modulo)
+    - /  (truediv)          - *  (multiply)
+    - // (floordiv)         - -  (subtract)
+    - ^ (power/exponent)
+
+Grouping:
+  Expressions can be grouped by putting them in () parentheses.
+
+Comments:
+  Comments can be made by placing # before the line to ignore.
+
+Evaluation of expressions.
+  Once an expression has been parsed, it will instantiate either a BoolExpression
+  or a MathExpression. It will build the chain according to expression grouping and return
+  the value.
+"""
+
+
+from __future__ import absolute_import, unicode_literals
 
 import functools
 import operator as oper
+
+from pyparsing import (
+    Literal, CaselessLiteral, Word, Combine, Group, Keyword,
+    Optional, ZeroOrMore, Forward, nums, alphas
+)
 
 
 def chain(func):
@@ -164,3 +209,106 @@ class MathExpression(_Expression):
         "subtract": oper.sub
     }
 
+
+class Parser(object):
+    """
+    A parser for parsing and evaluating expressions using our
+    little expression mini-language.
+
+    Parses the input string and returns the parsed results ready
+    for the interpreter to read.
+
+    This code is pretty much stolen from
+    https://pyparsing.wikispaces.com/file/view/fourFn.py
+    """
+
+    UNARY = "unary -"
+    operators = {
+        # Boolean operators
+        # "==": oper.eq, "!=": oper.ne, "<": oper.lt, "<=": oper.le,
+        # ">": oper.gt, ">=": oper.ge, "in": oper.contains, "&": oper.and_,
+        # "|": oper.or_,
+
+        # Mathematical operators
+        "+": oper.add, "/": oper.truediv, "//": oper.floordiv, "^": oper.pow,
+        "%": oper.mod, "*": oper.mul, "-": oper.sub
+    }
+    
+    bnf = None
+
+    def __init__(self, *args, **kwargs):
+
+        self.bnf = self._get_bnf()
+        self.stack = []
+        
+    def _get_bnf(self):
+        """
+        Returns the `Backus–Naur Form` for the parser
+        """
+        if not self.bnf:
+            # eq = Literal("==")
+            # ne = Literal("!=")
+            # lt = Literal("<")
+            # gt = Literal(">")
+            # ge = Literal(">=")
+            # in_ = Literal("in")
+            # and_ = Literal("&")
+            # or_ = Literal("|")
+
+            add = Literal("+")
+            div = Literal("/")
+            floordiv = Literal("//")
+            exponent = Literal("^")
+            modulo = Literal("%")
+            multiply = Literal("*")
+            subtract = Literal("-")
+
+            point = Literal(".")
+            number = Combine(Word("+-" + nums, nums) + Optional(point + Optional(Word(nums))))
+            variable = Keyword("$" + alphas + nums)
+            lpar = Literal("(").suppress()
+            rpar = Literal(")").suppress()
+            multiply_operations = multiply | div | floordiv | modulo
+            add_operations = add | subtract
+
+            expression = Forward()
+            atom = (Optional("-") + (number | variable + lpar + expression + rpar).setParseAction(self.push_stack)
+                    | (lpar + expression.suppress() + rpar)).setParseAction(self.push_unary_stack)
+
+            # By defining exponentiation as "atom [^factor]"
+            # instead of "atom [^atom], we get left to right exponents.
+            # 2^3^2 = 2^(3^2), not (2^3)^2.
+            factor = Forward()
+            factor << atom + ZeroOrMore((exponent + factor).setParseAction(self.push_stack))
+
+            term = factor + ZeroOrMore((multiply_operations + factor).setParseAction(self.push_stack))
+            self.bnf = expression << term + ZeroOrMore((add_operations + term).setParseAction(self.push_stack))
+        return self.bnf
+
+    def push_stack(self, s, location, tokens):
+        self.stack.append((tokens[0]))
+
+    def push_unary_stack(self, s, location, tokens):
+        if tokens and tokens[0] == "-":
+            self.stack.append(self.UNARY)
+
+    def evaluate_stack(self, expr):
+        operator = expr.pop()
+
+        if operator == self.UNARY:
+            return -self.evaluate_stack(expr)
+
+        if operator in self.operators:
+            rhs, lhs = self.evaluate_stack(expr), self.evaluate_stack(expr)
+            return self.operators[operator](lhs, rhs)
+        elif operator.startswith("$"):
+            # look up variable
+            pass
+        elif operator[0].isalpha():
+            return 0
+        else:
+            return float(operator)
+
+    def parse(self, cmd_string):
+        _ = self.bnf.parseString(cmd_string)
+        return self.evaluate_stack(self.stack[:])
