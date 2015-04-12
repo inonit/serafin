@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Serafin\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-04-13 00:35+0200\n"
+"POT-Creation-Date: 2015-04-13 01:20+0200\n"
 "PO-Revision-Date: 2014-08-26 11:35+0200\n"
 "Last-Translator: Eirik Krogstad <eirikkr@gmail.com>\n"
 "Language: nb\n"
@@ -81,21 +81,21 @@ msgstr "Vis/skjul-tekst"
 
 #: content/templates/admin/content_widget.html:56
 #: content/templates/admin/content_widget.html:90
-#: content/templates/admin/content_widget.html:194
-#: content/templates/admin/content_widget.html:252
-#: content/templates/admin/content_widget.html:316
+#: content/templates/admin/content_widget.html:196
+#: content/templates/admin/content_widget.html:254
+#: content/templates/admin/content_widget.html:318
 msgid "Label"
 msgstr "Feltnavn"
 
 #: content/templates/admin/content_widget.html:60
 #: content/templates/admin/content_widget.html:133
-#: content/templates/admin/content_widget.html:198
-#: content/templates/admin/content_widget.html:290
+#: content/templates/admin/content_widget.html:200
+#: content/templates/admin/content_widget.html:292
 msgid "Variable name"
 msgstr "Variabelnavn"
 
 #: content/templates/admin/content_widget.html:69
-#: content/templates/admin/content_widget.html:219
+#: content/templates/admin/content_widget.html:221
 msgid "Horizontal?"
 msgstr "Horisontal?"
 
@@ -104,16 +104,16 @@ msgid "+ Item"
 msgstr "+ Element"
 
 #: content/templates/admin/content_widget.html:78
-#: content/templates/admin/content_widget.html:240
-#: content/templates/admin/content_widget.html:304
+#: content/templates/admin/content_widget.html:242
+#: content/templates/admin/content_widget.html:306
 msgid "Alternatives"
 msgstr "Alternativer"
 
 #: content/templates/admin/content_widget.html:94
 #: content/templates/admin/content_widget.html:153
-#: content/templates/admin/content_widget.html:209
-#: content/templates/admin/content_widget.html:256
-#: content/templates/admin/content_widget.html:320
+#: content/templates/admin/content_widget.html:211
+#: content/templates/admin/content_widget.html:258
+#: content/templates/admin/content_widget.html:322
 msgid "Value"
 msgstr "Verdi"
 
@@ -167,51 +167,60 @@ msgid "+ Multiple selection"
 msgstr "+ Flervalg"
 
 #: content/templates/admin/content_widget.html:179
+#: plumbing/templates/admin/plumbing_widget.html:12
+msgid "+ Email"
+msgstr "+ E-post"
+
+#: content/templates/admin/content_widget.html:180
+msgid "+ Password"
+msgstr "+ Password"
+
+#: content/templates/admin/content_widget.html:181
 msgid "+ Hidden field"
 msgstr "+ Skjult felt"
 
-#: content/templates/admin/content_widget.html:214
+#: content/templates/admin/content_widget.html:216
 msgid "Required?"
 msgstr "Påkrevet?"
 
-#: content/templates/admin/content_widget.html:226
+#: content/templates/admin/content_widget.html:228
 msgid "Lower limit"
 msgstr "Nedre grense"
 
-#: content/templates/admin/content_widget.html:230
+#: content/templates/admin/content_widget.html:232
 msgid "Upper limit"
 msgstr "Øvre grense"
 
-#: content/templates/admin/content_widget.html:237
-#: content/templates/admin/content_widget.html:301
+#: content/templates/admin/content_widget.html:239
+#: content/templates/admin/content_widget.html:303
 msgid "+ Alternative"
 msgstr "+ Alternativ"
 
-#: content/templates/admin/content_widget.html:270
+#: content/templates/admin/content_widget.html:272
 msgid "+ Question"
 msgstr "+ Spørsmål"
 
-#: content/templates/admin/content_widget.html:282
-#: content/templates/admin/content_widget.html:286
+#: content/templates/admin/content_widget.html:284
+#: content/templates/admin/content_widget.html:288
 msgid "Question"
 msgstr "Spørsmål"
 
-#: content/templates/admin/content_widget.html:325
+#: content/templates/admin/content_widget.html:327
 msgid "Correct?"
 msgstr "Korrekt?"
 
-#: content/templates/admin/content_widget.html:331
+#: content/templates/admin/content_widget.html:333
 msgid "Response"
 msgstr "Respons"
 
-#: content/templates/admin/content_widget.html:345
+#: content/templates/admin/content_widget.html:347
 msgid "Alt title"
 msgstr "Alternativtittel"
 
-#: content/templates/admin/content_widget.html:349
-#: content/templates/admin/content_widget.html:359
-#: content/templates/admin/content_widget.html:369
-#: content/templates/admin/content_widget.html:379
+#: content/templates/admin/content_widget.html:351
+#: content/templates/admin/content_widget.html:361
+#: content/templates/admin/content_widget.html:371
+#: content/templates/admin/content_widget.html:381
 #: templates/admin/sitetree/tree/change_form.html:38
 msgid "Title"
 msgstr "Tittel"
@@ -288,10 +297,6 @@ msgstr "Skriv inn gyldig JSON"
 #: plumbing/templates/admin/plumbing_widget.html:11
 msgid "+ Page"
 msgstr "+ Side"
-
-#: plumbing/templates/admin/plumbing_widget.html:12
-msgid "+ Email"
-msgstr "+ E-post"
 
 #: plumbing/templates/admin/plumbing_widget.html:13
 msgid "+ Sms"
@@ -933,7 +938,7 @@ msgstr "Passordnullstilling på %(site_name)s"
 #: templates/session.html:64 templates/session.html.py:74
 #: templates/session.html:129 templates/session.html.py:139
 #: templates/session.html:160 templates/session.html.py:170
-#: templates/session.html:198
+#: templates/session.html:214
 msgid "Please choose one"
 msgstr "Gjør et valg"
 
@@ -949,14 +954,15 @@ msgstr ""
 "Skriv inn et tall mellom {{ field.lower_limit }} og {{ field.upper_limit }}"
 
 #: templates/session.html:111 templates/session.html.py:119
+#: templates/session.html:189 templates/session.html.py:197
 msgid "This field is required"
 msgstr "Dette feltet er påkrevet"
 
-#: templates/session.html:233
+#: templates/session.html:249
 msgid "Next page"
 msgstr "Neste side"
 
-#: templates/session.html:236
+#: templates/session.html:252
 msgid "Back to the program"
 msgstr "Tilbake til programmet"
 
