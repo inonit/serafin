@@ -224,6 +224,33 @@
                 </div>
 
                 <div class="fieldset">
+                  {% verbatim %}
+                  <script type="text/ng-template" id="template/string-expression.html">
+                    <div class="expression-widget-wrapper">
+                      <input type="text" placeholder="Start writing..."
+                             ng-model="expression.query"
+                             ng-change="addQuery('{{ url }}')">
+                      <div class="preview-box">
+                        <div class="header">
+                          <span class="title">Expression preview</span>
+                          <div class="ctrl right"><i class="icon-question-sign"></i></div>
+                        </div>
+                        <div class="validator">
+                          <p>
+                            <span class="expression">{{ expression.query }}</span>
+                          </p>
+                          <p>
+                            <span class="validation-message">dette er en melding</span>
+                          </p>
+                        </div>
+                      </div>
+                    </div>
+                  </script>
+                  <string-expression url="/api/system/variables/evaluate-expression/"></string-expression>
+                  {% endverbatim %}
+                </div>
+
+                <div class="fieldset">
                     <div class="field-data" ng-if="field.field_type == 'numeric'">
                         <label>{% trans 'Lower limit' %}</label>
                         <input type="text" ng-model="field.lower_limit">
