@@ -12,7 +12,7 @@
         <li>
             {% ifequal item.url "admin:index" %}
                 {% if user.is_staff %}
-                    <a href="{{ item.url_resolved }}">{% trans item.title %}</a>
+                    <a href="{% url item.url_resolved %}">{% trans item.title %}</a>
                 {% endif %}
             {% else %}
                 <a href="{{ item.url_resolved }}">{% trans item.title %}</a>
