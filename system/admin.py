@@ -50,7 +50,7 @@ class VariableForm(forms.ModelForm):
 
 
 class VariableAdmin(admin.ModelAdmin):
-    list_display = ['name', 'value', 'random_type', 'user_editable']
+    list_display = ['name', 'program', 'value', 'random_type', 'user_editable']
     search_fields = ['name']
     form = VariableForm
 
@@ -58,8 +58,9 @@ class VariableAdmin(admin.ModelAdmin):
         (None, {
             'fields': (
                 'name',
-                'display_name',
+                #'display_name',
                 'admin_note',
+                'program',
                 'value',
                 'user_editable',
                 'random_type',
@@ -201,7 +202,7 @@ class SessionAdmin(admin.ModelAdmin):
     list_display = [
         'id',
         'title',
-        'display_title',
+        #'display_title',
         'route_slug',
         'is_open',
         'program',

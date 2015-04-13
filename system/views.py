@@ -31,6 +31,9 @@ def export_text(request):
         return string.replace('\n', '\n            ')
 
     def format_field(obj, field):
+        if not getattr(obj, field):
+            return ''
+
         return textwrap.dedent('''\
             ///// %(model)s.%(id)i.%(field)s ORIGINAL
             %(value)s
@@ -48,6 +51,9 @@ def export_text(request):
         })
 
     def format_content(obj, index, field, *fields, **kwargs):
+        if not kwargs.get('value', '') and not obj.data[index].get(field):
+            return ''
+
         return textwrap.dedent('''\
             ///// %(model)s.%(id)i.%(index)i.%(fields)s ORIGINAL
             %(value)s
@@ -66,7 +72,6 @@ def export_text(request):
         })
 
     data = ''
-    variables = []
     for program in queryset.order_by('id'):
 
         data += format_field(program, 'title')
@@ -78,9 +83,6 @@ def export_text(request):
             data += format_field(session, 'title')
             data += format_field(session, 'display_title')
             data += format_field(session, 'admin_note')
-
-            for variable in session.vars_used.order_by('id'):
-                variables.append(variable)
 
             for content in session.content.order_by('id'):
                 for index, pagelet in enumerate(content.data):
@@ -125,6 +127,12 @@ def export_text(request):
                             for j, alt in enumerate(item['alternatives']):
                                 data += format_content(content, index, 'content', str(i), 'alternatives', str(j), 'label', value=alt['label'])
 
+        for variable in program.variable_set.order_by('id'):
+            data += format_field(variable, 'name')
+            data += format_field(variable, 'display_name')
+            data += format_field(variable, 'admin_note')
+            data += format_field(variable, 'value')
+            data += format_field(variable, 'random_set')
 
     response = HttpResponse(data, content_type='text/plain')
     response['Content-Disposition'] = 'attachment; filename=text_content.md'
@@ -136,18 +144,14 @@ def export_text(request):
 def import_text(request):
 
     redirect = request.GET.get('next')
-    text = request.POST.get('text')
 
     if request.method == 'POST':
 
+        text = request.FILES.get('text')
+
         return HttpResponseRedirect(redirect)
 
-
-    context = {
-        'text': text
-    }
-
-    return render(request, 'import_text.html', context)
+    return render(request, 'import_text.html', {})
 
 
 class VariableViewSet(viewsets.ModelViewSet):

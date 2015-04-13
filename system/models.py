@@ -24,6 +24,7 @@ class Variable(models.Model):
     name = models.CharField(_('name'), max_length=64, unique=True)
     display_name = models.CharField(_('display name'), max_length=64, blank=True, default='')
     admin_note = models.TextField(_('admin note'), blank=True)
+    program = models.ForeignKey('Program', verbose_name=_('program'), null=True)
     value = models.CharField(_('initial value'), max_length=32, blank=True, default='')
     user_editable = models.BooleanField(_('user editable'), default=False)
     RANDOM_TYPES = (
