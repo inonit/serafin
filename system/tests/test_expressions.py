@@ -1,9 +1,11 @@
 # -*- coding: utf-8 -*-
 
 from __future__ import absolute_import, unicode_literals
+
+import math
 from django.test import TestCase
 
-from ..expressions import BoolExpression
+from ..expressions import Parser, BoolExpression, MathExpression
 
 
 class BoolExpressionTestCase(TestCase):
@@ -157,3 +159,55 @@ class BoolExpressionTestCase(TestCase):
 
     def test_boolexpression_complex_chain(self):
         self.assertTrue(BoolExpression(4, "gt", 3).and_(BoolExpression(["apple", "fish"], "in", "fish")))
+
+
+class MathExpressionTestCase(TestCase):
+    pass
+
+
+class ParserTestCase(TestCase):
+
+    def setUp(self):
+        self.parser = Parser()
+
+    def test_mathematical_expressions(self):
+
+        # test regular arithmetic operations
+        self.assertEqual(self.parser.parse("9"), 9)
+        self.assertEqual(self.parser.parse("-9"), -9)
+        self.assertEqual(self.parser.parse("--9"), 9)
+        self.assertEqual(self.parser.parse("9 +3"), 9 + 3)
+        self.assertEqual(self.parser.parse("9 + 3 + 6"), 9 + 3 + 6)
+        self.assertEqual(self.parser.parse("9 + 3 / 11"), 9 + 3.0 / 11)
+        self.assertEqual(self.parser.parse("(9 + 3)"), (9 + 3))
+        self.assertEqual(self.parser.parse("(9 + 3) / 11"), (9 + 3.0) / 11)
+        self.assertEqual(self.parser.parse("9 - 12 - 6"), 9 - 12 - 6)
+        self.assertEqual(self.parser.parse("9 - (12 -6)"), 9 - (12 - 6))
+        self.assertEqual(self.parser.parse("2 * 3"), 2 * 3)
+        self.assertEqual(self.parser.parse("2 * 3.14159"), 2 * 3.14159)
+        self.assertEqual(self.parser.parse("3.1415926535 * 3.1415926535 / 10"), 3.1415926535 * 3.1415926535 / 10)
+        self.assertEqual(self.parser.parse("4 ^ 3"), 4 ** 3)
+        self.assertEqual(self.parser.parse("4 ^ 2 ^ 3"), 4 ** 2 ** 3)
+        self.assertEqual(self.parser.parse("4 ^ 2 ^ 3"), 4 ** (2 ** 3))
+        self.assertEqual(self.parser.parse("(4 ^ 2) ^ 3"), (4 ** 2) ** 3)
+        self.assertNotEqual(self.parser.parse("4 ^ 2 ^ 3"), (4 ** 2) ** 3)
+        self.assertEqual(self.parser.parse("9 % 3"), 9 % 3)
+
+        # test constants
+        self.assertEqual(self.parser.parse("PI*PI/10"), math.pi * math.pi / 10)
+        self.assertEqual(self.parser.parse("PI * PI / 10"), math.pi * math.pi / 10)
+        self.assertEqual(self.parser.parse("PI ^ 2"), math.pi ** 2)
+        self.assertEqual(self.parser.parse("E / 3"), math.e / 3)
+        self.assertEqual(self.parser.parse("E ^ PI"), math.e ** math.pi)
+        self.assertEqual(self.parser.parse("6.02E23 * 8.048"), 6.02e23 * 8.048)
+
+        # test functions
+        self.assertEqual(self.parser.parse("round(PI^2)"), round(math.pi ** 2))
+        self.assertEqual(self.parser.parse("sin(PI/2)"), math.sin(math.pi / 2))
+        self.assertEqual(self.parser.parse("trunc(E)"), int(math.e))
+        self.assertEqual(self.parser.parse("trunc(-E)"), int(-math.e))
+        self.assertEqual(self.parser.parse("round(E)"), round(math.e))
+        self.assertEqual(self.parser.parse("round(-E)"), round(-math.e))
+        self.assertEqual(self.parser.parse("sign(-2)"), -1)
+        self.assertEqual(self.parser.parse("sign(0)"), 0)
+        self.assertEqual(self.parser.parse("sign(0.1)"), 1)

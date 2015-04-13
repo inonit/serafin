@@ -24,8 +24,8 @@ Operators:
   MathExpression operators:
     - +  (add)              - %  (mod/modulo)
     - /  (truediv)          - *  (multiply)
-    - // (floordiv)         - -  (subtract)
-    - ^ (power/exponent)
+    - ^  (power/exponent)   - -  (subtract)
+
 
 Grouping:
   Expressions can be grouped by putting them in () parentheses.
@@ -43,12 +43,17 @@ Evaluation of expressions.
 from __future__ import absolute_import, unicode_literals
 
 import functools
+import math
+from sys import float_info
 import operator as oper
+
+from .models import Variable
+
 
 from pyparsing import (
     Literal, CaselessLiteral, Word, Combine, Group, Keyword,
-    Optional, ZeroOrMore, Forward, nums, alphas
-)
+    Optional, ParseException, ZeroOrMore, Forward, nums, alphas,
+    alphanums)
 
 
 def chain(func):
@@ -215,9 +220,6 @@ class Parser(object):
     A parser for parsing and evaluating expressions using our
     little expression mini-language.
 
-    Parses the input string and returns the parsed results ready
-    for the interpreter to read.
-
     This code is pretty much stolen from
     https://pyparsing.wikispaces.com/file/view/fourFn.py
     """
@@ -230,13 +232,23 @@ class Parser(object):
         # "|": oper.or_,
 
         # Mathematical operators
-        "+": oper.add, "/": oper.truediv, "//": oper.floordiv, "^": oper.pow,
-        "%": oper.mod, "*": oper.mul, "-": oper.sub
+        "+": oper.add, "/": oper.truediv, "^": oper.pow,
+        "%": oper.mod, "*": oper.mul, "-": oper.sub,
+    }
+
+    functions = {
+        "sin": math.sin, "cos": math.cos, "tan": math.tan,
+        "abs": abs, "trunc": lambda a: int(a), "round": round,
+        "sign": lambda a: abs(a) > float_info.epsilon and cmp(a, 0) or 0
+    }
+
+    constants = {
+        "E": math.e, "PI": math.pi
     }
     
     bnf = None
 
-    def __init__(self, *args, **kwargs):
+    def __init__(self):
 
         self.bnf = self._get_bnf()
         self.stack = []
@@ -244,6 +256,15 @@ class Parser(object):
     def _get_bnf(self):
         """
         Returns the `Backus–Naur Form` for the parser
+
+        exponent            :: '^'
+        add_operations      :: '+' | '-'
+        multiply_operations :: '*' | '/' | '%'
+        integer             :: ['+' | '-'] '0'...'9' +
+        atom                :: PI | E | real | fn '(' expr ')' | '(' expr ')'
+        factor              :: atom [ exponent factor ] *
+        term                :: factor [ multiply_operations factor ] *
+        expression          :: term [ add_operations term ] *
         """
         if not self.bnf:
             # eq = Literal("==")
@@ -255,25 +276,35 @@ class Parser(object):
             # and_ = Literal("&")
             # or_ = Literal("|")
 
+            # Operators
             add = Literal("+")
             div = Literal("/")
-            floordiv = Literal("//")
             exponent = Literal("^")
             modulo = Literal("%")
             multiply = Literal("*")
             subtract = Literal("-")
 
+            # Functions
+            e = Literal("E")
+            pi = Literal("PI")
+
+            # Punctuation
             point = Literal(".")
-            number = Combine(Word("+-" + nums, nums) + Optional(point + Optional(Word(nums))))
-            variable = Keyword("$" + alphas + nums)
-            lpar = Literal("(").suppress()
-            rpar = Literal(")").suppress()
-            multiply_operations = multiply | div | floordiv | modulo
+            lparen = Literal("(").suppress()
+            rparen = Literal(")").suppress()
+
+            variable = Word("$" + alphanums)
+            ident = Word(alphas, alphas + nums + "_$")
+            number = Combine(Word("+-" + nums, nums) +
+                             Optional(point + Optional(Word(nums))) +
+                             Optional(e + Word("+-" + nums, nums)))
+            multiply_operations = multiply | div | modulo
             add_operations = add | subtract
 
             expression = Forward()
-            atom = (Optional("-") + (number | variable + lpar + expression + rpar).setParseAction(self.push_stack)
-                    | (lpar + expression.suppress() + rpar)).setParseAction(self.push_unary_stack)
+            atom = (Optional("-") +
+                    (pi | e | number | ident + lparen + expression + rparen).setParseAction(self.push_stack)
+                    | (lparen + expression.suppress() + rparen)).setParseAction(self.push_unary_stack)
 
             # By defining exponentiation as "atom [^factor]"
             # instead of "atom [^atom], we get left to right exponents.
@@ -293,22 +324,41 @@ class Parser(object):
             self.stack.append(self.UNARY)
 
     def evaluate_stack(self, expr):
-        operator = expr.pop()
+        """
+        Recursively reads the next expression from the stack.
+        Looks up supported operators and/or functions and applies
+        them.
+        """
 
+        operator = expr.pop()
         if operator == self.UNARY:
             return -self.evaluate_stack(expr)
 
         if operator in self.operators:
             rhs, lhs = self.evaluate_stack(expr), self.evaluate_stack(expr)
             return self.operators[operator](lhs, rhs)
+        elif operator in self.functions:
+            return self.functions[operator](self.evaluate_stack(expr))
+        elif operator in self.constants:
+            return self.constants[operator]
         elif operator.startswith("$"):
             # look up variable
-            pass
+            # TODO: Make this work
+            variable = operator[1:]
+            try:
+                var = Variable.objects.filter(name__iexact=variable).get()
+                return var.get_value()
+            except Exception as e:
+                raise ParseException(e)
         elif operator[0].isalpha():
             return 0
         else:
             return float(operator)
 
     def parse(self, cmd_string):
-        _ = self.bnf.parseString(cmd_string)
+        """
+        Parse the command string and return the
+        evaluated result.
+        """
+        self.bnf.parseString(cmd_string)
         return self.evaluate_stack(self.stack[:])
