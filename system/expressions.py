@@ -41,6 +41,10 @@ Constants:
 Grouping:
   Expressions can be grouped by putting them in () parentheses.
 
+
+In order to resolve user variables, a User instance must be passed
+to the Parser on initialization. If the Parser is initialized without
+a User instance, attempts to lookup variables will raise an error.
 """
 
 
@@ -51,11 +55,10 @@ import math
 from sys import float_info
 import operator as oper
 
-from .models import Variable
-
 from pyparsing import (
     Literal, CaselessLiteral, Word, Combine, Optional,
-    ParseException, ZeroOrMore, Forward, nums, alphas
+    ParseException, ZeroOrMore, Forward, nums, alphas,
+    alphanums
 )
 
 
@@ -251,11 +254,12 @@ class Parser(object):
     
     bnf = None
 
-    def __init__(self):
+    def __init__(self, user_obj=None):
 
+        self.user = user_obj
         self.bnf = self._get_bnf()
         self.stack = []
-        
+
     def _get_bnf(self):
         """
         Returns the `Backus–Naur Form` for the parser
@@ -270,6 +274,9 @@ class Parser(object):
         expression          :: term [ add_operations term ] *
         """
         if not self.bnf:
+
+            # Not implemented yet.
+
             # eq = Literal("==")
             # ne = Literal("!=")
             # lt = Literal("<")
@@ -297,16 +304,17 @@ class Parser(object):
             rparen = Literal(")").suppress()
 
             ident = Word(alphas, alphas + nums + "_$")
+            variable = Combine(Literal("$") + Word(alphanums))
             numeric = Combine(Word("+-" + nums, nums) +
                              Optional(point + Optional(Word(nums))) +
                              Optional(e + Word("+-" + nums, nums)))
-            # variable = Word("$" + alphanums)
             multiply_operations = multiply | div | modulo
             add_operations = add | subtract
 
             expression = Forward()
             atom = (Optional("-") +
                     (pi | e | numeric | ident + lparen + expression + rparen).setParseAction(self.push_stack)
+                    | variable.setParseAction(self.push_stack)
                     | (lparen + expression.suppress() + rparen)).setParseAction(self.push_unary_stack)
 
             # By defining exponentiation as "atom [^factor]"
@@ -346,8 +354,19 @@ class Parser(object):
             elif operator in self.constants:
                 return self.constants[operator]
             elif operator[0] == "$":
-                # TODO: Implement resolving variables.
-                raise ParseException("Variable expressions are not yet implemented")
+                variable = operator[1:]
+                if not self.user:
+                    raise ParseException("No user instance set. Please initialize the %s "
+                                         "with a `user_obj` argument." % self.__class__.__name__)
+                try:
+                    value = self.user.data[variable]
+                    if not value:
+                        raise ValueError("Variable '%s' contains no value.")
+                    return float(value)
+                except KeyError:
+                    raise ParseException("%(user)r has not defined variable '%(var)s'" % {
+                        "user": self.user, "var": variable
+                    })
             else:
                 return float(operator)
         except ValueError as e:

@@ -5,8 +5,9 @@ from __future__ import absolute_import, unicode_literals
 import math
 from django.test import TestCase
 
+from users.models import User
 from ..models import Variable
-from ..expressions import Parser, BoolExpression, MathExpression
+from ..expressions import Parser, ParseException, BoolExpression, MathExpression
 
 
 class BoolExpressionTestCase(TestCase):
@@ -169,7 +170,16 @@ class MathExpressionTestCase(TestCase):
 class ParserTestCase(TestCase):
 
     def setUp(self):
-        self.parser = Parser()
+        self.user = User.objects.create(**{
+            "username": 1,
+            "data": {
+                "UserVar1": 1,
+                "UserVar2": 2,
+                "UserVar3": "I like traffic lights",
+                "UserVar4": ""
+            }
+        })
+        self.parser = Parser(user_obj=self.user)
 
     def test_mathematical_expressions(self):
 
@@ -214,4 +224,5 @@ class ParserTestCase(TestCase):
         self.assertEqual(self.parser.parse("sign(0.1)"), 1)
 
     def test_variable_expressions(self):
-        pass
+        self.assertEqual(self.parser.parse("$UserVar1 + $UserVar2"), 3)
+        self.assertRaises(ParseException, self.parser.parse, "$UserVar1 + $UserVar3")
