@@ -35,6 +35,9 @@
         </div>
 
         <div ng-if="pagelet.content_type == 'toggle'" class="toggle" ng-controller="markdown">
+            <div class="filer">
+                {{ file_widget|safe }}
+            </div>
             <div class="field-data">
                 <label>{% trans 'Toggle text' %}</label>
                 <input type="text" class="wide" ng-model="pagelet.toggle">
@@ -173,6 +176,8 @@
                 <div class="btn add" ng-click="add(pagelet.content, 'textarea')">{% trans '+ Text' %}</div>
                 <div class="btn add" ng-click="add(pagelet.content, 'multiplechoice')">{% trans '+ Multiple choice' %}</div>
                 <div class="btn add" ng-click="add(pagelet.content, 'multipleselection')">{% trans '+ Multiple selection' %}</div>
+                <div class="btn add" ng-click="add(pagelet.content, 'email')">{% trans '+ Email' %}</div>
+                <div class="btn add" ng-click="add(pagelet.content, 'password')">{% trans '+ Password' %}</div>
                 <div class="btn add" ng-click="add(pagelet.content, 'hiddenfield')">{% trans '+ Hidden field' %}</div>
             </div>
 
@@ -381,5 +386,6 @@
     <script>
         var initData = {{ value|safe }};
         var filerApi = '{{ filer_api }}';
+        var reservedVars = {{ reserved_vars|default:'undefined'|safe }};
     </script>
 </div>

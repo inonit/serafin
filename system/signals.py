@@ -1,12 +1,15 @@
 from __future__ import unicode_literals
 from django.utils.translation import ugettext_lazy as _
 
+from django.conf import settings
 from django.contrib.auth import get_user_model
 from django.contrib.contenttypes.models import ContentType
 from django.db.models import signals
 from django.dispatch import receiver
 from django.utils import timezone
 
+from easy_thumbnails.files import get_thumbnailer
+from easy_thumbnails.alias import aliases
 from .models import Variable, ProgramUserAccess, Session, Content, Page
 from tasker.models import Task
 from system.tasks import init_session
@@ -40,6 +43,28 @@ def randomize_variable_once(sender, **kwargs):
         for user in get_user_model().objects.all():
             user.data[variable.name] = variable.get_value()
             user.save()
+
+
+@receiver(signals.post_save, sender=ProgramUserAccess)
+def schedule_sessions(sender, **kwargs):
+
+    useraccess = kwargs['instance']
+
+    for session in useraccess.program.session_set.all():
+        if session.scheduled:
+            start_time = session.get_start_time(
+                useraccess.start_time,
+                useraccess.time_factor
+            )
+            Task.objects.create_task(
+                sender=session,
+                domain='init',
+                time=start_time,
+                task=init_session,
+                args=(session.id, useraccess.user.id),
+                action=_('Initialize session'),
+                subject=useraccess.user
+            )
 
 
 @receiver(signals.post_save, sender=Session)
@@ -171,3 +196,41 @@ def content_post_save(sender, **kwargs):
                         Session.objects.filter(id=session.id).update(data=data)
                 except:
                     pass
+
+        # Replace images with thumbnails
+        data = content.data
+        aliases.populate_from_settings()
+
+        for pagelet in data:
+
+            if pagelet.get('content_type') == 'image':
+
+                url = pagelet['content']['url'].replace(settings.MEDIA_URL, '')
+
+                if url:
+
+                    options = aliases.get('medium')
+                    thumbnail = get_thumbnailer(url).get_thumbnail(options).url
+
+                    if thumbnail:
+
+                        pagelet['content']['thumbnail'] = thumbnail
+                        Content.objects.filter(id=content.id).update(data=data)
+
+            if pagelet.get('content_type') == 'toggle':
+                if not pagelet['img_content']:
+                    pagelet['img_content'] = {
+                        'url': ''
+                    }
+
+                url = pagelet['img_content']['url'].replace(settings.MEDIA_URL, '')
+
+                if url:
+
+                    options = aliases.get('small')
+                    thumbnail = get_thumbnailer(url).get_thumbnail(options).url
+
+                    if thumbnail:
+
+                        pagelet['img_content']['thumbnail'] = thumbnail
+                        Content.objects.filter(id=content.id).update(data=data)

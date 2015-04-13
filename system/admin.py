@@ -34,8 +34,8 @@ class VariableForm(forms.ModelForm):
 
     def clean_name(self):
         data = self.cleaned_data['name']
-        if data in settings.RESERVED_VARIABLES:
-            raise forms.ValidationError(_('You are trying to use a forbidden variable name'))
+        if data in [var['name'] for var in settings.RESERVED_VARIABLES]:
+            raise forms.ValidationError(_('You are trying to use a reserved variable name'))
         return data
 
     class Meta:
@@ -173,6 +173,20 @@ class SessionForm(forms.ModelForm):
         super(SessionForm, self).__init__(*args, **kwargs)
         if 'data' in self.fields:
             self.fields['data'].help_text = ''
+        if 'route_slug' in self.fields:
+            self.fields['route_slug'].help_text = _('URL at which this Session will be available to registered Program users at all times')
+            self.fields['route_slug'].required = False
+        if 'is_open' in self.fields:
+            self.fields['is_open'].help_text = _('Session open even to unregistered users')
+        if 'start_time_delta' in self.fields:
+            self.fields['start_time_delta'].help_text = _("Relative to the user's start time for the Program")
+        if 'scheduled' in self.fields:
+            self.fields['scheduled'].help_text = _('Activate automatically for Program users at the given start time')
+        if 'trigger_login' in self.fields:
+            self.fields['trigger_login'].help_text = _('Trigger a login e-mail at the scheduled time')
+
+    def clean_route_alias(self):
+        return self.cleaned_data['route_slug'] or None
 
     class Meta:
         model = Session
@@ -188,6 +202,8 @@ class SessionAdmin(admin.ModelAdmin):
         'id',
         'title',
         'display_title',
+        'route_slug',
+        'is_open',
         'program',
         'note_excerpt',
         'start_time_delta',
@@ -196,7 +212,7 @@ class SessionAdmin(admin.ModelAdmin):
         #'end_time_unit',
         'start_time',
         'scheduled',
-        'trigger_login'
+        'trigger_login',
     ]
     list_editable = [
         'start_time_delta',
@@ -231,6 +247,9 @@ class SessionAdmin(admin.ModelAdmin):
             'fields': [
                 'id',
                 'title',
+                #'display_title',
+                'route_slug',
+                'is_open',
                 'program',
                 'admin_note',
                 'start_time_delta',
@@ -238,7 +257,7 @@ class SessionAdmin(admin.ModelAdmin):
                 #'end_time_delta',
                 #'end_time_unit',
                 'scheduled',
-                'trigger_login'
+                'trigger_login',
             ]
         }),
         (None, {

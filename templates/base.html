@@ -9,11 +9,12 @@
     <title>{% block title %}Serafin{% endblock %}</title>
     {% block meta %}{% endblock %}
     <link rel="stylesheet" href="//brick.a.ssl.fastly.net/PT+Sans:700" />
+    <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Roboto|Open+Sans:400,700" />
     {% load staticfiles %}
     {% load compress %}
     {% compress css %}
     <link rel="stylesheet" href="{% static 'css/foundation.css' %}" />
-    <link rel="stylesheet" href="{% static 'css/style.css' %}" />
+    <link rel="stylesheet" href="{% static 'css/style-miksmaster.css' %}" />
     {% block styles %}{% endblock %}
     {% endcompress %}
   </head>

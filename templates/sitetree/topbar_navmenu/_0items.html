@@ -1,7 +1,7 @@
 {% load i18n sitetree %}
 {% for item in sitetree_items %}
     <top-bar-section>
-        <ul class="{% if item.hint == "left" or item.hint == "right" %}{{ item.hint }}{% else %}left{% endif %}">
+        <ul class="{% if item.is_current or item.in_current_branch %}active{% endif %} {% if item.hint == "left" or item.hint == "right" %}{{ item.hint }}{% else %}left{% endif %}">
             {% if item.has_children %}
                 <li has-dropdown>
                     <a href="{{ item.url_resolved }}">

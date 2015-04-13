@@ -6,9 +6,6 @@ from django.contrib import admin
 admin.autodiscover()
 
 urlpatterns = patterns('',
-    url(r'^', include('users.urls')),
-    url(r'^', include('content.urls')),
-
     url(r'^api/vault/', include('vault.urls')),
     url(r'^api/plumbing/', include('plumbing.urls')),
     url(r'^api/system/', include('system.urls')),
@@ -17,4 +14,7 @@ urlpatterns = patterns('',
     url(r'^admin/export_text/', 'system.views.export_text'),
     url(r'^admin/import_text/', 'system.views.import_text'),
     url(r'^i18n/', include('django.conf.urls.i18n')),
+
+    url(r'^', include('users.urls')),
+    url(r'^', include('content.urls')),
 ) + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

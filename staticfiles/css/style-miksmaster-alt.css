@@ -1,6 +1,7 @@
 html, body {
     height: 100%;
     font-size: 110%;
+    font-family: 'Open Sans', sans-serif;
 }
 
 .wrapper {
@@ -21,22 +22,23 @@ h3,
 h4,
 h5,
 h6 {
-    font-family: 'PT Sans', sans-serif;
+    font-family: 'Open Sans', sans-serif;
     font-weight: 700;
-    margin: 0 0 1rem;
+    margin: 0 0 1.25rem;
     line-height: 1.1;
+    font-size: 2.4rem;
 }
 
 h2 {
-    font-size: 1.75rem;
+    font-size: 1.8rem;
 }
 
 h3 {
-    font-size: 1.5rem;
+    font-size: 1.6rem;
 }
 
 h4 {
-    font-size: 1.25rem;
+    font-size: 1.4rem;
 }
 
 * + h1,
@@ -53,7 +55,6 @@ blockquote {
     height: auto;
     padding: .5rem .75rem;
     margin: 0 0 1.25rem 0;
-    background: #ddd;
     border: none;
 }
 
@@ -64,7 +65,6 @@ blockquote:after {
     left: -30px;
     border-style: solid;
     border-width: 0 30px 15px 0;
-    border-color: transparent #ddd;
     display: block;
     width: 0;
     z-index: 1;
@@ -85,6 +85,17 @@ blockquote p:last-child {
     padding: .5rem 1rem;
 }
 
+blockquote,
+input[type="text"],
+input[type="email"],
+input[type="password"],
+input[type="number"],
+textarea,
+.button {
+    border-radius: 3px;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.2);
+}
+
 header {
     position: fixed;
     top: 0;
@@ -92,47 +103,14 @@ header {
     width: 100%;
 }
 
-/* Top bar navigation menu */
-.top-bar {
-  background: #332f3f;
-  border-bottom: 1px solid #1a1a21;
-}
-
-.top-bar.expanded .title-area {
-  background: #332f3f;
-}
-
-.top-bar ul.title-area h1 a {
-  font-size: 1.1rem;
-  text-transform: uppercase;
-  color: #73e0b8;
-}
-
-.top-bar-section li:not(.has-form) a:not(.button) {
-  background: #332f3f;
-}
-
-.top-bar-section .has-dropdown > ul.dropdown {
-  border-top: 1px solid #34a278;
-}
-
-.top-bar-section .has-dropdown > a,
-.top-bar-section .dropdown li > a {
-  color: #fff;
-}
-
-/* End topbar navigation menu */
-
 .footer {
-    background: white;
-    color: #444;
-    padding: 10px 15px 0;
+    padding: 15px 15px 0;
 }
 
 .page {
     margin: 0 auto;
     max-width: 40em;
-    padding: 6rem 1rem 4rem;
+    padding: 8rem 1rem 4rem;
 }
 
 .page nav {
@@ -146,13 +124,17 @@ header {
 }
 
 .toggle.hasimage blockquote {
-    margin: 0 0 1.25rem 30px;
+    margin: 0 0 1.25rem 130px;
+}
+
+.toggle.hasimage {
+    min-height: 100px;
 }
 
 .toggle img {
-    width: 150px;
+    width: 100px;
     float: left;
-    margin-left: -175px;
+    margin-right: 1.5rem;
 }
 
 input[type="text"],
@@ -283,120 +265,7 @@ div.error {
     display: none !important;
 }
 
-/* COLOR */
-
-body,
-table,
-input[type="text"],
-input[type="email"],
-input[type="password"],
-input[type="number"],
-textarea {
-    color: #444;
-}
-
-h1,
-h2,
-h3,
-h4,
-h5,
-h6 {
-    color: #444;
-}
-
-a {
-    color: #34a278;
-    transition: all 300ms ease-out;
-}
-
-a:hover {
-    color: #348268;
-}
-
-button,
-.button {
-    background: #34d298;
-}
-
-button:hover,
-.button:hover {
-    background: #34a278;
-}
-
-button.disabled,
-button[disabled],
-.button.disabled,
-.button[disabled] {
-    background: #74e2b8;
-}
-
-button.disabled:hover,
-button[disabled]:hover,
-.button.disabled:hover,
-.button[disabled]:hover {
-    background: #74e2b8;
-}
-
-blockquote {
-    background: #ddf5e8;
-}
-
-blockquote,
-blockquote p {
-    color: #222;
-}
-
-blockquote:after {
-    border-color: transparent #ddf5e8;
-}
-
-input[type="text"],
-input[type="email"],
-input[type="password"],
-input[type="number"],
-textarea,
-fieldset,
-.table {
-    background: white;
-    border: 1px solid #ccc;
-    border-left: 2px solid #34d298;
-}
-
-input[type="text"]:focus,
-input[type="email"]:focus,
-input[type="password"]:focus,
-input[type="number"]:focus,
-textarea:focus {
-    background: white;
-    border-left: 2px solid #34d298;
-}
-
-fieldset legend,
-.table .caption {
-    color: #444;
-    background: white;
-}
-
-.footer {
-    background: #332f3f;
-    color: #ccc;
-    border-top: 1px solid #1a1a21;
-}
-
-.footer a {
-    color: white;
-}
-
-.footer a:hover {
-    color: #ccc;
-}
-
-div.error {
-    color: #f23a14;
-}
-
 .stats {
-    font-family: 'PT Sans', sans-serif;
     font-weight: 700;
     text-align: center;
     margin: 1rem 0;
@@ -406,7 +275,222 @@ div.error {
     font-size: 5rem;
 }
 
+.center {
+    text-align: center;
+}
+
+/* COLOR */
+
+/*
+Hovedbakgrunn (der hvor teksten står): Mørk grønn #006633
+Standard tekst (overskrifter og brødtekst): Kremhvit #FFFBDC
+Banner øverst på siden:  Kremhvit banner #FFFBDC
+Banner nederst på siden: Frisk grønn #95C11F
+Tekst på bannere (oppe og nede): Mørk grønn #006633
+Blockquote #FFFBDC Tekst: Ekstra mørk tekstgrønn #002E10
+*/
+
+body,
+label,
+table,
+input[type="text"],
+input[type="email"],
+input[type="password"],
+input[type="number"],
+textarea,
+fieldset,
+.table {
+    background: #FFF;
+    color: #444;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    color: #006633;
+}
+
+a {
+    color: #95C11F;
+    transition: all 300ms ease-out;
+}
+
+a:hover {
+    color: #659100;
+}
+
+button,
+.button {
+    background: #95C11F;
+    border-bottom: 2px solid rgba(0, 0, 0, 0.2);
+    color: #FFF;
+}
+
+.large.button {
+    border-bottom: 3px solid rgba(0, 0, 0, 0.2);
+}
+
+button:hover,
+.button:hover,
+button:focus,
+.button:focus {
+    background: #85B10F;
+    color: #FFF;
+}
+
+button.disabled,
+button[disabled],
+.button.disabled,
+.button[disabled] {
+    background: #F5F5F5;
+    border-bottom: 2px solid rgba(0, 0, 0, 0.2);
+    color: #BBB;
+}
+
+button.disabled:hover,
+button[disabled]:hover,
+.button.disabled:hover,
+.button[disabled]:hover {
+    background: #F5F5F5;
+    color: #BBB;
+}
+
+blockquote {
+    background: #F5F5F5;
+}
+
+blockquote,
+blockquote p {
+    color: #444;
+}
+
+blockquote:after {
+    border-color: transparent #F5F5F5;
+}
+
+input[type="text"],
+input[type="email"],
+input[type="password"],
+input[type="number"],
+textarea,
+fieldset,
+.table {
+    border: 1px solid #CCC;
+}
+
+input[type="text"]:focus,
+input[type="email"]:focus,
+input[type="password"]:focus,
+input[type="number"]:focus,
+textarea:focus {
+    background: #FEFEFE;
+}
+
+fieldset legend,
+.table .caption {
+    background: #FFF;
+}
+
+.top-bar {
+    background: #95C11F;
+}
+
+.top-bar.expanded .title-area {
+    background: #95C11F;
+}
+
+.top-bar ul.title-area h1 a {
+    color: #FFF;
+}
+
+.top-bar-section ul,
+.top-bar-section li:not(.has-form) a:not(.button),
+.top-bar-section ul.active li:not(.has-form) a:not(.button):hover {
+    background: #95C11F;
+}
+
+.top-bar-section li:not(.has-form) a:not(.button):hover {
+    background: rgba(0, 0, 0, 0.1);
+}
+
+.top-bar-section .has-dropdown > ul.dropdown {
+    border-top: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.top-bar-section ul li > a,
+.top-bar-section ul li > a:hover,
+.top-bar-section .has-dropdown > a,
+.top-bar-section .dropdown li > a {
+    color: #FFF;
+}
+
+.top-bar-section ul.active li > a,
+.top-bar-section ul.active li > a:hover {
+    cursor: default;
+}
+
+.footer {
+    background: #95C11F;
+    color: #FFF;
+}
+
+.footer a {
+    color: rgba(255, 255, 255, 0.5);
+}
+
+.footer a:hover {
+    color: rgba(255, 255, 255, 0.25);
+}
+
+div.error {
+    color: #f23a14;
+}
+
 /* RESPONSIVE */
+
+@media only screen and (min-width: 640px) {
+    .top-bar {
+        height: 70px;
+    }
+
+    .top-bar .title-area li,
+    .top-bar .title-area .logo {
+        height: 30px;
+    }
+
+    .top-bar .title-area {
+        padding: 20px;
+    }
+
+    .top-bar .title-area h1 a {
+        font-size: 1.2rem;
+        text-transform: uppercase;
+    }
+
+    .top-bar-section ul {
+        height: 70px;
+    }
+
+    .top-bar-section li:not(.has-form) a:not(.button),
+    .top-bar-section .dropdown li.title h5 a {
+        font-size: 1rem;
+        height: 70px;
+        line-height: 70px;
+        padding: 0 30px;
+    }
+
+    .top-bar-section .has-dropdown > a {
+        padding-right: 55px !important;
+    }
+
+    .top-bar-section .has-dropdown > a:after {
+        top: 50%;
+        right: 15px;
+    }
+}
 
 @media only screen and (max-width: 75rem) {
     .toggle img {
@@ -433,13 +517,22 @@ div.error {
     html {
         font-size: 100%;
     }
-    .hamburger {
-        display: inline-block;
+
+    .top-bar .title-area .logo {
+        height: 25px;
+        margin: 10px;
     }
+
+    .top-bar-section ul li > a,
+    .top-bar-section .dropdown li.title h5 a {
+        font-size: 1rem;
+    }
+
     .footer {
         font-size: 90%;
         overflow: visible;
     }
+
     .footer {
         padding: .95rem .5rem;
     }

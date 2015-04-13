@@ -186,14 +186,26 @@ plumbing.controller('graph', ['$scope', 'jsPlumb', function(scope, jsPlumbServic
         if (type == 'delay') {
             scope.data.nodes.push({
                 id: id,
-                type: 'delay',
+                type: type,
                 delay: {
                     number: 0,
                     unit: '',
                 },
                 metrics: {
-                    left: '300px',
-                    top: '100px'
+                    left: (300 - scope.scrolling.x) + 'px',
+                    top: (100 - scope.scrolling.y) + 'px'
+                }
+            });
+            return;
+        }
+
+        if (type == 'register' || type == 'enroll') {
+            scope.data.nodes.push({
+                id: id,
+                type: type,
+                metrics: {
+                    left: (300 - scope.scrolling.x) + 'px',
+                    top: (100 - scope.scrolling.y) + 'px'
                 }
             });
             return;
@@ -293,7 +305,7 @@ plumbing.directive('node', ['$timeout', 'jsPlumb', function(timeout, jsPlumbServ
                 });
             });
 
-            // open a django popup or delay conditions on double click
+            // open a django popup, conditions on double click
             element.bind('dblclick', function() {
 
                 if (scope.node.id > 0) {
@@ -302,6 +314,8 @@ plumbing.directive('node', ['$timeout', 'jsPlumb', function(timeout, jsPlumbServ
                             scope.$parent.showDelay = scope.$index;
                             scope.$parent.showConditions = -1;
                         });
+                    } else if (scope.node.type == 'register' || scope.node.type == 'enroll') {
+                        // do nothing
                     } else {
                         scope.popup(
                             scope.node.ref_url,
@@ -345,7 +359,7 @@ plumbing.directive('edge', ['jsPlumb', function(jsPlumbService) {
             scope.variables = [];
             scope.logical_operators = ['AND', 'OR'];
             variables.get().then(function(promise) {
-                scope.variables = promise.data;
+                scope.variables = promise.data.concat(reservedVars);
             });
 
             scope.log = function(log) {
@@ -399,12 +413,8 @@ plumbing.directive('edge', ['jsPlumb', function(jsPlumbService) {
                         target_type = node.type;
                 });
 
-                // if edge is from special node to page, delete and return
-                if ((source_type == 'email' ||
-                     source_type == 'sms' ||
-                     source_type == 'delay' ||
-                     source_type == 'session') &&
-                    target_type == 'page') {
+                // if edge is from special node to page, disallow/delete edge
+                if (target_type == 'page' && ['page', 'start'].indexOf(source_type) == -1) {
                     scope.deleteEdge(scope.$index);
                     return;
                 }

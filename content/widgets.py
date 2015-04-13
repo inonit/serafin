@@ -3,13 +3,16 @@
 from __future__ import absolute_import, unicode_literals
 
 from django import forms
-from django.template.loader import render_to_string
-from django.utils.safestring import mark_safe
+from django.conf import settings
 from django.contrib.admin.sites import site
 from django.core.urlresolvers import reverse
+from django.template.loader import render_to_string
+from django.utils.safestring import mark_safe
+
 from filer.fields.file import AdminFileWidget
 from filer import settings as filer_settings
 import re
+import json
 
 
 class DummyForeignObjectRel:
@@ -34,7 +37,8 @@ class ContentWidget(forms.Widget):
         context = {
             'value': value,
             'file_widget': file_widget,
-            'filer_api': reverse('content_api')
+            'filer_api': reverse('content_api'),
+            'reserved_vars': json.dumps(settings.RESERVED_VARIABLES)
         }
 
         html = render_to_string('admin/content_widget.html', context)

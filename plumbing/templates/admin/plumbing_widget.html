@@ -13,6 +13,8 @@
         <div class="btn" ng-click="addNode('sms')" id="lookup_{% verbatim %}{{ current_noderef }}{% endverbatim %}">{% trans '+ Sms' %}</div>
         <div class="btn" ng-click="addNode('delay')" id="lookup_{% verbatim %}{{ current_noderef }}{% endverbatim %}">{% trans '+ Delay' %}</div>
         <div class="btn" ng-click="addNode('session')" id="lookup_{% verbatim %}{{ current_noderef }}{% endverbatim %}">{% trans '+ Session' %}</div>
+        <div class="btn" ng-click="addNode('register')" id="lookup_{% verbatim %}{{ current_noderef }}{% endverbatim %}">{% trans '+ Register' %}</div>
+        <div class="btn" ng-click="addNode('enroll')" id="lookup_{% verbatim %}{{ current_noderef }}{% endverbatim %}">{% trans '+ Enroll' %}</div>
     </div>
 
     <div class="floatbox"></div>
@@ -30,11 +32,23 @@
         <span ng-if="node.type == 'session'">
             <i class="icon-tasks icon-alpha5"></i>
         </span>
+        <span ng-if="node.type == 'register'">
+            <i class="icon-user icon-alpha5"></i>
+        </span>
+        <span ng-if="node.type == 'enroll'">
+            <i class="icon-check icon-alpha5"></i>
+        </span>
 
         {% verbatim %}
         {{ node.title }}
         <span ng-if="node.type == 'delay'">
             t + {{ node.delay.number }} {{ node.delay.unit }}
+        </span>
+        <span ng-if="node.type == 'register'">
+            {% endverbatim %}{% trans 'Register' %}{% verbatim %}
+        </span>
+        <span ng-if="node.type == 'enroll'">
+            {% endverbatim %}{% trans 'Enroll' %}{% verbatim %}
         </span>
         <div class="ep"></div>
         <div class="delete" ng-click="deleteNode($index)" ng-hide="node.id == 0">×</div>
@@ -114,4 +128,5 @@
     var initData = {{ value|safe }};
     var adminUrl = '{{ admin_url }}';
     var nodeApiUrl = '{{ node_api }}';
+    var reservedVars = {{ reserved_vars|default:'undefined'|safe }};
 </script>

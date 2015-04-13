@@ -1,5 +1,5 @@
 {% extends 'base.html' %}
-{% load i18n %}
+{% load i18n thumbnail %}
 {% block content %}
 <div class="page" ng-controller="pages" ng-form="form">
     {% verbatim %}
@@ -8,11 +8,12 @@
         <div class="text" ng-if="pagelet.content_type == 'text'" livereplace="pagelet.content">
         </div>
 
-        <div class="toggle" ng-if="pagelet.content_type == 'toggle'">
+        <div class="toggle" ng-class="{'hasimage': pagelet.img_content}" ng-if="pagelet.content_type == 'toggle'">
+            <img ng-if="pagelet.img_content" ng-click="pagelet.toggled = !pagelet.toggled" ng-src="{{ pagelet.img_content.thumbnail || pagelet.img_content.url }}" alt="{{ pagelet.toggle }}" title="{{ pagelet.toggle }}">
             <p>
                 <a ng-click="pagelet.toggled = !pagelet.toggled">
-                    <span ng-hide="pagelet.toggled">▼</span>
-                    <span ng-show="pagelet.toggled">▲</span>
+                    <span ng-hide="pagelet.toggled">▶</span>
+                    <span ng-show="pagelet.toggled">▼</span>
                     {{ pagelet.toggle }}
                 </a>
             </p>
@@ -183,6 +184,22 @@
                     </div>
                 </div>
 
+                <div ng-if="field.field_type == 'email'">
+                    {% endverbatim %}
+                    <div class="error right" ng-show="form.submitted && subForm.field.$error.required">{% trans 'This field is required' %}</div>
+                    {% verbatim %}
+                    <label for="field"><strong>{{ field.label }}</strong></label>
+                    <input name="field" type="email" ng-model="field.value" ng-required="field.required" liveinput>
+                </div>
+
+                <div ng-if="field.field_type == 'password'">
+                    {% endverbatim %}
+                    <div class="error right" ng-show="form.submitted && subForm.field.$error.required">{% trans 'This field is required' %}</div>
+                    {% verbatim %}
+                    <label for="field"><strong>{{ field.label }}</strong></label>
+                    <input name="field" type="password" ng-model="field.value" ng-required="field.required">
+                </div>
+
                 <div ng-if="field.field_type == 'hiddenfield'">
                     <input type="hidden" name="{{ field.name }}" value="{{ field.value }}" ng-model="field.value">
                 </div>
@@ -205,7 +222,7 @@
         </form>
 
         <div class="image" ng-if="pagelet.content_type == 'image'">
-            <img ng-src="{{ pagelet.content.url }}" alt="{{ pagelet.content.alt }}" title="{{ pagelet.content.title }}">
+            <img ng-src="{{ pagelet.content.thumbnail || pagelet.content.url }}" alt="{{ pagelet.content.alt }}" title="{{ pagelet.content.title }}">
         </div>
 
         <div class="video" ng-if="pagelet.content_type == 'video'">
@@ -232,7 +249,7 @@
         <a class="button next" ng-disabled="form.$invalid" ng-click="next()">{% trans 'Next page' %}</a>
     </nav>
     <nav ng-if="dead_end && stacked">
-        <a class="button next" ng-disabled="form.$invalid" ng-click="next()">{% trans 'Next session' %}</a>
+        <a class="button next" ng-disabled="form.$invalid" ng-click="next()">{% trans 'Back to the program' %}</a>
     </nav>
 </div>
 {% endblock content %}

@@ -18,10 +18,13 @@ from .expressions import BoolExpression
 class Engine(object):
     '''A simplified decision engine to traverse the graph for a user'''
 
-    def __init__(self, user_id, context={}, push=False):
+    def __init__(self, user_id, context={}, push=False, user=None):
         '''Initialize Engine with a User instance and optional context'''
 
-        self.user = get_user_model().objects.get(id=user_id)
+        if user:
+            self.user = user
+        else:
+            self.user = get_user_model().objects.get(id=user_id)
 
         # push current session and node to stack if entering subsession
         if push:
@@ -47,7 +50,6 @@ class Engine(object):
 
         self.init_session()
 
-
     def init_session(self, session_id=None, node_id=None):
 
         session_id = session_id or self.user.data.get('session')
@@ -62,14 +64,21 @@ class Engine(object):
         self.nodes = {node['id']: node for node in self.session.data.get('nodes')}
         self.edges = self.session.data.get('edges')
 
-
     @staticmethod
-    def get_system_var(var_name):
+    def get_system_var(var_name, user):
         if not var_name:
             return ''
 
         if var_name == 'current_day':
             return date.isoweekday(date.today())
+
+        if var_name == 'registered':
+            return not user.is_anonymous()
+
+        if var_name == 'enrolled':
+            session = Session.objects.get(id=user.data.get('session'))
+            return session.program.programuseraccess_set.filter(user=user).exists()
+
         else:
             try:
                 var = Variable.objects.get(name=var_name)
@@ -91,8 +100,8 @@ class Engine(object):
             rhs = condition['value']
 
             # Switch values for variables if defined.
-            lhs = user.data.get(lhs, cls.get_system_var(lhs))  # Left hand side must be a defined variable.
-            rhs = user.data.get(rhs, cls.get_system_var(rhs)) or rhs
+            lhs = user.data.get(lhs, cls.get_system_var(lhs, user)) # Left hand side must be a defined variable.
+            rhs = user.data.get(rhs, cls.get_system_var(rhs, user)) or rhs
 
             # Try converting values to float values
             try:
@@ -314,6 +323,36 @@ class Engine(object):
 
             return self.transition(0)
 
+        if node_type == 'register':
+            self.user, registered = self.user.register()
+
+            if registered:
+                log_event.send(
+                    self,
+                    domain='user',
+                    actor=self.user,
+                    variable='registered',
+                    pre_value='',
+                    post_value=''
+                )
+
+            return self.transition(node_id)
+
+        if node_type == 'enroll':
+            enrolled = self.session.program.enroll(self.user)
+
+            if enrolled:
+                log_event.send(
+                    self,
+                    domain='program',
+                    actor=self.user,
+                    variable='enrolled',
+                    pre_value='',
+                    post_value=self.session.program.title
+                )
+
+            return self.transition(node_id)
+
         if node_type == 'start':
             return self.transition(node_id)
 
@@ -333,9 +372,9 @@ class Engine(object):
         # pop stack data and set previous session
         if pop:
             session_id, node_id = self.user.data.get('stack').pop()
-
+            # pop again if still on the same session
+            while self.user.data.get('stack') and session_id == self.user.data.get('session'):
+                session_id, node_id = self.user.data.get('stack').pop()
             self.init_session(session_id, node_id)
-
-            return self.transition(node_id)
 
         return self.trigger_node(node_id)
