@@ -4,8 +4,8 @@ Serafin Expression mini-language implementation details.
 
 Variables:
   Variables must be prefixed with `$` like eg. $MyLittlePony.
-  Any variables must be predefined in the `system.models.Variable` django model
-  and will be looked up whenever encountered. If a variable is not found, an
+  Any variables must be predefined in the `system.models.Variable` Django model
+  and will be looked up whenever encountered. If a variable is not found, an error
   will be raised.
 
 Operators:
@@ -26,17 +26,21 @@ Operators:
     - /  (truediv)          - *  (multiply)
     - ^  (power/exponent)   - -  (subtract)
 
+Functions:
+  The following mathematical functions are available. They must bw written lowercase,
+  and takes a single numeric argument. Constants can be also be used as argument.
+    - sin   - cos   - tan
+    - abs   - trunc - round
+    - sign
+
+Constants:
+  Supported constants are E and PI.
+    - E provides the mathematical constant E (2.718281... to available precision)
+    - PI provides the mathematical constant π (3.141592... to available precission)
 
 Grouping:
   Expressions can be grouped by putting them in () parentheses.
 
-Comments:
-  Comments can be made by placing # before the line to ignore.
-
-Evaluation of expressions.
-  Once an expression has been parsed, it will instantiate either a BoolExpression
-  or a MathExpression. It will build the chain according to expression grouping and return
-  the value.
 """
 
 
@@ -49,11 +53,10 @@ import operator as oper
 
 from .models import Variable
 
-
 from pyparsing import (
-    Literal, CaselessLiteral, Word, Combine, Group, Keyword,
-    Optional, ParseException, ZeroOrMore, Forward, nums, alphas,
-    alphanums)
+    Literal, CaselessLiteral, Word, Combine, Optional,
+    ParseException, ZeroOrMore, Forward, nums, alphas
+)
 
 
 def chain(func):
@@ -260,7 +263,7 @@ class Parser(object):
         exponent            :: '^'
         add_operations      :: '+' | '-'
         multiply_operations :: '*' | '/' | '%'
-        integer             :: ['+' | '-'] '0'...'9' +
+        numeric             :: ['+' | '-'] '0'...'9' +
         atom                :: PI | E | real | fn '(' expr ')' | '(' expr ')'
         factor              :: atom [ exponent factor ] *
         term                :: factor [ multiply_operations factor ] *
@@ -285,25 +288,25 @@ class Parser(object):
             subtract = Literal("-")
 
             # Functions
-            e = Literal("E")
-            pi = Literal("PI")
+            e = CaselessLiteral("E")
+            pi = CaselessLiteral("PI")
 
             # Punctuation
             point = Literal(".")
             lparen = Literal("(").suppress()
             rparen = Literal(")").suppress()
 
-            variable = Word("$" + alphanums)
             ident = Word(alphas, alphas + nums + "_$")
-            number = Combine(Word("+-" + nums, nums) +
+            numeric = Combine(Word("+-" + nums, nums) +
                              Optional(point + Optional(Word(nums))) +
                              Optional(e + Word("+-" + nums, nums)))
+            # variable = Word("$" + alphanums)
             multiply_operations = multiply | div | modulo
             add_operations = add | subtract
 
             expression = Forward()
             atom = (Optional("-") +
-                    (pi | e | number | ident + lparen + expression + rparen).setParseAction(self.push_stack)
+                    (pi | e | numeric | ident + lparen + expression + rparen).setParseAction(self.push_stack)
                     | (lparen + expression.suppress() + rparen)).setParseAction(self.push_unary_stack)
 
             # By defining exponentiation as "atom [^factor]"
@@ -331,29 +334,24 @@ class Parser(object):
         """
 
         operator = expr.pop()
-        if operator == self.UNARY:
-            return -self.evaluate_stack(expr)
+        try:
+            if operator == self.UNARY:
+                return -self.evaluate_stack(expr)
 
-        if operator in self.operators:
-            rhs, lhs = self.evaluate_stack(expr), self.evaluate_stack(expr)
-            return self.operators[operator](lhs, rhs)
-        elif operator in self.functions:
-            return self.functions[operator](self.evaluate_stack(expr))
-        elif operator in self.constants:
-            return self.constants[operator]
-        elif operator.startswith("$"):
-            # look up variable
-            # TODO: Make this work
-            variable = operator[1:]
-            try:
-                var = Variable.objects.filter(name__iexact=variable).get()
-                return var.get_value()
-            except Exception as e:
-                raise ParseException(e)
-        elif operator[0].isalpha():
-            return 0
-        else:
-            return float(operator)
+            if operator in self.operators:
+                rhs, lhs = self.evaluate_stack(expr), self.evaluate_stack(expr)
+                return self.operators[operator](lhs, rhs)
+            elif operator in self.functions:
+                return self.functions[operator](self.evaluate_stack(expr))
+            elif operator in self.constants:
+                return self.constants[operator]
+            elif operator[0] == "$":
+                # TODO: Implement resolving variables.
+                raise ParseException("Variable expressions are not yet implemented")
+            else:
+                return float(operator)
+        except ValueError as e:
+            raise ParseException(e)
 
     def parse(self, cmd_string):
         """

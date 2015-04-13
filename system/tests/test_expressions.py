@@ -5,6 +5,7 @@ from __future__ import absolute_import, unicode_literals
 import math
 from django.test import TestCase
 
+from ..models import Variable
 from ..expressions import Parser, BoolExpression, MathExpression
 
 
@@ -197,8 +198,8 @@ class ParserTestCase(TestCase):
         self.assertEqual(self.parser.parse("PI*PI/10"), math.pi * math.pi / 10)
         self.assertEqual(self.parser.parse("PI * PI / 10"), math.pi * math.pi / 10)
         self.assertEqual(self.parser.parse("PI ^ 2"), math.pi ** 2)
-        self.assertEqual(self.parser.parse("E / 3"), math.e / 3)
-        self.assertEqual(self.parser.parse("E ^ PI"), math.e ** math.pi)
+        self.assertEqual(self.parser.parse("e / 3"), math.e / 3)
+        self.assertEqual(self.parser.parse("E ^ pi"), math.e ** math.pi)
         self.assertEqual(self.parser.parse("6.02E23 * 8.048"), 6.02e23 * 8.048)
 
         # test functions
@@ -211,3 +212,6 @@ class ParserTestCase(TestCase):
         self.assertEqual(self.parser.parse("sign(-2)"), -1)
         self.assertEqual(self.parser.parse("sign(0)"), 0)
         self.assertEqual(self.parser.parse("sign(0.1)"), 1)
+
+    def test_variable_expressions(self):
+        pass
