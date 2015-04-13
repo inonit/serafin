@@ -7,7 +7,6 @@ from django.core.urlresolvers import reverse
 from django.http import Http404, HttpResponseRedirect
 from django.shortcuts import get_object_or_404, render
 from filer.models import File, Image
-from serafin.decorators import in_session
 from serafin.utils import JSONResponse
 from system.models import Session, Page
 from system.engine import Engine
