@@ -49,6 +49,7 @@ class ContentWidget(forms.Widget):
             'all': (
                 'content/css/content.css',
                 'css/autocomplete.css',
+                'css/string-expression-widget.css'
             )
         }
         js = (
@@ -56,6 +57,7 @@ class ContentWidget(forms.Widget):
             'content/angular/angular.min.js',
             'js/vendor/lodash.min.js',
             'js/autocomplete.js',
+            'js/string-expression.js',
             'content/marked/marked.js',
             'content/js/content.js',
         )
@@ -74,7 +76,7 @@ class TextContentWidget(forms.Widget):
     class Media:
         css = {
             'all': (
-                'content/css/content.css',
+                'content/css/content.css'
             )
         }
         js = (

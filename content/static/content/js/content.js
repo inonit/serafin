@@ -1,4 +1,4 @@
-var content = angular.module('content', ['autocompleteSearch']);
+var content = angular.module('content', ['autocompleteSearch', 'stringExpression']);
 
 var fileTemplate = {
     url: '',

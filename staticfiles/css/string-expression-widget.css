@@ -1,0 +1,41 @@
+/**
+ * CSS code for the string expression widget
+ */
+
+div.expression-widget-wrapper {
+  display: inline-block;
+}
+
+div.expression-widget-wrapper input[type="text"] {
+  /*width: 100%;*/
+}
+
+div.expression-widget-wrapper > div.preview-box {
+  margin-top: 0.4rem;
+  border: 1px solid #EDEDED;
+  z-index: 1000;
+}
+
+div.preview-box .header {
+  padding: 5px 15px;
+  color: #fff;
+  height: 1.2rem;
+  line-height: 1rem;
+  text-shadow: 0 1px #4F7F92;
+  background: #5295B0 linear-gradient(#83B3C3, #5295B0) no-repeat;
+  border-bottom: 1px solid #CCC;
+}
+
+div.preview-box .validator {
+  padding: 5px 10px;
+  background: #fff;
+  min-height: 2rem;
+}
+
+.validator .expression {
+  font-size: 1.2rem;
+}
+
+.validator .validation-message {
+  color: red;
+}
