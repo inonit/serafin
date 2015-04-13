@@ -51,7 +51,6 @@ def get_page(request):
 
     if request.method == 'POST':
         post_data = json.loads(request.body) if request.body else {}
-        post_data = {item.get('key'): item.get('value') for item in post_data}
         context.update(post_data)
 
     # admin page preview support
