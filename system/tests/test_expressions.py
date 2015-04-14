@@ -3,11 +3,17 @@
 from __future__ import absolute_import, unicode_literals
 
 import math
+
 from django.test import TestCase
+from rest_framework import status
+from rest_framework.test import APIRequestFactory, force_authenticate
 
 from users.models import User
-from ..models import Variable
 from ..expressions import Parser, ParseException, BoolExpression, MathExpression
+
+from ..views import ExpressionViewSet
+
+factory = APIRequestFactory()
 
 
 class BoolExpressionTestCase(TestCase):
@@ -226,3 +232,24 @@ class ParserTestCase(TestCase):
     def test_variable_expressions(self):
         self.assertEqual(self.parser.parse("$UserVar1 + $UserVar2"), 3)
         self.assertRaises(ParseException, self.parser.parse, "$UserVar1 + $UserVar3")
+
+
+class ExpressionViewSetTestCase(TestCase):
+
+    def setUp(self):
+        self.view = ExpressionViewSet
+        self.user = User.objects.create(**{
+            "username": 1,
+            "data": {
+                "UserVar1": 1,
+                "UserVar2": 2,
+                "UserVar3": "I like traffic lights",
+                "UserVar4": ""
+            }
+        })
+
+    def test_post_expression(self):
+        request = factory.post(path="/", data={"expression": "1+1"}, content_type="application/json")
+        force_authenticate(request, self.user)
+        response = self.view.as_view(actions={"post": "create"})(request)
+        self.assertEqual(response.status_code, status.HTTP_201_CREATED)

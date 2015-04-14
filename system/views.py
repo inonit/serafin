@@ -9,11 +9,16 @@ from django.contrib.contenttypes.models import ContentType
 from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render
 
-from rest_framework import viewsets
+from rest_framework import viewsets, status
+from rest_framework.mixins import CreateModelMixin
+from rest_framework.permissions import IsAuthenticated
+from rest_framework.response import Response
 
 from .models import Variable, Program, Session, Page, Email, SMS
-from .serializers import VariableSerializer
+from .serializers import VariableSerializer, ExpressionSerializer
 from .filters import VariableSearchFilter
+
+from .expressions import Parser, ParseException
 
 
 @staff_member_required
@@ -164,3 +169,22 @@ class VariableSearchViewSet(viewsets.ModelViewSet):
     search_fields = ["name", "display_name"]
 
 
+class ExpressionViewSet(CreateModelMixin, viewsets.ViewSet):
+    """
+    API resource for evaluating expressions.
+    """
+
+    permission_classes = (IsAuthenticated,)
+    serializer_class = ExpressionSerializer
+
+    def get_serializer_context(self):
+        return {
+            'request': self.request,
+            'format': self.format_kwarg,
+            'view': self
+        }
+
+    def get_serializer(self, *args, **kwargs):
+        serializer_class = self.serializer_class
+        kwargs['context'] = self.get_serializer_context()
+        return serializer_class(*args, **kwargs)

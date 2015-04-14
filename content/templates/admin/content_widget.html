@@ -236,17 +236,17 @@
                           <div class="ctrl right"><i class="icon-question-sign"></i></div>
                         </div>
                         <div class="validator">
-                          <p>
-                            <span class="expression">{{ expression.query }}</span>
+                          <p class="expression">
+                            <span>{{ expression.response.preview }}</span>
                           </p>
-                          <p>
-                            <span class="validation-message">dette er en melding</span>
+                          <p class="validation-message" ng-if="expression.response.message">
+                            <span>{{ expression.response.message }}</span>
                           </p>
                         </div>
                       </div>
                     </div>
                   </script>
-                  <string-expression url="/api/system/variables/evaluate-expression/"></string-expression>
+                  <string-expression url="/api/system/evaluate-expression/"></string-expression>
                   {% endverbatim %}
                 </div>
 

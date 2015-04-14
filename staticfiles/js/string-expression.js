@@ -10,6 +10,8 @@ angular.module("stringExpression", ["autocompleteSearch"])
 
     .config(function($httpProvider) {
         $httpProvider.defaults.headers.common["X-Requested-With"] = "XMLHttpRequest";
+        $httpProvider.defaults.xsrfCookieName = 'csrftoken';
+        $httpProvider.defaults.xsrfHeaderName = 'X-CSRFToken';
     })
 
     .directive("stringExpression", function() {
@@ -27,23 +29,31 @@ angular.module("stringExpression", ["autocompleteSearch"])
 
                 QueueService.configure({timeout: 200});
 
-                function fetch(url, queryString) {
-                    QueryService.fetch(url, queryString).then(function(response) {
-                        $scope.expression.response = response;
-                    })
+                function post(url, data) {
+                    QueryService.post(url, data).then(function(response) {
+                        $scope.expression.response.message = "";
+                        $scope.expression.response.result = response.result;
+                        $scope.expression.response.preview = response.query + "=" + response.result;
+                    }, function(reason) {
+                        $scope.expression.response.message = reason;
+                    });
                 }
 
                 $scope.addQuery = function(url) {
                    if (ExpressionValidatorService.isValid($scope.expression.query)) {
-                       QueueService.add(_.partial(fetch, url, $scope.expression.query));
+                       QueueService.add(_.partial(post, url, $scope.expression));
                    } else if (!$scope.expression.query.length) {
-                       $scope.expression.response = {};
+                       $scope.expression.response.result = "";
                    }
                 };
 
                 $scope.expression = {
                     query: "",
-                    response: {}
+                    response: {
+                        result: "",
+                        preview: "",
+                        message: ""
+                    }
                 };
             }],
             link: function(scope, element, attrs) {
@@ -58,8 +68,10 @@ angular.module("stringExpression", ["autocompleteSearch"])
             /* Implement some kind of client side validation
              * before posting to the server.
              * */
-
-            return true;
+            if (expressionString.length >= 3) {
+                return true;
+            }
+            return false;
         }
 
         return {
