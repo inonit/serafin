@@ -12,6 +12,12 @@ class EventTrackingMiddleware(object):
 
     def process_request(self, request):
 
+        if (not request.is_ajax() or
+            not request.method == 'POST' or
+            request.FILES or
+            request.user.is_anonymous()):
+            return
+
         try:
             request_body = json.loads(request.body)
         except:
@@ -39,14 +45,9 @@ class EventTrackingMiddleware(object):
             )
             event.save()
 
-        if (request.is_ajax() and
-            request.method == 'POST' and
-            not request.user.is_anonymous() and
-            not request.FILES and
-            getattr(settings, 'LOG_USER_DATA', False)
-        ):
-            for key, post_value in request_body.items():
+        if getattr(settings, 'LOG_USER_DATA', False):
 
+            for key, post_value in request_body.items():
                 pre_value = request.user.data.get(key, '')
 
                 if isinstance(pre_value, list):
