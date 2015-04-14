@@ -202,17 +202,15 @@ REGISTER_URL = '/register'
 
 TOKEN_TIMEOUT_DAYS = 1
 SESSION_COOKIE_NAME = 'serafin_session'
-SESSION_COOKIE_AGE = 60 * 60 * 24 # seconds
+SESSION_COOKIE_AGE = 24 * 60 * 60  # 24 hours
 
 
 # Events
 
-LOG_AJAX_USER_DATA = True
-
-LOG_REQUESTS = True
-LOG_ANONYMOUS_REQUESTS = False
-LOG_ADMIN_REQUESTS = False
-LOG_AJAX_REQUESTS = False
+LOG_USER_DATA = True
+LOG_DEVICE_ON_LOGIN = True
+LOG_TIME_PER_PAGE = True
+LOG_MAX_MILLISECONDS = 5 * 60 * 1000  # 5 minutes
 
 
 # Twilio
@@ -412,6 +410,10 @@ RESERVED_VARIABLES = [
     {
         'name': 'reply_variable',
         'admin_note': 'For system use. Returns the name of the last SMS reply variable.',
+    },
+    {
+        'name': 'timer',
+        'admin_note': 'For system use, never accessible. Used for timing page visits.',
     },
 ]
 

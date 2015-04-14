@@ -39,29 +39,31 @@ serafin.run(['$rootScope', '$http', function(scope, http) {
 }]);
 
 serafin.controller('pages', ['$scope', '$http', function(scope, http) {
+    var timerStart = new Date();
+
     scope.next = function() {
         scope.form.submitted = true;
         if (scope.form.$invalid) {
             return;
         }
 
-        var data = [];
+        var data = {};
         scope.page.forEach(function(pagelet) {
-            if (['form', 'quiz'].indexOf(pagelet.content_type) > -1) {
+            if (pagelet.content_type == 'form' ||
+                pagelet.content_type == 'quiz') {
                 pagelet.content.forEach(function(field) {
-                    data.push({
-                        key: field.variable_name,
-                        value: field.value,
-                    });
+                    data[field.variable_name] = field.value
                 });
             }
-            if (['toggleset', 'togglesetmulti'].indexOf(pagelet.content_type) > -1) {
-                data.push({
-                    key: pagelet.content.variable_name,
-                    value: pagelet.content.value,
-                });
+            if (pagelet.content_type == 'toggleset' ||
+                pagelet.content_type == 'togglesetmulti') {
+                data[pagelet.content.variable_name] = pagelet.content.value
             }
         });
+
+        var timerEnd = new Date();
+        var timeSpent = timerEnd.getTime() - timerStart.getTime();
+        data.timer = timeSpent;
 
         var url = (scope.dead_end && scope.stacked ? api + '?pop=1' : api + '?next=1');
         var request = {

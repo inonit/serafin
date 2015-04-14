@@ -7,7 +7,6 @@ from django.core.urlresolvers import reverse
 from django.http import Http404, HttpResponseRedirect
 from django.shortcuts import get_object_or_404, render
 from filer.models import File, Image
-from serafin.decorators import in_session
 from serafin.utils import JSONResponse
 from system.models import Session, Page
 from system.engine import Engine
@@ -52,7 +51,6 @@ def get_page(request):
 
     if request.method == 'POST':
         post_data = json.loads(request.body) if request.body else {}
-        post_data = {item.get('key'): item.get('value') for item in post_data}
         context.update(post_data)
 
     # admin page preview support

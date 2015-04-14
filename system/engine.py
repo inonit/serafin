@@ -106,7 +106,7 @@ class Engine(object):
             # Try converting values to float values
             try:
                 lhs, rhs = map(float, [lhs, rhs])
-            except ValueError:
+            except (ValueError, TypeError):
                 pass
 
             # Fixing lists
