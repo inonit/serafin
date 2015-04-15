@@ -52,9 +52,11 @@ from __future__ import absolute_import, unicode_literals
 
 import functools
 import math
-from sys import float_info
 import operator as oper
+from sys import float_info
 
+from django.utils.translation import ugettext as _
+from requests.structures import CaseInsensitiveDict
 from pyparsing import (
     Literal, CaselessLiteral, Word, Combine, Optional,
     ParseException, ZeroOrMore, Forward, nums, alphas,
@@ -327,6 +329,14 @@ class Parser(object):
             self.bnf = expression << term + ZeroOrMore((add_operations + term).setParseAction(self.push_stack))
         return self.bnf
 
+    @property
+    def userdata(self):
+        """
+        Returns a case insensitive copy of user.data if
+        user is set, else just an empty dictionary
+        """
+        return CaseInsensitiveDict((k, v) for k, v in self.user.data.items()) if self.user else {}
+
     def push_stack(self, s, location, tokens):
         self.stack.append((tokens[0]))
 
@@ -359,14 +369,12 @@ class Parser(object):
                     raise ParseException("No user instance set. Please initialize the %s "
                                          "with a `user_obj` argument." % self.__class__.__name__)
                 try:
-                    value = self.user.data[variable]
+                    value = self.userdata[variable]
                     if not value:
-                        raise ValueError("Variable '%s' contains no value.")
+                        raise ValueError(_("Variable '%s' contains no value."))
                     return float(value)
                 except KeyError:
-                    raise ParseException("%(user)r has not defined variable '%(var)s'" % {
-                        "user": self.user, "var": variable
-                    })
+                    raise ParseException(_("Undefined variable '%s'" % variable))
             else:
                 return float(operator)
         except ValueError as e:
