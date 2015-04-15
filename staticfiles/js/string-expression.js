@@ -83,6 +83,11 @@ angular.module("stringExpression", ["autocompleteSearch"])
                         '   <div class="row">' +
                         '       <h5>Grouping</h5>' +
                         '       <p>Expression can be grouped by putting them in <b>( )</b> parentheses.</p>' +
+                        '       <br />' +
+                        '       <ul class="unstyled">' +
+                        '           <li><b>1 + 1 * 2 = 3 </b>because of default left to right evaluation = 1 + (1 * 2)</li>' +
+                        '           <li><b>(1 + 1) * 2 = 4 </b>because of explicit right to left evaluation.</li>' +
+                        '       </ul>' +
                         '   </div>' +
                         '   <div class="row">' +
                         '       <h5>Varables</h5>' +
