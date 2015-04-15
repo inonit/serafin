@@ -7,7 +7,7 @@ div.expression-widget-wrapper {
 }
 
 div.expression-widget-wrapper input[type="text"] {
-  /*width: 100%;*/
+  /*width: inherit;*/
 }
 
 div.expression-widget-wrapper > div.preview-box {
@@ -38,4 +38,44 @@ div.preview-box .validator {
 
 .validator .validation-message {
   color: red;
+}
+
+/* Override Bootstrap popover CSS */
+.popover,
+.popover > .popover-title {
+  background-color: rgba(23, 36, 47, 0.90);
+  text-shadow: 1px 1px 1px rgba(0,0,0,0.004);
+  -webkit-font-smoothing: antialiased;
+  -webkit-border-radius: 0;
+     -moz-border-radius: 0;
+          border-radius: 0;
+}
+
+.popover > h3.popover-title {
+  padding: 0.2rem;
+  display: block;
+  text-align: center;
+}
+
+.popover > .popover-content {
+  font-size: 0.7rem;
+  line-height: 0.8rem;
+  min-width: 250px;
+  overflow: auto;
+}
+
+.popover.top .arrow:after {
+  border-top-color: rgba(23, 36, 47, 0.90);
+}
+
+.popover.right .arrow:after {
+  border-right-color: rgba(23, 36, 47, 0.90);
+}
+
+.popover.bottom .arrow:after {
+  border-bottom-color: rgba(23, 36, 47, 0.90);
+}
+
+.popover.left .arrow:after {
+  border-left-color: rgba(23, 36, 47, 0.90);
 }

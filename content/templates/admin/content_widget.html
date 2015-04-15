@@ -227,27 +227,36 @@
                   {% verbatim %}
                   <script type="text/ng-template" id="template/string-expression.html">
                     <div class="expression-widget-wrapper">
-                      <input type="text" placeholder="Start writing..."
+                      <input type="text" placeholder="{{ placeholder }}"
                              ng-model="expression.query"
                              ng-change="addQuery('{{ url }}')">
                       <div class="preview-box">
                         <div class="header">
-                          <span class="title">Expression preview</span>
-                          <div class="ctrl right"><i class="icon-question-sign"></i></div>
+                          <span class="title">{{ headerTitle }}</span>
+                          <div class="ctrl right">
+                            <i class="icon-question-sign"
+                                popover-placement="{{ popover.placement }}" popover="{{ popover.content }}"></i>
+                          </div>
                         </div>
                         <div class="validator">
                           <p class="expression">
-                            <span>{{ expression.response.preview }}</span>
+                            <span>{{ expression.preview }}</span>
                           </p>
-                          <p class="validation-message" ng-if="expression.response.message">
-                            <span>{{ expression.response.message }}</span>
+                          <p class="validation-message" ng-if="expression.response.reason">
+                            <span>{{ expression.response.reason }}</span>
                           </p>
                         </div>
                       </div>
                     </div>
                   </script>
-                  <string-expression url="/api/system/evaluate-expression/"></string-expression>
                   {% endverbatim %}
+                  <string-expression
+                      placeholder="{% trans "Start writing..." %}"
+                      header-title="{% trans "Preview" %}"
+                      popover-placement="right"
+                      url="/api/system/evaluate-expression/"
+                      ng-cloak>
+                  </string-expression>
                 </div>
 
                 <div class="fieldset">
@@ -414,5 +423,8 @@
         var initData = {{ value|safe }};
         var filerApi = '{{ filer_api }}';
         var reservedVars = {{ reserved_vars|default:'undefined'|safe }};
+        $(function () {
+          $('[data-toggle="popover"]').popover();
+        });
     </script>
 </div>

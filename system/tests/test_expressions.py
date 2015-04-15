@@ -207,6 +207,7 @@ class ParserTestCase(TestCase):
         self.assertEqual(self.parser.parse("4 ^ 2 ^ 3"), 4 ** 2 ** 3)
         self.assertEqual(self.parser.parse("4 ^ 2 ^ 3"), 4 ** (2 ** 3))
         self.assertEqual(self.parser.parse("(4 ^ 2) ^ 3"), (4 ** 2) ** 3)
+        self.assertEqual(self.parser.parse("1 + 2 + (-2 ^ 4)"), 1 + 2 + (-2 ** 4))  # This fails
         self.assertNotEqual(self.parser.parse("4 ^ 2 ^ 3"), (4 ** 2) ** 3)
         self.assertEqual(self.parser.parse("9 % 3"), 9 % 3)
 

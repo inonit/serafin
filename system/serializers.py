@@ -16,12 +16,25 @@ class VariableSerializer(serializers.ModelSerializer):
 class ExpressionSerializer(serializers.Serializer):
 
     query = serializers.CharField()
-    result = serializers.SerializerMethodField()
+    response = serializers.SerializerMethodField()
 
-    def get_result(self, obj):
-        if "query" in obj:
-            p = Parser(user_obj=self.context["request"].user)
-            return p.parse(obj["query"])
+    @staticmethod
+    def get_response(obj):
+        return obj["response"]
+
+    def validate(self, data):
+        p = Parser(user_obj=self.context["request"].user)
+        response = {
+            "result": "",
+            "reason": ""
+        }
+        try:
+            response["result"] = p.parse(data["query"])
+        except (ParseException, KeyError) as e:
+            response["reason"] = unicode(e)
+
+        data["response"] = response
+        return data
 
     def create(self, validated_data):
-        return {"query": validated_data.pop("query")}
+        return validated_data

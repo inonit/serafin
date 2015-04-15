@@ -18,46 +18,73 @@ angular.module("stringExpression", ["autocompleteSearch"])
         return {
             restrict: "E",
             replace: true,
-            transclude: false,
+            transclude: true,
             require: "?ngModel",
             scope: {
+                model: "=ngModel",
+                placeholder: "@placeholder",
+                headerTitle: "@headerTitle",
+                popoverPlacement: "@popoverPlacement",
                 url: "@url"
             },
             templateUrl: "template/string-expression.html",
-            controller: ["$scope", "$timeout", "ExpressionValidatorService", "QueryService", "QueueService",
-                function($scope, $timeout, ExpressionValidatorService, QueryService, QueueService) {
+            controller: ["$scope", "$timeout", "$compile", "$sce", "ExpressionValidatorService", "QueryService", "QueueService",
+                function($scope, $timeout, $compile, $sce, ExpressionValidatorService, QueryService, QueueService) {
 
                 QueueService.configure({timeout: 200});
 
                 function post(url, data) {
                     QueryService.post(url, data).then(function(response) {
-                        $scope.expression.response.message = "";
-                        $scope.expression.response.result = response.result;
-                        $scope.expression.response.preview = response.query + "=" + response.result;
+                        $scope.expression.response = response.response;
                     }, function(reason) {
-                        $scope.expression.response.message = reason;
+                        $scope.expression.response.reason = reason;
                     });
                 }
+
+                $scope.expression = {
+                    query: $scope.model,
+                    preview: "",
+                    response: {
+                        result: "",
+                        reason: ""
+                    }
+                };
 
                 $scope.addQuery = function(url) {
                    if (ExpressionValidatorService.isValid($scope.expression.query)) {
                        QueueService.add(_.partial(post, url, $scope.expression));
                    } else if (!$scope.expression.query.length) {
-                       $scope.expression.response.result = "";
+                        $scope.expression.preview = $scope.expression.response.result = $scope.expression.response.reason = "";
                    }
                 };
 
-                $scope.expression = {
-                    query: "",
-                    response: {
-                        result: "",
-                        preview: "",
-                        message: ""
+                $scope.$watch("expression.query", function(newInstance) {
+                    $scope.model = newInstance;
+                });
+
+                $scope.$watch("expression.response", function(newInstance, oldInstance) {
+                    if (newInstance.result !== oldInstance.result) {
+                        $scope.expression.preview = $scope.expression.query + " = " + newInstance.result;
                     }
-                };
+                });
             }],
             link: function(scope, element, attrs) {
-                var input = element.children("input[type=text]");
+                var toggleHelp = element.find('i[class="icon-question-sign"]');
+                // Using jQuery
+                $(toggleHelp).popover({
+                    html: true,
+                    placement: scope.popoverPlacement,
+                    title: "Syntax help",
+                    content:
+                        '<div class="help-content">' +
+                        '   <span>Operators</span>' +
+                        '   <ul>' +
+                        '       <li>item 1</li>' +
+                        '       <li>item 2</li>' +
+                        '       <li>item 3</li>' +
+                        '   </ul>' +
+                        '</div>'
+                });
             }
         }
     })
