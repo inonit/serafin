@@ -254,6 +254,7 @@
                       placeholder="{% trans "Start writing..." %}"
                       header-title="{% trans "Preview" %}"
                       popover-placement="right"
+                      popover-title="{% trans "Serafin Expression Syntax" %}"
                       popover-template="template/expression-syntax.html"
                       url="/api/system/evaluate-expression/"
                       ng-cloak>
@@ -460,7 +461,7 @@
                   Normally, expressions will be evaluated left-to-right. For example the expression
                   <span class="label label-info">1 + 1 * 2</span> will return the value 3,
                   because it is evaluated like <span class="label label-info">1 + (1 * 2)</span>.
-                  By grouping expressions in parentheses you can controll the evaluation order.
+                  By grouping expressions in parentheses you can control the evaluation order.
                 </p>
                 <dl class="dl-horizontal column35pst">
                   <dt><span class="label label-info">1 + 1 * 2 = 3</span></dt>
@@ -487,7 +488,7 @@
               <h5>{% trans "Variables" %}</h5>
               {% blocktrans %}
                 Variables must be prefixed with <span class="label label-info">$</span> like for
-                example <span class="label label-info">$MyLittlePony</span>. Any variable myst
+                example <span class="label label-info">$MyLittlePony</span>. Any variable must
                 be pre-defined and will be looked up whenever encountered.
                 If a variable is not found, the evaluation will fail with an error message.
               {% endblocktrans %}
@@ -525,7 +526,7 @@
                 <ul class="unstyled">
                   <li>{% trans "Multiplication" %} <span class="right label label-info">( * )</span></li>
                   <li>{% trans "Factorisation" %} <span class="right label label-info">( ^ )</span></li>
-                  <li>{% trans "Remainder" %} <span class="right label label-info">( % )</span></li>
+                  <li>{% trans "Modulus" %} <span class="right label label-info">( % )</span></li>
                 </ul>
               </div>
 
@@ -567,6 +568,7 @@
                 Some basic functions are supported. Functions are applied by passing a value or
                 an expression which returns a value to it.
               {% endblocktrans %}
+              <h6>{% trans "Examples" %}</h6>
               <ul>
                 <li><span class="label label-info">round(6.34)</span>{% trans "Returns the value" %} 6</li>
                 <li><span class="label label-info">sin(3 * (2^4)) + abs(9.23)</span>{% trans "Returns the value" %} 0.6298283755944591</li>
@@ -630,9 +632,10 @@
               {% trans "and" %}
               <a href="http://en.wikipedia.org/wiki/Pi" target="_blank"><span
                   class="label label-info">PI (π)</span></a>
+
               <ul>
-                <li><span class="label label-info">E</span> {% trans "provides the mathematical constant" %} E (2.718281... {% trans "to available precision." %})</li>
-                <li><span class="label label-info">PI</span> {% trans "provides the mathematical constant" %} π (3.141592... {% trans "to available precision." %})</li>
+                <li><span class="label label-info">E</span> {% trans "provides the mathematical constant" %} E (2.718281... {% trans "to available precision" %})</li>
+                <li><span class="label label-info">PI</span> {% trans "provides the mathematical constant" %} π (3.141592... {% trans "to available precision" %})</li>
               </ul>
             </div>
           </div>

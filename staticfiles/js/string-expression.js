@@ -24,8 +24,9 @@ angular.module("stringExpression", ["autocompleteSearch"])
                 model: "=ngModel",
                 placeholder: "@placeholder",
                 headerTitle: "@headerTitle",
-                popoverPlacement: "@popoverPlacement",
+                popoverTitle: "@popoverTitle",
                 popoverTemplate: "@popoverTemplate",
+                popoverPlacement: "@popoverPlacement",
                 url: "@url"
             },
             templateUrl: "template/string-expression.html",
@@ -77,7 +78,7 @@ angular.module("stringExpression", ["autocompleteSearch"])
                 $(toggleHelp).popover({
                     html: true,
                     placement: scope.popoverPlacement,
-                    title: "Serafin expression syntax",
+                    title: scope.popoverTitle,
                     content: $compile(contentTemplate)(scope)
                 });
             }
