@@ -71,15 +71,14 @@ angular.module("stringExpression", ["autocompleteSearch"])
                 });
             }],
             link: function(scope, element, attrs) {
-                var toggleHelp = element.find('i[class="icon-question-sign"]');
-                // Using jQuery
+                var toggleHelp = element.find('i[class="icon-question-sign"]'),
+                    contentTemplate = $compile($templateCache.get(scope.popoverTemplate))(scope);
 
-                var contentTemplate = $templateCache.get(scope.popoverTemplate);
                 $(toggleHelp).popover({
                     html: true,
                     placement: scope.popoverPlacement,
                     title: scope.popoverTitle,
-                    content: $compile(contentTemplate)(scope)
+                    content: contentTemplate
                 });
             }
         }

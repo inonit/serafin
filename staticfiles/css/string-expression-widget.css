@@ -44,6 +44,10 @@ div.preview-box .validator {
   color: red;
 }
 
+a#popover-close {
+  font-size: 0.8rem;
+}
+
 /* Override Bootstrap popover CSS */
 .popover,
 .popover > .popover-title {
