@@ -253,7 +253,7 @@
                   <string-expression
                       placeholder="{% trans "Start writing..." %}"
                       header-title="{% trans "Preview" %}"
-                      popover-placement="top"
+                      popover-placement="right"
                       popover-template="template/expression-syntax.html"
                       url="/api/system/evaluate-expression/"
                       ng-cloak>
@@ -433,6 +433,12 @@
     <script type="text/ng-template" id="template/expression-syntax.html">
 
       {# Template for Expression widget syntax help popover #}
+      <p>{% blocktrans %}
+        The Serafin expression "mini-language" has a predefined set of operators
+        and functions which can be used to write simple expressions which can help
+        making decisions in user programs. Click the links below to expand syntax
+        descriptions.
+      {% endblocktrans %}</p>
 
       <div class="accordion" id="syntax-collapse">
         {# Grouping #}
@@ -480,8 +486,8 @@
             <div class="accordion-inner">
               <h5>{% trans "Variables" %}</h5>
               {% blocktrans %}
-                Variables must be prefixed with `$` like eg.
-                <span class="label label-info">$MyLittlePony</span>. Any variable myst
+                Variables must be prefixed with <span class="label label-info">$</span> like for
+                example <span class="label label-info">$MyLittlePony</span>. Any variable myst
                 be pre-defined and will be looked up whenever encountered.
                 If a variable is not found, the evaluation will fail with an error message.
               {% endblocktrans %}
@@ -567,30 +573,41 @@
               </ul>
               <div class="span6">
                 <ul class="unstyled">
-                  <li><a href="http://en.wikipedia.org/wiki/Law_of_sines" target="_blank">Sine</a>
+                  <li><a href="http://en.wikipedia.org/wiki/Law_of_sines" target="_blank">{% trans "Sine" %}</a>
                     <span class="right label label-info">sin</span>
                   </li>
-                  <li><a href="http://en.wikipedia.org/wiki/Law_of_cosines" target="_blank">Cosines</a>
+                  <li><a href="http://en.wikipedia.org/wiki/Law_of_cosines" target="_blank">{% trans "Cosines" %}</a>
                     <span class="right label label-info">cos</span>
                   </li>
-                  <li><a href="http://en.wikipedia.org/wiki/Law_of_tangents" target="_blank">Tangents</a>
+                  <li><a href="http://en.wikipedia.org/wiki/Law_of_tangents" target="_blank">{% trans "Tangents" %}</a>
                     <span class="right label label-info">tan</span>
                   </li>
-                  <li><a href="http://en.wikipedia.org/wiki/Absolute_value" target="_blank">Absolute value</a>
+                  <li><a href="http://en.wikipedia.org/wiki/Absolute_value" target="_blank">{% trans "Absolute value" %}</a>
                     <span class="right label label-info">abs</span>
                   </li>
                 </ul>
               </div>
               <div class="span5">
                 <ul class="unstyled">
-                  <li><a href="http://en.wikipedia.org/wiki/Truncation" target="_blank">Truncate</a>
+                  <li><a href="http://en.wikipedia.org/wiki/Truncation" target="_blank">{% trans "Truncate" %}</a>
                     <span class="right label label-info">trunc</span>
                   </li>
-                  <li><a href="http://en.wikipedia.org/wiki/Rounding" target="_blank">Round</a>
+                  <li><a href="http://en.wikipedia.org/wiki/Rounding" target="_blank">{% trans "Round" %}</a>
                     <span class="right label label-info">round</span>
                   </li>
-                  <li>Sign digit<span class="right label label-info">sign</span></li>
+                  <li>{% trans "Sign digit" %} <strong>*</strong><span class="right label label-info">sign</span></li>
                 </ul>
+              </div>
+
+              <div class="span12">
+                <p><strong>*</strong>
+                  {% blocktrans %}
+                    The <span class="label label-info">sign</span> function returns
+                    <span class="label label-info">-1</span> if passed a negative value,
+                    <span class="label label-info">0</span> if passed zero and
+                    <span class="label label-info">1</span> if passed a positive value.
+                  {% endblocktrans %}
+                </p>
               </div>
             </div>
           </div>
@@ -614,8 +631,8 @@
               <a href="http://en.wikipedia.org/wiki/Pi" target="_blank"><span
                   class="label label-info">PI (π)</span></a>
               <ul>
-                <li>{% trans "E provides the mathematical constant E (2.718281... to available precision)" %}</li>
-                <li>{% trans "PI provides the mathematical constant π (3.141592... to available precission)" %}</li>
+                <li><span class="label label-info">E</span> {% trans "provides the mathematical constant" %} E (2.718281... {% trans "to available precision." %})</li>
+                <li><span class="label label-info">PI</span> {% trans "provides the mathematical constant" %} π (3.141592... {% trans "to available precision." %})</li>
               </ul>
             </div>
           </div>
