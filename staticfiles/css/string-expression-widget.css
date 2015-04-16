@@ -108,7 +108,8 @@ div.popover-content > .accordion > .accordion-group {
 }
 
 div.popover-content > .accordion > .accordion-group > .accordion-heading,
-div.popover-content > .accordion > .accordion-group > .accordion-heading > .accordion-toggle {
+div.popover-content > .accordion > .accordion-group > .accordion-heading > a.accordion-toggle {
+  font-size: 0.8rem;
   padding: 5px 0;
 }
 
