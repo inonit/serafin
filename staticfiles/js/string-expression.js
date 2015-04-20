@@ -1,6 +1,7 @@
 /**
  * Angular directive for writing and evaluating
  * string expressions.
+ * Note: The popover syntax helper requires bootstrap-popover.js and jQuery to be loaded.
  * */
 
 "use strict";
@@ -16,20 +17,42 @@ angular.module("stringExpression", ["autocompleteSearch"])
 
     .directive("stringExpression", function($templateCache, $compile) {
         return {
-            restrict: "E",
+            restrict: "AE",
             replace: true,
             transclude: true,
             require: "?ngModel",
             scope: {
+                url: "@url",
                 model: "=ngModel",
                 placeholder: "@placeholder",
                 headerTitle: "@headerTitle",
                 popoverTitle: "@popoverTitle",
                 popoverTemplate: "@popoverTemplate",
-                popoverPlacement: "@popoverPlacement",
-                url: "@url"
+                popoverPlacement: "@popoverPlacement"
             },
-            templateUrl: "template/string-expression.html",
+            template:
+                '<div class="expression-widget-wrapper">' +
+                '  <input type="text" placeholder="{{ placeholder }}"' +
+                '      ng-model="expression.query"' +
+                '      ng-change="addQuery(\'{{ url }}\')">' +
+                '    <div class="preview-box">' +
+                '      <div class="header">' +
+                '        <span class="title">{{ headerTitle }}</span>' +
+                '        <div class="ctrl right">' +
+                '          <i class="icon-question-sign"' +
+                '              popover-placement="{{ popover.placement }}" popover="{{ popover.content }}"></i>' +
+                '        </div>' +
+                '        </div>' +
+                '        <div class="validator">' +
+                '          <p class="expression">' +
+                '            <span>{{ expression.preview }}</span>' +
+                '          </p>' +
+                '          <p class="validation-message" ng-if="expression.response.reason">' +
+                '            <span>{{ expression.response.reason }}</span>' +
+                '          </p>' +
+                '        </div>' +
+                '      </div>' +
+                '   </div>',
             controller: ["$scope", "$timeout", "ExpressionValidatorService", "QueryService", "QueueService",
                 function($scope, $timeout, ExpressionValidatorService, QueryService, QueueService) {
 
@@ -43,6 +66,18 @@ angular.module("stringExpression", ["autocompleteSearch"])
                     });
                 }
 
+                function getVariableTokens(searchString) {
+                    /**
+                     * Identifies variables from the searchString.
+                     * Returns an array of variables (without the $prefix).
+                     * */
+                    var re = /(?:^|\W)\$(\w+)(?!\w)/g, match, matches = [];
+                        while (match = re.exec(searchString)) {
+                          matches.push(match[1]);
+                        }
+                    return matches;
+                }
+
                 $scope.expression = {
                     query: $scope.model,
                     preview: "",
@@ -52,16 +87,17 @@ angular.module("stringExpression", ["autocompleteSearch"])
                     }
                 };
 
-                $scope.addQuery = function(url) {
-                   if (ExpressionValidatorService.isValid($scope.expression.query)) {
-                       QueueService.add(_.partial(post, url, $scope.expression));
-                   } else if (!$scope.expression.query.length) {
+                $scope.addQuery = function (url) {
+                    if (ExpressionValidatorService.isValid($scope.expression.query)) {
+                        QueueService.add(_.partial(post, url, $scope.expression));
+                    } else if (!$scope.expression.query.length) {
                         $scope.expression.preview = $scope.expression.response.result = $scope.expression.response.reason = "";
-                   }
+                    }
                 };
 
-                $scope.$watch("expression.query", function(newInstance) {
-                    $scope.model = newInstance;
+                $scope.$watch("expression.query", function(value) {
+                    $scope.model = value;
+                    // console.log(getVariableTokens(newInstance));
                 });
 
                 $scope.$watch("expression.response", function(newInstance, oldInstance) {

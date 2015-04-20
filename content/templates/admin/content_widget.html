@@ -209,7 +209,16 @@
                 <div class="fieldset">
                     <div class="field-data" ng-if="field.field_type != 'multipleselection'">
                         <label>{% trans 'Value' %}</label>
-                        <input type="text" ng-model="field.value">
+                        <string-expression
+                            ng-model="field.value"
+                            placeholder="{% trans "Start writing..." %}"
+                            header-title="{% trans "Preview" %}"
+                            popover-placement="right"
+                            popover-title="{% trans "Serafin Expression Syntax" %}"
+                            popover-template="template/expression-syntax.html"
+                            url="/api/system/evaluate-expression/"
+                            ng-cloak>
+                        </string-expression>
                     </div>
                     <div class="field-data pull-down" ng-if="field.field_type != 'hiddenfield'">
                         <label>
@@ -221,44 +230,6 @@
                             <input type="checkbox" ng-model="field.horizontal"> {% trans 'Horizontal?' %}
                         </label>
                     </div>
-                </div>
-
-                <div class="fieldset">
-                  {% verbatim %}
-                  <script type="text/ng-template" id="template/string-expression.html">
-                    <div class="expression-widget-wrapper">
-                      <input type="text" placeholder="{{ placeholder }}"
-                             ng-model="expression.query"
-                             ng-change="addQuery('{{ url }}')">
-                      <div class="preview-box">
-                        <div class="header">
-                          <span class="title">{{ headerTitle }}</span>
-                          <div class="ctrl right">
-                            <i class="icon-question-sign"
-                                popover-placement="{{ popover.placement }}" popover="{{ popover.content }}"></i>
-                          </div>
-                        </div>
-                        <div class="validator">
-                          <p class="expression">
-                            <span>{{ expression.preview }}</span>
-                          </p>
-                          <p class="validation-message" ng-if="expression.response.reason">
-                            <span>{{ expression.response.reason }}</span>
-                          </p>
-                        </div>
-                      </div>
-                    </div>
-                  </script>
-                  {% endverbatim %}
-                  <string-expression
-                      placeholder="{% trans "Start writing..." %}"
-                      header-title="{% trans "Preview" %}"
-                      popover-placement="right"
-                      popover-title="{% trans "Serafin Expression Syntax" %}"
-                      popover-template="template/expression-syntax.html"
-                      url="/api/system/evaluate-expression/"
-                      ng-cloak>
-                  </string-expression>
                 </div>
 
                 <div class="fieldset">
