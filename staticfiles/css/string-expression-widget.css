@@ -30,6 +30,10 @@ i[class="icon-question-sign"] {
   cursor: pointer;
 }
 
+span.operator-label {
+  padding: 0 0.5rem;
+}
+
 div.preview-box .validator {
   padding: 5px 10px;
   background: #fff;
