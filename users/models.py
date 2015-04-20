@@ -18,8 +18,10 @@ from users.decorators import vault_post
 class UserManager(BaseUserManager):
     '''Custom User model Manager'''
 
-    def create_user(self, id, password):
+    def create_user(self, id, password, data=None):
         user = self.model()
+        if data:
+            user.data = data
         user.set_password(password)
         user.save()
         return user
@@ -162,7 +164,7 @@ class StatefulAnonymousUser(AnonymousUser):
         password = self.data['password']
         del self.data['password']
 
-        user = User.objects.create_user(None, password)
+        user = User.objects.create_user(None, password, data=self.data)
 
         try:
             del self.data['email']
@@ -171,6 +173,5 @@ class StatefulAnonymousUser(AnonymousUser):
             pass
 
         User.objects.filter(id=user.id).update(data=self.data)
-        user.data = self.data
 
         return user, True
