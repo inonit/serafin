@@ -186,7 +186,7 @@ class SessionForm(forms.ModelForm):
         if 'trigger_login' in self.fields:
             self.fields['trigger_login'].help_text = _('Trigger a login e-mail at the scheduled time')
 
-    def clean_route_alias(self):
+    def clean_route_slug(self):
         return self.cleaned_data['route_slug'] or None
 
     class Meta:

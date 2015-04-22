@@ -118,7 +118,7 @@ class Session(models.Model):
 
     title = models.CharField(_('title'), max_length=64, unique=True)
     display_title = models.CharField(_('display title'), max_length=64)
-    route_slug = models.CharField(_('route slug'), max_length=64, null=True, unique=True)
+    route_slug = models.CharField(_('route slug'), max_length=64, null=True, unique=True, default=None)
     is_open = models.BooleanField(_('is open'), default=False)
     program = models.ForeignKey('Program', verbose_name=_('program'))
     content = models.ManyToManyField('Content', verbose_name=_('content'), null=True, blank=True)
