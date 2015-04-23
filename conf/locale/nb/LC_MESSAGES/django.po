@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Serafin\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-04-13 01:20+0200\n"
+"POT-Creation-Date: 2015-04-23 12:06+0200\n"
 "PO-Revision-Date: 2014-08-26 11:35+0200\n"
 "Last-Translator: Eirik Krogstad <eirikkr@gmail.com>\n"
 "Language: nb\n"
@@ -233,22 +233,6 @@ msgstr "tegn brukt"
 msgid "Actor"
 msgstr "Utført av"
 
-#: events/middleware.py:66
-msgid "Other"
-msgstr "Annen"
-
-#: events/middleware.py:68
-msgid "Mobile"
-msgstr "Mobil"
-
-#: events/middleware.py:70
-msgid "Tablet"
-msgstr "Nettbrett"
-
-#: events/middleware.py:72
-msgid "PC"
-msgstr "PC"
-
 #: events/models.py:11 tasker/models.py:47
 #: users/templates/admin/userlog.html:7
 msgid "time"
@@ -263,7 +247,7 @@ msgstr "domene"
 msgid "actor"
 msgstr "utført av"
 
-#: events/models.py:14 system/models.py:41
+#: events/models.py:14 system/models.py:42
 #: users/templates/admin/userlog.html:9
 msgid "variable"
 msgstr "variabel"
@@ -283,6 +267,22 @@ msgstr "hendelse"
 #: events/models.py:23
 msgid "events"
 msgstr "hendelser"
+
+#: events/signals.py:41
+msgid "Other"
+msgstr "Ukjent"
+
+#: events/signals.py:43
+msgid "Mobile"
+msgstr "Mobil"
+
+#: events/signals.py:45
+msgid "Tablet"
+msgstr "Nettbrett"
+
+#: events/signals.py:47
+msgid "PC"
+msgstr "PC"
 
 #: events/templates/admin/events/event/change_list.html:9
 msgid "Export"
@@ -335,7 +335,7 @@ msgstr "Antall"
 msgid "minutes"
 msgstr "minutter"
 
-#: plumbing/templates/admin/plumbing_widget.html:63 system/models.py:127
+#: plumbing/templates/admin/plumbing_widget.html:63 system/models.py:128
 msgid "hours"
 msgstr "timer"
 
@@ -359,23 +359,23 @@ msgstr ""
 msgid "Norwegian"
 msgstr "Norsk bokmål"
 
-#: serafin/settings.py:272
+#: serafin/settings.py:270
 msgid "Users"
 msgstr "Brukere"
 
-#: serafin/settings.py:282
+#: serafin/settings.py:280
 msgid "Program"
 msgstr "Program"
 
-#: serafin/settings.py:296
+#: serafin/settings.py:294
 msgid "Events"
 msgstr "Hendelser"
 
-#: serafin/settings.py:306
+#: serafin/settings.py:304
 msgid "Media"
 msgstr "Media"
 
-#: serafin/settings.py:311
+#: serafin/settings.py:309
 msgid "Settings"
 msgstr "Oppsett"
 
@@ -424,33 +424,33 @@ msgstr ""
 msgid "You are trying to use a reserved variable name"
 msgstr "Du forsøker å bruke et reservert variabelnavn"
 
-#: system/admin.py:75
+#: system/admin.py:76
 msgid "Variable"
 msgstr "Variabel"
 
-#: system/admin.py:116 system/admin.py:275 system/admin.py:344
+#: system/admin.py:117 system/admin.py:276 system/admin.py:345
 msgid "Admin note excerpt"
 msgstr "Utdrag fra administratornotat"
 
-#: system/admin.py:123 system/admin.py:130 system/admin.py:141
-#: system/admin.py:282 system/admin.py:292 system/admin.py:349
+#: system/admin.py:124 system/admin.py:131 system/admin.py:142
+#: system/admin.py:283 system/admin.py:293 system/admin.py:350
 #, python-format
 msgid "Copy of %(title)s"
 msgstr "Kopi av %(title)s"
 
-#: system/admin.py:155
+#: system/admin.py:156
 msgid "Copy selected programs"
 msgstr "Kopier valgte programmer"
 
-#: system/admin.py:162
+#: system/admin.py:163
 msgid "Export text of selected program"
 msgstr "Eksporter tekst fra valgte programmer"
 
-#: system/admin.py:168
+#: system/admin.py:169
 msgid "Import program text"
 msgstr "Importer tekst for program"
 
-#: system/admin.py:177
+#: system/admin.py:178
 msgid ""
 "URL at which this Session will be available to registered Program users at "
 "all times"
@@ -458,39 +458,39 @@ msgstr ""
 "URL som denne Økta vil være tilgjengelig på for Programmets brukere til "
 "enhver tid"
 
-#: system/admin.py:180
+#: system/admin.py:181
 msgid "Session open even to unregistered users"
 msgstr "Økta er tilgjengelig selv for ikke-registrerte brukere"
 
-#: system/admin.py:182
+#: system/admin.py:183
 msgid "Relative to the user's start time for the Program"
 msgstr "Relativt til brukerens starttid for Programmet"
 
-#: system/admin.py:184
+#: system/admin.py:185
 msgid "Activate automatically for Program users at the given start time"
 msgstr "Aktiver automatisk for Programmets brukere ved angitt starttid"
 
-#: system/admin.py:186
+#: system/admin.py:187
 msgid "Trigger a login e-mail at the scheduled time"
 msgstr "Send ut e-post med innloggingslenke ved angitt starttid"
 
-#: system/admin.py:306
+#: system/admin.py:307
 msgid "Copy selected sessions"
 msgstr "Kopier valgte økter"
 
-#: system/admin.py:331
+#: system/admin.py:332
 msgid "No content"
 msgstr "Innhold mangler"
 
-#: system/admin.py:339
+#: system/admin.py:340
 msgid "Page excerpt"
 msgstr "Sideutdrag"
 
-#: system/admin.py:352
+#: system/admin.py:353
 msgid "Copy selected content"
 msgstr "Kopier valgt innhold"
 
-#: system/admin.py:381 system/admin.py:405
+#: system/admin.py:382 system/admin.py:406
 msgid "Subject"
 msgstr "Emne"
 
@@ -506,188 +506,196 @@ msgstr "navn"
 msgid "display name"
 msgstr "visningsnavn"
 
-#: system/models.py:26 system/models.py:74 system/models.py:124
-#: system/models.py:202
+#: system/models.py:26 system/models.py:75 system/models.py:125
+#: system/models.py:199
 msgid "admin note"
 msgstr "administratornotat"
 
-#: system/models.py:27
-msgid "initial value"
-msgstr "startverdi"
-
-#: system/models.py:28
-msgid "user editable"
-msgstr "brukerredigerbar"
-
-#: system/models.py:30
-msgid "boolean"
-msgstr "boolsk verdi"
-
-#: system/models.py:31
-msgid "numeric"
-msgstr "tallverdi"
-
-#: system/models.py:32
-msgid "string"
-msgstr "tekststreng"
-
-#: system/models.py:34
-msgid "randomization type"
-msgstr "tilfeldig type"
-
-#: system/models.py:35
-msgid "randomize once"
-msgstr "tilfeldig første gang"
-
-#: system/models.py:36
-msgid "range min (inclusive)"
-msgstr "nedre grense (fra og med)"
-
-#: system/models.py:37
-msgid "range max (inclusive)"
-msgstr "øvre grense (til og med)"
-
-#: system/models.py:38
-msgid "random string set"
-msgstr "tekstsett"
-
-#: system/models.py:42
-msgid "variables"
-msgstr "variabler"
-
-#: system/models.py:72 system/models.py:118 system/models.py:199
-msgid "title"
-msgstr "tittel"
-
-#: system/models.py:73 system/models.py:119 system/models.py:200
-msgid "display title"
-msgstr "visningstittel"
-
-#: system/models.py:76 users/models.py:149
-msgid "users"
-msgstr "brukere"
-
-#: system/models.py:79 system/models.py:101 system/models.py:122
+#: system/models.py:27 system/models.py:80 system/models.py:102
+#: system/models.py:123
 msgid "program"
 msgstr "program"
 
-#: system/models.py:80
+#: system/models.py:28
+msgid "initial value"
+msgstr "startverdi"
+
+#: system/models.py:29
+msgid "user editable"
+msgstr "brukerredigerbar"
+
+#: system/models.py:31
+msgid "boolean"
+msgstr "boolsk verdi"
+
+#: system/models.py:32
+msgid "numeric"
+msgstr "tallverdi"
+
+#: system/models.py:33
+msgid "string"
+msgstr "tekststreng"
+
+#: system/models.py:35
+msgid "randomization type"
+msgstr "tilfeldig type"
+
+#: system/models.py:36
+msgid "randomize once"
+msgstr "tilfeldig første gang"
+
+#: system/models.py:37
+msgid "range min (inclusive)"
+msgstr "nedre grense (fra og med)"
+
+#: system/models.py:38
+msgid "range max (inclusive)"
+msgstr "øvre grense (til og med)"
+
+#: system/models.py:39
+msgid "random string set"
+msgstr "tekstsett"
+
+#: system/models.py:43
+msgid "variables"
+msgstr "variabler"
+
+#: system/models.py:73 system/models.py:119 system/models.py:196
+msgid "title"
+msgstr "tittel"
+
+#: system/models.py:74 system/models.py:120 system/models.py:197
+msgid "display title"
+msgstr "visningstittel"
+
+#: system/models.py:77 users/models.py:151
+msgid "users"
+msgstr "brukere"
+
+#: system/models.py:81
 msgid "programs"
 msgstr "programmer"
 
-#: system/models.py:102 users/models.py:148
+#: system/models.py:103 users/models.py:150
 msgid "user"
 msgstr "bruker"
 
-#: system/models.py:104
+#: system/models.py:105
 msgid "start time"
 msgstr "starttid"
 
-#: system/models.py:105
+#: system/models.py:106
 msgid "time factor"
 msgstr "tidsfaktor"
 
-#: system/models.py:108
+#: system/models.py:109
 msgid "user access"
 msgstr "brukertilgang"
 
-#: system/models.py:109
+#: system/models.py:110
 msgid "user accesses"
 msgstr "brukertilganger"
 
-#: system/models.py:120
+#: system/models.py:121
 msgid "route slug"
 msgstr "URL-navn"
 
-#: system/models.py:121
+#: system/models.py:122
 msgid "is open"
 msgstr "fritt tilgjengelig"
 
-#: system/models.py:123 system/models.py:209
+#: system/models.py:124 system/models.py:204
 msgid "content"
 msgstr "innhold"
 
-#: system/models.py:128
+#: system/models.py:129
 msgid "days"
 msgstr "dager"
 
-#: system/models.py:130
+#: system/models.py:131
 msgid "start time delta"
 msgstr "avvik starttid"
 
-#: system/models.py:131
+#: system/models.py:132
 msgid "start time unit"
 msgstr "enhet starttid"
 
-#: system/models.py:132
+#: system/models.py:133
 msgid "end time delta"
 msgstr "avvik sluttid"
 
-#: system/models.py:133
+#: system/models.py:134
 msgid "end time unit"
 msgstr "enhet sluttid"
 
-#: system/models.py:134
+#: system/models.py:135
 msgid "first start time"
 msgstr "første starttid"
 
-#: system/models.py:135
+#: system/models.py:136
 msgid "scheduled"
 msgstr "i tidsplan"
 
-#: system/models.py:136
+#: system/models.py:137
 msgid "trigger login"
 msgstr "innlogging"
 
-#: system/models.py:143
+#: system/models.py:142
 msgid "session"
 msgstr "økt"
 
-#: system/models.py:144
+#: system/models.py:143
 msgid "sessions"
 msgstr "økter"
 
-#: system/models.py:147
+#: system/models.py:146
 #, python-format
 msgid "Session %s"
 msgstr "Økt %s"
 
-#: system/models.py:173 system/models.py:251
-#, python-format
-msgid ""
-"Could not find Variable `%s`. Please make sure all variables are predefined."
-msgstr ""
-"Finner ikke Variabelen `%s`. Sørg for at alle variabler er forhåndsdefinerte."
+#: system/models.py:158
+msgid "A variable name is required for all conditions"
+msgstr "Et variabelnavn er påkrevet for alle forutsetninger"
 
-#: system/models.py:201
+#: system/models.py:163 system/models.py:246
+msgid ""
+"Could not find Variable `%(var_name)s`. Please make sure all variables are predefined."
+msgstr ""
+"Finner ikke Variabelen `%(var_name)s`. Sørg for at alle variabler er forhåndsdefinerte."
+
+#: system/models.py:198
 msgid "content type"
 msgstr "innholdstype"
 
-#: system/models.py:210
+#: system/models.py:205
 msgid "contents"
 msgstr "innhold"
 
-#: system/models.py:234
+#: system/models.py:229
 msgid "page"
 msgstr "side"
 
-#: system/models.py:235
+#: system/models.py:230
 msgid "pages"
 msgstr "sider"
 
-#: system/models.py:295
+#: system/models.py:241
+msgid "A variable name is required for all fields"
+msgstr "Et variabelnavn er påkrevet for alle felter"
+
+#: system/models.py:286
 msgid "e-mail"
 msgstr "e-post"
 
-#: system/models.py:296
+#: system/models.py:287
 msgid "e-mails"
 msgstr "e-poster"
 
-#: system/models.py:328
+#: system/models.py:319
 msgid "SMS"
 msgstr "SMS"
 
-#: system/models.py:329
+#: system/models.py:320
 msgid "SMSs"
 msgstr "SMSer"
 
@@ -1028,28 +1036,28 @@ msgstr "E-post"
 msgid "ID should be an integer value"
 msgstr "ID må være et heltall"
 
-#: users/models.py:38
+#: users/models.py:40
 msgid "staff status"
 msgstr "administrator"
 
-#: users/models.py:39
+#: users/models.py:41
 msgid "active"
 msgstr "aktiv"
 
-#: users/models.py:40
+#: users/models.py:42
 msgid "date joined"
 msgstr "registreringsdato"
 
-#: users/models.py:42
+#: users/models.py:44
 msgid "token"
 msgstr "nøkkel"
 
-#: users/models.py:52
+#: users/models.py:54
 #, python-format
 msgid "User %i"
 msgstr "Bruker %i"
 
-#: users/models.py:113
+#: users/models.py:115
 msgid "Today's login link"
 msgstr "Dagens innloggingslenke"
 

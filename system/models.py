@@ -138,8 +138,6 @@ class Session(models.Model):
 
     data = JSONField(load_kwargs={'object_pairs_hook': OrderedDict}, default='undefined')
 
-    vars_used = models.ManyToManyField('Variable', editable=False)
-
     class Meta:
         verbose_name = _('session')
         verbose_name_plural = _('sessions')
@@ -153,6 +151,21 @@ class Session(models.Model):
             self.id,
         )
 
+    def clean(self):
+        for edge in self.data['edges']:
+            for condition in edge['conditions']:
+                if not condition['var_name']:
+                    raise ValidationError(_('A variable name is required for all conditions'))
+                try:
+                    variable = Variable.objects.get(name=condition['var_name'])
+                except Variable.DoesNotExist:
+                    if not condition['var_name'] in [var['name'] for var in settings.RESERVED_VARIABLES]:
+                        raise ValidationError(
+                            _('Could not find Variable `%(var_name)s`. Please make sure all variables are predefined.') % {
+                                'var_name': condition['var_name']
+                            }
+                        )
+
     def save(self, *args, **kwargs):
         first_useraccess = self.program.programuseraccess_set.order_by('start_time').first()
         if first_useraccess and self.scheduled:
@@ -163,16 +176,6 @@ class Session(models.Model):
         else:
             self.start_time = None
 
-        vars_used = []
-        for edge in self.data['edges']:
-            for condition in edge['conditions']:
-                try:
-                    variable = Variable.objects.get(name=condition['var_name'])
-                    vars_used.append(variable)
-                except Variable.DoesNotExist:
-                    if not condition['var_name'] in [var['name'] for var in settings.RESERVED_VARIABLES]:
-                        raise ValidationError(_("Could not find Variable `%s`. Please make sure all "
-                                                "variables are predefined." % condition['var_name']))
         super(Session, self).save(*args, **kwargs)
 
         self.content = []
@@ -181,10 +184,6 @@ class Session(models.Model):
                 self.content.add(node['ref_id'])
             except:
                 pass
-
-        self.vars_used = []
-        for var in vars_used:
-            self.vars_used.add(var)
 
     def get_start_time(self, start_time, time_factor):
         kwargs = {
@@ -203,8 +202,6 @@ class Content(models.Model):
     admin_note = models.TextField(_('admin note'), blank=True)
 
     data = JSONField(load_kwargs={'object_pairs_hook': OrderedDict}, default='[]')
-
-    vars_used = models.ManyToManyField('Variable', editable=False)
 
     class Meta:
         verbose_name = _('content')
@@ -239,22 +236,21 @@ class Page(Content):
         super(Page, self).__init__(*args, **kwargs)
         self.content_type = 'page'
 
-    def save(self, *args, **kwargs):
-        vars_used = []
+    def clean(self):
         for pagelet in self.data:
             if pagelet['content_type'] == 'form':
                 for field in pagelet['content']:
+                    if not field['variable_name']:
+                        raise ValidationError(_('A variable name is required for all fields'))
                     try:
                         variable = Variable.objects.get(name=field['variable_name'])
-                        vars_used.append(variable)
                     except Variable.DoesNotExist:
                         if not field['variable_name'] in [var['name'] for var in settings.RESERVED_VARIABLES]:
-                            raise ValidationError(_("Could not find Variable `%s`. Please make sure all "
-                                                    "variables are predefined." % field['variable_name']))
-        super(Page, self).save(*args, **kwargs)
-        self.vars_used = []
-        for var in vars_used:
-            self.vars_used.add(var)
+                            raise ValidationError(
+                                _('Could not find Variable `%(var_name)s`. Please make sure all variables are predefined.') % {
+                                    'var_name': field['variable_name']
+                                }
+                            )
 
     def update_html(self, user):
         for pagelet in self.data:
