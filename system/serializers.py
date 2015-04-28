@@ -30,7 +30,7 @@ class ExpressionSerializer(serializers.Serializer):
         }
         try:
             response["result"] = p.parse(data["query"])
-        except (ParseException, KeyError) as e:
+        except (ParseException, ZeroDivisionError, KeyError) as e:
             response["reason"] = unicode(e)
 
         data["response"] = response

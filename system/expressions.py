@@ -267,23 +267,14 @@ class Parser(object):
     def _get_bnf(self):
         """
         Returns the `Backus–Naur Form` for the parser
-
-        exponent            :: '^'
-        add_operations      :: '+' | '-'
-        multiply_operations :: '*' | '/' | '%'
-        numeric             :: ['+' | '-'] '0'...'9' +
-        atom                :: PI | E | real | fn '(' expr ')' | '(' expr ')'
-        factor              :: atom [ exponent factor ] *
-        term                :: factor [ multiply_operations factor ] *
-        expression          :: term [ add_operations term ] *
         """
         if not self.bnf:
             # Operators
             exponent_operator = Literal("^")
-            negate_operator = Literal("!")
+            # negate_operator = Literal("!")  # TODO: Implement this so we can write `!True`
             multiply_operator = oneOf("* / %")
             add_operator = oneOf("+ -")
-            comparison_operator = oneOf("== != < <= > >= & |") | Keyword("in")
+            comparison_operator = oneOf("== != < <= > >= & |")  # | Keyword("in")  # TODO: Implement
 
             # Functions
             e = CaselessLiteral("E")
@@ -336,7 +327,6 @@ class Parser(object):
         them.
         """
         operator = expr.pop()
-        print operator, expr
         try:
             if operator == self.UNARY:
                 return -self.evaluate_stack(expr)
