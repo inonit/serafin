@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Serafin\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-04-29 00:12+0200\n"
+"POT-Creation-Date: 2015-04-29 01:05+0200\n"
 "PO-Revision-Date: 2014-08-26 11:35+0200\n"
 "Last-Translator: Eirik Krogstad <eirikkr@gmail.com>\n"
 "Language: nb\n"
@@ -15,7 +15,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 
 #: content/templates/admin/content_widget.html:7
-#: content/templates/admin/content_widget.html:176
+#: content/templates/admin/content_widget.html:181
 msgid "+ Text"
 msgstr "+ Tekst"
 
@@ -36,32 +36,36 @@ msgid "+ Conditional set"
 msgstr "+ Verdiavhengig tekst"
 
 #: content/templates/admin/content_widget.html:12
+msgid "+ Expression"
+msgstr "+ Uttrykk"
+
+#: content/templates/admin/content_widget.html:13
 msgid "+ Form"
 msgstr "+ Skjema"
 
-#: content/templates/admin/content_widget.html:13
+#: content/templates/admin/content_widget.html:14
 msgid "+ Quiz"
 msgstr ""
 
-#: content/templates/admin/content_widget.html:14
+#: content/templates/admin/content_widget.html:15
 msgid "+ Image"
 msgstr "+ Bilde"
 
-#: content/templates/admin/content_widget.html:15
+#: content/templates/admin/content_widget.html:16
 msgid "+ Video"
 msgstr ""
 
-#: content/templates/admin/content_widget.html:16
+#: content/templates/admin/content_widget.html:17
 msgid "+ Audio"
 msgstr "+ Lydklipp"
 
-#: content/templates/admin/content_widget.html:17
+#: content/templates/admin/content_widget.html:18
 msgid "+ File"
 msgstr "+ Fil"
 
-#: content/templates/admin/content_widget.html:31
-#: content/templates/admin/content_widget.html:46
-#: content/templates/admin/content_widget.html:163
+#: content/templates/admin/content_widget.html:32
+#: content/templates/admin/content_widget.html:47
+#: content/templates/admin/content_widget.html:164
 #: content/templates/admin/text_content_widget.html:12
 msgid ""
 "This element uses <a href=\"http://markdown-guide.readthedocs.org/en/latest/"
@@ -75,179 +79,183 @@ msgstr ""
 "erstattes av brukerens verdi for <code>var_name</code>, dersom den er "
 "tilgjengelig."
 
-#: content/templates/admin/content_widget.html:42
+#: content/templates/admin/content_widget.html:43
 msgid "Toggle text"
 msgstr "Vis/skjul-tekst"
 
-#: content/templates/admin/content_widget.html:56
-#: content/templates/admin/content_widget.html:90
-#: content/templates/admin/content_widget.html:196
-#: content/templates/admin/content_widget.html:263
-#: content/templates/admin/content_widget.html:327
+#: content/templates/admin/content_widget.html:57
+#: content/templates/admin/content_widget.html:91
+#: content/templates/admin/content_widget.html:201
+#: content/templates/admin/content_widget.html:259
+#: content/templates/admin/content_widget.html:323
 msgid "Label"
 msgstr "Feltnavn"
 
-#: content/templates/admin/content_widget.html:60
-#: content/templates/admin/content_widget.html:133
-#: content/templates/admin/content_widget.html:200
-#: content/templates/admin/content_widget.html:301
+#: content/templates/admin/content_widget.html:61
+#: content/templates/admin/content_widget.html:134
+#: content/templates/admin/content_widget.html:205
+#: content/templates/admin/content_widget.html:297
 msgid "Variable name"
 msgstr "Variabelnavn"
 
-#: content/templates/admin/content_widget.html:69
-#: content/templates/admin/content_widget.html:230
+#: content/templates/admin/content_widget.html:70
+#: content/templates/admin/content_widget.html:226
 msgid "Horizontal?"
 msgstr "Horisontal?"
 
-#: content/templates/admin/content_widget.html:75
+#: content/templates/admin/content_widget.html:76
 msgid "+ Item"
 msgstr "+ Element"
 
-#: content/templates/admin/content_widget.html:78
-#: content/templates/admin/content_widget.html:251
-#: content/templates/admin/content_widget.html:315
+#: content/templates/admin/content_widget.html:79
+#: content/templates/admin/content_widget.html:247
+#: content/templates/admin/content_widget.html:311
 msgid "Alternatives"
 msgstr "Alternativer"
 
-#: content/templates/admin/content_widget.html:94
-#: content/templates/admin/content_widget.html:153
-#: content/templates/admin/content_widget.html:211
-#: content/templates/admin/content_widget.html:267
-#: content/templates/admin/content_widget.html:331
+#: content/templates/admin/content_widget.html:95
+#: content/templates/admin/content_widget.html:154
+#: content/templates/admin/content_widget.html:216
+#: content/templates/admin/content_widget.html:263
+#: content/templates/admin/content_widget.html:327
 msgid "Value"
 msgstr "Verdi"
 
-#: content/templates/admin/content_widget.html:100
-#: content/templates/admin/content_widget.html:121
+#: content/templates/admin/content_widget.html:101
+#: content/templates/admin/content_widget.html:122
 msgid "Text"
 msgstr "Tekst"
 
-#: content/templates/admin/content_widget.html:110
+#: content/templates/admin/content_widget.html:111
 msgid "+ Conditional text"
 msgstr "+ Verdiavhengig tekst"
 
-#: content/templates/admin/content_widget.html:126
+#: content/templates/admin/content_widget.html:127
 msgid "Logical operator"
 msgstr "Logisk operator"
 
-#: content/templates/admin/content_widget.html:141
+#: content/templates/admin/content_widget.html:142
 msgid "Condition"
 msgstr "Forutsetning"
 
-#: content/templates/admin/content_widget.html:149
+#: content/templates/admin/content_widget.html:150
 #: plumbing/templates/admin/plumbing_widget.html:83
 #: plumbing/templates/admin/plumbing_widget.html:111
 msgid "contains"
 msgstr "inneholder"
 
-#: content/templates/admin/content_widget.html:154
+#: content/templates/admin/content_widget.html:155
 #: plumbing/templates/admin/plumbing_widget.html:114
 msgid "Enter a value or variable name"
 msgstr "Skriv inn verdi eller variabelnavn"
 
-#: content/templates/admin/content_widget.html:159
+#: content/templates/admin/content_widget.html:160
 #: plumbing/templates/admin/plumbing_widget.html:119
 msgid "+ Condition"
 msgstr "+ Forutsetning"
 
-#: content/templates/admin/content_widget.html:174
+#: content/templates/admin/content_widget.html:179
 msgid "+ Numeric"
 msgstr "+ Tallverdi"
 
-#: content/templates/admin/content_widget.html:175
+#: content/templates/admin/content_widget.html:180
 msgid "+ String"
 msgstr "+ Tekststreng"
 
-#: content/templates/admin/content_widget.html:177
+#: content/templates/admin/content_widget.html:182
 msgid "+ Multiple choice"
 msgstr "+ Enkeltvalg"
 
-#: content/templates/admin/content_widget.html:178
+#: content/templates/admin/content_widget.html:183
 msgid "+ Multiple selection"
 msgstr "+ Flervalg"
 
-#: content/templates/admin/content_widget.html:179
+#: content/templates/admin/content_widget.html:184
 #: plumbing/templates/admin/plumbing_widget.html:12
 msgid "+ Email"
 msgstr "+ E-post"
 
-#: content/templates/admin/content_widget.html:180
+#: content/templates/admin/content_widget.html:185
 msgid "+ Password"
 msgstr "+ Password"
 
-#: content/templates/admin/content_widget.html:181
+#: content/templates/admin/content_widget.html:186
 msgid "+ Hidden field"
 msgstr "+ Skjult felt"
 
-#: content/templates/admin/content_widget.html:214
-msgid "Start writing..."
-msgstr "Begynn å skrive..."
-
-#: content/templates/admin/content_widget.html:215
-msgid "Preview"
-msgstr "Forhåndsvisning"
-
-#: content/templates/admin/content_widget.html:217
-msgid "Serafin Expression Syntax"
-msgstr "Serafin-uttrykk Syntaks"
-
-#: content/templates/admin/content_widget.html:225
+#: content/templates/admin/content_widget.html:221
 msgid "Required?"
 msgstr "Påkrevet?"
 
-#: content/templates/admin/content_widget.html:237
+#: content/templates/admin/content_widget.html:233
 msgid "Lower limit"
 msgstr "Nedre grense"
 
-#: content/templates/admin/content_widget.html:241
+#: content/templates/admin/content_widget.html:237
 msgid "Upper limit"
 msgstr "Øvre grense"
 
-#: content/templates/admin/content_widget.html:248
-#: content/templates/admin/content_widget.html:312
+#: content/templates/admin/content_widget.html:244
+#: content/templates/admin/content_widget.html:308
 msgid "+ Alternative"
 msgstr "+ Alternativ"
 
-#: content/templates/admin/content_widget.html:281
+#: content/templates/admin/content_widget.html:277
 msgid "+ Question"
 msgstr "+ Spørsmål"
 
+#: content/templates/admin/content_widget.html:289
 #: content/templates/admin/content_widget.html:293
-#: content/templates/admin/content_widget.html:297
 msgid "Question"
 msgstr "Spørsmål"
 
-#: content/templates/admin/content_widget.html:336
+#: content/templates/admin/content_widget.html:332
 msgid "Correct?"
 msgstr "Korrekt?"
 
-#: content/templates/admin/content_widget.html:342
+#: content/templates/admin/content_widget.html:338
 msgid "Response"
 msgstr "Respons"
 
-#: content/templates/admin/content_widget.html:356
+#: content/templates/admin/content_widget.html:352
 msgid "Alt title"
 msgstr "Alternativtittel"
 
-#: content/templates/admin/content_widget.html:360
-#: content/templates/admin/content_widget.html:370
-#: content/templates/admin/content_widget.html:380
-#: content/templates/admin/content_widget.html:390
+#: content/templates/admin/content_widget.html:356
+#: content/templates/admin/content_widget.html:366
+#: content/templates/admin/content_widget.html:376
+#: content/templates/admin/content_widget.html:386
 #: templates/admin/sitetree/tree/change_form.html:38
 msgid "Title"
 msgstr "Tittel"
 
-#: content/templates/admin/content_widget.html:409
+#: content/templates/admin/sms_content_widget.html:11
+msgid "characters used"
+msgstr "tegn brukt"
+
+#: content/templates/expression.html:5
+msgid "Start writing..."
+msgstr "Begynn å skrive..."
+
+#: content/templates/expression.html:6
+msgid "Preview"
+msgstr "Forhåndsvisning"
+
+#: content/templates/expression.html:8
+msgid "Serafin Expression Syntax"
+msgstr "Serafin-uttrykk Syntaks"
+
+#: content/templates/expression.html:20
 msgid ""
 "\n"
-"        The Serafin expression \"mini-language\" has a predefined set of "
+"    The Serafin expression \"mini-language\" has a predefined set of "
 "operators\n"
-"        and functions which can be used to write simple expressions which "
-"can help\n"
-"        making decisions in user programs. Click the links below to expand "
+"    and functions which can be used to write simple expressions which can "
+"help\n"
+"    making decisions in user programs. Click the links below to expand "
 "syntax\n"
-"        descriptions.\n"
-"      "
+"    descriptions.\n"
+"  "
 msgstr ""
 "\n"
 "Serafin-uttrykk har et forhåndsdefinert sett med operatører og funksjoner "
@@ -255,45 +263,42 @@ msgstr ""
 "for å gjøre valg i brukerprogram. Klikk lenkene under for "
 "syntaksbeskrivelser."
 
-#: content/templates/admin/content_widget.html:422
-#: content/templates/admin/content_widget.html:427
+#: content/templates/expression.html:33 content/templates/expression.html:38
 msgid "Grouping"
 msgstr "Gruppering"
 
-#: content/templates/admin/content_widget.html:429
+#: content/templates/expression.html:40
 msgid "Expression can be grouped by putting them in parentheses."
 msgstr "Uttrykk kan grupperes ved å sette dem i paranteser."
 
-#: content/templates/admin/content_widget.html:430
+#: content/templates/expression.html:41
 msgid "Evaluation order"
 msgstr "Evalueringsrekkefølge"
 
-#: content/templates/admin/content_widget.html:431
+#: content/templates/expression.html:42
 msgid ""
 "\n"
-"                <p>\n"
-"                  Normally, expressions will be evaluated left-to-right. For "
+"            <p>\n"
+"              Normally, expressions will be evaluated left-to-right. For "
 "example the expression\n"
-"                  <span class=\"label label-info\">1 + 1 * 2</span> will "
-"return the value 3,\n"
-"                  because it is evaluated like <span class=\"label label-info"
+"              <span class=\"label label-info\">1 + 1 * 2</span> will return "
+"the value 3,\n"
+"              because it is evaluated like <span class=\"label label-info"
 "\">1 + (1 * 2)</span>.\n"
-"                  By grouping expressions in parentheses you can control the "
+"              By grouping expressions in parentheses you can control the "
 "evaluation order.\n"
-"                </p>\n"
-"                <dl class=\"dl-horizontal column35pst\">\n"
-"                  <dt><span class=\"label label-info\">1 + 1 * 2 = 3</span></"
+"            </p>\n"
+"            <dl class=\"dl-horizontal column35pst\">\n"
+"              <dt><span class=\"label label-info\">1 + 1 * 2 = 3</span></"
 "dt>\n"
-"                    <dd>Because of default left-to-right evaluation. "
-"Evaluates like\n"
-"                      <span class=\"label label-info\">1 + (1 * 2)</span></"
-"dd>\n"
-"                  <dt><span class=\"label label-info\">(1 + 1) * 2 = 4</"
-"span></dt>\n"
-"                    <dd>Because it is explicitly grouped in parentheses.</"
-"dd>\n"
-"                </dl>\n"
-"              "
+"              <dd>Because of default left-to-right evaluation. Evaluates "
+"like\n"
+"                <span class=\"label label-info\">1 + (1 * 2)</span></dd>\n"
+"              <dt><span class=\"label label-info\">(1 + 1) * 2 = 4</span></"
+"dt>\n"
+"              <dd>Because it is explicitly grouped in parentheses.</dd>\n"
+"            </dl>\n"
+"          "
 msgstr ""
 "\n"
 "<p>\n"
@@ -311,22 +316,21 @@ msgstr ""
 "</dl>\n"
 "              "
 
-#: content/templates/admin/content_widget.html:455
-#: content/templates/admin/content_widget.html:460
+#: content/templates/expression.html:66 content/templates/expression.html:71
 msgid "Variables"
 msgstr "Variabler"
 
-#: content/templates/admin/content_widget.html:461
+#: content/templates/expression.html:72
 msgid ""
 "\n"
-"                Variables must be prefixed with <span class=\"label label-"
-"info\">$</span> like for\n"
-"                example <span class=\"label label-info\">$MyLittlePony</"
-"span>. Any variable must\n"
-"                be pre-defined and will be looked up whenever encountered.\n"
-"                If a variable is not found, the evaluation will fail with an "
+"            Variables must be prefixed with <span class=\"label label-info\">"
+"$</span> like for\n"
+"            example <span class=\"label label-info\">$MyLittlePony</span>. "
+"Any variable must\n"
+"            be pre-defined and will be looked up whenever encountered.\n"
+"            If a variable is not found, the evaluation will fail with an "
 "error message.\n"
-"              "
+"          "
 msgstr ""
 "\n"
 "Variabler må forstaves med <span class=\"label label-info\">$</span>, for "
@@ -336,186 +340,181 @@ msgstr ""
 "feilmelding.\n"
 "              "
 
-#: content/templates/admin/content_widget.html:476
-#: content/templates/admin/content_widget.html:481
+#: content/templates/expression.html:87 content/templates/expression.html:92
 msgid "Operators"
 msgstr "Operatører"
 
-#: content/templates/admin/content_widget.html:482
+#: content/templates/expression.html:93
 msgid ""
 "\n"
-"                We have two set of expression types; simple arithmetic "
+"            We have two set of expression types; simple arithmetic "
 "expressions\n"
-"                and boolean expressions. Expression evaluation between mixed "
+"            and boolean expressions. Expression evaluation between mixed "
 "types are not\n"
-"                supported, and will either throw an error or yield incorrect "
-"or unpredictable results.\n"
-"              "
+"            supported, and will either throw an error or yield incorrect or "
+"unpredictable results.\n"
+"          "
 msgstr ""
 "\n"
 "Vi har to typer uttrykk; enkle aritmetiske uttrykk\n"
 "og boolske uttrykk. Uttrykksevaluering på tvers av typer er ikke støttet, og "
 "vil gi feilmelding eller upresise resultater.               "
 
-#: content/templates/admin/content_widget.html:488
+#: content/templates/expression.html:99
 msgid "Arithmetic operators"
 msgstr "Aritmetiske operatører"
 
-#: content/templates/admin/content_widget.html:492
+#: content/templates/expression.html:103
 msgid "Addition"
 msgstr "Addisjon"
 
-#: content/templates/admin/content_widget.html:493
+#: content/templates/expression.html:104
 msgid "Subtraction"
 msgstr "Subtraksjon"
 
-#: content/templates/admin/content_widget.html:494
+#: content/templates/expression.html:105
 msgid "Division"
 msgstr "Divisjon"
 
-#: content/templates/admin/content_widget.html:499
+#: content/templates/expression.html:110
 msgid "Multiplication"
 msgstr "Multiplikasjon"
 
-#: content/templates/admin/content_widget.html:500
+#: content/templates/expression.html:111
 msgid "Factorisation"
 msgstr "Eksponensiering"
 
-#: content/templates/admin/content_widget.html:501
+#: content/templates/expression.html:112
 msgid "Modulus"
 msgstr "Modulo"
 
-#: content/templates/admin/content_widget.html:505
+#: content/templates/expression.html:116
 msgid "Boolean and comparison operators"
 msgstr "Boolske og sammenlignings-operatører"
 
-#: content/templates/admin/content_widget.html:509
+#: content/templates/expression.html:120
 msgid "Equal"
 msgstr "Er lik"
 
-#: content/templates/admin/content_widget.html:510
+#: content/templates/expression.html:121
 msgid "Less than"
 msgstr "Mindre enn"
 
-#: content/templates/admin/content_widget.html:511
+#: content/templates/expression.html:122
 msgid "Greater than"
 msgstr "Større enn"
 
-#: content/templates/admin/content_widget.html:512
+#: content/templates/expression.html:123
 msgid "Contains"
 msgstr "Inneholder"
 
-#: content/templates/admin/content_widget.html:513
+#: content/templates/expression.html:124
 msgid "AND"
 msgstr "OG"
 
-#: content/templates/admin/content_widget.html:518
+#: content/templates/expression.html:129
 msgid "Not equal"
 msgstr "Ikke lik"
 
-#: content/templates/admin/content_widget.html:519
+#: content/templates/expression.html:130
 msgid "Less or equal"
 msgstr "Mindre eller lik"
 
-#: content/templates/admin/content_widget.html:520
+#: content/templates/expression.html:131
 msgid "Greater or equal"
 msgstr "Større eller lik"
 
-#: content/templates/admin/content_widget.html:521
+#: content/templates/expression.html:132
 msgid "OR"
 msgstr "ELLER"
 
-#: content/templates/admin/content_widget.html:526
+#: content/templates/expression.html:137
 msgid ""
 "\n"
-"                  Expressions evaluated using boolean or comparison "
-"operators will return either\n"
-"                  <span class=\"label label-info\">true</span> or <span "
-"class=\"label label-info\">false</span> value.\n"
-"                  For truth value testing, use the built-in <span class="
-"\"label label-info\">True</span> or\n"
-"                  <span class=\"label label-info\">False</span>.\n"
-"                "
+"              Expressions evaluated using boolean or comparison operators "
+"will return either\n"
+"              <span class=\"label label-info\">true</span> or <span class="
+"\"label label-info\">false</span> value.\n"
+"              For truth value testing, use the built-in <span class=\"label "
+"label-info\">True</span> or\n"
+"              <span class=\"label label-info\">False</span>.\n"
+"            "
 msgstr ""
 "\n"
 "Uttrykk som evalueres ved bruk av boolske eller sammenlingings-operatører "
-"returnerer enten verdien"
-"<span class=\"label label-info\">true</span> eller "
-"<span class=\"label label-info\">false</span> "
-"For sannhetstesting av uttrykk, bruk <span class=\"label label-info\">True</span> eller "
-"<span class=\"label label-info\">False</span>.\n"
+"returnerer enten verdien<span class=\"label label-info\">true</span> eller "
+"<span class=\"label label-info\">false</span> For sannhetstesting av "
+"uttrykk, bruk <span class=\"label label-info\">True</span> eller <span class="
+"\"label label-info\">False</span>.\n"
 "                "
 
-#: content/templates/admin/content_widget.html:536
-#: content/templates/admin/content_widget.html:537
-#: content/templates/admin/content_widget.html:538
-#: content/templates/admin/content_widget.html:562
-#: content/templates/admin/content_widget.html:563
+#: content/templates/expression.html:147 content/templates/expression.html:148
+#: content/templates/expression.html:149 content/templates/expression.html:173
+#: content/templates/expression.html:174
 msgid "Returns the value"
 msgstr "Returnerer verdien"
 
-#: content/templates/admin/content_widget.html:550
-#: content/templates/admin/content_widget.html:555
+#: content/templates/expression.html:161 content/templates/expression.html:166
 msgid "Functions"
 msgstr "Funksjoner"
 
-#: content/templates/admin/content_widget.html:556
+#: content/templates/expression.html:167
 msgid ""
 "\n"
-"                Some basic functions are supported. Functions are applied by "
+"            Some basic functions are supported. Functions are applied by "
 "passing a value or\n"
-"                an expression which returns a value to it.\n"
-"              "
+"            an expression which returns a value to it.\n"
+"          "
 msgstr ""
 "\n"
 "Enkelte utvalgte basisfunksjoner er støttet. Funksjoner brukes ved å tilføre "
 "den en verdi, eller et uttrykk som returnerer en verdi.\n"
 "              "
 
-#: content/templates/admin/content_widget.html:560
+#: content/templates/expression.html:171
 msgid "Examples"
 msgstr "Eksempler"
 
-#: content/templates/admin/content_widget.html:567
+#: content/templates/expression.html:180
 msgid "Sine"
 msgstr "Sinus"
 
-#: content/templates/admin/content_widget.html:570
+#: content/templates/expression.html:183
 msgid "Cosines"
 msgstr "Cosinus"
 
-#: content/templates/admin/content_widget.html:573
+#: content/templates/expression.html:186
 msgid "Tangents"
 msgstr "Tangens"
 
-#: content/templates/admin/content_widget.html:576
+#: content/templates/expression.html:189
 msgid "Absolute value"
 msgstr "Absolutt verdi"
 
-#: content/templates/admin/content_widget.html:583
+#: content/templates/expression.html:196
 msgid "Truncate"
 msgstr "Forkort"
 
-#: content/templates/admin/content_widget.html:586
+#: content/templates/expression.html:199
 msgid "Round"
 msgstr "Avrund"
 
-#: content/templates/admin/content_widget.html:589
+#: content/templates/expression.html:202
 msgid "Sign digit"
 msgstr "Sign"
 
-#: content/templates/admin/content_widget.html:595
+#: content/templates/expression.html:208
 msgid ""
 "\n"
-"                    The <span class=\"label label-info\">sign</span> "
-"function returns\n"
-"                    <span class=\"label label-info\">-1</span> if passed a "
+"                The <span class=\"label label-info\">sign</span> function "
+"returns\n"
+"                <span class=\"label label-info\">-1</span> if passed a "
 "negative value,\n"
-"                    <span class=\"label label-info\">0</span> if passed zero "
+"                <span class=\"label label-info\">0</span> if passed zero "
 "and\n"
-"                    <span class=\"label label-info\">1</span> if passed a "
+"                <span class=\"label label-info\">1</span> if passed a "
 "positive value.\n"
-"                  "
+"              "
 msgstr ""
 "\n"
 "&nbsp;<span class=\"label label-info\">sign</span> funksjonen "
@@ -524,36 +523,29 @@ msgstr ""
 "class=\"label label-info\">1</span> om den tilføres en positiv "
 "verdi.                   "
 
-#: content/templates/admin/content_widget.html:612
-#: content/templates/admin/content_widget.html:617
+#: content/templates/expression.html:225 content/templates/expression.html:230
 msgid "Constants"
 msgstr "Konstanter"
 
-#: content/templates/admin/content_widget.html:618
+#: content/templates/expression.html:231
 msgid "Supported constants are"
 msgstr "Støttede konstanter er"
 
-#: content/templates/admin/content_widget.html:621
+#: content/templates/expression.html:234
 msgid "and"
 msgstr "og"
 
-#: content/templates/admin/content_widget.html:626
-#: content/templates/admin/content_widget.html:627
+#: content/templates/expression.html:239 content/templates/expression.html:242
 msgid "provides the mathematical constant"
 msgstr "gir den matematiske konstanten"
 
-#: content/templates/admin/content_widget.html:626
-#: content/templates/admin/content_widget.html:627
+#: content/templates/expression.html:240 content/templates/expression.html:243
 msgid "to available precision"
 msgstr "til tilgjengelig presisjon"
 
-#: content/templates/admin/content_widget.html:635
+#: content/templates/expression.html:253
 msgid "Close"
 msgstr ""
-
-#: content/templates/admin/sms_content_widget.html:11
-msgid "characters used"
-msgstr "tegn brukt"
 
 #: events/admin.py:23
 msgid "Actor"
