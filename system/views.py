@@ -8,17 +8,13 @@ from django.contrib.admin.views.decorators import staff_member_required
 from django.contrib.contenttypes.models import ContentType
 from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render
-
-from rest_framework import viewsets, status
+from rest_framework import viewsets
 from rest_framework.mixins import CreateModelMixin
 from rest_framework.permissions import IsAuthenticated
-from rest_framework.response import Response
 
-from .models import Variable, Program, Session, Page, Email, SMS
+from .models import Variable
 from .serializers import VariableSerializer, ExpressionSerializer
 from .filters import VariableSearchFilter
-
-from .expressions import Parser, ParseException
 
 
 @staff_member_required
