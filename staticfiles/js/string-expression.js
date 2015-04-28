@@ -97,11 +97,16 @@ angular.module("stringExpression", ["autocompleteSearch"])
 
                 $scope.$watch("expression.query", function(value) {
                     $scope.model = value;
-                    // console.log(getVariableTokens(newInstance));
+                    /*
+                    var variables = getVariableTokens(value);
+                    if (variables.length) {
+                        console.log(getVariableTokens(value));
+                    }
+                    */
                 });
 
                 $scope.$watch("expression.response", function(newInstance, oldInstance) {
-                    if (newInstance.result !== oldInstance.result) {
+                    if (newInstance !== oldInstance) {
                         $scope.expression.preview = $scope.expression.query + " = " + newInstance.result;
                     }
                 });
@@ -116,6 +121,8 @@ angular.module("stringExpression", ["autocompleteSearch"])
                     title: scope.popoverTitle,
                     content: contentTemplate
                 });
+
+                // TODO: If model has initial value, post and evaluate it.
             }
         }
     })
