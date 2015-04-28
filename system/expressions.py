@@ -18,7 +18,7 @@ Operators:
     - != (ne)   - in (in/contains)
     - <  (lt)   - &  (AND)
     - <= (le)   - |  (OR)
-    - >  (gt)
+    - >  (gt)   - !  (NOT)
 
 
   MathExpression operators:
@@ -47,7 +47,6 @@ to the Parser on initialization. If the Parser is initialized without
 a User instance, attempts to lookup variables will raise an error.
 """
 
-
 from __future__ import absolute_import, unicode_literals
 
 import functools
@@ -58,9 +57,9 @@ from sys import float_info
 from django.utils.translation import ugettext as _
 from requests.structures import CaseInsensitiveDict
 from pyparsing import (
-    Literal, CaselessLiteral, Word, Combine, Optional,
-    ParseException, ZeroOrMore, Forward, nums, alphas,
-    alphanums
+    Literal, CaselessLiteral, Keyword, Word, Combine, Optional,
+    ParseException, ZeroOrMore, Forward, Suppress, infixNotation,
+    alphas, alphanums, nums, oneOf, opAssoc
 )
 
 
@@ -74,6 +73,7 @@ def chain(func):
     def wrapper(self, *args, **kwargs):
         self = self._clone(lhs=self.eval, operator=func(self, *args, **kwargs))
         return self
+
     return wrapper
 
 
@@ -132,6 +132,7 @@ class _Expression(object):
 
     def __nonzero__(self):
         return self.eval
+
     __bool__ = __nonzero__
 
     def _clone(self, **kwargs):
@@ -186,7 +187,8 @@ class BoolExpression(_Expression):
         "in": oper.contains,
         "contains": oper.contains,
         "and_": oper.and_,
-        "or_": oper.or_
+        "or_": oper.or_,
+        "not_": oper.not_
     }
 
 
@@ -235,9 +237,9 @@ class Parser(object):
     UNARY = "unary -"
     operators = {
         # Boolean operators
-        # "==": oper.eq, "!=": oper.ne, "<": oper.lt, "<=": oper.le,
-        # ">": oper.gt, ">=": oper.ge, "in": oper.contains, "&": oper.and_,
-        # "|": oper.or_,
+        "==": oper.eq, "!=": oper.ne, "<": oper.lt, "<=": oper.le,
+        ">": oper.gt, ">=": oper.ge, "in": oper.contains, "&": oper.and_,
+        "|": oper.or_, "!": oper.not_,
 
         # Mathematical operators
         "+": oper.add, "/": oper.truediv, "^": oper.pow,
@@ -253,7 +255,7 @@ class Parser(object):
     constants = {
         "E": math.e, "PI": math.pi
     }
-    
+
     bnf = None
 
     def __init__(self, user_obj=None):
@@ -276,57 +278,40 @@ class Parser(object):
         expression          :: term [ add_operations term ] *
         """
         if not self.bnf:
-
-            # Not implemented yet.
-
-            # eq = Literal("==")
-            # ne = Literal("!=")
-            # lt = Literal("<")
-            # gt = Literal(">")
-            # ge = Literal(">=")
-            # in_ = Literal("in")
-            # and_ = Literal("&")
-            # or_ = Literal("|")
-
             # Operators
-            add = Literal("+")
-            div = Literal("/")
-            exponent = Literal("^")
-            modulo = Literal("%")
-            multiply = Literal("*")
-            subtract = Literal("-")
+            exponent_operator = Literal("^")
+            negate_operator = Literal("!")
+            multiply_operator = oneOf("* / %")
+            add_operator = oneOf("+ -")
+            comparison_operator = oneOf("== != < <= > >= & |") | Keyword("in")
 
             # Functions
             e = CaselessLiteral("E")
             pi = CaselessLiteral("PI")
 
-            # Punctuation
-            point = Literal(".")
-            lparen = Literal("(").suppress()
-            rparen = Literal(")").suppress()
-
+            lparen, rparen = map(Suppress, "()")
             ident = Word(alphas, alphas + nums + "_$")
             variable = Combine(Literal("$") + Word(alphanums))
+            boolean = Keyword("True") | Keyword("False")
             numeric = Combine(Word("+-" + nums, nums) +
-                             Optional(point + Optional(Word(nums))) +
-                             Optional(e + Word("+-" + nums, nums)))
-            multiply_operations = multiply | div | modulo
-            add_operations = add | subtract
+                              Optional(Literal(".") + Optional(Word(nums))) +
+                              Optional(e + Word("+-" + nums, nums)))
 
             expression = Forward()
             atom = (Optional("-") +
                     (pi | e | numeric | ident + lparen + expression + rparen).setParseAction(self.push_stack)
-                    | variable.setParseAction(self.push_stack)
+                    | (variable | boolean).setParseAction(self.push_stack)
                     | (lparen + expression.suppress() + rparen)).setParseAction(self.push_unary_stack)
 
-            # By defining exponentiation as "atom [^factor]"
-            # instead of "atom [^atom], we get left to right exponents.
-            # 2^3^2 = 2^(3^2), not (2^3)^2.
+            # By defining exponentiation as "atom [^factor]" instead of "atom [^atom],
+            # we get left to right exponents. 2^3^2 = 2^(3^2), not (2^3)^2.
             factor = Forward()
-            factor << atom + ZeroOrMore((exponent + factor).setParseAction(self.push_stack))
+            factor << atom + ZeroOrMore((exponent_operator + factor).setParseAction(self.push_stack))
 
-            term = factor + ZeroOrMore((multiply_operations + factor).setParseAction(self.push_stack))
-            self.bnf = expression << term + ZeroOrMore((add_operations + term).setParseAction(self.push_stack))
+            boolean = factor + ZeroOrMore((comparison_operator + factor).setParseAction(self.push_stack))
+            term = boolean + ZeroOrMore((multiply_operator + boolean).setParseAction(self.push_stack))
+            self.bnf = expression << term + ZeroOrMore((add_operator + term).setParseAction(self.push_stack))
+
         return self.bnf
 
     @property
@@ -350,8 +335,8 @@ class Parser(object):
         Looks up supported operators and/or functions and applies
         them.
         """
-
         operator = expr.pop()
+        print operator, expr
         try:
             if operator == self.UNARY:
                 return -self.evaluate_stack(expr)
@@ -375,6 +360,8 @@ class Parser(object):
                     return float(value)
                 except KeyError:
                     raise ParseException(_("Undefined variable '%s'" % variable))
+            elif operator in ("True", "False"):
+                return True if operator == "True" else False
             else:
                 return float(operator)
         except ValueError as e:
