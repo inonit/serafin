@@ -485,10 +485,6 @@
                 supported, and will either throw an error or yield incorrect or unpredictable results.
               {% endblocktrans %}
 
-              <p><span class="label label-warning">
-                {% trans "Boolean operators are not yet implemented!" %}
-              </span></p>
-
               <h6>{% trans "Arithmetic operators" %}</h6>
 
               <div class="span5">
@@ -506,14 +502,14 @@
                 </ul>
               </div>
 
-              <h6>{% trans "Boolean operators" %}</h6>
+              <h6>{% trans "Boolean and comparison operators" %}</h6>
 
               <div class="span5">
                 <ul class="unstyled">
                   <li>{% trans "Equal" %}<span class="right label label-info operator-label"> == </span></li>
                   <li>{% trans "Less than" %}<span class="right label label-info operator-label"> < </span></li>
                   <li>{% trans "Greater than" %}<span class="right label label-info operator-label"> > </span></li>
-                  <li>{% trans "Contains" %} <span class="right label label-info operator-label"> in </span></li>
+                  <!--<li>{% trans "Contains" %} <span class="right label label-info operator-label"> in </span></li> Postponed -->
                   <li>{% trans "AND" %} <span class="right label label-info"> & </span></li>
                 </ul>
               </div>
@@ -525,6 +521,23 @@
                   <li>{% trans "OR" %} <span class="right label label-info operator-label"> | </span></li>
                 </ul>
               </div>
+
+              <p>
+                {% blocktrans %}
+                  Expressions evaluated using boolean or comparison operators will return either
+                  <span class="label label-info">true</span> or <span class="label label-info">false</span> value.
+                  For truth value testing, use the built-in <span class="label label-info">True</span> or
+                  <span class="label label-info">False</span>.
+                {% endblocktrans %}
+              </p>
+
+              <br />
+              <ul>
+                <li><span class="label label-info">True == True</span>{% trans "Returns the value" %} true</li>
+                <li><span class="label label-info">(1 + 2) == (5 - 2)</span>{% trans "Returns the value" %} true</li>
+                <li><span class="label label-info">(True & False) | False</span>{% trans "Returns the value" %} false</li>
+              </ul>
+
             </div>
           </div>
         </div>
