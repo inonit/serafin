@@ -50,8 +50,8 @@ angular.module("autocompleteSearch", [])
 
                 QueueService.configure({timeout: xhrWait});
 
-                function fetch(url, queryString) {
-                    QueryService.fetch(url, queryString).then(function(response) {
+                function get(url, queryString) {
+                    QueryService.get(url, queryString).then(function(response) {
                         $scope.results = response;
                     });
                 }
@@ -113,7 +113,7 @@ angular.module("autocompleteSearch", [])
                 $scope.addQuery = function(url) {
                     // TODO: Should cancel current request so we don't send a request for each character written.
                     if ($scope.queryString.query.length >= minCharacters) {
-                        QueueService.add(_.partial(fetch, url, $scope.queryString));
+                        QueueService.add(_.partial(get, url, $scope.queryString));
                     } else if (!$scope.queryString.query.length) {
                         $scope.results = [];
                     }
@@ -175,12 +175,27 @@ angular.module("autocompleteSearch", [])
          * and return a promise.
          * */
         return {
-            fetch: function(url, queryString) {
+            get: function(url, queryString) {
                 var deferred = $q.defer();
                 $http({
                     method: "GET",
                     url: url,
                     params: queryString
+                })
+                .success(function(response, status) {
+                    deferred.resolve(response);
+                })
+                .error(function(reason) {
+                    deferred.reject(reason);
+                });
+                return deferred.promise;
+            },
+            post: function(url, data) {
+                var deferred = $q.defer();
+                $http({
+                    method: "POST",
+                    url: url,
+                    data: data
                 })
                 .success(function(response, status) {
                     deferred.resolve(response);
