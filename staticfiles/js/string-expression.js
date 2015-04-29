@@ -63,6 +63,7 @@ angular.module("stringExpression", ["autocompleteSearch"])
                     QueryService.post(url, data).then(function(response) {
                         $scope.expression.response = response.response;
                     }, function(reason) {
+                        $scope.expression.response.result = null;
                         $scope.expression.response.reason = reason;
                     });
                 }

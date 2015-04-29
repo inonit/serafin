@@ -25,13 +25,17 @@ class ExpressionSerializer(serializers.Serializer):
     def validate(self, data):
         p = Parser(user_obj=self.context["request"].user)
         response = {
-            "result": "",
-            "reason": ""
+            "result": None,
+            "reason": None
         }
         try:
             response["result"] = p.parse(data["query"])
         except (ParseException, ZeroDivisionError, KeyError) as e:
+            response["result"] = None
             response["reason"] = unicode(e)
+        except Exception:
+            response["result"] = None
+            response["reason"] = _("")
 
         data["response"] = response
         return data
