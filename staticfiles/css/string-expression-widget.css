@@ -10,6 +10,9 @@ div.expression-widget-wrapper > div.preview-box {
   margin-top: 0.4rem;
   border: 1px solid #EDEDED;
   z-index: 1000;
+  -webkit-box-shadow: inset 0 1px 0 rgba(255,255,255,.2), 0 1px 2px rgba(0,0,0,.05);
+     -moz-box-shadow: inset 0 1px 0 rgba(255,255,255,.2), 0 1px 2px rgba(0,0,0,.05);
+          box-shadow: inset 0 1px 0 rgba(255,255,255,.2), 0 1px 2px rgba(0,0,0,.05);
 }
 
 div.preview-box .header {
@@ -19,7 +22,7 @@ div.preview-box .header {
   line-height: 1rem;
   text-shadow: 0 1px #4F7F92;
   background: #5295B0 linear-gradient(#83B3C3, #5295B0) no-repeat;
-  border-bottom: 1px solid #CCC;
+  border-bottom: 1px solid #4F7F92;
 }
 
 i[class="icon-question-sign"] {
@@ -31,9 +34,6 @@ span.operator-label {
 }
 
 div.preview-box .validator {
-  -webkit-box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.07);
-     -moz-box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.07);
-          box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.07);
   background: none repeat scroll 0 0 #F6F7F8;
   position: relative;
   overflow: auto;
@@ -66,8 +66,6 @@ a#popover-close {
 /* Override Bootstrap popover CSS */
 .popover,
 .popover > .popover-title {
-  /*max-width: 800px;*/
-  /*width: 800px;*/
   background-color: rgba(23, 36, 47, 0.90);
   text-shadow: 1px 1px 1px rgba(0,0,0,0.004);
   -webkit-font-smoothing: antialiased;
