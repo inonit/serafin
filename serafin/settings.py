@@ -389,7 +389,15 @@ RESERVED_VARIABLES = [
     },
     {
         'name': 'current_day',
-        'admin_note': 'Returns the current weekday, in english',
+        'admin_note': 'Returns the current localized weekday as number, where Monday is 1 and Sunday is 7',
+    },
+    {
+        'name': 'current_time',
+        'admin_note': 'Returns the current localized time in iso format, i.e. 12:00:00',
+    },
+    {
+        'name': 'current_date',
+        'admin_note': 'Returns the current localized date in iso format, i.e. 2015-05-01',
     },
     {
         'name': 'session',

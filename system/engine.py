@@ -3,10 +3,11 @@
 from __future__ import unicode_literals
 
 import operator
-from datetime import date, timedelta
+
+from datetime import timedelta
 
 from django.contrib.auth import get_user_model
-from django.utils import six
+from django.utils import six, timezone
 from django.utils.translation import ugettext_lazy as _
 
 from events.signals import log_event
@@ -69,8 +70,17 @@ class Engine(object):
         if not var_name:
             return ''
 
+        # now as per timezone settings
+        now = timezone.localtime(timezone.now().replace(microsecond=0))
+
         if var_name == 'current_day':
-            return date.isoweekday(date.today())
+            return now.isoweekday()
+
+        if var_name == 'current_time':
+            return now.time().isoformat()
+
+        if var_name == 'current_date':
+            return now.date().isoformat()
 
         if var_name == 'registered':
             return not user.is_anonymous()
