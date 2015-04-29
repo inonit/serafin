@@ -5,6 +5,7 @@ import json
 from django.conf import settings
 from django.utils import timezone
 from events.models import Event
+from system.models import Session
 
 
 class EventTrackingMiddleware(object):
@@ -35,19 +36,31 @@ class EventTrackingMiddleware(object):
             if max_time:
                 timer = min((timer, max_time))
 
+            try:
+                session_id = request.user.data.get('session')
+                node_id = request.user.data.get('node')
+
+                session = Session.objects.get(id=session_id)
+                nodes = {node['id']: node for node in session.data.get('nodes')}
+
+                title = nodes[node_id]['title']
+            except:
+                title = ''
+
             event = Event(
                 time=timezone.localtime(timezone.now()),
                 domain='userdata',
                 actor=request.user,
                 variable='timer',
                 pre_value='',
-                post_value=unicode(timer),
+                post_value='%s, %s ms' % (title, timer),
             )
             event.save()
 
         if getattr(settings, 'LOG_USER_DATA', False):
 
             for key, post_value in request_body.items():
+
                 pre_value = request.user.data.get(key, '')
 
                 if isinstance(pre_value, list):
