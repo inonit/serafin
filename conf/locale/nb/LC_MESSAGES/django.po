@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Serafin\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-04-29 01:05+0200\n"
+"POT-Creation-Date: 2015-04-29 02:23+0200\n"
 "PO-Revision-Date: 2014-08-26 11:35+0200\n"
 "Last-Translator: Eirik Krogstad <eirikkr@gmail.com>\n"
 "Language: nb\n"
@@ -95,6 +95,7 @@ msgstr "Feltnavn"
 #: content/templates/admin/content_widget.html:134
 #: content/templates/admin/content_widget.html:205
 #: content/templates/admin/content_widget.html:297
+#: content/templates/expression.html:6
 msgid "Variable name"
 msgstr "Variabelnavn"
 
@@ -233,19 +234,19 @@ msgstr "Tittel"
 msgid "characters used"
 msgstr "tegn brukt"
 
-#: content/templates/expression.html:5
+#: content/templates/expression.html:19
 msgid "Start writing..."
 msgstr "Begynn å skrive..."
 
-#: content/templates/expression.html:6
+#: content/templates/expression.html:20
 msgid "Preview"
 msgstr "Forhåndsvisning"
 
-#: content/templates/expression.html:8
+#: content/templates/expression.html:22
 msgid "Serafin Expression Syntax"
 msgstr "Serafin-uttrykk Syntaks"
 
-#: content/templates/expression.html:20
+#: content/templates/expression.html:36
 msgid ""
 "\n"
 "    The Serafin expression \"mini-language\" has a predefined set of "
@@ -263,19 +264,19 @@ msgstr ""
 "for å gjøre valg i brukerprogram. Klikk lenkene under for "
 "syntaksbeskrivelser."
 
-#: content/templates/expression.html:33 content/templates/expression.html:38
+#: content/templates/expression.html:49 content/templates/expression.html:54
 msgid "Grouping"
 msgstr "Gruppering"
 
-#: content/templates/expression.html:40
+#: content/templates/expression.html:56
 msgid "Expression can be grouped by putting them in parentheses."
 msgstr "Uttrykk kan grupperes ved å sette dem i paranteser."
 
-#: content/templates/expression.html:41
+#: content/templates/expression.html:57
 msgid "Evaluation order"
 msgstr "Evalueringsrekkefølge"
 
-#: content/templates/expression.html:42
+#: content/templates/expression.html:58
 msgid ""
 "\n"
 "            <p>\n"
@@ -316,11 +317,11 @@ msgstr ""
 "</dl>\n"
 "              "
 
-#: content/templates/expression.html:66 content/templates/expression.html:71
+#: content/templates/expression.html:82 content/templates/expression.html:87
 msgid "Variables"
 msgstr "Variabler"
 
-#: content/templates/expression.html:72
+#: content/templates/expression.html:88
 msgid ""
 "\n"
 "            Variables must be prefixed with <span class=\"label label-info\">"
@@ -340,11 +341,11 @@ msgstr ""
 "feilmelding.\n"
 "              "
 
-#: content/templates/expression.html:87 content/templates/expression.html:92
+#: content/templates/expression.html:103 content/templates/expression.html:108
 msgid "Operators"
 msgstr "Operatører"
 
-#: content/templates/expression.html:93
+#: content/templates/expression.html:109
 msgid ""
 "\n"
 "            We have two set of expression types; simple arithmetic "
@@ -360,75 +361,75 @@ msgstr ""
 "og boolske uttrykk. Uttrykksevaluering på tvers av typer er ikke støttet, og "
 "vil gi feilmelding eller upresise resultater.               "
 
-#: content/templates/expression.html:99
+#: content/templates/expression.html:115
 msgid "Arithmetic operators"
 msgstr "Aritmetiske operatører"
 
-#: content/templates/expression.html:103
+#: content/templates/expression.html:119
 msgid "Addition"
 msgstr "Addisjon"
 
-#: content/templates/expression.html:104
+#: content/templates/expression.html:120
 msgid "Subtraction"
 msgstr "Subtraksjon"
 
-#: content/templates/expression.html:105
+#: content/templates/expression.html:121
 msgid "Division"
 msgstr "Divisjon"
 
-#: content/templates/expression.html:110
+#: content/templates/expression.html:126
 msgid "Multiplication"
 msgstr "Multiplikasjon"
 
-#: content/templates/expression.html:111
+#: content/templates/expression.html:127
 msgid "Factorisation"
 msgstr "Eksponensiering"
 
-#: content/templates/expression.html:112
+#: content/templates/expression.html:128
 msgid "Modulus"
 msgstr "Modulo"
 
-#: content/templates/expression.html:116
+#: content/templates/expression.html:132
 msgid "Boolean and comparison operators"
 msgstr "Boolske og sammenlignings-operatører"
 
-#: content/templates/expression.html:120
+#: content/templates/expression.html:136
 msgid "Equal"
 msgstr "Er lik"
 
-#: content/templates/expression.html:121
+#: content/templates/expression.html:137
 msgid "Less than"
 msgstr "Mindre enn"
 
-#: content/templates/expression.html:122
+#: content/templates/expression.html:138
 msgid "Greater than"
 msgstr "Større enn"
 
-#: content/templates/expression.html:123
+#: content/templates/expression.html:139
 msgid "Contains"
 msgstr "Inneholder"
 
-#: content/templates/expression.html:124
+#: content/templates/expression.html:140
 msgid "AND"
 msgstr "OG"
 
-#: content/templates/expression.html:129
+#: content/templates/expression.html:145
 msgid "Not equal"
 msgstr "Ikke lik"
 
-#: content/templates/expression.html:130
+#: content/templates/expression.html:146
 msgid "Less or equal"
 msgstr "Mindre eller lik"
 
-#: content/templates/expression.html:131
+#: content/templates/expression.html:147
 msgid "Greater or equal"
 msgstr "Større eller lik"
 
-#: content/templates/expression.html:132
+#: content/templates/expression.html:148
 msgid "OR"
 msgstr "ELLER"
 
-#: content/templates/expression.html:137
+#: content/templates/expression.html:153
 msgid ""
 "\n"
 "              Expressions evaluated using boolean or comparison operators "
@@ -448,17 +449,17 @@ msgstr ""
 "\"label label-info\">False</span>.\n"
 "                "
 
-#: content/templates/expression.html:147 content/templates/expression.html:148
-#: content/templates/expression.html:149 content/templates/expression.html:173
-#: content/templates/expression.html:174
+#: content/templates/expression.html:163 content/templates/expression.html:164
+#: content/templates/expression.html:165 content/templates/expression.html:189
+#: content/templates/expression.html:190
 msgid "Returns the value"
 msgstr "Returnerer verdien"
 
-#: content/templates/expression.html:161 content/templates/expression.html:166
+#: content/templates/expression.html:177 content/templates/expression.html:182
 msgid "Functions"
 msgstr "Funksjoner"
 
-#: content/templates/expression.html:167
+#: content/templates/expression.html:183
 msgid ""
 "\n"
 "            Some basic functions are supported. Functions are applied by "
@@ -471,39 +472,39 @@ msgstr ""
 "den en verdi, eller et uttrykk som returnerer en verdi.\n"
 "              "
 
-#: content/templates/expression.html:171
+#: content/templates/expression.html:187
 msgid "Examples"
 msgstr "Eksempler"
 
-#: content/templates/expression.html:180
+#: content/templates/expression.html:196
 msgid "Sine"
 msgstr "Sinus"
 
-#: content/templates/expression.html:183
+#: content/templates/expression.html:199
 msgid "Cosines"
 msgstr "Cosinus"
 
-#: content/templates/expression.html:186
+#: content/templates/expression.html:202
 msgid "Tangents"
 msgstr "Tangens"
 
-#: content/templates/expression.html:189
+#: content/templates/expression.html:205
 msgid "Absolute value"
 msgstr "Absolutt verdi"
 
-#: content/templates/expression.html:196
+#: content/templates/expression.html:212
 msgid "Truncate"
 msgstr "Forkort"
 
-#: content/templates/expression.html:199
+#: content/templates/expression.html:215
 msgid "Round"
 msgstr "Avrund"
 
-#: content/templates/expression.html:202
+#: content/templates/expression.html:218
 msgid "Sign digit"
 msgstr "Sign"
 
-#: content/templates/expression.html:208
+#: content/templates/expression.html:224
 msgid ""
 "\n"
 "                The <span class=\"label label-info\">sign</span> function "
@@ -523,27 +524,27 @@ msgstr ""
 "class=\"label label-info\">1</span> om den tilføres en positiv "
 "verdi.                   "
 
-#: content/templates/expression.html:225 content/templates/expression.html:230
+#: content/templates/expression.html:241 content/templates/expression.html:246
 msgid "Constants"
 msgstr "Konstanter"
 
-#: content/templates/expression.html:231
+#: content/templates/expression.html:247
 msgid "Supported constants are"
 msgstr "Støttede konstanter er"
 
-#: content/templates/expression.html:234
+#: content/templates/expression.html:250
 msgid "and"
 msgstr "og"
 
-#: content/templates/expression.html:239 content/templates/expression.html:242
+#: content/templates/expression.html:255 content/templates/expression.html:258
 msgid "provides the mathematical constant"
 msgstr "gir den matematiske konstanten"
 
-#: content/templates/expression.html:240 content/templates/expression.html:243
+#: content/templates/expression.html:256 content/templates/expression.html:259
 msgid "to available precision"
 msgstr "til tilgjengelig presisjon"
 
-#: content/templates/expression.html:253
+#: content/templates/expression.html:269
 msgid "Close"
 msgstr "Lukk"
 
@@ -829,7 +830,7 @@ msgid "display name"
 msgstr "visningsnavn"
 
 #: system/models.py:26 system/models.py:75 system/models.py:125
-#: system/models.py:203
+#: system/models.py:202
 msgid "admin note"
 msgstr "administratornotat"
 
@@ -882,15 +883,15 @@ msgstr "tekstsett"
 msgid "variables"
 msgstr "variabler"
 
-#: system/models.py:73 system/models.py:119 system/models.py:200
+#: system/models.py:73 system/models.py:119 system/models.py:199
 msgid "title"
 msgstr "tittel"
 
-#: system/models.py:74 system/models.py:120 system/models.py:201
+#: system/models.py:74 system/models.py:120 system/models.py:200
 msgid "display title"
 msgstr "visningstittel"
 
-#: system/models.py:77 users/models.py:149
+#: system/models.py:77 users/models.py:151
 msgid "users"
 msgstr "brukere"
 
@@ -898,7 +899,7 @@ msgstr "brukere"
 msgid "programs"
 msgstr "programmer"
 
-#: system/models.py:103 users/models.py:148
+#: system/models.py:103 users/models.py:150
 msgid "user"
 msgstr "bruker"
 
@@ -926,7 +927,7 @@ msgstr "URL-navn"
 msgid "is open"
 msgstr "fritt tilgjengelig"
 
-#: system/models.py:124 system/models.py:210
+#: system/models.py:124 system/models.py:207
 msgid "content"
 msgstr "innhold"
 
@@ -962,55 +963,67 @@ msgstr "i tidsplan"
 msgid "trigger login"
 msgstr "innlogging"
 
-#: system/models.py:144
+#: system/models.py:142
 msgid "session"
 msgstr "økt"
 
-#: system/models.py:145
+#: system/models.py:143
 msgid "sessions"
 msgstr "økter"
 
-#: system/models.py:148
+#: system/models.py:146
 #, python-format
 msgid "Session %s"
 msgstr "Økt %s"
 
-#: system/models.py:174 system/models.py:252
-#, python-format
+#: system/models.py:158
+msgid "A variable name is required for all conditions"
+msgstr ""
+
+#: system/models.py:164 system/models.py:250
+#, fuzzy, python-format
+#| msgid ""
+#| "Could not find Variable `%s`. Please make sure all variables are "
+#| "predefined."
 msgid ""
-"Could not find Variable `%s`. Please make sure all variables are predefined."
+"Could not find Variable `%(var_name)s`. Please make sure all variables are "
+"predefined."
 msgstr ""
 "Finner ikke Variabelen `%s`. Sørg for at alle variabler er forhåndsdefinerte."
 
-#: system/models.py:202
+#: system/models.py:201
 msgid "content type"
 msgstr "innholdstype"
 
-#: system/models.py:211
+#: system/models.py:208
 msgid "contents"
 msgstr "innhold"
 
-#: system/models.py:235
+#: system/models.py:232
 msgid "page"
 msgstr "side"
 
-#: system/models.py:236
+#: system/models.py:233
 msgid "pages"
 msgstr "sider"
 
-#: system/models.py:296
+#: system/models.py:244
+msgid "A variable name is required for all fields"
+msgstr ""
+
+#: system/models.py:292
 msgid "e-mail"
 msgstr "e-post"
 
-#: system/models.py:297
+#: system/models.py:293
 msgid "e-mails"
 msgstr "e-poster"
 
-#: system/models.py:329
+#: system/models.py:325
 msgid "SMS"
 msgstr "SMS"
 
-#: system/models.py:330
+#: system/models.py:326
 msgid "SMSs"
 msgstr "SMSer"
 
@@ -1351,28 +1364,28 @@ msgstr "E-post"
 msgid "ID should be an integer value"
 msgstr "ID må være et heltall"
 
-#: users/models.py:38
+#: users/models.py:40
 msgid "staff status"
 msgstr "administrator"
 
-#: users/models.py:39
+#: users/models.py:41
 msgid "active"
 msgstr "aktiv"
 
-#: users/models.py:40
+#: users/models.py:42
 msgid "date joined"
 msgstr "registreringsdato"
 
-#: users/models.py:42
+#: users/models.py:44
 msgid "token"
 msgstr "nøkkel"
 
-#: users/models.py:52
+#: users/models.py:54
 #, python-format
 msgid "User %i"
 msgstr "Bruker %i"
 
-#: users/models.py:113
+#: users/models.py:115
 msgid "Today's login link"
 msgstr "Dagens innloggingslenke"
 

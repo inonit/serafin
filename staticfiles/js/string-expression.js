@@ -44,8 +44,9 @@ angular.module("stringExpression", ["autocompleteSearch"])
                 '        </div>' +
                 '        </div>' +
                 '        <div class="validator">' +
-                '          <p class="expression">' +
-                '            <span>{{ expression.preview }}</span>' +
+                '          <span class="expression">{{ expression.query }}</span>' +
+                '          <p class="result" ng-if="expression.response.result !== null">' +
+                '            <span>{{ expression.response.result }}</span>' +
                 '          </p>' +
                 '          <p class="validation-message" ng-if="expression.response.reason">' +
                 '            <span>{{ expression.response.reason }}</span>' +
@@ -80,10 +81,9 @@ angular.module("stringExpression", ["autocompleteSearch"])
 
                 $scope.expression = {
                     query: $scope.model,
-                    preview: "",
                     response: {
-                        result: "",
-                        reason: ""
+                        result: null,
+                        reason: null
                     }
                 };
 
@@ -91,7 +91,7 @@ angular.module("stringExpression", ["autocompleteSearch"])
                     if (ExpressionValidatorService.isValid($scope.expression.query)) {
                         QueueService.add(_.partial(post, url, $scope.expression));
                     } else if (!$scope.expression.query.length) {
-                        $scope.expression.preview = $scope.expression.response.result = $scope.expression.response.reason = "";
+                        $scope.expression.response.result = $scope.expression.response.reason = null;
                     }
                 };
 
@@ -103,12 +103,6 @@ angular.module("stringExpression", ["autocompleteSearch"])
                         console.log(getVariableTokens(value));
                     }
                     */
-                });
-
-                $scope.$watch("expression.response", function(newInstance, oldInstance) {
-                    if (newInstance !== oldInstance) {
-                        $scope.expression.preview = $scope.expression.query + " = " + newInstance.result;
-                    }
                 });
             }],
             link: function(scope, element, attrs) {
