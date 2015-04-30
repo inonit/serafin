@@ -1,5 +1,7 @@
 from __future__ import unicode_literals
 
+from django.utils.translation import ugettext_lazy as _
+
 from rest_framework import serializers
 
 from system.models import Variable
@@ -35,7 +37,8 @@ class ExpressionSerializer(serializers.Serializer):
             response["reason"] = unicode(e)
         except Exception:
             response["result"] = None
-            response["reason"] = _("")
+            response["reason"] = _("An error has occurred. Your expression cannot be "
+                                   "evaluated.")
 
         data["response"] = response
         return data
