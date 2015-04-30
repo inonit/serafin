@@ -245,6 +245,13 @@ class ParserTestCase(TestCase):
         # self.assertFalse(self.parser.parse("!True"))
         # self.assertTrue(self.parser.parse("True & !False"))
 
+        self.assertTrue(self.parser.parse("'brain' in 'my brain hurts!'"))
+        self.assertFalse(self.parser.parse("'brain' in 'my BRAIN hurts!"))
+        self.assertFalse(self.parser.parse("'what' in 'I really don't care...'"))
+        self.assertTrue(self.parser.parse("'1' in 'this is 1 brilliant string example'"))  # fails
+        self.assertTrue(self.parser.parse("True in 'True, False'"))  # fails
+        self.assertTrue(self.parser.parse("1 in [1,2,3]"))  # fails
+
     def test_comparison_expressions(self):
         self.assertTrue(self.parser.parse("1 == 1"))
         self.assertTrue(self.parser.parse("(1 == 2) | (2 == 2)"))

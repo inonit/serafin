@@ -58,8 +58,10 @@ from django.utils.translation import ugettext as _
 from requests.structures import CaseInsensitiveDict
 from pyparsing import (
     Literal, CaselessLiteral, Keyword, Word, Combine, Optional,
-    ParseException, ZeroOrMore, Forward, Suppress, infixNotation,
-    alphas, alphanums, nums, oneOf, opAssoc
+    ParseException, ZeroOrMore, Forward, Suppress, Group,
+    alphas, alphanums, nums, oneOf, quotedString, removeQuotes,
+    delimitedList, nestedExpr, sglQuotedString, dblQuotedString, commaSeparatedList,
+    infixNotation, opAssoc
 )
 
 
@@ -274,24 +276,30 @@ class Parser(object):
             # negate_operator = Literal("!")  # TODO: Implement this so we can write `!True`
             multiply_operator = oneOf("* / %")
             add_operator = oneOf("+ -")
-            comparison_operator = oneOf("== != < <= > >= & |")  # | Keyword("in")  # TODO: Implement
+            comparison_operator = oneOf("== != < <= > >= & |") | Keyword("in")
 
             # Functions
             e = CaselessLiteral("E")
             pi = CaselessLiteral("PI")
 
-            lparen, rparen = map(Suppress, "()")
+            lparen, rparen, lbrack, rbrack = map(Suppress, "()[]")
             ident = Word(alphas, alphas + nums + "_$")
             variable = Combine(Literal("$") + Word(alphanums))
             boolean = Keyword("True") | Keyword("False")
+            string = quotedString.setParseAction(removeQuotes)
             numeric = Combine(Word("+-" + nums, nums) +
                               Optional(Literal(".") + Optional(Word(nums))) +
                               Optional(e + Word("+-" + nums, nums)))
 
             expression = Forward()
+
+            lists = Forward()
+            lists << (delimitedList("," | string | numeric | variable | boolean |
+                                    nestedExpr(lbrack, rbrack, content=lists)))
+
             atom = (Optional("-") +
                     (pi | e | numeric | ident + lparen + expression + rparen).setParseAction(self.push_stack)
-                    | (variable | boolean).setParseAction(self.push_stack)
+                    | (variable | boolean | lists).setParseAction(self.push_stack)
                     | (lparen + expression.suppress() + rparen)).setParseAction(self.push_unary_stack)
 
             # By defining exponentiation as "atom [^factor]" instead of "atom [^atom],
@@ -313,6 +321,19 @@ class Parser(object):
         """
         return CaseInsensitiveDict((k, v) for k, v in self.user.data.items()) if self.user else {}
 
+    @staticmethod
+    def _get_return_value(value):
+        """
+        Try to return the correct value type
+        """
+        # TODO: Django has some nice stuff for this we can steal. get_internal_type or something...
+        try:
+            if value.isnumeric():
+                return float(value)
+        except AttributeError:
+            pass
+        return value
+
     def push_stack(self, s, location, tokens):
         self.stack.append((tokens[0]))
 
@@ -333,6 +354,8 @@ class Parser(object):
 
             if operator in self.operators:
                 rhs, lhs = self.evaluate_stack(expr), self.evaluate_stack(expr)
+                if operator == "in":
+                    rhs, lhs = lhs, rhs
                 return self.operators[operator](lhs, rhs)
             elif operator in self.functions:
                 return self.functions[operator](self.evaluate_stack(expr))
@@ -347,13 +370,13 @@ class Parser(object):
                     value = self.userdata[variable]
                     if not value:
                         raise ValueError(_("Variable '%s' contains no value."))
-                    return float(value)
+                    return self._get_return_value(value)
                 except KeyError:
                     raise ParseException(_("Undefined variable '%s'" % variable))
             elif operator in ("True", "False"):
                 return True if operator == "True" else False
             else:
-                return float(operator)
+                return self._get_return_value(operator)
         except ValueError as e:
             raise ParseException(e)
 
