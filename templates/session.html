@@ -94,6 +94,10 @@
             </div>
         </div>
 
+        <form class="expression" ng-if="pagelet.content_type == 'expression'">
+            <input type="hidden" name="{{ pagelet.content.variable_name }}" value="{{ pagelet.content.value }}">
+        </form>
+
         <form class="form" ng-if="pagelet.content_type == 'form'" novalidate>
             <div ng-repeat="field in pagelet.content track by $index" ng-form="subForm">
 

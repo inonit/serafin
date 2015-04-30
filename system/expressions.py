@@ -311,7 +311,7 @@ class Parser(object):
         Returns a case insensitive copy of user.data if
         user is set, else just an empty dictionary
         """
-        return CaseInsensitiveDict((k, v) for k, v in self.user.data.items()) if self.user else {}
+        return self.user.data if self.user else {}
 
     def push_stack(self, s, location, tokens):
         self.stack.append((tokens[0]))
