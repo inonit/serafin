@@ -13,7 +13,7 @@ from django.utils.translation import ugettext_lazy as _
 from events.signals import log_event
 from system.models import Variable, Session, Page, Email, SMS
 from tasker.models import Task
-from .expressions import BoolExpression
+from .expressions import BoolExpression, Parser
 
 
 class Engine(object):
@@ -42,7 +42,21 @@ class Engine(object):
         if context:
 
             for key, value in context.items():
-                if key and value is not None:
+
+                if 'expression_' in key:
+                    parser = Parser(user_obj=self.user)
+
+                    try:
+                        value = parser.parse(value)
+                    except Exception as e:
+                        raise e
+
+                    parts = key.split('_')[1:]
+                    key = ''.join(parts)
+
+                    self.user.data[key] = value
+
+                elif key and value is not None:
                     self.user.data[key] = value
 
         # save

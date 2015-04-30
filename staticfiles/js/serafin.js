@@ -59,6 +59,9 @@ serafin.controller('pages', ['$scope', '$http', function(scope, http) {
                 pagelet.content_type == 'togglesetmulti') {
                 data[pagelet.content.variable_name] = pagelet.content.value
             }
+            if (pagelet.content_type == 'expression') {
+                data['expression_' + pagelet.content.variable_name] = pagelet.content.value
+            }
         });
 
         var timerEnd = new Date();

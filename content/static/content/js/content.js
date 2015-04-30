@@ -56,7 +56,10 @@ var dataTemplates = {
     },
     'expression': {
         content_type: 'expression',
-        value: ''
+        content: {
+            variable_name: '',
+            value: ''
+        }
     },
     'form': {
         content_type: 'form',

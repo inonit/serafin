@@ -12,21 +12,25 @@ from rest_framework import viewsets
 from rest_framework.mixins import CreateModelMixin
 from rest_framework.permissions import IsAuthenticated
 
-from .models import Variable
+from .models import Program, Variable
 from .serializers import VariableSerializer, ExpressionSerializer
 from .filters import VariableSearchFilter
+
+import re
 
 
 @staff_member_required
 def export_text(request):
+    '''
+    Iterates through all content in a Program and exports translatable text.
+    TRANSLATION is a copy of ORIGINAL to help translators retain markdown
+    and variable replacement syntax.
+    '''
 
-    ct_id = request.GET.get('ct')
-    ct = ContentType.objects.get_for_id(id=ct_id)
-
-    ids = request.GET.get('ids').split(',')
-    queryset = ct.get_all_objects_for_this_type(id__in=ids)
+    queryset = Program.objects.get(id__in=ids)
 
     def indent(string):
+        '''Helper for prettier code in format_field and format_content'''
         # Number of spaces in second param below should correspond
         # to indent in format_field() and format_content()
         return string.replace('\n', '\n            ')
@@ -143,12 +147,57 @@ def export_text(request):
 
 @staff_member_required
 def import_text(request):
+    '''
+    Finds all TRANSLATION sections from a text file as exported by export_text(),
+    extracts models, ids and field identifiers, and updates the given text.
+    '''
+
+    def drilldown_assign(obj, keys, value):
+        '''
+        Recursively drills down through a nested data structure by a
+        given list of keys or list indices, and sets a value, leaving the
+        data structure otherwise intact
+        '''
+        if not keys:
+            obj = value
+        else:
+            try:
+                keys[0] = int(keys[0])
+            except:
+                pass
+            obj[keys[0]] = drilldown_assign(obj[keys[0]], keys[1:], value)
+        return obj
 
     redirect = request.GET.get('next')
 
     if request.method == 'POST':
 
         text = request.FILES.get('text')
+
+        matches = re.findall(
+            '///// (\w+).(\d+).([\w\d.]+) TRANSLATION\n(.+?)\n\n\n',
+            text.read(),
+            re.DOTALL | re.UNICODE
+        )
+
+        for model, obj_id, identifier, value in matches:
+
+            ct = ContentType.objects.get(app_label='system', model=model)
+            obj = ct.get_object_for_this_type(id=obj_id)
+
+            keys = identifier.split('.')
+
+            update_kwargs = {}
+
+            if len(keys) == 1:
+                update_kwargs[identifier] = value
+
+            elif len(keys) > 1:
+                drilldown_assign(obj.data, keys, value)
+                update_kwargs['data'] = obj.data
+
+            # update database
+            type(obj).objects.filter(id=obj_id).update(**update_kwargs)
 
         return HttpResponseRedirect(redirect)
 
