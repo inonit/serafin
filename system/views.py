@@ -16,6 +16,8 @@ from .models import Variable
 from .serializers import VariableSerializer, ExpressionSerializer
 from .filters import VariableSearchFilter
 
+import re
+
 
 @staff_member_required
 def export_text(request):
@@ -141,6 +143,18 @@ def export_text(request):
     return response
 
 
+def drilldown_assign(obj, keys, value):
+    if not keys:
+        obj = value
+    else:
+        try:
+            keys[0] = int(keys[0])
+        except:
+            pass
+        obj[keys[0]] = drilldown_assign(obj[keys[0]], keys[1:], value)
+    return obj
+
+
 @staff_member_required
 def import_text(request):
 
@@ -149,6 +163,30 @@ def import_text(request):
     if request.method == 'POST':
 
         text = request.FILES.get('text')
+
+        matches = re.findall(
+            '///// (\w+).(\d+).([\w\d.]+) TRANSLATION\n(.+?)\n\n\n',
+            text.read(),
+            re.DOTALL | re.UNICODE
+        )
+
+        for model, obj_id, identifier, value in matches:
+
+            ct = ContentType.objects.get(app_label='system', model=model)
+            obj = ct.get_object_for_this_type(id=obj_id)
+
+            keys = identifier.split('.')
+
+            update_kwargs = {}
+
+            if len(keys) == 1:
+                update_kwargs[identifier] = value
+
+            elif len(keys) > 1:
+                drilldown_assign(obj.data, keys, value)
+                update_kwargs['data'] = obj.data
+
+            type(obj).objects.filter(id=obj_id).update(**update_kwargs)
 
         return HttpResponseRedirect(redirect)
 
