@@ -48,7 +48,7 @@ div.preview-box .validator {
 .validator .result {
   font-size: 1rem;
   text-align: right;
-  margin-top: -10px;
+  margin-top: -0.6rem;
 }
 
 .validator .result > span:before {
