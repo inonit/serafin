@@ -17,10 +17,18 @@ from .expressions import Parser
 
 
 class Engine(object):
-    '''A simplified decision engine to traverse the graph for a user'''
+    '''A simplified decision engine to traverse the Session graph for a user'''
 
     def __init__(self, user_id, context={}, push=False, user=None):
-        '''Initialize Engine with a User instance and optional context'''
+        '''
+        Initialize Engine with a User id and optional context.
+
+        If argument push is True, current session and node will be pushed to
+        a stack, so the user may return there.
+
+        The argument user accepts a user instance, which gives support for
+        unconventional user models (e.g. users.StatefulAnonymousUser)
+        '''
 
         if user:
             self.user = user
@@ -316,7 +324,15 @@ class Engine(object):
             return self.transition(node_id)
 
     def run(self, next=False, pop=False):
-        '''Run the Engine after initializing and return some result'''
+        '''
+        Run the Engine after initializing and return a node if available
+
+        If next=True, immediately transitions to the next node in current
+        session.
+
+        If pop=True, session and node is popped from the users stack and
+        initialized.
+        '''
 
         node_id = self.user.data.get('node')
 
