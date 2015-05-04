@@ -170,12 +170,12 @@ path {
     border: 1px solid #ccc;
     line-height: 16px;
     margin: 0.5rem;
-    min-width: 10em;
+    min-width: 15em;
     padding: .5rem;
     position: absolute;
     z-index: 199;
-    top: 100px;
-    right: 300px;
+    bottom: 25px;
+    right: 25px;
 }
 
 .conditions .btn {

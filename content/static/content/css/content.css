@@ -147,3 +147,8 @@
 .content .markup {
     color: #f44;
 }
+
+.content .expression.field-data {
+    width: 50%;
+    margin-right: 0;
+}

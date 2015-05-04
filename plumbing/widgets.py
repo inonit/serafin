@@ -27,14 +27,16 @@ class PlumbingWidget(forms.Widget):
             'all': (
                 'plumbing/css/plumbing.css',
                 'css/autocomplete.css',
+                'css/string-expression-widget.css'
             )
         }
         js = (
             'plumbing/angular/angular.min.js',
-            'plumbing/jquery/jquery.min.js',
+            #'plumbing/jquery/jquery.min.js',
             'plumbing/jqueryui/jquery-ui.min.js',
             'plumbing/jsplumb/jquery.jsPlumb-1.6.2-min.js',
-            'plumbing/js/plumbing.js',
             'js/vendor/lodash.min.js',
             'js/autocomplete.js',
+            'js/string-expression.js',
+            'plumbing/js/plumbing.js',
         )

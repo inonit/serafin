@@ -4,12 +4,20 @@
 
 div.expression-widget-wrapper {
   display: inline-block;
+  width: 100%;
+}
+
+div.expression-widget-wrapper input {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 13px 6px;
 }
 
 div.expression-widget-wrapper > div.preview-box {
   margin-top: 0.4rem;
   border: 1px solid #EDEDED;
   z-index: 1000;
+  border-radius: 4px;
   -webkit-box-shadow: inset 0 1px 0 rgba(255,255,255,.2), 0 1px 2px rgba(0,0,0,.05);
      -moz-box-shadow: inset 0 1px 0 rgba(255,255,255,.2), 0 1px 2px rgba(0,0,0,.05);
           box-shadow: inset 0 1px 0 rgba(255,255,255,.2), 0 1px 2px rgba(0,0,0,.05);
@@ -23,6 +31,7 @@ div.preview-box .header {
   text-shadow: 0 1px #4F7F92;
   background: #5295B0 linear-gradient(#83B3C3, #5295B0) no-repeat;
   border-bottom: 1px solid #4F7F92;
+  border-radius: 4px;
 }
 
 i[class="icon-question-sign"] {

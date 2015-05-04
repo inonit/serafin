@@ -13,7 +13,7 @@ from django.utils.translation import ugettext_lazy as _
 from events.signals import log_event
 from system.models import Variable, Session, Page, Email, SMS
 from tasker.models import Task
-from .expressions import BoolExpression, Parser
+from .expressions import Parser
 
 
 class Engine(object):
@@ -48,8 +48,8 @@ class Engine(object):
 
                     try:
                         value = parser.parse(value)
-                    except Exception as e:
-                        raise e
+                    except:
+                        pass
 
                     parts = key.split('_')[1:]
                     key = ''.join(parts)
@@ -110,84 +110,19 @@ class Engine(object):
             except:
                 return ''
 
-    @classmethod
-    def check_conditions(cls, conditions, user, return_value):
-        '''Return a value if all conditions in a list of conditions pass (or no conditions)'''
-
-        def prepare_conditional_values(condition):
-            """
-            Prepares the condition for evaluation by replacing variables
-            with user defined or system default values.
-            """
-            # Pick out values from the condition
-            lhs = condition['var_name']
-            rhs = condition['value']
-
-            # Switch values for variables if defined.
-            lhs = user.data.get(lhs, cls.get_system_var(lhs, user)) # Left hand side must be a defined variable.
-            rhs = user.data.get(rhs, cls.get_system_var(rhs, user)) or rhs
-
-            # Try converting values to float values
-            try:
-                lhs, rhs = map(float, [lhs, rhs])
-            except (ValueError, TypeError):
-                pass
-
-            # Fixing lists
-            if isinstance(lhs, list):
-                lhs = ', '.join(lhs)
-
-            if isinstance(rhs, list):
-                rhs = ', '.join(rhs)
-
-            if condition['var_name'] == 'group':
-                lhs = ', '.join(
-                    [group.__unicode__() for group in user.groups.all()]
-                )
-            condition.update({'var_name': lhs, 'value': rhs})
-            return condition
-
-        # If we have no conditions, create a list with a True value in order to
-        # pass the reduce test below. If we have conditions, create an empty list
-        # and evaluate each condition separately.
-        expr_evals = [True] if not conditions else []
-        conditions = map(prepare_conditional_values, conditions)
-        try:
-            for condition in conditions:
-                expr_evals.append(BoolExpression(
-                    lhs=condition['var_name'],
-                    operator=condition['operator'],
-                    rhs=condition['value']
-                ).eval)
-
-                # On each iteration, if the condition contains a logical operator,
-                # reduce the expression evaluations to a single value using the
-                # desired operator.
-                if 'logical_operator' in condition and condition['logical_operator'] in ["AND", 'OR']:
-                    if condition['logical_operator'] == 'AND':
-                        expr_evals = [six.moves.reduce(operator.and_, expr_evals)]
-                    elif condition['logical_operator'] == 'OR':
-                        expr_evals = [six.moves.reduce(operator.or_, expr_evals)]
-
-        except AttributeError:
-            # The Expression class raise AttributeError if passing an invalid
-            # operator parameter. Skip evaluating non-valid expressions.
-            pass
-
-        # We always need at least one passing condition in order to continue.
-        passing = six.moves.reduce(operator.and_, expr_evals)
-        if passing:
-            return return_value
-
     def traverse(self, edges, source_id):
         '''Select and return first edge where the user passes edge conditions'''
 
         for edge in edges:
-            conditions = edge.get('conditions')
+            expression = edge.get('expression')
 
-            return_edge = self.check_conditions(conditions, self.user, edge)
-            if return_edge:
-                return return_edge
+            if expression:
+                parser = Parser(user_obj=self.user)
+                passed = parser.parse(expression)
+                if passed:
+                    return edge
+            else:
+                return edge
 
     def get_node_edges(self, source_id):
         return [edge for edge in self.edges if edge.get('source') == source_id]

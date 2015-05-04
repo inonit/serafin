@@ -40,12 +40,7 @@ var dataTemplates = {
         content: []
     },
     'conditionaltext': {
-        conditions: [{
-            var_name: '',
-            logical_operator: '',
-            operator: '',
-            value: ''
-        }],
+        expression: '',
         content: ''
     },
     'condition': {

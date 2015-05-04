@@ -48,7 +48,7 @@ var targetConfig = {
 };
 
 
-var plumbing = angular.module('plumbing', ['autocompleteSearch']);
+var plumbing = angular.module('plumbing', ['autocompleteSearch', 'stringExpression']);
 
 plumbing.service('jsPlumb', ['$rootScope', function(scope) {
 
@@ -69,7 +69,7 @@ plumbing.service('jsPlumb', ['$rootScope', function(scope) {
                     type: '',
                     source: +c.sourceId.substr(5),
                     target: +c.targetId.substr(5),
-                    conditions: [],
+                    expression: '',
                 });
             });
         });

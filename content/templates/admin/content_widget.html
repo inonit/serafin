@@ -121,43 +121,21 @@
 
                 <h4 class="title">{% trans 'Text' %}</h4>
 
-                <div class="fieldset" ng-repeat="condition in content.conditions track by $index">
-
-                    <div class="field-data" ng-if="!$first">
-                      <label>{% trans 'Logical operator' %}</label>
-                        {% verbatim %}
-                        <select class="input-small" ng-model="condition.logical_operator" ng-required ng-options="o for o in logical_operators"></select>
-                        {% endverbatim %}
+                <div class="fieldset">
+                    <div class="expression field-data">
+                        <string-expression
+                            ng-model="content.expression"
+                            placeholder="{% trans "Start writing..." %}"
+                            header-title="{% trans "Preview" %}"
+                            popover-placement="right"
+                            popover-title="{% trans "Serafin Expression Syntax" %}"
+                            popover-template="template/expression-syntax.html"
+                            url="/api/system/evaluate-expression/"
+                            ng-cloak>
+                        </string-expression>
                     </div>
-
-                    <div class="field-data">
-                        <label>{% trans 'Variable name' %}</label>
-                        {% verbatim %}
-                        <select opt-title ng-model="condition.var_name">
-                            <option ng-repeat="variable in variables" ng-value="variable.name" title="{{ variable.admin_note }}">{{ variable.name }}</option>
-                        </select>
-                        {% endverbatim %}
-                    </div>
-                    <div class="field-data">
-                        <label>{% trans 'Condition' %}</label>
-                        <select ng-model="condition.operator" class="input-small">
-                            <option value="eq"> = </option>
-                            <option value="ne"> &ne; </option>
-                            <option value="lt"> &lt; </option>
-                            <option value="le"> &le; </option>
-                            <option value="gt"> &gt; </option>
-                            <option value="ge"> &ge; </option>
-                            <option value="in"> {% trans 'contains' %} </option>
-                        </select>
-                    </div>
-                    <div class="field-data">
-                        <label>{% trans 'Value' %}</label>
-                        <autocomplete-search placeholder="{% trans 'Enter a value or variable name' %}" ng-model="condition.value"
-                            url="/api/system/variables/search/"></autocomplete-search>
-                    </div>
-                    <a class="trash" ng-click="delete(content.conditions, $index)"><i class="icon-trash icon-alpha5"></i></a>
                 </div>
-                <div class="btn" ng-click="add(content.conditions, 'condition')">{% trans '+ Condition' %}</div>
+                {% include "expression_syntax.html" %}
 
                 <div class="field-data text" ng-controller="markdown">
                     <div class="markdown-guide">
@@ -170,7 +148,32 @@
         </div>
 
         <div ng-if="pagelet.content_type == 'expression'" class="expression">
-          {% include "expression.html" %}
+            <div class="field">
+                <div class="fieldset">
+                    <div class="expression field-data" style="vertical-align: top;">
+                        <label>{% trans "Variable name" %}</label>
+                        {% verbatim %}
+                        <select opt-title ng-model="pagelet.content.variable_name">
+                            <option ng-repeat="variable in variables" ng-value="variable.name" title="{{ variable.admin_note }}">{{ variable.name }}</option>
+                            </select>
+                        {% endverbatim %}
+                        &nbsp;&nbsp;=
+                    </div>
+                    <div class="expression field-data" style="padding-top: 23px;">
+                        <string-expression
+                            ng-model="pagelet.content.value"
+                            placeholder="{% trans "Start writing..." %}"
+                            header-title="{% trans "Preview" %}"
+                            popover-placement="right"
+                            popover-title="{% trans "Serafin Expression Syntax" %}"
+                            popover-template="template/expression-syntax.html"
+                            url="/api/system/evaluate-expression/"
+                            ng-cloak>
+                        </string-expression>
+                    </div>
+                </div>
+            </div>
+            {% include "expression_syntax.html" %}
         </div>
 
         <div ng-if="pagelet.content_type == 'form'" class="form">
@@ -183,7 +186,6 @@
                 <div class="btn add" ng-click="add(pagelet.content, 'multipleselection')">{% trans '+ Multiple selection' %}</div>
                 <div class="btn add" ng-click="add(pagelet.content, 'email')">{% trans '+ Email' %}</div>
                 <div class="btn add" ng-click="add(pagelet.content, 'password')">{% trans '+ Password' %}</div>
-                <div class="btn add" ng-click="add(pagelet.content, 'hiddenfield')">{% trans '+ Hidden field' %}</div>
             </div>
 
             <div class="field" ng-repeat="field in pagelet.content track by $index">
@@ -393,7 +395,7 @@
         var filerApi = '{{ filer_api }}';
         var reservedVars = {{ reserved_vars|default:'undefined'|safe }};
         $(function () {
-          $('[data-toggle="popover"]').popover();
+            $('[data-toggle="popover"]').popover();
         });
     </script>
 </div>

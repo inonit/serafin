@@ -16,6 +16,7 @@ from django.utils.translation import ugettext_lazy as _
 from jsonfield import JSONField
 from collections import OrderedDict
 from serafin.utils import *
+from system.expressions import Parser
 
 
 class Variable(models.Model):
@@ -265,10 +266,11 @@ class Page(Content):
 
                 for text in pagelet['content']:
 
-                    conditions = text.get('conditions')
-                    passing = Engine.check_conditions(conditions, user, True)
+                    expression = text.get('expression')
+                    parser = Parser(user_obj=user)
+                    passed = parser.parse(expression)
 
-                    if passing:
+                    if passed:
                         content = text.get('content')
                         content = remove_comments(content)
                         content, pagelet['variables'] = live_variable_replace(user, content)

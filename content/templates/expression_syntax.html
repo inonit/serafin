@@ -1,31 +1,5 @@
 {% load i18n %}
 
-<div class="field">
-  <div class="fieldset">
-    <div class="expression field-data" style="vertical-align: top;">
-      <label>{% trans "Variable name" %}</label>
-      {% verbatim %}
-      <select opt-title ng-model="pagelet.content.variable_name">
-          <option ng-repeat="variable in variables" ng-value="variable.name" title="{{ variable.admin_note }}">{{ variable.name }}</option>
-      </select>
-      {% endverbatim %}
-    </div>
-
-    <div class="expression field-data" style="padding-top: 23px;">
-      <string-expression
-          ng-model="pagelet.content.value"
-          placeholder="{% trans "Start writing..." %}"
-          header-title="{% trans "Preview" %}"
-          popover-placement="right"
-          popover-title="{% trans "Serafin Expression Syntax" %}"
-          popover-template="template/expression-syntax.html"
-          url="/api/system/evaluate-expression/"
-          ng-cloak>
-      </string-expression>
-    </div>
-  </div>
-</div>
-
 {# Angular template #}
 <script type="text/ng-template" id="template/expression-syntax.html">
 
