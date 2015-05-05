@@ -336,7 +336,6 @@ class Parser(object):
         """
         Returns the value of a reserved variable
         """
-
         now = timezone.localtime(timezone.now().replace(microsecond=0))
 
         if variable == "current_day":
@@ -362,7 +361,7 @@ class Parser(object):
             variable_obj = Variable.objects.filter(name=variable)
             if variable_obj.exists():
                 variable_obj = variable_obj.get()
-                return variable_obj.get_value() or ""
+                return variable_obj.get_value()
 
         return ""
 
@@ -374,9 +373,8 @@ class Parser(object):
         """
         # TODO: Django has some nice stuff for this we can steal. get_internal_type or something...
         try:
-            if value.isnumeric():
-                return float(value)
-        except AttributeError:
+            return float(value)
+        except ValueError:
             pass
         return value
 
@@ -394,42 +392,35 @@ class Parser(object):
         them.
         """
         operator = expr.pop()
-        try:
-            if operator == self.UNARY:
-                return -self.evaluate_stack(expr)
+        if operator == self.UNARY:
+            return -self.evaluate_stack(expr)
 
-            if operator in self.operators:
-                rhs, lhs = self.evaluate_stack(expr), self.evaluate_stack(expr)
-                if operator == "in":
-                    rhs, lhs = lhs, rhs
-                return self.operators[operator](lhs, rhs)
-            elif operator in self.functions:
-                return self.functions[operator](self.evaluate_stack(expr))
-            elif operator in self.constants:
-                return self.constants[operator]
-            elif operator[0] == "$":
-                variable = operator[1:]
+        if operator in self.operators:
+            rhs, lhs = self.evaluate_stack(expr), self.evaluate_stack(expr)
+            if operator == "in":
+                rhs, lhs = lhs, rhs
+            return self.operators[operator](lhs, rhs)
+        elif operator in self.functions:
+            return self.functions[operator](self.evaluate_stack(expr))
+        elif operator in self.constants:
+            return self.constants[operator]
+        elif operator[0] == "$":
+            variable = operator[1:]
 
-                reserved_var = self._get_reserved_variable(variable)
-                if reserved_var:
-                    return reserved_var
+            if variable in [v["name"] for v in self.reserved_variables]:
+                return self._get_reserved_variable(variable)
 
-                if not self.user:
-                    raise ParseException("No user instance set. Please initialize the %s "
-                                         "with a `user_obj` argument." % self.__class__.__name__)
-                try:
-                    value = self.userdata[variable]
-                    if not value:
-                        raise ValueError(_("Variable '%s' contains no value."))
-                    return self._get_return_value(value)
-                except KeyError:
-                    raise ParseException(_("Undefined variable '%s'" % variable))
-            elif operator in ("True", "False"):
-                return True if operator == "True" else False
-            else:
-                return self._get_return_value(operator)
-        except ValueError as e:
-            raise ParseException(e)
+            if not self.user:
+                raise ParseException("No user instance set. Please initialize the %s "
+                                     "with a `user_obj` argument." % self.__class__.__name__)
+            try:
+                return self._get_return_value(self.userdata[variable])
+            except KeyError:
+                raise NameError(_("Undefined variable '%s'" % variable))
+        elif operator in ("True", "False"):
+            return True if operator == "True" else False
+        else:
+            return self._get_return_value(operator)
 
     def parse(self, cmd_string):
         """

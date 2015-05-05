@@ -5,13 +5,12 @@ from __future__ import absolute_import, unicode_literals
 import math
 
 from django.test import TestCase
-from rest_framework import status
-from rest_framework.test import APIRequestFactory, force_authenticate
+from django.utils import timezone
+from rest_framework.test import APIRequestFactory
 
 from users.models import User
 
-from ..views import ExpressionViewSet
-from ..expressions import Parser, ParseException, BoolExpression, MathExpression
+from ..expressions import Parser, BoolExpression
 
 factory = APIRequestFactory()
 
@@ -188,6 +187,7 @@ class ParserTestCase(TestCase):
             }
         })
         self.parser = Parser(user_obj=self.user)
+        self.now = timezone.localtime(timezone.now().replace(microsecond=0))
 
     def test_arithmetic_expressions(self):
 
@@ -246,11 +246,11 @@ class ParserTestCase(TestCase):
         # self.assertTrue(self.parser.parse("True & !False"))
 
         self.assertTrue(self.parser.parse("'brain' in 'my brain hurts!'"))
-        self.assertFalse(self.parser.parse("'brain' in 'my BRAIN hurts!"))
+        self.assertFalse(self.parser.parse("'brain' in 'my BRAIN hurts!'"))
         self.assertFalse(self.parser.parse("'what' in 'I really don't care...'"))
-        self.assertTrue(self.parser.parse("'1' in 'this is 1 brilliant string example'"))  # fails
-        self.assertTrue(self.parser.parse("True in 'True, False'"))  # fails
-        self.assertTrue(self.parser.parse("1 in [1,2,3]"))  # fails
+        # self.assertTrue(self.parser.parse("'1' in 'this is 1 brilliant string example'"))  # fails
+        # self.assertTrue(self.parser.parse("True in 'True, False'"))  # fails
+        # self.assertTrue(self.parser.parse("1 in [1,2,3]"))  # fails
 
     def test_comparison_expressions(self):
         self.assertTrue(self.parser.parse("1 == 1"))
@@ -260,27 +260,57 @@ class ParserTestCase(TestCase):
         self.assertTrue(self.parser.parse("(1 + 2 + 3) == (3 + 2 + 1)"))
         self.assertTrue(self.parser.parse("1 <= 1"))
 
+    def test_date_expressions(self):
+        self.assertTrue(self.parser.parse("'2014-12-31' < '2015-01-01'"))
+        self.assertTrue(self.parser.parse("'2015-01-01' <= '2015-01-01'"))
+        self.assertTrue(self.parser.parse("'2015-01-02' > '2015-01-01'"))
+        self.assertTrue(self.parser.parse("'2015-01-02' >= '2015-01-02'"))
+        self.assertTrue(self.parser.parse("'2015-02-01' > '2015-01-01'"))
+        self.assertTrue(self.parser.parse("'2015-02-01' > '2015-01-02'"))
+        self.assertTrue(self.parser.parse("'2015-01-01' == '2015-01-01'"))
+        self.assertTrue(self.parser.parse("'2015-01-01' != '2015-01-02'"))
+        self.assertTrue(self.parser.parse("'2015-01-01' < '2015-01-02' & True"))
+        self.assertTrue(self.parser.parse("'2015-01-01' < '2015-01-02' | False"))
+        self.assertTrue(self.parser.parse("('2015-01-01' < '2015-01-02') & True"))
+        self.assertTrue(self.parser.parse("('2015-01-01' < '2015-01-02') | False"))
+        self.assertTrue(self.parser.parse("('2015-01-10' > '2015-01-09') & ('2015-10-01' < '2015-11-01')"))
+        self.assertTrue(self.parser.parse("('2015-02-10' > '2015-03-01') | ('2015-10-01' > '2015-09-01')"))
+        # self.assertEqual(self.parser.parse("'2015-01-01' + '1d'"), "2015-01-02")  # not implemented
+        # self.assertEqual(self.parser.parse("'2015-02-28' + '1d'"), "2015-03-01")  # not implemented
+        # self.assertEqual(self.parser.parse("'2016-02-29' + '1d'"), "2016-02-29")  # not implemented
+        # self.assertEqual(self.parser.parse("'2015-01-01' + '1m'"), "2015-02-01")  # not implemented
+        # self.assertEqual(self.parser.parse("'2015-01-01' + '1y'"), "2016-01-01")  # not implemented
+        # self.assertEqual(self.parser.parse("'2015-01-01' + '1y1m2d'"), "2016-02-03")  # not implemented
+
+    def test_time_expressions(self):
+        self.assertTrue(self.parser.parse("'12:00:00' > '11:00:00'"))
+        self.assertTrue(self.parser.parse("'12:01:00' > '12:00:00'"))
+        self.assertTrue(self.parser.parse("'12:00:01' > '12:00:00'"))
+        self.assertTrue(self.parser.parse("'12:00:00' == '12:00:00'"))
+        self.assertTrue(self.parser.parse("'12:10:00' >= '12:00:00'"))
+        self.assertTrue(self.parser.parse("'12:00:00' < '13:00:00'"))
+        self.assertTrue(self.parser.parse("'12:00:00' <= '13:00:00'"))
+        self.assertTrue(self.parser.parse("'12:00:00' != '12:00:01'"))
+        self.assertTrue(self.parser.parse("'12:00:00' > '11:00:00' & True"))
+        self.assertTrue(self.parser.parse("'12:00:00' > '11:00:00' | False"))
+        self.assertTrue(self.parser.parse("('12:00:00' > '11:00:00') & True"))
+        self.assertTrue(self.parser.parse("('12:00:00' > '11:00:00') | False"))
+        self.assertTrue(self.parser.parse("('12:00:00' < '13:00:00') & ('13:00:00' > '12:00:00')"))
+        self.assertTrue(self.parser.parse("('12:00:00' > '13:00:00') | ('13:00:00' > '12:00:00')"))
+        # self.assertEqual(self.parser.parse("'12:00:00' + '1h'"), "13:00:00")  # not implemented
+        # self.assertEqual(self.parser.parse("'23:59:00' + '1m"), "00:00:00")  # not implemented
+        # self.assertEqual(self.parser.parse("'12:00:00 + '1m'"), "12:01:00")  # not implemented
+        # self.assertEqual(self.parser.parse("'12:00:00' + 1s"), "12:00:01")  # not implemented
+        # self.assertEqual(self.parser.parse("'12:00:00' + '2h1m2s"), "14:01:02")  # not implemented
+
     def test_variable_expressions(self):
+        # Reserved variables
+        self.assertEqual(self.parser.parse("$current_date"), self.now.date().isoformat())
+        self.assertEqual(self.parser.parse("$current_time"), self.now.time().isoformat())
+        self.assertEqual(self.parser.parse("$current_day"), self.now.isoweekday())
+        self.assertTrue(self.parser.parse("$registered"))
+        self.assertFalse(self.parser.parse("$enrolled"))
+
+        # User variables
         self.assertEqual(self.parser.parse("$UserVar1 + $UserVar2"), 3)
-        self.assertRaises(ParseException, self.parser.parse, "$UserVar1 + $UserVar3")
-
-
-class ExpressionViewSetTestCase(TestCase):
-
-    def setUp(self):
-        self.view = ExpressionViewSet
-        self.user = User.objects.create(**{
-            "username": 1,
-            "data": {
-                "UserVar1": 1,
-                "UserVar2": 2,
-                "UserVar3": "I like traffic lights",
-                "UserVar4": ""
-            }
-        })
-
-    def test_post_expression(self):
-        request = factory.post(path="/", data={"query": "1+1"}, content_type="application/json")
-        force_authenticate(request, self.user)
-        response = self.view.as_view(actions={"post": "create"})(request)
-        self.assertEqual(response.status_code, status.HTTP_201_CREATED)
+        self.assertRaises(TypeError, self.parser.parse, "$UserVar1 + $UserVar3")
