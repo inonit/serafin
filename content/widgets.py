@@ -49,7 +49,7 @@ class ContentWidget(forms.Widget):
             'all': (
                 'content/css/content.css',
                 'css/autocomplete.css',
-                'css/string-expression-widget.css'
+                'css/expression-widget.css'
             )
         }
         js = (
@@ -57,7 +57,7 @@ class ContentWidget(forms.Widget):
             'content/angular/angular.min.js',
             'js/vendor/lodash.min.js',
             'js/autocomplete.js',
-            'js/string-expression.js',
+            'js/expression.js',
             'content/marked/marked.js',
             'content/js/content.js',
         )
