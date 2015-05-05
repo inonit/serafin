@@ -54,8 +54,9 @@ import math
 import operator as oper
 from sys import float_info
 
+from django.conf import settings
+from django.utils import timezone
 from django.utils.translation import ugettext as _
-from requests.structures import CaseInsensitiveDict
 from pyparsing import (
     Literal, CaselessLiteral, Keyword, Word, Combine, Optional,
     ParseException, ZeroOrMore, Forward, Suppress, Group,
@@ -63,6 +64,7 @@ from pyparsing import (
     delimitedList, nestedExpr, sglQuotedString, dblQuotedString, commaSeparatedList,
     infixNotation, opAssoc
 )
+from system.models import Session, Variable
 
 
 def chain(func):
@@ -276,7 +278,7 @@ class Parser(object):
             # negate_operator = Literal("!")  # TODO: Implement this so we can write `!True`
             multiply_operator = oneOf("* / %")
             add_operator = oneOf("+ -")
-            comparison_operator = oneOf("== != < <= > >= & |") | Keyword("in")
+            comparison_operator = oneOf("== != < <= > >= & |") ^ Keyword("in")
 
             # Functions
             e = CaselessLiteral("E")
@@ -284,8 +286,8 @@ class Parser(object):
 
             lparen, rparen, lbrack, rbrack = map(Suppress, "()[]")
             ident = Word(alphas, alphas + nums + "_$")
-            variable = Combine(Literal("$") + Word(alphanums))
-            boolean = Keyword("True") | Keyword("False")
+            variable = Combine(Literal("$") + Word(alphanums + "_"))
+            boolean = Keyword("True") ^ Keyword("False")
             string = quotedString.setParseAction(removeQuotes)
             numeric = Combine(Word("+-" + nums, nums) +
                               Optional(Literal(".") + Optional(Word(nums))) +
@@ -321,6 +323,49 @@ class Parser(object):
         """
         return self.user.data if self.user else {}
 
+    @property
+    def reserved_variables(self):
+        """
+        Returns a subset of the SYSTEM_VARIABLES list with
+        only items which has "user" in it's domain list.
+        """
+        variables = getattr(settings, "RESERVED_VARIABLES", {})
+        return [v for v in variables if "domains" in v and "user" in v["domains"]]
+
+    def _get_reserved_variable(self, variable):
+        """
+        Returns the value of a reserved variable
+        """
+        now = timezone.localtime(timezone.now().replace(microsecond=0))
+
+        if variable == "current_day":
+            return now.isoweekday()
+
+        if variable == "current_time":
+            return now.time().isoformat()
+
+        if variable == "current_date":
+            return now.date().isoformat()
+
+        if variable == "registered":
+            return not self.user.is_anonymous() if self.user else False
+
+        if variable == "enrolled":
+            if "session" in self.userdata:
+                session = Session.objects.get(id=self.userdata["session"])
+                return session.program.programuseraccess_set.filter(user=self.user).exists()
+            else:
+                return False
+
+        else:
+            variable_obj = Variable.objects.filter(name=variable)
+            if variable_obj.exists():
+                variable_obj = variable_obj.get()
+                return variable_obj.get_value()
+
+        return ""
+
+
     @staticmethod
     def _get_return_value(value):
         """
@@ -328,9 +373,8 @@ class Parser(object):
         """
         # TODO: Django has some nice stuff for this we can steal. get_internal_type or something...
         try:
-            if value.isnumeric():
-                return float(value)
-        except AttributeError:
+            return float(value)
+        except ValueError:
             pass
         return value
 
@@ -348,37 +392,35 @@ class Parser(object):
         them.
         """
         operator = expr.pop()
-        try:
-            if operator == self.UNARY:
-                return -self.evaluate_stack(expr)
+        if operator == self.UNARY:
+            return -self.evaluate_stack(expr)
 
-            if operator in self.operators:
-                rhs, lhs = self.evaluate_stack(expr), self.evaluate_stack(expr)
-                if operator == "in":
-                    rhs, lhs = lhs, rhs
-                return self.operators[operator](lhs, rhs)
-            elif operator in self.functions:
-                return self.functions[operator](self.evaluate_stack(expr))
-            elif operator in self.constants:
-                return self.constants[operator]
-            elif operator[0] == "$":
-                variable = operator[1:]
-                if not self.user:
-                    raise ParseException("No user instance set. Please initialize the %s "
-                                         "with a `user_obj` argument." % self.__class__.__name__)
-                try:
-                    value = self.userdata[variable]
-                    if not value:
-                        raise ValueError(_("Variable '%s' contains no value."))
-                    return self._get_return_value(value)
-                except KeyError:
-                    raise ParseException(_("Undefined variable '%s'" % variable))
-            elif operator in ("True", "False"):
-                return True if operator == "True" else False
-            else:
-                return self._get_return_value(operator)
-        except ValueError as e:
-            raise ParseException(e)
+        if operator in self.operators:
+            rhs, lhs = self.evaluate_stack(expr), self.evaluate_stack(expr)
+            if operator == "in":
+                rhs, lhs = lhs, rhs
+            return self.operators[operator](lhs, rhs)
+        elif operator in self.functions:
+            return self.functions[operator](self.evaluate_stack(expr))
+        elif operator in self.constants:
+            return self.constants[operator]
+        elif operator[0] == "$":
+            variable = operator[1:]
+
+            if variable in [v["name"] for v in self.reserved_variables]:
+                return self._get_reserved_variable(variable)
+
+            if not self.user:
+                raise ParseException("No user instance set. Please initialize the %s "
+                                     "with a `user_obj` argument." % self.__class__.__name__)
+            try:
+                return self._get_return_value(self.userdata[variable])
+            except KeyError:
+                raise NameError(_("Undefined variable '%s'" % variable))
+        elif operator in ("True", "False"):
+            return True if operator == "True" else False
+        else:
+            return self._get_return_value(operator)
 
     def parse(self, cmd_string):
         """
