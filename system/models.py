@@ -152,40 +152,6 @@ class Session(models.Model):
             self.id,
         )
 
-    def clean(self):
-        for edge in self.data['edges']:
-            for condition in edge['conditions']:
-                if not condition['var_name']:
-                    raise ValidationError(_('A variable name is required for all conditions'))
-                try:
-                    variable = Variable.objects.get(name=condition['var_name'])
-                except Variable.DoesNotExist:
-                    if not condition['var_name'] in [var['name'] for var in settings.RESERVED_VARIABLES]:
-                        raise ValidationError(
-                            _('Could not find Variable `%(var_name)s`. Please make sure all variables are predefined.') % {
-                                'var_name': condition['var_name']
-                            }
-                        )
-
-    def save(self, *args, **kwargs):
-        first_useraccess = self.program.programuseraccess_set.order_by('start_time').first()
-        if first_useraccess and self.scheduled:
-            self.start_time = self.get_start_time(
-                first_useraccess.start_time,
-                first_useraccess.time_factor
-            )
-        else:
-            self.start_time = None
-
-        super(Session, self).save(*args, **kwargs)
-
-        self.content = []
-        for node in self.data['nodes']:
-            try:
-                self.content.add(node['ref_id'])
-            except:
-                pass
-
     def get_start_time(self, start_time, time_factor):
         kwargs = {
             self.start_time_unit: float(self.start_time_delta * time_factor)
@@ -236,22 +202,6 @@ class Page(Content):
     def __init__(self, *args, **kwargs):
         super(Page, self).__init__(*args, **kwargs)
         self.content_type = 'page'
-
-    def clean(self):
-        for pagelet in self.data:
-            if pagelet['content_type'] == 'form':
-                for field in pagelet['content']:
-                    if not field['variable_name']:
-                        raise ValidationError(_('A variable name is required for all fields'))
-                    try:
-                        variable = Variable.objects.get(name=field['variable_name'])
-                    except Variable.DoesNotExist:
-                        if not field['variable_name'] in [var['name'] for var in settings.RESERVED_VARIABLES]:
-                            raise ValidationError(
-                                _('Could not find Variable `%(var_name)s`. Please make sure all variables are predefined.') % {
-                                    'var_name': field['variable_name']
-                                }
-                            )
 
     def update_html(self, user):
         for pagelet in self.data:

@@ -35,7 +35,7 @@ def migrate_conditions(apps, schema_editor):
                     OPMAP.get(condition.get('operator'), ''),
                     typecast(condition.get('value')) if condition.get('value') else ''
                 ])
-                for condition in edge.get('conditions')
+                for condition in edge.get('conditions', [])
             ])
 
             if expression:
@@ -57,7 +57,7 @@ def migrate_conditions(apps, schema_editor):
                             OPMAP.get(condition.get('operator'), ''),
                             typecast(condition.get('value')) if condition.get('value') else ''
                         ])
-                        for condition in content.get('conditions')
+                        for condition in content.get('conditions', [])
                     ])
 
                     if expression:

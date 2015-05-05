@@ -67,6 +67,56 @@ def schedule_sessions(sender, **kwargs):
             )
 
 
+@receiver(signals.pre_save, sender=Session)
+def session_pre_save(sender, **kwargs):
+
+    session = kwargs['instance']
+
+    nodes = session.data.get('nodes', [])
+    for node in nodes:
+        ref_id = node.get('ref_id')
+        node_type = node.get('type')
+
+        if node_type in ['page', 'email', 'sms']:
+
+            # Temp. dirty fix for occational empty ref_ids
+            if not ref_id:
+                ref_url = node.get('ref_url')
+                try:
+                    node['ref_id'] = re.findall(r'\d+', ref_url)[0]
+                except:
+                    pass
+
+            # Update title of content
+            try:
+                node['title'] = Content.objects.get(id=node['ref_id']).title
+            except:
+                pass
+
+    session.data['nodes'] = nodes
+
+    first_useraccess = session.program.programuseraccess_set.order_by('start_time').first()
+    if first_useraccess and session.scheduled:
+
+        session.start_time = session.get_start_time(
+            first_useraccess.start_time,
+            first_useraccess.time_factor
+        )
+
+
+@receiver(signals.post_save, sender=Session)
+def reschedule_session(sender, **kwargs):
+
+    session = kwargs['instance']
+
+    session.content = []
+    for node in session.data['nodes']:
+        try:
+            session.content.add(node['ref_id'])
+        except:
+            pass
+
+
 @receiver(signals.post_save, sender=Session)
 def schedule_session(sender, **kwargs):
 
@@ -143,35 +193,6 @@ def revoke_tasks(sender, **kwargs):
             object_id=session.id,
             subject=useraccess.user
         ).delete()
-
-
-@receiver(signals.pre_save, sender=Session)
-def session_pre_save(sender, **kwargs):
-
-    session = kwargs['instance']
-
-    nodes = session.data.get('nodes', [])
-    for node in nodes:
-        ref_id = node.get('ref_id')
-        node_type = node.get('type')
-
-        if node_type in ['page', 'email', 'sms']:
-
-            # Temp. dirty fix for occational empty ref_ids
-            if not ref_id:
-                ref_url = node.get('ref_url')
-                try:
-                    node['ref_id'] = re.findall(r'\d+', ref_url)[0]
-                except:
-                    pass
-
-            # Update title of content
-            try:
-                node['title'] = Content.objects.get(id=node['ref_id']).title
-            except:
-                pass
-
-    session.data['nodes'] = nodes
 
 
 @receiver(signals.post_save)
