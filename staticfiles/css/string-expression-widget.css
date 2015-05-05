@@ -24,18 +24,24 @@ div.expression-widget-wrapper > div.preview-box {
 }
 
 div.preview-box .header {
-  padding: 5px 15px;
+  padding: 5px 7px;
   color: #fff;
-  height: 1.2rem;
+  height: 1rem;
   line-height: 1rem;
   text-shadow: 0 1px #4F7F92;
   background: #5295B0 linear-gradient(#83B3C3, #5295B0) no-repeat;
   border-bottom: 1px solid #4F7F92;
   border-radius: 4px;
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 0;
 }
 
 i[class="icon-question-sign"] {
   cursor: pointer;
+}
+
+.ctrl.right {
+  float: right;
 }
 
 span.operator-label {
@@ -46,18 +52,13 @@ div.preview-box .validator {
   background: none repeat scroll 0 0 #F6F7F8;
   position: relative;
   overflow: auto;
-  padding: 10px 12px;
+  padding: 5px 7px;
   min-height: 20px;
-}
-
-.validator .expression {
-  font-size: 1.2rem;
+  font-size: 1.2em;
 }
 
 .validator .result {
-  font-size: 1rem;
   text-align: right;
-  margin-top: -0.6rem;
 }
 
 .validator .result > span:before {
@@ -65,7 +66,8 @@ div.preview-box .validator {
 }
 
 .validator .validation-message {
-  color: red;
+  font-size: 0.8em;
+  color: #b94a48;
 }
 
 a#popover-close {

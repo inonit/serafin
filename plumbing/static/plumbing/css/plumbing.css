@@ -170,7 +170,7 @@ path {
     border: 1px solid #ccc;
     line-height: 16px;
     margin: 0.5rem;
-    min-width: 15em;
+    min-width: 30em;
     padding: .5rem;
     position: absolute;
     z-index: 199;
@@ -178,12 +178,8 @@ path {
     right: 25px;
 }
 
-.conditions .btn {
-    margin-right: 1em;
-}
-
-.condition {
-    margin: 0 2em .5em 0;
+.conditions .expression-widget-wrapper {
+    margin-top: 0.5em;
 }
 
 .settings input[type=number],
@@ -214,4 +210,12 @@ path {
 .node i {
     margin-bottom: -1px;
     vertical-align: text-bottom;
+}
+
+.scrollmarker {
+    position: absolute;
+    bottom: 10px;
+    right: 10px;
+    line-height: 1;
+    pointer-events: none;
 }
