@@ -103,6 +103,7 @@ class ProgramAdmin(admin.ModelAdmin):
     list_display = ['title', 'display_title', 'note_excerpt']
     search_fields = ['title', 'display_title', 'admin_note']
     actions = ['copy', 'export_text', 'import_text']
+    save_as = True
 
     inlines = [ProgramUserAccessInline]
     formfield_overrides = {
@@ -216,7 +217,6 @@ class SessionAdmin(admin.ModelAdmin):
         'trigger_login',
     ]
     list_editable = [
-        'title',
         'start_time_delta',
         'start_time_unit',
         #'end_time_delta',
@@ -225,12 +225,13 @@ class SessionAdmin(admin.ModelAdmin):
         'trigger_login',
     ]
     list_filter = ['program__title', 'scheduled', 'trigger_login']
-    # list_display_links = ['title']
+    list_display_links = ['title']
     search_fields = ['title', 'display_title', 'admin_note', 'program__title']
     ordering = ['start_time']
     date_hierarchy = 'start_time'
     actions = ['copy']
     readonly_fields = ['id']
+    save_as = True
 
     form = SessionForm
     formfield_overrides = {
@@ -316,9 +317,9 @@ class ContentForm(forms.ModelForm):
 
 class ContentAdmin(admin.ModelAdmin):
     list_display = ['title', 'note_excerpt', 'page_excerpt']
-    list_editable = ['title']
     search_fields = ['title', 'admin_note', 'data']
     actions = ['copy']
+    save_as = True
 
     form = ContentForm
     formfield_overrides = {
