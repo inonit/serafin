@@ -54,8 +54,9 @@ import math
 import operator as oper
 from sys import float_info
 
+from django.conf import settings
+from django.utils import timezone
 from django.utils.translation import ugettext as _
-from requests.structures import CaseInsensitiveDict
 from pyparsing import (
     Literal, CaselessLiteral, Keyword, Word, Combine, Optional,
     ParseException, ZeroOrMore, Forward, Suppress, Group,
@@ -63,6 +64,7 @@ from pyparsing import (
     delimitedList, nestedExpr, sglQuotedString, dblQuotedString, commaSeparatedList,
     infixNotation, opAssoc
 )
+from system.models import Session, Variable
 
 
 def chain(func):
@@ -276,7 +278,7 @@ class Parser(object):
             # negate_operator = Literal("!")  # TODO: Implement this so we can write `!True`
             multiply_operator = oneOf("* / %")
             add_operator = oneOf("+ -")
-            comparison_operator = oneOf("== != < <= > >= & |") | Keyword("in")
+            comparison_operator = oneOf("== != < <= > >= & |") ^ Keyword("in")
 
             # Functions
             e = CaselessLiteral("E")
@@ -284,8 +286,8 @@ class Parser(object):
 
             lparen, rparen, lbrack, rbrack = map(Suppress, "()[]")
             ident = Word(alphas, alphas + nums + "_$")
-            variable = Combine(Literal("$") + Word(alphanums))
-            boolean = Keyword("True") | Keyword("False")
+            variable = Combine(Literal("$") + Word(alphanums + "_"))
+            boolean = Keyword("True") ^ Keyword("False")
             string = quotedString.setParseAction(removeQuotes)
             numeric = Combine(Word("+-" + nums, nums) +
                               Optional(Literal(".") + Optional(Word(nums))) +
@@ -320,6 +322,50 @@ class Parser(object):
         user is set, else just an empty dictionary
         """
         return self.user.data if self.user else {}
+
+    @property
+    def reserved_variables(self):
+        """
+        Returns a subset of the SYSTEM_VARIABLES list with
+        only items which has "user" in it's domain list.
+        """
+        variables = getattr(settings, "RESERVED_VARIABLES", {})
+        return [v for v in variables if "domains" in v and "user" in v["domains"]]
+
+    def _get_reserved_variable(self, variable):
+        """
+        Returns the value of a reserved variable
+        """
+
+        now = timezone.localtime(timezone.now().replace(microsecond=0))
+
+        if variable == "current_day":
+            return now.isoweekday()
+
+        if variable == "current_time":
+            return now.time().isoformat()
+
+        if variable == "current_date":
+            return now.date().isoformat()
+
+        if variable == "registered":
+            return not self.user.is_anonymous() if self.user else False
+
+        if variable == "enrolled":
+            if "session" in self.userdata:
+                session = Session.objects.get(id=self.userdata["session"])
+                return session.program.programuseraccess_set.filter(user=self.user).exists()
+            else:
+                return False
+
+        else:
+            variable_obj = Variable.objects.filter(name=variable)
+            if variable_obj.exists():
+                variable_obj = variable_obj.get()
+                return variable_obj.get_value() or ""
+
+        return ""
+
 
     @staticmethod
     def _get_return_value(value):
@@ -363,6 +409,11 @@ class Parser(object):
                 return self.constants[operator]
             elif operator[0] == "$":
                 variable = operator[1:]
+
+                reserved_var = self._get_reserved_variable(variable)
+                if reserved_var:
+                    return reserved_var
+
                 if not self.user:
                     raise ParseException("No user instance set. Please initialize the %s "
                                          "with a `user_obj` argument." % self.__class__.__name__)
