@@ -55,6 +55,7 @@ div.preview-box .validator {
   padding: 5px 7px;
   min-height: 20px;
   font-size: 1.2em;
+  line-height: 1.4;
 }
 
 .validator .result {
@@ -75,14 +76,14 @@ a#popover-close {
 }
 
 /* Override Bootstrap popover CSS */
+.popover {
+  border-radius: 4px;
+}
+
 .popover,
 .popover > .popover-title {
   background-color: rgba(23, 36, 47, 0.90);
   text-shadow: 1px 1px 1px rgba(0,0,0,0.004);
-  -webkit-font-smoothing: antialiased;
-  -webkit-border-radius: 0;
-     -moz-border-radius: 0;
-          border-radius: 0;
 }
 
 .popover > h3.popover-title {
@@ -138,5 +139,5 @@ div.popover-content > .accordion > .accordion-group > .accordion-heading > a.acc
 }
 
 div.popover-content > .accordion > .accordion-group > .accordion-body > .accordion-inner {
-  padding: 9px 5px;
+  padding: 0;
 }

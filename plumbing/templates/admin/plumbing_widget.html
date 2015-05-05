@@ -80,6 +80,7 @@
 
         <div class="conditions box" ng-show="showConditions == $index">
             <div class="close" ng-click="close()">×</div>
+            <label>{% trans 'Expression' %}</label>
             <string-expression
                 ng-model="edge.expression"
                 placeholder="{% trans "Start writing..." %}"

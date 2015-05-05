@@ -95,6 +95,11 @@
     margin-bottom: 1.25em !important;
 }
 
+.content .markdown-guide p {
+    line-height: 1.6;
+    margin-bottom: 1em !important;
+}
+
 .content .field {
     background: white;
     padding: 1em;

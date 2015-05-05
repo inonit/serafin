@@ -178,18 +178,20 @@ path {
     right: 25px;
 }
 
+.conditions label {
+    font-weight: bold;
+}
+
 .conditions .expression-widget-wrapper {
     margin-top: 0.5em;
 }
 
-.settings input[type=number],
-.condition input {
+.settings input[type=number] {
     width: 8em;
     margin-right: .5rem;
 }
 
-.settings select,
-.condition select {
+.settings select {
     width: auto;
     margin-right: .5rem;
 }

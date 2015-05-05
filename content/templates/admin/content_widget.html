@@ -123,6 +123,7 @@
 
                 <div class="fieldset">
                     <div class="expression field-data">
+                        <label>{% trans 'Expression' %}</label>
                         <string-expression
                             ng-model="content.expression"
                             placeholder="{% trans "Start writing..." %}"
@@ -150,7 +151,7 @@
         <div ng-if="pagelet.content_type == 'expression'" class="expression">
             <div class="field">
                 <div class="fieldset">
-                    <div class="expression field-data" style="vertical-align: top;">
+                    <div class="expression field-data">
                         <label>{% trans "Variable name" %}</label>
                         {% verbatim %}
                         <select opt-title ng-model="pagelet.content.variable_name">
@@ -159,7 +160,10 @@
                         {% endverbatim %}
                         &nbsp;&nbsp;=
                     </div>
-                    <div class="expression field-data" style="padding-top: 23px;">
+                <div class="fieldset">
+                </div>
+                    <div class="expression field-data">
+                        <label>{% trans 'Expression' %}</label>
                         <string-expression
                             ng-model="pagelet.content.value"
                             placeholder="{% trans "Start writing..." %}"
