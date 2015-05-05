@@ -14,6 +14,8 @@ from .models import Variable, ProgramUserAccess, Session, Content, Page
 from tasker.models import Task
 from system.tasks import init_session
 
+import re
+
 
 @receiver(signals.pre_save, sender=Variable)
 def randomize_variable_once(sender, **kwargs):
@@ -80,10 +82,11 @@ def session_pre_save(sender, **kwargs):
         if node_type in ['page', 'email', 'sms']:
 
             # Temp. dirty fix for occational empty ref_ids
-            if not ref_id:
+            if not ref_id or ref_id == '0':
                 ref_url = node.get('ref_url')
                 try:
                     node['ref_id'] = re.findall(r'\d+', ref_url)[0]
+                    print node['ref_id']
                 except:
                     pass
 

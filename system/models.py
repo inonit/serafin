@@ -212,8 +212,6 @@ class Page(Content):
                 pagelet['content'] = mistune.markdown(content)
 
             if pagelet['content_type'] == 'conditionalset':
-                from system.engine import Engine
-
                 for text in pagelet['content']:
 
                     expression = text.get('expression')
