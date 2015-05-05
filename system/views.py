@@ -4,6 +4,7 @@ from __future__ import absolute_import, unicode_literals
 
 import textwrap
 
+from django.conf import settings
 from django.contrib.admin.views.decorators import staff_member_required
 from django.contrib.contenttypes.models import ContentType
 from django.http import HttpResponse, HttpResponseRedirect
@@ -216,6 +217,24 @@ class VariableSearchViewSet(viewsets.ModelViewSet):
     serializer_class = VariableSerializer
     filter_backends = [VariableSearchFilter]
     search_fields = ["name", "display_name"]
+
+    def get_queryset(self):
+        """
+        Should only return variables for the currently working
+        program if any.
+        """
+        queryset = super(VariableSearchViewSet, self).get_queryset()
+        return queryset
+
+    def list(self, request, *args, **kwargs):
+        """
+        Add system variables to search results
+        """
+        response = super(VariableSearchViewSet, self).list(request, *args, **kwargs)
+        reserved_variables = [v for v in getattr(settings, "RESERVED_VARIABLES", {})
+                              if "domains" in v and "user" in v["domains"]]
+        response.data.extend(reserved_variables)
+        return response
 
 
 class ExpressionViewSet(CreateModelMixin, viewsets.ViewSet):
