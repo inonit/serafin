@@ -78,6 +78,21 @@ def live_variable_replace(user, text):
     return text, variables
 
 
+def process_email_links(user, text):
+    '''Replaces login link markup with login link'''
+
+    from system.engine import Engine
+
+    matches = re.findall(r'(login)', text)
+    for match in matches:
+        login_str = match[0]
+
+        link = user.generate_login_link()
+        text = text.replace(login_str, link)
+
+    return text
+
+
 def process_session_links(user, text):
     '''Replaces session link markup with login link, activates session for given user'''
 
