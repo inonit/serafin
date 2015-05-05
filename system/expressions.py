@@ -64,7 +64,6 @@ from pyparsing import (
     delimitedList, nestedExpr, sglQuotedString, dblQuotedString, commaSeparatedList,
     infixNotation, opAssoc
 )
-from system.models import Session, Variable
 
 
 def chain(func):
@@ -352,12 +351,14 @@ class Parser(object):
 
         if variable == "enrolled":
             if "session" in self.userdata:
+                from system.models import Session
                 session = Session.objects.get(id=self.userdata["session"])
                 return session.program.programuseraccess_set.filter(user=self.user).exists()
             else:
                 return False
 
         else:
+            from system.models import Variable
             variable_obj = Variable.objects.filter(name=variable)
             if variable_obj.exists():
                 variable_obj = variable_obj.get()
