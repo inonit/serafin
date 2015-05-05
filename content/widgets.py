@@ -55,6 +55,7 @@ class ContentWidget(forms.Widget):
         js = (
             filer_settings.FILER_STATICMEDIA_PREFIX + 'js/popup_handling.js',
             'content/angular/angular.min.js',
+            'js/ment.io/mentio.min.js',
             'js/vendor/lodash.min.js',
             'js/autocomplete.js',
             'js/expression.js',

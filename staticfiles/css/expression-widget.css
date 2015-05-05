@@ -63,6 +63,46 @@ a#popover-close {
   font-size: 0.8rem;
 }
 
+/**
+ * Result list for ment.io autocomplete variables
+ */
+
+mentio-menu ul.list-group {
+  display: block;
+  list-style: none;
+  padding-left: 0;
+  margin: 0 0 20px 0;
+  -webkit-box-shadow: 0 5px 15px rgba(0,0,0,.5);
+     -moz-box-shadow: 0 5px 15px rgba(0,0,0,.5);
+          box-shadow: 0 5px 15px rgba(0,0,0,.5);
+  max-height: 300px;
+  min-width: 150px;
+  overflow-y: scroll;
+}
+
+mentio-menu ul > li.list-group-item {
+  background-color: #fff;
+  padding: 5px 10px;
+  position: relative;
+  display: block;
+  margin-bottom: -1px;
+  border: 1px solid #ddd;
+}
+
+mentio-menu ul > li.list-group-item:hover {
+  cursor: pointer;
+}
+
+mentio-menu ul > li.list-group-item.active {
+  color: #fff;
+  background-color: #428bca;
+  border-color: #428bca;
+}
+
+/**
+ * Bootstrap overrides
+ */
+
 /* Override Bootstrap popover CSS */
 .popover,
 .popover > .popover-title {
