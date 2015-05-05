@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Serafin\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-05-05 13:22+0200\n"
+"POT-Creation-Date: 2015-05-05 17:25+0200\n"
 "PO-Revision-Date: 2014-08-26 11:35+0200\n"
 "Last-Translator: Eirik Krogstad <eirikkr@gmail.com>\n"
 "Language: nb\n"
@@ -15,7 +15,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 
 #: content/templates/admin/content_widget.html:7
-#: content/templates/admin/content_widget.html:186
+#: content/templates/admin/content_widget.html:188
 msgid "+ Text"
 msgstr "+ Tekst"
 
@@ -85,21 +85,21 @@ msgstr "Vis/skjul-tekst"
 
 #: content/templates/admin/content_widget.html:57
 #: content/templates/admin/content_widget.html:91
-#: content/templates/admin/content_widget.html:205
-#: content/templates/admin/content_widget.html:263
-#: content/templates/admin/content_widget.html:327
+#: content/templates/admin/content_widget.html:207
+#: content/templates/admin/content_widget.html:265
+#: content/templates/admin/content_widget.html:329
 msgid "Label"
 msgstr "Feltnavn"
 
 #: content/templates/admin/content_widget.html:61
 #: content/templates/admin/content_widget.html:155
-#: content/templates/admin/content_widget.html:209
-#: content/templates/admin/content_widget.html:301
+#: content/templates/admin/content_widget.html:211
+#: content/templates/admin/content_widget.html:303
 msgid "Variable name"
 msgstr "Variabelnavn"
 
 #: content/templates/admin/content_widget.html:70
-#: content/templates/admin/content_widget.html:230
+#: content/templates/admin/content_widget.html:232
 msgid "Horizontal?"
 msgstr "Horisontal?"
 
@@ -108,15 +108,15 @@ msgid "+ Item"
 msgstr "+ Element"
 
 #: content/templates/admin/content_widget.html:79
-#: content/templates/admin/content_widget.html:251
-#: content/templates/admin/content_widget.html:315
+#: content/templates/admin/content_widget.html:253
+#: content/templates/admin/content_widget.html:317
 msgid "Alternatives"
 msgstr "Alternativer"
 
 #: content/templates/admin/content_widget.html:95
-#: content/templates/admin/content_widget.html:220
-#: content/templates/admin/content_widget.html:267
-#: content/templates/admin/content_widget.html:331
+#: content/templates/admin/content_widget.html:222
+#: content/templates/admin/content_widget.html:269
+#: content/templates/admin/content_widget.html:333
 msgid "Value"
 msgstr "Verdi"
 
@@ -130,96 +130,96 @@ msgid "+ Conditional text"
 msgstr "+ Verdiavhengig tekst"
 
 #: content/templates/admin/content_widget.html:126
-#: content/templates/admin/content_widget.html:164
+#: content/templates/admin/content_widget.html:166
 #: plumbing/templates/admin/plumbing_widget.html:83
 msgid "Expression"
 msgstr "Uttrykk"
 
 #: content/templates/admin/content_widget.html:129
-#: content/templates/admin/content_widget.html:167
+#: content/templates/admin/content_widget.html:169
 #: plumbing/templates/admin/plumbing_widget.html:86
 msgid "Start writing..."
 msgstr "Begynn å skrive..."
 
 #: content/templates/admin/content_widget.html:130
-#: content/templates/admin/content_widget.html:168
+#: content/templates/admin/content_widget.html:170
 #: plumbing/templates/admin/plumbing_widget.html:87
 msgid "Preview"
 msgstr "Forhåndsvisning"
 
 #: content/templates/admin/content_widget.html:132
-#: content/templates/admin/content_widget.html:170
+#: content/templates/admin/content_widget.html:172
 #: plumbing/templates/admin/plumbing_widget.html:89
 msgid "Serafin Expression Syntax"
 msgstr "Serafin-uttrykk Syntaks"
 
-#: content/templates/admin/content_widget.html:184
+#: content/templates/admin/content_widget.html:186
 msgid "+ Numeric"
 msgstr "+ Tallverdi"
 
-#: content/templates/admin/content_widget.html:185
+#: content/templates/admin/content_widget.html:187
 msgid "+ String"
 msgstr "+ Tekststreng"
 
-#: content/templates/admin/content_widget.html:187
+#: content/templates/admin/content_widget.html:189
 msgid "+ Multiple choice"
 msgstr "+ Enkeltvalg"
 
-#: content/templates/admin/content_widget.html:188
+#: content/templates/admin/content_widget.html:190
 msgid "+ Multiple selection"
 msgstr "+ Flervalg"
 
-#: content/templates/admin/content_widget.html:189
+#: content/templates/admin/content_widget.html:191
 #: plumbing/templates/admin/plumbing_widget.html:12
 msgid "+ Email"
 msgstr "+ E-post"
 
-#: content/templates/admin/content_widget.html:190
+#: content/templates/admin/content_widget.html:192
 msgid "+ Password"
 msgstr "+ Password"
 
-#: content/templates/admin/content_widget.html:225
+#: content/templates/admin/content_widget.html:227
 msgid "Required?"
 msgstr "Påkrevet?"
 
-#: content/templates/admin/content_widget.html:237
+#: content/templates/admin/content_widget.html:239
 msgid "Lower limit"
 msgstr "Nedre grense"
 
-#: content/templates/admin/content_widget.html:241
+#: content/templates/admin/content_widget.html:243
 msgid "Upper limit"
 msgstr "Øvre grense"
 
-#: content/templates/admin/content_widget.html:248
-#: content/templates/admin/content_widget.html:312
+#: content/templates/admin/content_widget.html:250
+#: content/templates/admin/content_widget.html:314
 msgid "+ Alternative"
 msgstr "+ Alternativ"
 
-#: content/templates/admin/content_widget.html:281
+#: content/templates/admin/content_widget.html:283
 msgid "+ Question"
 msgstr "+ Spørsmål"
 
-#: content/templates/admin/content_widget.html:293
-#: content/templates/admin/content_widget.html:297
+#: content/templates/admin/content_widget.html:295
+#: content/templates/admin/content_widget.html:299
 msgid "Question"
 msgstr "Spørsmål"
 
-#: content/templates/admin/content_widget.html:336
+#: content/templates/admin/content_widget.html:338
 msgid "Correct?"
 msgstr "Korrekt?"
 
-#: content/templates/admin/content_widget.html:342
+#: content/templates/admin/content_widget.html:344
 msgid "Response"
 msgstr "Respons"
 
-#: content/templates/admin/content_widget.html:356
+#: content/templates/admin/content_widget.html:358
 msgid "Alt title"
 msgstr "Alternativtittel"
 
-#: content/templates/admin/content_widget.html:360
-#: content/templates/admin/content_widget.html:370
-#: content/templates/admin/content_widget.html:380
-#: content/templates/admin/content_widget.html:390
+#: content/templates/admin/content_widget.html:362
+#: content/templates/admin/content_widget.html:372
+#: content/templates/admin/content_widget.html:382
+#: content/templates/admin/content_widget.html:392
 #: templates/admin/sitetree/tree/change_form.html:38
 msgid "Title"
 msgstr "Tittel"
@@ -738,15 +738,15 @@ msgstr "Du forsøker å bruke et reservert variabelnavn"
 msgid "Variable"
 msgstr "Variabel"
 
-#: system/admin.py:117 system/admin.py:276 system/admin.py:345
+#: system/admin.py:117 system/admin.py:277 system/admin.py:347
 msgid "Admin note excerpt"
 msgstr "Utdrag fra administratornotat"
 
 #: system/admin.py:124 system/admin.py:131 system/admin.py:142
-#: system/admin.py:283 system/admin.py:293 system/admin.py:350
+#: system/admin.py:284 system/admin.py:294 system/admin.py:352
 #, python-format
-msgid "Copy of %(title)s"
-msgstr "Kopi av %(title)s"
+msgid "%(title)s (copy)"
+msgstr "%(title)s (kopi)"
 
 #: system/admin.py:156
 msgid "Copy selected programs"
@@ -784,23 +784,23 @@ msgstr "Aktiver automatisk for Programmets brukere ved angitt starttid"
 msgid "Trigger a login e-mail at the scheduled time"
 msgstr "Send ut e-post med innloggingslenke ved angitt starttid"
 
-#: system/admin.py:307
+#: system/admin.py:308
 msgid "Copy selected sessions"
 msgstr "Kopier valgte økter"
 
-#: system/admin.py:332
+#: system/admin.py:334
 msgid "No content"
 msgstr "Innhold mangler"
 
-#: system/admin.py:340
+#: system/admin.py:342
 msgid "Page excerpt"
 msgstr "Sideutdrag"
 
-#: system/admin.py:353
+#: system/admin.py:355
 msgid "Copy selected content"
 msgstr "Kopier valgt innhold"
 
-#: system/admin.py:382 system/admin.py:406
+#: system/admin.py:384 system/admin.py:408
 msgid "Subject"
 msgstr "Emne"
 
@@ -808,12 +808,7 @@ msgstr "Emne"
 msgid "Delayed node execution"
 msgstr "Forsinket hendelse"
 
-#: system/expressions.py:372
-#, python-format
-msgid "Variable '%s' contains no value."
-msgstr ""
-
-#: system/expressions.py:375
+#: system/expressions.py:420
 #, python-format
 msgid "Undefined variable '%s'"
 msgstr ""
@@ -827,7 +822,7 @@ msgid "display name"
 msgstr "visningsnavn"
 
 #: system/models.py:27 system/models.py:76 system/models.py:126
-#: system/models.py:203
+#: system/models.py:169
 msgid "admin note"
 msgstr "administratornotat"
 
@@ -880,11 +875,11 @@ msgstr "tekstsett"
 msgid "variables"
 msgstr "variabler"
 
-#: system/models.py:74 system/models.py:120 system/models.py:200
+#: system/models.py:74 system/models.py:120 system/models.py:166
 msgid "title"
 msgstr "tittel"
 
-#: system/models.py:75 system/models.py:121 system/models.py:201
+#: system/models.py:75 system/models.py:121 system/models.py:167
 msgid "display title"
 msgstr "visningstittel"
 
@@ -924,7 +919,7 @@ msgstr "URL-navn"
 msgid "is open"
 msgstr "fritt tilgjengelig"
 
-#: system/models.py:125 system/models.py:208
+#: system/models.py:125 system/models.py:174
 msgid "content"
 msgstr "innhold"
 
@@ -973,54 +968,35 @@ msgstr "økter"
 msgid "Session %s"
 msgstr "Økt %s"
 
-#: system/models.py:159
-msgid "A variable name is required for all conditions"
-msgstr ""
-
-#: system/models.py:165 system/models.py:251
-#, fuzzy, python-format
-#| msgid ""
-#| "Could not find Variable `%s`. Please make sure all variables are "
-#| "predefined."
-msgid ""
-"Could not find Variable `%(var_name)s`. Please make sure all variables are "
-"predefined."
-msgstr ""
-"Finner ikke Variabelen `%s`. Sørg for at alle variabler er forhåndsdefinerte."
-
-#: system/models.py:202
+#: system/models.py:168
 msgid "content type"
 msgstr "innholdstype"
 
-#: system/models.py:209
+#: system/models.py:175
 msgid "contents"
 msgstr "innhold"
 
-#: system/models.py:233
+#: system/models.py:199
 msgid "page"
 msgstr "side"
 
-#: system/models.py:234
+#: system/models.py:200
 msgid "pages"
 msgstr "sider"
 
-#: system/models.py:245
-msgid "A variable name is required for all fields"
-msgstr ""
-
-#: system/models.py:294
+#: system/models.py:242
 msgid "e-mail"
 msgstr "e-post"
 
-#: system/models.py:295
+#: system/models.py:243
 msgid "e-mails"
 msgstr "e-poster"
 
-#: system/models.py:327
+#: system/models.py:275
 msgid "SMS"
 msgstr "SMS"
 
-#: system/models.py:328
+#: system/models.py:276
 msgid "SMSs"
 msgstr "SMSer"
 
@@ -1028,7 +1004,7 @@ msgstr "SMSer"
 msgid "An error has occurred. Your expression cannot be evaluated."
 msgstr ""
 
-#: system/signals.py:65 system/signals.py:87 system/signals.py:117
+#: system/signals.py:67 system/signals.py:140 system/signals.py:170
 msgid "Initialize session"
 msgstr "Aktiver økt"
 
@@ -1472,27 +1448,3 @@ msgstr "Beklager, noe gikk galt i behandling av din SMS."
 #: vault/views.py:107
 msgid "No data received."
 msgstr "Ingen data mottatt"
-
-#~ msgid "Logical operator"
-#~ msgstr "Logisk operator"
-
-#~ msgid "Condition"
-#~ msgstr "Forutsetning"
-
-#~ msgid "contains"
-#~ msgstr "inneholder"
-
-#~ msgid "Enter a value or variable name"
-#~ msgstr "Skriv inn verdi eller variabelnavn"
-
-#~ msgid "+ Condition"
-#~ msgstr "+ Forutsetning"
-
-#~ msgid "+ Hidden field"
-#~ msgstr "+ Skjult felt"
-
-#~ msgid "Boolean operators are not yet implemented!"
-#~ msgstr "Boolske operatører er ennå ikke implementert!"
-
-#~ msgid "NOT"
-#~ msgstr "IKKE"

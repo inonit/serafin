@@ -121,14 +121,14 @@ class ProgramAdmin(admin.ModelAdmin):
             sessions = list(program.session_set.all())
 
             program.pk = None
-            program.title = _('Copy of %(title)s' % {'title': program.title})
+            program.title = _('%(title)s (copy)') % {'title': program.title}
             program.save()
 
             for session in sessions:
                 contents = list(session.content.all())
 
                 session.pk = None
-                session.title = _('Copy of %(title)s' % {'title': session.title})
+                session.title = _('%(title)s (copy)') % {'title': session.title}
                 session.program_id = program.id
                 session.save()
                 session.content = []
@@ -139,7 +139,7 @@ class ProgramAdmin(admin.ModelAdmin):
                     orig_id = content.id
 
                     content.pk = None
-                    content.title = _('Copy of %(title)s' % {'title': content.title})
+                    content.title = _('%(title)s (copy)') % {'title': content.title}
                     content.save()
 
                     session.content.add(content)
@@ -216,6 +216,7 @@ class SessionAdmin(admin.ModelAdmin):
         'trigger_login',
     ]
     list_editable = [
+        'title',
         'start_time_delta',
         'start_time_unit',
         #'end_time_delta',
@@ -224,7 +225,7 @@ class SessionAdmin(admin.ModelAdmin):
         'trigger_login',
     ]
     list_filter = ['program__title', 'scheduled', 'trigger_login']
-    list_display_links = ['title']
+    # list_display_links = ['title']
     search_fields = ['title', 'display_title', 'admin_note', 'program__title']
     ordering = ['start_time']
     date_hierarchy = 'start_time'
@@ -280,7 +281,7 @@ class SessionAdmin(admin.ModelAdmin):
             contents = list(session.content.all())
 
             session.pk = None
-            session.title = _('Copy of %(title)s' % {'title': session.title})
+            session.title = _('%(title)s (copy)') % {'title': session.title}
             session.save()
             session.content = []
 
@@ -290,7 +291,7 @@ class SessionAdmin(admin.ModelAdmin):
                 orig_id = content.id
 
                 content.pk = None
-                content.title = _('Copy of %(title)s' % {'title': content.title})
+                content.title = _('%(title)s (copy)')  % {'title': content.title}
                 content.save()
 
                 session.content.add(content)
@@ -315,6 +316,7 @@ class ContentForm(forms.ModelForm):
 
 class ContentAdmin(admin.ModelAdmin):
     list_display = ['title', 'note_excerpt', 'page_excerpt']
+    list_editable = ['title']
     search_fields = ['title', 'admin_note', 'data']
     actions = ['copy']
 
@@ -347,7 +349,7 @@ class ContentAdmin(admin.ModelAdmin):
     def copy(modeladmin, request, queryset):
         for content in queryset:
             content.pk = None
-            content.title = _('Copy of %(title)s' % {'title': content.title})
+            content.title = _('%(title)s (copy)') % {'title': content.title}
             content.save()
 
     copy.short_description = _('Copy selected content')
