@@ -366,62 +366,77 @@ RESERVED_VARIABLES = [
     {
         'name': 'email',
         'admin_note': 'Do not use in conditions. Used in registration.',
+        'domains': []
     },
     {
         'name': 'phone',
         'admin_note': 'Do not use in conditions. Used in registration.',
+        'domains': []
     },
     {
         'name': 'password',
         'admin_note': 'Do not use in conditions. Used in registration.',
+        'domains': []
     },
     {
         'name': 'registered',
         'admin_note': 'Returns True if the user is registered',
+        'domains': ['user']
     },
     {
         'name': 'enrolled',
         'admin_note': 'Returns True if the user is enrolled with the current Program',
+        'domains': ['user']
     },
     {
         'name': 'group',
         'admin_note': 'Returns a list of the Groups the user is a member of',
+        'domains': []
     },
     {
         'name': 'current_day',
         'admin_note': 'Returns the current localized weekday as number, where Monday is 1 and Sunday is 7',
+        'domains': ['user']
     },
     {
         'name': 'current_time',
         'admin_note': 'Returns the current localized time in iso format, i.e. 12:00:00',
+        'domains': ['user']
     },
     {
         'name': 'current_date',
         'admin_note': 'Returns the current localized date in iso format, i.e. 2015-05-01',
+        'domains': ['user']
     },
     {
         'name': 'session',
         'admin_note': 'For system use. Returns the id of the current Session.',
+        'domains': []
     },
     {
         'name': 'session_stack',
         'admin_note': 'For system use. Returns a list of (session, node) id pairs.',
+        'domains': []
     },
     {
         'name': 'node',
         'admin_note': 'For system use. Returns the current node id (relative to Session).',
+        'domains': []
     },
     {
         'name': 'background_node',
         'admin_note': 'For system use. Returns the current special node id (relative to Session).',
+        'domains': []
     },
     {
         'name': 'reply_variable',
         'admin_note': 'For system use. Returns the name of the last SMS reply variable.',
+        'domains': []
     },
     {
         'name': 'timer',
         'admin_note': 'For system use, never accessible. Used for timing page visits.',
+        'domains': []
     },
 ]
 
