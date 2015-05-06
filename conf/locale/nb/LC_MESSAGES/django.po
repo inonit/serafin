@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Serafin\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-05-06 19:29+0200\n"
+"POT-Creation-Date: 2015-05-06 20:05+0200\n"
 "PO-Revision-Date: 2014-08-26 11:35+0200\n"
 "Last-Translator: Eirik Krogstad <eirikkr@gmail.com>\n"
 "Language: nb\n"
@@ -688,7 +688,7 @@ msgstr "Oppsett"
 msgid "%(first)s and %(last)s"
 msgstr "%(first)s og %(last)s"
 
-#: system/admin.py:23
+#: system/admin.py:24
 msgid ""
 "Initial value remains static unless set as a user value using a hidden set "
 "value field."
@@ -696,19 +696,19 @@ msgstr ""
 "Startverdien forblir den samme, med mindre den settes som brukerverdi via et "
 "skjult felt."
 
-#: system/admin.py:25
+#: system/admin.py:26
 msgid ""
 "User editable fields can be changed at any time by the user on their profile "
 "page."
 msgstr ""
 "Brukerredigerbare felter kan endres av brukerne selv på deres profilside."
 
-#: system/admin.py:27
+#: system/admin.py:28
 msgid "Setting a randomization type will set the variable to a random value."
 msgstr ""
 "Om en tilfeldig type settes, vil variabelen settes til en tilfeldig verdi."
 
-#: system/admin.py:29
+#: system/admin.py:30
 msgid ""
 "If set, this value will be randomized once for each user when the Variable "
 "is first saved OR changed, then once for each new user."
@@ -716,7 +716,7 @@ msgstr ""
 "Verdien vil settes tilfeldig én gang når variabelen først lagres eller "
 "endres, deretter én gang for hver nyregistrerte bruker."
 
-#: system/admin.py:32
+#: system/admin.py:33
 msgid ""
 "The value of the Variable will be randomly selected from a set of comma "
 "separated strings in this field."
@@ -724,37 +724,37 @@ msgstr ""
 "Verdien av variabelen vil velges tilfeldig fra et sett av kommaseparerte "
 "tekststrenger i dette feltet."
 
-#: system/admin.py:38
+#: system/admin.py:39
 msgid "You are trying to use a reserved variable name"
 msgstr "Du forsøker å bruke et reservert variabelnavn"
 
-#: system/admin.py:76
+#: system/admin.py:77
 msgid "Variable"
 msgstr "Variabel"
 
-#: system/admin.py:124 system/admin.py:283 system/admin.py:359
+#: system/admin.py:125 system/admin.py:285 system/admin.py:361
 msgid "Admin note excerpt"
 msgstr "Utdrag fra administratornotat"
 
-#: system/admin.py:131 system/admin.py:138 system/admin.py:149
-#: system/admin.py:296 system/admin.py:306 system/admin.py:364
+#: system/admin.py:132 system/admin.py:139 system/admin.py:150
+#: system/admin.py:298 system/admin.py:308 system/admin.py:366
 #, python-format
 msgid "%(title)s (copy)"
 msgstr "%(title)s (kopi)"
 
-#: system/admin.py:163
+#: system/admin.py:164
 msgid "Copy selected programs"
 msgstr "Kopier valgte programmer"
 
-#: system/admin.py:170
+#: system/admin.py:171
 msgid "Export text of selected program"
 msgstr "Eksporter tekst fra valgte programmer"
 
-#: system/admin.py:176
+#: system/admin.py:177
 msgid "Import program text"
 msgstr "Importer tekst for program"
 
-#: system/admin.py:185
+#: system/admin.py:186
 msgid ""
 "URL at which this Session will be available to registered Program users at "
 "all times"
@@ -762,39 +762,39 @@ msgstr ""
 "URL som denne Økta vil være tilgjengelig på for Programmets brukere til "
 "enhver tid"
 
-#: system/admin.py:188
+#: system/admin.py:189
 msgid "Session open even to unregistered users"
 msgstr "Økta er tilgjengelig selv for ikke-registrerte brukere"
 
-#: system/admin.py:190
+#: system/admin.py:191
 msgid "Relative to the user's start time for the Program"
 msgstr "Relativt til brukerens starttid for Programmet"
 
-#: system/admin.py:192
+#: system/admin.py:193
 msgid "Activate automatically for Program users at the given start time"
 msgstr "Aktiver automatisk for Programmets brukere ved angitt starttid"
 
-#: system/admin.py:194
+#: system/admin.py:195
 msgid "Trigger a login e-mail at the scheduled time"
 msgstr "Send ut e-post med innloggingslenke ved angitt starttid"
 
-#: system/admin.py:320
+#: system/admin.py:322
 msgid "Copy selected sessions"
 msgstr "Kopier valgte økter"
 
-#: system/admin.py:346
+#: system/admin.py:348
 msgid "No content"
 msgstr "Innhold mangler"
 
-#: system/admin.py:354
+#: system/admin.py:356
 msgid "Page excerpt"
 msgstr "Sideutdrag"
 
-#: system/admin.py:367
+#: system/admin.py:369
 msgid "Copy selected content"
 msgstr "Kopier valgt innhold"
 
-#: system/admin.py:396 system/admin.py:420
+#: system/admin.py:407 system/admin.py:431
 msgid "Subject"
 msgstr "Emne"
 
@@ -821,7 +821,7 @@ msgid "admin note"
 msgstr "administratornotat"
 
 #: system/models.py:28 system/models.py:81 system/models.py:103
-#: system/models.py:124
+#: system/models.py:124 system/models.py:170
 msgid "program"
 msgstr "program"
 
@@ -913,7 +913,7 @@ msgstr "URL-navn"
 msgid "is open"
 msgstr "fritt tilgjengelig"
 
-#: system/models.py:125 system/models.py:174
+#: system/models.py:125 system/models.py:176
 msgid "content"
 msgstr "innhold"
 
@@ -966,31 +966,35 @@ msgstr "Økt %s"
 msgid "content type"
 msgstr "innholdstype"
 
-#: system/models.py:175
+#: system/models.py:171
+msgid "Can optionally be bound to a specific program"
+msgstr "Kan valgfritt knyttes til et spesifikt program"
+
+#: system/models.py:177
 msgid "contents"
 msgstr "innhold"
 
-#: system/models.py:199
+#: system/models.py:201
 msgid "page"
 msgstr "side"
 
-#: system/models.py:200
+#: system/models.py:202
 msgid "pages"
 msgstr "sider"
 
-#: system/models.py:242
+#: system/models.py:244
 msgid "e-mail"
 msgstr "e-post"
 
-#: system/models.py:243
+#: system/models.py:245
 msgid "e-mails"
 msgstr "e-poster"
 
-#: system/models.py:275
+#: system/models.py:277
 msgid "SMS"
 msgstr "SMS"
 
-#: system/models.py:276
+#: system/models.py:278
 msgid "SMSs"
 msgstr "SMSer"
 
@@ -1085,7 +1089,6 @@ msgid "Developed by"
 msgstr "Utviklet av"
 
 #: templates/admin/program-switcher.html:9
-#| msgid "programs"
 msgid "All programs"
 msgstr "Alle programmer"
 

@@ -167,6 +167,8 @@ class Content(models.Model):
     display_title = models.CharField(_('display title'), max_length=64)
     content_type = models.CharField(_('content type'), max_length=32, editable=False)
     admin_note = models.TextField(_('admin note'), blank=True)
+    program = models.ForeignKey(Program, verbose_name=_('program'), blank=True, null=True,
+                                help_text=_('Can optionally be bound to a specific program'))
 
     data = JSONField(load_kwargs={'object_pairs_hook': OrderedDict}, default='[]')
 

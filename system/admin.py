@@ -7,6 +7,7 @@ from django.contrib import admin
 from django.contrib.auth import get_user_model
 from django.contrib.contenttypes.models import ContentType
 from django.db import models
+from django.db.models import Q
 from django.http import HttpResponseRedirect
 
 from suit.widgets import SuitSplitDateTimeWidget, LinkedSelect, AutosizedTextarea, NumberInput
@@ -82,8 +83,8 @@ class VariableAdmin(admin.ModelAdmin):
 
     def get_queryset(self, request):
         queryset = super(VariableAdmin, self).get_queryset(request)
-        if "_program_id" in request.session:
-            queryset = queryset.filter(program__id=request.session["_program_id"])
+        if '_program_id' in request.session:
+            queryset = queryset.filter(program__id=request.session['_program_id'])
         return queryset
 
 
@@ -280,12 +281,13 @@ class SessionAdmin(admin.ModelAdmin):
 
     def note_excerpt(self, obj):
         return obj.admin_note[:100] + '...'
+
     note_excerpt.short_description = _('Admin note excerpt')
 
     def get_queryset(self, request):
         queryset = super(SessionAdmin, self).get_queryset(request)
-        if "_program_id" in request.session:
-            queryset = queryset.filter(program__id=request.session["_program_id"])
+        if '_program_id' in request.session:
+            queryset = queryset.filter(program__id=request.session['_program_id'])
         return queryset
 
     def copy(modeladmin, request, queryset):
@@ -366,6 +368,15 @@ class ContentAdmin(admin.ModelAdmin):
 
     copy.short_description = _('Copy selected content')
 
+    def get_queryset(self, request):
+        queryset = super(ContentAdmin, self).get_queryset(request)
+        if '_program_id' in request.session:
+            queryset = queryset.filter(
+                Q(program_id=request.session['_program_id']) |
+                Q(program_id=None)
+            )
+        return queryset
+
 
 class PageForm(ContentForm):
     class Meta:
@@ -376,7 +387,7 @@ class PageForm(ContentForm):
 class PageAdmin(ContentAdmin):
     list_display = ['title', 'display_title', 'note_excerpt', 'page_excerpt']
     search_fields = ['title', 'display_title', 'admin_note', 'data']
-    fields = ['title', 'display_title', 'admin_note', 'data']
+    fields = ['title', 'display_title', 'program', 'admin_note', 'data']
     form = PageForm
 
 
@@ -403,7 +414,7 @@ class EmailForm(TextContentForm):
 class EmailAdmin(ContentAdmin):
     list_display = ['title', 'subject', 'note_excerpt', 'page_excerpt']
     search_fields = ['title', 'display_title', 'admin_note', 'data']
-    fields = ['title', 'display_title', 'admin_note', 'data']
+    fields = ['title', 'display_title', 'program', 'admin_note', 'data']
     form = EmailForm
     formfield_overrides = {
         models.TextField: {
@@ -427,7 +438,7 @@ class SMSForm(TextContentForm):
 
 
 class SMSAdmin(ContentAdmin):
-    fields = ['title', 'admin_note', 'data']
+    fields = ['title', 'admin_note', 'program', 'data']
     form = SMSForm
     formfield_overrides = {
         models.TextField: {
