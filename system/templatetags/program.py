@@ -14,6 +14,11 @@ class ProgramBaseNode(Node):
     Base helper class for handling the program template tags.
     """
 
+    def __init__(self, object_expr, as_varname):
+        self.model = Program
+        self.object_expr = object_expr
+        self.as_varname = as_varname
+
     @classmethod
     def handle_token(cls, parser, token):
         tokens = token.contents.split()
@@ -26,11 +31,6 @@ class ProgramBaseNode(Node):
             return cls(object_expr=parser.compile_filter(tokens[2]), as_varname=tokens[4])
         else:
             raise TemplateSyntaxError("%r tag requires exactly 4 arguments.")
-
-    def __init__(self, object_expr, as_varname):
-        self.model = Program
-        self.object_expr = object_expr
-        self.as_varname = as_varname
 
     def get_context_value_from_queryset(self, context, queryset):
         """
@@ -59,7 +59,7 @@ class CurrentProgramNode(ProgramBaseNode):
         if "_program_id" in request.session:
             try:
                 return queryset.get(pk=request.session["_program_id"])
-            except queryset.DoesNotExist:
+            except self.model.DoesNotExist:
                 pass
         return None
 
