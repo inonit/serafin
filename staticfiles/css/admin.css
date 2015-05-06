@@ -13,6 +13,7 @@
 
 #language-switcher select,
 #program-switcher select {
+    outline: none;
     background: transparent;
     color: white;
     border: none;
