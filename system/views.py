@@ -219,7 +219,7 @@ def set_program(request):
             redirect_to = "/"
     response = HttpResponseRedirect(redirect_to)
     if request.method == "POST":
-        program_id = request.POST.get("program_id", None)
+        program_id = request.POST.get("program", None)
         if program_id and Program.objects.filter(pk=program_id).exists():
             if hasattr(request, "session"):
                 request.session["_program_id"] = program_id

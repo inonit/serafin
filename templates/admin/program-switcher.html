@@ -3,7 +3,7 @@
 <form id="program-switcher" action="{% url 'set_program' %}" method="post">
   {% csrf_token %}
   <input name="next" type="hidden" value="{{ redirect_to }}" />
-  <select name="program">
+  <select name="program" onChange="this.form.submit();">
     {% get_current_program for user as PROGRAM %}
     {% get_available_programs for user as PROGRAM_LIST %}
     {% for program in PROGRAM_LIST %}
