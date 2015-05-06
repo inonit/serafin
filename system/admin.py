@@ -80,6 +80,12 @@ class VariableAdmin(admin.ModelAdmin):
     class Media:
         js = ['admin/variable.js']
 
+    def get_queryset(self, request):
+        queryset = super(VariableAdmin, self).get_queryset(request)
+        if "_program_id" in request.session:
+            queryset = queryset.filter(program__id=request.session["_program_id"])
+        return queryset
+
 
 class ProgramUserAccessInline(admin.TabularInline):
     model = Program.users.through
@@ -274,8 +280,13 @@ class SessionAdmin(admin.ModelAdmin):
 
     def note_excerpt(self, obj):
         return obj.admin_note[:100] + '...'
-
     note_excerpt.short_description = _('Admin note excerpt')
+
+    def get_queryset(self, request):
+        queryset = super(SessionAdmin, self).get_queryset(request)
+        if "_program_id" in request.session:
+            queryset = queryset.filter(program__id=request.session["_program_id"])
+        return queryset
 
     def copy(modeladmin, request, queryset):
         for session in queryset:
