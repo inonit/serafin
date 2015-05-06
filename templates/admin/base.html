@@ -79,6 +79,9 @@
                    <span class="separator">|</span>
                   {% endif %}
 
+                  {# The program swithcher form #}
+                  {% include "admin/program-switcher.html" %}
+
                   <form id="language-switcher" action="{% url 'set_language' %}" method="post">
                     {% csrf_token %}
                     <input name="next" type="hidden" value="{{ redirect_to }}" />

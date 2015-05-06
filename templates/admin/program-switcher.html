@@ -1,0 +1,11 @@
+{% load i18n %}
+<form id="program-switcher" action="{% url 'set_program' %}" method="post">
+  {% csrf_token %}
+  <input name="next" type="hidden" value="{{ redirect_to }}" />
+  <select name="program">
+    {# get_current_program as PROGRAM_ID #}
+    {# get_available_programs as PROGRAMS #}
+    <option value="1" selected="selected">Program name here</option>
+    <option value="2">Another program here</option>
+  </select>
+</form>
