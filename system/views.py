@@ -9,6 +9,7 @@ from django.contrib.admin.views.decorators import staff_member_required
 from django.contrib.contenttypes.models import ContentType
 from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render
+from django.utils.http import is_safe_url
 from rest_framework import viewsets
 from rest_framework.mixins import CreateModelMixin
 from rest_framework.permissions import IsAuthenticated
@@ -203,6 +204,26 @@ def import_text(request):
         return HttpResponseRedirect(redirect)
 
     return render(request, 'import_text.html', {})
+
+
+@staff_member_required
+def set_program(request):
+    """
+    View for setting the current working program.
+    Pretty much copied from the set_language view.
+    """
+    redirect_to = request.POST.get("next", request.GET.get("next"))
+    if not is_safe_url(url=redirect_to, host=request.get_host()):
+        redirect_to = request.META.get("HTTP_REFERER")
+        if not is_safe_url(url=redirect_to, host=request.get_host()):
+            redirect_to = "/"
+    response = HttpResponseRedirect(redirect_to)
+    if request.method == "POST":
+        program_id = request.POST.get("program_id", None)
+        if program_id and Program.objects.filter(pk=program_id).exists():
+            if hasattr(request, "session"):
+                request.session["_program_id"] = program_id
+    return response
 
 
 class VariableViewSet(viewsets.ModelViewSet):
