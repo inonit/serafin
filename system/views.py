@@ -223,6 +223,9 @@ def set_program(request):
         if program_id and Program.objects.filter(pk=program_id).exists():
             if hasattr(request, "session"):
                 request.session["_program_id"] = program_id
+        elif program_id == "-1":
+            if hasattr(request, "session") and "_program_id" in request.session:
+                del request.session["_program_id"]
     return response
 
 
