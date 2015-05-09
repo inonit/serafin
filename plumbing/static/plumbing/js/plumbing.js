@@ -76,7 +76,7 @@ plumbing.service('jsPlumb', ['$rootScope', function(scope) {
     });
 }]);
 
-plumbing.run(['$rootScope', function(scope) {
+plumbing.run(['$rootScope', '$http', function(scope, http) {
 
     if (typeof initData === 'undefined') {
         scope.data = {
@@ -96,7 +96,12 @@ plumbing.run(['$rootScope', function(scope) {
     }
 
     scope.showConditions = -1;
-    scope.showDelay = -1;
+    scope.showSettings = -1;
+
+    scope.variables = [];
+    http.get('/api/system/variables/').success(function (data) {
+        scope.variables = data.concat(reservedVars || []);
+    });
 
 }]);
 
@@ -199,6 +204,20 @@ plumbing.controller('graph', ['$scope', 'jsPlumb', function(scope, jsPlumbServic
             return;
         }
 
+        if (type == 'expression') {
+            scope.data.nodes.push({
+                id: id,
+                type: type,
+                expression: '',
+                variable_name: '',
+                metrics: {
+                    left: (300 - scope.scrolling.x) + 'px',
+                    top: (100 - scope.scrolling.y) + 'px'
+                }
+            });
+            return;
+        }
+
         if (type == 'register' || type == 'enroll') {
             scope.data.nodes.push({
                 id: id,
@@ -249,7 +268,7 @@ plumbing.controller('graph', ['$scope', 'jsPlumb', function(scope, jsPlumbServic
     };
 
     scope.close = function() {
-        scope.showDelay = -1;
+        scope.showSettings = -1;
     };
 
     scope.popup = function(url, id) {
@@ -277,7 +296,7 @@ plumbing.directive('node', ['$timeout', 'jsPlumb', function(timeout, jsPlumbServ
             // ensure connection is detached on edge destruction
             scope.$on('$destroy', function() {
                 scope.settings.remove();
-                scope.$parent.showDelay = -1;
+                scope.$parent.showSettings = -1;
             });
 
             // set up jsPlumb for this node
@@ -309,12 +328,14 @@ plumbing.directive('node', ['$timeout', 'jsPlumb', function(timeout, jsPlumbServ
             element.bind('dblclick', function() {
 
                 if (scope.node.id > 0) {
-                    if (scope.node.type == 'delay') {
+                    if (scope.node.type == 'delay' ||
+                        scope.node.type == 'expression') {
                         scope.$apply(function() {
-                            scope.$parent.showDelay = scope.$index;
+                            scope.$parent.showSettings = scope.$index;
                             scope.$parent.showConditions = -1;
                         });
-                    } else if (scope.node.type == 'register' || scope.node.type == 'enroll') {
+                    } else if (scope.node.type == 'register' ||
+                               scope.node.type == 'enroll') {
                         // do nothing
                     } else {
                         scope.popup(
@@ -399,7 +420,7 @@ plumbing.directive('edge', ['jsPlumb', function(jsPlumbService) {
             element.find('.overlay').bind('dblclick', function() {
                 scope.$apply(function() {
                     scope.$parent.showConditions = scope.$index;
-                    scope.$parent.showDelay = -1;
+                    scope.$parent.showSettings = -1;
                 });
             });
 
@@ -414,7 +435,8 @@ plumbing.directive('edge', ['jsPlumb', function(jsPlumbService) {
                 });
 
                 // if edge is from special node to page, disallow/delete edge
-                if (target_type == 'page' && ['page', 'start'].indexOf(source_type) == -1) {
+                // except expression
+                if (target_type == 'page' && ['page', 'start', 'expression'].indexOf(source_type) == -1) {
                     scope.deleteEdge(scope.$index);
                     return;
                 }

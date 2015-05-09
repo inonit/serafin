@@ -13,6 +13,7 @@
         <div class="btn" ng-click="addNode('sms')" id="lookup_{% verbatim %}{{ current_noderef }}{% endverbatim %}">{% trans '+ Sms' %}</div>
         <div class="btn" ng-click="addNode('delay')" id="lookup_{% verbatim %}{{ current_noderef }}{% endverbatim %}">{% trans '+ Delay' %}</div>
         <div class="btn" ng-click="addNode('session')" id="lookup_{% verbatim %}{{ current_noderef }}{% endverbatim %}">{% trans '+ Session' %}</div>
+        <div class="btn" ng-click="addNode('expression')" id="lookup_{% verbatim %}{{ current_noderef }}{% endverbatim %}">{% trans '+ Expression' %}</div>
         <div class="btn" ng-click="addNode('register')" id="lookup_{% verbatim %}{{ current_noderef }}{% endverbatim %}">{% trans '+ Register' %}</div>
         <div class="btn" ng-click="addNode('enroll')" id="lookup_{% verbatim %}{{ current_noderef }}{% endverbatim %}">{% trans '+ Enroll' %}</div>
     </div>
@@ -32,6 +33,9 @@
         <span ng-if="node.type == 'session'">
             <i class="icon-tasks icon-alpha5"></i>
         </span>
+        <span ng-if="node.type == 'expression'">
+            <i class="icon-exclamation-sign icon-alpha5"></i>
+        </span>
         <span ng-if="node.type == 'register'">
             <i class="icon-user icon-alpha5"></i>
         </span>
@@ -44,6 +48,9 @@
         <span ng-if="node.type == 'delay'">
             t + {{ node.delay.number }} {{ node.delay.unit }}
         </span>
+        <span ng-if="node.type == 'expression'">
+            {% endverbatim %}{% trans 'Expression' %}{% verbatim %}
+        </span>
         <span ng-if="node.type == 'register'">
             {% endverbatim %}{% trans 'Register' %}{% verbatim %}
         </span>
@@ -55,13 +62,35 @@
         <input type="hidden" class="noderef" id="noderef_{{ node.id }}" value="{{ node.ref_id }}">
         {% endverbatim %}
 
-        <div ng-if="node.type == 'delay'" class="settings box" ng-show="showDelay == $index">
+        <div ng-if="node.type == 'delay'" class="delay settings box" ng-show="showSettings == $index">
             <div class="close" ng-click="close()">×</div>
             <input type="number" placeholder="{% trans 'Number' %}" ng-model="node.delay.number">
             <select ng-model="node.delay.unit">
                 <option value="minutes"> {% trans 'minutes' %} </option>
                 <option value="hours"> {% trans 'hours' %} </option>
             </select>
+        </div>
+
+        <div ng-if="node.type == 'expression'" class="expression settings box" ng-show="showSettings == $index">
+            <div class="close" ng-click="close()">×</div>
+            <label>{% trans "Variable name" %}</label>
+            {% verbatim %}
+            <select opt-title ng-model="node.variable_name">
+                <option ng-repeat="variable in variables" ng-value="variable.name" title="{{ variable.admin_note }}">{{ variable.name }}</option>
+            </select>
+            {% endverbatim %}
+            <label>{% trans 'Expression' %}</label>
+            <string-expression
+                ng-model="node.expression"
+                placeholder="{% trans "Start writing..." %}"
+                header-title="{% trans "Preview" %}"
+                popover-placement="right"
+                popover-title="{% trans "Serafin Expression Syntax" %}"
+                popover-template="template/expression-syntax.html"
+                url="/api/system/evaluate-expression/"
+                ng-cloak>
+            </string-expression>
+            {% include "expression_syntax.html" %}
         </div>
     </div>
 

@@ -53,11 +53,7 @@ class Engine(object):
 
                 if 'expression_' in key:
                     parser = Parser(user_obj=self.user)
-
-                    try:
-                        value = parser.parse(value)
-                    except:
-                        pass
+                    value = parser.parse(value)
 
                     parts = key.split('_')[1:]
                     key = ''.join(parts)
@@ -172,7 +168,7 @@ class Engine(object):
                 self.user.data['background_node'] = target_id
                 self.user.save()
 
-                self.trigger_node(target_id)
+                return self.trigger_node(target_id)
 
             else:
                 break
@@ -289,6 +285,21 @@ class Engine(object):
             self.init_session(ref_id, 0)
 
             return self.transition(0)
+
+        if node_type == 'expression':
+
+            expression = node.get('expression')
+            variable_name = node.get('variable_name')
+
+            if expression:
+                parser = Parser(user_obj=self.user)
+                result = parser.parse(expression)
+
+                if variable_name:
+                    self.user.data[variable_name] = result
+                    self.user.save()
+
+            return self.transition(node_id)
 
         if node_type == 'register':
             self.user, registered = self.user.register()
