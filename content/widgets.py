@@ -49,15 +49,16 @@ class ContentWidget(forms.Widget):
             'all': (
                 'content/css/content.css',
                 'css/autocomplete.css',
-                'css/string-expression-widget.css'
+                'css/expression-widget.css'
             )
         }
         js = (
             filer_settings.FILER_STATICMEDIA_PREFIX + 'js/popup_handling.js',
             'content/angular/angular.min.js',
+            'js/ment.io/mentio.min.js',
             'js/vendor/lodash.min.js',
             'js/autocomplete.js',
-            'js/string-expression.js',
+            'js/expression.js',
             'content/marked/marked.js',
             'content/js/content.js',
         )

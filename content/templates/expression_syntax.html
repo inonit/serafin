@@ -1,8 +1,17 @@
 {% load i18n %}
 
 {# Angular template #}
-<script type="text/ng-template" id="template/expression-syntax.html">
+<script type="text/ng-template" id="template/expression-variables.html">
+  {# Template for Expression variables using ment.io #}
+  <ul class="list-group variable-results">
+    <li mentio-menu-item="item" ng-repeat="item in items track by $index" class="list-group-item">
+      <span class="text-primary"
+          ng-bind-html="item.name | mentioHighlight:typedTerm:'menu-highlighted' | unsafe"></span>
+    </li>
+  </ul>
+</script>
 
+<script type="text/ng-template" id="template/expression-syntax.html">
   {# Template for Expression widget syntax help popover #}
   {# Using Bootstrap 2.3.x markup (bundled with Suit). #}
   <p>{% blocktrans %}

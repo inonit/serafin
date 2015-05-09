@@ -4,10 +4,12 @@ from __future__ import absolute_import, unicode_literals
 
 import textwrap
 
+from django.conf import settings
 from django.contrib.admin.views.decorators import staff_member_required
 from django.contrib.contenttypes.models import ContentType
 from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render
+from django.utils.http import is_safe_url
 from rest_framework import viewsets
 from rest_framework.mixins import CreateModelMixin
 from rest_framework.permissions import IsAuthenticated
@@ -204,6 +206,29 @@ def import_text(request):
     return render(request, 'import_text.html', {})
 
 
+@staff_member_required
+def set_program(request):
+    """
+    View for setting the current working program.
+    Pretty much copied from the set_language view.
+    """
+    redirect_to = request.POST.get("next", request.GET.get("next"))
+    if not is_safe_url(url=redirect_to, host=request.get_host()):
+        redirect_to = request.META.get("HTTP_REFERER")
+        if not is_safe_url(url=redirect_to, host=request.get_host()):
+            redirect_to = "/"
+    response = HttpResponseRedirect(redirect_to)
+    if request.method == "POST":
+        program_id = request.POST.get("program", None)
+        if program_id and Program.objects.filter(pk=program_id).exists():
+            if hasattr(request, "session"):
+                request.session["_program_id"] = program_id
+        elif program_id == "-1":
+            if hasattr(request, "session") and "_program_id" in request.session:
+                del request.session["_program_id"]
+    return response
+
+
 class VariableViewSet(viewsets.ModelViewSet):
 
     queryset = Variable.objects.all()
@@ -216,6 +241,24 @@ class VariableSearchViewSet(viewsets.ModelViewSet):
     serializer_class = VariableSerializer
     filter_backends = [VariableSearchFilter]
     search_fields = ["name", "display_name"]
+
+    def get_queryset(self):
+        """
+        Should only return variables for the currently working
+        program if any.
+        """
+        queryset = super(VariableSearchViewSet, self).get_queryset()
+        return queryset
+
+    def list(self, request, *args, **kwargs):
+        """
+        Add system variables to search results
+        """
+        response = super(VariableSearchViewSet, self).list(request, *args, **kwargs)
+        reserved_variables = [v for v in getattr(settings, "RESERVED_VARIABLES", {})
+                              if "domains" in v and "user" in v["domains"]]
+        response.data.extend(reserved_variables)
+        return response
 
 
 class ExpressionViewSet(CreateModelMixin, viewsets.ViewSet):

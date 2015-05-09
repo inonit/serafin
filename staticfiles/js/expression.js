@@ -7,7 +7,7 @@
 "use strict";
 
 
-angular.module("stringExpression", ["autocompleteSearch"])
+angular.module("stringExpression", ["autocompleteSearch", "mentio"])
 
     .config(function($httpProvider) {
         $httpProvider.defaults.headers.common["X-Requested-With"] = "XMLHttpRequest";
@@ -32,9 +32,15 @@ angular.module("stringExpression", ["autocompleteSearch"])
             },
             template:
                 '<div class="expression-widget-wrapper">' +
-                '  <input type="text" placeholder="{{ placeholder }}"' +
+                '  <input id="expression-input" type="text" autocomplete="off" placeholder="{{ placeholder }}"' +
                 '      ng-model="expression.query"' +
-                '      ng-change="addQuery(\'{{ url }}\')">' +
+                '      ng-change="addQuery(\'{{ url }}\')"' +
+                '      mentio' +
+                '      mentio-trigger-char="\'$\'"' +
+                '      mentio-search="getVariable(term)"' +
+                '      mentio-select="getVariableText(item)"' +
+                '      mentio-items="variables"' +
+                '      mentio-template-url="template/expression-variables.html">' +
                 '    <div class="preview-box">' +
                 '      <div class="header">' +
                 '        <span class="title">{{ headerTitle }}</span>' +
@@ -54,8 +60,8 @@ angular.module("stringExpression", ["autocompleteSearch"])
                 '        </div>' +
                 '      </div>' +
                 '   </div>',
-            controller: ["$scope", "$timeout", "ExpressionValidatorService", "QueryService", "QueueService",
-                function($scope, $timeout, ExpressionValidatorService, QueryService, QueueService) {
+            controller: ["$scope", "$timeout", "$filter", "ExpressionValidatorService", "QueryService", "QueueService",
+                function($scope, $timeout, $filter, ExpressionValidatorService, QueryService, QueueService) {
 
                 QueueService.configure({timeout: 200});
 
@@ -68,18 +74,16 @@ angular.module("stringExpression", ["autocompleteSearch"])
                     });
                 }
 
-                function getVariableTokens(searchString) {
-                    /**
-                     * Identifies variables from the searchString.
-                     * Returns an array of variables (without the $prefix).
-                     * */
-                    var re = /(?:^|\W)\$(\w+)(?!\w)/g, match, matches = [];
-                        while (match = re.exec(searchString)) {
-                          matches.push(match[1]);
-                        }
-                    return matches;
+                function queryVariables(url, data) {
+                    QueryService.get(url, data).then(function(response) {
+                        $scope.variables = response;
+                        console.log($scope.variables);
+                    }, function() {
+                        $scope.variables = [];
+                    });
                 }
 
+                var variables = [];
                 $scope.expression = {
                     query: $scope.model,
                     response: {
@@ -96,14 +100,21 @@ angular.module("stringExpression", ["autocompleteSearch"])
                     }
                 };
 
+                $scope.getVariable = function(term) {
+                    /**
+                     * Search the API for variable names
+                     * */
+                    var url = "/api/system/variables/search/",
+                        query = {query: term};
+                    QueueService.add(_.partial(queryVariables, url, query));
+                 };
+
+                $scope.getVariableText = function(item) {
+                    return "$" + item.name;
+                };
+
                 $scope.$watch("expression.query", function(value) {
                     $scope.model = value;
-                    /*
-                    var variables = getVariableTokens(value);
-                    if (variables.length) {
-                        console.log(getVariableTokens(value));
-                    }
-                    */
                 });
             }],
             link: function(scope, element, attrs) {

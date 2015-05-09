@@ -1,0 +1,16 @@
+{% load i18n program %}
+
+<form id="program-switcher" action="{% url 'set_program' %}" method="post">
+  {% csrf_token %}
+  <input name="next" type="hidden" value="{{ redirect_to }}" />
+  <select name="program" onChange="this.form.submit();">
+    {% get_current_program for user as PROGRAM %}
+    {% get_available_programs for user as PROGRAM_LIST %}
+    <option value="-1">{% trans "All programs" %}</option>
+    {% for program in PROGRAM_LIST %}
+      <option value="{{ program.id }}"{% if program.id == PROGRAM.id %} selected="selected" {% endif %}>
+        {% firstof program.display_title program.title %}
+      </option>
+    {% endfor %}
+  </select>
+</form>

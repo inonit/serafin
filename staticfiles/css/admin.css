@@ -4,13 +4,16 @@
     max-height: 500px
 }
 
-#language-switcher {
+#language-switcher,
+#program-switcher {
     display: inline-block;
     margin: 0;
     padding: 0;
 }
 
-#language-switcher select {
+#language-switcher select,
+#program-switcher select {
+    outline: none;
     background: transparent;
     color: white;
     border: none;
@@ -22,6 +25,7 @@
     vertical-align: baseline;
 }
 
-#language-switcher option {
+#language-switcher option,
+#program-switcher option {
     color: black;
 }
