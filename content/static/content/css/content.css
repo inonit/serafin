@@ -17,6 +17,15 @@
     margin-bottom: 1em;
 }
 
+.content .toolbox .btn {
+    margin-right: .5rem;
+}
+
+.content > .toolbox,
+.content > .toolbox .btn {
+    margin-bottom: .5rem;
+}
+
 .content .title {
     text-transform: capitalize
 }

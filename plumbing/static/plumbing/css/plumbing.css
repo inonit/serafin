@@ -131,6 +131,10 @@ path {
     margin: 0.5rem;
 }
 
+.toolbox .btn {
+    margin-right: .5rem;
+}
+
 .settings,
 .conditions {
     border: 1px solid #ccc;
