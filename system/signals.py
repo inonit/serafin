@@ -79,22 +79,28 @@ def session_pre_save(sender, **kwargs):
         ref_id = node.get('ref_id')
         node_type = node.get('type')
 
-        if node_type in ['page', 'email', 'sms']:
+        if node_type in ['page', 'email', 'sms', 'session']:
 
             # Temp. dirty fix for occational empty ref_ids
             if not ref_id or ref_id == '0':
                 ref_url = node.get('ref_url')
                 try:
                     node['ref_id'] = re.findall(r'\d+', ref_url)[0]
-                    print node['ref_id']
                 except:
                     pass
 
             # Update title of content
-            try:
-                node['title'] = Content.objects.get(id=node['ref_id']).title
-            except:
-                pass
+            if node_type in ['page', 'email', 'sms']:
+                try:
+                    node['title'] = Content.objects.get(id=node['ref_id']).title
+                except:
+                    pass
+            # Update title of sessions
+            elif node_type == 'session':
+                try:
+                    node['title'] = Session.objects.get(id=node['ref_id']).title
+                except:
+                    pass
 
     session.data['nodes'] = nodes
 

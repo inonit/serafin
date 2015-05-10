@@ -161,7 +161,6 @@ class Engine(object):
             edge = self.traverse(special_edges, source_id)
 
             if edge:
-
                 target_id = edge.get('target')
                 special_edges.remove(edge)
 
@@ -169,7 +168,6 @@ class Engine(object):
                 self.user.save()
 
                 return self.trigger_node(target_id)
-
             else:
                 break
 
@@ -177,7 +175,6 @@ class Engine(object):
         edge = self.traverse(normal_edges, source_id)
 
         if edge:
-
             target_id = edge.get('target')
             node = self.trigger_node(target_id)
 
@@ -216,7 +213,6 @@ class Engine(object):
             return page
 
         if node_type == 'delay':
-
             useraccesses = self.session.program.programuseraccess_set.filter(user=self.user)
             for useraccess in useraccesses:
                 start_time = self.session.get_start_time(
@@ -275,19 +271,18 @@ class Engine(object):
 
         if node_type == 'session':
 
-            if not self.user.data.get('stack'):
-                self.user.data['stack'] = []
-
-            self.user.data['stack'].append(
-                (self.session.id, self.user.data.get('node'))
-            )
+            if not self.is_dead_end(node_id):
+                if not self.user.data.get('stack'):
+                    self.user.data['stack'] = []
+                self.user.data['stack'].append(
+                    (self.session.id, node_id)
+                )
 
             self.init_session(ref_id, 0)
 
             return self.transition(0)
 
         if node_type == 'expression':
-
             expression = node.get('expression')
             variable_name = node.get('variable_name')
 
@@ -375,5 +370,7 @@ class Engine(object):
             while self.user.data.get('stack') and session_id == self.user.data.get('session'):
                 session_id, node_id = self.user.data.get('stack').pop()
             self.init_session(session_id, node_id)
+
+            return self.transition(node_id)
 
         return self.trigger_node(node_id)

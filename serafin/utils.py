@@ -93,30 +93,6 @@ def process_email_links(user, text):
     return text
 
 
-def process_session_links(user, text):
-    '''Replaces session link markup with login link, activates session for given user'''
-
-    from system.engine import Engine
-
-    matches = re.findall(r'(session:(\d+))', text)
-    for match in matches:
-        session_str = match[0]
-        session_id = match[1]
-
-        context = {
-            'session': session_id,
-            'node': 0,
-        }
-
-        engine = Engine(user.id, context, push=True)
-        engine.run()
-
-        link = user.generate_login_link()
-        text = text.replace(session_str, link)
-
-    return text
-
-
 def process_reply_variables(user, text):
     '''Stores the name of the variable to store SMS replies in'''
 

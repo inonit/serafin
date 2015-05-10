@@ -435,9 +435,10 @@ plumbing.directive('edge', ['jsPlumb', function(jsPlumbService) {
                         target_type = node.type;
                 });
 
-                // if edge is from special node to page, disallow/delete edge
-                // except expression
-                if (target_type == 'page' && ['page', 'start', 'expression'].indexOf(source_type) == -1) {
+                // if edge is from background node to page, disallow/delete edge
+                // start, page, session or expression to page is allowed
+                if (target_type == 'page' &&
+                    ['start', 'page', 'session', 'expression'].indexOf(source_type) == -1) {
                     scope.deleteEdge(scope.$index);
                     return;
                 }
@@ -445,7 +446,7 @@ plumbing.directive('edge', ['jsPlumb', function(jsPlumbService) {
                 // set edge type
                 scope.edge.type = 'normal';
 
-                if (target_type != 'page') {
+                if (['start', 'page', 'session', 'expression'].indexOf(source_type) == -1) {
                     scope.edge.type = 'special';
                 }
 
