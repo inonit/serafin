@@ -16,6 +16,7 @@
         <div class="btn" ng-click="addNode('expression')" id="lookup_{% verbatim %}{{ current_noderef }}{% endverbatim %}">{% trans '+ Expression' %}</div>
         <div class="btn" ng-click="addNode('register')" id="lookup_{% verbatim %}{{ current_noderef }}{% endverbatim %}">{% trans '+ Register' %}</div>
         <div class="btn" ng-click="addNode('enroll')" id="lookup_{% verbatim %}{{ current_noderef }}{% endverbatim %}">{% trans '+ Enroll' %}</div>
+        <div class="btn" ng-click="addNode('leave')" id="lookup_{% verbatim %}{{ current_noderef }}{% endverbatim %}">{% trans '+ Leave' %}</div>
     </div>
 
     <div class="floatbox"></div>
@@ -40,7 +41,10 @@
             <i class="icon-user icon-alpha5"></i>
         </span>
         <span ng-if="node.type == 'enroll'">
-            <i class="icon-check icon-alpha5"></i>
+            <i class="icon-ok icon-alpha5"></i>
+        </span>
+        <span ng-if="node.type == 'leave'">
+            <i class="icon-remove icon-alpha5"></i>
         </span>
 
         {% verbatim %}
@@ -56,6 +60,9 @@
         </span>
         <span ng-if="node.type == 'enroll'">
             {% endverbatim %}{% trans 'Enroll' %}{% verbatim %}
+        </span>
+        <span ng-if="node.type == 'leave'">
+            {% endverbatim %}{% trans 'Leave' %}{% verbatim %}
         </span>
         <div class="ep"></div>
         <div class="delete" ng-click="deleteNode($index)" ng-hide="node.id == 0">×</div>

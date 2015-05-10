@@ -218,7 +218,7 @@ plumbing.controller('graph', ['$scope', 'jsPlumb', function(scope, jsPlumbServic
             return;
         }
 
-        if (type == 'register' || type == 'enroll') {
+        if (type == 'register' || type == 'enroll' || type == 'leave') {
             scope.data.nodes.push({
                 id: id,
                 type: type,
@@ -335,7 +335,8 @@ plumbing.directive('node', ['$timeout', 'jsPlumb', function(timeout, jsPlumbServ
                             scope.$parent.showConditions = -1;
                         });
                     } else if (scope.node.type == 'register' ||
-                               scope.node.type == 'enroll') {
+                               scope.node.type == 'enroll' ||
+                               scope.node.type == 'leave') {
                         // do nothing
                     } else {
                         scope.popup(

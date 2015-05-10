@@ -93,6 +93,10 @@ class Program(models.Model):
         )
         return True
 
+    def leave(self, user):
+        self.programuseraccess_set.filter(user=user).delete()
+        return True
+
 
 class ProgramUserAccess(models.Model):
     '''

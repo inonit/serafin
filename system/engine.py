@@ -317,17 +317,30 @@ class Engine(object):
             return self.transition(node_id)
 
         if node_type == 'enroll':
-            enrolled = self.session.program.enroll(self.user)
+            self.session.program.enroll(self.user)
 
-            if enrolled:
-                log_event.send(
-                    self,
-                    domain='program',
-                    actor=self.user,
-                    variable='enrolled',
-                    pre_value='',
-                    post_value=self.session.program.title
-                )
+            log_event.send(
+                self,
+                domain='program',
+                actor=self.user,
+                variable='enrolled',
+                pre_value='',
+                post_value=self.session.program.title
+            )
+
+            return self.transition(node_id)
+
+        if node_type == 'leave':
+            self.session.program.leave(self.user)
+
+            log_event.send(
+                self,
+                domain='program',
+                actor=self.user,
+                variable='left',
+                pre_value='',
+                post_value=self.session.program.title
+            )
 
             return self.transition(node_id)
 

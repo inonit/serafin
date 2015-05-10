@@ -31,7 +31,8 @@
 .plumbing .node.email,
 .plumbing .node.sms,
 .plumbing .node.register,
-.plumbing .node.enroll {
+.plumbing .node.enroll,
+.plumbing .node.leave {
     background: #eee;
 }
 
@@ -43,15 +44,15 @@
     background: #fed;
 }
 
-#node_0:hover,
 .node:hover {
-    background: #5C97BF;
+    background: #5C97BF !important;
     color: white;
 }
 
 .node,
 .overlay {
     transition: background 0.25s;
+    transition: color 0.25s;
     font-size: 11px;
     position: absolute;
 }
