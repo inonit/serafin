@@ -77,7 +77,6 @@ angular.module("stringExpression", ["autocompleteSearch", "mentio"])
                 function queryVariables(url, data) {
                     QueryService.get(url, data).then(function(response) {
                         $scope.variables = response;
-                        console.log($scope.variables);
                     }, function() {
                         $scope.variables = [];
                     });

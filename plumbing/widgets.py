@@ -27,7 +27,7 @@ class PlumbingWidget(forms.Widget):
             'all': (
                 'plumbing/css/plumbing.css',
                 'css/autocomplete.css',
-                'css/string-expression-widget.css'
+                'css/expression-widget.css'
             )
         }
         js = (
@@ -35,8 +35,9 @@ class PlumbingWidget(forms.Widget):
             #'plumbing/jquery/jquery.min.js',
             'plumbing/jqueryui/jquery-ui.min.js',
             'plumbing/jsplumb/jquery.jsPlumb-1.6.2-min.js',
+            'js/ment.io/mentio.min.js',
             'js/vendor/lodash.min.js',
             'js/autocomplete.js',
-            'js/string-expression.js',
+            'js/expression.js',
             'plumbing/js/plumbing.js',
         )
