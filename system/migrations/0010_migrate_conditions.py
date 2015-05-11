@@ -33,7 +33,7 @@ def migrate_conditions(apps, schema_editor):
                 ' '.join([
                     '$%s' % condition.get('var_name') if condition.get('var_name') else '',
                     OPMAP.get(condition.get('operator'), ''),
-                    typecast(condition.get('value')) if condition.get('value') else ''
+                    typecast(condition.get('value')) if condition.get('value') else 'None'
                 ])
                 for condition in edge.get('conditions', [])
             ])
@@ -55,7 +55,7 @@ def migrate_conditions(apps, schema_editor):
                         ' '.join([
                             '$%s' % condition.get('var_name') if condition.get('var_name') else '',
                             OPMAP.get(condition.get('operator'), ''),
-                            typecast(condition.get('value')) if condition.get('value') else ''
+                            typecast(condition.get('value')) if condition.get('value') else 'None'
                         ])
                         for condition in content.get('conditions', [])
                     ])
