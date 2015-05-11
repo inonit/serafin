@@ -314,3 +314,22 @@ class ParserTestCase(TestCase):
         # User variables
         self.assertEqual(self.parser.parse("$UserVar1 + $UserVar2"), 3)
         self.assertRaises(TypeError, self.parser.parse, "$UserVar1 + $UserVar3")
+
+        self.assertTrue(self.parser.parse("$registered == True"))
+        self.assertFalse(self.parser.parse("$missing == 'something'"))
+        self.assertTrue(self.parser.parse("($registered == True) | ($missing == 'something')"))
+        self.assertTrue(self.parser.parse("($missing == 'something') | ($registered == True)"))
+        self.assertFalse(self.parser.parse("($registered == True) & ($missing == 'something')"))
+        self.assertFalse(self.parser.parse("($missing == 'something') & ($registered == True)"))
+
+        self.assertTrue(self.parser.parse("$UserVar4 == ''"))
+        self.assertTrue(self.parser.parse("$UserVar4 == 0"))
+        self.assertTrue(self.parser.parse("$UserVar4 == []"))
+        self.assertTrue(self.parser.parse("$UserVar4 == False"))
+        self.assertTrue(self.parser.parse("$UserVar4 == None"))
+
+        self.assertTrue(self.parser.parse("$missing == ''"))
+        self.assertTrue(self.parser.parse("$missing == 0"))
+        self.assertTrue(self.parser.parse("$missing == []"))
+        self.assertTrue(self.parser.parse("$missing == False"))
+        self.assertTrue(self.parser.parse("$missing == None"))

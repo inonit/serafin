@@ -238,16 +238,20 @@ class Parser(object):
     """
 
     UNARY = "unary -"
-    operators = {
-        # Boolean operators
+
+    bool_operators = {
         "==": oper.eq, "!=": oper.ne, "<": oper.lt, "<=": oper.le,
         ">": oper.gt, ">=": oper.ge, "in": oper.contains, "&": oper.and_,
         "|": oper.or_, "!": oper.not_,
-
-        # Mathematical operators
+    }
+    math_operators = {
         "+": oper.add, "/": oper.truediv, "^": oper.pow,
         "%": oper.mod, "*": oper.mul, "-": oper.sub,
     }
+
+    operators = {}
+    operators.update(bool_operators)
+    operators.update(math_operators)
 
     functions = {
         "sin": math.sin, "cos": math.cos, "tan": math.tan,
@@ -291,6 +295,7 @@ class Parser(object):
             numeric = Combine(Word("+-" + nums, nums) +
                               Optional(Literal(".") + Optional(Word(nums))) +
                               Optional(e + Word("+-" + nums, nums)))
+            none = Keyword("None")
 
             expression = Forward()
 
@@ -300,7 +305,7 @@ class Parser(object):
 
             atom = (Optional("-") +
                     (pi | e | numeric | ident + lparen + expression + rparen).setParseAction(self.push_stack)
-                    | (variable | boolean | lists).setParseAction(self.push_stack)
+                    | (variable | none | boolean | lists).setParseAction(self.push_stack)
                     | (lparen + expression.suppress() + rparen)).setParseAction(self.push_unary_stack)
 
             # By defining exponentiation as "atom [^factor]" instead of "atom [^atom],
@@ -375,7 +380,7 @@ class Parser(object):
         # TODO: Django has some nice stuff for this we can steal. get_internal_type or something...
         try:
             return float(value)
-        except ValueError:
+        except (ValueError, TypeError):
             pass
         return value
 
@@ -396,8 +401,15 @@ class Parser(object):
         if operator == self.UNARY:
             return -self.evaluate_stack(expr)
 
+            rhs, lhs = self.evaluate_stack(expr), self.evaluate_stack(expr)
+
         if operator in self.operators:
             rhs, lhs = self.evaluate_stack(expr), self.evaluate_stack(expr)
+            if operator in self.bool_operators:
+                if not rhs:
+                    rhs = False
+                if not lhs:
+                    lhs = False
             if operator == "in":
                 rhs, lhs = lhs, rhs
             return self.operators[operator](lhs, rhs)
@@ -405,7 +417,7 @@ class Parser(object):
             return self.functions[operator](self.evaluate_stack(expr))
         elif operator in self.constants:
             return self.constants[operator]
-        elif operator[0] == "$":
+        elif operator and operator[0] == "$":
             variable = operator[1:]
 
             if variable in [v["name"] for v in self.reserved_variables]:
@@ -414,12 +426,12 @@ class Parser(object):
             if not self.user:
                 raise ParseException("No user instance set. Please initialize the %s "
                                      "with a `user_obj` argument." % self.__class__.__name__)
-            try:
-                return self._get_return_value(self.userdata[variable])
-            except KeyError:
-                raise NameError(_("Undefined variable '%s'" % variable))
+
+            return self._get_return_value(self.userdata.get(variable))
         elif operator in ("True", "False"):
             return True if operator == "True" else False
+        elif operator == "None":
+            return None
         else:
             return self._get_return_value(operator)
 
