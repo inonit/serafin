@@ -9,7 +9,7 @@ from ..models import Program
 register = Library()
 
 
-class ProgramBaseNode(Node):
+class BaseProgramNode(Node):
     """
     Base helper class for handling the program template tags.
     """
@@ -50,7 +50,7 @@ class ProgramBaseNode(Node):
         return queryset
 
 
-class CurrentProgramNode(ProgramBaseNode):
+class CurrentProgramNode(BaseProgramNode):
     """
     Insert a program instance into the context
     """
@@ -64,7 +64,7 @@ class CurrentProgramNode(ProgramBaseNode):
         return None
 
 
-class ListProgramNode(ProgramBaseNode):
+class ListProgramNode(BaseProgramNode):
     """
     Insert a list of programs into the context
     """
