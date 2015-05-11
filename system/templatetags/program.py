@@ -44,10 +44,11 @@ class BaseProgramNode(Node):
 
     def get_queryset(self, context):
         user_obj = self.object_expr.resolve(context, ignore_failures=True)
+        queryset = self.model.objects.all()
         if not user_obj:
-            return self.model.objects.none()
+            return queryset.none()
         if not user_obj.is_staff:
-            queryset = self.model.objects.filter(
+            queryset = queryset.filter(
                 pk__in=user_obj.programuseraccess_set.values_list("program", flat=True)
             )
         return queryset

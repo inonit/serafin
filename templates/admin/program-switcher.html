@@ -9,7 +9,7 @@
     <option value="-1">{% trans "All programs" %}</option>
     {% for program in PROGRAM_LIST %}
       <option value="{{ program.id }}"{% if program.id == PROGRAM.id %} selected="selected" {% endif %}>
-        {% firstof program.display_title program.title %}
+        {{ program.title }}
       </option>
     {% endfor %}
   </select>
