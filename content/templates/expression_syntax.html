@@ -70,7 +70,7 @@
             Variables must be prefixed with <span class="label label-info">$</span> like for
             example <span class="label label-info">$MyLittlePony</span>. Any variable must
             be pre-defined and will be looked up whenever encountered.
-            If a variable is not found, the evaluation will fail with an error message.
+            If a variable is not found for the end user (or the admin user, when typing the expression), it is evaluated as <span class="label label-info">False</span>.
           {% endblocktrans %}
         </div>
       </div>
@@ -144,6 +144,20 @@
             <li><span class="label label-info">True == True</span> {% trans "Returns the value" %} true</li>
             <li><span class="label label-info">(1 + 2) == (5 - 2)</span> {% trans "Returns the value" %} true</li>
             <li><span class="label label-info">(True & False) | False</span> {% trans "Returns the value" %} false</li>
+          </ul>
+
+          <p>
+            {% blocktrans %}
+              All falsey values; <span class="label label-info">False</span>, <span class="label label-info">None</span>, <span class="label label-info">$missing</span> variables, <span class="label label-info">0</span>, <span class="label label-info">[]</span>, <span class="label label-info">""</span> and <span class="label label-info">''</span>, are handled as <span class="label label-info">False</span>.
+            {% endblocktrans %}
+          </p>
+
+          <br/>
+          <ul>
+            <li><span class="label label-info">$missing == None</span> {% trans "Returns the value" %} true</li>
+            <li><span class="label label-info">$missing != ""</span> {% trans "Returns the value" %} false</li>
+            <li><span class="label label-info">0 == None</span> {% trans "Returns the value" %} true</li>
+            <li><span class="label label-info">False | True</span> {% trans "Returns the value" %} true</li>
           </ul>
 
         </div>
