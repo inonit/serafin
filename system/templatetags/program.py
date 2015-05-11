@@ -48,7 +48,7 @@ class BaseProgramNode(Node):
         if not user_obj:
             return queryset.none()
         if not user_obj.is_staff:
-            queryset = self.model.objects.filter(
+            queryset = queryset.filter(
                 pk__in=user_obj.programuseraccess_set.values_list("program", flat=True)
             )
         return queryset
