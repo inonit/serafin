@@ -73,6 +73,8 @@ div.preview-box .validator {
 
 a#popover-close {
   font-size: 0.8rem;
+  float: right;
+  cursor: pointer;
 }
 
 /**
@@ -124,6 +126,9 @@ mentio-menu ul > li.list-group-item > i {
 /* Override Bootstrap popover CSS */
 .popover {
   border-radius: 4px;
+  height: 500px;
+  overflow: hidden;
+  overflow-y: scroll;
 }
 
 .popover,
@@ -134,7 +139,6 @@ mentio-menu ul > li.list-group-item > i {
 
 .popover > h3.popover-title {
   padding: 0.2rem;
-  display: block;
   text-align: center;
 }
 
