@@ -8,11 +8,7 @@
         <ul class="title-area">
           <li class="name">
             <a href="{{ item.url_resolved }}" title="{{ item.title_resolved }}">
-            <img class="logo" src="{% static 'img/logo_hvit.png' %}" alt="{{ item.title_resolved }}">
-            <!--
-            <img class="logo" src="{% static 'img/logo_positiv.png' %}" alt="{{ item.title_resolved }}">
-            <img class="logo" src="{% static 'img/logo_negativ.png' %}" alt="{{ item.title_resolved }}">
-            -->
+              <div class="logo">{{ item.title_resolved }}</div>
             </a>
           </li>
           <li toggle-top-bar class="menu-icon"><a href="#"><span>{# Empty #}</span></a></li>
