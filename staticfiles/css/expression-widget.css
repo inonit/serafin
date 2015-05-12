@@ -111,6 +111,12 @@ mentio-menu ul > li.list-group-item.active {
   border-color: #428bca;
 }
 
+mentio-menu ul > li.list-group-item > i {
+  margin-left: -5px;
+  padding-right: 5px;
+}
+
+
 /**
  * Bootstrap overrides
  */

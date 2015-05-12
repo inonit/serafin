@@ -132,6 +132,29 @@ angular.module("stringExpression", ["autocompleteSearch", "mentio"])
         }
     })
 
+    .directive("bootstrapTooltip", function() {
+        return {
+            restrict: "A",
+            scope: {
+                tooltipTitle: "=tooltipTitle",
+                tooltipPlacement: "@tooltipPlacement"
+            },
+            link: function(scope, element, attrs) {
+                $(element).tooltip({
+                    container: "body",
+                    title: scope.tooltipTitle,
+                    placement: scope.tooltipPlacement || "top"
+                });
+                element.bind("mouseenter", function(e) {
+                    $(element).tooltip("show");
+                });
+                element.bind("mouseleave", function(e) {
+                    $(element).tooltip("hide");
+                });
+            }
+        }
+    })
+
     .service("ExpressionValidatorService", function() {
 
         function isValid(expressionString) {
