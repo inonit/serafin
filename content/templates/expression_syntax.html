@@ -6,7 +6,7 @@
   <ul class="list-group variable-results">
     <li mentio-menu-item="item" ng-repeat="item in items track by $index" class="list-group-item">
       <span class="text-primary"
-          ng-bind-html="item.name | mentioHighlight:typedTerm:'menu-highlighted' | unsafe"></span>
+            ng-bind-html="item.name | mentioHighlight:typedTerm:'menu-highlighted' | unsafe"></span>
     </li>
   </ul>
 </script>
@@ -70,8 +70,31 @@
             Variables must be prefixed with <span class="label label-info">$</span> like for
             example <span class="label label-info">$MyLittlePony</span>. Any variable must
             be pre-defined and will be looked up whenever encountered.
-            If a variable is not found for the end user (or the admin user, when typing the expression), it is evaluated as <span class="label label-info">False</span>.
+            If a variable is not found for the current user (on evaluation time),
+            it is evaluated as <span class="label label-info">False</span>.
           {% endblocktrans %}
+
+          <h6>{% trans "Reserved variables" %}</h6>
+          <p>{% trans "The following list of variables is reserved by the system" %}</p>
+          <ul>
+            <li><span class="label label-info">$current_day</span>
+              {% trans "Returns the current weekday as number, where Monday is 1 and Sunday is 7" %}
+            </li>
+            <li><span class="label label-info">$current_time</span>
+              {% trans "Returns the current time in ISO format, i.e. " %}
+              <span class="label label-info">12:00:00</span>
+            </li>
+            <li><span class="label label-info">$current_date</span>
+              {% trans "Returns the current date in ISO format, i.e. " %}
+              <span class="label label-info">2015-05-01</span>
+            </li>
+            <li><span class="label label-info">$registered</span>
+              {% trans "Returns True if the user has an active account" %}
+            </li>
+            <li><span class="label label-info">$enrolled</span>
+              {% trans "Returns True if the user is enrolled with the current program" %}
+            </li>
+          </ul>
         </div>
       </div>
     </div>
@@ -117,12 +140,12 @@
               <li>{% trans "Equal" %}<span class="right label label-info operator-label"> == </span></li>
               <li>{% trans "Less than" %}<span class="right label label-info operator-label"> < </span></li>
               <li>{% trans "Greater than" %}<span class="right label label-info operator-label"> > </span></li>
-              <!--<li>{% trans "Contains" %} <span class="right label label-info operator-label"> in </span></li> Postponed -->
               <li>{% trans "AND" %} <span class="right label label-info"> & </span></li>
             </ul>
           </div>
           <div class="span6">
             <ul class="unstyled">
+              <li>{% trans "Contains" %} <span class="right label label-info operator-label"> in </span></li>
               <li>{% trans "Not equal" %}<span class="right label label-info operator-label"> != </span></li>
               <li>{% trans "Less or equal" %}<span class="right label label-info operator-label"> <= </span></li>
               <li>{% trans "Greater or equal" %} <span class="right label label-info operator-label"> >= </span></li>
@@ -148,7 +171,19 @@
 
           <p>
             {% blocktrans %}
-              All falsey values; <span class="label label-info">False</span>, <span class="label label-info">None</span>, <span class="label label-info">$missing</span> variables, <span class="label label-info">0</span>, <span class="label label-info">[]</span>, <span class="label label-info">""</span> and <span class="label label-info">''</span>, are handled as <span class="label label-info">False</span>.
+              All falsey values; <span class="label label-info">False</span>,
+              <span class="label label-info">None</span>, <span class="label label-info">$missing</span> variables,
+              <span class="label label-info">0</span>, <span class="label label-info">[ ]</span>,
+              <span class="label label-info">""</span> and <span class="label label-info">''</span>,
+              are handled as <span class="label label-info">False</span>.
+            {% endblocktrans %}
+          </p>
+          <p>
+            {% blocktrans %}
+              Time and date can be compared with boolean operators, either by using a
+              <span class="label label-info">$myTimeOrDate</span> variable, or writing the time or date value
+              directly. If writing the value directly, make sure it's passed as a
+              <span class="label label-info">string value</span> (encapsulate the value in single or double quotes).
             {% endblocktrans %}
           </p>
 
