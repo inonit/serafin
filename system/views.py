@@ -248,6 +248,8 @@ class VariableSearchViewSet(viewsets.ModelViewSet):
         program if any.
         """
         queryset = super(VariableSearchViewSet, self).get_queryset()
+        if '_program_id' in self.request.session:
+            queryset = queryset.filter(program__id=self.request.session['_program_id'])
         return queryset
 
     def list(self, request, *args, **kwargs):
