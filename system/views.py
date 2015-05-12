@@ -229,6 +229,30 @@ def set_program(request):
     return response
 
 
+@staff_member_required
+def set_stylesheet(request):
+    """
+    View for setting a stylesheet in a session variable.
+    Use a template tag to check for the existence of the
+    stylesheet and use it if existing.
+    """
+    redirect_to = request.POST.get("next", request.GET.get("next"))
+    if not is_safe_url(url=redirect_to, host=request.get_host()):
+        redirect_to = request.META.get("HTTP_REFERER")
+        if not is_safe_url(url=redirect_to, host=request.get_host()):
+            redirect_to = "/"
+    response = HttpResponseRedirect(redirect_to)
+    if request.method == "POST":
+        stylesheet = request.POST.get("stylesheet", None)
+        if stylesheet and stylesheet in [s["name"] for s in getattr(settings, "STYLESHEETS", [])]:
+            if hasattr(request, "session"):
+                request.session["_stylesheet"] = stylesheet
+        elif not stylesheet:
+            if hasattr(request, "session") and "_stylesheet" in request.session:
+                del request.session["_stylesheet"]
+    return response
+
+
 class VariableViewSet(viewsets.ModelViewSet):
 
     queryset = Variable.objects.all()
