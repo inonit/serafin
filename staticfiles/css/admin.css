@@ -5,14 +5,16 @@
 }
 
 #language-switcher,
-#program-switcher {
+#program-switcher,
+#stylesheet-switcher {
     display: inline-block;
     margin: 0;
     padding: 0;
 }
 
 #language-switcher select,
-#program-switcher select {
+#program-switcher select,
+#stylesheet-switcher select {
     outline: none;
     background: transparent;
     color: white;
@@ -26,6 +28,7 @@
 }
 
 #language-switcher option,
-#program-switcher option {
+#program-switcher option,
+#stylesheet-switcher option {
     color: black;
 }

@@ -1,0 +1,15 @@
+{% load i18n stylesheet %}
+
+<form id="stylesheet-switcher" action="{% url 'set_stylesheet' %}" method="post">
+  {% csrf_token %}
+  <input name="next" type="hidden" value="{{ redirect_to }}" />
+  <select name="stylesheet" onChange="this.form.submit();">
+    {% get_current_stylesheet for user as STYLESHEET %}
+    {% get_available_stylesheets for user as STYLESHEET_LIST %}
+    {% for stylesheet in STYLESHEET_LIST %}
+      <option value="{{ stylesheet.name }}"{% if stylesheet.path == STYLESHEET.path %} selected="selected" {% endif %}>
+        {{ stylesheet.name }}
+      </option>
+    {% endfor %}
+  </select>
+</form>
