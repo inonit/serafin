@@ -106,7 +106,7 @@ angular.module("stringExpression", ["autocompleteSearch", "mentio"])
                     var url = "/api/system/variables/search/",
                         query = {query: term};
                     QueueService.add(_.partial(queryVariables, url, query));
-                 };
+                };
 
                 $scope.getVariableText = function(item) {
                     return "$" + item.name;

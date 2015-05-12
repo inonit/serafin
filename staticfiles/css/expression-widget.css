@@ -179,5 +179,5 @@ div.popover-content > .accordion > .accordion-group > .accordion-heading > a.acc
 }
 
 div.popover-content > .accordion > .accordion-group > .accordion-body > .accordion-inner {
-  padding: 0;
+  padding: 2px;
 }
