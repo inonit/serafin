@@ -429,6 +429,11 @@ RESERVED_VARIABLES = [
         'domains': []
     },
     {
+        'name': 'login_link',
+        'admin_note': 'For system use. Used in processing login e-mails.',
+        'domains': []
+    },
+    {
         'name': 'reply_variable',
         'admin_note': 'For system use. Returns the name of the last SMS reply variable.',
         'domains': []

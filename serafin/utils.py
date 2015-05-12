@@ -83,7 +83,7 @@ def process_email_links(user, text):
 
     from system.engine import Engine
 
-    matches = re.findall(r'(login)', text)
+    matches = re.findall(r'(login_link)', text)
     for match in matches:
         login_str = match[0]
 

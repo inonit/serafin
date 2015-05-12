@@ -181,6 +181,9 @@ content.controller('markdown', ['$scope', '$window', '$sce', function (scope, wi
     scope.md2html = function (content) {
         var marked = window.marked(content);
         marked = marked.replace(/({{.*?}})/g, '<span class="markup">$&</span>');
+        marked = marked.replace(/([[.*?]])/g, '<span class="markup">$&</span>');
+        marked = marked.replace(/(login_link)/g, '<span class="markup">$&</span>');
+        marked = marked.replace(/(reply:\d+)/g, '<span class="markup">$&</span>');
         scope.html = sce.trustAsHtml(marked);
     };
 }]);

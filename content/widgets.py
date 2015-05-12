@@ -55,8 +55,8 @@ class ContentWidget(forms.Widget):
         js = (
             filer_settings.FILER_STATICMEDIA_PREFIX + 'js/popup_handling.js',
             'content/angular/angular.min.js',
-            'js/ment.io/mentio.min.js',
             'js/vendor/lodash.min.js',
+            'js/ment.io/mentio.min.js',
             'js/autocomplete.js',
             'js/expression.js',
             'content/marked/marked.js',
@@ -77,13 +77,15 @@ class TextContentWidget(forms.Widget):
     class Media:
         css = {
             'all': (
-                'content/css/content.css'
+                'content/css/content.css',
             )
         }
         js = (
             'content/angular/angular.min.js',
             'js/vendor/lodash.min.js',
+            'js/ment.io/mentio.min.js',
             'js/autocomplete.js',
+            'js/expression.js',
             'content/marked/marked.js',
             'content/js/content.js',
         )
@@ -108,6 +110,8 @@ class SMSContentWidget(forms.Widget):
         js = (
             'content/angular/angular.min.js',
             'js/vendor/lodash.min.js',
+            'js/ment.io/mentio.min.js',
             'js/autocomplete.js',
+            'js/expression.js',
             'content/js/content.js',
         )
