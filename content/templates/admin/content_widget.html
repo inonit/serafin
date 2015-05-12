@@ -401,6 +401,7 @@
         var reservedVars = {{ reserved_vars|default:'undefined'|safe }};
         $(function () {
             $('[data-toggle="popover"]').popover();
+            $('[data-toggle="tooltip"]').tooltip();
         });
     </script>
 </div>

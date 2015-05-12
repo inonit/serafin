@@ -5,6 +5,10 @@
   {# Template for Expression variables using ment.io #}
   <ul class="list-group variable-results">
     <li mentio-menu-item="item" ng-repeat="item in items track by $index" class="list-group-item">
+      <i class="icon-question-sign" ng-if="item.admin_note"
+          bootstrap-tooltip
+          tooltip-placement="left"
+          tooltip-title="item.admin_note"></i>
       <span class="text-primary"
             ng-bind-html="item.name | mentioHighlight:typedTerm:'menu-highlighted' | unsafe"></span>
     </li>
