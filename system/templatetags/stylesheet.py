@@ -62,7 +62,6 @@ class CurrentStylesheetNode(StylesheetNode):
                 for i, s in enumerate(stylesheets):
                     if s["name"] == stylesheet:
                         return stylesheets[i]
-        return {"name": "", "path": ""}
 
 
 class ListStylesheetNode(StylesheetNode):

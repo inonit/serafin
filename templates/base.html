@@ -14,9 +14,9 @@
     <link rel="stylesheet" href="{% static 'css/foundation.css' %}" />
     {% get_current_stylesheet for user as STYLESHEET %}
     {% if STYLESHEET %}
-      <link rel="stylesheet" href="{% static STYLESHEET.path %}" />
+    <link rel="stylesheet" href="{% static STYLESHEET.path %}" />
     {% else %}
-      <link rel="stylesheet" href="{% static 'css/style-miksmaster-alt.css' %}" />
+    <link rel="stylesheet" href="{% static 'css/style-miksmaster-alt.css' %}" />
     {% endif %}
     {% block styles %}{% endblock %}
     {% endcompress %}
