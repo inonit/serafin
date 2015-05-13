@@ -9,7 +9,7 @@ html, body {
 .wrapper {
     min-height: 100%;
     height: auto !important;
-    margin: -1em auto -45px;
+    margin: 0 auto -45px;
 }
 
 .footer, .push {

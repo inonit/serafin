@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Serafin\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-05-12 09:49+0200\n"
+"POT-Creation-Date: 2015-05-13 21:58+0200\n"
 "PO-Revision-Date: 2014-08-26 11:35+0200\n"
 "Last-Translator: Eirik Krogstad <eirikkr@gmail.com>\n"
 "Language: nb\n"
@@ -235,7 +235,7 @@ msgstr "Tittel"
 msgid "characters used"
 msgstr "tegn brukt"
 
-#: content/templates/expression_syntax.html:17
+#: content/templates/expression_syntax.html:21
 msgid ""
 "\n"
 "    The Serafin expression \"mini-language\" has a predefined set of "
@@ -253,20 +253,20 @@ msgstr ""
 "for å gjøre valg i brukerprogram. Klikk lenkene under for "
 "syntaksbeskrivelser."
 
-#: content/templates/expression_syntax.html:30
-#: content/templates/expression_syntax.html:35
+#: content/templates/expression_syntax.html:34
+#: content/templates/expression_syntax.html:39
 msgid "Grouping"
 msgstr "Gruppering"
 
-#: content/templates/expression_syntax.html:37
+#: content/templates/expression_syntax.html:41
 msgid "Expression can be grouped by putting them in parentheses."
 msgstr "Uttrykk kan grupperes ved å sette dem i paranteser."
 
-#: content/templates/expression_syntax.html:38
+#: content/templates/expression_syntax.html:42
 msgid "Evaluation order"
 msgstr "Evalueringsrekkefølge"
 
-#: content/templates/expression_syntax.html:39
+#: content/templates/expression_syntax.html:43
 msgid ""
 "\n"
 "            <p>\n"
@@ -307,12 +307,12 @@ msgstr ""
 "</dl>\n"
 "              "
 
-#: content/templates/expression_syntax.html:63
-#: content/templates/expression_syntax.html:68
+#: content/templates/expression_syntax.html:67
+#: content/templates/expression_syntax.html:72
 msgid "Variables"
 msgstr "Variabler"
 
-#: content/templates/expression_syntax.html:69
+#: content/templates/expression_syntax.html:73
 msgid ""
 "\n"
 "            Variables must be prefixed with <span class=\"label label-info\">"
@@ -334,42 +334,42 @@ msgstr ""
 "returverdien være <span class=\"label label-info\">False</span>.\n"
 "              "
 
-#: content/templates/expression_syntax.html:77
+#: content/templates/expression_syntax.html:81
 msgid "Reserved variables"
 msgstr "Reserverte variabler"
 
-#: content/templates/expression_syntax.html:78
+#: content/templates/expression_syntax.html:82
 msgid "The following list of variables is reserved by the system"
 msgstr "Følgende liste med variabler er reservert av systemet"
 
-#: content/templates/expression_syntax.html:81
+#: content/templates/expression_syntax.html:85
 msgid ""
 "Returns the current weekday as number, where Monday is 1 and Sunday is 7"
 msgstr ""
 "Returnerer gjeldende ukedag som nummer, hvor Mandag er 1 og Søndag er 7"
 
-#: content/templates/expression_syntax.html:84
+#: content/templates/expression_syntax.html:88
 msgid "Returns the current time in ISO format, i.e. "
 msgstr "Returnerer gjeldende tid i ISO format, for eksempel "
 
-#: content/templates/expression_syntax.html:88
+#: content/templates/expression_syntax.html:92
 msgid "Returns the current date in ISO format, i.e. "
 msgstr "Returnerer gjeldende dato i ISO format, for eksempel "
 
-#: content/templates/expression_syntax.html:92
+#: content/templates/expression_syntax.html:96
 msgid "Returns True if the user has an active account"
 msgstr "Returnerer True om brukeren har en aktiv konto"
 
-#: content/templates/expression_syntax.html:95
+#: content/templates/expression_syntax.html:99
 msgid "Returns True if the user is enrolled with the current program"
 msgstr "Returnerer True om bruker er meldt inn i gjeldende program"
 
-#: content/templates/expression_syntax.html:107
-#: content/templates/expression_syntax.html:112
+#: content/templates/expression_syntax.html:111
+#: content/templates/expression_syntax.html:116
 msgid "Operators"
 msgstr "Operatører"
 
-#: content/templates/expression_syntax.html:113
+#: content/templates/expression_syntax.html:117
 msgid ""
 "\n"
 "            We have two set of expression types; simple arithmetic "
@@ -385,75 +385,75 @@ msgstr ""
 "og boolske uttrykk. Uttrykksevaluering på tvers av typer er ikke støttet, og "
 "vil gi feilmelding eller upresise resultater.               "
 
-#: content/templates/expression_syntax.html:119
+#: content/templates/expression_syntax.html:123
 msgid "Arithmetic operators"
 msgstr "Aritmetiske operatører"
 
-#: content/templates/expression_syntax.html:123
+#: content/templates/expression_syntax.html:127
 msgid "Addition"
 msgstr "Addisjon"
 
-#: content/templates/expression_syntax.html:124
+#: content/templates/expression_syntax.html:128
 msgid "Subtraction"
 msgstr "Subtraksjon"
 
-#: content/templates/expression_syntax.html:125
+#: content/templates/expression_syntax.html:129
 msgid "Division"
 msgstr "Divisjon"
 
-#: content/templates/expression_syntax.html:130
+#: content/templates/expression_syntax.html:134
 msgid "Multiplication"
 msgstr "Multiplikasjon"
 
-#: content/templates/expression_syntax.html:131
+#: content/templates/expression_syntax.html:135
 msgid "Factorisation"
 msgstr "Eksponensiering"
 
-#: content/templates/expression_syntax.html:132
+#: content/templates/expression_syntax.html:136
 msgid "Modulus"
 msgstr "Modulo"
 
-#: content/templates/expression_syntax.html:136
+#: content/templates/expression_syntax.html:140
 msgid "Boolean and comparison operators"
 msgstr "Boolske og sammenlignings-operatører"
 
-#: content/templates/expression_syntax.html:140
+#: content/templates/expression_syntax.html:144
 msgid "Equal"
 msgstr "Er lik"
 
-#: content/templates/expression_syntax.html:141
+#: content/templates/expression_syntax.html:145
 msgid "Less than"
 msgstr "Mindre enn"
 
-#: content/templates/expression_syntax.html:142
+#: content/templates/expression_syntax.html:146
 msgid "Greater than"
 msgstr "Større enn"
 
-#: content/templates/expression_syntax.html:143
+#: content/templates/expression_syntax.html:147
 msgid "AND"
 msgstr "OG"
 
-#: content/templates/expression_syntax.html:148
+#: content/templates/expression_syntax.html:152
 msgid "Contains"
 msgstr "Inneholder"
 
-#: content/templates/expression_syntax.html:149
+#: content/templates/expression_syntax.html:153
 msgid "Not equal"
 msgstr "Ikke lik"
 
-#: content/templates/expression_syntax.html:150
+#: content/templates/expression_syntax.html:154
 msgid "Less or equal"
 msgstr "Mindre eller lik"
 
-#: content/templates/expression_syntax.html:151
+#: content/templates/expression_syntax.html:155
 msgid "Greater or equal"
 msgstr "Større eller lik"
 
-#: content/templates/expression_syntax.html:152
+#: content/templates/expression_syntax.html:156
 msgid "OR"
 msgstr "ELLER"
 
-#: content/templates/expression_syntax.html:157
+#: content/templates/expression_syntax.html:161
 msgid ""
 "\n"
 "              Expressions evaluated using boolean or comparison operators "
@@ -473,19 +473,19 @@ msgstr ""
 "\"label label-info\">False</span>.\n"
 "                "
 
-#: content/templates/expression_syntax.html:167
-#: content/templates/expression_syntax.html:168
-#: content/templates/expression_syntax.html:169
-#: content/templates/expression_syntax.html:192
-#: content/templates/expression_syntax.html:193
-#: content/templates/expression_syntax.html:194
-#: content/templates/expression_syntax.html:195
-#: content/templates/expression_syntax.html:220
-#: content/templates/expression_syntax.html:221
+#: content/templates/expression_syntax.html:171
+#: content/templates/expression_syntax.html:172
+#: content/templates/expression_syntax.html:173
+#: content/templates/expression_syntax.html:196
+#: content/templates/expression_syntax.html:197
+#: content/templates/expression_syntax.html:198
+#: content/templates/expression_syntax.html:199
+#: content/templates/expression_syntax.html:224
+#: content/templates/expression_syntax.html:225
 msgid "Returns the value"
 msgstr "Returnerer verdien"
 
-#: content/templates/expression_syntax.html:173
+#: content/templates/expression_syntax.html:177
 msgid ""
 "\n"
 "              All falsey values; <span class=\"label label-info\">False</"
@@ -503,11 +503,11 @@ msgstr ""
 "Alle falske verdier; <span class=\"label label-info\">False</span>, \n"
 "<span class=\"label label-info\">None</span>, <span class=\"label label-info"
 "\">$ikkeEksisterende</span> variabler, <span class=\"label label-info\">0</"
-"span>, <span class=\"label label-info\">[ ]</span>, <span class=\"label label-"
-"info\">\"\"</span> og <span class=\"label label-info\">''</span>, blir "
+"span>, <span class=\"label label-info\">[ ]</span>, <span class=\"label "
+"label-info\">\"\"</span> og <span class=\"label label-info\">''</span>, blir "
 "håndtert som <span class=\"label label-info\">False</span>.             "
 
-#: content/templates/expression_syntax.html:182
+#: content/templates/expression_syntax.html:186
 msgid ""
 "\n"
 "              Time and date can be compared with boolean operators, either "
@@ -522,18 +522,18 @@ msgid ""
 msgstr ""
 "\n"
 "Tid og dato kan sammenlignes med boolske operatører, enten ved å bruke en "
-"<span class=\"label label-info\">$minTidEllerDato</span> variabel, eller ved å "
-"skrive verdien direkte.Om verdien skrives inn direkte, pass på at den "
+"<span class=\"label label-info\">$minTidEllerDato</span> variabel, eller ved "
+"å skrive verdien direkte.Om verdien skrives inn direkte, pass på at den "
 "skrives som en  <span class=\"label label-info\">streng verdi</span> (skriv "
 "verdien i enkle, eller dobble anførselstegn).\n"
 "            "
 
-#: content/templates/expression_syntax.html:208
-#: content/templates/expression_syntax.html:213
+#: content/templates/expression_syntax.html:212
+#: content/templates/expression_syntax.html:217
 msgid "Functions"
 msgstr "Funksjoner"
 
-#: content/templates/expression_syntax.html:214
+#: content/templates/expression_syntax.html:218
 msgid ""
 "\n"
 "            Some basic functions are supported. Functions are applied by "
@@ -546,39 +546,39 @@ msgstr ""
 "den en verdi, eller et uttrykk som returnerer en verdi.\n"
 "              "
 
-#: content/templates/expression_syntax.html:218
+#: content/templates/expression_syntax.html:222
 msgid "Examples"
 msgstr "Eksempler"
 
-#: content/templates/expression_syntax.html:227
+#: content/templates/expression_syntax.html:231
 msgid "Sine"
 msgstr "Sinus"
 
-#: content/templates/expression_syntax.html:230
+#: content/templates/expression_syntax.html:234
 msgid "Cosines"
 msgstr "Cosinus"
 
-#: content/templates/expression_syntax.html:233
+#: content/templates/expression_syntax.html:237
 msgid "Tangents"
 msgstr "Tangens"
 
-#: content/templates/expression_syntax.html:236
+#: content/templates/expression_syntax.html:240
 msgid "Absolute value"
 msgstr "Absolutt verdi"
 
-#: content/templates/expression_syntax.html:243
+#: content/templates/expression_syntax.html:247
 msgid "Truncate"
 msgstr "Forkort"
 
-#: content/templates/expression_syntax.html:246
+#: content/templates/expression_syntax.html:250
 msgid "Round"
 msgstr "Avrund"
 
-#: content/templates/expression_syntax.html:249
+#: content/templates/expression_syntax.html:253
 msgid "Sign digit"
 msgstr "Sign"
 
-#: content/templates/expression_syntax.html:255
+#: content/templates/expression_syntax.html:259
 msgid ""
 "\n"
 "                The <span class=\"label label-info\">sign</span> function "
@@ -598,30 +598,30 @@ msgstr ""
 "class=\"label label-info\">1</span> om den tilføres en positiv "
 "verdi.                   "
 
-#: content/templates/expression_syntax.html:272
-#: content/templates/expression_syntax.html:277
+#: content/templates/expression_syntax.html:276
+#: content/templates/expression_syntax.html:281
 msgid "Constants"
 msgstr "Konstanter"
 
-#: content/templates/expression_syntax.html:278
+#: content/templates/expression_syntax.html:282
 msgid "Supported constants are"
 msgstr "Støttede konstanter er"
 
-#: content/templates/expression_syntax.html:281
+#: content/templates/expression_syntax.html:285
 msgid "and"
 msgstr "og"
 
-#: content/templates/expression_syntax.html:286
-#: content/templates/expression_syntax.html:289
+#: content/templates/expression_syntax.html:290
+#: content/templates/expression_syntax.html:293
 msgid "provides the mathematical constant"
 msgstr "gir den matematiske konstanten"
 
-#: content/templates/expression_syntax.html:287
-#: content/templates/expression_syntax.html:290
+#: content/templates/expression_syntax.html:291
+#: content/templates/expression_syntax.html:294
 msgid "to available precision"
 msgstr "til tilgjengelig presisjon"
 
-#: content/templates/expression_syntax.html:302
+#: content/templates/expression_syntax.html:306
 msgid "Close"
 msgstr "Lukk"
 
@@ -713,7 +713,7 @@ msgid "+ Leave"
 msgstr "+ Avmelding"
 
 #: plumbing/templates/admin/plumbing_widget.html:59
-#: templates/sitetree/topbar_navmenu/navmenu.html:22
+#: templates/sitetree/topbar_navmenu/navmenu.html:18
 msgid "Register"
 msgstr "Registrering"
 
@@ -776,6 +776,18 @@ msgstr "Media"
 #: serafin/settings.py:309
 msgid "Settings"
 msgstr "Oppsett"
+
+#: serafin/settings.py:450
+msgid "Default stylesheet"
+msgstr "Nøytralt stilark"
+
+#: serafin/settings.py:451
+msgid "Miksmaster"
+msgstr "Miksmaster"
+
+#: serafin/settings.py:452
+msgid "Miksmaster alternate"
+msgstr "Miksmaster, alternativ"
 
 #: serafin/utils.py:24
 #, python-format
@@ -1161,15 +1173,15 @@ msgstr ""
 msgid "Documentation"
 msgstr ""
 
-#: templates/admin/base.html:101
+#: templates/admin/base.html:92
 msgid "Change password"
 msgstr ""
 
-#: templates/admin/base.html:103
+#: templates/admin/base.html:94
 msgid "Log out"
 msgstr ""
 
-#: templates/admin/base.html:123
+#: templates/admin/base.html:114
 msgid "Home"
 msgstr "Hjem"
 
@@ -1366,7 +1378,7 @@ msgstr "Dette feltet er påkrevet"
 msgid "Next page"
 msgstr "Neste side"
 
-#: templates/sitetree/topbar_navmenu/navmenu.html:22
+#: templates/sitetree/topbar_navmenu/navmenu.html:18
 msgid "Account"
 msgstr "Konto"
 

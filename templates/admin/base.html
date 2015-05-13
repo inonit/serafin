@@ -79,14 +79,14 @@
                    <span class="separator">|</span>
                   {% endif %}
 
-                  {# The stylesheet swithcher form #}
-                  {% include "admin/stylesheet-switcher.html" %}
+                  {# The language swithcher form #}
+                  {% include "admin/language-swithcher.html" %}
 
                   {# The program swithcher form #}
                   {% include "admin/program-switcher.html" %}
 
-                  {# The language swithcher form #}
-                  {% include "admin/language-swithcher.html" %}
+                  {# The stylesheet swithcher form #}
+                  {% include "admin/stylesheet-switcher.html" %}
 
                   <span class="separator">|</span>
                   <a href="{% url 'admin:password_change' %}">{% trans 'Change password' %}</a>

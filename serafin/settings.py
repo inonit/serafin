@@ -448,8 +448,8 @@ RESERVED_VARIABLES = [
 # Available stylesheets for the dynamic switcher
 STYLESHEETS = [
     {"name": _("Default stylesheet"), "path": "css/style.css"},
-    {"name": _("Mixmaster"), "path": "css/style-miksmaster.css"},
-    {"name": _("Mixmaster alternate"), "path": "css/style-miksmaster-alt.css"},
+    {"name": _("Miksmaster"), "path": "css/style-miksmaster.css"},
+    {"name": _("Miksmaster alternate"), "path": "css/style-miksmaster-alt.css"},
 ]
 
 try:
