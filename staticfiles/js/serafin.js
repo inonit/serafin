@@ -17,11 +17,14 @@ serafin.run(['$rootScope', '$http', function(scope, http) {
 
     if (api) {
         http.get(api + window.location.search).success(function(data) {
+            scope.error = null;
             scope.getVariables(data.data);
             scope.title = data.title;
             scope.page = data.data;
             scope.dead_end = data.dead_end;
             scope.stacked = data.stacked;
+        }).error(function(data, status, error, config) {
+            scope.error = data;
         });
     }
 
@@ -76,6 +79,7 @@ serafin.controller('pages', ['$scope', '$http', function(scope, http) {
         };
 
         http(request).success(function(data) {
+            scope.error = null;
             scope.getVariables(data.data);
             scope.$emit('title', data.title);
             scope.page = data.data;
@@ -83,6 +87,8 @@ serafin.controller('pages', ['$scope', '$http', function(scope, http) {
             scope.stacked = data.stacked;
             scope.form.submitted = false;
             window.scrollTo(0,0);
+        }).error(function(data, status, error, config) {
+            scope.error = data;
         });
     };
 }]);
