@@ -201,7 +201,7 @@ class SessionForm(forms.ModelForm):
     def clean_data(self):
         data = self.cleaned_data['data']
         try:
-            parser = Parser()
+            parser = Parser(user_obj=self.request_user)
 
             edges = data.get('edges', [])
             for edge in edges:
@@ -212,9 +212,10 @@ class SessionForm(forms.ModelForm):
 
             nodes = data.get('nodes', [])
             for node in nodes:
-                id = 'node "%s"' % node.get('title')
+                id = 'expression node'
                 expression = node.get('expression')
-                result = parser.parse(expression)
+                if node.get('type') == 'expression':
+                    result = parser.parse(expression)
 
         except Exception as e:
             raise forms.ValidationError(_('Error in expression, %s: %s') % (id, e))
@@ -300,9 +301,6 @@ class SessionAdmin(admin.ModelAdmin):
         }),
     ]
 
-    def get_changelist_form(self, request, **kwargs):
-        return SessionForm
-
     def note_excerpt(self, obj):
         return obj.admin_note[:100] + '...'
 
@@ -313,6 +311,14 @@ class SessionAdmin(admin.ModelAdmin):
         if '_program_id' in request.session:
             queryset = queryset.filter(program__id=request.session['_program_id'])
         return queryset
+
+    def get_form(self, request, obj=None, **kwargs):
+         form = super(SessionAdmin, self).get_form(request, obj, **kwargs)
+         form.request_user = request.user
+         return form
+
+    def get_changelist_form(self, request, **kwargs):
+        return SessionForm
 
     def copy(modeladmin, request, queryset):
         for session in queryset:
@@ -354,20 +360,20 @@ class ContentForm(forms.ModelForm):
     def clean_data(self):
         data = self.cleaned_data['data']
         try:
+            parser = Parser(user_obj=self.request_user)
+
             for index, pagelet in enumerate(data):
 
                 id = 'pagelet %s' % index
 
                 if pagelet.get('content_type') == 'expression':
                     expression = pagelet.get('content', {}).get('value')
-                    parser = Parser()
                     result = parser.parse(expression)
 
                 if pagelet.get('content_type') == 'conditionalset':
                     for condition in pagelet.get('content', []):
                         expression = condition.get('expression')
                         if expression:
-                            parser = Parser()
                             result = parser.parse(expression)
 
         except Exception as e:
@@ -424,6 +430,11 @@ class ContentAdmin(admin.ModelAdmin):
                 Q(program_id=None)
             )
         return queryset
+
+    def get_form(self, request, obj=None, **kwargs):
+         form = super(ContentAdmin, self).get_form(request, obj, **kwargs)
+         form.request_user = request.user
+         return form
 
 
 class PageForm(ContentForm):
