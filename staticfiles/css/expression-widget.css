@@ -145,6 +145,7 @@ mentio-menu ul > li.list-group-item > i {
 .popover > h3.popover-title {
   padding: 0.2rem;
   text-align: center;
+  display: block;
 }
 
 .popover > .popover-content {
