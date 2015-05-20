@@ -126,7 +126,8 @@ angular.module("stringExpression", ["autocompleteSearch", "mentio"])
                     $scope.model = value;
                 });
 
-                $scope.addQuery($scope.url);
+                if ($scope.expression.query)
+                    $scope.addQuery($scope.url);
             }],
             link: function(scope, element, attrs) {
                 var toggleHelp = element.find('i[class="icon-question-sign"]'),
