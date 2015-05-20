@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Serafin\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-05-13 21:58+0200\n"
+"POT-Creation-Date: 2015-05-20 21:35+0200\n"
 "PO-Revision-Date: 2014-08-26 11:35+0200\n"
 "Last-Translator: Eirik Krogstad <eirikkr@gmail.com>\n"
 "Language: nb\n"
@@ -794,7 +794,7 @@ msgstr "Miksmaster, alternativ"
 msgid "%(first)s and %(last)s"
 msgstr "%(first)s og %(last)s"
 
-#: system/admin.py:24
+#: system/admin.py:25
 msgid ""
 "Initial value remains static unless set as a user value using a hidden set "
 "value field."
@@ -802,19 +802,19 @@ msgstr ""
 "Startverdien forblir den samme, med mindre den settes som brukerverdi via et "
 "skjult felt."
 
-#: system/admin.py:26
+#: system/admin.py:27
 msgid ""
 "User editable fields can be changed at any time by the user on their profile "
 "page."
 msgstr ""
 "Brukerredigerbare felter kan endres av brukerne selv på deres profilside."
 
-#: system/admin.py:28
+#: system/admin.py:29
 msgid "Setting a randomization type will set the variable to a random value."
 msgstr ""
 "Om en tilfeldig type settes, vil variabelen settes til en tilfeldig verdi."
 
-#: system/admin.py:30
+#: system/admin.py:31
 msgid ""
 "If set, this value will be randomized once for each user when the Variable "
 "is first saved OR changed, then once for each new user."
@@ -822,7 +822,7 @@ msgstr ""
 "Verdien vil settes tilfeldig én gang når variabelen først lagres eller "
 "endres, deretter én gang for hver nyregistrerte bruker."
 
-#: system/admin.py:33
+#: system/admin.py:34
 msgid ""
 "The value of the Variable will be randomly selected from a set of comma "
 "separated strings in this field."
@@ -830,37 +830,37 @@ msgstr ""
 "Verdien av variabelen vil velges tilfeldig fra et sett av kommaseparerte "
 "tekststrenger i dette feltet."
 
-#: system/admin.py:39
+#: system/admin.py:40
 msgid "You are trying to use a reserved variable name"
 msgstr "Du forsøker å bruke et reservert variabelnavn"
 
-#: system/admin.py:77
+#: system/admin.py:78
 msgid "Variable"
 msgstr "Variabel"
 
-#: system/admin.py:125 system/admin.py:285 system/admin.py:361
+#: system/admin.py:126 system/admin.py:311 system/admin.py:423
 msgid "Admin note excerpt"
 msgstr "Utdrag fra administratornotat"
 
-#: system/admin.py:132 system/admin.py:139 system/admin.py:150
-#: system/admin.py:298 system/admin.py:308 system/admin.py:366
+#: system/admin.py:133 system/admin.py:140 system/admin.py:151
+#: system/admin.py:332 system/admin.py:342 system/admin.py:428
 #, python-format
 msgid "%(title)s (copy)"
 msgstr "%(title)s (kopi)"
 
-#: system/admin.py:164
+#: system/admin.py:165
 msgid "Copy selected programs"
 msgstr "Kopier valgte programmer"
 
-#: system/admin.py:171
+#: system/admin.py:172
 msgid "Export text of selected program"
 msgstr "Eksporter tekst fra valgte programmer"
 
-#: system/admin.py:177
+#: system/admin.py:178
 msgid "Import program text"
 msgstr "Importer tekst for program"
 
-#: system/admin.py:186
+#: system/admin.py:187
 msgid ""
 "URL at which this Session will be available to registered Program users at "
 "all times"
@@ -868,43 +868,62 @@ msgstr ""
 "URL som denne Økta vil være tilgjengelig på for Programmets brukere til "
 "enhver tid"
 
-#: system/admin.py:189
+#: system/admin.py:190
 msgid "Session open even to unregistered users"
 msgstr "Økta er tilgjengelig selv for ikke-registrerte brukere"
 
-#: system/admin.py:191
+#: system/admin.py:192
 msgid "Relative to the user's start time for the Program"
 msgstr "Relativt til brukerens starttid for Programmet"
 
-#: system/admin.py:193
+#: system/admin.py:194
 msgid "Activate automatically for Program users at the given start time"
 msgstr "Aktiver automatisk for Programmets brukere ved angitt starttid"
 
-#: system/admin.py:195
+#: system/admin.py:196
 msgid "Trigger a login e-mail at the scheduled time"
 msgstr "Send ut e-post med innloggingslenke ved angitt starttid"
 
-#: system/admin.py:322
+#: system/admin.py:208
+#, python-format
+msgid "edge %(id)s"
+msgstr "kant %(id)s"
+
+#: system/admin.py:215
+msgid "expression node"
+msgstr "uttrykksnode"
+
+#: system/admin.py:221 system/admin.py:384
+#, python-format
+msgid "Error in expression, %(id)s: %(error)s"
+msgstr "Feil i uttrykk, %(id)s: %(error)s"
+
+#: system/admin.py:356
 msgid "Copy selected sessions"
 msgstr "Kopier valgte økter"
 
-#: system/admin.py:348
+#: system/admin.py:371
+#, python-format
+msgid "pagelet %(id)s"
+msgstr "side %(id)s"
+
+#: system/admin.py:410
 msgid "No content"
 msgstr "Innhold mangler"
 
-#: system/admin.py:356
+#: system/admin.py:418
 msgid "Page excerpt"
 msgstr "Sideutdrag"
 
-#: system/admin.py:369
+#: system/admin.py:431
 msgid "Copy selected content"
 msgstr "Kopier valgt innhold"
 
-#: system/admin.py:407 system/admin.py:431
+#: system/admin.py:474 system/admin.py:498
 msgid "Subject"
 msgstr "Emne"
 
-#: system/engine.py:236
+#: system/engine.py:243
 msgid "Delayed node execution"
 msgstr "Forsinket hendelse"
 
@@ -1101,7 +1120,7 @@ msgstr "SMSer"
 
 #: system/serializers.py:40
 msgid "An error has occurred. Your expression cannot be evaluated."
-msgstr ""
+msgstr "En feil har oppstått. Kunne ikke evaluere uttrykket."
 
 #: system/signals.py:67 system/signals.py:146 system/signals.py:176
 msgid "Initialize session"
@@ -1350,31 +1369,41 @@ msgstr "Nullstill mitt passord"
 msgid "Password reset on %(site_name)s"
 msgstr "Passordnullstilling på %(site_name)s"
 
-#: templates/session.html:28 templates/session.html.py:40
-#: templates/session.html:64 templates/session.html.py:74
-#: templates/session.html:133 templates/session.html.py:143
-#: templates/session.html:164 templates/session.html.py:174
-#: templates/session.html:218
+#: templates/session.html:6
+msgid ""
+"Oops! Seems we've hit a snag trying to get your page. An error report will "
+"be relayed to our tech team, and we'll try to have this fixed soon. Try "
+"again in a few hours?"
+msgstr ""
+"Oisann! Vi klarte visst ikke å få tak i siden din. En feilmelding blir "
+"oversendt våre teknikere, og vi vil forsøke å fikse dette raskt. Kanskje du "
+"vil prøve igjen om et par timer?"
+
+#: templates/session.html:31 templates/session.html.py:43
+#: templates/session.html:67 templates/session.html.py:77
+#: templates/session.html:136 templates/session.html.py:146
+#: templates/session.html:167 templates/session.html.py:177
+#: templates/session.html:221
 msgid "Please choose one"
 msgstr "Gjør et valg"
 
-#: templates/session.html:106
+#: templates/session.html:109
 msgid "Please enter a number"
 msgstr "Skriv inn et tall"
 
-#: templates/session.html:107
+#: templates/session.html:110
 msgid ""
 "Please enter a number between {{ field.lower_limit }} and {{ field."
 "upper_limit }}"
 msgstr ""
 "Skriv inn et tall mellom {{ field.lower_limit }} og {{ field.upper_limit }}"
 
-#: templates/session.html:115 templates/session.html.py:123
-#: templates/session.html:193 templates/session.html.py:201
+#: templates/session.html:118 templates/session.html.py:126
+#: templates/session.html:196 templates/session.html.py:204
 msgid "This field is required"
 msgstr "Dette feltet er påkrevet"
 
-#: templates/session.html:253
+#: templates/session.html:256
 msgid "Next page"
 msgstr "Neste side"
 
@@ -1547,6 +1576,3 @@ msgstr "Beklager, noe gikk galt i behandling av din SMS."
 #: vault/views.py:107
 msgid "No data received."
 msgstr "Ingen data mottatt"
-
-#~ msgid "Back to the program"
-#~ msgstr "Tilbake til programmet"

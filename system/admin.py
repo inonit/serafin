@@ -205,20 +205,24 @@ class SessionForm(forms.ModelForm):
 
             edges = data.get('edges', [])
             for edge in edges:
-                id = 'edge %s' % edge.get('id')
+                id = _('edge %(id)s') % edge.get('id')
                 expression = edge.get('expression')
                 if expression:
                     result = parser.parse(expression)
 
             nodes = data.get('nodes', [])
             for node in nodes:
-                id = 'expression node'
+                id = _('expression node')
                 expression = node.get('expression')
                 if node.get('type') == 'expression':
                     result = parser.parse(expression)
 
         except Exception as e:
-            raise forms.ValidationError(_('Error in expression, %s: %s') % (id, e))
+            raise forms.ValidationError(_('Error in expression, %(id)s: %(error)s') % {
+                    'id': id,
+                    'error': e,
+                }
+            )
 
         return data
 
@@ -364,7 +368,7 @@ class ContentForm(forms.ModelForm):
 
             for index, pagelet in enumerate(data):
 
-                id = 'pagelet %s' % index
+                id = _('pagelet %(id)s') % index
 
                 if pagelet.get('content_type') == 'expression':
                     expression = pagelet.get('content', {}).get('value')
@@ -377,7 +381,11 @@ class ContentForm(forms.ModelForm):
                             result = parser.parse(expression)
 
         except Exception as e:
-            raise forms.ValidationError(_('Error in expression, %s: %s') % (id, e))
+            raise forms.ValidationError(_('Error in expression, %(id)s: %(error)s') % {
+                    'id': id,
+                    'error': e,
+                }
+            )
 
         return data
 
