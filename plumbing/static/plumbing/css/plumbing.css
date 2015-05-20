@@ -128,7 +128,7 @@ path {
     position: absolute;
     top: 0;
     left: 0;
-    z-index: 100;
+    z-index: 10;
     margin: 0.5rem;
 }
 
@@ -144,7 +144,7 @@ path {
     min-width: 30em;
     padding: .5rem;
     position: absolute;
-    z-index: 199;
+    z-index: 50;
     top: 35%;
     left: 25px;
     max-height: 16em;
