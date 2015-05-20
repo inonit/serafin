@@ -250,7 +250,7 @@ def content_post_save(sender, **kwargs):
                         Content.objects.filter(id=content.id).update(data=data)
 
             if pagelet.get('content_type') == 'toggle':
-                if not pagelet['img_content']:
+                if not 'img_content' in pagelet:
                     pagelet['img_content'] = {
                         'url': ''
                     }
