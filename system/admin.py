@@ -14,7 +14,6 @@ from suit.widgets import SuitSplitDateTimeWidget, LinkedSelect, AutosizedTextare
 from jsonfield import JSONField
 
 from system.models import Variable, Program, Session, Page, Email, SMS
-from system.expressions import Parser
 from plumbing.widgets import PlumbingWidget
 from content.widgets import ContentWidget, TextContentWidget, SMSContentWidget
 
@@ -198,29 +197,6 @@ class SessionForm(forms.ModelForm):
     def clean_route_slug(self):
         return self.cleaned_data['route_slug'] or None
 
-    def clean_data(self):
-        data = self.cleaned_data['data']
-        try:
-            parser = Parser()
-
-            edges = data.get('edges', [])
-            for edge in edges:
-                id = 'edge %s' % edge.get('id')
-                expression = edge.get('expression')
-                if expression:
-                    result = parser.parse(expression)
-
-            nodes = data.get('nodes', [])
-            for node in nodes:
-                id = 'node "%s"' % node.get('title')
-                expression = node.get('expression')
-                result = parser.parse(expression)
-
-        except Exception as e:
-            raise forms.ValidationError(_('Error in expression, %s: %s') % (id, e))
-
-        return data
-
     class Meta:
         model = Session
         exclude = []
@@ -350,30 +326,6 @@ class ContentForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         super(ContentForm, self).__init__(*args, **kwargs)
         self.fields['data'].help_text = ''
-
-    def clean_data(self):
-        data = self.cleaned_data['data']
-        try:
-            for index, pagelet in enumerate(data):
-
-                id = 'pagelet %s' % index
-
-                if pagelet.get('content_type') == 'expression':
-                    expression = pagelet.get('content', {}).get('value')
-                    parser = Parser()
-                    result = parser.parse(expression)
-
-                if pagelet.get('content_type') == 'conditionalset':
-                    for condition in pagelet.get('content', []):
-                        expression = condition.get('expression')
-                        if expression:
-                            parser = Parser()
-                            result = parser.parse(expression)
-
-        except Exception as e:
-            raise forms.ValidationError(_('Error in expression, %s: %s') % (id, e))
-
-        return data
 
 
 class ContentAdmin(admin.ModelAdmin):
