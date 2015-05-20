@@ -68,10 +68,10 @@ angular.module("stringExpression", ["autocompleteSearch", "mentio"])
                 function pythonizeResult(response) {
                     if (response.result === true)
                         response.result = 'True'
-                    if (response.result === false)
+                    else if (response.result === false)
                         response.result = 'False'
-                    if (typeof response.result === 'string')
-                        response.result = '"' + response.result + '"'
+                    else if (typeof response.result === 'string')
+                        response.result = '"' + response.result + '"';
                     return response
                 }
 
