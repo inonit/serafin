@@ -52,8 +52,11 @@ class Engine(object):
             for key, value in context.items():
 
                 if 'expression_' in key:
-                    parser = Parser(user_obj=self.user)
-                    value = parser.parse(value)
+                    try:
+                        parser = Parser(user_obj=self.user)
+                        value = parser.parse(value)
+                    except:
+                        pass
 
                     parts = key.split('_')[1:]
                     key = ''.join(parts)
@@ -121,8 +124,12 @@ class Engine(object):
             expression = edge.get('expression')
 
             if expression:
-                parser = Parser(user_obj=self.user)
-                passed = parser.parse(expression)
+                try:
+                    parser = Parser(user_obj=self.user)
+                    passed = parser.parse(expression)
+                except:
+                    passed = False
+
                 if passed:
                     return edge
             else:
@@ -287,8 +294,11 @@ class Engine(object):
             variable_name = node.get('variable_name')
 
             if expression:
-                parser = Parser(user_obj=self.user)
-                result = parser.parse(expression)
+                try:
+                    parser = Parser(user_obj=self.user)
+                    result = parser.parse(expression)
+                except:
+                    result = None
 
                 if variable_name:
                     self.user.data[variable_name] = result
