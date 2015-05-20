@@ -200,12 +200,13 @@ class SessionForm(forms.ModelForm):
 
     def clean_data(self):
         data = self.cleaned_data['data']
+        id = None
         try:
             parser = Parser(user_obj=self.request_user)
 
             edges = data.get('edges', [])
             for edge in edges:
-                id = _('edge %(id)s') % edge.get('id')
+                id = _('edge %(id)s') % {'id': edge.get('id')}
                 expression = edge.get('expression')
                 if expression:
                     result = parser.parse(expression)
@@ -363,12 +364,13 @@ class ContentForm(forms.ModelForm):
 
     def clean_data(self):
         data = self.cleaned_data['data']
+        id = None
         try:
             parser = Parser(user_obj=self.request_user)
 
             for index, pagelet in enumerate(data):
 
-                id = _('pagelet %(id)s') % index
+                id = _('pagelet %(id)s') % {'id': index}
 
                 if pagelet.get('content_type') == 'expression':
                     expression = pagelet.get('content', {}).get('value')
