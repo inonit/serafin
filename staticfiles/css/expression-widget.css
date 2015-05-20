@@ -58,6 +58,11 @@ div.preview-box .validator {
   line-height: 1.4;
 }
 
+.validator .expression {
+  /* Hidden while it just repeats the query */
+  display: none;
+}
+
 .validator .result {
   text-align: right;
 }

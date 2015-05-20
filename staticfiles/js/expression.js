@@ -65,9 +65,19 @@ angular.module("stringExpression", ["autocompleteSearch", "mentio"])
 
                 QueueService.configure({timeout: 200});
 
+                function pythonizeResult(response) {
+                    if (response.result === true)
+                        response.result = 'True'
+                    if (response.result === false)
+                        response.result = 'False'
+                    if (typeof response.result === 'string')
+                        response.result = '"' + response.result + '"'
+                    return response
+                }
+
                 function post(url, data) {
                     QueryService.post(url, data).then(function(response) {
-                        $scope.expression.response = response.response;
+                        $scope.expression.response = pythonizeResult(response.response);
                     }, function(reason) {
                         $scope.expression.response.result = null;
                         $scope.expression.response.reason = reason;
@@ -115,6 +125,8 @@ angular.module("stringExpression", ["autocompleteSearch", "mentio"])
                 $scope.$watch("expression.query", function(value) {
                     $scope.model = value;
                 });
+
+                $scope.addQuery($scope.url);
             }],
             link: function(scope, element, attrs) {
                 var toggleHelp = element.find('i[class="icon-question-sign"]'),

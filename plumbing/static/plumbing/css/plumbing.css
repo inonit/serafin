@@ -145,9 +145,9 @@ path {
     padding: .5rem;
     position: absolute;
     z-index: 199;
-    top: 40%;
+    top: 35%;
     left: 25px;
-    max-height: 12em;
+    max-height: 16em;
 }
 
 .conditions label {
