@@ -62,7 +62,7 @@ from pyparsing import (
     ParseException, ZeroOrMore, Forward, Suppress, Group,
     alphas, alphanums, nums, oneOf, quotedString, removeQuotes,
     delimitedList, nestedExpr, sglQuotedString, dblQuotedString, commaSeparatedList,
-    infixNotation, opAssoc
+    infixNotation, opAssoc, ParseResults
 )
 
 
@@ -300,12 +300,11 @@ class Parser(object):
             expression = Forward()
 
             lists = Forward()
-            lists << (delimitedList("," | string | numeric | variable | boolean |
-                                    nestedExpr(lbrack, rbrack, content=lists)))
+            lists << (lbrack + Optional(delimitedList(numeric ^ variable ^ boolean ^ string)) + rbrack)
 
             atom = (Optional("-") +
                     (pi | e | numeric | ident + lparen + expression + rparen).setParseAction(self.push_stack)
-                    | (variable | none | boolean | lists).setParseAction(self.push_stack)
+                    | (variable | none | boolean | string | Group(lists)).setParseAction(self.push_stack)
                     | (lparen + expression.suppress() + rparen)).setParseAction(self.push_unary_stack)
 
             # By defining exponentiation as "atom [^factor]" instead of "atom [^atom],
@@ -412,6 +411,8 @@ class Parser(object):
                     lhs = False
             if operator == "in":
                 rhs, lhs = lhs, rhs
+            if isinstance(lhs, ParseResults):
+                lhs = [self._get_return_value(item) for item in lhs]
             return self.operators[operator](lhs, rhs)
         elif operator in self.functions:
             return self.functions[operator](self.evaluate_stack(expr))
