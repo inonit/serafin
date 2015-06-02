@@ -9,7 +9,7 @@ from django.shortcuts import get_object_or_404, render
 from filer.models import File, Image
 from serafin.utils import JSONResponse
 from system.models import Session, Page
-from system.engine import Engine
+from system.engine import Engine, EngineException
 import json
 
 
@@ -69,7 +69,7 @@ def get_page(request):
         page = engine.run(next=next, pop=pop)
 
     if not page:
-        raise Http404
+        raise EngineException('No page returned!')
 
     response = {
         'title': page.display_title,

@@ -16,6 +16,10 @@ from tasker.models import Task
 from .expressions import Parser
 
 
+class EngineException(Exception):
+    pass
+
+
 class Engine(object):
     '''A simplified decision engine to traverse the Session graph for a user'''
 
@@ -75,7 +79,8 @@ class Engine(object):
     def init_session(self, session_id=None, node_id=None):
 
         session_id = session_id or self.user.data.get('session')
-        node_id = node_id or self.user.data.get('node')
+        if node_id is None:
+            node_id = self.user.data.get('node')
 
         self.user.data['session'] = session_id
         self.user.data['node'] = node_id
@@ -183,25 +188,7 @@ class Engine(object):
 
         if edge:
             target_id = edge.get('target')
-            node = self.trigger_node(target_id)
-
-            if isinstance(node, Page):
-                log_event.send(
-                    self,
-                    domain='session',
-                    actor=self.user,
-                    variable='transition',
-                    pre_value=self.nodes[self.user.data['node']]['title'],
-                    post_value=node.title
-                )
-
-                self.user.data['node'] = target_id
-                self.user.save()
-
-                node.dead_end = self.is_dead_end(target_id)
-                node.stacked = self.is_stacked()
-
-                return node
+            return self.trigger_node(target_id)
 
     def trigger_node(self, node_id):
         '''Trigger action for a given node, return if Page'''
@@ -216,6 +203,18 @@ class Engine(object):
 
             page.dead_end = self.is_dead_end(node_id)
             page.stacked = self.is_stacked()
+
+            log_event.send(
+                self,
+                domain='session',
+                actor=self.user,
+                variable='transition',
+                pre_value=self.nodes[self.user.data['node']]['title'],
+                post_value=page.title
+            )
+
+            self.user.data['node'] = node_id
+            self.user.save()
 
             return page
 
@@ -365,7 +364,7 @@ class Engine(object):
 
         node_id = self.user.data.get('node')
 
-        if node_id == None:
+        if node_id is None:
             self.user.data['node'] = 0
             self.user.save()
 
