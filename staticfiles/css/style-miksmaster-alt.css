@@ -534,7 +534,7 @@ div.error {
         width: 100px;
     }
 
-    .toggle > p {
+    .toggle.hasimage > p {
         margin-bottom: .75rem;
     }
 
@@ -553,9 +553,17 @@ div.error {
         font-size: 100%;
     }
 
+    .top-bar .title-area .name {
+        padding: 10px;
+    }
+
     .top-bar .title-area .logo {
         height: 25px;
-        margin: 10px;
+        width: 112.5px;
+    }
+
+    .top-bar .menu-icon {
+
     }
 
     .top-bar-section ul li > a,
