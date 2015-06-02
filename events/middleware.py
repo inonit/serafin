@@ -16,7 +16,9 @@ class EventTrackingMiddleware(object):
         if (not request.is_ajax() or
             not request.method == 'POST' or
             request.FILES or
-            request.user.is_anonymous()):
+            request.user.is_anonymous() or
+            'api/system' in request.path or
+            'api/vault' in request.path):
             return
 
         try:
