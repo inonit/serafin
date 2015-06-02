@@ -2,7 +2,7 @@
 {% load i18n thumbnail %}
 {% block content %}
 <div class="page" ng-controller="pages" ng-form="form">
-    <div class="error" ng-if="error">
+    <div class="error" ng-cloak ng-if="error">
         {% trans "Oops! Seems we've hit a snag trying to get your page. An error report will be relayed to our tech team, and we'll try to have this fixed soon. Try again in a few hours?" %}
     </div>
     {% verbatim %}
@@ -11,7 +11,7 @@
         <div class="text" ng-if="pagelet.content_type == 'text'" livereplace="pagelet.content">
         </div>
 
-        <div class="toggle" ng-class="{'hasimage': pagelet.img_content}" ng-if="pagelet.content_type == 'toggle'">
+        <div class="toggle" ng-class="{'hasimage': pagelet.img_content.url}" ng-if="pagelet.content_type == 'toggle'">
             <img ng-if="pagelet.img_content && pagelet.img_content.url" ng-click="pagelet.toggled = !pagelet.toggled" ng-src="{{ pagelet.img_content.thumbnail || pagelet.img_content.url }}" alt="{{ pagelet.toggle }}" title="{{ pagelet.toggle }}">
             <p>
                 <a ng-click="pagelet.toggled = !pagelet.toggled">
