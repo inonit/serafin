@@ -17,6 +17,17 @@ from system.tasks import init_session
 import re
 
 
+def disable_for_loaddata(signal_handler):
+    '''Turn of signal handling for loaddata'''
+
+    def _disable_for_loaddata(*args, **kwargs):
+        if kwargs.get('raw'):
+            return
+        signal_handler(*args, **kwargs)
+
+    return _disable_for_loaddata
+
+
 @receiver(signals.pre_save, sender=Variable)
 def randomize_variable_once(sender, **kwargs):
     variable = kwargs['instance']
@@ -48,6 +59,7 @@ def randomize_variable_once(sender, **kwargs):
 
 
 @receiver(signals.post_save, sender=ProgramUserAccess)
+@disable_for_loaddata
 def schedule_sessions(sender, **kwargs):
 
     useraccess = kwargs['instance']
@@ -70,6 +82,7 @@ def schedule_sessions(sender, **kwargs):
 
 
 @receiver(signals.pre_save, sender=Session)
+@disable_for_loaddata
 def session_pre_save(sender, **kwargs):
 
     session = kwargs['instance']
@@ -127,6 +140,7 @@ def reschedule_session(sender, **kwargs):
 
 
 @receiver(signals.post_save, sender=Session)
+@disable_for_loaddata
 def schedule_session(sender, **kwargs):
 
     session = kwargs['instance']
