@@ -272,7 +272,7 @@ content.directive('filer', ['$compile', '$http', function (compile, http) {
 
             if (scope.pagelet.content_type == 'toggle') {
                 if (scope.pagelet.img_content == undefined)
-                    scope.pagelet.img_content = fileTemplate;
+                    scope.pagelet.img_content = angular.copy(fileTemplate);
                 scope.contentProxy = scope.pagelet.img_content
             } else {
                 scope.contentProxy = scope.pagelet.content

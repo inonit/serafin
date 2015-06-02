@@ -25,6 +25,7 @@ serafin.run(['$rootScope', '$http', function(scope, http) {
             scope.stacked = data.stacked;
         }).error(function(data, status, error, config) {
             scope.error = data;
+            scope.page = {};
         });
     }
 
@@ -89,6 +90,7 @@ serafin.controller('pages', ['$scope', '$http', function(scope, http) {
             window.scrollTo(0,0);
         }).error(function(data, status, error, config) {
             scope.error = data;
+            scope.page = {};
         });
     };
 }]);
