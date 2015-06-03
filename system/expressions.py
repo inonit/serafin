@@ -55,6 +55,7 @@ import operator as oper
 from sys import float_info
 
 from django.conf import settings
+from django.db.models import Q
 from django.utils import timezone
 from django.utils.translation import ugettext as _
 from pyparsing import (
@@ -271,6 +272,15 @@ class Parser(object):
         self.bnf = self._get_bnf()
         self.stack = []
 
+        from system.models import Variable
+        predefined_vars = Variable.objects.filter(
+            Q(value__isnull=False) | Q(random_type__isnull=False)
+        )
+        predefined_values = {var.name: var.get_value() for var in predefined_vars}
+        predefined_values.update(self.user.data)
+
+        self.userdata = predefined_values
+
     def _get_bnf(self):
         """
         Returns the `Backus–Naur Form` for the parser
@@ -319,14 +329,6 @@ class Parser(object):
         return self.bnf
 
     @property
-    def userdata(self):
-        """
-        Returns a case insensitive copy of user.data if
-        user is set, else just an empty dictionary
-        """
-        return self.user.data if self.user else {}
-
-    @property
     def reserved_variables(self):
         """
         Returns a subset of the SYSTEM_VARIABLES list with
@@ -361,15 +363,7 @@ class Parser(object):
             else:
                 return False
 
-        else:
-            from system.models import Variable
-            variable_obj = Variable.objects.filter(name=variable)
-            if variable_obj.exists():
-                variable_obj = variable_obj.get()
-                return variable_obj.get_value()
-
         return ""
-
 
     @staticmethod
     def _get_return_value(value):
