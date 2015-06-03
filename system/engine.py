@@ -39,6 +39,9 @@ class Engine(object):
         else:
             self.user = get_user_model().objects.get(id=user_id)
 
+        if not self.user.is_active:
+            return
+
         # push current session and node to stack if entering subsession
         if push:
 

@@ -11,6 +11,10 @@ def transition(user_id, node_id):
     '''A task to schedule an Engine transition'''
 
     engine = Engine(user_id)
+
+    if not engine.user.is_active:
+        return _('Inactive user, no action taken')
+
     node = engine.transition(node_id)
 
     if node:
@@ -32,6 +36,10 @@ def init_session(session_id, user_id, push=False):
     }
 
     engine = Engine(user_id, context, push)
+
+    if not engine.user.is_active:
+        return _('Inactive user, no action taken')
+
     engine.run()
 
     if engine.session.trigger_login:
