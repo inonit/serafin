@@ -22,7 +22,7 @@
 
 .node {
     cursor: move;
-    padding: .75em 3em .75em 1.5em;
+    padding: 1em 2.5em 1em 1em;
     z-index: 4;
 }
 
@@ -54,6 +54,7 @@
     transition: background 0.25s;
     transition: color 0.25s;
     font-size: 11px;
+    line-height: 1.2;
     position: absolute;
     white-space: nowrap;
 }
@@ -184,6 +185,11 @@ path {
 .node i {
     margin-bottom: -1px;
     vertical-align: text-bottom;
+    margin-right: 6px;
+}
+
+.node .indent {
+    margin-left: 20px;
 }
 
 .scrollmarker {

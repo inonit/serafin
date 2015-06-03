@@ -53,7 +53,10 @@
             t + {{ node.delay.number }} {{ node.delay.unit }}
         </span>
         <span ng-if="node.type == 'expression'">
-            {{ node.expression }}
+            {{ node.variable_name }} =
+            <div class="indent">
+                {{ node.expression }}
+            </div>
         </span>
         <span ng-if="node.type == 'register'">
             {% endverbatim %}{% trans 'Register' %}{% verbatim %}
