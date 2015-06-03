@@ -53,7 +53,7 @@
             t + {{ node.delay.number }} {{ node.delay.unit }}
         </span>
         <span ng-if="node.type == 'expression'">
-            {% endverbatim %}{% trans 'Expression' %}{% verbatim %}
+            {{ node.expression }}
         </span>
         <span ng-if="node.type == 'register'">
             {% endverbatim %}{% trans 'Register' %}{% verbatim %}
