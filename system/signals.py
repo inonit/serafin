@@ -241,6 +241,7 @@ def revoke_tasks(sender, **kwargs):
 def content_post_save(sender, **kwargs):
 
     content_types = ['Page', 'Email', 'SMS']
+    node_types = [t.lower() for t in content_types]
     if sender.__name__ in content_types:
 
         content = kwargs['instance']
@@ -252,7 +253,7 @@ def content_post_save(sender, **kwargs):
             nodes = data.get('nodes', [])
             for node in nodes:
                 try:
-                    if int(node['ref_id']) == content.id:
+                    if node['type'] in node_types and node['ref_id'] == content.id:
                         node['title'] = content.title
 
                         # ...gently
