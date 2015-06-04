@@ -218,6 +218,8 @@ class Page(Content):
                 pagelet['content'] = mistune.markdown(content)
 
             if pagelet['content_type'] == 'conditionalset':
+                pagelet['variables'] = {}
+
                 for text in pagelet['content']:
 
                     expression = text.get('expression')
@@ -227,7 +229,8 @@ class Page(Content):
                     if passed:
                         content = text.get('content')
                         content = remove_comments(content)
-                        content, pagelet['variables'] = live_variable_replace(user, content)
+                        content, variables = live_variable_replace(user, content)
+                        pagelet['variables'].update(variables)
                         text['content'] = mistune.markdown(content)
                     else:
                         text['content'] = ''
