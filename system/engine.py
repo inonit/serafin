@@ -46,9 +46,9 @@ class Engine(object):
             node = self.user.data.get('node')
 
             if session and node is not None:
-                if not self.user.data.get('stack'):
-                    self.user.data['stack'] = []
-                self.user.data['stack'].append((session, node))
+                stack = self.user.data.get('stack', [])
+                stack.append((session, node))
+                self.user.data['stack'] = stack
 
         # process context if available
         if context:
@@ -207,7 +207,7 @@ class Engine(object):
                     domain='delay',
                     time=start_time + delta,
                     task=transition,
-                    args=(self.user.id, node_id),
+                    args=(self.session.id, node_id, self.user.id),
                     action=_('Delayed node execution'),
                     subject=self.user
                 )
@@ -246,12 +246,12 @@ class Engine(object):
 
         if node_type == 'session':
 
-            if not self.is_dead_end(node_id):
-                if not self.user.data.get('stack'):
-                    self.user.data['stack'] = []
-                self.user.data['stack'].append(
-                    (self.session.id, node_id)
-                )
+            if self.is_dead_end(node_id):
+                self.user.data['stack'] = []
+            else:
+                stack = self.user.data.get('stack', [])
+                stack.append((self.session.id, node_id))
+                self.user.data['stack'] = stack
 
             self.init_session(ref_id, 0)
 

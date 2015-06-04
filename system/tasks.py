@@ -7,10 +7,16 @@ from system.engine import Engine
 
 
 @db_task()
-def transition(user_id, node_id):
+def transition(session_id, node_id, user_id):
     '''A task to schedule an Engine transition'''
 
-    engine = Engine(user_id)
+    context = {
+        'session': session_id,
+        'node': node_id,
+        'stack': []
+    }
+
+    engine = Engine(user_id, context)
 
     if not engine.user.is_active:
         return _('Inactive user, no action taken')
@@ -34,6 +40,9 @@ def init_session(session_id, user_id, push=False):
         'session': session_id,
         'node': 0,
     }
+
+    if not push:
+        context['stack'] = []
 
     engine = Engine(user_id, context, push)
 

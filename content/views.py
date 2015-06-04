@@ -27,6 +27,7 @@ def get_session(request):
     if request.user.is_staff and session_id:
         request.user.data['session'] = session_id
         request.user.data['node'] = 0
+        request.user.data['stack'] = []
         request.user.save()
 
     session_id = request.user.data.get('session')
