@@ -2,12 +2,9 @@
 
 from __future__ import unicode_literals
 
-import operator
-
 from datetime import timedelta
 
 from django.contrib.auth import get_user_model
-from django.utils import six, timezone
 from django.utils.translation import ugettext_lazy as _
 
 from events.signals import log_event
@@ -93,37 +90,6 @@ class Engine(object):
 
         self.nodes = {node['id']: node for node in self.session.data.get('nodes')}
         self.edges = self.session.data.get('edges')
-
-    @staticmethod
-    def get_system_var(var_name, user):
-        if not var_name:
-            return ''
-
-        # now as per timezone settings
-        now = timezone.localtime(timezone.now().replace(microsecond=0))
-
-        if var_name == 'current_day':
-            return now.isoweekday()
-
-        if var_name == 'current_time':
-            return now.time().isoformat()
-
-        if var_name == 'current_date':
-            return now.date().isoformat()
-
-        if var_name == 'registered':
-            return not user.is_anonymous()
-
-        if var_name == 'enrolled':
-            session = Session.objects.get(id=user.data.get('session'))
-            return session.program.programuseraccess_set.filter(user=user).exists()
-
-        else:
-            try:
-                var = Variable.objects.get(name=var_name)
-                return var.get_value() or ''
-            except:
-                return ''
 
     def traverse(self, edges, source_id):
         '''Select and return first edge where the user passes edge conditions'''
