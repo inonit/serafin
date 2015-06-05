@@ -20,24 +20,24 @@ class EngineException(Exception):
 class Engine(object):
     '''A simplified decision engine to traverse the Session graph for a user'''
 
-    def __init__(self, user_id, context={}, push=False, user=None):
+    def __init__(self, user=None, user_id=None, context={}, push=False):
         '''
-        Initialize Engine with a User id and optional context.
+        Initialize Engine with a User or user id and optional context.
+
+        The argument user accepts a user instance, which gives support for
+        unconventional user models (e.g. users.StatefulAnonymousUser) or when
+        user is known.
+
+        User id should be used for tasks, which should not have complex types.
 
         If argument push is True, current session and node will be pushed to
         a stack, so the user may return there.
-
-        The argument user accepts a user instance, which gives support for
-        unconventional user models (e.g. users.StatefulAnonymousUser)
         '''
 
         if user:
             self.user = user
         else:
             self.user = get_user_model().objects.get(id=user_id)
-
-        if not self.user.is_active:
-            return
 
         # push current session and node to stack if entering subsession
         if push:
@@ -91,24 +91,6 @@ class Engine(object):
         self.nodes = {node['id']: node for node in self.session.data.get('nodes')}
         self.edges = self.session.data.get('edges')
 
-    def traverse(self, edges, source_id):
-        '''Select and return first edge where the user passes edge conditions'''
-
-        for edge in edges:
-            expression = edge.get('expression')
-
-            if expression:
-                try:
-                    parser = Parser(user_obj=self.user)
-                    passed = parser.parse(expression)
-                except:
-                    passed = False
-
-                if passed:
-                    return edge
-            else:
-                return edge
-
     def get_node_edges(self, source_id):
         return [edge for edge in self.edges if edge.get('source') == source_id]
 
@@ -129,6 +111,24 @@ class Engine(object):
 
         return bool(self.user.data.get('stack'))
 
+    def traverse(self, edges, source_id):
+        '''Select and return first edge where the user passes edge conditions'''
+
+        for edge in edges:
+            expression = edge.get('expression')
+
+            if expression:
+                try:
+                    parser = Parser(user_obj=self.user)
+                    passed = parser.parse(expression)
+                except:
+                    passed = False
+
+                if passed:
+                    return edge
+            else:
+                return edge
+
     def transition(self, source_id):
         '''Transition from a given node and trigger a new node'''
 
@@ -144,11 +144,7 @@ class Engine(object):
             if edge:
                 target_id = edge.get('target')
                 special_edges.remove(edge)
-
-                self.user.data['background_node'] = target_id
-                self.user.save()
-
-                return self.trigger_node(target_id)
+                self.trigger_node(target_id)
             else:
                 break
 
@@ -165,6 +161,9 @@ class Engine(object):
         node = self.nodes.get(node_id)
         node_type = node.get('type')
         ref_id = node.get('ref_id')
+
+        if node_type == 'start':
+            return self.transition(node_id)
 
         if node_type == 'page':
             page = Page.objects.get(id=ref_id)
@@ -186,63 +185,6 @@ class Engine(object):
             self.user.save()
 
             return page
-
-        if node_type == 'delay':
-            useraccesses = self.session.program.programuseraccess_set.filter(user=self.user)
-            for useraccess in useraccesses:
-                start_time = self.session.get_start_time(
-                    useraccess.start_time,
-                    useraccess.time_factor
-                )
-                delay = node.get('delay')
-                kwargs = {
-                    delay.get('unit'): float(delay.get('number') * useraccess.time_factor),
-                }
-                delta = timedelta(**kwargs)
-
-                from system.tasks import transition
-
-                Task.objects.create_task(
-                    sender=self.session,
-                    domain='delay',
-                    time=start_time + delta,
-                    task=transition,
-                    args=(self.session.id, node_id, self.user.id),
-                    action=_('Delayed node execution'),
-                    subject=self.user
-                )
-
-            return None
-
-        if node_type == 'email':
-            email = Email.objects.get(id=ref_id)
-            email.send(self.user)
-
-            log_event.send(
-                self,
-                domain='session',
-                actor=self.user,
-                variable='email',
-                pre_value='',
-                post_value=email.title
-            )
-
-            return self.transition(node_id)
-
-        if node_type == 'sms':
-            sms = SMS.objects.get(id=ref_id)
-            sms.send(self.user)
-
-            log_event.send(
-                self,
-                domain='session',
-                actor=self.user,
-                variable='sms',
-                pre_value='',
-                post_value=sms.title
-            )
-
-            return self.transition(node_id)
 
         if node_type == 'session':
 
@@ -274,6 +216,36 @@ class Engine(object):
 
             return self.transition(node_id)
 
+        if node_type == 'email':
+            email = Email.objects.get(id=ref_id)
+            email.send(self.user)
+
+            log_event.send(
+                self,
+                domain='session',
+                actor=self.user,
+                variable='email',
+                pre_value='',
+                post_value=email.title
+            )
+
+            self.transition(node_id)
+
+        if node_type == 'sms':
+            sms = SMS.objects.get(id=ref_id)
+            sms.send(self.user)
+
+            log_event.send(
+                self,
+                domain='session',
+                actor=self.user,
+                variable='sms',
+                pre_value='',
+                post_value=sms.title
+            )
+
+            self.transition(node_id)
+
         if node_type == 'register':
             self.user, registered = self.user.register()
 
@@ -287,7 +259,7 @@ class Engine(object):
                     post_value=''
                 )
 
-            return self.transition(node_id)
+            self.transition(node_id)
 
         if node_type == 'enroll':
             self.session.program.enroll(self.user)
@@ -301,7 +273,7 @@ class Engine(object):
                 post_value=self.session.program.title
             )
 
-            return self.transition(node_id)
+            self.transition(node_id)
 
         if node_type == 'leave':
             self.session.program.leave(self.user)
@@ -315,10 +287,32 @@ class Engine(object):
                 post_value=self.session.program.title
             )
 
-            return self.transition(node_id)
+            self.transition(node_id)
 
-        if node_type == 'start':
-            return self.transition(node_id)
+        if node_type == 'delay':
+            useraccesses = self.session.program.programuseraccess_set.filter(user=self.user)
+            for useraccess in useraccesses:
+                start_time = self.session.get_start_time(
+                    useraccess.start_time,
+                    useraccess.time_factor
+                )
+                delay = node.get('delay')
+                kwargs = {
+                    delay.get('unit'): float(delay.get('number') * useraccess.time_factor),
+                }
+                delta = timedelta(**kwargs)
+
+                from system.tasks import transition
+
+                Task.objects.create_task(
+                    sender=self.session,
+                    domain='delay',
+                    time=start_time + delta,
+                    task=transition,
+                    args=(self.session.id, node_id, self.user.id),
+                    action=_('Delayed node execution'),
+                    subject=self.user
+                )
 
     def run(self, next=False, pop=False):
         '''
