@@ -78,22 +78,17 @@ plumbing.service('jsPlumb', ['$rootScope', function(scope) {
 
 plumbing.run(['$rootScope', '$http', function(scope, http) {
 
-    if (typeof initData === 'undefined') {
-        scope.data = {
-            nodes: [{
-                id: 0,
-                type: 'start',
-                title: 'Start',
-                metrics: {
-                    left: '25px',
-                    top: '75px'
-                }
-            }],
-            edges: [],
-        };
-    } else {
-        scope.data = initData;
-    }
+    scope.data = initData;
+    if (scope.data.nodes && scope.data.nodes.length === 0)
+        scope.data.nodes = [{
+            id: 0,
+            type: 'start',
+            title: 'Start',
+            metrics: {
+                left: '25px',
+                top: '75px'
+            }
+        }];
 
     scope.showConditions = -1;
     scope.showSettings = -1;

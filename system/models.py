@@ -141,7 +141,7 @@ class Session(models.Model):
     scheduled = models.BooleanField(_('scheduled'), default=False)
     trigger_login = models.BooleanField(_('trigger login'), default=True)
 
-    data = JSONField(load_kwargs={'object_pairs_hook': OrderedDict}, default='undefined')
+    data = JSONField(load_kwargs={'object_pairs_hook': OrderedDict}, default='{"nodes": [], "edges": []}')
 
     class Meta:
         verbose_name = _('session')
@@ -174,7 +174,7 @@ class Content(models.Model):
     program = models.ForeignKey(Program, verbose_name=_('program'), blank=True, null=True,
                                 help_text=_('Can optionally be bound to a specific program'))
 
-    data = JSONField(load_kwargs={'object_pairs_hook': OrderedDict}, default='[]')
+    data = JSONField(load_kwargs={'object_pairs_hook': OrderedDict}, default=[])
 
     class Meta:
         verbose_name = _('content')

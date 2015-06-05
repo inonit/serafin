@@ -66,7 +66,7 @@ def get_page(request):
     else:
         next = request.GET.get('next')
         pop = request.GET.get('pop')
-        engine = Engine(None, context, user=request.user)
+        engine = Engine(user=request.user, context=context)
         page = engine.run(next=next, pop=pop)
 
     if not page:
@@ -99,7 +99,7 @@ def content_route(request, route_slug=None):
         'node': 0
     }
 
-    engine = Engine(None, context, push=True, user=request.user)
+    engine = Engine(user=request.user, context=context, push=True)
     engine.run()
 
     context = {

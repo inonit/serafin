@@ -175,3 +175,9 @@ class StatefulAnonymousUser(AnonymousUser):
         User.objects.filter(id=user.id).update(data=self.data)
 
         return user, True
+
+    def send_email(self, subject=None, message=None, html_message=None):
+        pass
+
+    def send_sms(self, message=None):
+        pass

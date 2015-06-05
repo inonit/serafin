@@ -16,7 +16,7 @@ def transition(session_id, node_id, user_id):
         'stack': []
     }
 
-    engine = Engine(user_id, context)
+    engine = Engine(user_id=user_id, context=context)
 
     if not engine.user.is_active:
         return _('Inactive user, no action taken')
@@ -44,7 +44,7 @@ def init_session(session_id, user_id, push=False):
     if not push:
         context['stack'] = []
 
-    engine = Engine(user_id, context, push)
+    engine = Engine(user_id=user_id, context=context, push=push)
 
     if not engine.user.is_active:
         return _('Inactive user, no action taken')

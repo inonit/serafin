@@ -62,7 +62,7 @@ def receive_sms(request):
                 if reply_var:
                     context[reply_var] = message
 
-                engine = Engine(user_id, context)
+                engine = Engine(user_id=user_id, context=context)
                 engine.transition(node_id)
 
                 response = {'status': 'OK'}

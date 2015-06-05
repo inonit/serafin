@@ -20,6 +20,7 @@ class TimezoneTestCase(TestCase):
 
     def test_utc(self):
         '''The Huey consumer needs to be running for this test.'''
+
         d1 = timezone.now()
         d2 = timezone.now() + datetime.timedelta(minutes=1)
 
@@ -36,11 +37,11 @@ class TimezoneTestCase(TestCase):
 
         result1 = huey._get(task1.task.task_id, peek=True)
         if result1 is not EmptyData:
-                result1 = pickle.loads(result1)
+            result1 = pickle.loads(result1)
 
         result2 = huey._get(task2.task.task_id, peek=True)
         if result2 is not EmptyData:
-                result2 = pickle.loads(result2)
+            result2 = pickle.loads(result2)
 
         self.assertNotEqual(result1, result2)
 
