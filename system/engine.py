@@ -100,16 +100,27 @@ class Engine(object):
     def get_special_edges(self, edges):
         return [edge for edge in edges if edge.get('type') == 'special']
 
-    def is_dead_end(self, node_id):
-        '''Check if current node is a dead end (end of session)'''
-
-        target_edges = self.get_node_edges(node_id)
-        return len(self.get_normal_edges(target_edges)) == 0
-
     def is_stacked(self):
         '''Check if current session has sessions below in stack'''
 
         return bool(self.user.data.get('stack'))
+
+    def is_dead_end(self, node_id):
+        '''Check if current node is a dead end (end of session)'''
+
+        target_edges = self.get_node_edges(node_id)
+        normal_edges = self.get_normal_edges(target_edges)
+        return len(normal_edges) == 0
+
+    def handle_dead_end(self, node_id):
+        '''Resolve a background processed dead end'''
+
+        if self.is_dead_end(node_id) and self.is_stacked():
+
+            node = self.nodes.get(node_id)
+            if node.get('type') in ['start', 'session', 'expression']:
+
+                return self.run(pop=True)
 
     def traverse(self, edges, source_id):
         '''Select and return first edge where the user passes edge conditions'''
@@ -154,6 +165,8 @@ class Engine(object):
         if edge:
             target_id = edge.get('target')
             return self.trigger_node(target_id)
+        else:
+            return self.handle_dead_end(source_id)
 
     def trigger_node(self, node_id):
         '''Trigger action for a given node, return if Page'''
@@ -339,8 +352,10 @@ class Engine(object):
         if pop:
             session_id, node_id = self.user.data.get('stack').pop()
             # pop again if still on the same session
+            # risky, but ensures restacking via e.g. menu will not lock user in
             while self.user.data.get('stack') and session_id == self.user.data.get('session'):
                 session_id, node_id = self.user.data.get('stack').pop()
+
             self.init_session(session_id, node_id)
 
             return self.transition(node_id)

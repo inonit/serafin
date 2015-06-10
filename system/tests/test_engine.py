@@ -165,8 +165,8 @@ class EngineTestCase(TestCase):
                     {
                         'id': 3,
                         'type': 'expression',
-                        'expression': '"hunter2"',
                         'variable_name': 'password',
+                        'expression': '"hunter2"',
                     },
                     {
                         'id': 4,
@@ -254,6 +254,79 @@ class EngineTestCase(TestCase):
             }
         )
 
+        # set up processing session
+        self.session_processing = Session.objects.create(
+            title='Processing session',
+            display_title='Processing session',
+            program=self.program,
+            data={
+                'nodes': [
+                    {
+                        'id': 0,
+                        'type': 'start',
+                        'title': 'Start',
+                    },
+                    {
+                        'id': 1,
+                        'type': 'expression',
+                        'variable_name': 'somevar',
+                        'expression': '"some value"',
+                    },
+                ],
+                'edges': [
+                    {
+                        'id': 1,
+                        'type': 'normal',
+                        'source': 0,
+                        'target': 1,
+                    },
+                ]
+            }
+        )
+
+        # set up hub session
+        self.session_hub = Session.objects.create(
+            title='Hub session',
+            display_title='Hub session',
+            program=self.program,
+            data={
+                'nodes': [
+                    {
+                        'id': 0,
+                        'type': 'start',
+                        'title': 'Start',
+                    },
+                    {
+                        'id': 1,
+                        'type': 'session',
+                        'ref_id': self.session_processing.id,
+                        'title': 'Simple session',
+                    },
+                    {
+                        'id': 2,
+                        'type': 'page',
+                        'ref_id': self.page_first.id,
+                        'title': 'First page',
+                    },
+                ],
+                'edges': [
+                    {
+                        'id': 1,
+                        'type': 'normal',
+                        'source': 0,
+                        'target': 1,
+                    },
+                    {
+                        'id': 2,
+                        'type': 'normal',
+                        'source': 1,
+                        'target': 2,
+                    },
+                ]
+            }
+        )
+
+
     def test_init(self):
         context = {
             'expression_somevar': '1 + 1',
@@ -316,7 +389,6 @@ class EngineTestCase(TestCase):
         self.assertEqual(self.user.data['node'], 2)
 
     def test_complex_session(self):
-        # test init with session and node context, a common pattern
         context = {
             'session': self.session_complex.id,
             'node': 0,
@@ -363,4 +435,26 @@ class EngineTestCase(TestCase):
 
         # the next edge is a session node, should return the first page of that node
         page = engine.run(next=True)
+        self.assertEqual(page, self.page_first)
+
+    def test_snippet(self):
+        # re-init user
+        self.session = {}
+        self.user = StatefulAnonymousUser(session=self.session)
+        self.user.data = {}
+
+        context = {
+            'session': self.session_hub.id,
+            'node': 0,
+        }
+        engine = Engine(user=self.user, context=context)
+        page = engine.run()
+
+        # we've visited processing session and set value
+        self.assertEqual(self.user.data['somevar'], 'some value')
+
+        # stack is now empty
+        self.assertEqual(self.user.data['stack'], [])
+
+        # we're on page_first
         self.assertEqual(page, self.page_first)
