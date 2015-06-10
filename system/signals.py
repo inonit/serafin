@@ -136,13 +136,13 @@ def add_content_relations(sender, **kwargs):
 
     session = kwargs['instance']
 
-    session.content = []
-    for node in session.data['nodes']:
-        if node['type'] in ['page', 'email', 'sms']:
-            try:
-                session.content.add(node['ref_id'])
-            except:
-                pass
+    session.content.clear()
+    ids = [
+        node['ref_id'] for node in session.data['nodes']
+        if node['type'] in ['page', 'email', 'sms']
+    ]
+    ids = list(set(ids))
+    session.content.add(*ids)
 
 
 @receiver(signals.post_save, sender=Session)
