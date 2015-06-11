@@ -452,7 +452,7 @@ plumbing.directive('edge', ['jsPlumb', function(jsPlumbService) {
                     cssClass: scope.edge.type,
                     overlays: [[
                         'Custom', {
-                            cssClass: 'overlay box',
+                            cssClass: 'overlay box ' + scope.edge.type,
                             create: function(component) {
                                 return element.find('.overlay');
                             }
