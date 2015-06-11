@@ -85,10 +85,9 @@ def process_email_links(user, text):
 
     matches = re.findall(r'(login_link)', text)
     for match in matches:
-        login_str = match[0]
 
         link = user.generate_login_link()
-        text = text.replace(login_str, link)
+        text = text.replace(match, link)
 
     return text
 
