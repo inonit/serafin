@@ -27,6 +27,7 @@
 }
 
 #node_0,
+.plumbing .toolbox .btn,
 .plumbing .node.delay,
 .plumbing .node.email,
 .plumbing .node.sms,
@@ -36,12 +37,34 @@
     background: #eee;
 }
 
+.plumbing .toolbox .btn.page {
+    background: #fff;
+}
+
+.plumbing .toolbox .btn.session,
 .plumbing .node.session {
     background: #efe;
 }
 
+.plumbing .toolbox .btn.expression,
 .plumbing .node.expression {
     background: #fed;
+}
+
+.plumbing .toolbox .btn:hover {
+    background: #ddd;
+}
+
+.plumbing .toolbox .btn.page:hover {
+    background: #eee;
+}
+
+.plumbing .toolbox .btn.session:hover {
+    background: #ded;
+}
+
+.plumbing .toolbox .btn.expression:hover {
+    background: #edc;
 }
 
 .node:hover {
