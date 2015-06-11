@@ -19,7 +19,6 @@ var instanceConfig = {
         ],
     ],
     HoverPaintStyle: {
-        strokeStyle: '#4DAF7C',
         lineWidth: 2,
     }
 };
@@ -31,7 +30,6 @@ var sourceConfig = {
         'StateMachine',
     ],
     connectorStyle: {
-        strokeStyle: '#5C97BF',
         lineWidth: 2,
     },
     maxConnections: 9,
@@ -451,6 +449,7 @@ plumbing.directive('edge', ['jsPlumb', function(jsPlumbService) {
                 scope.connection = scope.jsPlumb.connect({
                     source: 'node_' + scope.edge.source,
                     target: 'node_' + scope.edge.target,
+                    cssClass: scope.edge.type,
                     overlays: [[
                         'Custom', {
                             cssClass: 'overlay box',

@@ -117,6 +117,27 @@
     z-index: 5;
 }
 
+._jsPlumb_connector.normal path {
+    stroke: #5C97BF;
+}
+
+._jsPlumb_connector.special path {
+    stroke: #aaa;
+}
+
+._jsPlumb_connector.normal path:last-child {
+    fill: #5C97BF;
+}
+
+._jsPlumb_connector.special path:last-child {
+    fill: #aaa;
+}
+
+
+._jsPlumb_connector._jsPlumb_hover path {
+    stroke: #4DAF7C;
+}
+
 .dragHover {
     border: 2px solid orange;
 }
