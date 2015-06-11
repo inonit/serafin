@@ -29,7 +29,8 @@ def export_text(request):
     and variable replacement syntax.
     '''
 
-    queryset = Program.objects.get(id__in=ids)
+    ids = request.GET.getlist('ids')
+    queryset = Program.objects.filter(id__in=ids)
 
     def indent(string):
         '''Helper for prettier code in format_field and format_content'''
