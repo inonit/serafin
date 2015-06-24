@@ -41,7 +41,7 @@ class TaskAdmin(admin.ModelAdmin):
     subject_link.allow_tags = True
 
     def task_result(self, obj):
-        return obj.task
+        return obj.result
     task_result.short_description = _('Task result')
 
 

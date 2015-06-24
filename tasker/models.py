@@ -31,6 +31,8 @@ class TaskManager(models.Manager):
 
         task.save()
 
+        return task
+
 
 class Task(models.Model):
     '''A model to keep track of Huey task management in the admin interface'''
@@ -58,6 +60,10 @@ class Task(models.Model):
     class Meta:
         verbose_name = _('task')
         verbose_name_plural = _('tasks')
+
+    @property
+    def result(self):
+        return self.task
 
     @property
     def task(self):
