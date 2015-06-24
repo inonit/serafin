@@ -141,6 +141,10 @@ class User(AbstractBaseUser, PermissionsMixin):
         )
 
     def register(self):
+        '''
+        Registration is not needed for a registered user
+        (see StatefulAnonymousUser)
+        '''
         return self, False
 
     def __unicode__(self):
@@ -152,15 +156,27 @@ class User(AbstractBaseUser, PermissionsMixin):
 
 
 class StatefulAnonymousUser(AnonymousUser):
+    '''
+    An AnonymousUser variant that retains user data in a session,
+    and can be converted to a full user.
+    '''
 
     def __init__(self, session):
         self.session = session
         self.data = session.get('user_data', {})
 
     def save(self):
+        '''
+        Save user data to session
+        and retain as long as the session object is retained.
+        '''
         self.session['user_data'] = self.data
 
     def register(self):
+        '''
+        Convert the StatefulAnonymousUser to a full User.
+        Assumes at least password is already written to user data.
+        '''
         password = self.data['password']
         del self.data['password']
 
@@ -177,7 +193,15 @@ class StatefulAnonymousUser(AnonymousUser):
         return user, True
 
     def send_email(self, subject=None, message=None, html_message=None):
+        '''
+        Not implemented for an AnonymousUser,
+        but pass rather than raise an exception
+        '''
         pass
 
     def send_sms(self, message=None):
+        '''
+        Not implemented for an AnonymousUser,
+        but pass rather than raise an exception
+        '''
         pass

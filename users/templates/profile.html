@@ -38,9 +38,9 @@
     <h2>{% trans 'Edit your data' %}</h2>
     <form action="{% url 'profile' %}" method="post">
         {% csrf_token %}
-        {% for var in user_editable_vars %}
-        <label for="{{ var.name }}"><strong>{{ var.label }}</strong></label>
-        <input type="text" name="{{ var.name }}" value="{{ var.value }}" placeholder="{{ var.value }}">
+        {% for name, var in user_editable_vars %}
+        <label for="{{ name }}"><strong>{{ var.label }}</strong></label>
+        <input type="text" name="{{ name }}" value="{{ var.value }}" placeholder="{{ var.value }}">
         {% endfor %}
         <input type="submit" class="button" value="{% trans 'Save' %}">
     </form>

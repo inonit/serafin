@@ -81,7 +81,7 @@ def send_sms(request, *args, **kwargs):
 
 @csrf_exempt
 def receive_sms(request):
-    '''Receive sms message from user, process and respond'''
+    '''Receive sms message from user, process through main API and respond'''
 
     response = Response()
     if request.method == 'POST':

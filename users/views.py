@@ -18,18 +18,23 @@ import json
 
 
 def manual_login(request):
+    '''Redirect to root if logged in or present login screen'''
+
     if request.user.is_authenticated():
         return redirect('/')
     return login_view(request, template_name='login.html', extra_context={'title': _('Log in')})
 
 
 def manual_logout(request):
+    '''Log user out if logged in and redirect to root'''
+
     if request.user.is_authenticated():
         logout(request)
     return redirect('/')
 
 
 def login_via_email(request, user_id=None, token=None):
+    '''Log in by token link or redirect to manual login if token is invalid'''
 
     user = authenticate(user_id=user_id, token=token)
     if user:
@@ -41,6 +46,7 @@ def login_via_email(request, user_id=None, token=None):
 
 @csrf_exempt
 def receive_sms(request):
+    '''Receive sms from vault and let engine process it'''
 
     response = {'status': 'Fail.'}
 
@@ -55,7 +61,7 @@ def receive_sms(request):
             if token_generator.check_token(user_id, token):
                 user = User.objects.get(id=user_id)
 
-                node_id = user.data.get('current_background', 0)
+                node_id = user.data.get('node', 0)
                 reply_var = user.data.get('reply_variable')
 
                 context = {}
@@ -72,28 +78,26 @@ def receive_sms(request):
 
 @login_required
 def profile(request):
+    '''Show the user profile or save user editable data'''
 
-    user_editable_vars = []
-    for var in Variable.objects.all():
-        if var.user_editable:
-            user_editable_vars.append({
-                'name': var.name,
-                'label': var.display_name,
-                'value': request.user.data.get(var.name) or var.value
-            })
+    user_editable_vars = {
+        var.name: {
+            'label': var.display_name,
+            'value': request.user.data.get(var.name) or var.value
+        } for var in Variable.objects.filter(user_editable=True)
+    }
 
     if request.method == 'POST':
         for key, value in request.POST.items():
-            for var in user_editable_vars:
-                if key == var['name']:
-                    request.user.data[key] = value
+            if key in user_editable_vars.keys():
+                request.user.data[key] = value
 
         request.user.save()
         return redirect('profile')
 
     now = timezone.localtime(timezone.now())
     progress_set = {}
-    for ua in request.user.programuseraccess_set.all():
+    for useraccess in request.user.programuseraccess_set.all():
 
         sessions_done = 0
         sessions_remaining = 0
@@ -101,9 +105,9 @@ def profile(request):
 
         start_times = [
             s.get_start_time(
-                ua.start_time,
-                ua.time_factor
-            ) for s in ua.program.session_set.all()
+                useraccess.start_time,
+                useraccess.time_factor
+            ) for s in useraccess.program.session_set.all()
         ]
 
         for start_time in start_times:
@@ -116,7 +120,7 @@ def profile(request):
 
         days_since_start = (now - min(start_times)).days
 
-        progress_set[ua.program] = {
+        progress_set[useraccess.program] = {
             'sessions_done': sessions_done,
             'sessions_remaining': sessions_remaining,
             'days_since_start': days_since_start
