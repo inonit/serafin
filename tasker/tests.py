@@ -261,7 +261,7 @@ class SessionIntegrationTestCase(TestCase):
 
         # task_a should have run and have a result
         self.assertEqual(task_a.result, 'Hello Huey!')
-        # task_a should not have run have result None
+        # task_b should not have run have result None
         self.assertIs(task_b.result, None)
 
     def test_schedule_session(self):
@@ -308,7 +308,7 @@ class SessionIntegrationTestCase(TestCase):
 
         # task_a should have run and have a result
         self.assertEqual(task_a.result, 'Hello Huey!')
-        # task_a should not have run have result None
+        # task_b should not have run have result None
         self.assertIs(task_b.result, None)
 
     def test_reschedule_session(self):
@@ -357,7 +357,7 @@ class SessionIntegrationTestCase(TestCase):
 
         # task_a should have run and have a result
         self.assertEqual(task_a.result, 'Hello Huey!')
-        # task_a should not have run have result None
+        # task_b should not have run have result None
         self.assertIs(task_b.result, None)
 
     def test_revoke_session(self):
