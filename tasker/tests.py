@@ -22,13 +22,19 @@ User = get_user_model()
 @task()
 def test_task():
     message = 'Hello Huey!'
-
-    print message
     return message
 
 
 class TimezoneTestCase(TestCase):
-    '''The Huey consumer needs to be running for these tests'''
+    '''
+    Huey operates on UTC time, which may not be the case for
+    Django or the system it's running on.
+
+    This tests that the employed strategy for normalizing time
+    works as intended.
+
+    The Huey consumer needs to be running for this test.
+    '''
 
     def test_utc(self):
 
@@ -58,7 +64,12 @@ class TimezoneTestCase(TestCase):
 
 
 class TaskerTestCase(TestCase):
-    '''The Huey consumer needs to be running for these tests.'''
+    '''
+    This tests creating, revoking and rescheduling tasks using
+    the Task model.
+
+    The Huey consumer needs to be running for these tests.
+    '''
 
     def setUp(self):
         # if using users.User, disable signal to mirror user
@@ -182,3 +193,245 @@ class TaskerTestCase(TestCase):
 
         print 'test_revoke_task task id: %s' % task.task_id
 
+
+class SessionIntegrationTestCase(TestCase):
+    '''
+    This tests predicted indirect Task creation, revocation and rescheduling
+    by signal receivers when manipulating Session and ProgramUserAccess models.
+
+    The Huey consumer needs to be running for these tests.
+    '''
+
+    def setUp(self):
+        # if using users.User, disable signal to mirror user
+        signals.post_save.disconnect(mirror_user, sender=User)
+
+        self.program = Program(title='Program', display_title='Program')
+        self.program.save()
+
+        self.user_a = User.objects.create_user('a', password='test')
+        self.user_a.save()
+
+        self.user_b = User.objects.create_user('b', password='test')
+        self.user_b.save()
+
+    def test_schedule_sessions(self):
+        '''Test session task scheduling with receiver for ProgramUserAccess post_save'''
+
+        # will signal schedule_session,
+        # but no ProgramUserAccess is in session.program.programuseraccess_set
+        session = Session.objects.create(
+            title='Empty session',
+            display_title='Empty session',
+            program=self.program,
+            scheduled=True,
+            data={
+                'nodes': [],
+                'edges': []
+            }
+        )
+
+        # receiver schedule_sessions will create a task on post_save
+        useraccess_a = ProgramUserAccess.objects.create(
+            program=self.program,
+            user=self.user_a,
+            start_time=timezone.localtime(timezone.now()) + datetime.timedelta(seconds=1),
+        )
+
+        # find the Task just created by receiver,
+        # reschedule to the same time so we can swap init_session with test_task,
+        # save the Task
+        task_a = Task.objects.last()
+        task_a.reschedule(task=test_task, args=None, time=task_a.time)
+        task_a.save()
+
+        # see above
+        useraccess_b = ProgramUserAccess.objects.create(
+            program=self.program,
+            user=self.user_b,
+            start_time=timezone.localtime(timezone.now()) + datetime.timedelta(minutes=1),
+        )
+
+        # see above
+        task_b = Task.objects.last()
+        task_b.reschedule(task=test_task, args=None, time=task_b.time)
+        task_b.save()
+
+        sleep(2)
+
+        # task_a should have run and have a result
+        self.assertEqual(task_a.result, 'Hello Huey!')
+        # task_a should not have run have result None
+        self.assertIs(task_b.result, None)
+
+    def test_schedule_session(self):
+        '''Test session task scheduling with receiver for Session post_save'''
+
+        # will signal schedule_sessions (see test_schedule_sessions),
+        # but no Session is in useraccess.program.session_set
+        useraccess_a = ProgramUserAccess.objects.create(
+            program=self.program,
+            user=self.user_a,
+            start_time=timezone.localtime(timezone.now()) + datetime.timedelta(seconds=1),
+        )
+
+        # see above
+        useraccess_b = ProgramUserAccess.objects.create(
+            program=self.program,
+            user=self.user_b,
+            start_time=timezone.localtime(timezone.now()) + datetime.timedelta(minutes=1),
+        )
+
+        # will schedule session for both users
+        session = Session.objects.create(
+            title='Empty session',
+            display_title='Empty session',
+            program=self.program,
+            scheduled=True,
+            data={
+                'nodes': [],
+                'edges': []
+            }
+        )
+
+        # next last Task created should correspond to useraccess_a
+        task_a = list(Task.objects.all())[-2]
+        task_a.reschedule(task=test_task, args=None, time=task_a.time)
+        task_a.save()
+
+        # last Task created should correspond to useraccess_b
+        task_b = list(Task.objects.all())[-1]
+        task_b.reschedule(task=test_task, args=None, time=task_b.time)
+        task_b.save()
+
+        sleep(2)
+
+        # task_a should have run and have a result
+        self.assertEqual(task_a.result, 'Hello Huey!')
+        # task_a should not have run have result None
+        self.assertIs(task_b.result, None)
+
+    def test_reschedule_session(self):
+        '''Test session task rescheduling with receiver for Session post_save'''
+
+        # see test_schedule_session
+        useraccess_a = ProgramUserAccess.objects.create(
+            program=self.program,
+            user=self.user_a,
+            start_time=timezone.localtime(timezone.now()) + datetime.timedelta(seconds=1),
+        )
+
+        # see test_schedule_session
+        useraccess_b = ProgramUserAccess.objects.create(
+            program=self.program,
+            user=self.user_b,
+            start_time=timezone.localtime(timezone.now()) + datetime.timedelta(minutes=1),
+        )
+
+        # will schedule session for both users
+        session = Session.objects.create(
+            title='Empty session',
+            display_title='Empty session',
+            program=self.program,
+            scheduled=True,
+            data={
+                'nodes': [],
+                'edges': []
+            }
+        )
+
+        # re-save session to trigger reschedule_session
+        session.save()
+
+        # swap task function for user_a
+        task_a = list(Task.objects.all())[-2]
+        task_a.reschedule(task=test_task, args=None, time=task_a.time)
+        task_a.save()
+
+        # swap task function for user_b
+        task_b = list(Task.objects.all())[-1]
+        task_b.reschedule(task=test_task, args=None, time=task_b.time)
+        task_b.save()
+
+        sleep(2)
+
+        # task_a should have run and have a result
+        self.assertEqual(task_a.result, 'Hello Huey!')
+        # task_a should not have run have result None
+        self.assertIs(task_b.result, None)
+
+    def test_revoke_session(self):
+        '''Test session task revoke with receiver for Session pre_delete'''
+
+        # see test_schedule_session
+        useraccess_a = ProgramUserAccess.objects.create(
+            program=self.program,
+            user=self.user_a,
+            start_time=timezone.localtime(timezone.now()) + datetime.timedelta(seconds=1),
+        )
+
+        # see test_schedule_session
+        useraccess_b = ProgramUserAccess.objects.create(
+            program=self.program,
+            user=self.user_b,
+            start_time=timezone.localtime(timezone.now()) + datetime.timedelta(minutes=1),
+        )
+
+        # get last task before scheduling
+        last_task_before = Task.objects.last()
+
+        # will schedule session for both users
+        session = Session.objects.create(
+            title='Empty session',
+            display_title='Empty session',
+            program=self.program,
+            scheduled=True,
+            data={
+                'nodes': [],
+                'edges': []
+            }
+        )
+
+        # re-save session to trigger reschedule_session
+        session.delete()
+
+        # get last task after deleting session
+        last_task_after = Task.objects.last()
+
+        # last task should be same before and after deleting,
+        # i.e. session.delete() also deleted the tasks connected to it
+        self.assertIs(last_task_before, last_task_after)
+
+    def test_revoke_tasks(self):
+        '''Test session task revoke with receiver for ProgramUserAccess pre_delete'''
+
+        # see test_schedule_sessions
+        session = Session.objects.create(
+            title='Empty session',
+            display_title='Empty session',
+            program=self.program,
+            scheduled=True,
+            data={
+                'nodes': [],
+                'edges': []
+            }
+        )
+
+        # get last task before scheduling
+        last_task_before = Task.objects.last()
+
+        # receiver schedule_sessions will create a task on post_save
+        useraccess = ProgramUserAccess.objects.create(
+            program=self.program,
+            user=self.user_a,
+            start_time=timezone.localtime(timezone.now()) + datetime.timedelta(seconds=1),
+        )
+
+        useraccess.delete()
+
+        # get last task after deleting programuseraccess
+        last_task_after = Task.objects.last()
+
+        # last task should be same before and after deleting,
+        # i.e. useraccess.delete() also deleted the tasks connected to it
+        self.assertIs(last_task_before, last_task_after)
