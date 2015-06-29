@@ -435,3 +435,62 @@ class SessionIntegrationTestCase(TestCase):
         # last task should be same before and after deleting,
         # i.e. useraccess.delete() also deleted the tasks connected to it
         self.assertIs(last_task_before, last_task_after)
+
+    def test_schedule_sessions_with_time_factor(self):
+        '''Test session task scheduling with variable time factors'''
+
+        session = Session.objects.create(
+            title='Empty session',
+            display_title='Empty session',
+            program=self.program,
+            scheduled=True,
+            start_time_delta=1,
+            start_time_unit='minutes',
+            data={
+                'nodes': [],
+                'edges': []
+            }
+        )
+
+        now = timezone.localtime(timezone.now())
+
+        # add a useraccess with normal time_factor
+        useraccess_a = ProgramUserAccess.objects.create(
+            program=self.program,
+            user=self.user_a,
+            start_time=now,
+            time_factor=1.0,
+        )
+
+        task_time = session.get_start_time(
+            useraccess_a.start_time,
+            useraccess_a.time_factor
+        )
+
+        task_a = Task.objects.last()
+        task_a.reschedule(task=test_task, args=None, time=task_time)
+        task_a.save()
+
+        # add a useraccess with accelerated time_factor
+        useraccess_b = ProgramUserAccess.objects.create(
+            program=self.program,
+            user=self.user_b,
+            start_time=now,
+            time_factor=0.001,
+        )
+
+        task_time = session.get_start_time(
+            useraccess_b.start_time,
+            useraccess_b.time_factor
+        )
+
+        task_b = Task.objects.last()
+        task_b.reschedule(task=test_task, args=None, time=task_time)
+        task_b.save()
+
+        sleep(2)
+
+        # task_a should not have run have result None
+        self.assertIs(task_a.result, None)
+        # task_b was accelerated, should have run and have a result
+        self.assertEqual(task_b.result, 'Hello Huey!')
