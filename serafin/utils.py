@@ -37,11 +37,11 @@ def variable_replace(user, text):
     for code in markup:
 
         variable = code[2:-2].strip()
-        value = user_data.get(variable, '')
+        value = user_data.get(variable)
         if isinstance(value, list):
             value = natural_join(value)
 
-        if not value:
+        if value is None:
             try:
                 from system.models import Variable
                 value = Variable.objects.get(name=variable).get_value()
@@ -61,11 +61,11 @@ def live_variable_replace(user, text):
     for code in markup:
 
         variable = code[2:-2].strip()
-        value = user_data.get(variable, '')
+        value = user_data.get(variable)
         if isinstance(value, list):
             value = natural_join(value)
 
-        if not value:
+        if value is None:
             try:
                 from system.models import Variable
                 value = Variable.objects.get(name=variable).get_value()
