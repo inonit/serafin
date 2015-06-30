@@ -213,7 +213,7 @@ class Parser(object):
         except (ValueError, TypeError):
             pass
         if value in ("True", "False"):
-            return True if operator == "True" else False
+            return True if value == "True" else False
         return value
 
     def push_stack(self, s, location, tokens):
