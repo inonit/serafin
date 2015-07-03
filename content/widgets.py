@@ -47,7 +47,7 @@ class ContentWidget(forms.Widget):
     class Media:
         css = {
             'all': (
-                'content/css/content.css',
+                'css/content.css',
                 'css/autocomplete.css',
                 'css/expression-widget.css'
             )
@@ -60,7 +60,7 @@ class ContentWidget(forms.Widget):
             'lib/marked/marked.js',
             'js/autocomplete.js',
             'js/expression.js',
-            'content/js/content.js',
+            'js/content.js',
         )
 
 
@@ -77,7 +77,7 @@ class TextContentWidget(forms.Widget):
     class Media:
         css = {
             'all': (
-                'content/css/content.css',
+                'css/content.css',
             )
         }
         js = (
@@ -87,7 +87,7 @@ class TextContentWidget(forms.Widget):
             'lib/marked/marked.js',
             'js/autocomplete.js',
             'js/expression.js',
-            'content/js/content.js',
+            'js/content.js',
         )
 
 
@@ -104,7 +104,7 @@ class SMSContentWidget(forms.Widget):
     class Media:
         css = {
             'all': (
-                'content/css/content.css',
+                'css/content.css',
             )
         }
         js = (
@@ -113,5 +113,5 @@ class SMSContentWidget(forms.Widget):
             'lib/ment.io/dist/mentio.min.js',
             'js/autocomplete.js',
             'js/expression.js',
-            'content/js/content.js',
+            'js/content.js',
         )

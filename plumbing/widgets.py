@@ -25,19 +25,18 @@ class PlumbingWidget(forms.Widget):
     class Media:
         css = {
             'all': (
-                'plumbing/css/plumbing.css',
+                'css/plumbing.css',
                 'css/autocomplete.css',
                 'css/expression-widget.css'
             )
         }
         js = (
             'lib/angular/angular.min.js',
-            #'plumbing/jquery/jquery.min.js',
             'lib/jqueryui/jquery-ui.min.js',
             'lib/jsplumb/dist/js/jquery.jsPlumb-1.7.5-min.js',
             'lib/lodash/lodash.min.js',
             'lib/ment.io/dist/mentio.min.js',
             'js/autocomplete.js',
             'js/expression.js',
-            'plumbing/js/plumbing.js',
+            'js/plumbing.js',
         )
