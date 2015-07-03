@@ -1,0 +1,22 @@
+{
+  "name": "serafin",
+  "version": "1.0.0",
+  "description": "An interactive content creation kit",
+  "private": true,
+  "directories": {
+    "doc": "docs"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/inonit/serafin.git"
+  },
+  "author": "Inonit AS <post@inonit.no>",
+  "license": "TBA",
+  "bugs": {
+    "url": "https://github.com/inonit/serafin/issues"
+  },
+  "homepage": "https://github.com/inonit/serafin#readme",
+  "dependencies": {
+    "bower": "^1.4.1"
+  }
+}

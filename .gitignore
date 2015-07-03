@@ -31,3 +31,6 @@ local_settings.py
 /src
 /.emacs.desktop
 /.emacs.desktop.lock
+
+node_modules
+staticfiles/lib

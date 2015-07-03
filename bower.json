@@ -1,0 +1,26 @@
+{
+  "name": "serafin",
+  "version": "1.0.0",
+  "homepage": "https://github.com/inonit/serafin",
+  "authors": [
+    "Inonit AS <post@inonit.no>"
+  ],
+  "description": "An interactive content creation kit",
+  "license": "TBA",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "staticfiles/lib"
+  ],
+  "dependencies": {
+    "angular": "~1.4.1",
+    "marked": "~0.3.3",
+    "ment.io": "~0.9.23",
+    "lodash": "~3.10.0",
+    "jquery": "~2.1.4",
+    "jqueryui": "~1.11.4",
+    "jsplumb": "~1.7.5",
+    "foundation": "~5.5.2",
+    "angular-foundation": "~0.6.0"
+  }
+}

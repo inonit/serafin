@@ -11,7 +11,7 @@
     {% load staticfiles %}
     {% load compress %}
     {% compress css %}
-    <link rel="stylesheet" href="{% static 'css/foundation.css' %}" />
+    <link rel="stylesheet" href="{% static 'lib/foundation/css/foundation.min.css' %}" />
     {% get_current_stylesheet for user as STYLESHEET %}
     {% if STYLESHEET %}
     <link rel="stylesheet" href="{% static STYLESHEET.path %}" />
@@ -53,11 +53,10 @@
     </footer>
 
     {% compress js %}
-    <script src="{% static 'js/angular/angular.min.js' %}"></script>
-    <script src="{% static 'js/angular-animate/angular-animate.min.js' %}"></script>
-    <script src="{% static 'js/vendor/mm-foundation-tpls.min.js' %}"></script>
-    <script src="{% static 'js/serafin.js' %}"></script>
+    <script src="{% static 'lib/angular/angular.min.js' %}"></script>
+    <script src="{% static 'lib/angular-foundation/mm-foundation-tpls.min.js' %}"></script>
     <script src="{% static 'js/topbar-menu.js' %}"></script>
+    <script src="{% static 'js/serafin.js' %}"></script>
     {% block scripts %}
     <script>
         var api = undefined;

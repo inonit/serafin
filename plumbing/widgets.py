@@ -31,12 +31,12 @@ class PlumbingWidget(forms.Widget):
             )
         }
         js = (
-            'plumbing/angular/angular.min.js',
+            'lib/angular/angular.min.js',
             #'plumbing/jquery/jquery.min.js',
-            'plumbing/jqueryui/jquery-ui.min.js',
-            'plumbing/jsplumb/jquery.jsPlumb-1.6.2-min.js',
-            'js/ment.io/mentio.min.js',
-            'js/vendor/lodash.min.js',
+            'lib/jqueryui/jquery-ui.min.js',
+            'lib/jsplumb/dist/js/jquery.jsPlumb-1.7.5-min.js',
+            'lib/lodash/lodash.min.js',
+            'lib/ment.io/dist/mentio.min.js',
             'js/autocomplete.js',
             'js/expression.js',
             'plumbing/js/plumbing.js',

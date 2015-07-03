@@ -54,12 +54,12 @@ class ContentWidget(forms.Widget):
         }
         js = (
             filer_settings.FILER_STATICMEDIA_PREFIX + 'js/popup_handling.js',
-            'content/angular/angular.min.js',
-            'js/vendor/lodash.min.js',
-            'js/ment.io/mentio.min.js',
+            'lib/angular/angular.min.js',
+            'lib/lodash/lodash.min.js',
+            'lib/ment.io/dist/mentio.min.js',
+            'lib/marked/marked.js',
             'js/autocomplete.js',
             'js/expression.js',
-            'content/marked/marked.js',
             'content/js/content.js',
         )
 
@@ -81,12 +81,12 @@ class TextContentWidget(forms.Widget):
             )
         }
         js = (
-            'content/angular/angular.min.js',
-            'js/vendor/lodash.min.js',
-            'js/ment.io/mentio.min.js',
+            'lib/angular/angular.min.js',
+            'lib/lodash/lodash.min.js',
+            'lib/ment.io/dist/mentio.min.js',
+            'lib/marked/marked.js',
             'js/autocomplete.js',
             'js/expression.js',
-            'content/marked/marked.js',
             'content/js/content.js',
         )
 
@@ -108,9 +108,9 @@ class SMSContentWidget(forms.Widget):
             )
         }
         js = (
-            'content/angular/angular.min.js',
-            'js/vendor/lodash.min.js',
-            'js/ment.io/mentio.min.js',
+            'lib/angular/angular.min.js',
+            'lib/lodash/lodash.min.js',
+            'lib/ment.io/dist/mentio.min.js',
             'js/autocomplete.js',
             'js/expression.js',
             'content/js/content.js',
