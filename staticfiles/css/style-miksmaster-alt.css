@@ -109,8 +109,12 @@ header {
     font-family: 'Open Sans', sans-serif;
 }
 
+.top-bar-section .dropdown li.title h5 a {
+    line-height: 1.6;
+}
+
 .footer {
-    padding: 15px 15px 0;
+    padding: 10px 15px 0;
     font-size: .9rem;
 }
 
@@ -433,6 +437,7 @@ fieldset legend,
     background: #95C11F;
 }
 
+.top-bar-section ul li,
 .top-bar.expanded .title-area {
     background: #95C11F;
 }
@@ -443,11 +448,15 @@ fieldset legend,
 
 .top-bar-section ul,
 .top-bar-section li:not(.has-form) a:not(.button),
-.top-bar-section ul.active li:not(.has-form) a:not(.button):hover {
+.top-bar-section ul.active li:not(.has-form) a:not(.button):hover,
+.top-bar-section .dropdown li:not(.has-form):not(.active)>a:not(.button) {
     background: #95C11F;
 }
 
-.top-bar-section li:not(.has-form) a:not(.button):hover {
+.top-bar-section ul li:hover:not(.has-form) > a,
+.top-bar-section .dropdown li.title h5 a:hover,
+.top-bar-section li:not(.has-form) a:not(.button):hover,
+.top-bar-section .dropdown li:not(.has-form):not(.active)>a:not(.button):hover {
     background: rgba(0, 0, 0, 0.1);
 }
 
@@ -554,7 +563,7 @@ div.error {
     }
 
     .top-bar .title-area .name {
-        padding: 10px;
+        padding: .5rem;
     }
 
     .top-bar .title-area .logo {
@@ -577,7 +586,16 @@ div.error {
     }
 
     .footer {
-        padding: .95rem .5rem;
+        padding: .75rem .5rem;
+    }
+
+    .page > h1 {
+        margin: 0;
+    }
+
+    .page .logo {
+        background-size: 100% auto;
+        height: 150px;
     }
 }
 

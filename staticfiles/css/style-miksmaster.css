@@ -104,7 +104,7 @@ header {
 }
 
 .footer {
-    padding: 15px 15px 0;
+    padding: 10px 15px 0;
     font-size: .9rem;
 }
 
@@ -115,6 +115,26 @@ header .logo {
 
 .top-bar-section ul li > a {
     font-family: 'Roboto', sans-serif;
+}
+
+.top-bar-section .dropdown li.title h5 a {
+    line-height: 1.6;
+}
+
+.top-bar .toggle-topbar.menu-icon {
+    height: 100%;
+    margin: 0;
+    top: 0;
+}
+
+.top-bar .toggle-topbar.menu-icon a {
+    height: 100%;
+    line-height: 100%;
+}
+
+.top-bar .toggle-topbar.menu-icon a span::after {
+    top: 0;
+    margin-top: .25rem;
 }
 
 .logo {
@@ -428,6 +448,7 @@ fieldset legend,
     border-bottom: 1px solid #1a1a21;
 }
 
+.top-bar-section ul li,
 .top-bar.expanded .title-area {
     background: #FFFBDC;
 }
@@ -436,13 +457,21 @@ fieldset legend,
     color: #95C11F;
 }
 
+.top-bar-section ul,
+.top-bar-section .dropdown li.title h5 a,
 .top-bar-section li:not(.has-form) a:not(.button),
-.top-bar-section ul.active li:not(.has-form) a:not(.button):hover {
+.top-bar-section ul.active li:not(.has-form) a:not(.button):hover,
+.top-bar-section .dropdown li:not(.has-form):not(.active)>a:not(.button) {
     background: #FFFBDC;
+    color: #006633;
 }
 
-.top-bar-section li:not(.has-form) a:not(.button):hover {
+.top-bar-section ul li:hover:not(.has-form) > a,
+.top-bar-section .dropdown li.title h5 a:hover,
+.top-bar-section li:not(.has-form) a:not(.button):hover,
+.top-bar-section .dropdown li:not(.has-form):not(.active)>a:not(.button):hover {
     background: #EEEBCC;
+    color: #006633;
 }
 
 .top-bar-section .has-dropdown > ul.dropdown {
@@ -462,6 +491,7 @@ fieldset legend,
     cursor: default;
 }
 
+.top-bar .toggle-topbar.menu-icon a span::after,
 .top-bar .toggle-topbar.menu-icon a::after {
   -webkit-box-shadow: 0 10px 0 1px #006633, 0 16px 0 1px #006633, 0 22px 0 1px #006633;
   box-shadow: 0 10px 0 1px #006633, 0 16px 0 1px #006633, 0 22px 0 1px #006633;
@@ -558,9 +588,13 @@ div.error {
         font-size: 100%;
     }
 
+    .top-bar .title-area .name {
+        padding: .5rem;
+    }
+
     .top-bar .title-area .logo {
         height: 25px;
-        margin: 10px;
+        width: 112.5px;
     }
 
     .top-bar-section ul li > a,
@@ -574,11 +608,20 @@ div.error {
     }
 
     .footer {
-        padding: .95rem .5rem;
+        padding: .75rem .5rem;
     }
 
     .top-bar-section .has-dropdown > a:after {
         border-color: transparent transparent transparent #006633;
+    }
+
+    .page > h1 {
+        margin: 0;
+    }
+
+    .page .logo {
+        background-size: 100% auto;
+        height: 150px;
     }
 }
 

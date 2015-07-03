@@ -99,7 +99,7 @@ header .logo {
     font-weight: 700;
     font-size: 1.5em;
     text-transform: uppercase;
-    padding: .15em .3em;
+    padding: .25em .5em;
 }
 
 .page .logo {
@@ -108,32 +108,49 @@ header .logo {
 }
 
 /* Top bar navigation menu */
-.top-bar {
-  background: #332f3f;
-  border-bottom: 1px solid #1a1a21;
+.top-bar,
+.top-bar-section {
+    border-bottom: 1px solid #1a1a21;
 }
 
+.top-bar,
+.top-bar-section,
+.top-bar-section .dropdown,
+.top-bar-section li,
+.top-bar-section li a,
 .top-bar.expanded .title-area {
-  background: #332f3f;
+    background: #332f3f !important;
 }
 
 .top-bar ul.title-area h1 a {
-  font-size: 1.1rem;
-  text-transform: uppercase;
-  color: #73e0b8;
+    font-size: 1.1rem;
+    text-transform: uppercase;
+    color: #73e0b8;
 }
 
-.top-bar-section li:not(.has-form) a:not(.button) {
-  background: #332f3f;
+.top-bar-section ul,
+.top-bar-section ul li,
+.top-bar-section ul li a {
+    font-size: .8125rem !important;
+    line-height: 1.6 !important;
+}
+
+.top-bar-section ul li a {
+    padding: .75rem 1rem !important;
+}
+
+.top-bar-section ul li:hover,
+.top-bar-section ul li a:hover {
+    background: rgba(0, 0, 0, 0.1) !important;
 }
 
 .top-bar-section .has-dropdown > ul.dropdown {
-  border-top: 1px solid #34a278;
+    border-top: 1px solid #34a278;
 }
 
 .top-bar-section .has-dropdown > a,
 .top-bar-section .dropdown li > a {
-  color: #fff;
+    color: #fff;
 }
 
 .top-bar-section ul li > a {
@@ -143,9 +160,19 @@ header .logo {
 /* End topbar navigation menu */
 
 .footer {
-    background: white;
-    color: #444;
+    background: #332f3f;
+    border-top: 1px solid #1a1a21;
+    color: #ccc;
+    font-size: .9rem;
     padding: 10px 15px 0;
+}
+
+.footer a {
+    color: white;
+}
+
+.footer a:hover {
+    color: #ccc;
 }
 
 .page {
@@ -332,18 +359,24 @@ h6 {
     color: #444;
 }
 
-a {
+a,
+a:visited {
     color: #34a278;
     transition: all 300ms ease-out;
 }
 
-a:hover {
+a:hover,
+a:focus {
     color: #348268;
 }
 
 button,
 .button {
     background: #34d298;
+}
+
+a.button {
+    color: white;
 }
 
 button:hover,
@@ -405,22 +438,6 @@ fieldset legend,
     background: white;
 }
 
-.footer {
-    background: #332f3f;
-    color: #ccc;
-    border-top: 1px solid #1a1a21;
-    font-size: .9rem;
-    padding: 15px 15px 0;
-}
-
-.footer a {
-    color: white;
-}
-
-.footer a:hover {
-    color: #ccc;
-}
-
 div.error {
     color: #f23a14;
 }
@@ -475,7 +492,10 @@ div.error {
         overflow: visible;
     }
     .footer {
-        padding: .95rem .5rem;
+        padding: .75rem .5rem;
+    }
+    header .logo {
+        padding: .125em .5em;
     }
 }
 
