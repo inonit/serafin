@@ -135,12 +135,15 @@ def export_text(request):
                             for j, alt in enumerate(item['alternatives']):
                                 data += format_content(content, index, 'content', str(i), 'alternatives', str(j), 'label', value=alt['label'])
 
-        for variable in program.variable_set.order_by('id'):
-            data += format_field(variable, 'name')
-            data += format_field(variable, 'display_name')
-            data += format_field(variable, 'admin_note')
-            data += format_field(variable, 'value')
-            data += format_field(variable, 'random_set')
+        # Variables should be included if translation of name, display_name, value etc. are needed
+        # this requires corresponding routines to copy Variables on Program copy
+
+        # for variable in program.variable_set.order_by('id'):
+        #     data += format_field(variable, 'name')
+        #     data += format_field(variable, 'display_name')
+        #     data += format_field(variable, 'admin_note')
+        #     data += format_field(variable, 'value')
+        #     data += format_field(variable, 'random_set')
 
     response = HttpResponse(data, content_type='text/plain')
     response['Content-Disposition'] = 'attachment; filename=text_content.md'
