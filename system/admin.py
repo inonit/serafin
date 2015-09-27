@@ -6,7 +6,7 @@ from django.conf import settings
 from django.contrib import admin
 from django.contrib.auth import get_user_model
 from django.contrib.contenttypes.models import ContentType
-from django.db import models
+from django.db import models, IntegrityError
 from django.db.models import Q
 from django.http import HttpResponseRedirect
 
@@ -127,32 +127,67 @@ class ProgramAdmin(reversion.VersionAdmin):
     note_excerpt.short_description = _('Admin note excerpt')
 
     def copy(modeladmin, request, queryset):
+        # keep track of copied content to avoid more than one copy
+        copied_content = {}
+
         for program in queryset:
             sessions = list(program.session_set.all())
 
+            program.users.clear()
             program.pk = None
-            program.title = _('%(title)s (copy)') % {'title': program.title}
-            program.save()
+            while not program.pk:
+                try:
+                    program.title = _('%(title)s (copy)') % {'title': program.title}
+                    program.save()
+                except IntegrityError:
+                    pass
 
             for session in sessions:
                 contents = list(session.content.all())
 
-                session.pk = None
-                session.title = _('%(title)s (copy)') % {'title': session.title}
                 session.program_id = program.id
-                session.save()
-                session.content = []
+
+                if session.route_slug:
+                    try:
+                        slug, counter = session.route_slug.rsplit('-', 1)
+                    except ValueError:
+                        slug, counter = session.route_slug, None
+                    if counter and counter.isdigit():
+                        counter = int(counter)
+                        counter += 1
+                        slug = '-'.join([slug, str(counter)])
+                    elif counter:
+                        slug = '-'.join([slug, str(counter), '1'])
+                    else:
+                        slug = '-'.join([slug, '1'])
+
+                    session.route_slug = slug
+
+                session.content.clear()
+                session.pk = None
+                while not session.pk:
+                    try:
+                        session.title = _('%(title)s (copy)') % {'title': session.title}
+                        session.save()
+                    except IntegrityError:
+                        pass
 
                 nodes = session.data.get('nodes')
 
                 for content in contents:
                     orig_id = content.id
 
-                    content.pk = None
-                    content.title = _('%(title)s (copy)') % {'title': content.title}
-                    content.save()
-
-                    session.content.add(content)
+                    if orig_id in copied_content:
+                        content = copied_content[orig_id]
+                    else:
+                        content.pk = None
+                        while not content.pk:
+                            try:
+                                content.title = _('%(title)s (copy)') % {'title': content.title}
+                                content.save()
+                                copied_content[orig_id] = content
+                            except IntegrityError:
+                                pass
 
                     for node in nodes:
                         ref_id = node.get('ref_id')
@@ -325,24 +360,54 @@ class SessionAdmin(reversion.VersionAdmin):
         return SessionForm
 
     def copy(modeladmin, request, queryset):
+        # keep track of copied content to avoid more than one copy
+        copied_content = {}
+
         for session in queryset:
             contents = list(session.content.all())
 
+            if session.route_slug:
+                try:
+                    slug, counter = session.route_slug.rsplit('-', 1)
+                except ValueError:
+                    slug, counter = session.route_slug, None
+
+                if counter and counter.isdigit():
+                    counter = int(counter)
+                    counter += 1
+                    slug = '-'.join([slug, str(counter)])
+                elif counter:
+                    slug = '-'.join([slug, counter, '1'])
+                else:
+                    slug = '-'.join([slug, '1'])
+
+                session.route_slug = slug
+
+            session.content.clear()
             session.pk = None
-            session.title = _('%(title)s (copy)') % {'title': session.title}
-            session.save()
-            session.content = []
+            while not session.pk:
+                try:
+                    session.title = _('%(title)s (copy)') % {'title': session.title}
+                    session.save()
+                except IntegrityError:
+                    pass
 
             nodes = session.data.get('nodes')
 
             for content in contents:
                 orig_id = content.id
 
-                content.pk = None
-                content.title = _('%(title)s (copy)')  % {'title': content.title}
-                content.save()
-
-                session.content.add(content)
+                if orig_id in copied_content:
+                    content = copied_content[orig_id]
+                else:
+                    content.pk = None
+                    while not content.pk:
+                        try:
+                            content.title = _('%(title)s (copy)') % {'title': content.title}
+                            content.save()
+                            copied_content[orig_id] = content
+                        except IntegrityError:
+                            pass
 
                 for node in nodes:
                     ref_id = node.get('ref_id')
@@ -426,8 +491,12 @@ class ContentAdmin(reversion.VersionAdmin):
     def copy(modeladmin, request, queryset):
         for content in queryset:
             content.pk = None
-            content.title = _('%(title)s (copy)') % {'title': content.title}
-            content.save()
+            while not content.pk:
+                try:
+                    content.title = _('%(title)s (copy)') % {'title': content.title}
+                    content.save()
+                except IntegrityError:
+                    pass
 
     copy.short_description = _('Copy selected content')
 
