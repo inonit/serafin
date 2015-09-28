@@ -14,7 +14,7 @@ from suit.widgets import SuitSplitDateTimeWidget, LinkedSelect, AutosizedTextare
 from jsonfield import JSONField
 import reversion
 
-from system.models import Variable, Program, Session, Page, Email, SMS
+from system.models import Variable, Program, Session, Content, Page, Email, SMS
 from system.expressions import Parser
 from plumbing.widgets import PlumbingWidget
 from content.widgets import ContentWidget, TextContentWidget, SMSContentWidget
@@ -143,7 +143,6 @@ class ProgramAdmin(reversion.VersionAdmin):
                     pass
 
             for session in sessions:
-                contents = list(session.content.all())
 
                 session.program_id = program.id
 
@@ -163,7 +162,6 @@ class ProgramAdmin(reversion.VersionAdmin):
 
                     session.route_slug = slug
 
-                session.content.clear()
                 session.pk = None
                 while not session.pk:
                     try:
@@ -173,6 +171,11 @@ class ProgramAdmin(reversion.VersionAdmin):
                         pass
 
                 nodes = session.data.get('nodes')
+                ids = [
+                    node['ref_id'] for node in nodes
+                    if node['type'] in ['page', 'email', 'sms']
+                ]
+                contents = Content.objects.filter(id__in=ids)
 
                 for content in contents:
                     orig_id = content.id
@@ -364,8 +367,6 @@ class SessionAdmin(reversion.VersionAdmin):
         copied_content = {}
 
         for session in queryset:
-            contents = list(session.content.all())
-
             if session.route_slug:
                 try:
                     slug, counter = session.route_slug.rsplit('-', 1)
@@ -383,7 +384,6 @@ class SessionAdmin(reversion.VersionAdmin):
 
                 session.route_slug = slug
 
-            session.content.clear()
             session.pk = None
             while not session.pk:
                 try:
@@ -393,6 +393,11 @@ class SessionAdmin(reversion.VersionAdmin):
                     pass
 
             nodes = session.data.get('nodes')
+            ids = [
+                node['ref_id'] for node in nodes
+                if node['type'] in ['page', 'email', 'sms']
+            ]
+            contents = Content.objects.filter(id__in=ids)
 
             for content in contents:
                 orig_id = content.id
