@@ -142,6 +142,7 @@ def add_content_relations(sender, **kwargs):
         if node['type'] in ['page', 'email', 'sms']
     ]
     ids = list(set(ids))
+    ids = Content.objects.filter(id__in=ids).values_list('id', flat=True)
     session.content.add(*ids)
 
 
