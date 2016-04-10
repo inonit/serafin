@@ -10,7 +10,6 @@ from django.template.loader import render_to_string
 from django.utils.safestring import mark_safe
 
 from filer.fields.file import AdminFileWidget
-from filer import settings as filer_settings
 import re
 import json
 
@@ -53,7 +52,7 @@ class ContentWidget(forms.Widget):
             )
         }
         js = (
-            filer_settings.FILER_STATICMEDIA_PREFIX + 'js/popup_handling.js',
+            settings.STATIC_ROOT + 'js/popup_handling.js',
             'lib/angular/angular.min.js',
             'lib/lodash/lodash.min.js',
             'lib/ment.io/dist/mentio.min.js',

@@ -12,7 +12,7 @@ from django.http import HttpResponseRedirect
 
 from suit.widgets import SuitSplitDateTimeWidget, LinkedSelect, AutosizedTextarea, NumberInput
 from jsonfield import JSONField
-import reversion
+from reversion.admin import VersionAdmin
 
 from system.models import Variable, Program, Session, Page, Email, SMS
 from system.expressions import Parser
@@ -108,7 +108,7 @@ class ProgramUserAccessInline(admin.TabularInline):
     }
 
 
-class ProgramAdmin(reversion.VersionAdmin):
+class ProgramAdmin(VersionAdmin):
     list_display = ['title', 'display_title', 'note_excerpt']
     search_fields = ['title', 'display_title', 'admin_note']
     actions = ['copy', 'export_text', 'import_text']
@@ -272,7 +272,7 @@ class SessionForm(forms.ModelForm):
         }
 
 
-class SessionAdmin(reversion.VersionAdmin):
+class SessionAdmin(VersionAdmin):
     list_display = [
         'title',
         #'display_title',
@@ -456,7 +456,7 @@ class ContentForm(forms.ModelForm):
         return data
 
 
-class ContentAdmin(reversion.VersionAdmin):
+class ContentAdmin(VersionAdmin):
     list_display = ['title', 'note_excerpt', 'page_excerpt']
     search_fields = ['title', 'admin_note', 'data']
     actions = ['copy']
