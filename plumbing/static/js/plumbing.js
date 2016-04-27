@@ -428,12 +428,19 @@ plumbing.directive('edge', ['jsPlumb', function(jsPlumbService) {
                         target_type = node.type;
                 });
 
+                var foreground = [
+                    'start', 'page', 'session'
+                ]
+                var background = [
+                    'email', 'sms', 'register', 'enroll', 'leave', 'delay'
+                ]
+
                 // disallow/delete edge with start as target,
                 // or from background node to foreground node
                 if (target_type == 'start' || (
-                        ['start', 'page', 'session', 'expression'].indexOf(source_type) == -1 &&
-                        [         'page', 'session', 'expression'].indexOf(target_type) >  -1)
-                    ) {
+                        background.indexOf(source_type) > -1 &&
+                        foreground.indexOf(target_type) > -1
+                    )) {
                     scope.deleteEdge(scope.$index);
                     return;
                 }
@@ -441,7 +448,8 @@ plumbing.directive('edge', ['jsPlumb', function(jsPlumbService) {
                 // set edge type
                 scope.edge.type = 'normal';
 
-                if (['page', 'session', 'expression'].indexOf(target_type) == -1) {
+                if (background.indexOf(target_type) > -1 ||
+                    target_type == 'expression') {
                     scope.edge.type = 'special';
                 }
 

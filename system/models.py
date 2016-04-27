@@ -126,7 +126,7 @@ class Session(models.Model):
     route_slug = models.CharField(_('route slug'), max_length=64, null=True, unique=True, default=None)
     is_open = models.BooleanField(_('is open'), default=False)
     program = models.ForeignKey('Program', verbose_name=_('program'))
-    content = models.ManyToManyField('Content', verbose_name=_('content'), null=True, blank=True)
+    content = models.ManyToManyField('Content', verbose_name=_('content'), blank=True)
     admin_note = models.TextField(_('admin note'), blank=True)
 
     TIME_UNITS = (

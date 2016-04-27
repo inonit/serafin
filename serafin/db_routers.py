@@ -19,7 +19,7 @@ class VaultRouter(object):
            return True
         return None
 
-    def allow_syncdb(self, db, model):
+    def allow_migrate(self, db, model):
         if db == 'vault':
             return model._meta.app_label == 'vault'
         elif model._meta.app_label == 'vault':
