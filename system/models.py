@@ -215,7 +215,7 @@ class Page(Content):
                 content = pagelet.get('content')
                 content = remove_comments(content)
                 content, pagelet['variables'] = live_variable_replace(user, content)
-                pagelet['content'] = mistune.markdown(content)
+                pagelet['content'] = mistune.markdown(content, escape=False)
 
             if pagelet['content_type'] == 'conditionalset':
                 pagelet['variables'] = {}
@@ -231,7 +231,7 @@ class Page(Content):
                         content = remove_comments(content)
                         content, variables = live_variable_replace(user, content)
                         pagelet['variables'].update(variables)
-                        text['content'] = mistune.markdown(content)
+                        text['content'] = mistune.markdown(content, escape=False)
                     else:
                         text['content'] = ''
 
@@ -260,7 +260,7 @@ class Email(Content):
         message = process_email_links(user, message)
         message = remove_comments(message)
         message = variable_replace(user, message)
-        html_message = mistune.markdown(message)
+        html_message = mistune.markdown(message, escape=False)
 
         user.send_email(
             subject=self.display_title,

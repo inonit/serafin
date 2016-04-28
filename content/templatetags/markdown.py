@@ -6,5 +6,5 @@ register = template.Library()
 
 @register.filter
 def markdown(value):
-    html = mistune.markdown(value)
+    html = mistune.markdown(value, escape=False)
     return mark_safe(html)
