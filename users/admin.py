@@ -101,7 +101,7 @@ class UserDataWidget(forms.Widget):
 
     class Media:
         js = (
-            'plumbing/angular/angular.min.js',
+            'lib/angular/angular.min.js',
         )
 
 
