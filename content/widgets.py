@@ -28,9 +28,8 @@ class DummyForeignObjectRel:
 class ContentWidget(forms.Widget):
 
     def render(self, name, value, attrs=None):
-        file_widget = AdminFileWidget(
-            DummyForeignObjectRel(), site).render('file', None, {'id': 'id_file'}
-        )
+        file_widget = AdminFileWidget(DummyForeignObjectRel(), site)
+        file_widget = file_widget.render('file', None, {'id': 'id_file'})
         file_widget = re.sub(r'<script.*?>.*?</script>', r'', file_widget, flags=re.DOTALL)
 
         context = {
@@ -46,17 +45,22 @@ class ContentWidget(forms.Widget):
     class Media:
         css = {
             'all': (
-                'css/content.css',
+                'filer/css/admin_filer.css',
                 'css/autocomplete.css',
-                'css/expression-widget.css'
+                'css/expression-widget.css',
+                'css/content.css',
             )
         }
         js = (
-            settings.STATIC_ROOT + 'js/popup_handling.js',
+            'admin/js/admin/RelatedObjectLookups.js',
+            'filer/js/libs/dropzone.min.js',
+            'filer/js/addons/dropzone.init.js',
+            'filer/js/addons/popup_handling.js',
+            'filer/js/addons/widget.js',
             'lib/angular/angular.min.js',
             'lib/lodash/lodash.min.js',
             'lib/ment.io/dist/mentio.min.js',
-            'lib/marked/marked.js',
+            'lib/marked/marked.min.js',
             'js/autocomplete.js',
             'js/expression.js',
             'js/content.js',
@@ -83,7 +87,7 @@ class TextContentWidget(forms.Widget):
             'lib/angular/angular.min.js',
             'lib/lodash/lodash.min.js',
             'lib/ment.io/dist/mentio.min.js',
-            'lib/marked/marked.js',
+            'lib/marked/marked.min.js',
             'js/autocomplete.js',
             'js/expression.js',
             'js/content.js',

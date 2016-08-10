@@ -157,8 +157,6 @@ content.run(['$rootScope', '$http', function (scope, http) {
 }]);
 
 content.controller('contentArray', ['$scope', function (scope) {
-
-    scope.logical_operators = ['AND', 'OR'];
     scope.add = function (array, type) {
         array.push(angular.copy(dataTemplates[type]));
     };
@@ -268,7 +266,8 @@ content.directive('filer', ['$compile', '$http', function (compile, http) {
         replace: true,
         link: function (scope, elem, attrs) {
             scope.noimg = elem.find('#id_file_thumbnail_img').attr('src');
-            scope.index = scope.$parent.$index;
+            var index = scope.$parent.$index;
+            var url = filerApi + scope.pagelet.content_type + '/';
 
             if (scope.pagelet.content_type == 'toggle') {
                 if (scope.pagelet.img_content == undefined)
@@ -279,61 +278,65 @@ content.directive('filer', ['$compile', '$http', function (compile, http) {
             }
 
             // clear on click
-            elem.find('#id_file_clear').addClass('clear').on('click', function () {
-                elem.find('#id_file_' + scope.index).removeAttr('value');
-                elem.find('#id_file_' + scope.index + '_thumbnail_img').attr('src', scope.noimg);
-                elem.find('#id_file_' + scope.index + '_description_txt').html('');
-                elem.find('#id_file_' + scope.index + '_clear').hide();
+            elem.find('.filerClearer').on('click', function () {
                 scope.$apply(function () {
                     scope.contentProxy.file_id = '';
                     scope.contentProxy.url = '';
+                    scope.contentProxy.thumbnail = '';
+                    scope.contentProxy.description = '';
                 })
             });
 
-            // set ng-model
-            var input = elem.find('#id_file')[0];
-            if (input.id === 'id_file') {
-                var file_id = angular.element(input).attr('ng-model', 'pagelet.content.file_id');
-                compile(file_id)(scope);
-            }
+            // set up popup handler
+            elem.find('#id_file_lookup')
+                .attr('onclick', 'return showRelatedObjectLookupPopup(this)');
 
-            // differentiate repeated elements
-            elem.find('#id_file')[0].id = 'id_file_' + scope.index;
-            elem.find('#id_file_thumbnail_img')[0].id = 'id_file_' + scope.index + '_thumbnail_img';
-            elem.find('#id_file_description_txt')[0].id = 'id_file_' + scope.index + '_description_txt';
-            elem.find('#id_file_clear')[0].id = 'id_file_' + scope.index + '_clear';
-            elem.find('#lookup_id_file')[0].id = 'lookup_id_file_' + scope.index;
+            // differentiate externally interacting elements
+            elem.find('#id_file')[0].id = 'id_file_' + index;
+            elem.find('#id_file_lookup')[0].id = 'id_file_lookup_' + index;
 
-            scope.apiURL = filerApi + scope.pagelet.content_type + '/';
+            // set models
+            var file_id = elem.find('#id_file' + index)
+                .attr('ng-model', 'pagelet.content.file_id');
+            var thumb = elem.find('.thumbnail_img')
+                .attr('ng-src', scope.contentProxy.thumbnail);
+            var name = elem.find('.description_text')
+                .attr('ng-bind', 'pagelet.content.description');
+            compile(file_id)(scope);
+            compile(thumb)(scope);
+            compile(name)(scope);
 
             // receive on select
             angular.element(window).bind('focus', function (val) {
-                var value = elem.find('#id_file_' + scope.index).attr('value');
-                if (value !== scope.contentProxy.file_id) {
+                var value = elem.find('#id_file_' + index).attr('value');
+                if (value && value !== scope.contentProxy.file_id) {
                     scope.$apply(function () {
                         scope.contentProxy.file_id = value;
                     });
-                    http.get(scope.apiURL + value).success(function (data) {
+                    http.get(url + value + '/').success(function (data) {
                         scope.contentProxy.url = data['url'];
+                        scope.contentProxy.thumbnail = data['thumbnail'];
+                        scope.contentProxy.description = data['description'];
                     });
                 }
             });
 
             // populate on load
-            if (scope.contentProxy.file_id !== '') {
-                http.get(scope.apiURL + scope.contentProxy.file_id).success(function (data) {
-                    elem.find('#id_file_' + scope.index).attr('value', data['id']);
-                    elem.find('#id_file_' + scope.index + '_thumbnail_img').attr('src', data['thumbnail']);
-                    elem.find('#id_file_' + scope.index + '_description_txt').html(data['description']);
-                    elem.find('#id_file_' + scope.index + '_clear').show();
+            if (scope.contentProxy.file_id) {
+                http.get(url + scope.contentProxy.file_id + '/').success(function (data) {
+                    elem.find('.thumbnail_img').removeClass('hidden');
+                    elem.find('.description_text').removeClass('hidden');
+                    elem.find('.filerClearer').removeClass('hidden');
+                    elem.find('#id_file_lookup_' + index).addClass('hidden');
                 });
             }
 
+            // watch and update actual content
             scope.$watchCollection('contentProxy', function (content) {
                 if (scope.pagelet.content_type == 'toggle')
                     scope.pagelet.img_content = content
                 else
-                    scope.pagelet.content = content
+                    scope.pagelet.content = content;
             })
         }
     };

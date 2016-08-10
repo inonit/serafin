@@ -119,6 +119,8 @@ def api_filer_file(request, content_type=None, file_id=None):
     else:
         filer_file = get_object_or_404(File, id=file_id)
 
+    print(filer_file.icons)
+
     response = {
         'id': filer_file.id,
         'url': filer_file.url,

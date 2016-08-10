@@ -151,7 +151,30 @@
 }
 
 .content .filer {
-    margin: .5em 0;
+    margin: .5em 0 1em;
+}
+
+form .form-row .content .filer-dropzone {
+    background: white;
+}
+
+form .form-row .content .filer-dropzone .dz-message {
+    display: none !important;
+}
+
+form .form-row .content .filer-dropzone .filerFile {
+    top: 15px !important;
+}
+
+form .form-row .content .filer-dropzone .filerFile span:empty+.related-lookup {
+    text-indent: 0;
+    float: left;
+    width: 12em !important;
+}
+
+.content .filer-dropzone {
+    padding: 10px !important;
+    min-height: 70px !important;
 }
 
 .content .clear {
