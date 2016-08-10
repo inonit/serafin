@@ -32,3 +32,8 @@
 #stylesheet-switcher option {
     color: black;
 }
+
+.filebrowser #container #suit-center .breadcrumbs+#content,
+.filebrowser #container #suit-center .breadcrumbs+.messagelist+#content {
+    margin-left: 0 !important;
+}

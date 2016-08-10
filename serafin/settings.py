@@ -48,12 +48,12 @@ INSTALLED_APPS = (
     'plumbing',
     'system',
 
+    'filer',
     'suit',
     'sitetree',
     'django_extensions',
     'django.contrib.admin',
     'rest_framework',
-    'filer',
     'mptt',
     'easy_thumbnails',
     'huey.djhuey',
