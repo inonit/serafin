@@ -101,8 +101,12 @@ def receive_sms(request):
 
             result = requests.post(url, data=json.dumps(data))
             result.raise_for_status()
+        except VaultUser.ObjectDoesNotExist:
+            response.message(_('Sorry, there was an error processing your SMS.') + ' (number mismatch)')
+        except requests.exceptions.HTTPError:
+            response.message(_('Sorry, there was an error processing your SMS.') + ' (%s)' % result.status_code)
         except:
-            response.message(_('Sorry, there was an error processing your SMS.'))
+            response.message(_('Sorry, there was an error processing your SMS.') + ' (unknown)')
     else:
         response.message(_('No data received.'))
 
