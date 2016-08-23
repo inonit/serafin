@@ -61,17 +61,18 @@ def receive_sms(request):
             if token_generator.check_token(user_id, token):
                 user = User.objects.get(id=user_id)
 
-                node_id = user.data.get('node', 0)
+                reply_node = user.data.get('reply_node')
                 reply_var = user.data.get('reply_variable')
 
-                context = {}
-                if reply_var:
-                    context[reply_var] = message
+                if reply_node and reply_var:
+                    context = { reply_var: message }
+                    engine = Engine(user_id=user_id, context=context)
+                    engine.transition(reply_node)
 
-                engine = Engine(user_id=user_id, context=context)
-                engine.transition(node_id)
+                    del user.data['reply_node']
+                    del user.data['reply_variable']
 
-                response = {'status': 'OK'}
+                    response = {'status': 'OK'}
 
     return JSONResponse(response)
 

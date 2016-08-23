@@ -434,6 +434,11 @@ RESERVED_VARIABLES = [
         'domains': []
     },
     {
+        'name': 'reply_node',
+        'admin_note': 'For system use. Returns the node to transition from when receiving an SMS reply.',
+        'domains': []
+    },
+    {
         'name': 'reply_variable',
         'admin_note': 'For system use. Returns the name of the last SMS reply variable.',
         'domains': []

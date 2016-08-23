@@ -257,7 +257,8 @@ class Engine(object):
                 post_value=sms.title
             )
 
-            self.transition(node_id)
+            if 'reply:' not in sms.data[0].get('content'):
+                self.transition(node_id)
 
         if node_type == 'register':
             self.user, registered = self.user.register()

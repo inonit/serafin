@@ -100,6 +100,7 @@ def process_reply_variables(user, text):
         reply_str = match[0]
         reply_var = match[1]
 
+        user.data['reply_node'] = user.data.get('node', 0)
         user.data['reply_variable'] = reply_var
         user.save()
 
