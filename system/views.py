@@ -107,6 +107,7 @@ def export_text(request):
 
                         for i, item in enumerate(pagelet['content']['alternatives']):
                             data += format_content(content, index, 'content', 'alternatives', str(i), 'label', value=item['label'])
+                            data += format_content(content, index, 'content', 'alternatives', str(i), 'text', value=item['text'])
 
                     if pagelet['content_type'] == 'conditionalset':
                         for i, item in enumerate(pagelet['content']):
@@ -115,14 +116,16 @@ def export_text(request):
                     if pagelet['content_type'] == 'form':
                         for i, item in enumerate(pagelet['content']):
 
-                            if item['field_type'] in ['numeric', 'string', 'textarea']:
+                            if item['field_type'] in ['numeric', 'string', 'text']:
                                 data += format_content(content, index, 'content', str(i), 'label', value=item['label'])
 
                             if item['field_type'] == 'multiplechoice':
+                                data += format_content(content, index, 'content', str(i), 'label', value=item['label'])
                                 for j, alt in enumerate(item['alternatives']):
                                     data += format_content(content, index, 'content', str(i), 'alternatives', str(j), 'label', value=alt['label'])
 
                             if item['field_type'] == 'multipleselection':
+                                data += format_content(content, index, 'content', str(i), 'label', value=item['label'])
                                 for j, alt in enumerate(item['alternatives']):
                                     data += format_content(content, index, 'content', str(i), 'alternatives', str(j), 'label', value=alt['label'])
 
