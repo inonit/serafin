@@ -289,10 +289,11 @@ class SMS(Content):
         self.content_type = 'sms'
         self.display_title = ''
 
-    def send(self, user):
+    def send(self, user, **kwargs):
+        node_id = kwargs.get('node_id')
         message = self.data[0].get('content')
         message = process_email_links(user, message)
-        message = process_reply_variables(user, message)
+        message = process_reply_variables(user, message, **kwargs)
         message = remove_comments(message)
         message = variable_replace(user, message)
 

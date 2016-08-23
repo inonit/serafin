@@ -92,7 +92,7 @@ def process_email_links(user, text):
     return text
 
 
-def process_reply_variables(user, text):
+def process_reply_variables(user, text, **kwargs):
     '''Stores the name of the variable to store SMS replies in'''
 
     matches = re.findall(r'(reply:([\w_.\-+]+))', text)
@@ -100,7 +100,7 @@ def process_reply_variables(user, text):
         reply_str = match[0]
         reply_var = match[1]
 
-        user.data['reply_node'] = user.data.get('node', 0)
+        user.data['reply_node'] = kwargs.get('node_id')
         user.data['reply_variable'] = reply_var
         user.save()
 
