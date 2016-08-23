@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Serafin\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-05-20 21:35+0200\n"
+"POT-Creation-Date: 2016-08-23 13:30+0200\n"
 "PO-Revision-Date: 2014-08-26 11:35+0200\n"
 "Last-Translator: Eirik Krogstad <eirikkr@gmail.com>\n"
 "Language: nb\n"
@@ -36,7 +36,7 @@ msgid "+ Conditional set"
 msgstr "+ Verdiavhengig tekst"
 
 #: content/templates/admin/content_widget.html:12
-#: plumbing/templates/admin/plumbing_widget.html:16
+#: plumbing/templates/admin/plumbing_widget.html:13
 msgid "+ Expression"
 msgstr "+ Uttrykk"
 
@@ -96,7 +96,7 @@ msgstr "Feltnavn"
 #: content/templates/admin/content_widget.html:156
 #: content/templates/admin/content_widget.html:212
 #: content/templates/admin/content_widget.html:304
-#: plumbing/templates/admin/plumbing_widget.html:83
+#: plumbing/templates/admin/plumbing_widget.html:86
 msgid "Variable name"
 msgstr "Variabelnavn"
 
@@ -133,30 +133,29 @@ msgstr "+ Verdiavhengig tekst"
 
 #: content/templates/admin/content_widget.html:127
 #: content/templates/admin/content_widget.html:167
-#: plumbing/templates/admin/plumbing_widget.html:56
-#: plumbing/templates/admin/plumbing_widget.html:89
-#: plumbing/templates/admin/plumbing_widget.html:119
+#: plumbing/templates/admin/plumbing_widget.html:92
+#: plumbing/templates/admin/plumbing_widget.html:122
 msgid "Expression"
 msgstr "Uttrykk"
 
 #: content/templates/admin/content_widget.html:130
 #: content/templates/admin/content_widget.html:170
-#: plumbing/templates/admin/plumbing_widget.html:92
-#: plumbing/templates/admin/plumbing_widget.html:122
+#: plumbing/templates/admin/plumbing_widget.html:95
+#: plumbing/templates/admin/plumbing_widget.html:125
 msgid "Start writing..."
 msgstr "Begynn å skrive..."
 
 #: content/templates/admin/content_widget.html:131
 #: content/templates/admin/content_widget.html:171
-#: plumbing/templates/admin/plumbing_widget.html:93
-#: plumbing/templates/admin/plumbing_widget.html:123
+#: plumbing/templates/admin/plumbing_widget.html:96
+#: plumbing/templates/admin/plumbing_widget.html:126
 msgid "Preview"
 msgstr "Forhåndsvisning"
 
 #: content/templates/admin/content_widget.html:133
 #: content/templates/admin/content_widget.html:173
-#: plumbing/templates/admin/plumbing_widget.html:95
-#: plumbing/templates/admin/plumbing_widget.html:125
+#: plumbing/templates/admin/plumbing_widget.html:98
+#: plumbing/templates/admin/plumbing_widget.html:128
 msgid "Serafin Expression Syntax"
 msgstr "Serafin-uttrykk Syntaks"
 
@@ -177,7 +176,7 @@ msgid "+ Multiple selection"
 msgstr "+ Flervalg"
 
 #: content/templates/admin/content_widget.html:192
-#: plumbing/templates/admin/plumbing_widget.html:12
+#: plumbing/templates/admin/plumbing_widget.html:14
 msgid "+ Email"
 msgstr "+ E-post"
 
@@ -629,13 +628,11 @@ msgstr "Lukk"
 msgid "Actor"
 msgstr "Utført av"
 
-#: events/models.py:11 tasker/models.py:47
-#: users/templates/admin/userlog.html:7
+#: events/models.py:11 tasker/models.py:49 users/templates/admin/userlog.html:7
 msgid "time"
 msgstr "tidspunkt"
 
-#: events/models.py:12 tasker/models.py:43
-#: users/templates/admin/userlog.html:8
+#: events/models.py:12 tasker/models.py:45 users/templates/admin/userlog.html:8
 msgid "domain"
 msgstr "domene"
 
@@ -643,8 +640,7 @@ msgstr "domene"
 msgid "actor"
 msgstr "utført av"
 
-#: events/models.py:14 system/models.py:43
-#: users/templates/admin/userlog.html:9
+#: events/models.py:14 system/models.py:43 users/templates/admin/userlog.html:9
 msgid "variable"
 msgstr "variabel"
 
@@ -688,17 +684,17 @@ msgstr "Eksport"
 msgid "+ Page"
 msgstr "+ Side"
 
-#: plumbing/templates/admin/plumbing_widget.html:13
+#: plumbing/templates/admin/plumbing_widget.html:12
+msgid "+ Session"
+msgstr "+ Økt"
+
+#: plumbing/templates/admin/plumbing_widget.html:15
 msgid "+ Sms"
 msgstr "+ SMS"
 
-#: plumbing/templates/admin/plumbing_widget.html:14
+#: plumbing/templates/admin/plumbing_widget.html:16
 msgid "+ Delay"
 msgstr "+ Forsinkelse"
-
-#: plumbing/templates/admin/plumbing_widget.html:15
-msgid "+ Session"
-msgstr "+ Økt"
 
 #: plumbing/templates/admin/plumbing_widget.html:17
 msgid "+ Register"
@@ -712,32 +708,32 @@ msgstr "+ Påmelding"
 msgid "+ Leave"
 msgstr "+ Avmelding"
 
-#: plumbing/templates/admin/plumbing_widget.html:59
+#: plumbing/templates/admin/plumbing_widget.html:62
 #: templates/sitetree/topbar_navmenu/navmenu.html:18
 msgid "Register"
 msgstr "Registrering"
 
-#: plumbing/templates/admin/plumbing_widget.html:62
+#: plumbing/templates/admin/plumbing_widget.html:65
 msgid "Enroll"
 msgstr "Påmelding"
 
-#: plumbing/templates/admin/plumbing_widget.html:65
+#: plumbing/templates/admin/plumbing_widget.html:68
 msgid "Leave"
 msgstr "Avmelding"
 
-#: plumbing/templates/admin/plumbing_widget.html:74
+#: plumbing/templates/admin/plumbing_widget.html:77
 msgid "Number"
 msgstr "Antall"
 
-#: plumbing/templates/admin/plumbing_widget.html:76
+#: plumbing/templates/admin/plumbing_widget.html:79
 msgid "minutes"
 msgstr "minutter"
 
-#: plumbing/templates/admin/plumbing_widget.html:77 system/models.py:133
+#: plumbing/templates/admin/plumbing_widget.html:80 system/models.py:133
 msgid "hours"
 msgstr "timer"
 
-#: plumbing/templates/admin/plumbing_widget.html:112
+#: plumbing/templates/admin/plumbing_widget.html:115
 msgid "Pass"
 msgstr ""
 
@@ -794,7 +790,7 @@ msgstr "Miksmaster, alternativ"
 msgid "%(first)s and %(last)s"
 msgstr "%(first)s og %(last)s"
 
-#: system/admin.py:25
+#: system/admin.py:26
 msgid ""
 "Initial value remains static unless set as a user value using a hidden set "
 "value field."
@@ -802,19 +798,19 @@ msgstr ""
 "Startverdien forblir den samme, med mindre den settes som brukerverdi via et "
 "skjult felt."
 
-#: system/admin.py:27
+#: system/admin.py:28
 msgid ""
 "User editable fields can be changed at any time by the user on their profile "
 "page."
 msgstr ""
 "Brukerredigerbare felter kan endres av brukerne selv på deres profilside."
 
-#: system/admin.py:29
+#: system/admin.py:30
 msgid "Setting a randomization type will set the variable to a random value."
 msgstr ""
 "Om en tilfeldig type settes, vil variabelen settes til en tilfeldig verdi."
 
-#: system/admin.py:31
+#: system/admin.py:32
 msgid ""
 "If set, this value will be randomized once for each user when the Variable "
 "is first saved OR changed, then once for each new user."
@@ -822,7 +818,7 @@ msgstr ""
 "Verdien vil settes tilfeldig én gang når variabelen først lagres eller "
 "endres, deretter én gang for hver nyregistrerte bruker."
 
-#: system/admin.py:34
+#: system/admin.py:35
 msgid ""
 "The value of the Variable will be randomly selected from a set of comma "
 "separated strings in this field."
@@ -830,37 +826,37 @@ msgstr ""
 "Verdien av variabelen vil velges tilfeldig fra et sett av kommaseparerte "
 "tekststrenger i dette feltet."
 
-#: system/admin.py:40
+#: system/admin.py:41
 msgid "You are trying to use a reserved variable name"
 msgstr "Du forsøker å bruke et reservert variabelnavn"
 
-#: system/admin.py:78
+#: system/admin.py:79
 msgid "Variable"
 msgstr "Variabel"
 
-#: system/admin.py:126 system/admin.py:311 system/admin.py:423
+#: system/admin.py:127 system/admin.py:349 system/admin.py:494
 msgid "Admin note excerpt"
 msgstr "Utdrag fra administratornotat"
 
-#: system/admin.py:133 system/admin.py:140 system/admin.py:151
-#: system/admin.py:332 system/admin.py:342 system/admin.py:428
+#: system/admin.py:140 system/admin.py:168 system/admin.py:189
+#: system/admin.py:390 system/admin.py:411 system/admin.py:501
 #, python-format
 msgid "%(title)s (copy)"
 msgstr "%(title)s (kopi)"
 
-#: system/admin.py:165
+#: system/admin.py:204
 msgid "Copy selected programs"
 msgstr "Kopier valgte programmer"
 
-#: system/admin.py:172
+#: system/admin.py:211
 msgid "Export text of selected program"
 msgstr "Eksporter tekst fra valgte programmer"
 
-#: system/admin.py:178
+#: system/admin.py:217
 msgid "Import program text"
 msgstr "Importer tekst for program"
 
-#: system/admin.py:187
+#: system/admin.py:226
 msgid ""
 "URL at which this Session will be available to registered Program users at "
 "all times"
@@ -868,62 +864,62 @@ msgstr ""
 "URL som denne Økta vil være tilgjengelig på for Programmets brukere til "
 "enhver tid"
 
-#: system/admin.py:190
+#: system/admin.py:229
 msgid "Session open even to unregistered users"
 msgstr "Økta er tilgjengelig selv for ikke-registrerte brukere"
 
-#: system/admin.py:192
+#: system/admin.py:231
 msgid "Relative to the user's start time for the Program"
 msgstr "Relativt til brukerens starttid for Programmet"
 
-#: system/admin.py:194
+#: system/admin.py:233
 msgid "Activate automatically for Program users at the given start time"
 msgstr "Aktiver automatisk for Programmets brukere ved angitt starttid"
 
-#: system/admin.py:196
+#: system/admin.py:235
 msgid "Trigger a login e-mail at the scheduled time"
 msgstr "Send ut e-post med innloggingslenke ved angitt starttid"
 
-#: system/admin.py:208
+#: system/admin.py:248
 #, python-format
 msgid "edge %(id)s"
 msgstr "kant %(id)s"
 
-#: system/admin.py:215
+#: system/admin.py:255
 msgid "expression node"
 msgstr "uttrykksnode"
 
-#: system/admin.py:221 system/admin.py:384
+#: system/admin.py:261 system/admin.py:455
 #, python-format
 msgid "Error in expression, %(id)s: %(error)s"
 msgstr "Feil i uttrykk, %(id)s: %(error)s"
 
-#: system/admin.py:356
+#: system/admin.py:426
 msgid "Copy selected sessions"
 msgstr "Kopier valgte økter"
 
-#: system/admin.py:371
+#: system/admin.py:442
 #, python-format
 msgid "pagelet %(id)s"
 msgstr "side %(id)s"
 
-#: system/admin.py:410
+#: system/admin.py:481
 msgid "No content"
 msgstr "Innhold mangler"
 
-#: system/admin.py:418
+#: system/admin.py:489
 msgid "Page excerpt"
 msgstr "Sideutdrag"
 
-#: system/admin.py:431
+#: system/admin.py:506
 msgid "Copy selected content"
 msgstr "Kopier valgt innhold"
 
-#: system/admin.py:474 system/admin.py:498
+#: system/admin.py:549 system/admin.py:573
 msgid "Subject"
 msgstr "Emne"
 
-#: system/engine.py:243
+#: system/engine.py:326
 msgid "Delayed node execution"
 msgstr "Forsinket hendelse"
 
@@ -997,7 +993,7 @@ msgstr "tittel"
 msgid "display title"
 msgstr "visningstittel"
 
-#: system/models.py:78 users/models.py:151
+#: system/models.py:78 users/models.py:155
 msgid "users"
 msgstr "brukere"
 
@@ -1005,7 +1001,7 @@ msgstr "brukere"
 msgid "programs"
 msgstr "programmer"
 
-#: system/models.py:108 users/models.py:150
+#: system/models.py:108 users/models.py:154
 msgid "user"
 msgstr "bruker"
 
@@ -1102,19 +1098,19 @@ msgstr "side"
 msgid "pages"
 msgstr "sider"
 
-#: system/models.py:248
+#: system/models.py:251
 msgid "e-mail"
 msgstr "e-post"
 
-#: system/models.py:249
+#: system/models.py:252
 msgid "e-mails"
 msgstr "e-poster"
 
-#: system/models.py:281
+#: system/models.py:284
 msgid "SMS"
 msgstr "SMS"
 
-#: system/models.py:282
+#: system/models.py:285
 msgid "SMSs"
 msgstr "SMSer"
 
@@ -1122,20 +1118,24 @@ msgstr "SMSer"
 msgid "An error has occurred. Your expression cannot be evaluated."
 msgstr "En feil har oppstått. Kunne ikke evaluere uttrykket."
 
-#: system/signals.py:67 system/signals.py:146 system/signals.py:176
+#: system/signals.py:84 system/signals.py:173 system/signals.py:208
 msgid "Initialize session"
 msgstr "Aktiver økt"
 
-#: system/tasks.py:17
+#: system/tasks.py:22 system/tasks.py:50
+msgid "Inactive user, no action taken"
+msgstr ""
+
+#: system/tasks.py:27
 #, python-format
 msgid "%(session)s transitioned to %(node)s"
 msgstr "%(session)s ble overført til %(node)s"
 
-#: system/tasks.py:39
+#: system/tasks.py:56
 msgid "Session initialized and login e-mail sent"
 msgstr "Økt aktivert og e-post for innlogging sendt"
 
-#: system/tasks.py:41
+#: system/tasks.py:58
 msgid "Session initialized"
 msgstr "Økt aktivert"
 
@@ -1159,28 +1159,28 @@ msgstr "Bruker"
 msgid "Task result"
 msgstr "Oppgaveresultat"
 
-#: tasker/models.py:38
+#: tasker/models.py:40
 msgid "sender"
 msgstr "avsender"
 
-#: tasker/models.py:41
+#: tasker/models.py:43
 msgid "subject"
 msgstr "bruker"
 
-#: tasker/models.py:44
+#: tasker/models.py:46
 msgid "action"
 msgstr "handling"
 
-#: tasker/models.py:45 tasker/models.py:59
+#: tasker/models.py:47 tasker/models.py:61
 msgid "task"
 msgstr "oppgave"
 
-#: tasker/models.py:52
+#: tasker/models.py:54
 #, python-format
 msgid "%(time)s: %(sender)s, %(action)s"
 msgstr ""
 
-#: tasker/models.py:60
+#: tasker/models.py:62
 msgid "tasks"
 msgstr "oppgaver"
 
@@ -1267,7 +1267,7 @@ msgstr ""
 
 #: templates/registration/password_reset_complete.html:12
 #: users/templates/login.html:5 users/templates/login.html.py:9
-#: users/templates/login.html:19 users/views.py:23
+#: users/templates/login.html:19 users/views.py:25
 msgid "Log in"
 msgstr "Logg inn"
 
@@ -1381,9 +1381,9 @@ msgstr ""
 
 #: templates/session.html:31 templates/session.html.py:43
 #: templates/session.html:67 templates/session.html.py:77
-#: templates/session.html:136 templates/session.html.py:146
-#: templates/session.html:167 templates/session.html.py:177
-#: templates/session.html:221
+#: templates/session.html:139 templates/session.html.py:149
+#: templates/session.html:170 templates/session.html.py:180
+#: templates/session.html:225
 msgid "Please choose one"
 msgstr "Gjør et valg"
 
@@ -1398,12 +1398,24 @@ msgid ""
 msgstr ""
 "Skriv inn et tall mellom {{ field.lower_limit }} og {{ field.upper_limit }}"
 
-#: templates/session.html:118 templates/session.html.py:126
-#: templates/session.html:196 templates/session.html.py:204
+#: templates/session.html:118 templates/session.html.py:129
+#: templates/session.html:199 templates/session.html.py:208
 msgid "This field is required"
 msgstr "Dette feltet er påkrevet"
 
-#: templates/session.html:256
+#: templates/session.html:119
+msgid "Your phone number is too short"
+msgstr "Telefonnummeret ditt er for kort"
+
+#: templates/session.html:120
+msgid "+Country code then number, no other characters, e.g. \"+4798765432\""
+msgstr "+Landskode og nummer, ingen andre tegn. Feks. \"+4798765432\""
+
+#: templates/session.html:200
+msgid "Please input a valid e-mail address"
+msgstr "Skriv inn en gyldig e-postadresse"
+
+#: templates/session.html:260
 msgid "Next page"
 msgstr "Neste side"
 
@@ -1569,10 +1581,10 @@ msgstr "Hvelvbruker"
 msgid "vault users"
 msgstr "Hvelvbrukere"
 
-#: vault/views.py:105
+#: vault/views.py:105 vault/views.py:107 vault/views.py:109
 msgid "Sorry, there was an error processing your SMS."
 msgstr "Beklager, noe gikk galt i behandling av din SMS."
 
-#: vault/views.py:107
+#: vault/views.py:111
 msgid "No data received."
 msgstr "Ingen data mottatt"
