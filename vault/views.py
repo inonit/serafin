@@ -21,7 +21,7 @@ import json
 import requests
 import logging
 
-logger = logging.getLogger(__name__)
+logger = logging.getLogger('django.request')
 
 
 @csrf_exempt
@@ -106,7 +106,10 @@ def receive_sms(request):
             result = requests.post(url, data=json.dumps(data))
             result.raise_for_status()
         except Exception as e:
-            logger.exception('SMS not received')
+            logger.exception(
+                'SMS not properly processed',
+                extra={ 'request': request }
+            )
             response.message(_('Sorry, there was an error processing your SMS. Our technicians have been notified and will try to fix it.'))
     else:
         response.message(_('No data received.'))
