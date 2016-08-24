@@ -16,8 +16,12 @@ from tokens.tokens import token_generator
 from vault.decorators import json_response
 from vault.models import VaultUser
 from twilio.twiml import Response
+
 import json
 import requests
+import logging
+
+logger = logging.getLogger(__name__)
 
 
 @csrf_exempt
@@ -101,12 +105,9 @@ def receive_sms(request):
 
             result = requests.post(url, data=json.dumps(data))
             result.raise_for_status()
-        except VaultUser.DoesNotExist:
-            response.message(_('Sorry, there was an error processing your SMS.') + ' (number mismatch)')
-        except requests.exceptions.HTTPError:
-            response.message(_('Sorry, there was an error processing your SMS.') + ' (%s)' % result.status_code)
-        except:
-            response.message(_('Sorry, there was an error processing your SMS.') + ' (unknown)')
+        except Exception as e:
+            logger.exception('SMS not received')
+            response.message(_('Sorry, there was an error processing your SMS. Our technicians have been notified and will try to fix it.'))
     else:
         response.message(_('No data received.'))
 

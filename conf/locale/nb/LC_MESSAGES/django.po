@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Serafin\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-08-23 13:30+0200\n"
+"POT-Creation-Date: 2016-08-24 11:46+0200\n"
 "PO-Revision-Date: 2014-08-26 11:35+0200\n"
 "Last-Translator: Eirik Krogstad <eirikkr@gmail.com>\n"
 "Language: nb\n"
@@ -773,15 +773,15 @@ msgstr "Media"
 msgid "Settings"
 msgstr "Oppsett"
 
-#: serafin/settings.py:450
+#: serafin/settings.py:455
 msgid "Default stylesheet"
 msgstr "Nøytralt stilark"
 
-#: serafin/settings.py:451
+#: serafin/settings.py:456
 msgid "Miksmaster"
 msgstr "Miksmaster"
 
-#: serafin/settings.py:452
+#: serafin/settings.py:457
 msgid "Miksmaster alternate"
 msgstr "Miksmaster, alternativ"
 
@@ -919,7 +919,7 @@ msgstr "Kopier valgt innhold"
 msgid "Subject"
 msgstr "Emne"
 
-#: system/engine.py:326
+#: system/engine.py:327
 msgid "Delayed node execution"
 msgstr "Forsinket hendelse"
 
@@ -1581,10 +1581,14 @@ msgstr "Hvelvbruker"
 msgid "vault users"
 msgstr "Hvelvbrukere"
 
-#: vault/views.py:105 vault/views.py:107 vault/views.py:109
-msgid "Sorry, there was an error processing your SMS."
-msgstr "Beklager, noe gikk galt i behandling av din SMS."
+#: vault/views.py:110
+msgid ""
+"Sorry, there was an error processing your SMS. Our technicians have been "
+"notified and will try to fix it."
+msgstr ""
+"Beklager, noe gikk galt ved behandling av din SMS. Våre teknikere har fått "
+"beskjed og vil forsøke å fikse det."
 
-#: vault/views.py:111
+#: vault/views.py:112
 msgid "No data received."
 msgstr "Ingen data mottatt"
