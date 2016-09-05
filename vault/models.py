@@ -5,6 +5,7 @@ from django.utils.translation import ugettext_lazy as _
 from django.db import models
 from django.conf import settings
 from twilio.rest import TwilioRestClient
+from plivo import RestAPI as PlivoRestClient
 
 
 class VaultUser(models.Model):
@@ -14,19 +15,33 @@ class VaultUser(models.Model):
     phone = models.CharField(_('phone number'), max_length=32, blank=True)
 
     def send_sms(self, message=None):
-        if message:
+        if message and settings.SMS_SERVICE == 'Twilio':
             client = TwilioRestClient(
                 settings.TWILIO_ACCOUNT_SID,
                 settings.TWILIO_AUTH_TOKEN
             )
 
-            message = client.messages.create(
+            response = client.messages.create(
                 body=message,
                 to=self.phone,
                 from_=settings.TWILIO_FROM_NUMBER,
             )
 
-            return message.sid
+            return response.sid
+
+        if message and settings.SMS_SERVICE == 'Plivo':
+            client = PlivoRestClient(
+                settings.PLIVO_AUTH_ID,
+                settings.PLIVO_AUTH_TOKEN
+            )
+
+            response = client.send_message({
+                'src': settings.PLIVO_FROM_NUMBER,
+                'dst': self.phone[1:], # drop the + before country code
+                'text': message,
+            })
+
+            return response
 
         return None
 

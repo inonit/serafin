@@ -90,8 +90,14 @@ def receive_sms(request):
     response = Response()
     if request.method == 'POST':
 
-        sender = request.POST.get('From')
-        body = request.POST.get('Body')
+        if settings.SMS_SERVICE == 'Twilio':
+            sender = request.POST.get('From')
+            body = request.POST.get('Body')
+
+        if settings.SMS_SERVICE == 'Plivo':
+            sender = '+' + request.POST.get('From')
+            body = request.POST.get('Text')
+
         url = settings.USERS_RECEIVE_SMS_URL
 
         try:
