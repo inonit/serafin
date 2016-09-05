@@ -129,9 +129,10 @@ def receive_sms(request):
         response = twiml.Response()
         response.message(reply)
 
-    if reply and settings.SMS_SERVICE == 'Plivo':
+    if settings.SMS_SERVICE == 'Plivo':
         response = plivoxml.Response()
-        response.addMessage(reply, src=src, dst=dst)
+        if reply:
+            response.addMessage(reply, src=src, dst=dst)
         response = response.to_xml()
 
     return HttpResponse(response, content_type='text/xml')
