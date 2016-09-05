@@ -89,6 +89,7 @@ def receive_sms(request):
     '''Receive sms message from user, process through main API and respond'''
 
     reply = ''
+    response = ''
     if request.method == 'POST':
 
         if settings.SMS_SERVICE == 'Twilio':
@@ -124,13 +125,14 @@ def receive_sms(request):
     else:
         reply = _('No data received.')
 
-    if settings.SMS_SERVICE == 'Twilio':
+    if reply and settings.SMS_SERVICE == 'Twilio':
         response = twiml.Response()
         response.message(reply)
 
-    if settings.SMS_SERVICE == 'Plivo':
+    if reply and settings.SMS_SERVICE == 'Plivo':
         response = plivoxml.Response()
         response.addMessage(reply, src=src, dst=dst)
+        response = response.to_xml()
 
     return HttpResponse(response, content_type='text/xml')
 
