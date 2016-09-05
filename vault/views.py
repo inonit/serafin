@@ -15,7 +15,8 @@ from system.engine import Engine
 from tokens.tokens import token_generator
 from vault.decorators import json_response
 from vault.models import VaultUser
-from twilio.twiml import Response
+import twilio
+import plivoxml
 
 import json
 import requests
@@ -87,7 +88,6 @@ def send_sms(request, *args, **kwargs):
 def receive_sms(request):
     '''Receive sms message from user, process through main API and respond'''
 
-    response = Response()
     if request.method == 'POST':
 
         if settings.SMS_SERVICE == 'Twilio':
@@ -96,6 +96,8 @@ def receive_sms(request):
 
         if settings.SMS_SERVICE == 'Plivo':
             sender = '+' + request.POST.get('From')
+            dst = request.POST.get('From')
+            src = request.POST.get('To')
             body = request.POST.get('Text')
 
         url = settings.USERS_RECEIVE_SMS_URL
@@ -116,9 +118,20 @@ def receive_sms(request):
                 'SMS not properly processed',
                 extra={ 'request': request }
             )
-            response.message(_('Sorry, there was an error processing your SMS. Our technicians have been notified and will try to fix it.'))
+            reply = _('Sorry, there was an error processing your SMS. Our technicians have been notified and will try to fix it.')
     else:
-        response.message(_('No data received.'))
+        reply = _('No data received.')
+
+    if settings.SMS_SERVICE == 'Twilio':
+        response = twiml.Response()
+        response.message(reply)
+
+    if settings.SMS_SERVICE == 'Plivo':
+        response = plivoxml.Response()
+        response.addMessage(reply, {
+            'src': src,
+            'dst': dst,
+        })
 
     return HttpResponse(response, content_type='text/xml')
 
