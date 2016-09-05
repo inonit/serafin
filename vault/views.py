@@ -125,7 +125,7 @@ def receive_sms(request):
     else:
         reply = _('No data received.')
 
-    if reply and settings.SMS_SERVICE == 'Twilio':
+    if settings.SMS_SERVICE == 'Twilio':
         response = twiml.Response()
         response.message(reply)
 
