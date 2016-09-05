@@ -88,6 +88,7 @@ def send_sms(request, *args, **kwargs):
 def receive_sms(request):
     '''Receive sms message from user, process through main API and respond'''
 
+    reply = ''
     if request.method == 'POST':
 
         if settings.SMS_SERVICE == 'Twilio':
@@ -113,6 +114,7 @@ def receive_sms(request):
 
             result = requests.post(url, data=json.dumps(data))
             result.raise_for_status()
+
         except Exception as e:
             logger.exception(
                 'SMS not properly processed',
