@@ -130,10 +130,7 @@ def receive_sms(request):
 
     if settings.SMS_SERVICE == 'Plivo':
         response = plivoxml.Response()
-        response.addMessage(reply, {
-            'src': src,
-            'dst': dst,
-        })
+        response.addMessage(reply, src=src, dst=dst)
 
     return HttpResponse(response, content_type='text/xml')
 
