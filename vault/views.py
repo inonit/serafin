@@ -97,10 +97,10 @@ def receive_sms(request):
             body = request.POST.get('Body')
 
         if settings.SMS_SERVICE == 'Plivo':
-            sender = '+' + request.POST.get('From')[0]
-            dst = request.POST.get('From')[0]
-            src = request.POST.get('To')[0]
-            body = request.POST.get('Text')[0]
+            sender = '+' + request.POST.get('From')
+            dst = request.POST.get('From')
+            src = request.POST.get('To')
+            body = request.POST.get('Text')
 
         url = settings.USERS_RECEIVE_SMS_URL
 
