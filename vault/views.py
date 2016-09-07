@@ -90,6 +90,11 @@ def receive_sms(request):
 
     reply = ''
     response = ''
+    sender = ''
+    body = ''
+    dst = ''
+    src = ''
+
     if request.method == 'POST':
 
         if settings.SMS_SERVICE == 'Twilio':
@@ -102,8 +107,6 @@ def receive_sms(request):
             src = request.POST.get('To')
             body = request.POST.get('Text')
 
-        url = settings.USERS_RECEIVE_SMS_URL
-
         try:
             vault_user = VaultUser.objects.get(phone=sender)
             token = token_generator.make_token(vault_user.id)
@@ -113,6 +116,7 @@ def receive_sms(request):
                 'message': body,
             }
 
+            url = settings.USERS_RECEIVE_SMS_URL
             result = requests.post(url, data=json.dumps(data))
             result.raise_for_status()
 
@@ -133,7 +137,6 @@ def receive_sms(request):
         response = plivoxml.Response()
         if reply and src and dst:
             response.addMessage(reply, src=src, dst=dst)
-        response = response.to_xml()
 
     return HttpResponse(response, content_type='text/xml')
 

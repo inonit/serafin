@@ -69,9 +69,6 @@ def receive_sms(request):
                     engine = Engine(user_id=user_id, context=context)
                     engine.transition(reply_node)
 
-                    del user.data['reply_node']
-                    del user.data['reply_variable']
-
                     response = {'status': 'OK'}
 
     return JSONResponse(response)
