@@ -131,7 +131,7 @@ def receive_sms(request):
 
     if settings.SMS_SERVICE == 'Plivo':
         response = plivoxml.Response()
-        if reply:
+        if reply and src and dst:
             response.addMessage(reply, src=src, dst=dst)
         response = response.to_xml()
 
