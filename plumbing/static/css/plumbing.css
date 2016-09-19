@@ -160,10 +160,22 @@
     fill: #aaa;
 }
 
-
 ._jsPlumb_connector._jsPlumb_hover path {
     stroke: #4DAF7C;
 }
+
+._jsPlumb_connector._jsPlumb_dragging path {
+    stroke: #aaa !important;
+}
+
+._jsPlumb_connector._jsPlumb_dragging path + path {
+    fill: #aaa !important;
+}
+
+._jsPlumb_endpoint._jsPlumb_dragging {
+    display: none;
+}
+
 
 .dragHover {
     border: 2px solid orange;
