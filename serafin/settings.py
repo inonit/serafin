@@ -18,7 +18,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 # See https://docs.djangoproject.com/en/1.6/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'xxxxx'
+SECRET_KEY = 'replace-me'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
@@ -216,9 +216,9 @@ LOG_MAX_MILLISECONDS = 5 * 60 * 1000  # 5 minutes
 # Twilio
 
 SMS_SERVICE = 'Twilio'
-TWILIO_ACCOUNT_SID = 'xxxxx'
-TWILIO_AUTH_TOKEN = 'xxxxx'
-TWILIO_FROM_NUMBER = '12345'
+TWILIO_ACCOUNT_SID = 'replace-me'
+TWILIO_AUTH_TOKEN = 'replace-me'
+TWILIO_FROM_NUMBER = '00000000'
 
 
 # Huey
@@ -392,7 +392,7 @@ RESERVED_VARIABLES = [
     {
         'name': 'group',
         'admin_note': 'Returns a list of the Groups the user is a member of',
-        'domains': []
+        'domains': ['user']
     },
     {
         'name': 'current_day',
@@ -415,18 +415,13 @@ RESERVED_VARIABLES = [
         'domains': []
     },
     {
-        'name': 'session_stack',
-        'admin_note': 'For system use. Returns a list of (session, node) id pairs.',
-        'domains': []
-    },
-    {
         'name': 'node',
         'admin_note': 'For system use. Returns the current node id (relative to Session).',
         'domains': []
     },
     {
-        'name': 'background_node',
-        'admin_note': 'For system use. Returns the current special node id (relative to Session).',
+        'name': 'stack',
+        'admin_note': 'For system use. Returns a list of stacked (session, node) id pairs.',
         'domains': []
     },
     {
