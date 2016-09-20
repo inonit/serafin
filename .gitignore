@@ -23,6 +23,7 @@ bin
 include
 lib
 local
+env
 
 local_settings.py
 *.db
