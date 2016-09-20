@@ -101,7 +101,7 @@ def session_pre_save(sender, **kwargs):
 
             # Temp. dirty fix for occational empty ref_ids
             if not ref_id or ref_id == '0':
-                ref_url = node.get('ref_url')
+                ref_url = node.get('ref_url', '')
                 try:
                     node['ref_id'] = re.findall(r'\d+', ref_url)[0]
                 except:

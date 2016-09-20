@@ -3,6 +3,7 @@
 from __future__ import unicode_literals
 
 from datetime import timedelta
+import re
 
 from django.contrib.auth import get_user_model
 from django.utils.translation import ugettext_lazy as _
@@ -174,6 +175,12 @@ class Engine(object):
         node = self.nodes.get(node_id)
         node_type = node.get('type')
         ref_id = node.get('ref_id')
+
+        if not ref_id:
+            try:
+                ref_id = re.findall(r'\d+', node.get('ref_url', ''))[0]
+            except IndexError:
+                pass
 
         if node_type == 'start':
             return self.transition(node_id)
