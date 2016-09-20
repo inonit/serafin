@@ -1,8 +1,9 @@
 from __future__ import unicode_literals
 
+from django.http import JsonResponse
+
 from tokens.json_status import STATUS_FAIL, STATUS_INVALID_TOKEN, STATUS_OK
 from tokens.tokens import token_generator
-from serafin.utils import JSONResponse
 import json
 
 
@@ -28,6 +29,6 @@ def json_response(func):
                     except:
                         pass # fail assumed above
 
-        return JSONResponse(response)
+        return JsonResponse(response)
 
     return _json_response

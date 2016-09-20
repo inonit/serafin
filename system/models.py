@@ -15,7 +15,7 @@ from django.utils.translation import ugettext_lazy as _
 
 from jsonfield import JSONField
 from collections import OrderedDict
-from serafin.utils import *
+from system.utils import *
 from system.expressions import Parser
 
 

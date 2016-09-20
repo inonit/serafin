@@ -1,17 +1,7 @@
 from __future__ import unicode_literals
 from django.utils.translation import ugettext_lazy as _
 
-from django.http import HttpResponse
-import json
 import re
-
-
-class JSONResponse(HttpResponse):
-    def __init__(self, content):
-        super(JSONResponse, self).__init__(
-            content=json.dumps(content),
-            content_type='application/json',
-        )
 
 
 def natural_join(listing):

@@ -2,7 +2,7 @@ from __future__ import unicode_literals
 from django.utils.translation import ugettext_lazy as _
 
 from django.conf import settings
-from django.http import HttpResponse
+from django.http import HttpResponse, JsonResponse
 from django.shortcuts import get_object_or_404
 from django.template import Context
 from django.template.loader import get_template
@@ -10,7 +10,6 @@ from django.utils.encoding import force_bytes
 from django.utils.http import urlsafe_base64_encode
 from django.views.decorators.csrf import csrf_exempt
 
-from serafin.utils import JSONResponse
 from system.engine import Engine
 from tokens.tokens import token_generator
 from vault.decorators import json_response

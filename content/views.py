@@ -4,10 +4,9 @@ from django.conf import settings
 from django.contrib.auth.decorators import login_required
 from django.contrib.admin.views.decorators import staff_member_required
 from django.core.urlresolvers import reverse
-from django.http import Http404, HttpResponseRedirect
+from django.http import Http404, HttpResponseRedirect, JsonResponse
 from django.shortcuts import get_object_or_404, render
 from filer.models import File, Image
-from serafin.utils import JSONResponse
 from system.models import Session, Page
 from system.engine import Engine
 import json
@@ -79,7 +78,7 @@ def get_page(request):
         'stacked': page.stacked
     }
 
-    return JSONResponse(response)
+    return JsonResponse(response)
 
 
 def content_route(request, route_slug=None):
@@ -128,4 +127,4 @@ def api_filer_file(request, content_type=None, file_id=None):
         'description': filer_file.original_filename,
     }
 
-    return JSONResponse(response)
+    return JsonResponse(response)

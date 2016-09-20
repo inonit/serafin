@@ -4,12 +4,11 @@ from django.utils.translation import ugettext_lazy as _
 from django.contrib.auth import login, logout, authenticate
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.views import login as login_view
-from django.http.response import HttpResponse
+from django.http import HttpResponse, JsonResponse
 from django.shortcuts import redirect, render
 from django.utils import timezone
 from django.views.decorators.csrf import csrf_exempt
 
-from serafin.utils import JSONResponse
 from system.engine import Engine
 from system.models import Variable
 from users.models import User
