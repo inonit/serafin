@@ -93,12 +93,15 @@ class Engine(object):
         self.edges = self.session.data.get('edges')
 
     def get_node_edges(self, source_id):
+        '''Get the edges going from a given node'''
         return [edge for edge in self.edges if edge.get('source') == source_id]
 
     def get_normal_edges(self, edges):
+        '''Get the edges marked normal (foreground) in a list of edges'''
         return [edge for edge in edges if edge.get('type') == 'normal']
 
     def get_special_edges(self, edges):
+        '''Get the edges marked special (background) in a list of edges'''
         return [edge for edge in edges if edge.get('type') == 'special']
 
     def is_stacked(self):
@@ -142,45 +145,52 @@ class Engine(object):
                 return edge
 
     def transition(self, source_id):
-        '''Transition from a given node and trigger a new node'''
+        '''Transition from a given node and trigger a new node.'''
 
+        # keep a local list of nodes
+        # self.nodes may have changed when the call stack returns here
+        nodes = self.nodes
         edges = self.get_node_edges(source_id)
-
         special_edges = self.get_special_edges(edges)
         normal_edges = self.get_normal_edges(edges)
+
+        result = None
 
         # traverse all special edges
         while special_edges:
             edge = self.traverse(special_edges, source_id)
 
             if edge:
-                target_id = edge.get('target')
                 special_edges.remove(edge)
-                special_edge = self.trigger_node(target_id)
-
-                # sometimes a special edge will reach a normal node
-                # if so, return
-                if special_edge:
-                    return special_edge
+                target_id = edge.get('target')
+                node = nodes.get(target_id)
+                result = self.trigger_node(node) or result
             else:
                 break
+
+        # sometimes a special edge will return a normal node
+        # if so, return it
+        if result:
+            return result
 
         # traverse first applicable normal edge
         edge = self.traverse(normal_edges, source_id)
 
         if edge:
             target_id = edge.get('target')
-            return self.trigger_node(target_id)
+            node = nodes.get(target_id)
+            return self.trigger_node(node)
         else:
             return self.handle_dead_end(source_id)
 
-    def trigger_node(self, node_id):
-        '''Trigger action for a given node, return if Page'''
+    def trigger_node(self, node):
+        '''Trigger action for a given node, return if normal node'''
 
-        node = self.nodes.get(node_id)
+        node_id = node.get('id')
         node_type = node.get('type')
         ref_id = node.get('ref_id')
 
+        # guard against occational missing ref_id due to error in plumbing
         if not ref_id:
             try:
                 ref_id = re.findall(r'\d+', node.get('ref_url', ''))[0]
@@ -371,4 +381,5 @@ class Engine(object):
 
             return self.transition(node_id)
 
-        return self.trigger_node(node_id)
+        node = self.nodes.get(node_id)
+        return self.trigger_node(node)
