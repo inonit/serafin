@@ -156,7 +156,12 @@ class Engine(object):
             if edge:
                 target_id = edge.get('target')
                 special_edges.remove(edge)
-                self.trigger_node(target_id)
+                special_edge = self.trigger_node(target_id)
+
+                # sometimes a special edge will reach a normal node
+                # if so, return
+                if special_edge:
+                    return special_edge
             else:
                 break
 
