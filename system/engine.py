@@ -213,9 +213,7 @@ class Engine(object):
 
         if node_type == 'session':
 
-            if self.is_dead_end(node_id):
-                self.user.data['stack'] = []
-            else:
+            if len(self.get_node_edges(node_id)):
                 stack = self.user.data.get('stack', [])
                 stack.append((self.session.id, node_id))
                 self.user.data['stack'] = stack
