@@ -70,7 +70,7 @@ def receive_sms(request):
 
                     response = {'status': 'OK'}
 
-    return JSONResponse(response)
+    return JsonResponse(response)
 
 
 @login_required
