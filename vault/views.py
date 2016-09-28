@@ -14,7 +14,7 @@ from system.engine import Engine
 from tokens.tokens import token_generator
 from vault.decorators import json_response
 from vault.models import VaultUser
-import twilio
+from twilio import twiml
 import plivoxml
 
 import json
