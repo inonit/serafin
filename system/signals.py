@@ -84,7 +84,7 @@ def schedule_sessions(sender, **kwargs):
             useraccess.time_factor
         )
 
-        if start_time > timezone.localtime(timezone.now()) and session.scheduled:
+        if start_time >= timezone.localtime(timezone.now()) and session.scheduled:
             start_time = session.get_start_time(
                 useraccess.start_time,
                 useraccess.time_factor
