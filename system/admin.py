@@ -301,7 +301,7 @@ class SessionAdmin(VersionAdmin):
     ]
     list_filter = ['program__title', 'scheduled', 'trigger_login']
     list_display_links = ['title']
-    search_fields = ['title', 'display_title', 'admin_note', 'program__title']
+    search_fields = ['title', 'display_title', 'admin_note', 'program__title', 'data']
     ordering = ['start_time']
     date_hierarchy = 'start_time'
     actions = ['copy']
