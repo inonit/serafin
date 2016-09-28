@@ -67,7 +67,15 @@ def schedule_sessions(sender, **kwargs):
     if not useraccess.user.is_active:
         return
 
+    session_type = ContentType.objects.get_for_model(Session)
     for session in useraccess.program.session_set.all():
+
+        Task.objects.filter(
+            content_type=session_type,
+            object_id=session.id,
+            subject=useraccess.user
+        ).delete()
+
         if session.scheduled:
 
             start_time = session.get_start_time(
