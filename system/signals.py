@@ -79,12 +79,8 @@ def schedule_sessions(sender, **kwargs):
         if not useraccess.user.is_active:
             continue
 
-        start_time = session.get_start_time(
-            useraccess.start_time,
-            useraccess.time_factor
-        )
+        if session.scheduled:
 
-        if start_time >= timezone.localtime(timezone.now()) and session.scheduled:
             start_time = session.get_start_time(
                 useraccess.start_time,
                 useraccess.time_factor
