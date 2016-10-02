@@ -64,6 +64,11 @@ def receive_sms(request):
                 reply_var = user.data.get('reply_variable')
 
                 if reply_node and reply_var:
+
+                    user.data['reply_node'] = None
+                    user.data['reply_var'] = None
+                    user.save()
+
                     context = { reply_var: message }
                     engine = Engine(user_id=user_id, context=context)
                     engine.transition(reply_node)
