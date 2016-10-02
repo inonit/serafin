@@ -65,13 +65,13 @@ def receive_sms(request):
 
                 if reply_node and reply_var:
 
-                    del user.data['reply_node']
-                    del user.data['reply_variable']
-                    user.save()
-
                     context = { reply_var: message }
                     engine = Engine(user_id=user_id, context=context)
                     engine.transition(reply_node)
+
+                    del user.data['reply_node']
+                    del user.data['reply_variable']
+                    user.save()
 
                     response = {'status': 'OK'}
 
