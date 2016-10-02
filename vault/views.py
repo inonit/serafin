@@ -130,7 +130,8 @@ def receive_sms(request):
 
     if settings.SMS_SERVICE == 'Twilio':
         response = twiml.Response()
-        response.message(reply)
+        if reply:
+            response.message(reply)
 
     if settings.SMS_SERVICE == 'Plivo':
         response = plivoxml.Response()
