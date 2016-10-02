@@ -65,8 +65,8 @@ def receive_sms(request):
 
                 if reply_node and reply_var:
 
-                    user.data['reply_node'] = None
-                    user.data['reply_var'] = None
+                    del user.data['reply_node']
+                    del user.data['reply_variable']
                     user.save()
 
                     context = { reply_var: message }
