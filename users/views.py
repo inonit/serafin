@@ -69,7 +69,7 @@ def receive_sms(request):
 
                     context = {
                         'session': reply_session,
-                        'node': reply_node
+                        'node': reply_node,
                         reply_var: message,
                     }
                     engine = Engine(user_id=user_id, context=context)
