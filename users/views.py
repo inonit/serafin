@@ -78,7 +78,7 @@ def receive_sms(request):
                     log_event.send(
                         engine.session,
                         domain='session',
-                        actor=self.user,
+                        actor=user,
                         variable='sms',
                         pre_value='',
                         post_value='sms processed'
