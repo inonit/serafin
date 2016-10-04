@@ -90,6 +90,7 @@ def process_reply_variables(user, text, **kwargs):
         reply_str = match[0]
         reply_var = match[1]
 
+        user.data['reply_session'] = kwargs.get('session_id')
         user.data['reply_node'] = kwargs.get('node_id')
         user.data['reply_variable'] = reply_var
         user.save()

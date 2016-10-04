@@ -13,6 +13,7 @@ from system.engine import Engine
 from system.models import Variable
 from users.models import User
 from tokens.tokens import token_generator
+from events.signals import log_event
 import json
 
 
@@ -60,15 +61,30 @@ def receive_sms(request):
             if token_generator.check_token(user_id, token):
                 user = User.objects.get(id=user_id)
 
+                reply_session = user.data.get('reply_session')
                 reply_node = user.data.get('reply_node')
                 reply_var = user.data.get('reply_variable')
 
-                if reply_node and reply_var:
+                if reply_session and reply_node and reply_var:
 
-                    context = { reply_var: message }
+                    context = {
+                        'session': reply_session,
+                        'node': reply_node
+                        reply_var: message,
+                    }
                     engine = Engine(user_id=user_id, context=context)
                     engine.transition(reply_node)
 
+                    log_event.send(
+                        engine.session,
+                        domain='session',
+                        actor=self.user,
+                        variable='sms',
+                        pre_value='',
+                        post_value='sms processed'
+                    )
+
+                    del user.data['reply_session']
                     del user.data['reply_node']
                     del user.data['reply_variable']
                     user.save()

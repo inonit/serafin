@@ -266,7 +266,7 @@ class Engine(object):
 
         if node_type == 'sms':
             sms = SMS.objects.get(id=ref_id)
-            sms.send(self.user, node_id=node_id)
+            sms.send(self.user, session_id=self.session.id, node_id=node_id)
 
             log_event.send(
                 self,
