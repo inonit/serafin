@@ -216,6 +216,7 @@ class Engine(object):
                 post_value=page.title
             )
 
+            self.user.data['session'] = self.session.id
             self.user.data['node'] = node_id
             self.user.save()
 
