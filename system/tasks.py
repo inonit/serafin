@@ -23,13 +23,12 @@ def transition(session_id, node_id, user_id):
 
     node = engine.transition(node_id)
 
-    if node:
-        message = _('%(session)s transitioned to %(node)s') % {
-            'session': engine.session.title,
-            'node': node.name
-        }
+    message = _('%(session)s transitioned to node %(node)s') % {
+        'session': engine.session.title,
+        'node': node.name if node else node_id
+    }
 
-        return message
+    return message
 
 
 @db_task()
