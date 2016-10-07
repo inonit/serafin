@@ -263,7 +263,7 @@ class Engine(object):
                 post_value=email.title
             )
 
-            self.transition(node_id)
+            return self.transition(node_id)
 
         if node_type == 'sms':
             sms = SMS.objects.get(id=ref_id)
@@ -279,7 +279,7 @@ class Engine(object):
             )
 
             if 'reply:' not in sms.data[0].get('content'):
-                self.transition(node_id)
+                return self.transition(node_id)
 
         if node_type == 'register':
             self.user, registered = self.user.register()
@@ -294,7 +294,7 @@ class Engine(object):
                     post_value=''
                 )
 
-            self.transition(node_id)
+            return self.transition(node_id)
 
         if node_type == 'enroll':
             self.session.program.enroll(self.user)
@@ -308,7 +308,7 @@ class Engine(object):
                 post_value=self.session.program.title
             )
 
-            self.transition(node_id)
+            return self.transition(node_id)
 
         if node_type == 'leave':
             self.session.program.leave(self.user)
@@ -322,7 +322,7 @@ class Engine(object):
                 post_value=self.session.program.title
             )
 
-            self.transition(node_id)
+            return self.transition(node_id)
 
         if node_type == 'delay':
             useraccesses = self.session.program.programuseraccess_set.filter(user=self.user)

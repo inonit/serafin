@@ -329,6 +329,8 @@ class EngineTestCase(TestCase):
 
     def test_init(self):
         context = {
+            'session': self.session_empty.id,
+            'node': 0,
             'expression_somevar': '1 + 1',
             'other_var': 'value',
             'undefined': None,
