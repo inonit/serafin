@@ -2,7 +2,7 @@ from __future__ import unicode_literals
 from django.utils.translation import ugettext_lazy as _
 
 from django.contrib.auth import get_user_model
-from huey.djhuey import db_task
+from huey.contrib.djhuey import db_task
 from system.engine import Engine
 
 
@@ -25,7 +25,7 @@ def transition(session_id, node_id, user_id):
 
     if node:
         message = _('%(session)s transitioned to %(node)s') % {
-            'session': engine.session.name,
+            'session': engine.session.title,
             'node': node.name
         }
 

@@ -56,7 +56,7 @@ INSTALLED_APPS = (
     'rest_framework',
     'mptt',
     'easy_thumbnails',
-    'huey.djhuey',
+    'huey.contrib.djhuey',
     'django_user_agents',
     'import_export',
     'compressor',
@@ -224,17 +224,14 @@ TWILIO_FROM_NUMBER = '00000000'
 # Huey
 
 HUEY = {
-    'backend': 'huey.backends.redis_backend',
     'name': 'serafin',
-    'connection': {
-        'host': 'localhost',
-        'port': 6379,
-    },
-
-    # Options to pass into the consumer when running `manage.py run_huey`
-    'consumer_options': {
-        'workers': 4,
-        'utc': False,
+    'store_none': True,
+    'always_eager': False,
+    'consumer': {
+        'quiet': True,
+        'workers': 64,
+        'worker_type': 'greenlet',
+        'health_check_interval': 60,
     },
 }
 
@@ -338,7 +335,7 @@ LOGGING = {
     },
     'handlers': {
         'huey_log': {
-            'level': 'DEBUG',
+            'level': 'INFO',
             'class': 'logging.handlers.RotatingFileHandler',
             'filename': 'huey.log',
             'maxBytes': 1024*1024*5,
@@ -349,7 +346,7 @@ LOGGING = {
     'loggers': {
         'huey.consumer': {
             'handlers': ['huey_log'],
-            'level': 'DEBUG',
+            'level': 'INFO',
             'propagate': True,
         },
     }

@@ -79,9 +79,9 @@ def receive_sms(request):
                         engine.session,
                         domain='session',
                         actor=user,
-                        variable='sms',
+                        variable=reply_var,
                         pre_value='',
-                        post_value='sms processed'
+                        post_value=message
                     )
 
                     del user.data['reply_session']

@@ -6,8 +6,8 @@ from django.conf import settings
 from django.contrib.contenttypes.fields import GenericForeignKey
 from django.contrib.contenttypes.models import ContentType
 from django.utils import timezone
-from huey.djhuey import HUEY as huey
-from huey.utils import EmptyData
+from huey.contrib.djhuey import HUEY as huey
+from huey.constants import EmptyData
 import pickle
 
 
@@ -15,8 +15,7 @@ class TaskManager(models.Manager):
     def create_task(self, sender, domain, time, task, args, action, subject=None):
         task_ref = task.schedule(
             args=args,
-            eta=timezone.localtime(time).replace(tzinfo=None),
-            convert_utc=False
+            eta=timezone.localtime(time).replace(tzinfo=None)
         )
 
         task = Task()
@@ -67,15 +66,9 @@ class Task(models.Model):
 
     @property
     def task(self):
+        '''Returns the task result and preserves it'''
         if self.task_id:
-
-            result = huey._get(self.task_id, peek=True)
-            if result is not EmptyData:
-                return pickle.loads(result)
-            else:
-                return None
-
-        return None
+            return huey.result(self.task_id, preserve=True)
 
     @task.setter
     def task(self, task):
@@ -85,13 +78,9 @@ class Task(models.Model):
         '''Revokes this task and returns its result'''
 
         if self.task_id:
-
-            result = huey._get(self.task_id, peek=False)
-            serialized = pickle.dumps((None, False))
-            huey._put('r:%s' % self.task_id, serialized)
+            result = huey.result(self.task_id, preserve=True)
+            huey.revoke_by_id(self.task_id)
             return result
-
-        return None
 
     def reschedule(self, task, args, time):
         '''Revokes and reschedules given task function, returns result, if any'''
@@ -99,8 +88,7 @@ class Task(models.Model):
         result = self.revoke()
         task_ref = task.schedule(
             args=args,
-            eta=timezone.localtime(time).replace(tzinfo=None),
-            convert_utc=False
+            eta=timezone.localtime(time).replace(tzinfo=None)
         )
         self.task = task_ref
         self.time = time

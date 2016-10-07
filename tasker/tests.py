@@ -8,8 +8,8 @@ from django.db.models import signals
 from django.test import TestCase
 from django.utils import timezone
 
-from huey.djhuey import HUEY as huey, task
-from huey.utils import EmptyData
+from huey.contrib.djhuey import HUEY as huey, task
+from huey.constants import EmptyData
 
 from tasker.models import Task
 from system.models import Program, ProgramUserAccess, Session
@@ -42,21 +42,19 @@ class TimezoneTestCase(TestCase):
         d2 = timezone.now() + datetime.timedelta(minutes=1)
 
         task1 = test_task.schedule(
-            eta=timezone.localtime(d1).replace(tzinfo=None),
-            convert_utc=False
+            eta=timezone.localtime(d1).replace(tzinfo=None)
         )
         task2 = test_task.schedule(
-            eta=timezone.localtime(d2).replace(tzinfo=None),
-            convert_utc=False
+            eta=timezone.localtime(d2).replace(tzinfo=None)
         )
 
-        sleep(2)
+        sleep(5)
 
-        result1 = huey._get(task1.task.task_id, peek=True)
+        result1 = huey.get_storage().peek_data(task1.task.task_id)
         if result1 is not EmptyData:
             result1 = pickle.loads(result1)
 
-        result2 = huey._get(task2.task.task_id, peek=True)
+        result2 = huey.get_storage().peek_data(task2.task.task_id)
         if result2 is not EmptyData:
             result2 = pickle.loads(result2)
 
@@ -94,7 +92,7 @@ class TaskerTestCase(TestCase):
             subject=self.user
         )
 
-        sleep(0.25)
+        sleep(2)
 
         # check result is returned
         self.assertEqual(task.result, 'Hello Huey!')
@@ -114,7 +112,7 @@ class TaskerTestCase(TestCase):
             subject=self.user
         )
 
-        sleep(0.25)
+        sleep(2)
 
         # future task should have no result
         self.assertEqual(task.result, None)
@@ -134,7 +132,7 @@ class TaskerTestCase(TestCase):
             subject=self.user
         )
 
-        sleep(0.25)
+        sleep(2)
 
         self.assertEqual(task.result, 'Hello Huey!')
 
@@ -144,7 +142,7 @@ class TaskerTestCase(TestCase):
         # but loses result...
         self.assertIs(task.result, None)
 
-        sleep(2)
+        sleep(5)
 
         # ...and will run again on new schedule
         self.assertEqual(task.result, 'Hello Huey!')
@@ -165,7 +163,7 @@ class TaskerTestCase(TestCase):
         )
         task.reschedule(test_task, None, timezone.localtime(timezone.now()))
 
-        sleep(0.25)
+        sleep(2)
 
         # future task should be rescheduled and run, so it should have a result
         self.assertEqual(task.result, 'Hello Huey!')
@@ -186,7 +184,7 @@ class TaskerTestCase(TestCase):
         )
         task.revoke()
 
-        sleep(2)
+        sleep(5)
 
         # task was revoked before run, so it should have no result
         self.assertIs(task.result, None)
@@ -257,7 +255,7 @@ class SessionIntegrationTestCase(TestCase):
         task_b.reschedule(task=test_task, args=None, time=task_b.time)
         task_b.save()
 
-        sleep(2)
+        sleep(5)
 
         # task_a should have run and have a result
         self.assertEqual(task_a.result, 'Hello Huey!')
@@ -304,7 +302,7 @@ class SessionIntegrationTestCase(TestCase):
         task_b.reschedule(task=test_task, args=None, time=task_b.time)
         task_b.save()
 
-        sleep(2)
+        sleep(5)
 
         # task_a should have run and have a result
         self.assertEqual(task_a.result, 'Hello Huey!')
@@ -353,7 +351,7 @@ class SessionIntegrationTestCase(TestCase):
         task_b.reschedule(task=test_task, args=None, time=task_b.time)
         task_b.save()
 
-        sleep(2)
+        sleep(5)
 
         # task_a should have run and have a result
         self.assertEqual(task_a.result, 'Hello Huey!')
@@ -488,7 +486,7 @@ class SessionIntegrationTestCase(TestCase):
         task_b.reschedule(task=test_task, args=None, time=task_time)
         task_b.save()
 
-        sleep(2)
+        sleep(5)
 
         # task_a should not have run have result None
         self.assertIs(task_a.result, None)
