@@ -72,6 +72,13 @@ def receive_sms(request):
                     del user.data['reply_variable']
                     user.save()
 
+                    context = {
+                        'session': reply_session,
+                        'node': reply_node,
+                        reply_var: message,
+                    }
+                    engine = Engine(user_id=user_id, context=context)
+
                     log_event.send(
                         engine.session,
                         domain='session',
@@ -81,12 +88,6 @@ def receive_sms(request):
                         post_value=message
                     )
 
-                    context = {
-                        'session': reply_session,
-                        'node': reply_node,
-                        reply_var: message,
-                    }
-                    engine = Engine(user_id=user_id, context=context)
                     engine.transition(reply_node)
 
                     response = {'status': 'OK'}
