@@ -67,6 +67,11 @@ def receive_sms(request):
 
                 if reply_session and reply_node and reply_var:
 
+                    del user.data['reply_session']
+                    del user.data['reply_node']
+                    del user.data['reply_variable']
+                    user.save()
+
                     context = {
                         'session': reply_session,
                         'node': reply_node,
@@ -83,11 +88,6 @@ def receive_sms(request):
                         pre_value='',
                         post_value=message
                     )
-
-                    del user.data['reply_session']
-                    del user.data['reply_node']
-                    del user.data['reply_variable']
-                    user.save()
 
                     response = {'status': 'OK'}
 
