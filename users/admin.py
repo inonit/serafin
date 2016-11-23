@@ -94,7 +94,7 @@ class UserDataWidget(forms.Widget):
     def render(self, name, value, attrs=None):
         context = {
             'value': value,
-            'debug': unicode(settings.DEBUG).lower()
+            'debug': unicode(settings.USERDATA_DEBUG).lower()
         }
         html = render_to_string('admin/userdata_widget.html', context)
         return mark_safe(html)

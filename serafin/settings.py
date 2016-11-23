@@ -23,6 +23,7 @@ SECRET_KEY = 'replace-me'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 TEMPLATE_DEBUG = DEBUG
+USERDATA_DEBUG = DEBUG
 
 ALLOWED_HOSTS = ['*']
 
