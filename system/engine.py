@@ -344,7 +344,12 @@ class Engine(object):
                     domain='delay',
                     time=start_time + delta,
                     task=transition,
-                    args=(self.session.id, node_id, self.user.id),
+                    args=(
+                        self.session.id,
+                        node_id,
+                        self.user.id,
+                        self.user.data.get('stack', [])
+                    ),
                     action=_('Delayed node execution'),
                     subject=self.user
                 )

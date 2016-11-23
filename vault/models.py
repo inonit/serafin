@@ -43,6 +43,10 @@ class VaultUser(models.Model):
 
             return response
 
+        if message and settings.SMS_SERVICE == 'Debug':
+            print message
+            return
+
         return None
 
     def send_email(self, subject=None, message=None, html_message=None):

@@ -96,7 +96,7 @@ def receive_sms(request):
 
     if request.method == 'POST':
 
-        if settings.SMS_SERVICE == 'Twilio':
+        if settings.SMS_SERVICE == 'Twilio' or settings.SMS_SERVICE == 'Debug':
             sender = request.POST.get('From')
             body = request.POST.get('Body')
 

@@ -7,13 +7,13 @@ from system.engine import Engine
 
 
 @db_task()
-def transition(session_id, node_id, user_id):
+def transition(session_id, node_id, user_id, stack=None):
     '''A task to schedule an Engine transition'''
 
     context = {
         'session': session_id,
         'node': node_id,
-        'stack': []
+        'stack': stack or []
     }
 
     engine = Engine(user_id=user_id, context=context)
