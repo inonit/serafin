@@ -77,7 +77,7 @@ def receive_sms(request):
                         'node': reply_node,
                         reply_var: message,
                     }
-                    engine = Engine(user_id=user_id, context=context)
+                    engine = Engine(user=user, context=context)
 
                     log_event.send(
                         engine.session,
