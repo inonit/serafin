@@ -68,7 +68,11 @@ Program flow is controlled on different levels. Sessions may be put into sequenc
 6. Create a local admin user
 
     `$ python manage.py createsuperuser`
+
+7. Run a Huey worker
     
-7. Run the development server
+    `python manage.py run_huey`
+    
+8. Run the development server
 
     `$ python manage.py runserver`
