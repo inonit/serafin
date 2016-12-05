@@ -239,7 +239,7 @@ class SessionIntegrationTestCase(TestCase):
         # find the Task just created by receiver,
         # reschedule to the same time so we can swap init_session with test_task,
         # save the Task
-        task_a = Task.objects.last()
+        task_a = Task.objects.latest('pk')
         task_a.reschedule(task=test_task, args=None, time=task_a.time)
         task_a.save()
 
@@ -251,7 +251,7 @@ class SessionIntegrationTestCase(TestCase):
         )
 
         # see above
-        task_b = Task.objects.last()
+        task_b = Task.objects.latest('pk')()
         task_b.reschedule(task=test_task, args=None, time=task_b.time)
         task_b.save()
 
@@ -376,7 +376,7 @@ class SessionIntegrationTestCase(TestCase):
         )
 
         # get last task before scheduling
-        last_task_before = Task.objects.last()
+        last_task_before = Task.objects.latest('pk')()
 
         # will schedule session for both users
         session = Session.objects.create(
@@ -394,7 +394,7 @@ class SessionIntegrationTestCase(TestCase):
         session.delete()
 
         # get last task after deleting session
-        last_task_after = Task.objects.last()
+        last_task_after = Task.objects.latest('pk')()
 
         # last task should be same before and after deleting,
         # i.e. session.delete() also deleted the tasks connected to it
@@ -416,7 +416,7 @@ class SessionIntegrationTestCase(TestCase):
         )
 
         # get last task before scheduling
-        last_task_before = Task.objects.last()
+        last_task_before = Task.objects.latest('pk')()
 
         # receiver schedule_sessions will create a task on post_save
         useraccess = ProgramUserAccess.objects.create(
@@ -428,7 +428,7 @@ class SessionIntegrationTestCase(TestCase):
         useraccess.delete()
 
         # get last task after deleting programuseraccess
-        last_task_after = Task.objects.last()
+        last_task_after = Task.objects.latest('pk')()
 
         # last task should be same before and after deleting,
         # i.e. useraccess.delete() also deleted the tasks connected to it
@@ -465,7 +465,7 @@ class SessionIntegrationTestCase(TestCase):
             useraccess_a.time_factor
         )
 
-        task_a = Task.objects.last()
+        task_a = Task.objects.latest('pk')
         task_a.reschedule(task=test_task, args=None, time=task_time)
         task_a.save()
 
@@ -482,7 +482,7 @@ class SessionIntegrationTestCase(TestCase):
             useraccess_b.time_factor
         )
 
-        task_b = Task.objects.last()
+        task_b = Task.objects.latest('pk')
         task_b.reschedule(task=test_task, args=None, time=task_time)
         task_b.save()
 
