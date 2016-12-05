@@ -23,5 +23,5 @@ class VaultRouter(object):
         if db == 'vault':
             return model._meta.app_label == 'vault'
         elif model._meta.app_label == 'vault':
-            return False
+            return True
         return None
