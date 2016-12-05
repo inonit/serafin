@@ -228,6 +228,7 @@ class Engine(object):
                 stack = self.user.data.get('stack', [])
                 stack.append((self.session.id, node_id))
                 self.user.data['stack'] = stack
+                self.user.save()
 
             self.init_session(ref_id, 0)
 
