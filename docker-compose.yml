@@ -1,10 +1,14 @@
 version: '2'
 services:
+    db:
+    image: postgres
+    ports:
+      - '5432:5432'
+    environment:
+      POSTGRES_PASSWORD: postgres
   redis:
     image: redis
     volumes:
       - ./.docker-data/redis:/data
     ports:
-      - "6379:6379"
-    expose:
-      - "6379"
+      - '6379:6379'
