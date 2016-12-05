@@ -1,0 +1,10 @@
+version: '2'
+services:
+  redis:
+    image: redis
+    volumes:
+      - ./.docker-data/redis:/data
+    ports:
+      - "6379:6379"
+    expose:
+      - "6379"

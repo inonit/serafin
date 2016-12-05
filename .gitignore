@@ -25,11 +25,12 @@ lib
 local
 env
 
+/.docker-data/
+/media/
+/static/
+/src/
 local_settings.py
 *.db
-/media
-/static
-/src
 /.emacs.desktop
 /.emacs.desktop.lock
 
