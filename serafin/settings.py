@@ -22,7 +22,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 SECRET_KEY = 'replace-me'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 TEMPLATE_DEBUG = DEBUG
 USERDATA_DEBUG = DEBUG
 
@@ -132,15 +132,16 @@ USE_HTTPS = True
 ADMINS = (
     ('Admin', 'user@example.com'),
 )
-SERVER_EMAIL = 'Serafin <post@example.com>'
-DEFAULT_FROM_EMAIL = 'Serafin <post@example.com>'
-EMAIL_SUBJECT_PREFIX = '[Serafin] '
-EMAIL_HOST_USER = 'replace-me'
-EMAIL_HOST_PASSWORD = 'replace-me'
-EMAIL_HOST = 'smtp.example.com'
-EMAIL_PORT = 587
-EMAIL_USE_TLS = True
-EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+
+# SERVER_EMAIL = 'Serafin <post@example.com>'
+# DEFAULT_FROM_EMAIL = 'Serafin <post@example.com>'
+# EMAIL_SUBJECT_PREFIX = '[Serafin] '
+# EMAIL_HOST_USER = 'xxxxx'
+# EMAIL_HOST_PASSWORD = 'xxxxx'
+# EMAIL_HOST = 'smtp.example.com'
+# EMAIL_PORT = 587
+# EMAIL_USE_TLS = True
+# EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 
 
 # Static files (CSS, JavaScript, Images)
@@ -218,7 +219,7 @@ LOG_MAX_MILLISECONDS = 5 * 60 * 1000  # 5 minutes
 
 # Twilio
 
-SMS_SERVICE = 'Twilio'
+SMS_SERVICE = 'Primafon'
 TWILIO_ACCOUNT_SID = 'replace-me'
 TWILIO_AUTH_TOKEN = 'replace-me'
 TWILIO_FROM_NUMBER = '00000000'

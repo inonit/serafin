@@ -47,6 +47,23 @@ class VaultUser(models.Model):
             print message
             return
 
+        if message and settings.SMS_SERVICE == 'Primafon':
+            import requests
+            res = requests.post(
+                'http://sms.k8s.inonit.no/api/v0/messages/',
+                json={
+                    'to': self.phone[1:],
+                    'body': message,
+                },
+                headers={
+                    'Authorization':
+                    'Token changeme',
+                })
+
+            return
+
+        return None
+
     def send_email(self, subject=None, message=None, html_message=None):
         if subject and (message or html_message):
             subject = settings.EMAIL_SUBJECT_PREFIX + subject
