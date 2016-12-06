@@ -70,7 +70,6 @@ def receive_sms(request):
                     del user.data['reply_session']
                     del user.data['reply_node']
                     del user.data['reply_variable']
-                    user.save()
 
                     context = {
                         'session': reply_session,
@@ -89,6 +88,7 @@ def receive_sms(request):
                     )
 
                     engine.transition(reply_node)
+                    engine.user.save()
 
                     response = {'status': 'OK'}
 
