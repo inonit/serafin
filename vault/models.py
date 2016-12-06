@@ -47,8 +47,6 @@ class VaultUser(models.Model):
             print message
             return
 
-        return None
-
     def send_email(self, subject=None, message=None, html_message=None):
         if subject and (message or html_message):
             subject = settings.EMAIL_SUBJECT_PREFIX + subject
@@ -64,8 +62,6 @@ class VaultUser(models.Model):
                 email.attach_alternative(html_message, 'text/html')
 
             return email.send()
-
-        return None
 
     def __unicode__(self):
         return u'%s' % self.id

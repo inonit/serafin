@@ -65,7 +65,6 @@ class CurrentProgramNode(BaseProgramNode):
                 return queryset.get(pk=request.session["_program_id"])
             except self.model.DoesNotExist:
                 pass
-        return None
 
 
 class ListProgramNode(BaseProgramNode):

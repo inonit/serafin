@@ -19,8 +19,6 @@ class TokenBackend(ModelBackend):
         if token_generator.check_token(user_id, token):
             return user
 
-        return None
-
     def get_user(self, user_id):
         try:
             user = User.objects.get(id=user_id)
