@@ -342,6 +342,11 @@ LOGGING = {
             'class': 'raven.contrib.django.raven_compat.handlers.SentryHandler',
             'tags': {'custom-tag': 'x'},
         },
+        'sentry.debug': {
+            'level': 'DEBUG',
+            'class': 'raven.contrib.django.raven_compat.handlers.SentryHandler',
+            'tags': {'custom-tag': 'x'},
+        },
         'console': {
             'level': 'DEBUG',
             'class': 'logging.StreamHandler',
@@ -372,6 +377,11 @@ LOGGING = {
             'handlers': ['console', 'sentry'],
             'propagate': False
         },
+        'sentry.debug': {
+            'level': 'DEBUG',
+            'handlers': ['console', 'sentry.debug'],
+            'propagate': False
+        }
     }
 }
 
