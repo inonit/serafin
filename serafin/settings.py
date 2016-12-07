@@ -10,6 +10,7 @@ https://docs.djangoproject.com/en/1.6/ref/settings/
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 import os
+import raven
 
 BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 
@@ -62,6 +63,7 @@ INSTALLED_APPS = (
     'import_export',
     'compressor',
     'reversion',
+    'raven.contrib.django.raven_compat',
     'serafin.apps.AppRenameConfig',
 )
 
@@ -335,6 +337,16 @@ LOGGING = {
         },
     },
     'handlers': {
+        'sentry': {
+            'level': 'ERROR',  # To capture more than ERROR, change to WARNING, INFO, etc.
+            'class': 'raven.contrib.django.raven_compat.handlers.SentryHandler',
+            'tags': {'custom-tag': 'x'},
+        },
+        'console': {
+            'level': 'DEBUG',
+            'class': 'logging.StreamHandler',
+            'formatter': 'standard'
+        },
         'huey_log': {
             'level': 'INFO',
             'class': 'logging.handlers.RotatingFileHandler',
@@ -350,7 +362,21 @@ LOGGING = {
             'level': 'INFO',
             'propagate': True,
         },
+        'raven': {
+            'level': 'ERROR',
+            'handlers': ['sentry'],
+            'propagate': False
+        },
+        'sentry.errors': {
+            'level': 'DEBUG',
+            'handlers': ['console', 'sentry'],
+            'propagate': False
+        },
     }
+}
+
+RAVEN_CONFIG = {
+    'dsn': 'https://c9bcd3b54eec4007b4d84834a4f761e5:e66b053b77834019beb27f63cf055f03@sentry.io/41944',
 }
 
 
