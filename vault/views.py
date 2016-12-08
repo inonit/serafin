@@ -115,6 +115,13 @@ def receive_sms(request):
             src = request.POST.get('To')
             body = request.POST.get('Text')
 
+        if settings.SMS_SERVICE == 'Primafon':
+            data = json.loads(request.body)
+            sender = '+' + data['from']
+            dst = data['from']
+            src = '12345678'
+            body = data['body']
+
         try:
             vault_user = VaultUser.objects.get(phone=sender)
             sentry_logger.debug('vault.receive_sms - Got user %r at %s' % (vault_user, str(timezone.now() - now)))
