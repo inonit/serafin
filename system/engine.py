@@ -7,11 +7,14 @@ import re
 
 from django.contrib.auth import get_user_model
 from django.utils.translation import ugettext_lazy as _
+from django.utils import timezone
 
 from events.signals import log_event
 from system.models import Variable, Session, Page, Email, SMS
 from tasker.models import Task
 from .expressions import Parser
+
+import logging
 
 
 class EngineException(Exception):
@@ -34,6 +37,10 @@ class Engine(object):
         If argument push is True, current session and node will be pushed to
         a stack, so the user may return there.
         '''
+
+        self.logger = logging.getLogger('sentry.debug')
+        self.now = timezone.now()
+        self.logger.debug('engine - starting init at %s' % str(self.now))
 
         if user:
             self.user = user
@@ -147,6 +154,8 @@ class Engine(object):
     def transition(self, source_id):
         '''Transition from a given node and trigger a new node.'''
 
+        self.logger.debug('engine - triggered transition at %s' % str(timezone.now() - self.now))
+
         # keep a local list of nodes
         # self.nodes may have changed when the call stack returns here
         nodes = self.nodes
@@ -168,6 +177,8 @@ class Engine(object):
             else:
                 break
 
+        self.logger.debug('engine - transition processed special edges at %s' % str(timezone.now() - self.now))
+
         # sometimes a special edge will return a normal node
         # if so, return it
         if result:
@@ -179,8 +190,10 @@ class Engine(object):
         if edge:
             target_id = edge.get('target')
             node = nodes.get(target_id)
+            self.logger.debug('engine - transition returned node at %s' % str(timezone.now() - self.now))
             return self.trigger_node(node)
         else:
+            self.logger.debug('engine - transition met dead end at %s' % str(timezone.now() - self.now))
             return self.handle_dead_end(source_id)
 
     def trigger_node(self, node):
@@ -198,6 +211,7 @@ class Engine(object):
                 pass
 
         if node_type == 'start':
+            self.logger.debug('engine - processed \'start\' node at %s' % str(timezone.now() - self.now))
             return self.transition(node_id)
 
         if node_type == 'page':
@@ -220,6 +234,7 @@ class Engine(object):
             self.user.data['node'] = node_id
             self.user.save()
 
+            self.logger.debug('engine - processed \'page\' node at %s' % str(timezone.now() - self.now))
             return page
 
         if node_type == 'session':
@@ -232,6 +247,7 @@ class Engine(object):
 
             self.init_session(ref_id, 0)
 
+            self.logger.debug('engine - processed \'session\' node at %s' % str(timezone.now() - self.now))
             return self.transition(0)
 
         if node_type == 'expression':
@@ -249,6 +265,7 @@ class Engine(object):
                     self.user.data[variable_name] = result
                     self.user.save()
 
+            self.logger.debug('engine - processed \'expression\' node at %s' % str(timezone.now() - self.now))
             return self.transition(node_id)
 
         if node_type == 'email':
@@ -264,6 +281,7 @@ class Engine(object):
                 post_value=email.title
             )
 
+            self.logger.debug('engine - processed \'email\' node at %s' % str(timezone.now() - self.now))
             return self.transition(node_id)
 
         if node_type == 'sms':
@@ -279,8 +297,11 @@ class Engine(object):
                 post_value=sms.title
             )
 
+            self.logger.debug('engine - processed \'sms\' node at %s' % str(timezone.now() - self.now))
             if 'reply:' not in sms.data[0].get('content'):
                 return self.transition(node_id)
+            else:
+                return
 
         if node_type == 'register':
             self.user, registered = self.user.register()
@@ -354,6 +375,9 @@ class Engine(object):
                     action=_('Delayed node execution'),
                     subject=self.user
                 )
+
+                self.logger.debug('engine - processed \'delay\' node at %s' % str(timezone.now() - self.now))
+                return
 
     def run(self, next=False, pop=False):
         '''
