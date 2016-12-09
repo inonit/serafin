@@ -3,9 +3,8 @@ import pickle
 from time import sleep
 
 from django.contrib.auth import get_user_model
-from django.db import models
 from django.db.models import signals
-from django.test import TestCase
+from django.test import TestCase, modify_settings
 from django.utils import timezone
 
 from huey.contrib.djhuey import HUEY as huey, task
@@ -251,7 +250,7 @@ class SessionIntegrationTestCase(TestCase):
         )
 
         # see above
-        task_b = Task.objects.latest('pk')()
+        task_b = Task.objects.latest('pk')
         task_b.reschedule(task=test_task, args=None, time=task_b.time)
         task_b.save()
 

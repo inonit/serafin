@@ -18,3 +18,5 @@ DATABASES = {
         'PORT': '',
     },
 }
+
+HUEY.update({'always_eager': True})
