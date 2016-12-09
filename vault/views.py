@@ -103,7 +103,7 @@ def receive_sms(request):
 
     if request.method == 'POST':
 
-        sentry_logger.debug('Receive SMS - POST request started at %s' % str(now))
+        sentry_logger.debug('vault.receive_sms - POST request started at %s' % str(now))
 
         if settings.SMS_SERVICE == 'Twilio' or settings.SMS_SERVICE == 'Debug':
             sender = request.POST.get('From')
@@ -117,7 +117,7 @@ def receive_sms(request):
 
         try:
             vault_user = VaultUser.objects.get(phone=sender)
-            sentry_logger.debug('Receive SMS - Got user %r at %s' % (vault_user, str(timezone.now() - now)))
+            sentry_logger.debug('vault.receive_sms - Got user %r at %s' % (vault_user, str(timezone.now() - now)))
             token = token_generator.make_token(vault_user.id)
             data = {
                 'user_id': vault_user.id,
@@ -126,10 +126,10 @@ def receive_sms(request):
             }
 
             url = settings.USERS_RECEIVE_SMS_URL
-            sentry_logger.debug('Receive SMS - Posting data to %s at %s' % (settings.USERS_RECEIVE_SMS_URL,
+            sentry_logger.debug('vault.receive_sms - Posting data to %s at %s' % (settings.USERS_RECEIVE_SMS_URL,
                                                                             str(timezone.now() - now)))
             result = requests.post(url, data=json.dumps(data))
-            sentry_logger.debug('Receive SMS - Finished posting data at %s' % str(timezone.now() - now))
+            sentry_logger.debug('vault.receive_sms - Finished posting data at %s' % str(timezone.now() - now))
             result.raise_for_status()
 
         except Exception as e:
@@ -137,22 +137,22 @@ def receive_sms(request):
             reply = _('Sorry, there was an error processing your SMS. '
                       'Our technicians have been notified and will try to fix it.')
     else:
-        sentry_logger.debug('Receive SMS - No data received at %s' % str(timezone.now() - now))
+        sentry_logger.debug('vault.receive_sms - No data received at %s' % str(timezone.now() - now))
         reply = _('No data received.')
 
     if settings.SMS_SERVICE == 'Twilio':
         response = twiml.Response()
         if reply:
-            sentry_logger.debug('Receive SMS - Sending SMS response starting at %s' % str(timezone.now() - now))
+            sentry_logger.debug('vault.receive_sms - Sending SMS response starting at %s' % str(timezone.now() - now))
             response.message(reply)
-            sentry_logger.debug('Receive SMS - Sending SMS response completed at %s' % str(timezone.now() - now))
+            sentry_logger.debug('vault.receive_sms - Sending SMS response completed at %s' % str(timezone.now() - now))
 
     if settings.SMS_SERVICE == 'Plivo':
         response = plivoxml.Response()
         if reply and src and dst:
             response.addMessage(reply, src=src, dst=dst)
 
-    sentry_logger.debug('Receive SMS - Finished request at %s' % str(timezone.now() - now))
+    sentry_logger.debug('vault.receive_sms - Finished request at %s' % str(timezone.now() - now))
     return HttpResponse(response, content_type='text/xml')
 
 

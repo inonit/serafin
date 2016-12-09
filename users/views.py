@@ -14,7 +14,9 @@ from system.models import Variable
 from users.models import User
 from tokens.tokens import token_generator
 from events.signals import log_event
+
 import json
+import logging
 
 
 def manual_login(request):
@@ -49,8 +51,13 @@ def receive_sms(request):
     '''Receive sms from vault and let engine process it'''
 
     response = {'status': 'Fail.'}
+    sentry_logger = logging.getLogger('sentry.debug')
+    now = timezone.now()
 
     if request.method == 'POST':
+
+        sentry_logger.debug('user.receive_sms - POST request started at %s' % str(now))
+
         data = json.loads(request.body)
 
         user_id = data.get('user_id')
@@ -61,22 +68,13 @@ def receive_sms(request):
             if token_generator.check_token(user_id, token):
                 user = User.objects.get(id=user_id)
 
+                sentry_logger.debug('user.receive_sms - Got user %r at %s' % (user, str(timezone.now() - now)))
+
                 reply_session = user.data.get('reply_session')
                 reply_node = user.data.get('reply_node')
                 reply_var = user.data.get('reply_variable')
 
                 if reply_session and reply_node and reply_var:
-
-                    del user.data['reply_session']
-                    del user.data['reply_node']
-                    del user.data['reply_variable']
-
-                    context = {
-                        'session': reply_session,
-                        'node': reply_node,
-                        reply_var: message,
-                    }
-                    engine = Engine(user=user, context=context)
 
                     log_event.send(
                         engine.session,
@@ -87,11 +85,31 @@ def receive_sms(request):
                         post_value=message
                     )
 
+                    sentry_logger.debug('user.receive_sms - logged variable change at %s' % str(timezone.now() - now))
+
+                    context = {
+                        'session': reply_session,
+                        'node': reply_node,
+                        reply_var: message,
+                    }
+                    engine = Engine(user=user, context=context)
+
+                    sentry_logger.debug('user.receive_sms - prepared Engine at %s' % str(timezone.now() - now))
+
+                    del engine.user.data['reply_session']
+                    del engine.user.data['reply_node']
+                    del engine.user.data['reply_variable']
                     engine.transition(reply_node)
+
+                    sentry_logger.debug('user.receive_sms - finished engine transitions %s' % str(timezone.now() - now))
+
                     engine.user.save()
+
+                    sentry_logger.debug('user.receive_sms - saved user %s' % str(timezone.now() - now))
 
                     response = {'status': 'OK'}
 
+    sentry_logger.debug('user.receive_sms - returning response %s' % str(timezone.now() - now))
     return JsonResponse(response)
 
 
