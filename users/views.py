@@ -67,7 +67,6 @@ def receive_sms(request):
         if user_id and token:
             if token_generator.check_token(user_id, token):
                 user = User.objects.get(id=user_id)
-
                 sentry_logger.debug('user.receive_sms - Got user %r at %s' % (user, str(timezone.now() - now)))
 
                 reply_session = user.data.get('reply_session')
@@ -77,14 +76,13 @@ def receive_sms(request):
                 if reply_session and reply_node and reply_var:
 
                     log_event.send(
-                        engine.session,
-                        domain='session',
+                        user,
+                        domain='user',
                         actor=user,
                         variable=reply_var,
                         pre_value=user.data.get(reply_var),
                         post_value=message
                     )
-
                     sentry_logger.debug('user.receive_sms - logged variable change at %s' % str(timezone.now() - now))
 
                     context = {
@@ -93,18 +91,15 @@ def receive_sms(request):
                         reply_var: message,
                     }
                     engine = Engine(user=user, context=context)
-
                     sentry_logger.debug('user.receive_sms - prepared Engine at %s' % str(timezone.now() - now))
 
                     del engine.user.data['reply_session']
                     del engine.user.data['reply_node']
                     del engine.user.data['reply_variable']
                     engine.transition(reply_node)
-
                     sentry_logger.debug('user.receive_sms - finished engine transitions %s' % str(timezone.now() - now))
 
                     engine.user.save()
-
                     sentry_logger.debug('user.receive_sms - saved user %s' % str(timezone.now() - now))
 
                     response = {'status': 'OK'}
