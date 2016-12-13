@@ -80,7 +80,7 @@ def receive_sms(request):
                         domain='user',
                         actor=user,
                         variable=reply_var,
-                        pre_value=user.data.get(reply_var),
+                        pre_value=user.data.get(reply_var, ''),
                         post_value=message
                     )
                     sentry_logger.debug('user.receive_sms - logged variable change at %s' % str(timezone.now() - now))
