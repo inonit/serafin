@@ -64,15 +64,18 @@ Program flow is controlled on different levels. Sessions may be put into sequenc
     $ python manage.py migrate
     $ python manage.py migrate --database vault
     ```
+    
+6. Make sure the Django server is running before the next step. This is required because
+   user meta data is copied internally with HTTP requests.
 
-6. Create a local admin user
+7. Create a local admin user
 
     `$ python manage.py createsuperuser`
 
-7. Run a Huey worker
+8. Run a Huey worker
     
     `python manage.py run_huey`
     
-8. Run the development server
+9. Run the development server
 
     `$ python manage.py runserver`
