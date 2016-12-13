@@ -33,7 +33,7 @@ class PlumbingWidget(forms.Widget):
         js = (
             'lib/angular/angular.min.js',
             'lib/jqueryui/jquery-ui.min.js',
-            'lib/jsplumb/dist/js/jquery.jsPlumb-1.7.5-min.js',
+            'lib/jsplumb/dist/js/jsPlumb-1.7.10-min.js',
             'lib/lodash/lodash.min.js',
             'lib/ment.io/dist/mentio.min.js',
             'js/autocomplete.js',

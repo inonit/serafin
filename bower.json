@@ -19,7 +19,7 @@
     "lodash": "~3.10.0",
     "jquery": "~2.1.4",
     "jqueryui": "~1.11.4",
-    "jsplumb": "~1.7.5",
+    "jsplumb": "1.7.10",
     "foundation": "~5.5.2",
     "angular-foundation": "~0.6.0"
   }
