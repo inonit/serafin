@@ -219,7 +219,7 @@ LOG_MAX_MILLISECONDS = 5 * 60 * 1000  # 5 minutes
 
 # Twilio
 
-SMS_SERVICE = 'Primafon'
+SMS_SERVICE = 'Twilio'
 TWILIO_ACCOUNT_SID = 'replace-me'
 TWILIO_AUTH_TOKEN = 'replace-me'
 TWILIO_FROM_NUMBER = '00000000'
