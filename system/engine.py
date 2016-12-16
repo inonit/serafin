@@ -38,7 +38,7 @@ class Engine(object):
         a stack, so the user may return there.
         '''
 
-        self.logger = logging.getLogger('sentry.debug')
+        self.logger = logging.getLogger('debug')
         self.now = timezone.now()
         self.logger.debug('engine - starting init at %s' % str(self.now))
 

@@ -336,6 +336,15 @@ LOGGING = {
         'standard': {
             'format': '%(asctime)s [%(levelname)s] %(name)s: %(message)s'
         },
+        'verbose': {
+            'format': '%(levelname)s %(asctime)s %(module)s '
+                      '%(process)d %(thread)d %(message)s'
+        }
+    },
+    'filters': {
+        'require_debug': {
+            '()': 'django.utils.log.RequireDebugTrue'
+        }
     },
     'handlers': {
         'sentry': {
@@ -343,15 +352,27 @@ LOGGING = {
             'class': 'raven.contrib.django.raven_compat.handlers.SentryHandler',
             'tags': {'custom-tag': 'x'},
         },
-        'sentry.debug': {
-            'level': 'DEBUG',
-            'class': 'raven.contrib.django.raven_compat.handlers.SentryHandler',
-            'tags': {'custom-tag': 'x'},
-        },
         'console': {
-            'level': 'DEBUG',
+            'level': 'INFO',
+            'filters': ['require_debug'],
             'class': 'logging.StreamHandler',
-            'formatter': 'standard'
+            'formatter': 'verbose'
+        },
+        'file': {
+            'level': 'INFO',
+            'class': 'logging.handlers.RotatingFileHandler',
+            'filename': 'serafin.log',
+            'maxBytes': 1024 * 1024 * 5,  # 5 MB
+            'backupCount': 3,
+            'formatter': 'verbose'
+        },
+        'debug': {
+            'level': 'DEBUG',
+            'class': 'logging.handlers.RotatingFileHandler',
+            'filename': 'debug.log',
+            'maxBytes': 1024 * 1024 * 5,  # 5 MB
+            'backupCount': 0,
+            'formatter': 'verbose'
         },
         'huey_log': {
             'level': 'INFO',
@@ -363,24 +384,38 @@ LOGGING = {
         },
     },
     'loggers': {
+        'django': {
+            'handlers': ['console'],
+            'propagate': True
+        },
+        'django.db.backends': {
+            'level': 'ERROR',
+            'handlers': ['file', 'console', 'sentry'],
+            'propagate': False
+        },
+        'django.request': {
+            'level': 'ERROR',
+            'handlers': ['file', 'console', 'sentry'],
+            'propagate': False
+        },
+        'raven': {
+            'level': 'DEBUG',
+            'handlers': ['console'],
+            'propagate': False
+        },
+        'sentry.errors': {
+            'level': 'DEBUG',
+            'handlers': ['console'],
+            'propagate': False
+        },
         'huey.consumer': {
             'handlers': ['huey_log'],
             'level': 'INFO',
             'propagate': True,
         },
-        'raven': {
-            'level': 'ERROR',
-            'handlers': ['sentry'],
-            'propagate': False
-        },
-        'sentry.errors': {
+        'debug': {
             'level': 'DEBUG',
-            'handlers': ['console', 'sentry'],
-            'propagate': False
-        },
-        'sentry.debug': {
-            'level': 'DEBUG',
-            'handlers': ['console', 'sentry.debug'],
+            'handlers': ['debug'],
             'propagate': False
         }
     }
