@@ -210,6 +210,8 @@ class Engine(object):
             except IndexError:
                 pass
 
+        self.logger.debug('engine - dispatching \'%s\' node at %s' % (node_type, str(timezone.now() - self.now)))
+
         if node_type == 'start':
             self.logger.debug('engine - processed \'start\' node at %s' % str(timezone.now() - self.now))
             return self.transition(node_id)
