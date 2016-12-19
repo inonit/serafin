@@ -232,7 +232,13 @@ class Engine(object):
 
             self.user.data['session'] = self.session.id
             self.user.data['node'] = node_id
-            self.user.save()
+            try:
+                self.user.save()
+            except:
+                self.logger.warning('unable to save')
+                from django.db import connection
+                connection.close()
+                engine.user.save()
 
             self.logger.debug('engine - processed \'page\' node at %s' % str(timezone.now() - self.now))
             return page
