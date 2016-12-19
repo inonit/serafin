@@ -238,7 +238,7 @@ class Engine(object):
                 self.logger.warning('unable to save')
                 from django.db import connection
                 connection.close()
-                engine.user.save()
+                self.user.save()
 
             self.logger.debug('engine - processed \'page\' node at %s' % str(timezone.now() - self.now))
             return page
