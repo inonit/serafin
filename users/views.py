@@ -99,7 +99,13 @@ def receive_sms(request):
                     engine.transition(reply_node)
                     debug_logger.debug('user.receive_sms - finished engine transitions %s' % str(timezone.now() - now))
 
-                    engine.user.save()
+                    try:
+                        engine.user.save()
+                    except:
+                        from django.db import connection
+                        connection.close()
+                        engine.user.save()
+
                     debug_logger.debug('user.receive_sms - saved user %s' % str(timezone.now() - now))
 
                     response = {'status': 'OK'}
