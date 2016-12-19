@@ -293,7 +293,9 @@ class Engine(object):
             return self.transition(node_id)
 
         if node_type == 'sms':
+            self.logger.debug('engine - fetching sms at %s' % str(timezone.now() - self.now))
             sms = SMS.objects.get(id=ref_id)
+            self.logger.debug('engine - sending sms at %s' % str(timezone.now() - self.now))
             sms.send(self.user, session_id=self.session.id, node_id=node_id)
 
             self.logger.debug('engine - sms sent at %s' % str(timezone.now() - self.now))
