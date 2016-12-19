@@ -299,18 +299,18 @@ class Engine(object):
             sms.send(self.user, session_id=self.session.id, node_id=node_id)
 
             self.logger.debug('engine - sms sent at %s' % str(timezone.now() - self.now))
-            try:
-                log_event.send(
-                    self,
-                    domain='session',
-                    actor=self.user,
-                    variable='sms',
-                    pre_value='',
-                    post_value=sms.title
-                )
-            except Exception as e:
-                self.logger.debug("how can this fail")
-                self.logger.error(str(e))
+            # try:
+            #     log_event.send(
+            #         self,
+            #         domain='session',
+            #         actor=self.user,
+            #         variable='sms',
+            #         pre_value='',
+            #         post_value=sms.title
+            #     )
+            # except Exception as e:
+            #     self.logger.debug("how can this fail")
+            #     self.logger.error(str(e))
 
             self.logger.debug('engine - processed \'sms\' node at %s' % str(timezone.now() - self.now))
             if 'reply:' not in sms.data[0].get('content'):
