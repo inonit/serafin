@@ -305,8 +305,10 @@ class Engine(object):
 
             self.logger.debug('engine - processed \'sms\' node at %s' % str(timezone.now() - self.now))
             if 'reply:' not in sms.data[0].get('content'):
+                self.logger('engine - transition from \'sms\' at %s' % str(timezone.now() - self.now))
                 return self.transition(node_id)
             else:
+                self.logger('engine - returning from \'sms\' at %s' % str(timezone.now() - self.now))
                 return
 
         if node_type == 'register':
