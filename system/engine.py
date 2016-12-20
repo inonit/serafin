@@ -84,15 +84,16 @@ class Engine(object):
 
         self.init_session()
 
-    def init_session(self, session_id=None, node_id=None):
+    def init_session(self, session_id=None, node_id=None, should_save=True):
 
         session_id = session_id or self.user.data.get('session')
         if node_id is None:
             node_id = self.user.data.get('node')
 
-        self.user.data['session'] = session_id
-        self.user.data['node'] = node_id
-        self.user.save()
+        if should_save:
+            self.user.data['session'] = session_id
+            self.user.data['node'] = node_id
+            self.user.save()
 
         self.session = Session.objects.get(id=session_id)
 
@@ -234,13 +235,7 @@ class Engine(object):
 
             self.user.data['session'] = self.session.id
             self.user.data['node'] = node_id
-            try:
-                self.user.save()
-            except:
-                self.logger.warning('unable to save')
-                from django.db import connection
-                connection.close()
-                self.user.save()
+            self.user.save()
 
             self.logger.debug('engine - processed \'page\' node at %s' % str(timezone.now() - self.now))
             return page
@@ -257,6 +252,16 @@ class Engine(object):
 
             self.logger.debug('engine - processed \'session\' node at %s' % str(timezone.now() - self.now))
             return self.transition(0)
+        
+        if node_type == 'background_session':
+            current_node = node_id
+            current_session = self.session.pk
+            self.init_session(ref_id, 0, should_save=False)
+
+            self.logger.debug('engine - processed \'background_session\' node at %s' % str(timezone.now() - self.now))
+            self.transition(0)
+            self.init_session(current_session, current_node, should_save=False)
+            return self.transition(node_id)
 
         if node_type == 'expression':
             expression = node.get('expression')
@@ -299,19 +304,16 @@ class Engine(object):
             sms.send(self.user, session_id=self.session.id, node_id=node_id)
 
             self.logger.debug('engine - sms sent at %s' % str(timezone.now() - self.now))
-            # try:
-            #     log_event.send(
-            #         self,
-            #         domain='session',
-            #         actor=self.user,
-            #         variable='sms',
-            #         pre_value='',
-            #         post_value=sms.title
-            #     )
-            # except Exception as e:
-            #     self.logger.debug("how can this fail")
-            #     self.logger.error(str(e))
 
+
+            log_event.send(
+                self,
+                domain='session',
+                actor=self.user,
+                variable='sms',
+                pre_value='',
+                post_value=sms.title
+            )
             self.logger.debug('engine - processed \'sms\' node at %s' % str(timezone.now() - self.now))
             if 'reply:' not in sms.data[0].get('content'):
                 self.logger.debug('engine - transition from \'sms\' at %s' % str(timezone.now() - self.now))

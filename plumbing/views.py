@@ -20,7 +20,7 @@ def api_node(request, node_type=None, node_id=None):
     elif node_type == 'sms':
         node = get_object_or_404(SMS, id=node_id)
         url = reverse('admin:system_sms_change', args=[node.id])
-    elif node_type == 'session':
+    elif node_type == 'session' or node_type == 'background_session':
         node = get_object_or_404(Session, id=node_id)
         url = reverse('admin:system_session_change', args=[node.id])
     else:

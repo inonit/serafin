@@ -10,6 +10,7 @@
     <div class="toolbox">
         <div class="btn page" ng-click="addNode('page')" id="lookup_{% verbatim %}{{ current_noderef }}{% endverbatim %}">{% trans '+ Page' %}</div>
         <div class="btn session" ng-click="addNode('session')" id="lookup_{% verbatim %}{{ current_noderef }}{% endverbatim %}">{% trans '+ Session' %}</div>
+        <div class="btn session" ng-click="addNode('background_session')" id="lookup_{% verbatim %}{{ current_noderef }}{% endverbatim %}">{% trans '+ Background Session' %}</div>
         <div class="btn expression" ng-click="addNode('expression')" id="lookup_{% verbatim %}{{ current_noderef }}{% endverbatim %}">{% trans '+ Expression' %}</div>
         <div class="btn" ng-click="addNode('email')" id="lookup_{% verbatim %}{{ current_noderef }}{% endverbatim %}">{% trans '+ Email' %}</div>
         <div class="btn" ng-click="addNode('sms')" id="lookup_{% verbatim %}{{ current_noderef }}{% endverbatim %}">{% trans '+ Sms' %}</div>
@@ -33,6 +34,9 @@
         </span>
         <span ng-if="node.type == 'session'">
             <i class="icon-tasks icon-alpha5"></i>
+        </span>
+        <span ng-if="node.type == 'background_session'">
+            <i class="icon-cog icon-alpha5"></i>
         </span>
         <span ng-if="node.type == 'expression'">
             <i class="icon-exclamation-sign icon-alpha5"></i>

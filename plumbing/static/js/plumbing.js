@@ -223,7 +223,7 @@ plumbing.controller('graph', ['$scope', 'jsPlumb', function(scope, jsPlumbServic
             return;
         }
 
-        var url = new SystemUrl(type);
+        var url = new SystemUrl(type == 'background_session' ? 'session' : type);
 
         scope.data.nodes.push({
             id: id,
@@ -429,7 +429,7 @@ plumbing.directive('edge', ['jsPlumb', function(jsPlumbService) {
                 });
 
                 var foreground = [
-                    'start', 'page', 'session'
+                    'start', 'page', 'session', 'background_session'
                 ]
                 var background = [
                     'email', 'sms', 'register', 'enroll', 'leave', 'delay'
