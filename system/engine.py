@@ -24,7 +24,7 @@ class EngineException(Exception):
 class Engine(object):
     '''A simplified decision engine to traverse the Session graph for a user'''
 
-    def __init__(self, user=None, user_id=None, context={}, push=False):
+    def __init__(self, user=None, user_id=None, context={}, push=False, is_interactive=False):
         '''
         Initialize Engine with a User or user id and optional context.
 
@@ -41,6 +41,7 @@ class Engine(object):
         self.logger = logging.getLogger('debug')
         self.now = timezone.now()
         self.logger.debug('engine - starting init at %s' % str(self.now))
+        self.is_interactive = is_interactive
 
         if user:
             self.user = user
@@ -90,10 +91,9 @@ class Engine(object):
         if node_id is None:
             node_id = self.user.data.get('node')
 
-        if should_save:
-            self.user.data['session'] = session_id
-            self.user.data['node'] = node_id
-            self.user.save()
+        self.user.data['session'] = session_id
+        self.user.data['node'] = node_id
+        self.user.save()
 
         self.session = Session.objects.get(id=session_id)
 
@@ -254,6 +254,7 @@ class Engine(object):
             return self.transition(0)
         
         if node_type == 'background_session':
+            raise Exception("Should not be used")
             current_node = node_id
             current_session = self.session.pk
             self.init_session(ref_id, 0, should_save=False)
@@ -300,6 +301,30 @@ class Engine(object):
         if node_type == 'sms':
             self.logger.debug('engine - fetching sms at %s' % str(timezone.now() - self.now))
             sms = SMS.objects.get(id=ref_id)
+            if self.is_interactive and 'reply:' in sms.data[0].get('content'):
+                self.logger.debug('engine - interactive sms %s' % str(timezone.now() - self.now))
+                content = sms.get_content(self.user, session_id=self.session.id, node_id=node_id)
+                reply_var = self.user.data['reply_variable']
+                self.user.data['session'] = self.session.id
+                self.user.data['node'] = node_id
+                self.user.save()
+                page = Page(
+                    title='SMS answer',
+                    display_title='SMS answer',
+                    data=[{
+                        'content_type': 'form',
+                        'content': [{
+                            'field_type': 'string',
+                            'variable_name': reply_var,
+                            'label': content,
+                            'required': True
+                        }]
+                    }]
+                )
+                page.update_html(self.user)
+                page.dead_end = False
+                page.stacked = self.is_stacked()
+                return page
             self.logger.debug('engine - sending sms at %s' % str(timezone.now() - self.now))
             sms.send(self.user, session_id=self.session.id, node_id=node_id)
 

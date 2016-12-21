@@ -299,3 +299,11 @@ class SMS(Content):
         user.send_sms(
             message=message
         )
+    
+    def get_content(self, user, **kwargs):
+        message = self.data[0].get('content')
+        message = process_email_links(user, message)
+        message = process_reply_variables(user, message, **kwargs)
+        message = remove_comments(message)
+        message = variable_replace(user, message)
+        return message

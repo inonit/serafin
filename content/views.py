@@ -65,7 +65,7 @@ def get_page(request):
     else:
         next = request.GET.get('next')
         pop = request.GET.get('pop')
-        engine = Engine(user=request.user, context=context)
+        engine = Engine(user=request.user, context=context, is_interactive=True)
         page = engine.run(next=next, pop=pop)
 
     if not page:

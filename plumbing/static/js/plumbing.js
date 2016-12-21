@@ -429,10 +429,10 @@ plumbing.directive('edge', ['jsPlumb', function(jsPlumbService) {
                 });
 
                 var foreground = [
-                    'start', 'page', 'session', 'background_session'
+                    'start', 'page', 'session'
                 ]
                 var background = [
-                    'email', 'sms', 'register', 'enroll', 'leave', 'delay'
+                    'email', 'sms', 'register', 'enroll', 'leave', 'delay', 'background_session'
                 ]
 
                 // disallow/delete edge with start as target,
