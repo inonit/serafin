@@ -130,6 +130,7 @@ class Engine(object):
         if self.is_dead_end(node_id) and self.is_stacked():
 
             node = self.nodes.get(node_id)
+            self.logger.debug("dead end (%r %r %r)" % (node, self.is_stacked(), self.user.data.get('stack')))
             if node.get('type') in ['start', 'session', 'expression']:
 
                 return self.run(pop=True)
@@ -266,24 +267,25 @@ class Engine(object):
                 }
                 delta = timedelta(**kwargs)
 
+                import pytz
+                from datetime import datetime
                 from system.tasks import init_session
 
                 Task.objects.create_task(
                     sender=self.session,
                     domain='delay',
-                    time=start_time + delta,
+                    time=datetime.now(pytz.utc) + timedelta(seconds=32),
                     task=init_session,
                     args=(
                         ref_id,
-                        self.user_id,
-                        True
+                        self.user.id,
+                        True, # push
                     ),
                     action=_('Delayed session execution'),
                     subject=self.user
                 )
 
-                self.logger.debug('engine - processed \'delay\' node at %s' % str(timezone.now() - self.now))
-                return
+                self.logger.debug('engine - processed \'background_session\' node at %s' % str(timezone.now() - self.now))
             return self.transition(node_id)
 
         if node_type == 'expression':
@@ -370,7 +372,7 @@ class Engine(object):
                 self.user.data['node'] = node_id
                 self.user.save()
                 self.logger.debug('engine - returning from \'sms\' at %s' % str(timezone.now() - self.now))
-                return
+                return Page()
 
         if node_type == 'register':
             self.user, registered = self.user.register()
@@ -478,6 +480,10 @@ class Engine(object):
                 session_id, node_id = self.user.data.get('stack').pop()
 
             self.init_session(session_id, node_id)
+
+            node = self.nodes.get(node_id)
+            if node.get('type') not in ('session', 'background_session'):
+                return self.trigger_node(node)
 
             return self.transition(node_id)
 
