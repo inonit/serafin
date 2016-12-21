@@ -231,6 +231,10 @@ plumbing.controller('graph', ['$scope', 'jsPlumb', function(scope, jsPlumbServic
             ref_id: '',
             ref_url: url.add(),
             title: '?',
+            delay: {
+              number: 2,
+              unit: 'minutes',
+            },
             metrics: {
                 left: (300 - scope.scrolling.x) + 'px',
                 top: (100 - scope.scrolling.y) + 'px'

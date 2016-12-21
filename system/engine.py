@@ -252,16 +252,38 @@ class Engine(object):
 
             self.logger.debug('engine - processed \'session\' node at %s' % str(timezone.now() - self.now))
             return self.transition(0)
-        
-        if node_type == 'background_session':
-            raise Exception("Should not be used")
-            current_node = node_id
-            current_session = self.session.pk
-            self.init_session(ref_id, 0, should_save=False)
 
-            self.logger.debug('engine - processed \'background_session\' node at %s' % str(timezone.now() - self.now))
-            self.transition(0)
-            self.init_session(current_session, current_node, should_save=False)
+        if node_type == 'background_session':
+            useraccesses = self.session.program.programuseraccess_set.filter(user=self.user)
+            for useraccess in useraccesses:
+                start_time = self.session.get_start_time(
+                    useraccess.start_time,
+                    useraccess.time_factor
+                )
+                delay = node.get('delay')
+                kwargs = {
+                    delay.get('unit'): float(delay.get('number') * useraccess.time_factor),
+                }
+                delta = timedelta(**kwargs)
+
+                from system.tasks import init_session
+
+                Task.objects.create_task(
+                    sender=self.session,
+                    domain='delay',
+                    time=start_time + delta,
+                    task=init_session,
+                    args=(
+                        ref_id,
+                        self.user_id,
+                        True
+                    ),
+                    action=_('Delayed session execution'),
+                    subject=self.user
+                )
+
+                self.logger.debug('engine - processed \'delay\' node at %s' % str(timezone.now() - self.now))
+                return
             return self.transition(node_id)
 
         if node_type == 'expression':
