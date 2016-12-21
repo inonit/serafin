@@ -344,6 +344,9 @@ class Engine(object):
                 self.logger.debug('engine - transition from \'sms\' at %s' % str(timezone.now() - self.now))
                 return self.transition(node_id)
             else:
+                self.user.data['session'] = self.session.id
+                self.user.data['node'] = node_id
+                self.user.save()
                 self.logger.debug('engine - returning from \'sms\' at %s' % str(timezone.now() - self.now))
                 return
 
