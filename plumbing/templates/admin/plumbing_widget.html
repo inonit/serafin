@@ -106,6 +106,15 @@
             </string-expression>
             {% include "expression_syntax.html" %}
         </div>
+        <div ng-if="node.type == 'background_session'" class="background_session settings box" ng-show="showSettings == $index">
+            <div class="close" ng-click="close()">×</div>
+            <label>Forsinket økt</label>
+            <input type="number" placeholder="{% trans 'Number' %}" ng-model="node.delay.number">
+            <select ng-model="node.delay.unit">
+                <option value="minutes"> {% trans 'minutes' %} </option>
+                <option value="hours"> {% trans 'hours' %} </option>
+            </select>
+        </div>
     </div>
 
     <div class="edge" ng-repeat="edge in data.edges track by edge.id" ng-model="data.edges">

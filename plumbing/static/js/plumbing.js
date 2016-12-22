@@ -225,21 +225,26 @@ plumbing.controller('graph', ['$scope', 'jsPlumb', function(scope, jsPlumbServic
 
         var url = new SystemUrl(type == 'background_session' ? 'session' : type);
 
-        scope.data.nodes.push({
+        var node = {
             id: id,
             type: type,
             ref_id: '',
             ref_url: url.add(),
             title: '?',
-            delay: {
-              number: 2,
-              unit: 'minutes',
-            },
             metrics: {
                 left: (300 - scope.scrolling.x) + 'px',
                 top: (100 - scope.scrolling.y) + 'px'
             }
-        });
+        };
+
+        if (type == 'background_session') {
+          node['delay'] = {
+              number: 0,
+              unit: '',
+            };
+        }
+
+        scope.data.nodes.push(node);
 
         scope.popup(url.get(), id);
     };
@@ -326,7 +331,8 @@ plumbing.directive('node', ['$timeout', 'jsPlumb', function(timeout, jsPlumbServ
 
                 if (scope.node.id > 0) {
                     if (scope.node.type == 'delay' ||
-                        scope.node.type == 'expression') {
+                        scope.node.type == 'expression' ||
+                        scope.node.type == 'background_session') {
                         scope.$apply(function() {
                             scope.$parent.showSettings = scope.$index;
                             scope.$parent.showConditions = -1;

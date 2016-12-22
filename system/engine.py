@@ -267,14 +267,12 @@ class Engine(object):
                 }
                 delta = timedelta(**kwargs)
 
-                import pytz
-                from datetime import datetime
                 from system.tasks import init_session
 
                 Task.objects.create_task(
                     sender=self.session,
                     domain='delay',
-                    time=datetime.now(pytz.utc) + timedelta(seconds=32),
+                    time=start_time + delta,
                     task=init_session,
                     args=(
                         ref_id,
