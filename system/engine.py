@@ -257,22 +257,20 @@ class Engine(object):
         if node_type == 'background_session':
             useraccesses = self.session.program.programuseraccess_set.filter(user=self.user)
             for useraccess in useraccesses:
-                start_time = self.session.get_start_time(
-                    useraccess.start_time,
-                    useraccess.time_factor
-                )
                 delay = node.get('delay')
                 kwargs = {
                     delay.get('unit'): float(delay.get('number') * useraccess.time_factor),
                 }
                 delta = timedelta(**kwargs)
 
+                import pytz
+                from datetime import datetime
                 from system.tasks import init_session
 
                 Task.objects.create_task(
                     sender=self.session,
                     domain='delay',
-                    time=start_time + delta,
+                    time=datetime.now(pytz.utc) + delta,
                     task=init_session,
                     args=(
                         ref_id,
