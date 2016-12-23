@@ -30,10 +30,6 @@ def variable_replace(user, text):
         value = user_data.get(variable)
         if isinstance(value, list):
             value = natural_join(value)
-        if isinstance(value, float):
-            value = unicode(value)
-            if value.endswith('.0'):
-                value = value[:-2]
 
         if value is None:
             try:
@@ -41,6 +37,11 @@ def variable_replace(user, text):
                 value = Variable.objects.get(name=variable).get_value()
             except:
                 pass
+
+        if isinstance(value, float):
+            value = unicode(value)
+            if value.endswith('.0'):
+                value = value[:-2]
 
         text = text.replace(code, unicode(value))
 
