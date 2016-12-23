@@ -108,7 +108,7 @@
         </div>
         <div ng-if="node.type == 'background_session'" class="background_session settings box" ng-show="showSettings == $index">
             <div class="close" ng-click="close()">×</div>
-            <label>Forsinket økt</label>
+            <label>{% trans 'Delay' %}</label>
             <input type="number" placeholder="{% trans 'Number' %}" ng-model="node.delay.number">
             <select ng-model="node.delay.unit">
                 <option value="minutes"> {% trans 'minutes' %} </option>
