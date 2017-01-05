@@ -182,7 +182,7 @@ serafin.filter('breaks', ['$sce', function (sce) {
     };
 }]);
 
-serafin.filter('stripzerodecimal', function (sce) {
+serafin.filter('stripzerodecimal', function () {
     return function (value) {
         if (typeof value != 'number')
           return value;
