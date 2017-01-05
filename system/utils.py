@@ -68,7 +68,7 @@ def live_variable_replace(user, text):
                 pass
 
         variables[variable] = unicode(value)
-        text = text.replace(code, '<span ng-bind-html="variables.%s | breaks"></span>' % unicode(variable))
+        text = text.replace(code, '<span ng-bind-html="variables.%s | stripzerodecimal | breaks"></span>' % unicode(variable))
 
     return text, variables
 

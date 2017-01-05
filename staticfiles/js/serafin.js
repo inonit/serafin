@@ -182,6 +182,14 @@ serafin.filter('breaks', ['$sce', function (sce) {
     };
 }]);
 
+serafin.filter('stripzerodecimal', function (sce) {
+    return function (value) {
+        if (typeof value != 'number')
+          return value;
+        return value.toString().replace(/\.0$/, '');
+    };
+});
+
 serafin.directive('livereplace', ['$compile', function(compile) {
     return {
         restrict: 'A',
