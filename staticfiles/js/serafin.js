@@ -177,7 +177,7 @@ serafin.directive('liveinput', ['$rootScope', function(rootScope) {
 
 serafin.filter('breaks', ['$sce', function (sce) {
     return function (value) {
-        var broken = value.replace(/(?:\r\n|\r|\n)/g, '<br>');
+        var broken = value.toString().replace(/(?:\r\n|\r|\n)/g, '<br>');
         return sce.trustAsHtml(broken);
     };
 }]);
