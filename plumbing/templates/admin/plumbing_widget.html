@@ -10,7 +10,7 @@
     <div class="toolbox">
         <div class="btn page" ng-click="addNode('page')" id="lookup_{% verbatim %}{{ current_noderef }}{% endverbatim %}">{% trans '+ Page' %}</div>
         <div class="btn session" ng-click="addNode('session')" id="lookup_{% verbatim %}{{ current_noderef }}{% endverbatim %}">{% trans '+ Session' %}</div>
-        <div class="btn session" ng-click="addNode('background_session')" id="lookup_{% verbatim %}{{ current_noderef }}{% endverbatim %}">{% trans '+ Delayed Session' %}</div>
+        <div class="btn session" ng-click="addNode('background_session')" id="lookup_{% verbatim %}{{ current_noderef }}{% endverbatim %}">{% trans '+ Background Session' %}</div>
         <div class="btn expression" ng-click="addNode('expression')" id="lookup_{% verbatim %}{{ current_noderef }}{% endverbatim %}">{% trans '+ Expression' %}</div>
         <div class="btn" ng-click="addNode('email')" id="lookup_{% verbatim %}{{ current_noderef }}{% endverbatim %}">{% trans '+ Email' %}</div>
         <div class="btn" ng-click="addNode('sms')" id="lookup_{% verbatim %}{{ current_noderef }}{% endverbatim %}">{% trans '+ Sms' %}</div>
@@ -105,15 +105,6 @@
                 ng-cloak>
             </string-expression>
             {% include "expression_syntax.html" %}
-        </div>
-        <div ng-if="node.type == 'background_session'" class="background_session settings box" ng-show="showSettings == $index">
-            <div class="close" ng-click="close()">×</div>
-            <label>{% trans 'Delay' %}</label>
-            <input type="number" placeholder="{% trans 'Number' %}" ng-model="node.delay.number">
-            <select ng-model="node.delay.unit">
-                <option value="minutes"> {% trans 'minutes' %} </option>
-                <option value="hours"> {% trans 'hours' %} </option>
-            </select>
         </div>
     </div>
 

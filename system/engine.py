@@ -63,6 +63,8 @@ class Engine(object):
         if context:
 
             for key, value in context.items():
+                if key in ('session', 'node'):
+                    continue
 
                 if 'expression_' in key:
                     try:
@@ -83,7 +85,7 @@ class Engine(object):
         if push or context:
             self.user.save()
 
-        self.init_session()
+        self.init_session(context.get('session'), context.get('node'), should_save=is_interactive)
 
     def init_session(self, session_id=None, node_id=None, should_save=True):
 
@@ -91,9 +93,10 @@ class Engine(object):
         if node_id is None:
             node_id = self.user.data.get('node')
 
-        self.user.data['session'] = session_id
-        self.user.data['node'] = node_id
-        self.user.save()
+        if should_save:
+            self.user.data['session'] = session_id
+            self.user.data['node'] = node_id
+            self.user.save()
 
         self.session = Session.objects.get(id=session_id)
 
@@ -255,33 +258,14 @@ class Engine(object):
             return self.transition(0)
 
         if node_type == 'background_session':
-            useraccesses = self.session.program.programuseraccess_set.filter(user=self.user)
-            for useraccess in useraccesses:
-                delay = node.get('delay')
-                kwargs = {
-                    delay.get('unit'): float(delay.get('number') * useraccess.time_factor),
-                }
-                delta = timedelta(**kwargs)
+            current_node = node_id
+            current_session = self.session.pk
+            self.init_session(ref_id, 0, should_save=False)
 
-                import pytz
-                from datetime import datetime
-                from system.tasks import init_session
+            self.logger.debug('engine - processed \'background_session\' node at %s' % str(timezone.now() - self.now))
+            self.transition(0)
+            self.init_session(current_session, current_node, should_save=False)
 
-                Task.objects.create_task(
-                    sender=self.session,
-                    domain='delay',
-                    time=datetime.now(pytz.utc) + delta,
-                    task=init_session,
-                    args=(
-                        ref_id,
-                        self.user.id,
-                        True, # push
-                    ),
-                    action=_('Delayed session execution'),
-                    subject=self.user
-                )
-
-                self.logger.debug('engine - processed \'background_session\' node at %s' % str(timezone.now() - self.now))
             return self.transition(node_id)
 
         if node_type == 'expression':
@@ -322,29 +306,7 @@ class Engine(object):
             self.logger.debug('engine - fetching sms at %s' % str(timezone.now() - self.now))
             sms = SMS.objects.get(id=ref_id)
             if self.is_interactive and 'reply:' in sms.data[0].get('content'):
-                self.logger.debug('engine - interactive sms %s' % str(timezone.now() - self.now))
-                content = sms.get_content(self.user, session_id=self.session.id, node_id=node_id)
-                reply_var = self.user.data['reply_variable']
-                self.user.data['session'] = self.session.id
-                self.user.data['node'] = node_id
-                self.user.save()
-                page = Page(
-                    title='SMS answer',
-                    display_title='SMS answer',
-                    data=[{
-                        'content_type': 'form',
-                        'content': [{
-                            'field_type': 'string',
-                            'variable_name': reply_var,
-                            'label': content,
-                            'required': True
-                        }]
-                    }]
-                )
-                page.update_html(self.user)
-                page.dead_end = False
-                page.stacked = self.is_stacked()
-                return page
+                return
             self.logger.debug('engine - sending sms at %s' % str(timezone.now() - self.now))
             sms.send(self.user, session_id=self.session.id, node_id=node_id)
 
@@ -364,9 +326,6 @@ class Engine(object):
                 self.logger.debug('engine - transition from \'sms\' at %s' % str(timezone.now() - self.now))
                 return self.transition(node_id)
             else:
-                self.user.data['session'] = self.session.id
-                self.user.data['node'] = node_id
-                self.user.save()
                 self.logger.debug('engine - returning from \'sms\' at %s' % str(timezone.now() - self.now))
                 return Page()
 
