@@ -260,10 +260,15 @@ class Engine(object):
         if node_type == 'background_session':
             current_node = node_id
             current_session = self.session.pk
+            is_interactive = self.is_interactive
+            self.is_interactive = False
+
+            # XXX: Create a new instance of engine?
             self.init_session(ref_id, 0, should_save=False)
 
             self.logger.debug('engine - processed \'background_session\' node at %s' % str(timezone.now() - self.now))
             self.transition(0)
+            self.is_interactive = is_interactive
             self.init_session(current_session, current_node, should_save=False)
 
             return self.transition(node_id)
