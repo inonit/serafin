@@ -102,6 +102,7 @@ class Engine(object):
 
         self.nodes = {node['id']: node for node in self.session.data.get('nodes')}
         self.edges = self.session.data.get('edges')
+        self.node_id = node_id
 
     def get_node_edges(self, source_id):
         '''Get the edges going from a given node'''
@@ -421,7 +422,7 @@ class Engine(object):
         initialized.
         '''
 
-        node_id = self.user.data.get('node')
+        node_id = self.node_id if self.node_id else self.user.data.get('node')
 
         if node_id is None:
             self.user.data['node'] = 0
