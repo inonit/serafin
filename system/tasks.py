@@ -25,7 +25,7 @@ def transition(session_id, node_id, user_id, stack=None):
 
     message = _('%(session)s transitioned to node %(node)s') % {
         'session': engine.session.title,
-        'node': node.name if node else node_id
+        'node': getattr(node, 'name', node_id)
     }
 
     return message
