@@ -422,6 +422,8 @@ class Engine(object):
         initialized.
         '''
 
+        self.logger.debug('run - node id: %d / %d' % (self.node_id, self.user.data.get('node')))
+
         node_id = self.node_id if self.node_id else self.user.data.get('node')
 
         if node_id is None:
