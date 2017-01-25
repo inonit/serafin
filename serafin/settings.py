@@ -409,7 +409,7 @@ LOGGING = {
             'propagate': False
         },
         'huey.consumer': {
-            'handlers': ['huey_log'],
+            'handlers': ['huey_log', 'sentry'],
             'level': 'INFO',
             'propagate': True,
         },
