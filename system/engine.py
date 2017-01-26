@@ -2,7 +2,8 @@
 
 from __future__ import unicode_literals
 
-from datetime import timedelta
+from datetime import timedelta, datetime
+import pytz
 import re
 
 from django.contrib.auth import get_user_model
@@ -381,10 +382,11 @@ class Engine(object):
         if node_type == 'delay':
             useraccesses = self.session.program.programuseraccess_set.filter(user=self.user)
             for useraccess in useraccesses:
-                start_time = self.session.get_start_time(
-                    useraccess.start_time,
-                    useraccess.time_factor
-                )
+                # start_time = self.session.get_start_time(
+                #     useraccess.start_time,
+                #     useraccess.time_factor
+                # )
+                start_time = datetime.now(pytz.utc)
                 delay = node.get('delay')
                 kwargs = {
                     delay.get('unit'): float(delay.get('number') * useraccess.time_factor),
