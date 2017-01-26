@@ -211,7 +211,7 @@ plumbing.controller('graph', ['$scope', 'jsPlumb', function(scope, jsPlumbServic
             return;
         }
 
-        if (type == 'register' || type == 'enroll' || type == 'leave') {
+        if (type == 'register' || type == 'enroll' || type == 'leave' || type == 'wait') {
             scope.data.nodes.push({
                 id: id,
                 type: type,

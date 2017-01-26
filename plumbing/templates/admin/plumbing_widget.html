@@ -75,6 +75,9 @@
         <span ng-if="node.type == 'leave'">
             {% endverbatim %}{% trans 'Leave' %}{% verbatim %}
         </span>
+        <span ng-if="node.type == 'wait'">
+            {% endverbatim %}{% trans 'Wait' %}{% verbatim %}
+        </span>
         <div class="ep"></div>
         <div class="delete" ng-click="deleteNode($index)" ng-hide="node.id == 0">×</div>
         <input type="hidden" class="noderef" id="noderef_{{ node.id }}" value="{{ node.ref_id }}">
