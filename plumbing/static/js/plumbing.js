@@ -331,7 +331,8 @@ plumbing.directive('node', ['$timeout', 'jsPlumb', function(timeout, jsPlumbServ
                         });
                     } else if (scope.node.type == 'register' ||
                                scope.node.type == 'enroll' ||
-                               scope.node.type == 'leave') {
+                               scope.node.type == 'leave' ||
+                               scope.node.type == 'wait') {
                         // do nothing
                     } else {
                         scope.popup(
@@ -431,7 +432,7 @@ plumbing.directive('edge', ['jsPlumb', function(jsPlumbService) {
                 });
 
                 var foreground = [
-                    'start', 'page', 'session'
+                    'start', 'page', 'session', 'wait'
                 ]
                 var background = [
                     'email', 'sms', 'register', 'enroll', 'leave', 'delay', 'background_session'

@@ -245,6 +245,14 @@ class Engine(object):
 
             self.logger.debug('engine - processed \'page\' node at %s' % str(timezone.now() - self.now))
             return page
+        
+        if node_type == 'wait':
+            if self.is_interactive:
+                return self.transition(node_id)
+            self.user.data['session'] = self.session.id
+            self.user.data['node'] = node_id
+            self.user.save()
+            return
 
         if node_type == 'session':
 

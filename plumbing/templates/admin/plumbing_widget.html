@@ -18,6 +18,7 @@
         <div class="btn" ng-click="addNode('register')" id="lookup_{% verbatim %}{{ current_noderef }}{% endverbatim %}">{% trans '+ Register' %}</div>
         <div class="btn" ng-click="addNode('enroll')" id="lookup_{% verbatim %}{{ current_noderef }}{% endverbatim %}">{% trans '+ Enroll' %}</div>
         <div class="btn" ng-click="addNode('leave')" id="lookup_{% verbatim %}{{ current_noderef }}{% endverbatim %}">{% trans '+ Leave' %}</div>
+        <div class="btn" ng-click="addNode('wait')" id="lookup_{% verbatim %}{{ current_noderef }}{% endverbatim %}">{% trans '+ Wait' %}</div>
     </div>
 
     <div class="floatbox"></div>
@@ -49,6 +50,9 @@
         </span>
         <span ng-if="node.type == 'leave'">
             <i class="icon-remove icon-alpha5"></i>
+        </span>
+        <span ng-if="node.type == 'wait'">
+            <i class="icon-globe icon-alpha5"></i>
         </span>
 
         {% verbatim %}
