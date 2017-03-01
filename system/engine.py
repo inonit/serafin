@@ -245,7 +245,7 @@ class Engine(object):
 
             self.logger.debug('engine - processed \'page\' node at %s' % str(timezone.now() - self.now))
             return page
-        
+
         if node_type == 'wait':
             if self.is_interactive:
                 return self.transition(node_id)
@@ -432,7 +432,7 @@ class Engine(object):
         initialized.
         '''
 
-        self.logger.debug('run - node id: %d / %d' % (self.node_id, self.user.data.get('node')))
+        # self.logger.debug('run - node id: %d / %d' % (self.node_id, self.user.data.get('node')))
 
         node_id = self.node_id if self.node_id is not None else self.user.data.get('node')
 
