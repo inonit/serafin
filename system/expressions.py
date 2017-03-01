@@ -94,7 +94,8 @@ class Parser(object):
     functions = {
         "sin": math.sin, "cos": math.cos, "tan": math.tan,
         "abs": abs, "trunc": lambda a: int(a), "round": round,
-        "sign": lambda a: abs(a) > float_info.epsilon and cmp(a, 0) or 0
+        "sign": lambda a: abs(a) > float_info.epsilon and cmp(a, 0) or 0,
+        "str": str,
     }
 
     constants = {
