@@ -86,7 +86,11 @@ class Engine(object):
         if push or context:
             self.user.save()
 
-        self.init_session(context.get('session'), context.get('node'), should_save=is_interactive)
+        self.init_session(
+            session_id=context.get('session'),
+            node_id=context.get('node'),
+            should_save=is_interactive
+        )
 
     def init_session(self, session_id=None, node_id=None, should_save=True):
 
@@ -135,9 +139,12 @@ class Engine(object):
         if self.is_dead_end(node_id) and self.is_stacked():
 
             node = self.nodes.get(node_id)
-            self.logger.debug("dead end (%r %r %r)" % (node, self.is_stacked(), self.user.data.get('stack')))
-            if node.get('type') in ['start', 'session', 'expression']:
+            self.logger.debug(
+                'dead end (%r %r %r)' %
+                (node, self.is_stacked(), self.user.data.get('stack'))
+            )
 
+            if node.get('type') in ['start', 'session', 'expression']:
                 return self.run(pop=True)
 
     def traverse(self, edges, source_id):
@@ -161,7 +168,10 @@ class Engine(object):
     def transition(self, source_id):
         '''Transition from a given node and trigger a new node.'''
 
-        self.logger.debug('engine - triggered transition at %s' % str(timezone.now() - self.now))
+        self.logger.debug(
+            'engine - triggered transition at %s' %
+            str(timezone.now() - self.now)
+        )
 
         # keep a local list of nodes
         # self.nodes may have changed when the call stack returns here
@@ -184,7 +194,10 @@ class Engine(object):
             else:
                 break
 
-        self.logger.debug('engine - transition processed special edges at %s' % str(timezone.now() - self.now))
+        self.logger.debug(
+            'engine - transition processed special edges at %s' %
+            str(timezone.now() - self.now)
+        )
 
         # sometimes a special edge will return a normal node
         # if so, return it
@@ -197,10 +210,16 @@ class Engine(object):
         if edge:
             target_id = edge.get('target')
             node = nodes.get(target_id)
-            self.logger.debug('engine - transition returned node at %s' % str(timezone.now() - self.now))
+            self.logger.debug(
+                'engine - transition returned node at %s'
+                % str(timezone.now() - self.now)
+            )
             return self.trigger_node(node)
         else:
-            self.logger.debug('engine - transition met dead end at %s' % str(timezone.now() - self.now))
+            self.logger.debug(
+                'engine - transition met dead end at %s'
+                % str(timezone.now() - self.now)
+            )
             return self.handle_dead_end(source_id)
 
     def trigger_node(self, node):
@@ -217,10 +236,16 @@ class Engine(object):
             except IndexError:
                 pass
 
-        self.logger.debug('engine - dispatching \'%s\' node at %s' % (node_type, str(timezone.now() - self.now)))
+        self.logger.debug(
+            'engine - dispatching \'%s\' node at %s' %
+            (node_type, str(timezone.now() - self.now))
+        )
 
         if node_type == 'start':
-            self.logger.debug('engine - processed \'start\' node at %s' % str(timezone.now() - self.now))
+            self.logger.debug(
+                'engine - processed \'start\' node at %s' %
+                str(timezone.now() - self.now)
+            )
             return self.transition(node_id)
 
         if node_type == 'page':
@@ -243,7 +268,10 @@ class Engine(object):
             self.user.data['node'] = node_id
             self.user.save()
 
-            self.logger.debug('engine - processed \'page\' node at %s' % str(timezone.now() - self.now))
+            self.logger.debug(
+                'engine - processed \'page\' node at %s' %
+                str(timezone.now() - self.now)
+            )
             return page
 
         if node_type == 'wait':
@@ -264,7 +292,10 @@ class Engine(object):
 
             self.init_session(ref_id, 0)
 
-            self.logger.debug('engine - processed \'session\' node at %s' % str(timezone.now() - self.now))
+            self.logger.debug(
+                'engine - processed \'session\' node at %s' %
+                str(timezone.now() - self.now)
+            )
             return self.transition(0)
 
         if node_type == 'background_session':
@@ -276,7 +307,11 @@ class Engine(object):
             # XXX: Create a new instance of engine?
             self.init_session(ref_id, 0, should_save=False)
 
-            self.logger.debug('engine - processed \'background_session\' node at %s' % str(timezone.now() - self.now))
+            self.logger.debug(
+                'engine - processed \'background_session\' node at %s' %
+                str(timezone.now() - self.now)
+            )
+
             self.transition(0)
             self.is_interactive = is_interactive
             self.init_session(current_session, current_node, should_save=False)
@@ -298,7 +333,10 @@ class Engine(object):
                     self.user.data[variable_name] = result
                     self.user.save()
 
-            self.logger.debug('engine - processed \'expression\' node at %s' % str(timezone.now() - self.now))
+            self.logger.debug(
+                'engine - processed \'expression\' node at %s' %
+                str(timezone.now() - self.now)
+            )
             return self.transition(node_id)
 
         if node_type == 'email':
@@ -314,19 +352,33 @@ class Engine(object):
                 post_value=email.title
             )
 
-            self.logger.debug('engine - processed \'email\' node at %s' % str(timezone.now() - self.now))
+            self.logger.debug(
+                'engine - processed \'email\' node at %s' %
+                str(timezone.now() - self.now)
+            )
             return self.transition(node_id)
 
         if node_type == 'sms':
-            self.logger.debug('engine - fetching sms at %s' % str(timezone.now() - self.now))
+            self.logger.debug(
+                'engine - fetching sms at %s' %
+                str(timezone.now() - self.now)
+            )
+
             sms = SMS.objects.get(id=ref_id)
             if self.is_interactive and 'reply:' in sms.data[0].get('content'):
                 return
-            self.logger.debug('engine - sending sms at %s' % str(timezone.now() - self.now))
+
+            self.logger.debug(
+                'engine - sending sms at %s' %
+                str(timezone.now() - self.now)
+            )
+
             sms.send(self.user, session_id=self.session.id, node_id=node_id)
 
-            self.logger.debug('engine - sms sent at %s' % str(timezone.now() - self.now))
-
+            self.logger.debug(
+                'engine - sms sent at %s' %
+                str(timezone.now() - self.now)
+            )
 
             log_event.send(
                 self,
@@ -336,12 +388,23 @@ class Engine(object):
                 pre_value='',
                 post_value=sms.title
             )
-            self.logger.debug('engine - processed \'sms\' node at %s' % str(timezone.now() - self.now))
+
+            self.logger.debug(
+                'engine - processed \'sms\' node at %s' %
+                str(timezone.now() - self.now)
+            )
+
             if 'reply:' not in sms.data[0].get('content'):
-                self.logger.debug('engine - transition from \'sms\' at %s' % str(timezone.now() - self.now))
+                self.logger.debug(
+                    'engine - transition from \'sms\' at %s' %
+                    str(timezone.now() - self.now)
+                )
                 return self.transition(node_id)
             else:
-                self.logger.debug('engine - returning from \'sms\' at %s' % str(timezone.now() - self.now))
+                self.logger.debug(
+                    'engine - returning from \'sms\' at %s' %
+                    str(timezone.now() - self.now)
+                )
                 return Page()
 
         if node_type == 'register':
@@ -418,7 +481,10 @@ class Engine(object):
                     subject=self.user
                 )
 
-                self.logger.debug('engine - processed \'delay\' node at %s' % str(timezone.now() - self.now))
+                self.logger.debug(
+                    'engine - processed \'delay\' node at %s' %
+                    str(timezone.now() - self.now)
+                )
                 return
 
     def run(self, next=False, pop=False):
@@ -432,7 +498,10 @@ class Engine(object):
         initialized.
         '''
 
-        # self.logger.debug('run - node id: %d / %d' % (self.node_id, self.user.data.get('node')))
+        # self.logger.debug(
+        #     'run - node id: %d / %d' %
+        #     (self.node_id, self.user.data.get('node'))
+        # )
 
         node_id = self.node_id if self.node_id is not None else self.user.data.get('node')
 
