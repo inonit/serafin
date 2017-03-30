@@ -65,6 +65,16 @@ from pyparsing import (
 )
 
 
+def str_trim_float(value):
+    """Convert value to string"""
+    if isinstance(value, float):
+        value = unicode(value)
+        if value.endswith('.0'):
+            return value[:-2]
+        return value
+    return unicode(value)
+
+
 class Parser(object):
     """
     A parser for parsing and evaluating expressions using our
@@ -95,7 +105,7 @@ class Parser(object):
         "sin": math.sin, "cos": math.cos, "tan": math.tan,
         "abs": abs, "trunc": lambda a: int(a), "round": round,
         "sign": lambda a: abs(a) > float_info.epsilon and cmp(a, 0) or 0,
-        "str": str,
+        "str": str_trim_float,
     }
 
     constants = {
