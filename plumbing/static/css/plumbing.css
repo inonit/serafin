@@ -252,6 +252,13 @@ path {
     margin-left: 22px;
 }
 
+.node .id {
+    position: absolute;
+    top: .25rem;
+    left: .25rem;
+    font-size: 75%;
+}
+
 .scrollmarker {
     position: absolute;
     bottom: 10px;

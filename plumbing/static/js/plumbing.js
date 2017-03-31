@@ -297,7 +297,7 @@ plumbing.directive('node', ['$timeout', 'jsPlumb', function(timeout, jsPlumbServ
             // set up jsPlumb for this node
             jsPlumb.ready(function() {
                 scope.jsPlumb.draggable(element);
-                scope.jsPlumb.doWhileSuspended(function() {
+                scope.jsPlumb.batch(function() {
                     scope.jsPlumb.makeSource(element, sourceConfig);
                     scope.jsPlumb.makeTarget(element, targetConfig);
                 });

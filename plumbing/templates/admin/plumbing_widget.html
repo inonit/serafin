@@ -56,6 +56,9 @@
         </span>
 
         {% verbatim %}
+        <div class="id">
+            {{ node.id }}
+        </div>
         {{ node.title }}
         <span ng-if="node.type == 'delay'">
             t + {{ node.delay.number }} {{ node.delay.unit }}
