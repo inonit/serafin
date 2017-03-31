@@ -230,7 +230,8 @@ class Engine(object):
             page.dead_end = self.is_dead_end(node_id)
             page.stacked = self.is_stacked()
 
-            if 'node' in self.user.data:
+            if 'node' in self.user.data and self.user.data['node'] in self.nodes:
+                # TODO: Better fix
                 log_event.send(
                     self,
                     domain='session',
