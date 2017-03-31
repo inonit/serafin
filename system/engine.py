@@ -255,14 +255,16 @@ class Engine(object):
             page.dead_end = self.is_dead_end(node_id)
             page.stacked = self.is_stacked()
 
-            log_event.send(
-                self,
-                domain='session',
-                actor=self.user,
-                variable='transition',
-                pre_value=self.nodes[self.user.data['node']]['title'],
-                post_value=page.title
-            )
+            if 'node' in self.user.data and self.user.data['node'] in self.nodes:
+                # TODO: Better fix
+                log_event.send(
+                    self,
+                    domain='session',
+                    actor=self.user,
+                    variable='transition',
+                    pre_value=self.nodes[self.user.data['node']]['title'],
+                    post_value=page.title
+                )
 
             self.user.data['session'] = self.session.id
             self.user.data['node'] = node_id
