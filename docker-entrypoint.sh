@@ -12,7 +12,7 @@ python manage.py collectstatic --noinput # TODO: Move to docker build?
 
 # Start Gunicorn processes
 echo Starting Gunicorn.
-exec gunicorn conf.wsgi:application \
+exec gunicorn serafin.wsgi:application \
     --name serafin_django \
     --bind 0.0.0.0:8000 \
     --workers 5 \
