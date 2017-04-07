@@ -12,5 +12,6 @@ WORKDIR /code
 COPY requirements.txt /code/
 RUN pip install -r requirements.txt
 COPY . /code/
+COPY serafin/env_settings.py /code/serafin/local_settings.py
 EXPOSE 8000
 ENTRYPOINT ["/code/docker-entrypoint.sh"]
