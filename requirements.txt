@@ -36,3 +36,4 @@ mock==2.0.0
 raven==5.32.0
 gunicorn==19.7.1
 whitenoise==3.3.0
+django-storages==1.5.2
