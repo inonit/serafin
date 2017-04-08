@@ -13,6 +13,7 @@ class EventAdmin(ImportExportModelAdmin):
     list_display = ['actor_link', 'time', 'domain', 'variable', 'pre_value', 'post_value']
     list_display_links = []
     list_filter = ['time', 'domain']
+    list_per_page = 100
     search_fields = ['domain', 'variable', 'pre_value', 'post_value']
     ordering = ['-time']
     date_hierarchy = 'time'
