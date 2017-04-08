@@ -60,3 +60,33 @@ EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 TWILIO_ACCOUNT_SID = os.environ.get('TWILIO_ACCOUNT_SID')
 TWILIO_AUTH_TOKEN = os.environ.get('TWILIO_AUTH_TOKEN')
 TWILIO_FROM_NUMBER = os.environ.get('TWILIO_FROM_NUMBER')
+
+
+HUEY = {
+    'name': 'serafin',
+    'store_none': True,
+    'always_eager': False,
+    'consumer': {
+        'quiet': True,
+        'workers': 64,
+        'worker_type': 'greenlet',
+        'health_check_interval': 60,
+    },
+    'connection': {
+        'host': os.environ.get('REDIS_HOST'),
+        'port': os.environ.get('REDIS_PORT', 5379)
+    }
+}
+
+MIDDLEWARE_CLASSES = (
+    'whitenoise.middleware.WhiteNoiseMiddleware',
+    'django.contrib.sessions.middleware.SessionMiddleware',
+    'django.middleware.locale.LocaleMiddleware',
+    'django.middleware.common.CommonMiddleware',
+    'django.middleware.csrf.CsrfViewMiddleware',
+    'users.middleware.AuthenticationMiddleware',
+    'django.contrib.messages.middleware.MessageMiddleware',
+    'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'django_user_agents.middleware.UserAgentMiddleware',
+    'events.middleware.EventTrackingMiddleware',
+)
