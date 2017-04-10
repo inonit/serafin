@@ -10,7 +10,8 @@ from tasker.models import Task
 class TaskAdmin(admin.ModelAdmin):
     list_display = ['sender_link', 'action', 'subject_link', 'time', 'task_result']
     list_display_links = []
-    search_fields = ['action', 'subject__id']
+    list_per_page = 100
+    search_fields = ['subject__id', 'domain', 'action']
     ordering = ['time']
     date_hierarchy = 'time'
 
