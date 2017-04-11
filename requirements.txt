@@ -17,6 +17,7 @@ django-user-agents==0.3.0
 djangorestframework==3.3.3
 easy-thumbnails==2.3
 funcsigs==1.0.2
+gunicorn==19.7.1
 httplib2==0.9.2
 huey==1.2.1
 jsonfield==1.0.3
