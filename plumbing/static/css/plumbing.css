@@ -84,7 +84,7 @@
 
 .overlay {
     cursor: pointer;
-    padding: .25em 2em .25em .5em;
+    padding: .25em 2em .25em .25em;
     z-index: 6;
 }
 
@@ -242,6 +242,14 @@ path {
     width: 100%;
 }
 
+.enroll.settings {
+    min-width: 18em;
+}
+
+.enroll.settings label {
+    margin: 0 0 .5em;
+}
+
 .node i {
     margin-bottom: -1px;
     vertical-align: text-bottom;
@@ -252,7 +260,8 @@ path {
     margin-left: 22px;
 }
 
-.node .id {
+.node .id,
+.overlay .id {
     position: absolute;
     top: .25rem;
     left: .25rem;

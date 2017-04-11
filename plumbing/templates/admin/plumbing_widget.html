@@ -73,7 +73,7 @@
             {% endverbatim %}{% trans 'Register' %}{% verbatim %}
         </span>
         <span ng-if="node.type == 'enroll'">
-            {% endverbatim %}{% trans 'Enroll' %}{% verbatim %}
+            {% endverbatim %}{% trans 'Enroll' %}{% verbatim %} {{ node.start_time }}
         </span>
         <span ng-if="node.type == 'leave'">
             {% endverbatim %}{% trans 'Leave' %}{% verbatim %}
@@ -116,14 +116,22 @@
             </string-expression>
             {% include "expression_syntax.html" %}
         </div>
+
+        <div ng-if="node.type == 'enroll'" class="enroll settings box" ng-show="showSettings == $index">
+            <div class="close" ng-click="close()">×</div>
+            <label>{% trans 'Start time (leave blank for immediate)' %}</label>
+            <input type="text" ng-model="node.start_time" placeholder="{% trans 'E.g. 06:00' %}">
+        </div>
     </div>
 
     <div class="edge" ng-repeat="edge in data.edges track by edge.id" ng-model="data.edges">
 
         <div class="overlay box">
+            {% verbatim %}
             <div class="summary" ng-if="edge.expression">
-                {% verbatim %}{{ edge.expression }}{% endverbatim %}
+                {{ edge.expression }}
             </div>
+            {% endverbatim %}
 
             <div class="summary" ng-show="!edge.expression && !edge.conditions.length">
                 {% trans 'Pass' %}

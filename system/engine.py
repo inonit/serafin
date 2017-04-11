@@ -425,7 +425,21 @@ class Engine(object):
             return self.transition(node_id)
 
         if node_type == 'enroll':
-            self.session.program.enroll(self.user)
+            start_time_string = node.get('start_time')
+            start_time = timezone.localtime(timezone.now())
+            if start_time_string:
+                try:
+                    hour, minute = start_time_string.split(':')
+                    start_time = start_time.replace(
+                        hour=int(hour),
+                        minute=int(minute),
+                        second=0,
+                        microsecond=0
+                    )
+                except:
+                    pass
+
+            self.session.program.enroll(self.user, start_time=start_time)
 
             log_event.send(
                 self,

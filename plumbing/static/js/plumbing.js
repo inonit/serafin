@@ -324,13 +324,13 @@ plumbing.directive('node', ['$timeout', 'jsPlumb', function(timeout, jsPlumbServ
 
                 if (scope.node.id > 0) {
                     if (scope.node.type == 'delay' ||
-                        scope.node.type == 'expression') {
+                        scope.node.type == 'expression' ||
+                        scope.node.type == 'enroll') {
                         scope.$apply(function() {
                             scope.$parent.showSettings = scope.$index;
                             scope.$parent.showConditions = -1;
                         });
                     } else if (scope.node.type == 'register' ||
-                               scope.node.type == 'enroll' ||
                                scope.node.type == 'leave' ||
                                scope.node.type == 'wait') {
                         // do nothing
