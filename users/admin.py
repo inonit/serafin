@@ -10,12 +10,15 @@ from django.template.loader import render_to_string
 from django.utils.safestring import mark_safe
 from import_export.admin import ImportExportModelAdmin
 from jsonfield import JSONField
+from constance import config
 from events.models import Event
 from users.importexport import UserResource
 from users.models import User
 
 from filer.admin import FolderAdmin
 from filer.models import Folder
+
+import json
 
 
 class UserCreationForm(forms.ModelForm):
@@ -92,8 +95,19 @@ class UserChangeForm(forms.ModelForm):
 class UserDataWidget(forms.Widget):
 
     def render(self, name, value, attrs=None):
+        priority_fields = [
+            field.strip() for field in config.USER_VARIABLE_PROFILE_ORDER.split(',')
+            if field
+        ]
+
+        other_fields = [
+            field for field in json.loads(value).keys()
+            if field not in priority_fields
+        ]
+
         context = {
-            'value': value,
+            'data': value,
+            'fields': json.dumps(priority_fields + sorted(other_fields)),
             'debug': unicode(settings.USERDATA_DEBUG).lower()
         }
         html = render_to_string('admin/userdata_widget.html', context)

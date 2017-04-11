@@ -63,6 +63,7 @@ INSTALLED_APPS = (
     'import_export',
     'compressor',
     'reversion',
+    'constance',
     'raven.contrib.django.raven_compat',
     'serafin.apps.AppRenameConfig',
 )
@@ -500,6 +501,11 @@ RESERVED_VARIABLES = [
         'domains': []
     },
     {
+        'name': 'reply_session',
+        'admin_note': 'For system use. Returns the session to transition from when receiving an SMS reply.',
+        'domains': []
+    },
+    {
         'name': 'reply_node',
         'admin_note': 'For system use. Returns the node to transition from when receiving an SMS reply.',
         'domains': []
@@ -516,12 +522,28 @@ RESERVED_VARIABLES = [
     },
 ]
 
+
 # Available stylesheets for the dynamic switcher
+
 STYLESHEETS = [
     {"name": _("Default stylesheet"), "path": "css/style.css"},
     {"name": _("Miksmaster"), "path": "css/style-miksmaster.css"},
     {"name": _("Miksmaster alternate"), "path": "css/style-miksmaster-alt.css"},
 ]
+
+
+
+# Constance
+
+from collections import OrderedDict
+CONSTANCE_CONFIG = OrderedDict([
+    ('USER_VARIABLE_PROFILE_ORDER', (
+        u'session, node, stack, reply_session, reply_node, reply_variable',
+        u'What user variables to list first on a user\'s object page (comma separated)',
+        unicode
+    ))
+])
+
 
 try:
     from local_settings import *

@@ -1,12 +1,12 @@
 <div ng-app="userdata">
     {% verbatim %}
-    <div ng-repeat="(key, value) in data" class="row-fluid">
+    <div ng-repeat="field in fields track by $index" class="row-fluid">
         <div class="span4">
-            <strong>{{ key }}:</strong>
+            <strong>{{ field }}:</strong>
         </div>
         <div class="span4">
-            <input ng-if="debug" type="text" ng-model="data[key]">
-            <span ng-if="!debug">{{ display(value) }}</span>
+            <input ng-if="debug" type="text" ng-model="data[field]">
+            <span ng-if="!debug">{{ display(data[field]) }}</span>
         </div>
     </div>
     <textarea name="data" class="data ng-hide">{{ data }}</textarea>
@@ -14,10 +14,11 @@
 </div>
 <script>
     angular.module('userdata', []).run(['$rootScope', function(scope) {
-        scope.data = {{ value|safe }};
+        scope.data = {{ data|safe }};
+        scope.fields = {{ fields|safe }};
         scope.debug = {{ debug }};
         scope.display = function(value) {
-            return typeof(value.join) == 'function' ? value.join(', ') : value;
+            return typeof(value.join) === 'function' ? value.join(', ') : value;
         }
     }]);
 </script>
