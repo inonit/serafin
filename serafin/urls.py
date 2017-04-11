@@ -1,3 +1,5 @@
+import re
+
 from django.conf.urls import patterns, include, url
 from django.conf.urls.static import static
 from django.conf import settings
@@ -19,4 +21,9 @@ urlpatterns = patterns('',
 
     url(r'^', include('users.urls')),
     url(r'^', include('content.urls')),
-) + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+)
+if settings.DEBUG:
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+else:
+    urlpatterns += url(r'^%s(?P<path>.*)$' % re.escape(settings.MEDIA_URL.lstrip('/')), 'system.views.redirect_media')
+

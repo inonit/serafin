@@ -260,6 +260,10 @@ def set_stylesheet(request):
     return response
 
 
+def redirect_media(request, path):
+    return HttpResponseRedirect('https://s3.eu-central-1.amazonaws.com/%s/%s' % (settings.AWS_STORAGE_BUCKET_NAME, path))
+
+
 class VariableViewSet(viewsets.ModelViewSet):
 
     queryset = Variable.objects.all()
