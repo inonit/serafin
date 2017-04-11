@@ -115,13 +115,14 @@
 
                 <div ng-if="field.field_type == 'string'">
                     {% endverbatim %}
-                    <div class="error right" ng-show="form.submitted && subForm.field.$error.required">{% trans 'This field is required' %}</div>
-                    <div class="error right" ng-show="form.submitted && subForm.field.$error.minlength">{% trans 'Your phone number is too short' %}</div>
-                    <div class="error right" ng-show="form.submitted && subForm.field.$error.pattern">{% trans '+Country code then number, no other characters, e.g. "+4798765432"' %}</div>
+                    <div class="error right" ng-show="form.submitted && field.variable_name !== 'phone' && subForm.field.$error.required">{% trans 'This field is required' %}</div>
+                    <div class="error right" ng-show="form.submitted && field.variable_name === 'phone' && subForm.phone.$error.required">{% trans 'This field is required' %}</div>
+                    <div class="error right" ng-show="form.submitted && subForm.phone.$error.minlength">{% trans 'Your phone number is too short' %}</div>
+                    <div class="error right" ng-show="form.submitted && subForm.phone.$error.pattern">{% trans '+Country code then number, no other characters, e.g. "+4798765432"' %}</div>
                     {% verbatim %}
                     <label for="field"><strong>{{ field.label }}</strong></label>
                     <input ng-if="field.variable_name !== 'phone'" name="field" type="text" ng-model="field.value" ng-required="field.required" liveinput>
-                    <input ng-if="field.variable_name === 'phone'" name="field" type="text" ng-model="field.value" ng-required="field.required" ng-minlength="8" ng-pattern="/^\+\d+$/" liveinput>
+                    <input ng-if="field.variable_name === 'phone'" name="phone" type="text" ng-model="field.value" ng-required="field.required" ng-minlength="8" ng-pattern="/^\+\d+$/" liveinput>
                 </div>
 
                 <div ng-if="field.field_type == 'text'">
@@ -196,19 +197,19 @@
 
                 <div ng-if="field.field_type == 'email'">
                     {% endverbatim %}
-                    <div class="error right" ng-show="form.submitted && subForm.field.$error.required">{% trans 'This field is required' %}</div>
-                    <div class="error right" ng-show="form.submitted && subForm.field.$error.email">{% trans 'Please input a valid e-mail address' %}</div>
+                    <div class="error right" ng-show="form.submitted && subForm.email.$error.required">{% trans 'This field is required' %}</div>
+                    <div class="error right" ng-show="form.submitted && subForm.email.$error.email">{% trans 'Please input a valid e-mail address' %}</div>
                     {% verbatim %}
-                    <label for="field"><strong>{{ field.label }}</strong></label>
-                    <input name="field" type="email" ng-model="field.value" ng-required="field.required" liveinput>
+                    <label for="email"><strong>{{ field.label }}</strong></label>
+                    <input name="email" type="email" ng-model="field.value" ng-required="field.required" liveinput>
                 </div>
 
                 <div ng-if="field.field_type == 'password'">
                     {% endverbatim %}
-                    <div class="error right" ng-show="form.submitted && subForm.field.$error.required">{% trans 'This field is required' %}</div>
+                    <div class="error right" ng-show="form.submitted && subForm.password.$error.required">{% trans 'This field is required' %}</div>
                     {% verbatim %}
-                    <label for="field"><strong>{{ field.label }}</strong></label>
-                    <input name="field" type="password" ng-model="field.value" ng-required="field.required">
+                    <label for="password"><strong>{{ field.label }}</strong></label>
+                    <input name="password" type="password" ng-model="field.value" ng-required="field.required">
                 </div>
 
                 <div ng-if="field.field_type == 'hiddenfield'">
