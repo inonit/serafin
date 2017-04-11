@@ -314,7 +314,8 @@ SUIT_CONFIG = {
             'models':
                 [
                     'site',
-                    'sitetree.tree'
+                    'sitetree.tree',
+                    'constance.config'
                 ]
         },
     ]
@@ -541,7 +542,12 @@ CONSTANCE_CONFIG = OrderedDict([
         u'session, node, stack, reply_session, reply_node, reply_variable',
         u'What user variables to list first on a user\'s object page (comma separated)',
         unicode
-    ))
+    )),
+    ('USER_VARIABLE_EXPORT', (
+        u'',
+        u'What user variables to export from user listing (comma separated, leave blank for all)',
+        unicode
+    )),
 ])
 
 

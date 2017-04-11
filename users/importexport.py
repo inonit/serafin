@@ -1,7 +1,9 @@
 from __future__ import unicode_literals
 
 from import_export import resources, fields, widgets
+from constance import config
 from users.models import User
+
 import functools
 
 
@@ -86,6 +88,14 @@ class UserResource(resources.ModelResource):
         headers = [field.column_name for field in self.get_fields()
             if field.column_name not in ['...', 'email', 'phone']]
         queryset = self.get_queryset()
+
+        if config.USER_VARIABLE_EXPORT:
+            self.data_headers = [
+                field.strip() for field in config.USER_VARIABLE_EXPORT.split(',')
+                if field
+            ]
+            headers += self.data_headers
+            return headers
 
         data_headers = set()
         for obj in queryset:
