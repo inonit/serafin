@@ -98,7 +98,7 @@ def content_route(request, route_slug=None):
         'node': 0
     }
 
-    engine = Engine(user=request.user, context=context, push=True)
+    engine = Engine(user=request.user, context=context, push=True, is_interactive=True)
     engine.run()
 
     context = {
