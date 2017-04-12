@@ -140,7 +140,7 @@
                         <div class="error right" ng-show="form.submitted && subForm.$error.required">{% trans 'Please choose one' %}</div>
                         {% verbatim %}
                         <label ng-repeat="alt in field.alternatives track by $index">
-                            <input name="{{ 'multi' + $index }}" type="radio" ng-model="field.value" value="{{ alt.value }}" ng-required="field.required">
+                            <input name="{{ 'multi' + $parent.$index }}" type="radio" ng-model="field.value" value="{{ alt.value }}" ng-required="field.required">
                             {{ alt.label }}
                         </label>
                     </fieldset>
@@ -154,7 +154,7 @@
                             <tbody>
                                 <tr>
                                     <td ng-repeat="alt in field.alternatives track by $index">
-                                        <input name="{{ 'multi' + $index }}" type="radio" ng-model="field.value" value="{{ alt.value }}" ng-required="field.required">
+                                        <input name="{{ 'multi' + $parent.$index }}" type="radio" ng-model="field.value" value="{{ alt.value }}" ng-required="field.required">
                                         <br>
                                         {{ alt.label }}
                                     </td>
@@ -171,7 +171,7 @@
                         <div class="error right" ng-show="form.submitted && subForm.$error.required">{% trans 'Please choose one' %}</div>
                         {% verbatim %}
                         <label ng-repeat="alt in field.alternatives track by $index">
-                            <input name="{{ 'multiselect' + $index }}" type="checkbox" checkboxlist ng-click="toggle(field.value, alt.value)" ng-required="field.required">
+                            <input name="{{ 'multiselect' + $parent.$index }}" type="checkbox" checkboxlist ng-click="toggle(field.value, alt.value)" ng-required="field.required">
                             {{ alt.label }}
                         </label>
                     </fieldset>
@@ -185,7 +185,7 @@
                             <tbody>
                                 <tr>
                                     <td ng-repeat="alt in field.alternatives track by $index">
-                                        <input name="{{ 'multiselect' + $index }}" type="checkbox" checkboxlist ng-model="alt.selected" ng-click="toggle(field.value, alt.value)" ng-required="field.required">
+                                        <input name="{{ 'multiselect' + $parent.$index }}" type="checkbox" checkboxlist ng-model="alt.selected" ng-click="toggle(field.value, alt.value)" ng-required="field.required">
                                         <br>
                                         {{ alt.label }}
                                     </td>
