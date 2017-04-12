@@ -1,0 +1,5 @@
+.git
+.docker-data
+*.log
+docs
+static
