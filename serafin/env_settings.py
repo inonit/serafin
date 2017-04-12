@@ -74,7 +74,7 @@ HUEY = {
     },
     'connection': {
         'host': os.environ.get('REDIS_HOST'),
-        'port': os.environ.get('REDIS_PORT', 5379)
+        'port': int(os.environ.get('REDIS_PORT', 6379))
     }
 }
 
@@ -103,5 +103,5 @@ SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
 
 CONSTANCE_REDIS_CONNECTION = {
     'host': os.environ.get('REDIS_HOST'),
-    'port': os.environ.get('REDIS_PORT', 5379)
+    'port': int(os.environ.get('REDIS_PORT', 6379))
 }
