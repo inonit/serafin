@@ -18,7 +18,7 @@ echo Starting Gunicorn.
 exec gunicorn serafin.wsgi:application \
     --name serafin_django \
     --bind 0.0.0.0:8000 \
-    --workers 5 \
+    --workers 3 \
     --timeout 120 \
     --log-level=info \
     --log-file=- \

@@ -1,3 +1,4 @@
+boto3==1.4.4
 contextlib2==0.5.4
 diff-match-patch==20121119
 Django==1.8.18
@@ -11,11 +12,13 @@ django-mptt==0.7.4
 django-polymorphic==0.7.2
 django-reversion==1.10.1
 django-sitetree==1.5.1
+django-storages==1.5.2
 django-suit==0.2.19
 django-user-agents==0.3.0
 djangorestframework==3.3.3
 easy-thumbnails==2.3
 funcsigs==1.0.2
+gunicorn==19.7.1
 httplib2==0.9.2
 huey==1.2.1
 jsonfield==1.0.3
@@ -40,3 +43,4 @@ twilio==5.4.0
 ua-parser==0.4.1
 Unidecode==0.4.18
 user-agents==1.0.1
+whitenoise==3.3.0
