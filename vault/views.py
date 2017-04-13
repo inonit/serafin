@@ -105,7 +105,7 @@ def receive_sms(request):
 
         debug_logger.debug('vault.receive_sms - POST request started at %s' % str(now))
 
-        if settings.SMS_SERVICE == 'Twilio' or settings.SMS_SERVICE == 'Debug':
+        if settings.SMS_SERVICE == 'Twilio' or settings.SMS_SERVICE == 'Console':
             sender = request.POST.get('From')
             body = request.POST.get('Body')
 

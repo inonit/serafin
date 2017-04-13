@@ -15,67 +15,25 @@ Program flow is controlled on different levels. Sessions may be put into sequenc
 
 ## Local development setup
 
-1. Install requirements
-    
-    `$ pip install -r requirements.txt`
-    
-2. Run docker-compose for required services
+The preferred method for running Serafin for development is through docker-compose. It will set up complete environment for you, including PostgreSQL, Redis and a python container with the Django development server.
 
-    `$ docker-compose up` (Optionally with `-d` flag to keep them running in the background)
+Code changes will be reflected in the app
 
-3. Install javascript dependencies
-    
-    ```
-    $ npm install
-    $ ./node_modules/bower/bin/bower install
-    ```
+Install [docker](https://docs.docker.com/engine/installation/) and [docker-compose](https://docs.docker.com/compose/install/).
 
-4. Write a `local_settings.py`
+Run docker-compose to build the environment:
 
-    ```
-    $ cat << EOF >> serafin/local_settings.py
-    DATABASES = {
-        'default': {
-            'ENGINE': 'django.db.backends.postgresql_psycopg2',
-            'HOST': 'localhost',
-            'PORT': 5432,
-            'NAME': 'postgres',
-            'USER': 'postgres',
-            'PASSWORD': 'postgres',
-        },
-        
-        # Change these in order to keep the vault in a separate database!
-        'vault': {
-            'ENGINE': 'django.db.backends.postgresql_psycopg2',
-            'HOST': 'localhost',
-            'PORT': 5432,
-            'NAME': 'postgres',
-            'USER': 'postgres',
-            'PASSWORD': 'postgres',
-        }
-    }
-    EOF
-    ```
+    $ docker-compose up
 
-    
-5. Run migrations for both the serafin and the vault databases.
+Optionally you can use the `-d` flag to keep them running in the background.
 
-    ```
-    $ python manage.py migrate
-    $ python manage.py migrate --database vault
-    ```
-    
-6. Make sure the Django server is running before the next step. This is required because
-   user meta data is copied internally with HTTP requests.
+Run database migrations (first time, but may be needed after model changes):
 
-7. Create a local admin user
+    $ docker exec -it serafin_app_1 ./manage.py migrate 
+    $ docker exec -it serafin_app_1 ./manage.py migrate --database vault
 
-    `$ python manage.py createsuperuser`
+Create a local admin user (first time only):
 
-8. Run a Huey worker
-    
-    `python manage.py run_huey`
-    
-9. Run the development server
+    $ docker exec -it serafin_app_1 ./manage.py createsuperuser
 
-    `$ python manage.py runserver`
+Run other Django management commands the same way.
