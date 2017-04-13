@@ -84,8 +84,16 @@ ROOT_URLCONF = 'serafin.urls'
 
 WSGI_APPLICATION = 'serafin.wsgi.application'
 
-TEMPLATE_DIRS = (
+TEMPLATE_DIRS = [
     os.path.join(BASE_DIR, 'templates'),
+]
+
+from django.conf.global_settings import TEMPLATE_CONTEXT_PROCESSORS
+
+TEMPLATE_CONTEXT_PROCESSORS += (
+    'django.contrib.messages.context_processors.messages',
+    'django.core.context_processors.request',
+    'django_settings_export.settings_export',
 )
 
 
@@ -134,22 +142,6 @@ USE_I18N = True
 USE_L10N = True
 USE_TZ = True
 USE_HTTPS = True
-
-# E-mail settings
-
-ADMINS = (
-    ('Admin', 'user@example.com'),
-)
-
-# SERVER_EMAIL = 'Serafin <post@example.com>'
-# DEFAULT_FROM_EMAIL = 'Serafin <post@example.com>'
-# EMAIL_SUBJECT_PREFIX = '[Serafin] '
-# EMAIL_HOST_USER = 'xxxxx'
-# EMAIL_HOST_PASSWORD = 'xxxxx'
-# EMAIL_HOST = 'smtp.example.com'
-# EMAIL_PORT = 587
-# EMAIL_USE_TLS = True
-# EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 
 
 # Static files (CSS, JavaScript, Images)
@@ -225,12 +217,14 @@ LOG_TIME_PER_PAGE = True
 LOG_MAX_MILLISECONDS = 5 * 60 * 1000  # 5 minutes
 
 
-# Twilio
+# SMS service
 
-SMS_SERVICE = 'Twilio'
-TWILIO_ACCOUNT_SID = 'replace-me'
-TWILIO_AUTH_TOKEN = 'replace-me'
-TWILIO_FROM_NUMBER = '00000000'
+SMS_SERVICE = 'Console'
+
+
+# Google Analytics
+
+GA_ID = ''
 
 
 # Huey
@@ -332,13 +326,6 @@ SUIT_CONFIG = {
     ]
 }
 
-from django.conf.global_settings import TEMPLATE_CONTEXT_PROCESSORS
-
-TEMPLATE_CONTEXT_PROCESSORS += (
-    'django.core.context_processors.request',
-    'django.contrib.messages.context_processors.messages',
-)
-
 
 # Logging
 
@@ -436,11 +423,6 @@ LOGGING = {
 
 RAVEN_CONFIG = {
     'dsn': 'https://c9bcd3b54eec4007b4d84834a4f761e5:e66b053b77834019beb27f63cf055f03@sentry.io/41944',
-}
-
-
-SOUTH_MIGRATION_MODULES = {
-    'easy_thumbnails': 'easy_thumbnails.south_migrations',
 }
 
 
@@ -544,7 +526,6 @@ STYLESHEETS = [
 ]
 
 
-
 # Constance
 
 from collections import OrderedDict
@@ -566,3 +547,9 @@ try:
     from local_settings import *
 except ImportError:
     pass
+
+
+SETTINGS_EXPORT = [
+    'DEBUG',
+    'GA_ID',
+]
