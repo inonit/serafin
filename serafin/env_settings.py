@@ -105,3 +105,5 @@ CONSTANCE_REDIS_CONNECTION = {
     'host': os.environ.get('REDIS_HOST'),
     'port': int(os.environ.get('REDIS_PORT', 6379))
 }
+
+GOOGLE_ANALYTICS_ID = os.environ.get('GOOGLE_ANALYTICS_ID')

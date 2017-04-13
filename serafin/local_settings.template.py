@@ -32,4 +32,4 @@ SMS_SERVICE = 'Console'
 
 # Google Analytics
 
-GA_ID = ''
+GOOGLE_ANALYTICS_ID = ''
