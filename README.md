@@ -15,17 +15,13 @@ Program flow is controlled on different levels. Sessions may be put into sequenc
 
 ## Local development setup
 
-The preferred method for running Serafin for development is through docker-compose. It will set up complete environment for you, including PostgreSQL, Redis and a python container with the Django development server.
-
-Code changes will be reflected in the app
+The preferred method for setting up Serafin for development is through docker-compose. It will build a complete environment for you, including PostgreSQL, Redis and a python container with the Django development server. Changes to the source will be picked up by the dev server.
 
 Install [docker](https://docs.docker.com/engine/installation/) and [docker-compose](https://docs.docker.com/compose/install/).
 
 Run docker-compose to build the environment:
 
     $ docker-compose up
-
-Optionally you can use the `-d` flag to keep them running in the background.
 
 Run database migrations (first time, but may be needed after model changes):
 
@@ -36,4 +32,4 @@ Create a local admin user (first time only):
 
     $ docker exec -it serafin_app_1 ./manage.py createsuperuser
 
-Run other Django management commands the same way.
+You may run other Django management commands the same way.
