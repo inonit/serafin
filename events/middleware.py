@@ -63,6 +63,9 @@ class EventTrackingMiddleware(object):
 
             for key, post_value in request_body.items():
 
+                if key in ['email', 'phone', 'password']:
+                    continue
+
                 pre_value = request.user.data.get(key, '')
 
                 if isinstance(pre_value, list):
