@@ -7,37 +7,59 @@ from django.contrib import admin
 from django.contrib.admin.forms import AdminAuthenticationForm
 from django.contrib.sites.models import Site
 from django.core.urlresolvers import reverse
-import requests
-import json
+from django.template import Context
+from django.template.loader import get_template
+from django.utils.encoding import force_bytes
+from django.utils.http import urlsafe_base64_encode
+
+from tokens.tokens import token_generator
+from django.contrib.auth import get_user_model
 
 
 class PasswordResetForm(forms.Form):
     email = forms.EmailField(label=_('Email'), max_length=254)
 
     def save(self, *args, **kwargs):
-        '''Ask the vault to send a one-time login link for the given email'''
+        '''Send a one-time login link for the given email'''
+
+        User = get_user_model()
+
+        try:
+            user = User.objects.get(email__iexact=self.cleaned_data['email'])
+        except:
+            return
 
         current_site = Site.objects.get_current()
+        protocol = 'https' if settings.USE_HTTPS else 'http'
+        domain = current_site.domain
+        path = reverse('password_reset')
+        site_name = current_site.name
 
-        url = '%(server_url)s%(path)s' % {
-            'server_url': settings.VAULT_SERVER_API_URL,
-            'path': settings.VAULT_PASSWORD_RESET_PATH,
-        }
+        if user and protocol and domain and path and site_name:
 
-        data = {
-            'email': self.cleaned_data['email'],
-            'protocol': 'https' if settings.USE_HTTPS else 'http',
-            'domain': current_site.domain,
-            'path': reverse('password_reset'),
-            'site_name': current_site.name,
-        }
+            link = '%(protocol)s://%(domain)s%(path)s%(uid)s/%(token)s' % {
+                'protocol': protocol,
+                'domain': domain,
+                'path': path,
+                'uid': urlsafe_base64_encode(force_bytes(user.id)),
+                'token': token_generator.make_token(user.id),
+            }
 
-        headers = {
-            'content-type': 'application/json',
-        }
+            subject_template = get_template('registration/password_reset_subject.txt')
+            content_template = get_template('registration/password_reset_email.html')
 
-        response = requests.post(url, data=json.dumps(data), headers=headers)
-        response.raise_for_status()
+            context = {
+                'site_name': site_name,
+                'link': link,
+                'user': user,
+            }
+
+            subject = subject_template.render(Context({'site_name': site_name}))
+            subject = ''.join(subject.splitlines())
+            content = content_template.render(Context(context))
+
+            if subject and content:
+                user.send_email(subject, content)
 
 
 class AdminIDAuthenticationForm(AdminAuthenticationForm):

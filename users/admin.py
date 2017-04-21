@@ -42,8 +42,8 @@ class UserCreationForm(forms.ModelForm):
     def save(self, commit=True):
         user = super(UserCreationForm, self).save(commit=False)
         user.set_password(self.cleaned_data['password1'])
-        user.data['email'] = self.cleaned_data['email']
-        user.data['phone'] = self.cleaned_data['phone']
+        user.email = self.cleaned_data['email']
+        user.phone = self.cleaned_data['phone']
         if commit:
             user.save()
         return user
@@ -128,7 +128,7 @@ class UserAdmin(UserAdmin, ImportExportModelAdmin):
     add_form = UserCreationForm
     fieldsets = (
         (None, {
-            'fields': ('id', 'password', 'last_login', 'date_joined'),
+            'fields': ('id', 'password', 'email', 'phone', 'last_login', 'date_joined'),
             'classes': ('suit-tab suit-tab-info', ),
         }),
         (_('Permissions'), {

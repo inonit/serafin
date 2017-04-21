@@ -12,22 +12,25 @@ from jsonfield import JSONField
 from collections import OrderedDict
 
 from tokens.tokens import token_generator
-from users.decorators import vault_post
+from twilio.rest import TwilioRestClient
+from plivo import RestAPI as PlivoRestClient
 
 
 class UserManager(BaseUserManager):
     '''Custom User model Manager'''
 
-    def create_user(self, id, password, data=None):
+    def create_user(self, id, password, email, phone, data=None):
         user = self.model()
+        user.set_password(password)
+        user.email = email
+        user.phone = phone
         if data:
             user.data = data
-        user.set_password(password)
         user.save()
         return user
 
-    def create_superuser(self, id, password):
-        user = self.create_user(id=id, password=password)
+    def create_superuser(self, id, password, email, phone):
+        user = self.create_user(id=id, password=password, email=email, phone=phone)
         user.is_staff = True
         user.is_superuser = True
         user.save()
@@ -36,6 +39,9 @@ class UserManager(BaseUserManager):
 
 class User(AbstractBaseUser, PermissionsMixin):
     '''Custom User, identified by ID and password'''
+
+    email = models.EmailField(_('e-mail address'), max_length=254, unique=True)
+    phone = models.CharField(_('phone number'), max_length=32, unique=True)
 
     is_staff = models.BooleanField(_('staff status'), default=False)
     is_active = models.BooleanField(_('active'), default=True)
@@ -66,29 +72,71 @@ class User(AbstractBaseUser, PermissionsMixin):
         '''Check if user is part of a given group by name'''
         return self.groups.filter(name=group_name).exists()
 
-    @vault_post
-    def _mirror_user(self, email=None, phone=None):
-        '''Get confirmation of or create a corresponding User in the Vault'''
-        path = settings.VAULT_MIRROR_USER_PATH
-        return path, self.id, token_generator.make_token(self.id)
-
-    @vault_post
-    def _delete_mirror(self):
-        '''Deletes VaultUser corresponding to User in Vault'''
-        path = settings.VAULT_DELETE_MIRROR_PATH
-        return path, self.id, token_generator.make_token(self.id)
-
-    @vault_post
-    def send_email(self, subject=None, message=None, html_message=None):
-        '''Sends an e-mail to the User through the Vault'''
-        path = settings.VAULT_SEND_EMAIL_PATH
-        return path, self.id, token_generator.make_token(self.id)
-
-    @vault_post
     def send_sms(self, message=None):
-        '''Sends an SMS to the User through the Vault'''
-        path = settings.VAULT_SEND_SMS_PATH
-        return path, self.id, token_generator.make_token(self.id)
+        if message and settings.SMS_SERVICE == 'Twilio':
+            client = TwilioRestClient(
+                settings.TWILIO_ACCOUNT_SID,
+                settings.TWILIO_AUTH_TOKEN
+            )
+
+            response = client.messages.create(
+                body=message,
+                to=self.phone,
+                from_=settings.TWILIO_FROM_NUMBER,
+            )
+
+            return response.sid
+
+        if message and settings.SMS_SERVICE == 'Plivo':
+            client = PlivoRestClient(
+                settings.PLIVO_AUTH_ID,
+                settings.PLIVO_AUTH_TOKEN
+            )
+
+            response = client.send_message({
+                'src': settings.PLIVO_FROM_NUMBER,
+                'dst': self.phone[1:], # drop the + before country code
+                'text': message,
+            })
+
+            return response
+
+        if message and settings.SMS_SERVICE == 'Debug':
+            print message
+            return True
+
+        if message and settings.SMS_SERVICE == 'Primafon':
+            import requests
+            res = requests.post(
+                'http://sms.k8s.inonit.no/api/v0/messages/',
+                json={
+                    'to': self.phone[1:],
+                    'body': message,
+                },
+                headers={
+                    'Authorization':
+                    'Token changeme',
+                })
+
+            return True
+
+        return None
+
+    def send_email(self, subject=None, message=None, html_message=None):
+        if subject and (message or html_message):
+            subject = settings.EMAIL_SUBJECT_PREFIX + subject
+
+            email = EmailMultiAlternatives(
+                subject,
+                message,
+                settings.DEFAULT_FROM_EMAIL,
+                [self.email]
+            )
+
+            if html_message:
+                email.attach_alternative(html_message, 'text/html')
+
+            return email.send()
 
     def generate_login_link(self):
         '''Generates a login link URL'''

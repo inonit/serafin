@@ -1,6 +1,7 @@
 from __future__ import unicode_literals
 from django.utils.translation import ugettext_lazy as _
 
+from django.conf import settings
 from django.contrib.auth import login, logout, authenticate
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.views import login as login_view
@@ -9,11 +10,14 @@ from django.shortcuts import redirect, render
 from django.utils import timezone
 from django.views.decorators.csrf import csrf_exempt
 
+from events.signals import log_event
 from system.engine import Engine
 from system.models import Variable
-from users.models import User
 from tokens.tokens import token_generator
-from events.signals import log_event
+from users.models import User
+
+from twilio import twiml
+import plivoxml
 
 import json
 import logging
@@ -48,9 +52,15 @@ def login_via_email(request, user_id=None, token=None):
 
 @csrf_exempt
 def receive_sms(request):
-    '''Receive sms from vault and let engine process it'''
+    '''Receive sms message from user, process through Engine and respond'''
 
-    response = {'status': 'Fail.'}
+    reply = ''
+    response = ''
+    sender = ''
+    body = ''
+    dst = ''
+    src = ''
+
     debug_logger = logging.getLogger('debug')
     now = timezone.now()
 
@@ -58,55 +68,86 @@ def receive_sms(request):
 
         debug_logger.debug('user.receive_sms - POST request started at %s' % str(now))
 
-        data = json.loads(request.body)
+        if settings.SMS_SERVICE == 'Twilio' or settings.SMS_SERVICE == 'Console':
+            sender = request.POST.get('From')
+            body = request.POST.get('Body')
 
-        user_id = data.get('user_id')
-        token = data.get('token')
-        message = data.get('message')
+        if settings.SMS_SERVICE == 'Plivo':
+            sender = '+' + request.POST.get('From')
+            dst = request.POST.get('From')
+            src = request.POST.get('To')
+            body = request.POST.get('Text')
 
-        if user_id and token:
-            if token_generator.check_token(user_id, token):
-                user = User.objects.get(id=user_id)
-                debug_logger.debug('user.receive_sms - Got user %r at %s' % (user, str(timezone.now() - now)))
+        if settings.SMS_SERVICE == 'Primafon':
+            data = json.loads(request.body)
+            sender = '+' + data['from']
+            dst = data['from']
+            src = '12345678'
+            body = data['body']
 
-                reply_session = user.data.get('reply_session')
-                reply_node = user.data.get('reply_node')
-                reply_var = user.data.get('reply_variable')
+        try:
+            user = User.objects.get(phone=sender)
+            debug_logger.debug('user.receive_sms - Got user %r at %s' % (user, str(timezone.now() - now)))
+        except:
+            user = None
+            reply = _('Sorry, I\'m not sure who this is.')
 
-                if reply_session and reply_node and reply_var:
+        if user:
+            reply_session = user.data.get('reply_session')
+            reply_node = user.data.get('reply_node')
+            reply_var = user.data.get('reply_variable')
 
-                    log_event.send(
-                        user,
-                        domain='user',
-                        actor=user,
-                        variable=reply_var,
-                        pre_value=user.data.get(reply_var, ''),
-                        post_value=message
-                    )
-                    debug_logger.debug('user.receive_sms - logged variable change at %s' % str(timezone.now() - now))
+            if reply_session and reply_node and reply_var:
 
-                    context = {
-                        'session': reply_session,
-                        'node': reply_node,
-                        reply_var: message,
-                    }
-                    engine = Engine(user=user, context=context)
-                    debug_logger.debug('user.receive_sms - prepared Engine at %s' % str(timezone.now() - now))
+                log_event.send(
+                    user,
+                    domain='user',
+                    actor=user,
+                    variable=reply_var,
+                    pre_value=user.data.get(reply_var, ''),
+                    post_value=body
+                )
+                debug_logger.debug('user.receive_sms - logged variable change at %s' % str(timezone.now() - now))
 
-                    del engine.user.data['reply_session']
-                    del engine.user.data['reply_node']
-                    del engine.user.data['reply_variable']
-                    engine.transition(reply_node)
-                    debug_logger.debug('user.receive_sms - finished engine transitions %s' % str(timezone.now() - now))
+                context = {
+                    'session': reply_session,
+                    'node': reply_node,
+                    reply_var: body,
+                }
+                engine = Engine(user=user, context=context)
+                debug_logger.debug('user.receive_sms - prepared Engine at %s' % str(timezone.now() - now))
 
-                    engine.user.save()
+                del engine.user.data['reply_session']
+                del engine.user.data['reply_node']
+                del engine.user.data['reply_variable']
+                engine.transition(reply_node)
+                debug_logger.debug('user.receive_sms - finished engine transitions %s' % str(timezone.now() - now))
 
-                    debug_logger.debug('user.receive_sms - saved user %s' % str(timezone.now() - now))
+                engine.user.save()
 
-                    response = {'status': 'OK'}
+                debug_logger.debug('user.receive_sms - saved user %s' % str(timezone.now() - now))
 
-    debug_logger.debug('user.receive_sms - returning response %s' % str(timezone.now() - now))
-    return JsonResponse(response)
+                # except Exception as e:
+                #     reply = _('Sorry, there was an error processing your SMS. '
+                #               'Our technicians have been notified and will try to fix it.')
+    else:
+        debug_logger.debug('user.receive_sms - No data received at %s' % str(timezone.now() - now))
+        reply = _('No data received.')
+
+    if settings.SMS_SERVICE == 'Twilio':
+        response = twiml.Response()
+        if reply:
+            debug_logger.debug('user.receive_sms - Sending SMS response starting at %s' % str(timezone.now() - now))
+            response.message(reply)
+            debug_logger.debug('user.receive_sms - Sending SMS response completed at %s' % str(timezone.now() - now))
+
+    if settings.SMS_SERVICE == 'Plivo':
+        response = plivoxml.Response()
+        if reply and src and dst:
+            response.addMessage(reply, src=src, dst=dst)
+
+    debug_logger.debug('user.receive_sms - Finished request at %s' % str(timezone.now() - now))
+    return HttpResponse(response, content_type='text/xml')
 
 
 @login_required
