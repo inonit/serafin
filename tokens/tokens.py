@@ -10,7 +10,7 @@ from django.utils import six
 
 
 class TokenGenerator(object):
-    '''Strategy object used to generate and check tokens for login and vault access.'''
+    '''Strategy object used to generate and check tokens for login'''
 
     def make_token(self, user_id):
         '''Return a token for the given user id.'''

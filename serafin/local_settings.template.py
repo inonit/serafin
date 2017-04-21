@@ -14,17 +14,17 @@ EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
 # Twilio SMS backend (remove the ones you don't use)
 
-SMS_SERVICE = 'Twilio'
-TWILIO_ACCOUNT_SID = ''
-TWILIO_AUTH_TOKEN = ''
-TWILIO_FROM_NUMBER = ''
+# SMS_SERVICE = 'Twilio'
+# TWILIO_ACCOUNT_SID = ''
+# TWILIO_AUTH_TOKEN = ''
+# TWILIO_FROM_NUMBER = ''
 
 # Plivo SMS backend (remove the ones you don't use)
 
-SMS_SERVICE = 'Plivo'
-PLIVO_AUTH_ID = ''
-PLIVO_AUTH_TOKEN = ''
-PLIVO_FROM_NUMBER = ''
+# SMS_SERVICE = 'Plivo'
+# PLIVO_AUTH_ID = ''
+# PLIVO_AUTH_TOKEN = ''
+# PLIVO_FROM_NUMBER = ''
 
 # Console SMS backend (remove the ones you don't use)
 

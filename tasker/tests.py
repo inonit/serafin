@@ -12,7 +12,6 @@ from huey.constants import EmptyData
 
 from tasker.models import Task
 from system.models import Program, ProgramUserAccess, Session
-from users.signals import mirror_user
 
 
 User = get_user_model()
@@ -69,9 +68,6 @@ class TaskerTestCase(TestCase):
     '''
 
     def setUp(self):
-        # if using users.User, disable signal to mirror user
-        signals.post_save.disconnect(mirror_user, sender=User)
-
         self.program = Program(title='Program', display_title='Program')
         self.program.save()
 
@@ -200,9 +196,6 @@ class SessionIntegrationTestCase(TestCase):
     '''
 
     def setUp(self):
-        # if using users.User, disable signal to mirror user
-        signals.post_save.disconnect(mirror_user, sender=User)
-
         self.program = Program(title='Program', display_title='Program')
         self.program.save()
 

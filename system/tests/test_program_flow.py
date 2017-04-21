@@ -12,7 +12,6 @@ from system.engine import Engine
 from system.models import Program, ProgramUserAccess, Session, Page, Email, SMS
 from system.signals import *
 from users.models import User, StatefulAnonymousUser
-from users.signals import mirror_user
 from users.views import receive_sms
 from tokens.tokens import token_generator
 
@@ -26,7 +25,6 @@ class ProgramFlowTestCase(TestCase):
 
     def setUp(self):
         # disable some signals
-        signals.post_save.disconnect(mirror_user, sender=User)
         signals.post_save.disconnect(schedule_sessions, sender=ProgramUserAccess)
         signals.pre_save.disconnect(session_pre_save, sender=Session)
         signals.post_save.disconnect(add_content_relations, sender=Session)

@@ -109,27 +109,28 @@ def receive_sms(request):
                 )
                 debug_logger.debug('user.receive_sms - logged variable change at %s' % str(timezone.now() - now))
 
-                context = {
-                    'session': reply_session,
-                    'node': reply_node,
-                    reply_var: body,
-                }
-                engine = Engine(user=user, context=context)
-                debug_logger.debug('user.receive_sms - prepared Engine at %s' % str(timezone.now() - now))
+                try:
+                    context = {
+                        'session': reply_session,
+                        'node': reply_node,
+                        reply_var: body,
+                    }
+                    engine = Engine(user=user, context=context)
+                    debug_logger.debug('user.receive_sms - prepared Engine at %s' % str(timezone.now() - now))
 
-                del engine.user.data['reply_session']
-                del engine.user.data['reply_node']
-                del engine.user.data['reply_variable']
-                engine.transition(reply_node)
-                debug_logger.debug('user.receive_sms - finished engine transitions %s' % str(timezone.now() - now))
+                    del engine.user.data['reply_session']
+                    del engine.user.data['reply_node']
+                    del engine.user.data['reply_variable']
+                    engine.transition(reply_node)
+                    debug_logger.debug('user.receive_sms - finished engine transitions %s' % str(timezone.now() - now))
 
-                engine.user.save()
+                    engine.user.save()
 
-                debug_logger.debug('user.receive_sms - saved user %s' % str(timezone.now() - now))
+                    debug_logger.debug('user.receive_sms - saved user %s' % str(timezone.now() - now))
 
-                # except Exception as e:
-                #     reply = _('Sorry, there was an error processing your SMS. '
-                #               'Our technicians have been notified and will try to fix it.')
+                except Exception as e:
+                    reply = _('Sorry, there was an error processing your SMS. '
+                              'Our technicians have been notified and will try to fix it.')
     else:
         debug_logger.debug('user.receive_sms - No data received at %s' % str(timezone.now() - now))
         reply = _('No data received.')

@@ -43,7 +43,6 @@ INSTALLED_APPS = (
 
     'tokens',
     'users',
-    'vault',
     'tasker',
     'events',
     'content',
@@ -108,18 +107,9 @@ DATABASES = {
         'NAME': 'postgres',
         'USER': 'postgres',
         'PASSWORD': 'postgres',
-    },
-    'vault': {
-        'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'HOST': 'db',
-        'PORT': 5432,
-        'NAME': 'postgres',
-        'USER': 'postgres',
-        'PASSWORD': 'postgres',
     }
 }
 
-DATABASE_ROUTERS = ['serafin.db_routers.VaultRouter']
 
 # Internationalization
 # https://docs.djangoproject.com/en/1.8/topics/i18n/
@@ -179,19 +169,9 @@ THUMBNAIL_PRESERVE_EXTENSIONS = ('png',)
 THUMBNAIL_TRANSPARENCY_EXTENSION = 'png'
 
 
-# User model and vault separation
+# User model and authentication
 
 AUTH_USER_MODEL = 'users.User'
-
-VAULT_SERVER_API_URL = 'http://localhost:8000/api/vault/'
-
-VAULT_MIRROR_USER_PATH = 'mirror_user'
-VAULT_DELETE_MIRROR_PATH = 'delete_mirror'
-VAULT_SEND_EMAIL_PATH = 'send_email'
-VAULT_SEND_SMS_PATH = 'send_sms'
-VAULT_PASSWORD_RESET_PATH = 'password_reset'
-
-USERS_RECEIVE_SMS_URL = 'http://localhost:8000/api/users/receive_sms'
 
 AUTHENTICATION_BACKENDS = (
     'django.contrib.auth.backends.ModelBackend',
@@ -541,6 +521,11 @@ CONSTANCE_CONFIG = OrderedDict([
         unicode
     )),
 ])
+
+CONSTANCE_REDIS_CONNECTION = {
+    'host': 'redis',
+    'port': 6379
+}
 
 
 try:

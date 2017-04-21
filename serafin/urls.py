@@ -8,7 +8,6 @@ from django.contrib import admin
 admin.autodiscover()
 
 urlpatterns = patterns('',
-    url(r'^api/vault/', include('vault.urls')),
     url(r'^api/plumbing/', include('plumbing.urls')),
     url(r'^api/system/', include('system.urls')),
 

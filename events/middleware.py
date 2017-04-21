@@ -18,7 +18,7 @@ class EventTrackingMiddleware(object):
             request.FILES or
             request.user.is_anonymous() or
             'api/system' in request.path or
-            'api/vault' in request.path):
+            'api/users' in request.path):
             return
 
         try:
