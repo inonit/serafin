@@ -1,19 +1,20 @@
 from __future__ import unicode_literals
 from django.utils.translation import ugettext_lazy as _
 
+from django.conf import settings
+from django.contrib.auth.models import BaseUserManager, AbstractBaseUser, PermissionsMixin, AnonymousUser
 from django.contrib.sites.models import Site
+from django.core.mail.message import EmailMultiAlternatives
 from django.core.urlresolvers import reverse
+from django.db import models
 from django.template import Context
 from django.template.loader import get_template
-from django.db import models
-from django.contrib.auth.models import BaseUserManager, AbstractBaseUser, PermissionsMixin, AnonymousUser
-from django.conf import settings
-from jsonfield import JSONField
-from collections import OrderedDict
 
+from collections import OrderedDict
+from jsonfield import JSONField
+from plivo import RestAPI as PlivoRestClient
 from tokens.tokens import token_generator
 from twilio.rest import TwilioRestClient
-from plivo import RestAPI as PlivoRestClient
 
 
 class UserManager(BaseUserManager):
