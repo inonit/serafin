@@ -116,7 +116,7 @@ class User(AbstractBaseUser, PermissionsMixin):
                 },
                 headers={
                     'Authorization':
-                    'Token changeme',
+                    'Token %s' % settings.PRIMAFON_KEY,
                 })
 
             return True
