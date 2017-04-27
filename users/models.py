@@ -118,6 +118,7 @@ class User(AbstractBaseUser, PermissionsMixin):
                     'Authorization':
                     'Token %s' % settings.PRIMAFON_KEY,
                 })
+            res.raise_for_status()
 
             return True
 
