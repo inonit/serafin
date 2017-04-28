@@ -169,7 +169,7 @@ class UserAdmin(UserAdmin, ImportExportModelAdmin):
 
     def change_view(self, request, object_id, form_url='', extra_context=None):
         extra_context = extra_context or {}
-        extra_context['log'] = Event.objects.filter(actor=object_id)
+        extra_context['log'] = Event.objects.filter(actor=object_id).order_by('-time')
         return super(UserAdmin, self).change_view(request, object_id,
             form_url, extra_context=extra_context)
 
