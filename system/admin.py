@@ -93,7 +93,7 @@ class VariableAdmin(admin.ModelAdmin):
 class ProgramUserAccessInline(admin.TabularInline):
     model = Program.users.through
     extra = 0
-    ordering = ['start_time']
+    ordering = ['user_id']
 
     formfield_overrides = {
         models.ForeignKey: {
