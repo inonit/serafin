@@ -15,6 +15,7 @@ from jsonfield import JSONField
 from plivo import RestAPI as PlivoRestClient
 from tokens.tokens import token_generator
 from twilio.rest import TwilioRestClient
+import requests
 
 
 class UserManager(BaseUserManager):
@@ -107,7 +108,6 @@ class User(AbstractBaseUser, PermissionsMixin):
             return True
 
         if message and settings.SMS_SERVICE == 'Primafon':
-            import requests
             res = requests.post(
                 'http://sms.k8s.inonit.no/api/v0/messages/',
                 json={
@@ -118,11 +118,9 @@ class User(AbstractBaseUser, PermissionsMixin):
                     'Authorization':
                     'Token %s' % settings.PRIMAFON_KEY,
                 })
+
             res.raise_for_status()
-
             return True
-
-        return None
 
     def send_email(self, subject=None, message=None, html_message=None):
         if subject and (message or html_message):
