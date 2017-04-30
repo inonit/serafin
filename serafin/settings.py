@@ -536,6 +536,7 @@ CONSTANCE_REDIS_CONNECTION = {
 
 REQUEST_IGNORE_PATHS = (
     r'^admin',
+    r'^static',
 )
 
 REQUEST_IGNORE_USER_AGENTS = (
@@ -550,9 +551,7 @@ REQUEST_IGNORE_USER_AGENTS = (
 
 REQUEST_TRAFFIC_MODULES = (
     'request.traffic.UniqueVisitor',
-    'request.traffic.UniqueVisit',
     'request.traffic.UniqueUser',
-    'request.traffic.Hit',
     'request.traffic.Error',
     'request.traffic.Error404',
 )
