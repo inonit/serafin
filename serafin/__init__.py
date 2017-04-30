@@ -1,3 +1,7 @@
+# this somehow runs before wsgi.py so...
+import os
+os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'serafin.settings')
+
 from django.contrib import admin
 from django.contrib.admin import sites
 
