@@ -41,6 +41,8 @@ INSTALLED_APPS = (
     'django.contrib.staticfiles',
     'django.contrib.sites',
 
+    'serafin.apps.SerafinReConfig',
+
     'tokens',
     'users',
     'tasker',
@@ -63,8 +65,8 @@ INSTALLED_APPS = (
     'compressor',
     'reversion',
     'constance',
+    'request',
     'raven.contrib.django.raven_compat',
-    'serafin.apps.AppRenameConfig',
 )
 
 MIDDLEWARE_CLASSES = (
@@ -77,6 +79,7 @@ MIDDLEWARE_CLASSES = (
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'django_user_agents.middleware.UserAgentMiddleware',
     'events.middleware.EventTrackingMiddleware',
+    'request.middleware.RequestMiddleware',
 )
 
 ROOT_URLCONF = 'serafin.urls'
@@ -285,6 +288,7 @@ SUIT_CONFIG = {
                 [
                     'event',
                     'tasker.task',
+                    'request.request'
                 ]
         },
         {
@@ -300,7 +304,7 @@ SUIT_CONFIG = {
                 [
                     'site',
                     'sitetree.tree',
-                    'constance.config'
+                    'constance.config',
                 ]
         },
     ]
@@ -526,6 +530,39 @@ CONSTANCE_REDIS_CONNECTION = {
     'host': 'redis',
     'port': 6379
 }
+
+
+# Request
+
+REQUEST_IGNORE_PATHS = (
+    r'^admin',
+)
+
+REQUEST_IGNORE_USER_AGENTS = (
+    r'^$', # ignore blank user agent
+    r'Googlebot',
+    r'bingbot',
+    r'YandexBot',
+    r'MJ12Bot',
+    r'Slurp',
+    r'Baiduspider',
+)
+
+REQUEST_TRAFFIC_MODULES = (
+    'request.traffic.UniqueVisitor',
+    'request.traffic.UniqueVisit',
+    'request.traffic.UniqueUser',
+    'request.traffic.Hit',
+    'request.traffic.Error',
+    'request.traffic.Error404',
+)
+
+REQUEST_PLUGINS = (
+    'request.plugins.TrafficInformation',
+    'request.plugins.TopReferrers',
+    'request.plugins.TopSearchPhrases',
+    'request.plugins.TopBrowsers',
+)
 
 
 try:
