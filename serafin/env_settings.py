@@ -80,7 +80,7 @@ MIDDLEWARE_CLASSES = (
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'django_user_agents.middleware.UserAgentMiddleware',
     'events.middleware.EventTrackingMiddleware',
-    # 'request.middleware.RequestMiddleware',
+    'request.middleware.RequestMiddleware',
 )
 
 AWS_STORAGE_BUCKET_NAME = os.environ.get('S3_BUCKET')
