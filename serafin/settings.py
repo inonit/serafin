@@ -10,7 +10,6 @@ https://docs.djangoproject.com/en/1.8/ref/settings/
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 import os
-import raven
 
 BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 
@@ -19,7 +18,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 # See https://docs.djangoproject.com/en/1.8/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'replace-me'
+SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY', 'change-me')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -66,6 +65,7 @@ INSTALLED_APPS = (
     'reversion',
     'constance',
     'request',
+
     'raven.contrib.django.raven_compat',
 )
 
@@ -331,11 +331,6 @@ LOGGING = {
         }
     },
     'handlers': {
-        'sentry': {
-            'level': 'ERROR',  # To capture more than ERROR, change to WARNING, INFO, etc.
-            'class': 'raven.contrib.django.raven_compat.handlers.SentryHandler',
-            'tags': {'custom-tag': 'x'},
-        },
         'console': {
             'level': 'INFO',
             'filters': ['require_debug'],
@@ -358,11 +353,11 @@ LOGGING = {
             'backupCount': 0,
             'formatter': 'verbose'
         },
-        'huey_log': {
+        'huey': {
             'level': 'INFO',
             'class': 'logging.handlers.RotatingFileHandler',
             'filename': 'huey.log',
-            'maxBytes': 1024*1024*5,
+            'maxBytes': 1024 * 1024 * 5,  # 5 MB
             'backupCount': 0,
             'formatter': 'standard',
         },
@@ -374,26 +369,16 @@ LOGGING = {
         },
         'django.db.backends': {
             'level': 'ERROR',
-            'handlers': ['file', 'console', 'sentry'],
+            'handlers': ['file', 'console'],
             'propagate': False
         },
         'django.request': {
             'level': 'ERROR',
-            'handlers': ['file', 'console', 'sentry'],
-            'propagate': False
-        },
-        'raven': {
-            'level': 'DEBUG',
-            'handlers': ['console'],
-            'propagate': False
-        },
-        'sentry.errors': {
-            'level': 'DEBUG',
-            'handlers': ['console'],
+            'handlers': ['file', 'console'],
             'propagate': False
         },
         'huey.consumer': {
-            'handlers': ['huey_log', 'sentry'],
+            'handlers': ['huey'],
             'level': 'INFO',
             'propagate': True,
         },
@@ -403,10 +388,6 @@ LOGGING = {
             'propagate': False
         }
     }
-}
-
-RAVEN_CONFIG = {
-    'dsn': 'https://c9bcd3b54eec4007b4d84834a4f761e5:e66b053b77834019beb27f63cf055f03@sentry.io/41944',
 }
 
 

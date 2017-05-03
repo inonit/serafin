@@ -16,6 +16,6 @@ COPY requirements.txt /code/
 RUN pip install -r requirements.txt
 COPY bower.json .bowerrc /code/
 RUN bower --allow-root install
-COPY serafin/local_settings.template.py /code/serafin/local_settings.py
+COPY serafin/local_settings.dev.py /code/serafin/local_settings.py
 EXPOSE 8000
 ENTRYPOINT ["/code/docker-entrypoint.dev.sh"]

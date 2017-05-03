@@ -1,6 +1,6 @@
 # coding: utf-8
 
-SECRET_KEY = 'eis3seezaigei!j2ahYeen2pai2aesh3ye#M!aes'
+SECRET_KEY = 'change-me'
 
 USE_HTTPS = False
 

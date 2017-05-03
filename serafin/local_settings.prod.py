@@ -27,11 +27,9 @@ DEBUG = False
 
 USERDATA_DEBUG = True
 
-# E-mail settings
 
 ADMINS = (
     ('Eirik', 'eirik@inonit.no'),
-    ('Rolf', 'rolf.blindheim@inonit.no'),
 )
 SERVER_EMAIL = 'Endre <post@inonit.no>'
 DEFAULT_FROM_EMAIL = 'Endre <post@inonit.no>'
@@ -43,7 +41,6 @@ EMAIL_PORT = 587
 EMAIL_USE_TLS = True
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 
-# Twilio
 
 SMS_SERVICE = os.environ.get('SMS_SERVICE', 'Twilio')
 TWILIO_ACCOUNT_SID = os.environ.get('TWILIO_ACCOUNT_SID')
@@ -69,6 +66,7 @@ HUEY = {
     }
 }
 
+
 MIDDLEWARE_CLASSES = (
     'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
@@ -83,6 +81,103 @@ MIDDLEWARE_CLASSES = (
     # 'request.middleware.RequestMiddleware',
 )
 
+
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'formatters': {
+        'standard': {
+            'format': '%(asctime)s [%(levelname)s] %(name)s: %(message)s'
+        },
+        'verbose': {
+            'format': '%(levelname)s %(asctime)s %(module)s '
+                      '%(process)d %(thread)d %(message)s'
+        }
+    },
+    'filters': {
+        'require_debug': {
+            '()': 'django.utils.log.RequireDebugTrue'
+        }
+    },
+    'handlers': {
+        'sentry': {
+            'level': 'ERROR',  # To capture more than ERROR, change to WARNING, INFO, etc.
+            'class': 'raven.contrib.django.raven_compat.handlers.SentryHandler',
+        },
+        'console': {
+            'level': 'INFO',
+            'filters': ['require_debug'],
+            'class': 'logging.StreamHandler',
+            'formatter': 'verbose'
+        },
+        'file': {
+            'level': 'INFO',
+            'class': 'logging.handlers.RotatingFileHandler',
+            'filename': 'serafin.log',
+            'maxBytes': 1024 * 1024 * 5,  # 5 MB
+            'backupCount': 3,
+            'formatter': 'verbose'
+        },
+        'debug': {
+            'level': 'DEBUG',
+            'class': 'logging.handlers.RotatingFileHandler',
+            'filename': 'debug.log',
+            'maxBytes': 1024 * 1024 * 5,  # 5 MB
+            'backupCount': 0,
+            'formatter': 'verbose'
+        },
+        'huey': {
+            'level': 'INFO',
+            'class': 'logging.handlers.RotatingFileHandler',
+            'filename': 'huey.log',
+            'maxBytes': 1024*1024*5,
+            'backupCount': 0,
+            'formatter': 'standard',
+        },
+    },
+    'loggers': {
+        'django': {
+            'handlers': ['console'],
+            'propagate': True
+        },
+        'django.db.backends': {
+            'level': 'ERROR',
+            'handlers': ['file', 'console', 'sentry'],
+            'propagate': False
+        },
+        'django.request': {
+            'level': 'ERROR',
+            'handlers': ['file', 'console', 'sentry'],
+            'propagate': False
+        },
+        'raven': {
+            'level': 'DEBUG',
+            'handlers': ['console'],
+            'propagate': False
+        },
+        'sentry.errors': {
+            'level': 'DEBUG',
+            'handlers': ['console'],
+            'propagate': False
+        },
+        'huey.consumer': {
+            'handlers': ['huey', 'sentry'],
+            'level': 'INFO',
+            'propagate': True,
+        },
+        'debug': {
+            'level': 'DEBUG',
+            'handlers': ['debug'],
+            'propagate': False
+        }
+    }
+}
+
+RAVEN_CONFIG = {
+    'dsn': os.environ.get('RAVEN_DSN')
+}
+
+
 AWS_STORAGE_BUCKET_NAME = os.environ.get('S3_BUCKET')
 AWS_S3_SIGNATURE_VERSION = 's3v4'
 AWS_S3_REGION_NAME = 'eu-central-1'
@@ -92,6 +187,7 @@ COMPRESS_ENABLED = False
 
 SECURE_SSL_REDIRECT = True
 SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
+
 
 CONSTANCE_REDIS_CONNECTION = {
     'host': os.environ.get('REDIS_HOST'),
