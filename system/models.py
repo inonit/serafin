@@ -48,8 +48,6 @@ class Variable(models.Model):
         return self.name
 
     def get_value(self):
-        random.seed()
-
         if self.random_type == 'boolean':
             return random.choice([True, False])
 
