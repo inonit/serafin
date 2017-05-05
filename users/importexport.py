@@ -41,8 +41,6 @@ class UserResource(resources.ModelResource):
     '''Import-Export resource for User model'''
 
     data = fields.Field(column_name='...')
-    email = fields.Field()
-    phone = fields.Field()
     data_headers = []
 
     @classmethod
@@ -62,7 +60,7 @@ class UserResource(resources.ModelResource):
             self.import_field(field, obj, data)
 
         headers = [field.column_name for field in self.get_fields()
-            if field.column_name not in ['...', 'email', 'phone']]
+            if field.column_name not in ['...']]
 
         if not obj.data:
             obj.data = {}
