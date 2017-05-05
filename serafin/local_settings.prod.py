@@ -113,7 +113,7 @@ LOGGING = {
         'file': {
             'level': 'INFO',
             'class': 'logging.handlers.RotatingFileHandler',
-            'filename': '/var/log/eb/serafin.log',
+            'filename': 'serafin.log',
             'maxBytes': 1024 * 1024 * 5,  # 5 MB
             'backupCount': 3,
             'formatter': 'verbose'
@@ -121,7 +121,7 @@ LOGGING = {
         'debug': {
             'level': 'DEBUG',
             'class': 'logging.handlers.RotatingFileHandler',
-            'filename': '/var/log/eb/debug.log',
+            'filename': 'debug.log',
             'maxBytes': 1024 * 1024 * 5,  # 5 MB
             'backupCount': 0,
             'formatter': 'verbose'
@@ -129,7 +129,7 @@ LOGGING = {
         'huey': {
             'level': 'INFO',
             'class': 'logging.handlers.RotatingFileHandler',
-            'filename': '/var/log/eb/huey.log',
+            'filename': 'huey.log',
             'maxBytes': 1024*1024*5,
             'backupCount': 0,
             'formatter': 'standard',
