@@ -229,16 +229,11 @@ class StatefulAnonymousUser(AnonymousUser):
         email = self.data['email']
         phone = self.data['phone']
 
+        del self.data['password']
+        del self.data['email']
+        del self.data['phone']
+
         user = User.objects.create_user(None, password, email, phone, data=self.data)
-
-        try:
-            del self.data['password']
-            del self.data['email']
-            del self.data['phone']
-        except:
-            pass
-
-        User.objects.filter(id=user.id).update(data=self.data)
 
         return user, True
 
