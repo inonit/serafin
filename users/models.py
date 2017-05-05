@@ -103,7 +103,7 @@ class User(AbstractBaseUser, PermissionsMixin):
 
             return response
 
-        if message and settings.SMS_SERVICE == 'Debug':
+        if message and settings.SMS_SERVICE == 'Console':
             print message
             return True
 
