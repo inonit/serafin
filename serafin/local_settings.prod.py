@@ -31,8 +31,8 @@ USERDATA_DEBUG = True
 ADMINS = (
     ('Eirik', 'eirik@inonit.no'),
 )
-SERVER_EMAIL = 'Endre <post@inonit.no>'
-DEFAULT_FROM_EMAIL = 'Endre <post@inonit.no>'
+SERVER_EMAIL = 'Endre <post@tilendre.no>'
+DEFAULT_FROM_EMAIL = 'Endre <post@tilendre.no>'
 EMAIL_SUBJECT_PREFIX = '[Endre] '
 EMAIL_HOST_USER = os.environ.get('SMTP_USER')
 EMAIL_HOST_PASSWORD = os.environ.get('SMTP_PASSWORD')
