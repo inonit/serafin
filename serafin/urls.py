@@ -3,6 +3,7 @@ import re
 from django.conf.urls import patterns, include, url
 from django.conf.urls.static import static
 from django.conf import settings
+from django.http.response import HttpResponse
 
 from django.contrib import admin
 admin.autodiscover()
@@ -17,6 +18,8 @@ urlpatterns = patterns('',
     url(r'^admin/set_program/$', 'system.views.set_program', name="set_program"),
     url(r'^admin/set_stylesheet/$', 'system.views.set_stylesheet', name="set_stylesheet"),
     url(r'^i18n/', include('django.conf.urls.i18n')),
+
+    url(r'^healthz$', lambda r: HttpResponse()),
 
     url(r'^', include('users.urls')),
     url(r'^', include('content.urls')),
