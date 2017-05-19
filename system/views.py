@@ -59,7 +59,7 @@ def export_text(request):
         })
 
     def format_content(obj, index, field, *fields, **kwargs):
-        if not kwargs.get('value', '') and not obj.data[index].get(field):
+        if kwargs.get('value') is None and not obj.data[index].get(field):
             return ''
 
         return textwrap.dedent('''\
@@ -120,12 +120,12 @@ def export_text(request):
                                 data += format_content(content, index, 'content', str(i), 'label', value=item['label'])
 
                             if item['field_type'] == 'multiplechoice':
-                                data += format_content(content, index, 'content', 'label', value=pagelet['content']['label'])
+                                data += format_content(content, index, 'content', str(i), 'label', value=item['label'])
                                 for j, alt in enumerate(item['alternatives']):
                                     data += format_content(content, index, 'content', str(i), 'alternatives', str(j), 'label', value=alt['label'])
 
                             if item['field_type'] == 'multipleselection':
-                                data += format_content(content, index, 'content', 'label', value=pagelet['content']['label'])
+                                data += format_content(content, index, 'content', str(i), 'label', value=item['label'])
                                 for j, alt in enumerate(item['alternatives']):
                                     data += format_content(content, index, 'content', str(i), 'alternatives', str(j), 'label', value=alt['label'])
 
