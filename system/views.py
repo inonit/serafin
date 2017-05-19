@@ -59,7 +59,7 @@ def export_text(request):
         })
 
     def format_content(obj, index, field, *fields, **kwargs):
-        if kwargs.get('value') is None and not obj.data[index].get(field):
+        if not kwargs.get('value', '') and not obj.data[index].get(field):
             return ''
 
         return textwrap.dedent('''\
