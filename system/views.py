@@ -117,15 +117,15 @@ def export_text(request):
                         for i, item in enumerate(pagelet['content']):
 
                             if item['field_type'] in ['numeric', 'string', 'text']:
-                                data += format_content(content, index, 'content', str(i), 'label', value=item['label'])
+                                data += format_content(content, index, 'content', str(i), 'label', value=item['label'] or ' ')
 
                             if item['field_type'] == 'multiplechoice':
-                                data += format_content(content, index, 'content', str(i), 'label', value=item['label'])
+                                data += format_content(content, index, 'content', str(i), 'label', value=item['label'] or ' ')
                                 for j, alt in enumerate(item['alternatives']):
                                     data += format_content(content, index, 'content', str(i), 'alternatives', str(j), 'label', value=alt['label'])
 
                             if item['field_type'] == 'multipleselection':
-                                data += format_content(content, index, 'content', str(i), 'label', value=item['label'])
+                                data += format_content(content, index, 'content', str(i), 'label', value=item['label'] or ' ')
                                 for j, alt in enumerate(item['alternatives']):
                                     data += format_content(content, index, 'content', str(i), 'alternatives', str(j), 'label', value=alt['label'])
 
