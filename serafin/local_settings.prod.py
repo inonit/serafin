@@ -196,6 +196,7 @@ SECURE_REDIRECT_EXEMPT = [
 REQUEST_IGNORE_PATHS = (
     r'^admin',
     r'^static',
+    r'^api',
     r'^healthz',
 )
 

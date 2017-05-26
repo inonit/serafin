@@ -517,6 +517,7 @@ CONSTANCE_REDIS_CONNECTION = {
 REQUEST_IGNORE_PATHS = (
     r'^admin',
     r'^static',
+    r'^api',
 )
 
 REQUEST_IGNORE_USER_AGENTS = (
