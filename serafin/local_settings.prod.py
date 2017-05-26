@@ -68,6 +68,7 @@ HUEY = {
 
 
 MIDDLEWARE_CLASSES = (
+    'x_forwarded_for.middleware.XForwardedForMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
@@ -79,7 +80,7 @@ MIDDLEWARE_CLASSES = (
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'django_user_agents.middleware.UserAgentMiddleware',
     'events.middleware.EventTrackingMiddleware',
-    # 'request.middleware.RequestMiddleware',
+    'request.middleware.RequestMiddleware',
 )
 
 
@@ -190,6 +191,10 @@ SECURE_SSL_REDIRECT = True
 SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
 SECURE_REDIRECT_EXEMPT = [
     r'^healthz$'
+]
+
+REQUEST_IGNORE_IP = [
+    '172.17.0.1'
 ]
 
 

@@ -65,7 +65,6 @@ INSTALLED_APPS = (
     'reversion',
     'constance',
     'request',
-
     'raven.contrib.django.raven_compat',
 )
 

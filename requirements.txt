@@ -17,6 +17,7 @@ django-sitetree==1.5.1
 django-storages==1.5.2
 django-suit==0.2.19
 django-user-agents==0.3.0
+django-xforwardedfor-middleware==1.0.0
 djangorestframework==3.3.3
 easy-thumbnails==2.3
 funcsigs==1.0.2
