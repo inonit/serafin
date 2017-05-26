@@ -120,8 +120,8 @@ class UserDataWidget(forms.Widget):
 
 
 class UserAdmin(UserAdmin, ImportExportModelAdmin):
-    list_display = ['id', 'date_joined', 'last_login', 'is_superuser', 'is_staff', 'is_active']
-    search_fields = ['id', 'data']
+    list_display = ['id', 'email', 'phone',  'date_joined', 'last_login', 'is_superuser', 'is_staff', 'is_active']
+    search_fields = ['id', 'email', 'phone', 'data']
     ordering = ['id']
 
     form = UserChangeForm
