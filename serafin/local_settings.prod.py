@@ -193,6 +193,12 @@ SECURE_REDIRECT_EXEMPT = [
     r'^healthz$'
 ]
 
+REQUEST_IGNORE_PATHS = (
+    r'^admin',
+    r'^static',
+    r'^healthz',
+)
+
 REQUEST_IGNORE_IP = [
     '172.17.0.1'
 ]
