@@ -90,6 +90,7 @@
             <div class="close" ng-click="close()">×</div>
             <input type="number" placeholder="{% trans 'Number' %}" ng-model="node.delay.number">
             <select ng-model="node.delay.unit">
+                <option value="seconds"> {% trans 'seconds' %} </option>
                 <option value="minutes"> {% trans 'minutes' %} </option>
                 <option value="hours"> {% trans 'hours' %} </option>
             </select>
