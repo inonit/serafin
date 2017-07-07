@@ -282,6 +282,14 @@ class Engine(object):
             self.user.data['session'] = self.session.id
             self.user.data['node'] = node_id
             self.user.save()
+            log_event.send(
+                self,
+                domain='session',
+                actor=self.user,
+                variable='wait',
+                pre_value='Start Wait',
+                post_vaue=''
+            )
             return
 
         if node_type == 'session':
