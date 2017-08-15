@@ -288,7 +288,7 @@ class Engine(object):
                 actor=self.user,
                 variable='wait',
                 pre_value='Start Wait',
-                post_vaue=''
+                post_value=''
             )
             return
 
