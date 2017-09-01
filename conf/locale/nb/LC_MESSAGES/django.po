@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Serafin\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-08-24 11:46+0200\n"
+"POT-Creation-Date: 2017-09-01 12:11+0200\n"
 "PO-Revision-Date: 2014-08-26 11:35+0200\n"
 "Last-Translator: Eirik Krogstad <eirikkr@gmail.com>\n"
 "Language: nb\n"
@@ -36,7 +36,7 @@ msgid "+ Conditional set"
 msgstr "+ Verdiavhengig tekst"
 
 #: content/templates/admin/content_widget.html:12
-#: plumbing/templates/admin/plumbing_widget.html:13
+#: plumbing/templates/admin/plumbing_widget.html:14
 msgid "+ Expression"
 msgstr "+ Uttrykk"
 
@@ -96,7 +96,7 @@ msgstr "Feltnavn"
 #: content/templates/admin/content_widget.html:156
 #: content/templates/admin/content_widget.html:212
 #: content/templates/admin/content_widget.html:304
-#: plumbing/templates/admin/plumbing_widget.html:86
+#: plumbing/templates/admin/plumbing_widget.html:101
 msgid "Variable name"
 msgstr "Variabelnavn"
 
@@ -133,29 +133,29 @@ msgstr "+ Verdiavhengig tekst"
 
 #: content/templates/admin/content_widget.html:127
 #: content/templates/admin/content_widget.html:167
-#: plumbing/templates/admin/plumbing_widget.html:92
-#: plumbing/templates/admin/plumbing_widget.html:122
+#: plumbing/templates/admin/plumbing_widget.html:107
+#: plumbing/templates/admin/plumbing_widget.html:145
 msgid "Expression"
 msgstr "Uttrykk"
 
 #: content/templates/admin/content_widget.html:130
 #: content/templates/admin/content_widget.html:170
-#: plumbing/templates/admin/plumbing_widget.html:95
-#: plumbing/templates/admin/plumbing_widget.html:125
+#: plumbing/templates/admin/plumbing_widget.html:110
+#: plumbing/templates/admin/plumbing_widget.html:148
 msgid "Start writing..."
 msgstr "Begynn å skrive..."
 
 #: content/templates/admin/content_widget.html:131
 #: content/templates/admin/content_widget.html:171
-#: plumbing/templates/admin/plumbing_widget.html:96
-#: plumbing/templates/admin/plumbing_widget.html:126
+#: plumbing/templates/admin/plumbing_widget.html:111
+#: plumbing/templates/admin/plumbing_widget.html:149
 msgid "Preview"
 msgstr "Forhåndsvisning"
 
 #: content/templates/admin/content_widget.html:133
 #: content/templates/admin/content_widget.html:173
-#: plumbing/templates/admin/plumbing_widget.html:98
-#: plumbing/templates/admin/plumbing_widget.html:128
+#: plumbing/templates/admin/plumbing_widget.html:113
+#: plumbing/templates/admin/plumbing_widget.html:151
 msgid "Serafin Expression Syntax"
 msgstr "Serafin-uttrykk Syntaks"
 
@@ -176,7 +176,7 @@ msgid "+ Multiple selection"
 msgstr "+ Flervalg"
 
 #: content/templates/admin/content_widget.html:192
-#: plumbing/templates/admin/plumbing_widget.html:14
+#: plumbing/templates/admin/plumbing_widget.html:15
 msgid "+ Email"
 msgstr "+ E-post"
 
@@ -624,15 +624,15 @@ msgstr "til tilgjengelig presisjon"
 msgid "Close"
 msgstr "Lukk"
 
-#: events/admin.py:23
+#: events/admin.py:24
 msgid "Actor"
 msgstr "Utført av"
 
-#: events/models.py:11 tasker/models.py:49 users/templates/admin/userlog.html:7
+#: events/models.py:11 tasker/models.py:48 users/templates/admin/userlog.html:7
 msgid "time"
 msgstr "tidspunkt"
 
-#: events/models.py:12 tasker/models.py:45 users/templates/admin/userlog.html:8
+#: events/models.py:12 tasker/models.py:44 users/templates/admin/userlog.html:8
 msgid "domain"
 msgstr "domene"
 
@@ -688,107 +688,138 @@ msgstr "+ Side"
 msgid "+ Session"
 msgstr "+ Økt"
 
-#: plumbing/templates/admin/plumbing_widget.html:15
+#: plumbing/templates/admin/plumbing_widget.html:13
+msgid "+ Background Session"
+msgstr "+ Bakgrunnsøkt"
+
+#: plumbing/templates/admin/plumbing_widget.html:16
 msgid "+ Sms"
 msgstr "+ SMS"
 
-#: plumbing/templates/admin/plumbing_widget.html:16
+#: plumbing/templates/admin/plumbing_widget.html:17
 msgid "+ Delay"
 msgstr "+ Forsinkelse"
 
-#: plumbing/templates/admin/plumbing_widget.html:17
+#: plumbing/templates/admin/plumbing_widget.html:18
 msgid "+ Register"
 msgstr "+ Registrering"
 
-#: plumbing/templates/admin/plumbing_widget.html:18
+#: plumbing/templates/admin/plumbing_widget.html:19
 msgid "+ Enroll"
 msgstr "+ Påmelding"
 
-#: plumbing/templates/admin/plumbing_widget.html:19
+#: plumbing/templates/admin/plumbing_widget.html:20
 msgid "+ Leave"
 msgstr "+ Avmelding"
 
-#: plumbing/templates/admin/plumbing_widget.html:62
+#: plumbing/templates/admin/plumbing_widget.html:21
+msgid "+ Wait"
+msgstr "+ Vent"
+
+#: plumbing/templates/admin/plumbing_widget.html:73
 #: templates/sitetree/topbar_navmenu/navmenu.html:18
 msgid "Register"
 msgstr "Registrering"
 
-#: plumbing/templates/admin/plumbing_widget.html:65
+#: plumbing/templates/admin/plumbing_widget.html:76
 msgid "Enroll"
 msgstr "Påmelding"
 
-#: plumbing/templates/admin/plumbing_widget.html:68
+#: plumbing/templates/admin/plumbing_widget.html:79
 msgid "Leave"
 msgstr "Avmelding"
 
-#: plumbing/templates/admin/plumbing_widget.html:77
+#: plumbing/templates/admin/plumbing_widget.html:82
+msgid "Wait"
+msgstr "Vent"
+
+#: plumbing/templates/admin/plumbing_widget.html:91
 msgid "Number"
 msgstr "Antall"
 
-#: plumbing/templates/admin/plumbing_widget.html:79
+#: plumbing/templates/admin/plumbing_widget.html:93
+msgid "seconds"
+msgstr "sekunder"
+
+#: plumbing/templates/admin/plumbing_widget.html:94
 msgid "minutes"
 msgstr "minutter"
 
-#: plumbing/templates/admin/plumbing_widget.html:80 system/models.py:133
+#: plumbing/templates/admin/plumbing_widget.html:95 system/models.py:131
 msgid "hours"
 msgstr "timer"
 
-#: plumbing/templates/admin/plumbing_widget.html:115
+#: plumbing/templates/admin/plumbing_widget.html:123
+msgid "Start time (leave blank for immediate)"
+msgstr "Starttid (la stå tom for umiddelbart)"
+
+#: plumbing/templates/admin/plumbing_widget.html:124
+msgid "E.g. 06:00"
+msgstr "F.eks. 06:00"
+
+#: plumbing/templates/admin/plumbing_widget.html:138
 msgid "Pass"
 msgstr ""
 
-#: serafin/apps.py:9 users/admin.py:120 users/admin.py:134
+#: serafin/apps.py:15 users/admin.py:134 users/admin.py:148
 msgid "Permissions"
 msgstr "Tillatelser"
 
-#: serafin/apps.py:10
+#: serafin/apps.py:16
 msgid "Filer"
 msgstr "Media"
 
-#: serafin/settings.py:112
+#: serafin/apps.py:36 tasker/admin.py:41
+msgid "User"
+msgstr "Bruker"
+
+#: serafin/apps.py:43
+msgid "Show only requests from this IP address."
+msgstr "Vis bare resultater fra denne IP-adressen"
+
+#: serafin/apps.py:46
+msgid "IP"
+msgstr ""
+
+#: serafin/settings.py:124
 msgid "English"
 msgstr ""
 
-#: serafin/settings.py:113
+#: serafin/settings.py:125
 msgid "Norwegian"
 msgstr "Norsk bokmål"
 
-#: serafin/settings.py:270
+#: serafin/settings.py:260
 msgid "Users"
 msgstr "Brukere"
 
-#: serafin/settings.py:280
+#: serafin/settings.py:270
 msgid "Program"
 msgstr "Program"
 
-#: serafin/settings.py:294
+#: serafin/settings.py:284
 msgid "Events"
 msgstr "Hendelser"
 
-#: serafin/settings.py:304
+#: serafin/settings.py:295
 msgid "Media"
 msgstr "Media"
 
-#: serafin/settings.py:309
+#: serafin/settings.py:300
 msgid "Settings"
 msgstr "Oppsett"
 
-#: serafin/settings.py:455
+#: serafin/settings.py:487
 msgid "Default stylesheet"
 msgstr "Nøytralt stilark"
 
-#: serafin/settings.py:456
+#: serafin/settings.py:488
 msgid "Miksmaster"
 msgstr "Miksmaster"
 
-#: serafin/settings.py:457
+#: serafin/settings.py:489
 msgid "Miksmaster alternate"
 msgstr "Miksmaster, alternativ"
-
-#: serafin/utils.py:24
-#, python-format
-msgid "%(first)s and %(last)s"
-msgstr "%(first)s og %(last)s"
 
 #: system/admin.py:26
 msgid ""
@@ -919,7 +950,7 @@ msgstr "Kopier valgt innhold"
 msgid "Subject"
 msgstr "Emne"
 
-#: system/engine.py:327
+#: system/engine.py:504
 msgid "Delayed node execution"
 msgstr "Forsinket hendelse"
 
@@ -931,13 +962,13 @@ msgstr "navn"
 msgid "display name"
 msgstr "visningsnavn"
 
-#: system/models.py:27 system/models.py:76 system/models.py:130
-#: system/models.py:173
+#: system/models.py:27 system/models.py:74 system/models.py:128
+#: system/models.py:171
 msgid "admin note"
 msgstr "administratornotat"
 
-#: system/models.py:28 system/models.py:81 system/models.py:107
-#: system/models.py:128 system/models.py:174
+#: system/models.py:28 system/models.py:79 system/models.py:105
+#: system/models.py:126 system/models.py:172
 msgid "program"
 msgstr "program"
 
@@ -985,132 +1016,132 @@ msgstr "tekstsett"
 msgid "variables"
 msgstr "variabler"
 
-#: system/models.py:74 system/models.py:124 system/models.py:170
+#: system/models.py:72 system/models.py:122 system/models.py:168
 msgid "title"
 msgstr "tittel"
 
-#: system/models.py:75 system/models.py:125 system/models.py:171
+#: system/models.py:73 system/models.py:123 system/models.py:169
 msgid "display title"
 msgstr "visningstittel"
 
-#: system/models.py:78 users/models.py:155
+#: system/models.py:76 users/models.py:208
 msgid "users"
 msgstr "brukere"
 
-#: system/models.py:82
+#: system/models.py:80
 msgid "programs"
 msgstr "programmer"
 
-#: system/models.py:108 users/models.py:154
+#: system/models.py:106 users/models.py:207
 msgid "user"
 msgstr "bruker"
 
-#: system/models.py:110
+#: system/models.py:108
 msgid "start time"
 msgstr "starttid"
 
-#: system/models.py:111
+#: system/models.py:109
 msgid "time factor"
 msgstr "tidsfaktor"
 
-#: system/models.py:114
+#: system/models.py:112
 msgid "user access"
 msgstr "brukertilgang"
 
-#: system/models.py:115
+#: system/models.py:113
 msgid "user accesses"
 msgstr "brukertilganger"
 
-#: system/models.py:126
+#: system/models.py:124
 msgid "route slug"
 msgstr "URL-navn"
 
-#: system/models.py:127
+#: system/models.py:125
 msgid "is open"
 msgstr "fritt tilgjengelig"
 
-#: system/models.py:129 system/models.py:180
+#: system/models.py:127 system/models.py:178
 msgid "content"
 msgstr "innhold"
 
-#: system/models.py:134
+#: system/models.py:132
 msgid "days"
 msgstr "dager"
 
-#: system/models.py:136
+#: system/models.py:134
 msgid "start time delta"
 msgstr "avvik starttid"
 
-#: system/models.py:137
+#: system/models.py:135
 msgid "start time unit"
 msgstr "enhet starttid"
 
-#: system/models.py:138
+#: system/models.py:136
 msgid "end time delta"
 msgstr "avvik sluttid"
 
-#: system/models.py:139
+#: system/models.py:137
 msgid "end time unit"
 msgstr "enhet sluttid"
 
-#: system/models.py:140
+#: system/models.py:138
 msgid "first start time"
 msgstr "første starttid"
 
-#: system/models.py:141
+#: system/models.py:139
 msgid "scheduled"
 msgstr "i tidsplan"
 
-#: system/models.py:142
+#: system/models.py:140
 msgid "trigger login"
 msgstr "innlogging"
 
-#: system/models.py:147
+#: system/models.py:145
 msgid "session"
 msgstr "økt"
 
-#: system/models.py:148
+#: system/models.py:146
 msgid "sessions"
 msgstr "økter"
 
-#: system/models.py:151
+#: system/models.py:149
 #, python-format
 msgid "Session %s"
 msgstr "Økt %s"
 
-#: system/models.py:172
+#: system/models.py:170
 msgid "content type"
 msgstr "innholdstype"
 
-#: system/models.py:175
+#: system/models.py:173
 msgid "Can optionally be bound to a specific program"
 msgstr "Kan valgfritt knyttes til et spesifikt program"
 
-#: system/models.py:181
+#: system/models.py:179
 msgid "contents"
 msgstr "innhold"
 
-#: system/models.py:205
+#: system/models.py:203
 msgid "page"
 msgstr "side"
 
-#: system/models.py:206
+#: system/models.py:204
 msgid "pages"
 msgstr "sider"
 
-#: system/models.py:251
+#: system/models.py:249
 msgid "e-mail"
 msgstr "e-post"
 
-#: system/models.py:252
+#: system/models.py:250
 msgid "e-mails"
 msgstr "e-poster"
 
-#: system/models.py:284
+#: system/models.py:282
 msgid "SMS"
 msgstr "SMS"
 
-#: system/models.py:285
+#: system/models.py:283
 msgid "SMSs"
 msgstr "SMSer"
 
@@ -1118,24 +1149,23 @@ msgstr "SMSer"
 msgid "An error has occurred. Your expression cannot be evaluated."
 msgstr "En feil har oppstått. Kunne ikke evaluere uttrykket."
 
-#: system/signals.py:84 system/signals.py:173 system/signals.py:208
+#: system/signals.py:95 system/signals.py:184 system/signals.py:219
 msgid "Initialize session"
 msgstr "Aktiver økt"
 
-#: system/tasks.py:22 system/tasks.py:50
+#: system/tasks.py:22 system/tasks.py:49
 msgid "Inactive user, no action taken"
-msgstr ""
+msgstr "Inaktiv bruker, ingen handling foretatt"
 
-#: system/tasks.py:27
-#, python-format
-msgid "%(session)s transitioned to %(node)s"
+#: system/tasks.py:26
+msgid "%(session)s transitioned to node %(node)s"
 msgstr "%(session)s ble overført til %(node)s"
 
-#: system/tasks.py:56
+#: system/tasks.py:55
 msgid "Session initialized and login e-mail sent"
 msgstr "Økt aktivert og e-post for innlogging sendt"
 
-#: system/tasks.py:58
+#: system/tasks.py:57
 msgid "Session initialized"
 msgstr "Økt aktivert"
 
@@ -1147,58 +1177,59 @@ msgstr "Velg en tekstfil å importere"
 msgid "Upload"
 msgstr "Last opp"
 
-#: tasker/admin.py:28
+#: system/utils.py:14
+#, python-format
+msgid "%(first)s and %(last)s"
+msgstr "%(first)s og %(last)s"
+
+#: tasker/admin.py:29
 msgid "Source"
 msgstr "Kilde"
 
-#: tasker/admin.py:40
-msgid "User"
-msgstr "Bruker"
-
-#: tasker/admin.py:45
+#: tasker/admin.py:46
 msgid "Task result"
 msgstr "Oppgaveresultat"
 
-#: tasker/models.py:40
+#: tasker/models.py:39
 msgid "sender"
 msgstr "avsender"
 
-#: tasker/models.py:43
+#: tasker/models.py:42
 msgid "subject"
 msgstr "bruker"
 
-#: tasker/models.py:46
+#: tasker/models.py:45
 msgid "action"
 msgstr "handling"
 
-#: tasker/models.py:47 tasker/models.py:61
+#: tasker/models.py:46 tasker/models.py:60
 msgid "task"
 msgstr "oppgave"
 
-#: tasker/models.py:54
+#: tasker/models.py:53
 #, python-format
 msgid "%(time)s: %(sender)s, %(action)s"
 msgstr ""
 
-#: tasker/models.py:62
+#: tasker/models.py:61
 msgid "tasks"
 msgstr "oppgaver"
 
 #: templates/admin/base.html:70
 msgid "Welcome,"
-msgstr ""
+msgstr "Velkommen, "
 
 #: templates/admin/base.html:78
 msgid "Documentation"
-msgstr ""
+msgstr "Dokumentasjon"
 
 #: templates/admin/base.html:92
 msgid "Change password"
-msgstr ""
+msgstr "Endre passord"
 
 #: templates/admin/base.html:94
 msgid "Log out"
-msgstr ""
+msgstr "Logg ut"
 
 #: templates/admin/base.html:114
 msgid "Home"
@@ -1207,6 +1238,22 @@ msgstr "Hjem"
 #: templates/admin/base_site.html:43
 msgid "Developed by"
 msgstr "Utviklet av"
+
+#: templates/admin/index.html:33
+msgid "Traffic graph"
+msgstr "Traffikgraf"
+
+#: templates/admin/index.html:33
+msgid "Week"
+msgstr "Uke"
+
+#: templates/admin/index.html:33
+msgid "Month"
+msgstr "Måned"
+
+#: templates/admin/index.html:33
+msgid "Year"
+msgstr "År"
 
 #: templates/admin/program-switcher.html:9
 msgid "All programs"
@@ -1267,7 +1314,7 @@ msgstr ""
 
 #: templates/registration/password_reset_complete.html:12
 #: users/templates/login.html:5 users/templates/login.html.py:9
-#: users/templates/login.html:19 users/views.py:25
+#: users/templates/login.html:19 users/views.py:31
 msgid "Log in"
 msgstr "Logg inn"
 
@@ -1371,19 +1418,17 @@ msgstr "Passordnullstilling på %(site_name)s"
 
 #: templates/session.html:6
 msgid ""
-"Oops! Seems we've hit a snag trying to get your page. An error report will "
-"be relayed to our tech team, and we'll try to have this fixed soon. Try "
-"again in a few hours?"
+"Something went wrong. We weren't able to find the right path for you. You "
+"can try reloading the page. If that doesn't work, try again in a few hours?"
 msgstr ""
-"Oisann! Vi klarte visst ikke å få tak i siden din. En feilmelding blir "
-"oversendt våre teknikere, og vi vil forsøke å fikse dette raskt. Kanskje du "
-"vil prøve igjen om et par timer?"
+"Noe gikk galt. Vi klarte ikke finne den riktige stien for deg. Prøv "
+"å laste siden på nytt. Går ikke det, kanskje du kan prøve igjen litt senere?"
 
 #: templates/session.html:31 templates/session.html.py:43
 #: templates/session.html:67 templates/session.html.py:77
-#: templates/session.html:139 templates/session.html.py:149
-#: templates/session.html:170 templates/session.html.py:180
-#: templates/session.html:225
+#: templates/session.html:140 templates/session.html.py:150
+#: templates/session.html:171 templates/session.html.py:181
+#: templates/session.html:226
 msgid "Please choose one"
 msgstr "Gjør et valg"
 
@@ -1398,24 +1443,25 @@ msgid ""
 msgstr ""
 "Skriv inn et tall mellom {{ field.lower_limit }} og {{ field.upper_limit }}"
 
-#: templates/session.html:118 templates/session.html.py:129
-#: templates/session.html:199 templates/session.html.py:208
+#: templates/session.html:118 templates/session.html.py:119
+#: templates/session.html:130 templates/session.html.py:200
+#: templates/session.html:209
 msgid "This field is required"
 msgstr "Dette feltet er påkrevet"
 
-#: templates/session.html:119
+#: templates/session.html:120
 msgid "Your phone number is too short"
 msgstr "Telefonnummeret ditt er for kort"
 
-#: templates/session.html:120
+#: templates/session.html:121
 msgid "+Country code then number, no other characters, e.g. \"+4798765432\""
 msgstr "+Landskode og nummer, ingen andre tegn. Feks. \"+4798765432\""
 
-#: templates/session.html:200
+#: templates/session.html:201
 msgid "Please input a valid e-mail address"
 msgstr "Skriv inn en gyldig e-postadresse"
 
-#: templates/session.html:260
+#: templates/session.html:261
 msgid "Next page"
 msgstr "Neste side"
 
@@ -1427,84 +1473,100 @@ msgstr "Konto"
 msgid "OK"
 msgstr ""
 
-#: users/admin.py:23 users/admin.py:73
+#: users/admin.py:26 users/admin.py:76
 msgid "Password"
 msgstr ""
 
-#: users/admin.py:24
+#: users/admin.py:27
 msgid "Password (again)"
 msgstr ""
 
-#: users/admin.py:25
+#: users/admin.py:28
 msgid "E-mail"
 msgstr "E-post"
 
-#: users/admin.py:26
+#: users/admin.py:29
 msgid "Phone"
 msgstr "Telefonnummer"
 
-#: users/admin.py:36
+#: users/admin.py:39
 msgid "The passwords are not equal."
 msgstr "Passordene er ikke like."
 
-#: users/admin.py:74
+#: users/admin.py:77
 msgid "Password can be changed with <a href=\"password/\">this form</a>."
 msgstr "Passord kan endres med <a href=\"password/\">dette skjemaet</a>."
 
-#: users/admin.py:81
+#: users/admin.py:84
 msgid ""
 "Designates whether this user should be treated as active. Unselect this "
 "instead of deleting accounts."
 msgstr ""
 
-#: users/admin.py:82
+#: users/admin.py:85
 msgid "Designates whether the user can log into this admin site."
 msgstr ""
 
-#: users/admin.py:148
+#: users/admin.py:162
 msgid "User info"
 msgstr "Brukerinfo"
 
-#: users/admin.py:149
+#: users/admin.py:163
 msgid "User data"
 msgstr "Brukerdata"
 
-#: users/admin.py:150
+#: users/admin.py:164
 msgid "Log entries"
 msgstr "Logghendelser"
 
-#: users/forms.py:15
+#: users/forms.py:20
 msgid "Email"
 msgstr "E-post"
 
-#: users/forms.py:50
+#: users/forms.py:72
 msgid "ID should be an integer value"
 msgstr "ID må være et heltall"
 
-#: users/models.py:40
+#: users/models.py:50
+msgid "e-mail address"
+msgstr "e-postadresse"
+
+#: users/models.py:51
+msgid "phone number"
+msgstr "telefonnummer"
+
+#: users/models.py:53
 msgid "staff status"
 msgstr "administrator"
 
-#: users/models.py:41
+#: users/models.py:54
 msgid "active"
 msgstr "aktiv"
 
-#: users/models.py:42
+#: users/models.py:55
 msgid "date joined"
 msgstr "registreringsdato"
 
-#: users/models.py:44
+#: users/models.py:57
 msgid "token"
 msgstr "nøkkel"
 
-#: users/models.py:54
+#: users/models.py:67
 #, python-format
 msgid "User %i"
 msgstr "Bruker %i"
 
-#: users/models.py:115
+#: users/models.py:168
 msgid "Today's login link"
 msgstr "Dagens innloggingslenke"
+
+#: users/models.py:242
+msgid "Invalid e-mail."
+msgstr "Ugyldig e-postadresse."
+
+#: users/models.py:244
+msgid "Invalid phone number."
+msgstr "Ugyldig telefonnummer."
 
 #: users/templates/email/login_link.html:14
 #: users/templates/email/login_link.txt:3
@@ -1565,23 +1627,11 @@ msgstr "Endre dine data"
 msgid "Save"
 msgstr "Lagre"
 
-#: vault/models.py:13
-msgid "e-mail address"
-msgstr "e-postadresse"
+#: users/views.py:93
+msgid "Sorry, I'm not sure who this is."
+msgstr "Beklager, jeg er ikke sikker på hvem dette er."
 
-#: vault/models.py:14
-msgid "phone number"
-msgstr "telefonnummer"
-
-#: vault/models.py:55
-msgid "vault user"
-msgstr "Hvelvbruker"
-
-#: vault/models.py:56
-msgid "vault users"
-msgstr "Hvelvbrukere"
-
-#: vault/views.py:110
+#: users/views.py:132
 msgid ""
 "Sorry, there was an error processing your SMS. Our technicians have been "
 "notified and will try to fix it."
@@ -1589,6 +1639,6 @@ msgstr ""
 "Beklager, noe gikk galt ved behandling av din SMS. Våre teknikere har fått "
 "beskjed og vil forsøke å fikse det."
 
-#: vault/views.py:112
+#: users/views.py:136
 msgid "No data received."
 msgstr "Ingen data mottatt"
