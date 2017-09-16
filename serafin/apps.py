@@ -21,7 +21,7 @@ class SerafinReConfig(AppConfig):
 
 class CustomRequestAdmin(RequestAdmin):
     list_display = ['time', 'method', 'path', 'response', 'ip_filter', 'user_link']
-    search_fields = ['path', 'ip', 'user_id']
+    search_fields = ['path', 'ip', 'user__id']
     date_hierarchy = 'time'
 
     def has_add_permission(self, request):
