@@ -66,7 +66,7 @@ def receive_sms(request):
 
     if request.method == 'POST':
 
-        debug_logger.debug('user.receive_sms - POST request started at %s' % str(now))
+        debug_logger.debug('received post %s', request.POST)
 
         if settings.SMS_SERVICE == 'Twilio' or settings.SMS_SERVICE == 'Console':
             sender = request.POST.get('From')
@@ -87,7 +87,7 @@ def receive_sms(request):
 
         try:
             user = User.objects.get(phone=sender)
-            debug_logger.debug('user.receive_sms - Got user %r at %s' % (user, str(timezone.now() - now)))
+            debug_logger.debug('got user %r', user)
         except:
             user = None
             reply = _('Sorry, I\'m not sure who this is.')
@@ -107,7 +107,6 @@ def receive_sms(request):
                     pre_value=user.data.get(reply_var, ''),
                     post_value=body
                 )
-                debug_logger.debug('user.receive_sms - logged variable change at %s' % str(timezone.now() - now))
 
                 try:
                     context = {
@@ -116,38 +115,37 @@ def receive_sms(request):
                         reply_var: body,
                     }
                     engine = Engine(user=user, context=context)
-                    debug_logger.debug('user.receive_sms - prepared Engine at %s' % str(timezone.now() - now))
+                    debug_logger.debug('prepared engine')
 
                     del engine.user.data['reply_session']
                     del engine.user.data['reply_node']
                     del engine.user.data['reply_variable']
+                    debug_logger.debug('deleted reply vars')
+
                     engine.transition(reply_node)
-                    debug_logger.debug('user.receive_sms - finished engine transitions %s' % str(timezone.now() - now))
+                    debug_logger.debug('finished engine transitions')
 
                     engine.user.save()
-
-                    debug_logger.debug('user.receive_sms - saved user %s' % str(timezone.now() - now))
+                    debug_logger.debug('saved user %s', engine.user)
 
                 except Exception as e:
                     reply = _('Sorry, there was an error processing your SMS. '
                               'Our technicians have been notified and will try to fix it.')
     else:
-        debug_logger.debug('user.receive_sms - No data received at %s' % str(timezone.now() - now))
+        debug_logger.debug('no data received')
         reply = _('No data received.')
 
     if settings.SMS_SERVICE == 'Twilio':
         response = twiml.Response()
         if reply:
-            debug_logger.debug('user.receive_sms - Sending SMS response starting at %s' % str(timezone.now() - now))
             response.message(reply)
-            debug_logger.debug('user.receive_sms - Sending SMS response completed at %s' % str(timezone.now() - now))
 
     if settings.SMS_SERVICE == 'Plivo':
         response = plivoxml.Response()
         if reply and src and dst:
             response.addMessage(reply, src=src, dst=dst)
 
-    debug_logger.debug('user.receive_sms - Finished request at %s' % str(timezone.now() - now))
+    debug_logger.debug('finished request')
     return HttpResponse(response, content_type='text/xml')
 
 

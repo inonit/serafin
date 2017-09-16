@@ -41,13 +41,17 @@ class Engine(object):
 
         self.logger = logging.getLogger('debug')
         self.now = timezone.now()
-        self.logger.debug('engine - starting init at %s' % str(self.now))
         self.is_interactive = is_interactive
 
         if user:
             self.user = user
         else:
             self.user = get_user_model().objects.get(id=user_id)
+
+        self.logger.debug(
+            '%s engine init, context %s',
+            user, context
+        )
 
         # push current session and node to stack if entering subsession
         if push:
@@ -109,6 +113,11 @@ class Engine(object):
         self.edges = self.session.data.get('edges')
         self.node_id = node_id
 
+        self.logger.debug(
+            '%s %s session initialized, node_id %s',
+            self.user, self.session, node_id
+        )
+
     def get_node_edges(self, source_id):
         '''Get the edges going from a given node'''
         return [edge for edge in self.edges if edge.get('source') == source_id]
@@ -139,10 +148,6 @@ class Engine(object):
         if self.is_dead_end(node_id) and self.is_stacked():
 
             node = self.nodes.get(node_id)
-            self.logger.debug(
-                'dead end (%r %r %r)' %
-                (node, self.is_stacked(), self.user.data.get('stack'))
-            )
 
             if node.get('type') in ['start', 'session', 'expression']:
                 return self.run(pop=True)
@@ -169,8 +174,8 @@ class Engine(object):
         '''Transition from a given node and trigger a new node.'''
 
         self.logger.debug(
-            'engine - triggered transition at %s' %
-            str(timezone.now() - self.now)
+            '%s %s triggered transition, source_id %s',
+            self.user, self.session, source_id
         )
 
         # keep a local list of nodes
@@ -195,8 +200,8 @@ class Engine(object):
                 break
 
         self.logger.debug(
-            'engine - transition processed special edges at %s' %
-            str(timezone.now() - self.now)
+            '%s %s transition processed special edges, source_id %s',
+            self.user, self.session, source_id
         )
 
         # sometimes a special edge will return a normal node
@@ -211,14 +216,14 @@ class Engine(object):
             target_id = edge.get('target')
             node = nodes.get(target_id)
             self.logger.debug(
-                'engine - transition returned node at %s'
-                % str(timezone.now() - self.now)
+                '%s %s transition returned node %s, edge %s, source_id %s',
+                self.user, self.session, node, edge, source_id
             )
             return self.trigger_node(node)
         else:
             self.logger.debug(
-                'engine - transition met dead end at %s'
-                % str(timezone.now() - self.now)
+                '%s %s transition met dead end, edge %s, source_id %s',
+                self.user, self.session, edge, source_id
             )
             return self.handle_dead_end(source_id)
 
@@ -237,18 +242,16 @@ class Engine(object):
                 pass
 
         self.logger.debug(
-            'engine - dispatching \'%s\' node at %s' %
-            (node_type, str(timezone.now() - self.now))
+            '%s %s triggered node %s, type %s',
+            self.user, self.session, node_id, node_type,
         )
 
         if node_type == 'start':
-            self.logger.debug(
-                'engine - processed \'start\' node at %s' %
-                str(timezone.now() - self.now)
-            )
+
             return self.transition(node_id)
 
         if node_type == 'page':
+
             page = Page.objects.get(id=ref_id)
             page.update_html(self.user)
 
@@ -270,18 +273,17 @@ class Engine(object):
             self.user.data['node'] = node_id
             self.user.save()
 
-            self.logger.debug(
-                'engine - processed \'page\' node at %s' %
-                str(timezone.now() - self.now)
-            )
             return page
 
         if node_type == 'wait':
+
             if self.is_interactive:
                 return self.transition(node_id)
+
             self.user.data['session'] = self.session.id
             self.user.data['node'] = node_id
             self.user.save()
+
             log_event.send(
                 self,
                 domain='session',
@@ -290,6 +292,7 @@ class Engine(object):
                 pre_value='Start Wait',
                 post_value=''
             )
+
             return
 
         if node_type == 'session':
@@ -302,13 +305,10 @@ class Engine(object):
 
             self.init_session(ref_id, 0)
 
-            self.logger.debug(
-                'engine - processed \'session\' node at %s' %
-                str(timezone.now() - self.now)
-            )
             return self.transition(0)
 
         if node_type == 'background_session':
+
             current_node = node_id
             current_session = self.session.pk
             is_interactive = self.is_interactive
@@ -317,11 +317,6 @@ class Engine(object):
             # XXX: Create a new instance of engine?
             self.init_session(ref_id, 0, should_save=False)
 
-            self.logger.debug(
-                'engine - processed \'background_session\' node at %s' %
-                str(timezone.now() - self.now)
-            )
-
             self.transition(0)
             self.is_interactive = is_interactive
             self.init_session(current_session, current_node, should_save=False)
@@ -329,6 +324,7 @@ class Engine(object):
             return self.transition(node_id)
 
         if node_type == 'expression':
+
             expression = node.get('expression')
             variable_name = node.get('variable_name')
 
@@ -344,12 +340,14 @@ class Engine(object):
                     self.user.save()
 
             self.logger.debug(
-                'engine - processed \'expression\' node at %s' %
-                str(timezone.now() - self.now)
+                '%s %s processed expression %s',
+                self.user, self.session, expression
             )
+
             return self.transition(node_id)
 
         if node_type == 'email':
+
             email = Email.objects.get(id=ref_id)
             email.send(self.user)
 
@@ -363,32 +361,19 @@ class Engine(object):
             )
 
             self.logger.debug(
-                'engine - processed \'email\' node at %s' %
-                str(timezone.now() - self.now)
+                '%s %s email sent %s',
+                self.user, self.session, email
             )
+
             return self.transition(node_id)
 
         if node_type == 'sms':
-            self.logger.debug(
-                'engine - fetching sms at %s' %
-                str(timezone.now() - self.now)
-            )
 
             sms = SMS.objects.get(id=ref_id)
             if self.is_interactive and 'reply:' in sms.data[0].get('content'):
                 return
 
-            self.logger.debug(
-                'engine - sending sms at %s' %
-                str(timezone.now() - self.now)
-            )
-
             sms.send(self.user, session_id=self.session.id, node_id=node_id)
-
-            self.logger.debug(
-                'engine - sms sent at %s' %
-                str(timezone.now() - self.now)
-            )
 
             log_event.send(
                 self,
@@ -400,24 +385,17 @@ class Engine(object):
             )
 
             self.logger.debug(
-                'engine - processed \'sms\' node at %s' %
-                str(timezone.now() - self.now)
+                '%s %s sms sent %s',
+                self.user, self.session, sms
             )
 
             if 'reply:' not in sms.data[0].get('content'):
-                self.logger.debug(
-                    'engine - transition from \'sms\' at %s' %
-                    str(timezone.now() - self.now)
-                )
                 return self.transition(node_id)
             else:
-                self.logger.debug(
-                    'engine - returning from \'sms\' at %s' %
-                    str(timezone.now() - self.now)
-                )
                 return Page()
 
         if node_type == 'register':
+
             self.user, registered = self.user.register()
 
             if registered:
@@ -430,9 +408,15 @@ class Engine(object):
                     post_value=''
                 )
 
+            self.logger.debug(
+                '%s %s registered %s',
+                self.user, self.session, registered
+            )
+
             return self.transition(node_id)
 
         if node_type == 'enroll':
+
             start_time_string = node.get('start_time')
             start_time = timezone.localtime(timezone.now())
             if start_time_string:
@@ -458,9 +442,15 @@ class Engine(object):
                 post_value=self.session.program.title
             )
 
+            self.logger.debug(
+                '%s %s enrolled in %s',
+                self.user, self.session, self.session.program
+            )
+
             return self.transition(node_id)
 
         if node_type == 'leave':
+
             self.session.program.leave(self.user)
 
             log_event.send(
@@ -472,15 +462,18 @@ class Engine(object):
                 post_value=self.session.program.title
             )
 
+            self.logger.debug(
+                '%s %s left %s',
+                self.user, self.session, self.session.program
+            )
+
             return self.transition(node_id)
 
         if node_type == 'delay':
+
             useraccesses = self.session.program.programuseraccess_set.filter(user=self.user)
             for useraccess in useraccesses:
-                # start_time = self.session.get_start_time(
-                #     useraccess.start_time,
-                #     useraccess.time_factor
-                # )
+
                 start_time = datetime.now(pytz.utc)
                 delay = node.get('delay')
                 kwargs = {
@@ -490,7 +483,7 @@ class Engine(object):
 
                 from system.tasks import transition
 
-                Task.objects.create_task(
+                task = Task.objects.create_task(
                     sender=self.session,
                     domain='delay',
                     time=start_time + delta,
@@ -506,9 +499,10 @@ class Engine(object):
                 )
 
                 self.logger.debug(
-                    'engine - processed \'delay\' node at %s' %
-                    str(timezone.now() - self.now)
+                    '%s %s delay created task %s',
+                    self.user, self.session, task
                 )
+
                 return
 
     def run(self, next=False, pop=False):
@@ -522,10 +516,10 @@ class Engine(object):
         initialized.
         '''
 
-        # self.logger.debug(
-        #     'run - node id: %d / %d' %
-        #     (self.node_id, self.user.data.get('node'))
-        # )
+        self.logger.debug(
+            '%s %s run, next %s, pop %s',
+            self.user, self.session, next, pop
+        )
 
         node_id = self.node_id if self.node_id is not None else self.user.data.get('node')
 
@@ -540,10 +534,21 @@ class Engine(object):
         # pop stack data and set previous session
         if pop:
             session_id, node_id = self.user.data.get('stack').pop()
+
+            self.logger.debug(
+                '%s %s popped session %s, node %s from stack',
+                self.user, self.session, session_id, node_id
+            )
+
             # pop again if still on the same session
             # risky, but ensures restacking via e.g. menu will not lock user in
             while self.user.data.get('stack') and session_id == self.user.data.get('session'):
                 session_id, node_id = self.user.data.get('stack').pop()
+
+                self.logger.debug(
+                    '%s %s popped session %s, node %s from stack',
+                    self.user, self.session, session_id, node_id
+                )
 
             self.init_session(session_id, node_id)
 
