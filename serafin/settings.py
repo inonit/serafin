@@ -217,7 +217,7 @@ HUEY = {
     'always_eager': False,
     'consumer': {
         'quiet': True,
-        'workers': 64,
+        'workers': 100,
         'worker_type': 'greenlet',
         'health_check_interval': 60,
     },
