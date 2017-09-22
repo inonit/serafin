@@ -21,6 +21,7 @@ django-xforwardedfor-middleware==1.0.0
 djangorestframework==3.3.3
 easy-thumbnails==2.3
 funcsigs==1.0.2
+gevent
 gunicorn==19.7.1
 httplib2==0.9.2
 huey==1.2.1
