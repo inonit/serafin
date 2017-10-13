@@ -12,7 +12,7 @@
         </div>
 
         <div class="toggle" ng-class="{'hasimage': pagelet.img_content.url}" ng-if="pagelet.content_type == 'toggle'">
-            <img ng-if="pagelet.img_content && pagelet.img_content.url" ng-click="pagelet.toggled = !pagelet.toggled" ng-src="{{ pagelet.img_content.thumbnail || pagelet.img_content.url }}" alt="{{ pagelet.toggle }}" title="{{ pagelet.toggle }}">
+            <img ng-if="pagelet.img_content && pagelet.img_content.url" ng-click="pagelet.toggled = !pagelet.toggled" ng-src="{{ pagelet.img_content.url }}" alt="{{ pagelet.toggle }}" title="{{ pagelet.toggle }}">
             <p>
                 <a ng-click="pagelet.toggled = !pagelet.toggled">
                     <span ng-hide="pagelet.toggled">▶</span>
@@ -234,7 +234,7 @@
         </form>
 
         <div class="image" ng-if="pagelet.content_type == 'image'">
-            <img ng-src="{{ pagelet.content.thumbnail || pagelet.content.url }}" alt="{{ pagelet.content.alt }}" title="{{ pagelet.content.title }}">
+            <img ng-src="{{ pagelet.content.url }}" alt="{{ pagelet.content.alt }}" title="{{ pagelet.content.title }}">
         </div>
 
         <div class="video" ng-if="pagelet.content_type == 'video'">
