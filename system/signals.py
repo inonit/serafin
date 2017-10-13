@@ -1,7 +1,6 @@
 from __future__ import unicode_literals
 from django.utils.translation import ugettext_lazy as _
 
-import logging
 import re
 
 from django.conf import settings
@@ -256,9 +255,6 @@ def content_post_save(sender, **kwargs):
     content_types = ['Page', 'Email', 'SMS']
     node_types = [t.lower() for t in content_types]
 
-    logger = logging.getLogger(__name__)
-    logger.debug('content_post_save started for %s', sender)
-
     if sender.__name__ in content_types:
 
         content = kwargs['instance']
@@ -282,7 +278,6 @@ def content_post_save(sender, **kwargs):
         data = content.data
         aliases.populate_from_settings()
 
-        logger.debug('Generating thumbnails for %s', content)
 
         for pagelet in data:
 
@@ -295,15 +290,12 @@ def content_post_save(sender, **kwargs):
                     try:
                         options = aliases.get('medium')
                         thumbnail = get_thumbnailer(url).get_thumbnail(options).url
-                        logger.debug('Thumbnail %s generated', thumbnail)
                     except:
                         thumbnail = None
-                        logger.debug('Thumbnail generation failed')
 
                     if thumbnail:
                         pagelet['content']['thumbnail'] = thumbnail
                         Content.objects.filter(id=content.id).update(data=data)
-                        logger.debug('Updating %s', content)
 
             if pagelet.get('content_type') == 'toggle':
                 if not 'img_content' in pagelet:
@@ -318,12 +310,9 @@ def content_post_save(sender, **kwargs):
                     try:
                         options = aliases.get('small')
                         thumbnail = get_thumbnailer(url).get_thumbnail(options).url
-                        logger.debug('Thumbnail %s generated', thumbnail)
                     except:
                         thumbnail = None
-                        logger.debug('Thumbnail generation failed')
 
                     if thumbnail:
                         pagelet['img_content']['thumbnail'] = thumbnail
                         Content.objects.filter(id=content.id).update(data=data)
-                        logger.debug('Updating %s', content)
