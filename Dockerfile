@@ -19,7 +19,7 @@ RUN cd /code/ && bower --allow-root install
 COPY requirements.txt /code/
 RUN pip install -r requirements.txt
 COPY . /code/
-COPY serafin/local_settings.dev.py /code/serafin/local_settings.py
+COPY serafin/local_settings.prod.py /code/serafin/local_settings.py
 COPY supervisor.conf /etc/supervisor/supervisor.conf
 EXPOSE 8000
 ENTRYPOINT ["/code/docker-entrypoint.sh"]
