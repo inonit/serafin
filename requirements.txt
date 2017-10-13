@@ -19,7 +19,7 @@ django-suit==0.2.19
 django-user-agents==0.3.0
 django-xforwardedfor-middleware==1.0.0
 djangorestframework==3.3.3
-easy-thumbnails==2.3
+easy-thumbnails==2.4.2
 funcsigs==1.0.2
 gevent
 gunicorn==19.7.1
