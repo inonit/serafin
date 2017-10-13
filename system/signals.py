@@ -257,7 +257,7 @@ def content_post_save(sender, **kwargs):
     node_types = [t.lower() for t in content_types]
 
     logger = logging.getLogger(__name__)
-    logging.debug('content_post_save started for %s', sender)
+    logger.debug('content_post_save started for %s', sender)
 
     if sender.__name__ in content_types:
 
@@ -282,7 +282,7 @@ def content_post_save(sender, **kwargs):
         data = content.data
         aliases.populate_from_settings()
 
-        logging.debug('Generating thumbnails for %s', content)
+        logger.debug('Generating thumbnails for %s', content)
 
         for pagelet in data:
 
@@ -295,15 +295,15 @@ def content_post_save(sender, **kwargs):
                     try:
                         options = aliases.get('medium')
                         thumbnail = get_thumbnailer(url).get_thumbnail(options).url
-                        logging.debug('Thumbnail %s generated', thumbnail)
+                        logger.debug('Thumbnail %s generated', thumbnail)
                     except:
                         thumbnail = None
-                        logging.debug('Thumbnail generation failed')
+                        logger.debug('Thumbnail generation failed')
 
                     if thumbnail:
                         pagelet['content']['thumbnail'] = thumbnail
                         Content.objects.filter(id=content.id).update(data=data)
-                        logging.debug('Updating %s', content)
+                        logger.debug('Updating %s', content)
 
             if pagelet.get('content_type') == 'toggle':
                 if not 'img_content' in pagelet:
@@ -318,12 +318,12 @@ def content_post_save(sender, **kwargs):
                     try:
                         options = aliases.get('small')
                         thumbnail = get_thumbnailer(url).get_thumbnail(options).url
-                        logging.debug('Thumbnail %s generated', thumbnail)
+                        logger.debug('Thumbnail %s generated', thumbnail)
                     except:
                         thumbnail = None
-                        logging.debug('Thumbnail generation failed')
+                        logger.debug('Thumbnail generation failed')
 
                     if thumbnail:
                         pagelet['img_content']['thumbnail'] = thumbnail
                         Content.objects.filter(id=content.id).update(data=data)
-                        logging.debug('Updating %s', content)
+                        logger.debug('Updating %s', content)
