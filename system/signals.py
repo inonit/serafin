@@ -287,10 +287,15 @@ def content_post_save(sender, **kwargs):
 
                 if url:
 
-                    options = aliases.get('medium')
-                    thumbnail = get_thumbnailer(url).get_thumbnail(options).url
-                    pagelet['content']['thumbnail'] = thumbnail
-                    Content.objects.filter(id=content.id).update(data=data)
+                    try:
+                        options = aliases.get('medium')
+                        thumbnail = get_thumbnailer(url).get_thumbnail(options).url
+                    except:
+                        thumbnail = None
+
+                    if thumbnail:
+                        pagelet['content']['thumbnail'] = thumbnail
+                        Content.objects.filter(id=content.id).update(data=data)
 
             if pagelet.get('content_type') == 'toggle':
                 if not 'img_content' in pagelet:
@@ -302,7 +307,12 @@ def content_post_save(sender, **kwargs):
 
                 if url:
 
-                    options = aliases.get('small')
-                    thumbnail = get_thumbnailer(url).get_thumbnail(options).url
-                    pagelet['img_content']['thumbnail'] = thumbnail
-                    Content.objects.filter(id=content.id).update(data=data)
+                    try:
+                        options = aliases.get('small')
+                        thumbnail = get_thumbnailer(url).get_thumbnail(options).url
+                    except:
+                        thumbnail = None
+
+                    if thumbnail:
+                        pagelet['img_content']['thumbnail'] = thumbnail
+                        Content.objects.filter(id=content.id).update(data=data)
