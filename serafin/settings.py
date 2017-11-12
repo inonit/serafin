@@ -495,12 +495,12 @@ STYLESHEETS = [
 from collections import OrderedDict
 CONSTANCE_CONFIG = OrderedDict([
     ('USER_VARIABLE_PROFILE_ORDER', (
-        'session, node, stack, reply_session, reply_node, reply_variable',
+        u'session, node, stack, reply_session, reply_node, reply_variable',
         'What user variables to list first on a user\'s object page (comma separated)',
         unicode
     )),
     ('USER_VARIABLE_EXPORT', (
-        '',
+        u'',
         'What user variables to export from user listing (comma separated, leave blank for all)',
         unicode
     )),
