@@ -27,6 +27,7 @@ DEBUG = False
 
 USERDATA_DEBUG = True
 
+TOKEN_TIMEOUT_DAYS = int(os.environ.get('TOKEN_TIMEOUT_DAYS', 30))
 
 ADMINS = (
     ('Eirik', 'eirik@inonit.no'),
