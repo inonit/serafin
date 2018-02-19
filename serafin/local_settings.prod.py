@@ -29,9 +29,7 @@ USERDATA_DEBUG = True
 
 TOKEN_TIMEOUT_DAYS = int(os.environ.get('TOKEN_TIMEOUT_DAYS', 30))
 
-ADMINS = (
-    ('Eirik', 'eirik@inonit.no'),
-)
+
 SERVER_EMAIL = 'Endre <post@tilendre.no>'
 DEFAULT_FROM_EMAIL = 'Endre <post@tilendre.no>'
 EMAIL_SUBJECT_PREFIX = '[Endre] '
@@ -153,16 +151,6 @@ LOGGING = {
             'handlers': ['file', 'console', 'sentry'],
             'propagate': False
         },
-        'raven': {
-            'level': 'DEBUG',
-            'handlers': ['console'],
-            'propagate': False
-        },
-        'sentry.errors': {
-            'level': 'DEBUG',
-            'handlers': ['console'],
-            'propagate': False
-        },
         'huey.consumer': {
             'handlers': ['huey', 'sentry'],
             'level': 'INFO',
@@ -191,6 +179,7 @@ DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
 THUMBNAIL_DEFAULT_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
 
 COMPRESS_ENABLED = False
+
 
 SECURE_SSL_REDIRECT = True
 SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
