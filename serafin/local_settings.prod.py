@@ -30,13 +30,13 @@ USERDATA_DEBUG = True
 TOKEN_TIMEOUT_DAYS = int(os.environ.get('TOKEN_TIMEOUT_DAYS', 30))
 
 
-SERVER_EMAIL = 'Endre <post@tilendre.no>'
-DEFAULT_FROM_EMAIL = 'Endre <post@tilendre.no>'
-EMAIL_SUBJECT_PREFIX = '[Endre] '
+SERVER_EMAIL = os.environ.get('SERVER_EMAIL')
+DEFAULT_FROM_EMAIL = SERVER_EMAIL
+EMAIL_SUBJECT_PREFIX = os.environ.get('EMAIL_SUBJECT_PREFIX')
 EMAIL_HOST_USER = os.environ.get('SMTP_USER')
 EMAIL_HOST_PASSWORD = os.environ.get('SMTP_PASSWORD')
 EMAIL_HOST = os.environ.get('SMTP_HOST')
-EMAIL_PORT = 587
+EMAIL_PORT = int(os.environ.get('SMTP_PORT', 587))
 EMAIL_USE_TLS = True
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 
@@ -173,8 +173,8 @@ AWS_STORAGE_BUCKET_NAME = os.environ.get('S3_BUCKET')
 AWS_QUERYSTRING_AUTH = 'False'
 AWS_S3_SECURE_URLS = 'False'
 AWS_S3_SIGNATURE_VERSION = 's3v4'
-AWS_S3_REGION_NAME = 'eu-central-1'
-AWS_S3_CUSTOM_DOMAIN = 'serafin-production.s3.amazonaws.com'
+AWS_S3_REGION_NAME = os.environ.get('AWS_S3_REGION_NAME')
+AWS_S3_CUSTOM_DOMAIN = os.environ.get('AWS_S3_CUSTOM_DOMAIN')
 DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
 THUMBNAIL_DEFAULT_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
 
