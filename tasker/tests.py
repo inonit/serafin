@@ -71,7 +71,7 @@ class TaskerTestCase(TestCase):
         self.program = Program(title='Program', display_title='Program')
         self.program.save()
 
-        self.user = User.objects.create_user('test', password='test')
+        self.user = User.objects.create_user(1, 'test', 'test@test.no', '98765432')
         self.user.save()
 
     def test_create_task(self):
@@ -199,10 +199,10 @@ class SessionIntegrationTestCase(TestCase):
         self.program = Program(title='Program', display_title='Program')
         self.program.save()
 
-        self.user_a = User.objects.create_user('a', password='test')
+        self.user_a = User.objects.create_user(1, 'test', 'test1@test.no', '98765431')
         self.user_a.save()
 
-        self.user_b = User.objects.create_user('b', password='test')
+        self.user_b = User.objects.create_user(2, 'test', 'test2@test.no', '98765432')
         self.user_b.save()
 
     def test_schedule_sessions(self):

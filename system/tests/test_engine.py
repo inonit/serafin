@@ -30,7 +30,9 @@ class EngineTestCase(TestCase):
         self.user = StatefulAnonymousUser(session=self.session)
         self.user.data = {
             'session': 1,
-            'node': 0
+            'node': 0,
+            'email': 'tester@test.no',
+            'phone': '+4799999999',
         }
 
         # set up a test program
@@ -395,7 +397,7 @@ class EngineTestCase(TestCase):
         }
         engine = Engine(user=self.user, context=context)
 
-        # retroactively monkey patch StatefulAnonymousUser with some methods
+        # retroactively monkey patch StatefulAnonymousUser
         def send_email(self, subject=None, message=None, html_message=None):
 
             self.data['mail'] = message

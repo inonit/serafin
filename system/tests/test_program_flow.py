@@ -343,11 +343,6 @@ class ProgramFlowTestCase(TestCase):
             }
         )
 
-        # set up test user
-        def send_sms(message=None):
-            print('SMS sent:', message)
-
-        User.send_sms = send_sms
         self.user = User()
         self.user.save()
 
@@ -368,23 +363,21 @@ class ProgramFlowTestCase(TestCase):
         self.assertEqual(engine.session, self.session_activate)
         page = engine.run()
 
-        print(User.objects.get(id=1).data)
-
-        sleep(2)
-
-        print(User.objects.get(id=1).data)
-
         token = token_generator.make_token(self.user.id)
-        data = {
-            'user_id': self.user.id,
-            'token': token,
-            'message': 'no',
+        default_data = {
+            'From': '+4799999999',
+            'Body': 'no',
         }
 
-        Request = namedtuple('Request', 'method body')
-        request = Request(method='POST', body=json.dumps(data))
+        primafon_data = {
+            'from': '4799999999',
+            'body': 'no',
+        }
+
+        Request = namedtuple('Request', 'method body POST')
+        request = Request(
+            method='POST',
+            body=json.dumps(primafon_data),
+            POST=default_data
+        )
         receive_sms(request)
-
-        sleep(2)
-
-        print(User.objects.get(id=1).data)
