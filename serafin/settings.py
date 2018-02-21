@@ -199,6 +199,14 @@ LOG_TIME_PER_PAGE = True
 LOG_MAX_MILLISECONDS = 5 * 60 * 1000  # 5 minutes
 
 
+# Email
+
+SERVER_EMAIL = 'Serafin <post@example.com>'
+DEFAULT_FROM_EMAIL = 'Serafin <post@example.com>'
+EMAIL_SUBJECT_PREFIX = '[Serafin] '
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+
+
 # SMS service
 
 SMS_SERVICE = 'Console'
