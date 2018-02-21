@@ -31,6 +31,7 @@ env
 /src/
 local_settings.py
 *.db
+*.pid
 /.emacs.desktop
 /.emacs.desktop.lock
 
