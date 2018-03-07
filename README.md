@@ -8,7 +8,7 @@ Serafin is a Django-based web platform that gives content builders a set of flex
 - E-learning programs
 - Dynamic websites with a complex underlying logic
 
-Serafin was developed by [Inonit AS](http://inonit.no/) for [SERAF](http://www.med.uio.no/klinmed/english/research/centres/seraf/), the Norwegian Centre for Addiction Research at the University of Oslo, in order for them to create a program to help users stop smoking while gathering research data on the efficacy of therapeutic techniques.
+Serafin was developed by [Inonit AS](http://inonit.no/) for [SERAF](http://www.med.uio.no/klinmed/english/research/centres/seraf/), the Norwegian Centre for Addiction Research at the University of Oslo, in order for them to create a program to help users stop smoking while gathering research data on the efficacy of therapeutic techniques. The program, Endre, and its content is [available here](https://github.com/inonit/serafin-endre).
 
 Program flow is controlled on different levels. Sessions are built as a series of pages or other events (e-mail, SMS), allowing the users' path to be controlled by logic applied to their choices. Sessions may be put into sequence, where registered users are invited to follow the Program day by day, or sessions may be accessed manually. Pages and other content may present text, media, or forms for the user to fill out.
 
