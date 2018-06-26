@@ -17,5 +17,6 @@ RUN bower --allow-root install
 COPY requirements.txt /code/
 RUN pip install -r requirements.txt
 COPY supervisor.conf /etc/supervisor/supervisor.conf
+COPY . /code/
 EXPOSE 8000
 ENTRYPOINT ["supervisord", "-c", "/etc/supervisor/supervisor.conf"]
