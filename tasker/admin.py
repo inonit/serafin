@@ -45,6 +45,15 @@ class TaskAdmin(admin.ModelAdmin):
         return obj.result
     task_result.short_description = _('Task result')
 
+    def get_queryset(self, request):
+        queryset = super(TaskAdmin, self).get_queryset(request)
+
+        if request.user.program_restrictions.exists():
+            program_ids = request.user.program_restrictions.values_list('id')
+            return queryset.filter(subject__program__id__in=program_ids)
+
+        return queryset
+
 
 admin.site.register(Task, TaskAdmin)
 

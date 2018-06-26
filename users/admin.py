@@ -82,7 +82,8 @@ class UserChangeForm(forms.ModelForm):
         self.fields['data'].help_text = ''
         self.fields['data'].required = False
         self.fields['is_active'].help_text = _('Designates whether this user should be treated as active. Unselect this instead of deleting accounts.')
-        self.fields['is_staff'].help_text = _('Designates whether the user can log into this admin site.')
+        if 'is_staff' in self.fields:
+            self.fields['is_staff'].help_text = _('Designates whether the user can log into this admin site.')
 
     def clean_password(self):
         return self.initial['password']
@@ -132,7 +133,21 @@ class UserAdmin(UserAdmin, ImportExportModelAdmin):
             'classes': ('suit-tab suit-tab-info', ),
         }),
         (_('Permissions'), {
-            'fields': ('is_active', 'is_staff', 'is_superuser', 'groups'),
+            'fields': ('is_active', 'is_staff', 'is_superuser', 'groups', 'program_restrictions'),
+            'classes': ('suit-tab suit-tab-info', ),
+        }),
+        (None, {
+            'fields': ('data', ),
+            'classes': ('suit-tab suit-tab-data', ),
+        }),
+    )
+    restricted_fieldsets = (
+        (None, {
+            'fields': ('id', 'password', 'email', 'phone', 'last_login', 'date_joined'),
+            'classes': ('suit-tab suit-tab-info', ),
+        }),
+        (_('Permissions'), {
+            'fields': ('is_active', ),
             'classes': ('suit-tab suit-tab-info', ),
         }),
         (None, {
@@ -146,7 +161,7 @@ class UserAdmin(UserAdmin, ImportExportModelAdmin):
             'classes': ('suit-tab suit-tab-info', ),
         }),
         (_('Permissions'), {
-            'fields': ('is_active', 'is_staff', 'is_superuser', 'groups'),
+            'fields': ('is_active', 'is_staff', 'is_superuser', 'groups', 'program_restrictions'),
             'classes': ('suit-tab suit-tab-info', ),
         }),
     )
@@ -154,6 +169,10 @@ class UserAdmin(UserAdmin, ImportExportModelAdmin):
         'id',
         'date_joined',
         'last_login',
+    ]
+    filter_horizontal = [
+        'groups',
+        'program_restrictions'
     ]
     formfield_overrides = {
         JSONField: { 'widget': UserDataWidget }
@@ -172,6 +191,21 @@ class UserAdmin(UserAdmin, ImportExportModelAdmin):
         extra_context['log'] = Event.objects.filter(actor=object_id).order_by('-time')
         return super(UserAdmin, self).change_view(request, object_id,
             form_url, extra_context=extra_context)
+
+    def get_fieldsets(self, request, obj=None):
+        if request.user.is_superuser:
+            return super(UserAdmin, self).get_fieldsets(request, obj=obj)
+        else:
+            return self.restricted_fieldsets
+
+    def get_queryset(self, request):
+        queryset = super(UserAdmin, self).get_queryset(request)
+
+        if request.user.program_restrictions.exists():
+            program_ids = request.user.program_restrictions.values_list('id')
+            return queryset.filter(program__id__in=program_ids)
+
+        return queryset
 
     resource_class = UserResource
 

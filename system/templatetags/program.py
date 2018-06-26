@@ -51,6 +51,9 @@ class BaseProgramNode(Node):
             queryset = queryset.filter(
                 pk__in=user_obj.programuseraccess_set.values_list("program", flat=True)
             )
+        if user_obj.program_restrictions.exists():
+            program_ids = user_obj.program_restrictions.values_list('id')
+            queryset = queryset.filter(id__in=program_ids)
         return queryset
 
 

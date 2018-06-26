@@ -41,4 +41,13 @@ class EventAdmin(ImportExportModelAdmin):
     resource_class = EventResource
     change_list_template = 'admin/events/event/change_list.html'
 
+    def get_queryset(self, request):
+        queryset = super(EventAdmin, self).get_queryset(request)
+
+        if request.user.program_restrictions.exists():
+            program_ids = request.user.program_restrictions.values_list('id')
+            return queryset.filter(actor__program__id__in=program_ids)
+
+        return queryset
+
 admin.site.register(Event, EventAdmin)

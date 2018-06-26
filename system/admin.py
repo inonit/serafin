@@ -85,9 +85,28 @@ class VariableAdmin(admin.ModelAdmin):
 
     def get_queryset(self, request):
         queryset = super(VariableAdmin, self).get_queryset(request)
+
         if '_program_id' in request.session:
             queryset = queryset.filter(program__id=request.session['_program_id'])
+
+        if request.user.program_restrictions.exists():
+            program_ids = request.user.program_restrictions.values_list('id')
+            return queryset.filter(program__id__in=program_ids)
+
         return queryset
+
+    def get_form(self, request, obj=None, **kwargs):
+         form = super(VariableAdmin, self).get_form(request, obj, **kwargs)
+         if request.user.program_restrictions.exists():
+            program_ids = request.user.program_restrictions.values_list('id')
+            form.base_fields['program'].queryset = Program.objects.filter(id__in=program_ids)
+         return form
+
+    def has_change_permission(self, request, obj=None):
+        return request.user.has_perm('system.change_variable', obj)
+
+    def has_view_permission(self, request, obj=None):
+        return request.user.has_perm('system.view_variable', obj)
 
 
 class ProgramUserAccessInline(admin.TabularInline):
@@ -215,6 +234,21 @@ class ProgramAdmin(VersionAdmin):
         return HttpResponseRedirect('/admin/import_text/?next=%s' % request.path)
 
     import_text.short_description = _('Import program text')
+
+    def get_queryset(self, request):
+        queryset = super(ProgramAdmin, self).get_queryset(request)
+
+        if request.user.program_restrictions.exists():
+            program_ids = request.user.program_restrictions.values_list('id')
+            return queryset.filter(id__in=program_ids)
+
+        return queryset
+
+    def has_change_permission(self, request, obj=None):
+        return request.user.has_perm('system.change_program', obj)
+
+    def has_view_permission(self, request, obj=None):
+        return request.user.has_perm('system.view_program', obj)
 
 
 class SessionForm(forms.ModelForm):
@@ -350,13 +384,28 @@ class SessionAdmin(VersionAdmin):
 
     def get_queryset(self, request):
         queryset = super(SessionAdmin, self).get_queryset(request)
+
         if '_program_id' in request.session:
             queryset = queryset.filter(program__id=request.session['_program_id'])
+
+        if request.user.program_restrictions.exists():
+            program_ids = request.user.program_restrictions.values_list('id')
+            return queryset.filter(program__id__in=program_ids)
+
         return queryset
+
+    def has_change_permission(self, request, obj=None):
+        return request.user.has_perm('system.change_session', obj)
+
+    def has_view_permission(self, request, obj=None):
+        return request.user.has_perm('system.view_session', obj)
 
     def get_form(self, request, obj=None, **kwargs):
          form = super(SessionAdmin, self).get_form(request, obj, **kwargs)
          form.request_user = request.user
+         if request.user.program_restrictions.exists():
+            program_ids = request.user.program_restrictions.values_list('id')
+            form.base_fields['program'].queryset = Program.objects.filter(id__in=program_ids)
          return form
 
     def get_changelist_form(self, request, **kwargs):
@@ -507,16 +556,31 @@ class ContentAdmin(VersionAdmin):
 
     def get_queryset(self, request):
         queryset = super(ContentAdmin, self).get_queryset(request)
+
         if '_program_id' in request.session:
             queryset = queryset.filter(
                 Q(program_id=request.session['_program_id']) |
                 Q(program_id=None)
             )
+
+        if request.user.program_restrictions.exists():
+            program_ids = request.user.program_restrictions.values_list('id')
+            return queryset.filter(program__id__in=program_ids)
+
         return queryset
+
+    def has_change_permission(self, request, obj=None):
+        return request.user.has_perm('system.change_content', obj)
+
+    def has_view_permission(self, request, obj=None):
+        return request.user.has_perm('system.view_content', obj)
 
     def get_form(self, request, obj=None, **kwargs):
          form = super(ContentAdmin, self).get_form(request, obj, **kwargs)
          form.request_user = request.user
+         if request.user.program_restrictions.exists():
+            program_ids = request.user.program_restrictions.values_list('id')
+            form.base_fields['program'].queryset = Program.objects.filter(id__in=program_ids)
          return form
 
 

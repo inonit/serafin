@@ -12,6 +12,7 @@ class VariableSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Variable
+        fields = '__all__'
         read_only_fields = ['id']
 
 

@@ -17,7 +17,7 @@ from tokens.tokens import token_generator
 from users.models import User
 
 from twilio import twiml
-import plivoxml
+from plivo import plivoxml
 
 import json
 import logging

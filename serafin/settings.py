@@ -54,6 +54,7 @@ INSTALLED_APPS = (
     'suit',
     'sitetree',
     'django_extensions',
+    'rules.apps.AutodiscoverRulesConfig',
     'django.contrib.admin',
     'rest_framework',
     'mptt',
@@ -178,6 +179,7 @@ FILER_DUMP_PAYLOAD = True
 AUTH_USER_MODEL = 'users.User'
 
 AUTHENTICATION_BACKENDS = (
+    'rules.permissions.ObjectPermissionBackend',
     'django.contrib.auth.backends.ModelBackend',
     'users.backends.TokenBackend',
 )

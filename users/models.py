@@ -12,7 +12,7 @@ from django.template.loader import get_template
 
 from collections import OrderedDict
 from jsonfield import JSONField
-from plivo import RestAPI as PlivoRestClient
+from plivo import RestClient as PlivoRestClient
 from tokens.tokens import token_generator
 from twilio.rest import TwilioRestClient
 import requests
@@ -47,6 +47,14 @@ class User(AbstractBaseUser, PermissionsMixin):
 
     is_staff = models.BooleanField(_('staff status'), default=False)
     is_active = models.BooleanField(_('active'), default=True)
+    program_restrictions = models.ManyToManyField(
+        'system.Program', blank=True,
+        verbose_name=_('program restrictions'),
+        help_text=_('Staff user has limited access only to the chosen Programs (and related data). '
+            'If no Programs are chosen, there is no restriction.'),
+        related_name='user_restriction_set',
+        related_query_name='user_restriction'
+    )
     date_joined = models.DateTimeField(_('date joined'), auto_now_add=True, editable=False)
 
     token = models.CharField(_('token'), max_length=64, blank=True, editable=False)
