@@ -13,6 +13,7 @@ django-sitetree
 django-storages
 django-suit==0.2.19
 django-user-agents
+django-xforwardedfor-middleware
 djangorestframework<3.7.0
 gevent
 gunicorn
