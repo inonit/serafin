@@ -6,8 +6,6 @@ django-constance
 django-extensions
 django-filer==1.2.4
 django-import-export
-django-mptt
-django-polymorphic==1.3
 django-request
 django-reversion
 django-settings-export
@@ -16,7 +14,6 @@ django-storages
 django-suit==0.2.19
 django-user-agents
 djangorestframework<3.7.0
-easy-thumbnails
 gevent
 gunicorn
 huey==1.2.3
