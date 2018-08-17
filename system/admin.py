@@ -52,6 +52,7 @@ class VariableForm(forms.ModelForm):
         }
 
 
+@admin.register(Variable)
 class VariableAdmin(admin.ModelAdmin):
     list_display = ['name', 'program', 'value', 'random_type', 'user_editable']
     search_fields = ['name']
@@ -127,6 +128,7 @@ class ProgramUserAccessInline(admin.TabularInline):
     }
 
 
+@admin.register(Program)
 class ProgramAdmin(VersionAdmin):
     list_display = ['title', 'display_title', 'note_excerpt']
     search_fields = ['title', 'display_title', 'admin_note']
@@ -309,6 +311,7 @@ class SessionForm(forms.ModelForm):
         }
 
 
+@admin.register(Session)
 class SessionAdmin(VersionAdmin):
     list_display = [
         'title',
@@ -510,6 +513,7 @@ class ContentForm(forms.ModelForm):
         return data
 
 
+@admin.register(Content)
 class ContentAdmin(VersionAdmin):
     list_display = ['title', 'note_excerpt', 'page_excerpt']
     search_fields = ['title', 'admin_note', 'data']
@@ -590,6 +594,7 @@ class PageForm(ContentForm):
         exclude = []
 
 
+@admin.register(Page)
 class PageAdmin(ContentAdmin):
     list_display = ['title', 'display_title', 'note_excerpt', 'page_excerpt']
     search_fields = ['title', 'display_title', 'admin_note', 'data']
@@ -617,6 +622,7 @@ class EmailForm(TextContentForm):
         exclude = []
 
 
+@admin.register(Email)
 class EmailAdmin(ContentAdmin):
     list_display = ['title', 'subject', 'note_excerpt', 'page_excerpt']
     search_fields = ['title', 'display_title', 'admin_note', 'data']
@@ -643,6 +649,7 @@ class SMSForm(TextContentForm):
         exclude = []
 
 
+@admin.register(SMS)
 class SMSAdmin(ContentAdmin):
     fields = ['title', 'admin_note', 'program', 'data']
     form = SMSForm
@@ -654,11 +661,3 @@ class SMSAdmin(ContentAdmin):
             'widget': SMSContentWidget
         }
     }
-
-
-admin.site.register(Variable, VariableAdmin)
-admin.site.register(Program, ProgramAdmin)
-admin.site.register(Session, SessionAdmin)
-admin.site.register(Page, PageAdmin)
-admin.site.register(Email, EmailAdmin)
-admin.site.register(SMS, SMSAdmin)
