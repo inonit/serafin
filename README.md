@@ -40,7 +40,7 @@ You may run other Django management commands the same way.
 
 ## Contributing
 
-Serafin has seen work on and off for several years. While it has seen production use in its current state, it may not meet everyones standards as a well-packaged open source project. We intend to improve this. Preparing the system for general use, software dependency updates, test coverage and documentation will be prioritized. 
+Serafin has seen work on and off for several years. While it has seen production use in its current state, it may not meet everyones standards of a well-packaged open source project. We intend to improve this. Preparing the system for general use, software dependency updates, test coverage and documentation will be prioritized. 
 
 See [issues](https://github.com/inonit/serafin/issues) or submit your own.
 

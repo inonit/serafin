@@ -17,7 +17,7 @@ django-xforwardedfor-middleware<2.0
 djangorestframework<3.7.0
 gevent
 gunicorn
-huey==1.2.3
+huey==1.2.1
 jsonfield
 mistune
 Pillow
