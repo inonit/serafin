@@ -30,7 +30,8 @@ ALLOWED_HOSTS = ['*']
 
 # Application definition
 
-SITE_ID = 1
+from multisite import SiteID
+SITE_ID = SiteID(default=1)
 
 INSTALLED_APPS = (
     'django.contrib.auth',
@@ -40,6 +41,7 @@ INSTALLED_APPS = (
     'django.contrib.staticfiles',
     'django.contrib.sites',
 
+    'multisite',
     'serafin.apps.SerafinReConfig',
 
     'tokens',
@@ -80,6 +82,7 @@ MIDDLEWARE_CLASSES = (
     'django_user_agents.middleware.UserAgentMiddleware',
     'events.middleware.EventTrackingMiddleware',
     'request.middleware.RequestMiddleware',
+    'multisite.middleware.DynamicSiteMiddleware',
 )
 
 ROOT_URLCONF = 'serafin.urls'
@@ -96,6 +99,7 @@ TEMPLATE_CONTEXT_PROCESSORS += (
     'django.contrib.messages.context_processors.messages',
     'django.core.context_processors.request',
     'django_settings_export.settings_export',
+    'system.context_processors.site',
 )
 
 
@@ -497,9 +501,12 @@ RESERVED_VARIABLES = [
 
 STYLESHEETS = [
     {"name": _("Default stylesheet"), "path": "css/style.css"},
+    {"name": _("Nalokson"), "path": "css/style-nalokson.css"},
     {"name": _("Miksmaster"), "path": "css/style-miksmaster.css"},
     {"name": _("Miksmaster alternate"), "path": "css/style-miksmaster-alt.css"},
 ]
+
+STYLESHEET_CHOICES = [(ss['path'], ss['name']) for ss in STYLESHEETS]
 
 
 # Constance

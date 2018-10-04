@@ -8,6 +8,7 @@ import random
 
 from django.db import models
 from django.conf import settings
+from django.contrib.sites.models import Site
 from django.core.urlresolvers import reverse
 from django.core.exceptions import ValidationError
 from django.utils import timezone
@@ -71,6 +72,9 @@ class Program(models.Model):
 
     title = models.CharField(_('title'), max_length=64, unique=True)
     display_title = models.CharField(_('display title'), max_length=64)
+    site = models.OneToOneField(Site, verbose_name=_('site'), null=True, blank=True, on_delete=models.SET_NULL)
+    style = models.CharField(_('stylesheet'), choices=settings.STYLESHEET_CHOICES, null=True, blank=True, max_length=128)
+    from_email = models.CharField(_('from email'), null=True, blank=True, max_length=128)
     admin_note = models.TextField(_('admin note'), blank=True)
 
     users = models.ManyToManyField(settings.AUTH_USER_MODEL, verbose_name=_('users'), through='ProgramUserAccess')

@@ -11,7 +11,11 @@
                     </ul>
                 </li>
             {% else %}
-                <li><a href="{{ item.url_resolved }}">{% trans item.title %}</a></li>
+                <li>
+                    <a href="{{ item.url_resolved }}">
+                        {% trans item.title %}
+                    </a>
+                </li>
             {% endif %}
         </ul>
     </top-bar-section>

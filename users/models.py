@@ -135,12 +135,20 @@ class User(AbstractBaseUser, PermissionsMixin):
 
     def send_email(self, subject=None, message=None, html_message=None):
         if subject and (message or html_message):
-            subject = settings.EMAIL_SUBJECT_PREFIX + subject
+
+            current_site = Site.objects.get_current()
+            if hasattr(current_site, 'program'):
+                print(current_site.program)
+                subject = '[%s] %s' % (current_site.program.title, subject)
+                from_email = current_site.program.from_email or settings.DEFAULT_FROM_EMAIL
+            else:
+                subject = settings.EMAIL_SUBJECT_PREFIX + subject
+                from_email = settings.DEFAULT_FROM_EMAIL
 
             email = EmailMultiAlternatives(
                 subject,
                 message,
-                settings.DEFAULT_FROM_EMAIL,
+                from_email,
                 [self.email]
             )
 
