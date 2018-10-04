@@ -90,7 +90,7 @@ def content_route(request, route_slug=None):
 
     if (not session.is_open and
         session.program and
-        session.program.programuseraccess_set.filter(user=request.user).exists()):
+        session.program.programuseraccess_set.filter(user=request.user.id).exists()):
         return HttpResponseRedirect(settings.HOME_URL)
 
     context = {

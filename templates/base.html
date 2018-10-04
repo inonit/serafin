@@ -15,8 +15,12 @@
     {% get_current_stylesheet for user as STYLESHEET %}
     {% if STYLESHEET %}
     <link rel="stylesheet" href="{% static STYLESHEET.path %}" />
+    {% elif program.style %}
+    <link rel="stylesheet" href="{% static program.style %}" />
+    {% elif site.program.style %}
+    <link rel="stylesheet" href="{% static site.program.style %}" />
     {% else %}
-    <link rel="stylesheet" href="{% static 'css/style-miksmaster-alt.css' %}" />
+    <link rel="stylesheet" href="{% static 'css/style.css' %}" />
     {% endif %}
     {% block styles %}{% endblock %}
     {% endcompress %}

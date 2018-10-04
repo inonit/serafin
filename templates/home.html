@@ -6,10 +6,22 @@ Endre - et program for deg som vil slutte å røyke
 {% block content %}
 <div class="page">
     <div class="center">
-        <br>
         <h1><div class="logo">{{ item.title_resolved }}</div></h1>
-        <br>
     </div>
+
+    {% if site.name == 'Nalokson' %}
+
+    <div class="center">
+        <h2>SERAF-sertifisert Naloksonkurs</h2>
+
+        <p>Velkommen til dette nettkurset hvor du vil få opplæring i hvordan du skal lære opp andre i å forebygge overdoser, og i bruk av Nalokson.</p>
+
+        <a class="large button" href="/register" title="">
+            <strong>Kom i gang</strong>
+        </a>
+    </div>
+
+    {% else %}
 
     <p><strong>Stump røyken med den digitale røykesluttveilederen "Endre"</strong></p>
 
@@ -18,9 +30,12 @@ Endre - et program for deg som vil slutte å røyke
     <p>Hjelpen gis i form av regelmessige "samtaler" med Endre på nett. Innholdet i disse samtalene ligner mye på de du kunne hatt med en profesjonell veileder. Akkurat som hos en veileder så tilpasses samtalene til dine preferanser, atferd og behov. Endre er et helautomatisk program – det er ingen mennesker som er direkte involvert i kontakten med deg. Derfor kan programmet brukes når, hvor og hvor ofte du vil, enten du bruker mobil, nettbrett eller pc. For å få tilgang til Endre må du registrere deg og delta i et forskningsprosjekt drevet av forskere ved Universitetet i Oslo.</p>
 
     <div class="center">
-        <br>
-        <a class="large button" href="/register" title=""><strong>Registrer deg her</strong></a>
+        <a class="large button" href="/register" title="">
+            <strong>Registrer deg her</strong>
+        </a>
     </div>
+
+    {% endif %}
 
 </div>
 {% endblock content %}
