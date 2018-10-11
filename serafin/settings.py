@@ -100,6 +100,7 @@ TEMPLATE_CONTEXT_PROCESSORS += (
     'django.core.context_processors.request',
     'django_settings_export.settings_export',
     'system.context_processors.site',
+    'system.context_processors.stylesheet',
 )
 
 
@@ -146,6 +147,7 @@ USE_HTTPS = True
 
 STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+COMPRESS_ENABLED = True
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
