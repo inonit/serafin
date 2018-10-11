@@ -130,8 +130,10 @@ class User(AbstractBaseUser, PermissionsMixin):
             res.raise_for_status()
             return True
 
-    def send_email(self, subject=None, message=None, html_message=None):
+    def send_email(self, subject=None, message=None, html_message=None, **kwargs):
         if subject and (message or html_message):
+
+            pdfs = kwargs.get('pdfs', [])
 
             current_site = Site.objects.get_current()
             if hasattr(current_site, 'program'):
@@ -151,6 +153,9 @@ class User(AbstractBaseUser, PermissionsMixin):
 
             if html_message:
                 email.attach_alternative(html_message, 'text/html')
+
+            for pdf in pdfs:
+                email.attach_alternative(pdf, 'application/pdf')
 
             return email.send()
 

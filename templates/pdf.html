@@ -1,0 +1,64 @@
+{% load compress staticfiles %}
+
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>{{ page.display_title }}</title>
+    {% compress css inline %}
+    <link rel="stylesheet" href="{% static 'lib/foundation/css/foundation.min.css' %}" />
+    {% if stylesheet %}
+    <link rel="stylesheet" href="{% static styleheet %}" />
+    {% elif program.style %}
+    <link rel="stylesheet" href="{% static program.style %}" />
+    {% elif site.program.style %}
+    <link rel="stylesheet" href="{% static site.program.style %}" />
+    {% else %}
+    <link rel="stylesheet" href="{% static 'css/style.css' %}" />
+    {% endif %}
+    {% endcompress %}
+    <style media="all">
+      @page {
+        margin: 0 0;
+        size: A4 portrait;
+      }
+    </style>
+  </head>
+  <body>
+
+    <div class="wrapper">
+
+      <header>
+        <nav class="top-bar">
+          <ul class="title-area">
+            <li class="name">
+              <div class="logo"></div>
+            </li>
+          </ul>
+        </nav>
+      </header>
+
+      <section class="content">
+        <div class="page">
+          <div class="pagelet">
+            <div class="text">
+              {{ page.simple_render|safe }}
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <div class="push"></div>
+    </div>
+
+    <footer class="footer">
+      <div class="left">
+        © {% now 'Y' %} <a href="http://www.med.uio.no/klinmed/forskning/sentre/seraf/">SERAF</a>, UiO
+      </div>
+
+      <div class="right">
+      </div>
+    </footer>
+
+  </body>
+</html>

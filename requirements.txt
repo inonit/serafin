@@ -31,4 +31,5 @@ redis
 requests
 rules
 twilio<6.0
+weasyprint
 whitenoise

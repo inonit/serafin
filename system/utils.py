@@ -76,8 +76,6 @@ def live_variable_replace(user, text):
 def process_email_links(user, text):
     '''Replaces login link markup with login link'''
 
-    from system.engine import Engine
-
     matches = re.findall(r'(login_link)', text)
     for match in matches:
 
@@ -85,6 +83,30 @@ def process_email_links(user, text):
         text = text.replace(match, link)
 
     return text
+
+
+def generate_pdfs(user, text):
+    '''Replaces login link markup with login link'''
+
+    pdfs = []
+
+    matches = re.findall(r'(pdf:(\d+))', text)
+    for match in matches:
+
+        full_match = match[0]
+        print(full_match)
+        page_id = match[1]
+
+        # try:
+        from system.models import Page
+        pdf = Page.objects.get(id=page_id).generate_pdf(user)
+        pdfs.append(pdf)
+        # except:
+        #     pass
+
+        text = text.replace(full_match, '')
+
+    return text, pdfs
 
 
 def process_reply_variables(user, text, **kwargs):

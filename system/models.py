@@ -11,6 +11,7 @@ from django.conf import settings
 from django.contrib.sites.models import Site
 from django.core.urlresolvers import reverse
 from django.core.exceptions import ValidationError
+from django.template.loader import render_to_string
 from django.utils import timezone
 from django.utils.translation import ugettext_lazy as _
 
@@ -18,6 +19,7 @@ from jsonfield import JSONField
 from collections import OrderedDict
 from system.utils import *
 from system.expressions import Parser
+from weasyprint import HTML
 
 
 class Variable(models.Model):
@@ -237,6 +239,36 @@ class Page(Content):
                     else:
                         text['content'] = ''
 
+    def simple_render(self):
+        assert self.user is not None
+        html = []
+        for pagelet in self.data:
+            if pagelet['content_type'] == 'text':
+                content = pagelet.get('content')
+                content = remove_comments(content)
+                content = variable_replace(self.user, content)
+                pagelet['content'] = mistune.markdown(content, escape=False)
+                html.append(pagelet['content'])
+        return '\n'.join(html)
+
+    def generate_pdf(self, user):
+        self.user = user
+
+        current_site = Site.objects.get_current()
+        base_url = '%(protocol)s://%(domain)s:8000' % {
+            'protocol': 'https' if settings.USE_HTTPS else 'http',
+            'domain': current_site.domain,
+        }
+
+        context = {
+            'program': self.program,
+            'page': self,
+        }
+
+        html = render_to_string('pdf.html', context=context)
+        pdf = HTML(string=html, base_url=base_url).write_pdf()
+        return pdf
+
 
 class EmailManager(models.Manager):
     def get_queryset(self):
@@ -260,6 +292,7 @@ class Email(Content):
     def send(self, user):
         message = self.data[0].get('content')
         message = process_email_links(user, message)
+        message, pdfs = generate_pdfs(user, message)
         message = remove_comments(message)
         message = variable_replace(user, message)
         html_message = mistune.markdown(message, escape=False)
@@ -267,7 +300,8 @@ class Email(Content):
         user.send_email(
             subject=self.display_title,
             message=message,
-            html_message=html_message
+            html_message=html_message,
+            pdfs=pdfs
         )
 
 

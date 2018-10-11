@@ -1,4 +1,4 @@
-{% load i18n staticfiles sitetree stylesheet %}
+{% load i18n staticfiles sitetree %}
 
 <!doctype html>
 <html lang="{{ LANGUAGE_CODE|default:'no' }}" ng-app="serafin">
@@ -12,9 +12,8 @@
     {% load compress %}
     {% compress css %}
     <link rel="stylesheet" href="{% static 'lib/foundation/css/foundation.min.css' %}" />
-    {% get_current_stylesheet for user as STYLESHEET %}
-    {% if STYLESHEET %}
-    <link rel="stylesheet" href="{% static STYLESHEET.path %}" />
+    {% if stylesheet %}
+    <link rel="stylesheet" href="{% static styleheet %}" />
     {% elif program.style %}
     <link rel="stylesheet" href="{% static program.style %}" />
     {% elif site.program.style %}
