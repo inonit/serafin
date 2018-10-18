@@ -11,7 +11,7 @@ django-request
 django-reversion
 django-settings-export
 django-sitetree
-django-storages
+django-storages==1.6.5
 django-suit==0.2.19
 django-user-agents
 django-xforwardedfor-middleware<2.0
