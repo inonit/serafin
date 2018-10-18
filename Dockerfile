@@ -18,5 +18,6 @@ COPY requirements.txt /code/
 RUN pip install -r requirements.txt
 COPY supervisor.conf /etc/supervisor/supervisor.conf
 COPY . /code/
+RUN python manage.py collectstatic --noinput
 EXPOSE 8000
 ENTRYPOINT ["supervisord", "-c", "/etc/supervisor/supervisor.conf"]
