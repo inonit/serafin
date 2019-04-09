@@ -215,11 +215,39 @@ class Page(Content):
 
     def update_html(self, user):
         for pagelet in self.data:
-            if pagelet['content_type'] in ['text', 'toggle']:
+            if pagelet['content_type'] in ['text']:
                 content = pagelet.get('content')
                 content = remove_comments(content)
                 content, pagelet['variables'] = live_variable_replace(user, content)
                 pagelet['content'] = mistune.markdown(content, escape=False)
+            if pagelet['content_type'] == 'toggle':
+                '''VB: toggle has text in two parts: content a toggle - variable replacement must be done in both'''
+
+                content = pagelet.get('content')
+                content = remove_comments(content)
+                content, contentVariables = live_variable_replace(user, content)
+                pagelet['content'] = mistune.markdown(content, escape=False)
+
+                toggle = pagelet.get('toggle')
+                toggle = remove_comments(toggle)
+                toggle, toggleVariables = live_variable_replace(user, toggle)
+                pagelet['toggle'] = mistune.markdown(toggle, escape=False)
+
+                '''VB: concat variables from both replacements'''
+                pagelet['variables'] = dict(toggleVariables.items() + contentVariables.items())
+
+            if pagelet['content_type'] == 'form':
+                for field in pagelet['content']:
+                    if 'label' in field:
+                        label = field.get('label')
+                        label, pagelet['variables'] = live_variable_replace(user, label)
+                        field['label'] = mistune.markdown(label, escape=False)
+
+                    if 'alternatives' in field:
+                        for alt in field['alternatives']:
+                            label = alt.get('label')
+                            label, pagelet['variables'] = live_variable_replace(user, label)
+                            alt['label'] = mistune.markdown(label, escape=False)
 
             if pagelet['content_type'] == 'conditionalset':
                 pagelet['variables'] = {}
@@ -238,6 +266,28 @@ class Page(Content):
                         text['content'] = mistune.markdown(content, escape=False)
                     else:
                         text['content'] = ''
+            if pagelet['content_type'] in ['toggleset', 'togglesetmulti']:
+                for field in pagelet['content']:
+                    if 'label' in field:
+                        label = pagelet['content'].get('label')
+
+                        label, pagelet['variables'] = live_variable_replace(user, label)
+                        pagelet.get('content')['label'] = mistune.markdown(label, escape=False)
+
+                    if 'text' in field:
+                        text = pagelet['content'].get('text')
+                        text, pagelet['variables'] = live_variable_replace(user, text)
+                        pagelet.get('content')['text'] = mistune.markdown(text, escape=False)
+
+                    if 'alternatives' in field:
+                        for alt in pagelet.get('content')['alternatives']:
+                            label = alt.get('label')
+                            label, pagelet['variables'] = live_variable_replace(user, label)
+                            alt['label'] = mistune.markdown(label, escape=False)
+
+                            text = alt.get('text')
+                            text, pagelet['variables'] = live_variable_replace(user, text)
+                            alt['text'] = mistune.markdown(text, escape=False)
 
     def simple_render(self):
         assert self.user is not None
