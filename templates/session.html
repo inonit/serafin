@@ -122,7 +122,7 @@
                     {% verbatim %}
                     <label for="field"><strong>{{ field.label }}</strong></label>
                     <input ng-if="field.variable_name !== 'phone'" name="field" type="text" ng-model="field.value" ng-required="field.required" liveinput>
-                    <input ng-if="field.variable_name === 'phone'" name="phone" type="text" ng-model="field.value" ng-required="field.required" ng-minlength="8" ng-pattern="/^\+\d+$/" liveinput>
+                    <input ng-if="field.variable_name === 'phone'" name="phone" type="text" ng-model="field.value" ng-required="field.required" ng-minlength="11" ng-pattern="/^\+\d+$/" liveinput>
                 </div>
 
                 <div ng-if="field.field_type == 'text'">
