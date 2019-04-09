@@ -470,16 +470,27 @@ class Engine(object):
             return self.transition(node_id)
 
         if node_type == 'delay':
-
             useraccesses = self.session.program.programuseraccess_set.filter(user=self.user)
             for useraccess in useraccesses:
 
                 start_time = datetime.now(pytz.utc)
                 delay = node.get('delay')
+                variable_name = delay.get('variable')
+                delay_number = delay.get('number')
+                if variable_name:
+                    try:
+                        delay_number = int(Variable.objects.get(name=variable_name).get_value())
+                        self.logger.debug("Delay node using variable: %s => %s" % (variable_name, delay_number))
+                    except Exception as e:
+                        self.logger.error("failed to use variable in delay node: %s", e.message)
+                else:
+                    self.logger.debug("Delay node not using a variable")
+
                 kwargs = {
-                    delay.get('unit'): float(delay.get('number') * useraccess.time_factor),
+                    delay.get('unit'): float(delay_number * useraccess.time_factor),
                 }
                 delta = timedelta(**kwargs)
+
 
                 from system.tasks import transition
 

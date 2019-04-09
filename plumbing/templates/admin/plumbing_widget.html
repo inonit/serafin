@@ -61,7 +61,7 @@
         </div>
         {{ node.title }}
         <span ng-if="node.type == 'delay'">
-            t + {{ node.delay.number }} {{ node.delay.unit }}
+            t + {{ node.delay.variable ? "$"+node.delay.variable : node.delay.number }} {{ node.delay.unit }}
         </span>
         <span ng-if="node.type == 'expression'">
             {{ node.variable_name }} =
@@ -88,7 +88,16 @@
 
         <div ng-if="node.type == 'delay'" class="delay settings box" ng-show="showSettings == $index">
             <div class="close" ng-click="close()">×</div>
+            <label>{% trans "Delay value" %}</label>
             <input type="number" placeholder="{% trans 'Number' %}" ng-model="node.delay.number">
+            <label>{% trans "Variable name" %}</label>
+            {% verbatim %}
+            <select ng-model="node.delay.variable">
+              <option value=""></option>
+              <option ng-repeat="variable in variables" ng-value="variable.name" title="{{ variable.admin_note }}">{{ variable.name }}</option>
+            </select>
+            {% endverbatim %}
+            <label>{% trans "Unit" %}</label>
             <select ng-model="node.delay.unit">
                 <option value="seconds"> {% trans 'seconds' %} </option>
                 <option value="minutes"> {% trans 'minutes' %} </option>
