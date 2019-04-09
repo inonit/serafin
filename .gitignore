@@ -37,3 +37,8 @@ local_settings.py
 
 node_modules
 staticfiles/lib
+
+# Elastic Beanstalk Files
+.elasticbeanstalk/*
+!.elasticbeanstalk/*.cfg.yml
+!.elasticbeanstalk/*.global.yml
