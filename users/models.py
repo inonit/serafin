@@ -83,6 +83,9 @@ class User(AbstractBaseUser, PermissionsMixin):
         return self.groups.filter(name=group_name).exists()
 
     def send_sms(self, message=None):
+        if len(self.phone)<11: # 11 character phone number +4712345678 (norway)
+            return False
+
         if message and settings.SMS_SERVICE == 'Twilio':
             client = TwilioRestClient(
                 settings.TWILIO_ACCOUNT_SID,
