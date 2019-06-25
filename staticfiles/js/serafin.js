@@ -175,6 +175,20 @@ serafin.directive('liveinput', ['$rootScope', function(rootScope) {
     };
 }]);
 
+serafin.directive('stringToNumber', function() {
+  return {
+    require: 'ngModel',
+    link: function(scope, element, attrs, ngModel) {
+      ngModel.$parsers.push(function(value) {
+        return '' + value;
+      });
+      ngModel.$formatters.push(function(value) {
+        return parseFloat(value, 10);
+      });
+    }
+  };
+});
+
 serafin.filter('breaks', ['$sce', function (sce) {
     return function (value) {
         var broken = value.toString().replace(/(?:\r\n|\r|\n)/g, '<br>');

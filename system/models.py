@@ -213,6 +213,31 @@ class Page(Content):
         super(Page, self).__init__(*args, **kwargs)
         self.content_type = 'page'
 
+    def check_value(self, user, value, field_type):
+        if isinstance(value,list):
+            #for some cases value=[] (always empty [] and can't be edited in page)
+            return value
+
+        value = variable_replace(user, value)
+        if value == None or value.lower() == "none":
+            value=''
+
+        if field_type=="numeric":
+            is_num = False
+            try:
+                int(value)
+                is_num = True
+            except:
+                try:
+                    float(value)
+                    is_num = True
+                except:
+                    is_num = False
+            if not is_num:
+                value=''
+
+        return value
+
     def update_html(self, user):
         for pagelet in self.data:
             if pagelet['content_type'] in ['text', 'toggle']:
@@ -220,6 +245,106 @@ class Page(Content):
                 content = remove_comments(content)
                 content, pagelet['variables'] = live_variable_replace(user, content)
                 pagelet['content'] = mistune.markdown(content, escape=False)
+
+                toggle = pagelet.get('toggle')
+                if toggle:
+                    toggle = variable_replace(user, toggle)
+                    pagelet['toggle'] = toggle
+
+            if pagelet['content_type'] in ['toggleset', 'togglesetmulti']:
+                content = pagelet.get('content')
+                variableName=content.get('variable_name')
+                if 'label' in content:
+                    label = content.get('label')
+                    label = variable_replace(user, label)
+                    content['label'] = label
+
+                if 'value' in content: #not really usefull-cannot be set with admin portalen!
+                    value = content.get('value')
+                    content['value'] = self.check_value(user, value,"")
+
+                if 'alternatives' in content:
+                    for alt in content['alternatives']:
+                        if 'label' in alt:
+                            label = alt.get('label')
+                            label = variable_replace(user, label)
+                            alt['label'] = label
+                        if 'value' in alt:
+                            value = alt.get('value')
+                            alt['value'] = self.check_value(user, value,"")
+                            # set previously selected value for togglesetmulti and toggleset
+                            checked = is_it_checked(user,variableName,alt['value'])
+                            if pagelet['content_type'] == 'togglesetmulti':
+                                alt['selected'] = checked
+                            if checked:
+                                if pagelet['content_type'] == 'toggleset':
+                                    content['value']=alt['value']
+                                else:
+                                    content['value'].append(alt['value'])
+                        if 'text' in alt:
+                            text = alt.get('text')
+                            text = variable_replace(user, text)
+                            alt['text'] = text
+
+            if pagelet['content_type'] == 'form':
+                for field in pagelet['content']:
+                    if 'label' in field:
+                        label = field.get('label')
+                        label = variable_replace(user, label)
+                        field['label'] = label
+
+                    if 'alternatives' in field: # for multipleselection and multiplechoice
+                        for alt in field['alternatives']:
+                            if 'label' in alt:
+                                label = alt.get('label')
+                                label = variable_replace(user, label)
+                                alt['label'] = label
+                            if 'value' in alt:
+                                value = alt.get('value')
+                                alt['value'] = self.check_value(user, value,"")
+                                # set previously selected value for multiplechoice and multipleselection in form
+                                checked = is_it_checked(user,field['variable_name'],alt['value'])
+                                if field['field_type'] == 'multipleselection':
+                                    alt['selected'] = checked
+                                if checked:
+                                    if field['field_type'] == 'multiplechoice':
+                                        field['value']=alt['value']
+                                    else:
+                                        field['value'].append(alt['value'])
+
+                    if 'value' in field:
+                        value = field.get('value')
+                        field['value'] = self.check_value(user, value,field["field_type"])
+
+                    if 'lower_limit' in field:
+                        lower_limit = field.get('lower_limit')
+                        field['lower_limit'] = self.check_value(user, lower_limit,field["field_type"])
+
+                    if 'upper_limit' in field:
+                        upper_limit = field.get('upper_limit')
+                        field['upper_limit'] = self.check_value(user, upper_limit,field["field_type"])
+
+            if pagelet['content_type'] == 'quiz':
+                content_array = pagelet.get('content')
+                content = content_array[0]
+                if 'question' in content:
+                    question = content.get('question')
+                    question = variable_replace(user, question)
+                    content['question'] = question
+
+                if 'alternatives' in content:
+                    for alt in content['alternatives']:
+                        if 'label' in alt:
+                            label = alt.get('label')
+                            label = variable_replace(user, label)
+                            alt['label'] = label
+                        if 'value' in alt:
+                            value = alt.get('value')
+                            alt['value'] = self.check_value(user, value,"")
+                        if 'response' in alt:
+                            response = alt.get('response')
+                            response = variable_replace(user, response)
+                            alt['response'] = response
 
             if pagelet['content_type'] == 'conditionalset':
                 pagelet['variables'] = {}
@@ -238,6 +363,17 @@ class Page(Content):
                         text['content'] = mistune.markdown(content, escape=False)
                     else:
                         text['content'] = ''
+
+            if pagelet['content_type'] in ['image','audio','file','video']:
+                content = pagelet.get('content')
+                if 'title' in content:
+                    title = content.get('title')
+                    title = variable_replace(user, title)
+                    content['title'] = title
+                if 'alt' in content:
+                    alt = content.get('alt')
+                    alt = variable_replace(user, alt)
+                    content['alt'] = alt
 
     def simple_render(self):
         assert self.user is not None
