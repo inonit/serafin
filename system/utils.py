@@ -72,6 +72,30 @@ def live_variable_replace(user, text):
 
     return text, variables
 
+# for toggleset, togglesetmulti, multiplechoice, multipleselection
+# try to find if the option value (choicevalue) is already checked previously
+# by the user (saved in variable variableName)
+def is_it_checked(user, variableName,choiceValue):
+    user_data = user.data
+    variableValue = user_data.get(variableName)
+
+    if variableValue is None:
+        try:
+            from system.models import Variable
+            variableValue = Variable.objects.get(name=variableName).get_value()
+        except:
+            pass
+
+    if variableValue is None:
+        return False
+
+    if not isinstance(variableValue, list):
+        variableValue = [variableValue]
+
+    if choiceValue in variableValue:
+        return True
+    else:
+        return False
 
 def process_email_links(user, text):
     '''Replaces login link markup with login link'''

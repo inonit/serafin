@@ -1,0 +1,272 @@
+SERAFIN is a little bit complex application.
+One can create "økter", "session" and a "session" can call other "session" etc...
+(I don't have the full view of the application anyway, so this documentation can be extended)
+
+I describe here the main concept.
+
+In admin panel, we can create an "økt" (composed of several pages connected with logic between them)
+I am going to describe her the structure of a page, variables, and how a page is displayed in frontend.
+
+1) Variables
+- - - - - - -
+
+Some variables are identical for all users. For example $current_time, $AfternoonStart
+The most of the variables are linked to an user (0Age, 0Attidue, 0AttribEffort...)
+In the web browser (client), When an user enter a value in a field (of any bloc of a page[text, form...]),
+and click Next, the entered value are saved in variableName(0Age, 0Attidue, 0AttribEffort...) in the server
+(value er per user)
+See Hjem »  System » Variabler to have an overview of all available variables
+
+- variables can be used to save the response of the user.
+- variables can be used in different fields (of any bloc of a page) in admin panel to set predefined value to obtain
+  a pre-filled form or block. Use double bracket {{variableName}}
+
+
+2) Page
+- - - - -
+
+If you go to Hjem »  System »  Økter and click "Legg til økt" you can see several button to create your "økt":
+Side, Økt, Bakgrunnsøkt, Uttrykk, E-post,SMS, Forsinkelse....
+We are going to talk about only Side (Page) her. (click "Side" og "Legg til ny side")
+You can see in Data, several blocks/button(called pagelet in the source code) to create the page:
+Tekst, Vis/skjul-tekst, Valg med tekst, Flervalg med tekst, Verdiavhengig tekst,Uttrykk, Skjema, Quiz,
+Bilde, Video, Lydklipp, Fil
+
+In frontend, we get the information in a json format :
+{"dead_end": false,
+ "stacked": false,
+ "data": [{pagelet},{pagelet}], => data contains all information of "a page" data=page
+  "title": "Velkommen!"
+}
+
+Variables can be used in different fields in a pagelet to prefill or replace a variable by its value in a text.
+EXPLAINATION OF CODE: THERE IS TWO METHODS TO REPLACE A VARIABLE BY ITS VALUE
+- variable_replace: if we use a variable in a field (in a pagelet), for exemple "Hello and welcome {{0Name}}" in a text field,
+  backend will replace the variable and will send "Hello and welcome Anderson" to frontend
+
+- live_variable_replace: if we use a variable in a field (in a pagelet), for exemple "Hello and welcome {{0Name}}" in a text field,
+  backend will replace the variable by
+    => angular/html tag code
+    => will add the value of the variable in an attribute of json, called variables
+    Example, "Hello and welcome {{0Name}}" written in a field ( via admin portal) will be converted by backend to:
+    {
+      ...
+      "content": "Hello and welcome <span ng-bind-html=\"variables.0Name | stripzerodecimal | breaks\"></span>",
+      "variables": {"0Name": "Anderson"}
+      ...
+    }
+
+  A) Pagelet:Tekst - TEXT
+  {
+   "content": "<p>Hello and welcome <span ng-bind-html=\\"variables.0Name | stripzerodecimal | breaks\\"></span></p>\\n",
+   "content_type": "text",
+   "variables": {"0Name": "Anderson"}
+  },
+  B) Pagelet: Vis/skjul-tekst - TOGGLE
+  {
+   "content_type": "toggle",
+   "content": "<p>this is a toggle text. test_var will be <span ng-bind-html=\\"variables.test_var | stripzerodecimal | breaks\\"></span></p>\\n",
+   "toggle": "toggle-text to click to hide/show text.",
+   "img_content": {"url": "", "file_id": "", "title": ""},
+   "variables": {"test_var": "replaced_in_frontend"}
+   },
+  C) Pagelet: Valg med tekst - TOGGLESET
+  {
+   "content_type": "toggleset",
+   "content": {
+      "variable_name": "0CigDoses",
+      "label": "toggleset tittle ",
+      "required": true, => (even if it is false, it is hardcoded to true in fontend:session.html)
+      "value": "toggleset alter 2 val ", => used in backend to preselection the previous choice
+      "alternatives": [
+        {
+          "label": "toggleset alter 1 name ",
+          "value": "toggleset alter 1 val ",
+          "text": "toggleset alter 1 text "
+        },
+        {
+          "label": "toggleset alter 2 name ",
+          "value": "toggleset alter 2 val ",
+          "text": "toggleset alter 2 text "
+        }
+      ]
+    }
+  },
+  D) Pagelet: Flervalg med tekst - TOGGLESETMULTI
+  {
+    "content_type": "togglesetmulti",
+    "content": {
+      "variable_name": "0Attitude",
+      "label": "togglesetMulti title ",
+      "required": true, => (even if it is true, in fontend:session.html ng-required="field.required" give always false, bugs?)
+      "value": ["togglesetMulti ater 2 verdi "],=> used in backend to preselection the previous choice
+      "alternatives": [
+        {
+          "label": "togglesetMulti ater 1 name ",
+          "value": "togglesetMulti ater 1 verdi ",
+          "text": "togglesetMulti ater 1 tekst ",
+          "selected": false
+        },
+        {
+          "label": "togglesetMulti ater 2 name ",
+          "value": "togglesetMulti ater 2 verdi ",
+          "text": "togglesetMulti ater 2 tekst ",
+          "selected": true
+        }
+      ]
+    }
+  },
+  E) Pagelet: Verdiavhengig tekst - Conditionalset
+  many expression and content can be created in a page via admin portalen. The backend evaluate the expression
+  with a specific engine for that and send the content to frontend only if the expression is true.
+  if the expression is false so the content will be empty "".
+  {
+    "content_type": "conditionalset",
+    "content": [
+      {
+        "expression": "$current_time < $AfternoonStart",
+        "content": ""
+      },
+      {
+        "expression": "($current_time >= $AfternoonStart) & ($current_time < $EveningStart)",
+        "content": "<h1>Hei, og velkommen til dette r\\u00f8ykesluttprogrammet! <span ng-bind-html=\\"variables.test_var | stripzerodecimal | breaks\\"></span></h1>\\n"
+      },
+      {
+        "expression": "$current_time >= $EveningStart",
+        "content": ""
+      }
+    ],
+    "variables": {"test_var": ""}
+  },
+  F) Pagelet: Uttrykk - Expression (To write later but not really complex)
+  G) Pagelet: Skjema - Form
+    If you use the Form pagelet, you can have extra 7 button/choices (Field) to create your form:
+    Tallverdi (numeric), Texststreng(String), Tekst(Text), EnkeltValg(Multiplechoice), Flervalg(multipleselection),
+    Epost(Email), Password(Password)
+    Form pagelet will be:
+    {
+      "content_type": "form",
+      "content": [
+        {information on field},
+        {information on field}..
+        ]
+    }
+    G_1) Skjema - Form : Field Tallverdi (NUMERIC)
+    {
+      "field_type": "numeric",
+      "variable_name": "0AvoidSmoBan",
+      "label": "Form_numeric_name ",
+      "required": false,
+      "value": "7",
+      "lower_limit": "5",
+      "upper_limit": "10"
+    },
+    G_2) Skjema - Form : Field Texststreng (STRING)
+    {
+      "field_type": "string",
+      "variable_name": "0Age",
+      "label": "Form_string_name  (Age_Variable)",
+      "required": true,
+      "value": "45"
+    }
+    G_3) Skjema - Form : Field Tekst(TEXT)
+    {
+      "field_type": "text",
+      "variable_name": "0AttribWillpower",
+      "label": "Form_text_name ",
+      "required": true,
+      "value": "False"
+    },
+    G_4) Skjema - Form : Field EnkeltValg(MULTIPLECHOICE)
+     {
+      "field_type": "multiplechoice",
+      "variable_name": "0MobFirstThingMorn",
+      "label": "Form_multichoice_name ",
+      "required": true,
+      "alternatives": [
+        {
+          "label": "Form_multichoice_alter_name 1 ",
+          "value": "Form_multichoice_alter_verdi 1 "
+        },
+        {
+          "label": "Form_multichoice_alter_name 2 ",
+          "value": "Form_multichoice_alter_verdi 2 "
+        }
+      ],
+      "value": "Form_multichoice_alter_verdi 2 "
+    },
+    G_5) Skjema - Form : Field Flervalg(MULTIPLESELECTION)
+    {
+      "field_type": "multipleselection",
+      "variable_name": "0CopingSEf",
+      "label": "Form_multiselection_name ",
+      "required": true,
+      "value": [
+        "Form_multiselection_alter_verdi 1 ",
+        "Form_multiselection_alter_verdi 2 "
+      ],
+      "alternatives": [
+        {
+          "label": "Form_multiselection_alter_name 1 ",
+          "value": "Form_multiselection_alter_verdi 1 ",
+          "selected": true
+        },
+        {
+          "label": "Form_multiselection_alter_name 2 ",
+          "value": "Form_multiselection_alter_verdi 2 ",
+          "selected": true
+        }
+      ],
+      "horizontal": true
+    },
+
+    G_6) Skjema - Form : Field Epost(EMAIL)
+    {
+      "field_type": "email",
+      "variable_name": "0Population",
+      "label": "Form_Email_name ",
+      "value": "@sss.ss"
+    }
+    G_7) Skjema - Form : Field  Password(PASSWORD)
+    {
+      "field_type": "password",
+      "variable_name": "ChangeTalkSelfEfficacyHighRiskSituations2",
+      "label": "Form_Pwd_name ",
+      "value": "Form_Pwd_verdi "
+    }
+
+  H) Pagelet: Quiz - Quiz
+  We can use variables in fields to pre fill the quiz but we are not set/implemented
+  the pre-filling of the previous reply from the user (in case the user do the same quiz several time)
+  {
+    "content_type": "quiz",
+    "content": [
+      {
+        "question": "Quiz question title ",
+        "variable_name": "0AttribEffort",
+        "right": "",
+        "wrong": "",
+        "alternatives": [
+          {
+            "label": "quiz alter name 1 ",
+            "value": "quiz alter value 1 ",
+            "response": "quiz alter response 1 "
+          },
+          {
+            "label": "quiz alter name 2 ",
+            "value": "quiz alter value 2 ",
+            "response": "quiz alter response 2 ",
+            "correct": true
+          }
+        ]
+      }
+    ]
+  },
+  I) Pagelet: Bilde-Image / Video-Video / Lydklipp-Audio / Fil-File
+    We can use variables for all the input fields (title and Alternative title)
+    The data structure is not really complex to be detailed
+
+3) WorkFlow (how to the reach the data handling of a page)
+(view) get_session => (template) session.html
+template session.html calls and updates the data by calling:
+(view) get_page => (engine) run => trigger_node => (model page) update_html (function where we handle the contents of a page)
