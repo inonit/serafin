@@ -1,5 +1,5 @@
 boto3
-Django>=1.8,<1.9
+Django==1.8.3
 django-appconf
 django-compressor
 django-constance
@@ -7,10 +7,10 @@ django-extensions
 django-filer==1.2.4
 django-import-export
 django-request
-django-reversion
+django-reversion==2.0.11
 django-settings-export
-django-sitetree
-django-storages
+django-sitetree==1.8.0
+django-storages==1.5.1
 django-suit==0.2.19
 django-user-agents
 django-xforwardedfor-middleware<2.0

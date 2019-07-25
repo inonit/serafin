@@ -4,8 +4,9 @@ RUN apt-get update && apt-get install -y supervisor
 
 RUN curl -sL https://deb.nodesource.com/setup_6.x | bash - && \
     apt-get install -y nodejs && \
+	apt-get install -y npm && \
     npm install -g bower
-
+	
 RUN apt-get autoremove -y && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
@@ -18,5 +19,7 @@ COPY requirements.txt /code/
 RUN pip install -r requirements.txt
 COPY supervisor.conf /etc/supervisor/supervisor.conf
 COPY . /code/
+COPY filer.base64.json /code/
+COPY system.json /code/
 EXPOSE 8000
 ENTRYPOINT ["supervisord", "-c", "/etc/supervisor/supervisor.conf"]

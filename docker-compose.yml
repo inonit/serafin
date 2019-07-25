@@ -22,7 +22,7 @@ services:
       context: .
       dockerfile: Dockerfile
     volumes:
-      - .:/code
+      - \\DESKTOP-7599DQN\serafin:/code1
     ports:
       - '8000:8000'
     links:
