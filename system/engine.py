@@ -479,10 +479,16 @@ class Engine(object):
                 delay_number = delay.get('number')
                 if variable_name:
                     try:
-                        delay_number = int(Variable.objects.get(name=variable_name).get_value())
-                        self.logger.debug("Delay node using variable: %s => %s" % (variable_name, delay_number))
+                        # if variable is dynamically changed in the graph tree (back office)
+                        if variable_name in self.user.data :
+                            delay_number = int(self.user.data.get(variable_name))
+                            self.logger.debug("Delay node using variable: %s => %s" % (variable_name, delay_number))
+                        else :
+                        # trying to get the predefined value of the variable from the database
+                            delay_number = int(Variable.objects.get(name=variable_name).get_value())
+                            self.logger.debug("Delay node using variable: %s => %s" % (variable_name, delay_number))
                     except Exception as e:
-                        self.logger.error("failed to use variable in delay node: %s", e.message)
+                        self.logger.error("failed to use variable(%s) in delay node: %s" % (variable_name, e.message))
                 else:
                     self.logger.debug("Delay node not using a variable")
 
