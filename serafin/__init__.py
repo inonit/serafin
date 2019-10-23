@@ -1,4 +1,5 @@
 # this somehow runs before wsgi.py so...
+
 import os
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'serafin.settings')
 
@@ -8,6 +9,7 @@ from django.contrib.admin import sites
 from request.models import Request
 from request.plugins import plugins
 
+import backports.csv as csv
 
 class CustomAdminSite(admin.AdminSite):
 

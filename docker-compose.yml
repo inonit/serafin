@@ -4,7 +4,7 @@ services:
   db:
     image: postgres
     volumes:
-      - ./.docker-data/postgresql:/var/lib/postgresql/data
+      - postgresql-volume:/var/lib/postgresql/data
     ports:
       - '5432:5432'
     environment:
@@ -13,7 +13,7 @@ services:
   redis:
     image: redis
     volumes:
-      - ./.docker-data/redis:/data
+      - redis-volume:/data
     ports:
       - '6379:6379'
 
@@ -28,3 +28,9 @@ services:
     links:
       - db
       - redis
+
+volumes:
+  postgresql-volume:
+    external: true
+  redis-volume:
+    external: true

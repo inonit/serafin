@@ -105,7 +105,7 @@ TEMPLATE_CONTEXT_PROCESSORS += (
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'HOST': 'db',
+        'HOST': '192.168.99.100',
         'PORT': 5432,
         'NAME': 'postgres',
         'USER': 'postgres',
@@ -519,7 +519,7 @@ CONSTANCE_CONFIG = OrderedDict([
 ])
 
 CONSTANCE_REDIS_CONNECTION = {
-    'host': 'redis',
+    'host': '192.168.99.100',
     'port': 6379
 }
 
