@@ -17,10 +17,11 @@ COPY bower.json .bowerrc /code/
 RUN bower --allow-root install
 COPY requirements.txt /code/
 RUN pip install -r requirements.txt
+RUN pip install ptvsd
 COPY supervisor.conf /etc/supervisor/supervisor.conf
 COPY . /code/
 COPY filer.base64.json /code/
 COPY system.json /code/
 RUN python manage.py collectstatic --noinput
-EXPOSE 8000
+EXPOSE 8000 5678
 ENTRYPOINT ["supervisord", "-c", "/etc/supervisor/supervisor.conf"]

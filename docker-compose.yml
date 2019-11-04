@@ -13,7 +13,7 @@ services:
   redis:
     image: redis
     volumes:
-      - redis-volume:/data
+      - ./.docker-data/redis:/data
     ports:
       - '6379:6379'
 
@@ -22,15 +22,13 @@ services:
       context: .
       dockerfile: Dockerfile
     volumes:
-      - \\DESKTOP-7599DQN\serafin:/code1
+      - .:/code
     ports:
       - '8000:8000'
+      - '5678:5678'
     links:
       - db
       - redis
 
 volumes:
   postgresql-volume:
-    external: true
-  redis-volume:
-    external: true
