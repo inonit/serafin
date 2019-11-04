@@ -1,4 +1,4 @@
-var content = angular.module('content', ['autocompleteSearch', 'stringExpression']);
+var content = angular.module('content', ['autocompleteSearch', 'stringExpression', 'ui.tinymce', 'ngQuill']);
 
 var fileTemplate = {
     url: '',
@@ -7,6 +7,11 @@ var fileTemplate = {
 };
 
 var dataTemplates = {
+    'richtext': {
+        content_type: 'richtext',
+        content: '',
+        title: 'Rich Text'
+    },
     'text': {
         content_type: 'text',
         content: ''
@@ -201,6 +206,22 @@ content.directive('markdownText', ['$timeout', function (timeout) {
         }
     };
 }]);
+
+content.directive('uiTinymce', function() {
+    return {
+        restrict: 'A',
+        require: 'ngModel',
+        link: function(scope, elem, attrs, ngModel) {
+            console.log('init empty');
+            scope.tinymceOptions = {
+                inline: false,
+                plugins : 'advlist autolink link image lists charmap print preview textcolor',
+                skin: 'lightgray',
+                theme : 'modern',
+            }
+        }
+    }
+});
 
 content.directive('textarea', function () {
     // autoresize textarea as you type.

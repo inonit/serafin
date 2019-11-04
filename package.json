@@ -17,6 +17,8 @@
   },
   "homepage": "https://github.com/inonit/serafin#readme",
   "dependencies": {
-    "bower": "^1.4.1"
+    "angular-ui-tinymce": "0.0.19",
+    "bower": "^1.4.1",
+    "ng-quill": "1.4.1"
   }
 }

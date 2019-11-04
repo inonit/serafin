@@ -240,6 +240,11 @@ class Page(Content):
 
     def update_html(self, user):
         for pagelet in self.data:
+            if pagelet['content_type'] == 'richtext':
+                content = pagelet.get('content')
+                content, pagelet['variables'] = live_variable_replace(user, content)
+                pagelet['content'] = content
+                
             if pagelet['content_type'] in ['text', 'toggle']:
                 content = pagelet.get('content')
                 content = remove_comments(content)
