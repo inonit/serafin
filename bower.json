@@ -13,7 +13,8 @@
     "staticfiles/lib"
   ],
   "dependencies": {
-    "angular": "~1.4.1",
+    "angular": "1.7.8",
+    "angular-sanitize": "1.7.8",
     "marked": "~0.3.3",
     "ment.io": "~0.9.23",
     "lodash": "~3.10.0",
@@ -23,6 +24,6 @@
     "foundation": "~5.5.2",
     "angular-foundation": "~0.6.0",
     "angular-ui-tinymce": "0.0.19",
-    "ng-quill": "1.4.1"
+    "ng-quill": "4.5.3"
   }
 }

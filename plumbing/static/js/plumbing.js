@@ -92,8 +92,8 @@ plumbing.run(['$rootScope', '$http', function(scope, http) {
     scope.showSettings = -1;
 
     scope.variables = [];
-    http.get('/api/system/variables/').success(function (data) {
-        scope.variables = data.concat(reservedVars || []);
+    http.get('/api/system/variables/').then(function (response) {
+        scope.variables = response.data.concat(reservedVars || []);
     });
 
 }]);
@@ -104,8 +104,8 @@ plumbing.factory('variables', ['$http', function(http) {
         get: function() {
             if (variables) return variables;
 
-            variables = http.get('/api/system/variables/').success(function(data) {
-                return data;
+            variables = http.get('/api/system/variables/').then(function(response) {
+                return response.data;
             });
 
             return variables
@@ -359,9 +359,9 @@ plumbing.directive('noderef', ['$http', function(http) {
                     scope.$apply(function() {
                         scope.node.ref_id = value;
                     });
-                    http.get(nodeApiUrl + scope.node.type + '/' + value).success(function(data) {
-                        scope.node.title = data['title'];
-                        scope.node.ref_url = data['url'];
+                    http.get(nodeApiUrl + scope.node.type + '/' + value).then(function(response) {
+                        scope.node.title = response.data['title'];
+                        scope.node.ref_url = response.data['url'];
                     });
                 }
             });

@@ -16,15 +16,15 @@ serafin.run(['$rootScope', '$http', function(scope, http) {
     scope.variables = {};
 
     if (api) {
-        http.get(api + window.location.search).success(function(data) {
+        http.get(api + window.location.search).then(response => {
             scope.error = null;
-            scope.getVariables(data.data);
-            scope.title = data.title;
-            scope.page = data.data;
-            scope.dead_end = data.dead_end;
-            scope.stacked = data.stacked;
-        }).error(function(data, status, error, config) {
-            scope.error = data;
+            scope.getVariables(response.data.data);
+            scope.title = response.data.title;
+            scope.page = response.data.data;
+            scope.dead_end = response.data.dead_end;
+            scope.stacked = response.data.stacked;
+        }, reason => {
+            scope.error = reason;
             scope.page = {};
         });
     }

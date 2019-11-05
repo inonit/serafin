@@ -31,18 +31,15 @@
         <h3 ng-if="pagelet.title != undefined" class="title">{% verbatim %}{{ pagelet.title }}{% endverbatim %}</h3>
 
         <div ng-if="pagelet.content_type == 'richtext'" class="text" ng-controller="markdown">
-            <textarea ui-tinymce="tinymceOptions" ng-model="pagelet.content"></textarea>
+            <!--textarea ui-tinymce="tinymceOptions" ng-model="pagelet.content"></textarea-->
 
-
-            <!--ng-quill-editor ng-model="pagelet.content" 
+            <ng-quill-editor ng-model="pagelet.content" 
                 toolbar="true" link-tooltip="true"
                 image-tooltip="true" 
                 toolbar-entries="font size bold list bullet italic underline strike align color background link image" 
                 editor-required="true" required="" 
                 error-class="input-error">
-            </ng-quill-editor-->
-
-            
+            </ng-quill-editor>
         </div>
 
         <div ng-if="pagelet.content_type == 'text'" class="text" ng-controller="markdown">

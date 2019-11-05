@@ -49,8 +49,7 @@ class ContentWidget(forms.Widget):
                 'css/autocomplete.css',
                 'css/expression-widget.css',
                 'css/content.css',
-                '//cdn.quilljs.com/0.20.1/quill.snow.css',
-                'css/quill.fixes.css'
+                '//cdn.quilljs.com/1.3.7/quill.snow.css'
             )
         }
         js = (
@@ -63,9 +62,10 @@ class ContentWidget(forms.Widget):
             'lib/lodash/lodash.min.js',
             'lib/ment.io/dist/mentio.min.js',
             'lib/marked/marked.min.js',
+            'lib/angular-sanitize/angular-sanitize.min.js',
             'lib/tinymce/tinymce.min.js',
             'lib/angular-ui-tinymce/dist/tinymce.min.js',
-            '//cdn.quilljs.com/0.20.1/quill.js',
+            '//cdn.quilljs.com/1.3.7/quill.js',
             'lib/ng-quill/src/ng-quill.js',
             'js/autocomplete.js',
             'js/expression.js',

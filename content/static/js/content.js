@@ -1,4 +1,4 @@
-var content = angular.module('content', ['autocompleteSearch', 'stringExpression', 'ui.tinymce', 'ngQuill']);
+var content = angular.module('content', ['autocompleteSearch', 'stringExpression', 'ngQuill']);
 
 var fileTemplate = {
     url: '',
@@ -156,8 +156,8 @@ content.run(['$rootScope', '$http', function (scope, http) {
     }
 
     scope.variables = [];
-    http.get('/api/system/variables/').success(function (data) {
-        scope.variables = data.concat(reservedVars || []);
+    http.get('/api/system/variables/').then(function (response) {
+        scope.variables = response.data.concat(reservedVars || []);
     });
 }]);
 
@@ -334,17 +334,17 @@ content.directive('filer', ['$compile', '$http', function (compile, http) {
                     scope.$apply(function () {
                         scope.contentProxy.file_id = value;
                     });
-                    http.get(url + value + '/').success(function (data) {
-                        scope.contentProxy.url = data['url'];
-                        scope.contentProxy.thumbnail = data['thumbnail'];
-                        scope.contentProxy.description = data['description'];
+                    http.get(url + value + '/').then(function (response) {
+                        scope.contentProxy.url = response.data['url'];
+                        scope.contentProxy.thumbnail = response.data['thumbnail'];
+                        scope.contentProxy.description = response.data['description'];
                     });
                 }
             });
 
             // populate on load
             if (scope.contentProxy.file_id) {
-                http.get(url + scope.contentProxy.file_id + '/').success(function (data) {
+                http.get(url + scope.contentProxy.file_id + '/').then(function (response) {
                     elem.find('.thumbnail_img').removeClass('hidden');
                     elem.find('.description_text').removeClass('hidden');
                     elem.find('.filerClearer').removeClass('hidden');
