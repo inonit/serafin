@@ -66,7 +66,7 @@ class ContentWidget(forms.Widget):
             'lib/tinymce/tinymce.min.js',
             'lib/angular-ui-tinymce/dist/tinymce.min.js',
             '//cdn.quilljs.com/0.20.1/quill.js',
-            'lib/ng-quill/ng-quill.js',
+            'lib/ng-quill/src/ng-quill.js',
             'js/autocomplete.js',
             'js/expression.js',
             'js/content.js',
