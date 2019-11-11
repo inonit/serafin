@@ -225,6 +225,28 @@ serafin.directive('livereplace', ['$compile', function(compile) {
     };
 }]);
 
+serafin.directive('richtextlivereplace', ['$compile', function(compile) {
+    return {
+        restrict: 'A',
+        controller: 'pages',
+        scope: {
+            text: '=richtextlivereplace'
+        },
+        link: function(scope, element) {
+            scope.variables = scope.$parent.variables;
+            scope.$watch('text', function() {
+                var template = scope.text;
+                if (template) {
+                    template = template.replace('\\n', '<br/>');
+                    var compiled = compile(template)(scope);
+                    element.html('');
+                    element.append(compiled);
+                }
+            })
+        }
+    };
+}]);
+
 serafin.directive('menu', ['$timeout', function(timeout) {
     return {
         restrict: 'C',

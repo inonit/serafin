@@ -8,7 +8,7 @@
     {% verbatim %}
     <div class="pagelet" ng-repeat="pagelet in page track by $index" ng-cloak>
 
-        <div class="text" ng-if="pagelet.content_type == 'richtext'" livereplace="pagelet.content">
+        <div class="text" ng-if="pagelet.content_type == 'richtext'" richtextlivereplace="pagelet.content">
         </div>
         
         <div class="text" ng-if="pagelet.content_type == 'text'" livereplace="pagelet.content">

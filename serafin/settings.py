@@ -160,7 +160,12 @@ STATICFILES_FINDERS = (
     'django.contrib.staticfiles.finders.FileSystemFinder',
     'django.contrib.staticfiles.finders.AppDirectoriesFinder',
     'compressor.finders.CompressorFinder',
+    'npm.finders.NpmFinder',
 )
+
+NPM_FILE_PATTERNS = {
+    'quill-image-resize': ['*']
+}
 
 THUMBNAIL_ALIASES = {
     '': {
