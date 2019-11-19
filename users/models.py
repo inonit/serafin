@@ -1,4 +1,5 @@
 from __future__ import unicode_literals
+from __future__ import print_function
 from django.utils.translation import ugettext_lazy as _
 
 from django.conf import settings
@@ -115,7 +116,7 @@ class User(AbstractBaseUser, PermissionsMixin):
             return response
 
         if message and settings.SMS_SERVICE == 'Console':
-            print message
+            print(message)
             return True
 
         if message and settings.SMS_SERVICE == 'Primafon':

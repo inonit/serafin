@@ -1,3 +1,4 @@
+from __future__ import print_function
 import datetime
 import pickle
 from time import sleep
@@ -95,7 +96,7 @@ class TaskerTestCase(TestCase):
         # check result is still the same
         self.assertEqual(task.result, 'Hello Huey!')
 
-        print 'test_create_task task id: %s' % task.task_id
+        print('test_create_task task id: %s' % task.task_id)
 
         task = Task.objects.create_task(
             sender=self.program,
@@ -112,7 +113,7 @@ class TaskerTestCase(TestCase):
         # future task should have no result
         self.assertEqual(task.result, None)
 
-        print 'test_create_task (future) task id: %s' % task.task_id
+        print('test_create_task (future) task id: %s' % task.task_id)
 
     def test_reschedule_past_task(self):
         '''Test direct task rescheduling with task in the past'''
@@ -142,7 +143,7 @@ class TaskerTestCase(TestCase):
         # ...and will run again on new schedule
         self.assertEqual(task.result, 'Hello Huey!')
 
-        print 'test_reschedule_past_task task id: %s' % task.task_id
+        print('test_reschedule_past_task task id: %s' % task.task_id)
 
     def test_reschedule_future_task(self):
         '''Test direct task rescheduling with task in the future'''
@@ -163,7 +164,7 @@ class TaskerTestCase(TestCase):
         # future task should be rescheduled and run, so it should have a result
         self.assertEqual(task.result, 'Hello Huey!')
 
-        print 'test_reschedule_future_task task id: %s' % task.task_id
+        print('test_reschedule_future_task task id: %s' % task.task_id)
 
     def test_revoke_task(self):
         '''Test direct task revocation'''
@@ -184,7 +185,7 @@ class TaskerTestCase(TestCase):
         # task was revoked before run, so it should have no result
         self.assertIs(task.result, None)
 
-        print 'test_revoke_task task id: %s' % task.task_id
+        print('test_revoke_task task id: %s' % task.task_id)
 
 
 class SessionIntegrationTestCase(TestCase):
