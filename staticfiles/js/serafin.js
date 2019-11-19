@@ -237,7 +237,7 @@ serafin.directive('richtextlivereplace', ['$compile', function(compile) {
             scope.$watch('text', function() {
                 var template = scope.text;
                 if (template) {
-                    template = template.replace('\\n', '<br/>');
+                    template = template.replace(/\\n/g, '<br/>');
                     var compiled = compile(template)(scope);
                     element.html('');
                     element.append(compiled);
