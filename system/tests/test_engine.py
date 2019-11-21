@@ -356,7 +356,6 @@ class EngineTestCase(TestCase):
         engine = Engine(user=self.user, context=context)
 
         self.assertEqual(engine.session, self.session_simple)
-        self.assertEqual(self.user.data['session'], self.session_simple.id)
         self.assertEqual(self.user.data['node'], 0)
 
         # test run, will transition from start and return the first page
@@ -368,6 +367,7 @@ class EngineTestCase(TestCase):
         self.assertEqual(page, self.page_first)
 
         # repeated run with next will return the second page
+        engine = Engine(user=self.user)
         page = engine.run(next=True)
         self.assertEqual(page, self.page_second)
         self.assertEqual(self.user.data['session'], self.session_simple.id)
@@ -378,9 +378,8 @@ class EngineTestCase(TestCase):
             'session': self.session_empty.id,
             'node': 0,
         }
-        engine = Engine(user=self.user, context=context, push=True)
+        engine = Engine(user=self.user, context=context, push=True, is_interactive=True)
         self.assertEqual(engine.session, self.session_empty)
-        self.assertEqual(self.user.data['session'], self.session_empty.id)
         self.assertEqual(self.user.data['node'], 0)
         self.assertEqual(self.user.data['stack'], [(self.session_simple.id, 2)])
 
@@ -398,7 +397,7 @@ class EngineTestCase(TestCase):
         engine = Engine(user=self.user, context=context)
 
         # retroactively monkey patch StatefulAnonymousUser
-        def send_email(self, subject=None, message=None, html_message=None):
+        def send_email(self, subject=None, message=None, html_message=None, **kwargs):
 
             self.data['mail'] = message
             self.save()
@@ -436,6 +435,7 @@ class EngineTestCase(TestCase):
         self.assertEqual(page, self.page_first_complex)
 
         # the next edge is a session node, should return the first page of that node
+        engine = Engine(user=self.user)
         page = engine.run(next=True)
         self.assertEqual(page, self.page_first)
 
