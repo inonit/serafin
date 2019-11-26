@@ -16,7 +16,8 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='task',
             name='subject',
-            field=models.ForeignKey(verbose_name='subject', blank=True, to=settings.AUTH_USER_MODEL, null=True),
+            field=models.ForeignKey(verbose_name='subject', blank=True, to=settings.AUTH_USER_MODEL, null=True,
+                                    on_delete=models.CASCADE),
             preserve_default=True,
         ),
     ]

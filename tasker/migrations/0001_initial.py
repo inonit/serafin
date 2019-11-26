@@ -20,7 +20,8 @@ class Migration(migrations.Migration):
                 ('action', models.CharField(max_length=255, verbose_name='action', blank=True)),
                 ('task_id', models.CharField(max_length=255, verbose_name='task')),
                 ('time', models.DateTimeField(verbose_name='time')),
-                ('content_type', models.ForeignKey(verbose_name='sender', to='contenttypes.ContentType')),
+                ('content_type', models.ForeignKey(verbose_name='sender', to='contenttypes.ContentType',
+                                                   on_delete=models.CASCADE)),
             ],
             options={
                 'verbose_name': 'task',

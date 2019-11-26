@@ -2,6 +2,7 @@
 
 from __future__ import unicode_literals
 
+from builtins import object
 from datetime import timedelta, datetime
 import pytz
 import re
@@ -67,7 +68,7 @@ class Engine(object):
         # process context if available
         if context:
 
-            for key, value in context.items():
+            for key, value in list(context.items()):
                 if key in ('session', 'node'):
                     continue
 

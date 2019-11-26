@@ -1,5 +1,6 @@
 from __future__ import unicode_literals
 
+from builtins import object
 from import_export import resources, fields, widgets
 from constance import config
 from users.models import User
@@ -27,7 +28,7 @@ class UserResource(resources.ModelResource):
         if not obj.data:
             obj.data = {}
 
-        for key in data.keys():
+        for key in list(data.keys()):
             if key in headers:
                 continue
             obj.data[key] = data[key]
@@ -59,14 +60,14 @@ class UserResource(resources.ModelResource):
 
         data_headers = set()
         for obj in queryset:
-            data_headers.update(obj.data.keys())
+            data_headers.update(list(obj.data.keys()))
 
         self.data_headers = list(data_headers)
         headers += self.data_headers
 
         return headers
 
-    class Meta:
+    class Meta(object):
         model = User
         export_order = [
             'id',

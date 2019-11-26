@@ -1,5 +1,6 @@
 from __future__ import unicode_literals
 from __future__ import print_function
+from builtins import str
 from django.utils.translation import ugettext_lazy as _
 
 import re
@@ -40,11 +41,11 @@ def variable_replace(user, text):
                 pass
 
         if isinstance(value, float):
-            value = unicode(value)
+            value = str(value)
             if value.endswith('.0'):
                 value = value[:-2]
 
-        text = text.replace(code, unicode(value))
+        text = text.replace(code, str(value))
 
     return text
 
@@ -69,7 +70,7 @@ def live_variable_replace(user, text):
                 pass
 
         variables[variable] = value
-        text = text.replace(code, '<span ng-bind-html="variables.%s | stripzerodecimal | breaks"></span>' % unicode(variable))
+        text = text.replace(code, '<span ng-bind-html="variables.%s | stripzerodecimal | breaks"></span>' % str(variable))
 
     return text, variables
 

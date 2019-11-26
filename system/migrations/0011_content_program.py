@@ -14,7 +14,9 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='content',
             name='program',
-            field=models.ForeignKey(blank=True, to='system.Program', help_text='Optionally related to a specific program', null=True, verbose_name='program'),
+            field=models.ForeignKey(blank=True, to='system.Program',
+                                    help_text='Optionally related to a specific program',
+                                    null=True, verbose_name='program', on_delete=models.CASCADE),
             preserve_default=True,
         ),
     ]

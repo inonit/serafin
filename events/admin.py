@@ -2,7 +2,7 @@ from __future__ import unicode_literals
 from django.utils.translation import ugettext_lazy as _
 
 from django.contrib import admin
-from django.core.urlresolvers import reverse
+from django.urls import reverse
 from import_export.admin import ImportExportModelAdmin
 
 from events.importexport import EventResource
@@ -30,7 +30,7 @@ class EventAdmin(ImportExportModelAdmin):
 
     def __init__(self, *args, **kwargs):
         super(EventAdmin, self).__init__(*args, **kwargs)
-        self.list_display_links = (None, )
+        self.list_display_links = None
 
     def has_add_permission(self, request):
         return False

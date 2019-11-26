@@ -6,7 +6,7 @@ from django.conf import settings
 from django.contrib import admin
 from django.contrib.admin.forms import AdminAuthenticationForm
 from django.contrib.sites.models import Site
-from django.core.urlresolvers import reverse
+from django.urls import reverse
 from django.template import Context
 from django.template.loader import get_template
 from django.utils.encoding import force_bytes
@@ -54,9 +54,9 @@ class PasswordResetForm(forms.Form):
                 'user': user,
             }
 
-            subject = subject_template.render(Context({'site_name': site_name}))
+            subject = subject_template.render({'site_name': site_name})
             subject = ''.join(subject.splitlines())
-            content = content_template.render(Context(context))
+            content = content_template.render(context)
 
             if subject and content:
                 user.send_email(subject, content)

@@ -48,7 +48,7 @@ class Migration(migrations.Migration):
                 ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
                 ('start_time', models.DateTimeField(default=django.utils.timezone.now, verbose_name='start time')),
                 ('time_factor', models.DecimalField(default=1.0, verbose_name='time factor', max_digits=5, decimal_places=3)),
-                ('program', models.ForeignKey(verbose_name='program', to='system.Program')),
+                ('program', models.ForeignKey(verbose_name='program', to='system.Program', on_delete=models.CASCADE)),
             ],
             options={
                 'verbose_name': 'user access',
@@ -72,7 +72,7 @@ class Migration(migrations.Migration):
                 ('trigger_login', models.BooleanField(default=True, verbose_name='trigger login')),
                 ('data', jsonfield.fields.JSONField(default='undefined')),
                 ('content', models.ManyToManyField(to='system.Content', null=True, verbose_name='content', blank=True)),
-                ('program', models.ForeignKey(verbose_name='program', to='system.Program')),
+                ('program', models.ForeignKey(verbose_name='program', to='system.Program', on_delete=models.CASCADE)),
             ],
             options={
                 'verbose_name': 'session',

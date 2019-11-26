@@ -15,6 +15,9 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='user',
             name='program_restrictions',
-            field=models.ManyToManyField(related_query_name='user_restriction', related_name='user_restriction_set', to='system.Program', blank=True, help_text='Staff user has limited access only to the chosen Programs (and related data). If no Programs are chosen, there is no restriction.', verbose_name='program restrictions'),
+            field=models.ManyToManyField(related_query_name='user_restriction', related_name='user_restriction_set',
+                                         to='system.Program', blank=True,
+                                         help_text='Staff user has limited access only to the chosen Programs (and related data). If no Programs are chosen, there is no restriction.',
+                                         verbose_name='program restrictions'),
         ),
     ]

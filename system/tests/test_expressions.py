@@ -1,7 +1,9 @@
 # -*- coding: utf-8 -*-
 
 from __future__ import absolute_import, unicode_literals
+from __future__ import division
 
+from past.utils import old_div
 import math
 
 from django.test import TestCase
@@ -35,7 +37,7 @@ class ParserTestCase(TestCase):
         self.assertEqual(self.parser.parse("9 + 3 + 6"), 9 + 3 + 6)
         self.assertEqual(self.parser.parse("9 + 3 / 11"), 9 + 3.0 / 11)
         self.assertEqual(self.parser.parse("(9 + 3)"), (9 + 3))
-        self.assertEqual(self.parser.parse("(9 + 3) / 11"), (9 + 3.0) / 11)
+        self.assertEqual(self.parser.parse("(9 + 3) / 11"), old_div((9 + 3.0), 11))
         self.assertEqual(self.parser.parse("9 - 12 - 6"), 9 - 12 - 6)
         self.assertEqual(self.parser.parse("9 - (12 -6)"), 9 - (12 - 6))
         self.assertEqual(self.parser.parse("2 * 3"), 2 * 3)
@@ -50,16 +52,16 @@ class ParserTestCase(TestCase):
         self.assertEqual(self.parser.parse("9 % 3"), 9 % 3)
 
         # test constants
-        self.assertEqual(self.parser.parse("PI*PI/10"), math.pi * math.pi / 10)
-        self.assertEqual(self.parser.parse("PI * PI / 10"), math.pi * math.pi / 10)
+        self.assertEqual(self.parser.parse("PI*PI/10"), old_div(math.pi * math.pi, 10))
+        self.assertEqual(self.parser.parse("PI * PI / 10"), old_div(math.pi * math.pi, 10))
         self.assertEqual(self.parser.parse("PI ^ 2"), math.pi ** 2)
-        self.assertEqual(self.parser.parse("e / 3"), math.e / 3)
+        self.assertEqual(self.parser.parse("e / 3"), old_div(math.e, 3))
         self.assertEqual(self.parser.parse("E ^ pi"), math.e ** math.pi)
         self.assertEqual(self.parser.parse("6.02E23 * 8.048"), 6.02e23 * 8.048)
 
         # test functions
         self.assertEqual(self.parser.parse("round(PI^2)"), round(math.pi ** 2))
-        self.assertEqual(self.parser.parse("sin(PI/2)"), math.sin(math.pi / 2))
+        self.assertEqual(self.parser.parse("sin(PI/2)"), math.sin(old_div(math.pi, 2)))
         self.assertEqual(self.parser.parse("trunc(E)"), int(math.e))
         self.assertEqual(self.parser.parse("trunc(-E)"), int(-math.e))
         self.assertEqual(self.parser.parse("round(E)"), round(math.e))

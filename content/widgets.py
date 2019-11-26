@@ -2,10 +2,11 @@
 
 from __future__ import absolute_import, unicode_literals
 
+from builtins import object
 from django import forms
 from django.conf import settings
 from django.contrib.admin.sites import site
-from django.core.urlresolvers import reverse
+from django.urls import reverse
 from django.template.loader import render_to_string
 from django.utils.safestring import mark_safe
 
@@ -14,8 +15,8 @@ import re
 import json
 
 
-class DummyForeignObjectRel:
-    class DummyRelatedField:
+class DummyForeignObjectRel(object):
+    class DummyRelatedField(object):
         name = None
 
     def __init__(self, *args, **kwargs):
@@ -23,6 +24,10 @@ class DummyForeignObjectRel:
 
     def get_related_field(self):
         return self.DummyRelatedField()
+
+    @property
+    def model(self):
+        return None
 
 
 class ContentWidget(forms.Widget):
@@ -42,7 +47,7 @@ class ContentWidget(forms.Widget):
         html = render_to_string('admin/content_widget.html', context)
         return mark_safe(html)
 
-    class Media:
+    class Media(object):
         css = {
             'all': (
                 'filer/css/admin_filer.css',
@@ -84,7 +89,7 @@ class TextContentWidget(forms.Widget):
         html = render_to_string('admin/text_content_widget.html', context)
         return mark_safe(html)
 
-    class Media:
+    class Media(object):
         css = {
             'all': (
                 'css/content.css',
@@ -111,7 +116,7 @@ class SMSContentWidget(forms.Widget):
         html = render_to_string('admin/sms_content_widget.html', context)
         return mark_safe(html)
 
-    class Media:
+    class Media(object):
         css = {
             'all': (
                 'css/content.css',

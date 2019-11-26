@@ -15,11 +15,15 @@ from tasker.models import Task
 from system.models import Program, ProgramUserAccess, Session
 from system.signals import *
 
-
 User = get_user_model()
 
 
-@task()
+@huey.task()
+def gal_task():
+    return "GAL TASK"
+
+
+@huey.task()
 def test_task():
     message = 'Hello Huey!'
     return message

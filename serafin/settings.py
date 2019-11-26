@@ -13,7 +13,6 @@ import os
 
 BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 
-
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/1.8/howto/deployment/checklist/
 
@@ -27,10 +26,10 @@ USERDATA_DEBUG = DEBUG
 
 ALLOWED_HOSTS = ['*']
 
-
 # Application definition
 
 from multisite import SiteID
+
 SITE_ID = SiteID(default=1)
 
 INSTALLED_APPS = (
@@ -40,10 +39,12 @@ INSTALLED_APPS = (
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'django.contrib.sites',
+    'django.contrib.admin',
+    'django_user_agents',
+    'django.db.models',
+    'request',
 
     'multisite',
-    'serafin.apps.SerafinReConfig',
-
     'tokens',
     'users',
     'tasker',
@@ -57,21 +58,19 @@ INSTALLED_APPS = (
     'sitetree',
     'django_extensions',
     'rules.apps.AutodiscoverRulesConfig',
-    'django.contrib.admin',
     'rest_framework',
     'mptt',
     'easy_thumbnails',
     'huey.contrib.djhuey',
-    'django_user_agents',
     'import_export',
     'compressor',
     'reversion',
     'constance',
-    'request',
     'raven.contrib.django.raven_compat',
+    'serafin.apps.SerafinReConfig',
 )
 
-MIDDLEWARE_CLASSES = (
+MIDDLEWARE = (
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.locale.LocaleMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -89,27 +88,34 @@ ROOT_URLCONF = 'serafin.urls'
 
 WSGI_APPLICATION = 'serafin.wsgi.application'
 
-TEMPLATE_DIRS = [
-    os.path.join(BASE_DIR, 'templates'),
+TEMPLATES = [
+    {
+        'BACKEND': 'django.template.backends.django.DjangoTemplates',
+        'DIRS': [
+            os.path.join(BASE_DIR, 'templates')
+        ],
+        'APP_DIRS': True,
+        'OPTIONS': {
+            'context_processors': [
+                'django.contrib.messages.context_processors.messages',
+                'django.contrib.auth.context_processors.auth',
+                'django.template.context_processors.request',
+                'django_settings_export.settings_export',
+                'system.context_processors.site',
+                'system.context_processors.stylesheet',
+                # Insert your TEMPLATE_CONTEXT_PROCESSORS here or use this
+                # list if you haven't customized them:
+            ],
+        },
+    },
 ]
-
-from django.conf.global_settings import TEMPLATE_CONTEXT_PROCESSORS
-
-TEMPLATE_CONTEXT_PROCESSORS += (
-    'django.contrib.messages.context_processors.messages',
-    'django.core.context_processors.request',
-    'django_settings_export.settings_export',
-    'system.context_processors.site',
-    'system.context_processors.stylesheet',
-)
-
 
 # Database
 # https://docs.djangoproject.com/en/1.8/ref/settings/#databases
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'ENGINE': 'django.db.backends.postgresql',
         'HOST': 'db',
         'PORT': 5432,
         'NAME': 'postgres',
@@ -117,7 +123,6 @@ DATABASES = {
         'PASSWORD': 'postgres',
     }
 }
-
 
 # Internationalization
 # https://docs.djangoproject.com/en/1.8/topics/i18n/
@@ -140,7 +145,6 @@ USE_I18N = True
 USE_L10N = True
 USE_TZ = True
 USE_HTTPS = True
-
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.8/howto/static-files/
@@ -184,7 +188,6 @@ THUMBNAIL_TRANSPARENCY_EXTENSION = 'png'
 
 FILER_DUMP_PAYLOAD = True
 
-
 # User model and authentication
 
 AUTH_USER_MODEL = 'users.User'
@@ -205,14 +208,12 @@ TOKEN_TIMEOUT_DAYS = 1
 SESSION_COOKIE_NAME = 'serafin_session'
 SESSION_COOKIE_AGE = 24 * 60 * 60  # 24 hours
 
-
 # Events
 
 LOG_USER_DATA = True
 LOG_DEVICE_ON_LOGIN = True
 LOG_TIME_PER_PAGE = True
 LOG_MAX_MILLISECONDS = 5 * 60 * 1000  # 5 minutes
-
 
 # Email
 
@@ -221,16 +222,13 @@ DEFAULT_FROM_EMAIL = 'Serafin <post@example.com>'
 EMAIL_SUBJECT_PREFIX = '[Serafin] '
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
-
 # SMS service
 
 SMS_SERVICE = 'Console'
 
-
 # Google Analytics
 
 GOOGLE_ANALYTICS_ID = ''
-
 
 # Huey
 
@@ -250,7 +248,6 @@ HUEY = {
     }
 }
 
-
 # REST Framework
 
 REST_FRAMEWORK = {
@@ -266,7 +263,6 @@ REST_FRAMEWORK = {
         'rest_framework.permissions.AllowAny',
     ]
 }
-
 
 # Admin interface
 
@@ -331,7 +327,6 @@ SUIT_CONFIG = {
         },
     ]
 }
-
 
 # Logging
 
@@ -411,7 +406,6 @@ LOGGING = {
         }
     }
 }
-
 
 # Variables
 
@@ -503,7 +497,6 @@ RESERVED_VARIABLES = [
     },
 ]
 
-
 # Available stylesheets for the dynamic switcher
 
 STYLESHEETS = [
@@ -515,20 +508,20 @@ STYLESHEETS = [
 
 STYLESHEET_CHOICES = [(ss['path'], ss['name']) for ss in STYLESHEETS]
 
-
 # Constance
 
 from collections import OrderedDict
+
 CONSTANCE_CONFIG = OrderedDict([
     ('USER_VARIABLE_PROFILE_ORDER', (
         u'session, node, stack, reply_session, reply_node, reply_variable',
         'What user variables to list first on a user\'s object page (comma separated)',
-        unicode
+        str
     )),
     ('USER_VARIABLE_EXPORT', (
         u'',
         'What user variables to export from user listing (comma separated, leave blank for all)',
-        unicode
+        str
     )),
 ])
 
@@ -536,7 +529,6 @@ CONSTANCE_REDIS_CONNECTION = {
     'host': 'redis',
     'port': 6379
 }
-
 
 # Request
 
@@ -547,7 +539,7 @@ REQUEST_IGNORE_PATHS = (
 )
 
 REQUEST_IGNORE_USER_AGENTS = (
-    r'^$', # ignore blank user agent
+    r'^$',  # ignore blank user agent
     r'Googlebot',
     r'bingbot',
     r'YandexBot',
@@ -570,12 +562,10 @@ REQUEST_PLUGINS = (
     'request.plugins.TopBrowsers',
 )
 
-
 try:
     from local_settings import *
 except ImportError:
     pass
-
 
 SETTINGS_EXPORT = [
     'DEBUG',

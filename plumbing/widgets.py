@@ -1,7 +1,8 @@
 from __future__ import unicode_literals
 
+from builtins import object
 from django import forms
-from django.core.urlresolvers import reverse
+from django.urls import reverse
 from django.conf import settings
 from django.template.loader import render_to_string
 from django.utils.safestring import mark_safe
@@ -22,7 +23,7 @@ class PlumbingWidget(forms.Widget):
         html = render_to_string('admin/plumbing_widget.html', context)
         return mark_safe(html)
 
-    class Media:
+    class Media(object):
         css = {
             'all': (
                 'css/plumbing.css',

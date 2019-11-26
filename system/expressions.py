@@ -48,6 +48,10 @@ a User instance, attempts to lookup undefined variables will raise an error.
 
 from __future__ import absolute_import, unicode_literals
 
+from past.builtins import cmp
+from builtins import str
+from builtins import map
+from builtins import object
 import math
 import operator as oper
 from sys import float_info
@@ -68,11 +72,11 @@ from pyparsing import (
 def str_trim_float(value):
     """Convert value to string"""
     if isinstance(value, float):
-        value = unicode(value)
+        value = str(value)
         if value.endswith('.0'):
             return value[:-2]
         return value
-    return unicode(value)
+    return str(value)
 
 
 class Parser(object):
@@ -145,7 +149,7 @@ class Parser(object):
             e = CaselessLiteral("E")
             pi = CaselessLiteral("PI")
 
-            lparen, rparen, lbrack, rbrack = map(Suppress, "()[]")
+            lparen, rparen, lbrack, rbrack = list(map(Suppress, "()[]"))
             ident = Word(alphas, alphas + nums + "_$")
             variable = Combine(Literal("$") + Word(alphanums + "_"))
             boolean = Keyword("True") ^ Keyword("False")

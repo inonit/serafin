@@ -1,12 +1,14 @@
 from __future__ import unicode_literals
 from __future__ import print_function
+from builtins import str
+from builtins import object
 from django.utils.translation import ugettext_lazy as _
 
 from django.conf import settings
 from django.contrib.auth.models import BaseUserManager, AbstractBaseUser, PermissionsMixin, AnonymousUser
 from django.contrib.sites.models import Site
 from django.core.mail.message import EmailMultiAlternatives
-from django.core.urlresolvers import reverse
+from django.urls import reverse
 from django.db import models
 from django.template import Context
 from django.template.loader import get_template
@@ -49,7 +51,7 @@ class User(AbstractBaseUser, PermissionsMixin):
     is_staff = models.BooleanField(_('staff status'), default=False)
     is_active = models.BooleanField(_('active'), default=True)
     program_restrictions = models.ManyToManyField(
-        'system.Program', blank=True,
+        to='system.Program', blank=True,
         verbose_name=_('program restrictions'),
         help_text=_('Staff user has limited access only to the chosen Programs (and related data). '
             'If no Programs are chosen, there is no restriction.'),
@@ -185,7 +187,7 @@ class User(AbstractBaseUser, PermissionsMixin):
     def send_login_link(self):
         '''Sends user login link via email templates'''
 
-        subject = unicode(_("Today's login link"))
+        subject = str(_("Today's login link"))
 
         html_template = get_template('email/login_link.html')
         text_template = get_template('email/login_link.txt')
@@ -204,8 +206,8 @@ class User(AbstractBaseUser, PermissionsMixin):
             'site_name': current_site.name,
         }
 
-        text_content = text_template.render(Context(context))
-        html_content = html_template.render(Context(context))
+        text_content = text_template.render(context)
+        html_content = html_template.render(context)
 
         self.send_email(
             subject=subject,
@@ -220,10 +222,10 @@ class User(AbstractBaseUser, PermissionsMixin):
         '''
         return self, False
 
-    def __unicode__(self):
-        return u'%s' % self.id
+    def __str__(self):
+        return '%s' % self.id
 
-    class Meta:
+    class Meta(object):
         verbose_name = _('user')
         verbose_name_plural = _('users')
 

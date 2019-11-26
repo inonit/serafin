@@ -1,5 +1,7 @@
+from builtins import object
 from django.contrib import auth
 from django.utils.functional import SimpleLazyObject
+from django.utils.deprecation import MiddlewareMixin
 
 
 def get_user(request):
@@ -23,6 +25,7 @@ def get_user(request):
     return request._cached_user
 
 
-class AuthenticationMiddleware(object):
+class AuthenticationMiddleware(MiddlewareMixin):
+
     def process_request(self, request):
         request.user = SimpleLazyObject(lambda: get_user(request))

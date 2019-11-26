@@ -161,8 +161,8 @@ def profile(request):
     }
 
     if request.method == 'POST':
-        for key, value in request.POST.items():
-            if key in user_editable_vars.keys():
+        for key, value in list(request.POST.items()):
+            if key in list(user_editable_vars.keys()):
                 request.user.data[key] = value
 
         request.user.save()

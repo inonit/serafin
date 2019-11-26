@@ -2,6 +2,7 @@
 
 from __future__ import absolute_import, unicode_literals
 
+from builtins import object
 import datetime
 import mistune
 import random
@@ -9,7 +10,7 @@ import random
 from django.db import models
 from django.conf import settings
 from django.contrib.sites.models import Site
-from django.core.urlresolvers import reverse
+from django.urls import reverse
 from django.core.exceptions import ValidationError
 from django.template.loader import render_to_string
 from django.utils import timezone
@@ -28,7 +29,7 @@ class Variable(models.Model):
     name = models.CharField(_('name'), max_length=64, unique=True)
     display_name = models.CharField(_('display name'), max_length=64, blank=True, default='')
     admin_note = models.TextField(_('admin note'), blank=True)
-    program = models.ForeignKey('Program', verbose_name=_('program'), null=True)
+    program = models.ForeignKey('Program', verbose_name=_('program'), null=True, on_delete=models.CASCADE)
     value = models.CharField(_('initial value'), max_length=32, blank=True, default='')
     user_editable = models.BooleanField(_('user editable'), default=False)
     RANDOM_TYPES = (
@@ -42,7 +43,7 @@ class Variable(models.Model):
     range_max = models.IntegerField(_('range max (inclusive)'), null=True, blank=True)
     random_set = models.TextField(_('random string set'), blank=True)
 
-    class Meta:
+    class Meta(object):
         verbose_name = _('variable')
         verbose_name_plural = _('variables')
         ordering = ('display_name', 'name', 'value')
@@ -81,7 +82,7 @@ class Program(models.Model):
 
     users = models.ManyToManyField(settings.AUTH_USER_MODEL, verbose_name=_('users'), through='ProgramUserAccess')
 
-    class Meta:
+    class Meta(object):
         verbose_name = _('program')
         verbose_name_plural = _('programs')
 
@@ -108,13 +109,13 @@ class ProgramUserAccess(models.Model):
     with their own start time and time factor
     '''
 
-    program = models.ForeignKey('Program', verbose_name=_('program'))
-    user = models.ForeignKey(settings.AUTH_USER_MODEL, verbose_name=_('user'))
+    program = models.ForeignKey('Program', verbose_name=_('program'), on_delete=models.CASCADE)
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, verbose_name=_('user'), on_delete=models.CASCADE)
 
     start_time = models.DateTimeField(_('start time'), default=timezone.now)
     time_factor = models.DecimalField(_('time factor'), default=1.0, max_digits=5, decimal_places=3)
 
-    class Meta:
+    class Meta(object):
         verbose_name = _('user access')
         verbose_name_plural = _('user accesses')
 
@@ -129,7 +130,7 @@ class Session(models.Model):
     display_title = models.CharField(_('display title'), max_length=64)
     route_slug = models.CharField(_('route slug'), max_length=64, null=True, unique=True, default=None)
     is_open = models.BooleanField(_('is open'), default=False)
-    program = models.ForeignKey('Program', verbose_name=_('program'))
+    program = models.ForeignKey('Program', verbose_name=_('program'), on_delete=models.CASCADE)
     content = models.ManyToManyField('Content', verbose_name=_('content'), blank=True)
     admin_note = models.TextField(_('admin note'), blank=True)
 
@@ -147,7 +148,7 @@ class Session(models.Model):
 
     data = JSONField(load_kwargs={'object_pairs_hook': OrderedDict}, default='{"nodes": [], "edges": []}')
 
-    class Meta:
+    class Meta(object):
         verbose_name = _('session')
         verbose_name_plural = _('sessions')
 
@@ -176,11 +177,12 @@ class Content(models.Model):
     content_type = models.CharField(_('content type'), max_length=32, editable=False)
     admin_note = models.TextField(_('admin note'), blank=True)
     program = models.ForeignKey(Program, verbose_name=_('program'), blank=True, null=True,
-                                help_text=_('Can optionally be bound to a specific program'))
+                                help_text=_('Can optionally be bound to a specific program'),
+                                on_delete=models.CASCADE)
 
     data = JSONField(load_kwargs={'object_pairs_hook': OrderedDict}, default=[])
 
-    class Meta:
+    class Meta(object):
         verbose_name = _('content')
         verbose_name_plural = _('contents')
 
@@ -204,7 +206,7 @@ class Page(Content):
 
     objects = PageManager()
 
-    class Meta:
+    class Meta(object):
         proxy = True
         verbose_name = _('page')
         verbose_name_plural = _('pages')
@@ -421,7 +423,7 @@ class Email(Content):
 
     objects = EmailManager()
 
-    class Meta:
+    class Meta(object):
         proxy = True
         verbose_name = _('e-mail')
         verbose_name_plural = _('e-mails')
@@ -456,7 +458,7 @@ class SMS(Content):
 
     objects = SMSManager()
 
-    class Meta:
+    class Meta(object):
         proxy = True
         verbose_name = _('SMS')
         verbose_name_plural = _('SMSs')

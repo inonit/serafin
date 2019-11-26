@@ -1,4 +1,6 @@
 from __future__ import unicode_literals
+from builtins import str
+from builtins import object
 from django.utils.translation import ugettext_lazy as _
 
 from django import forms
@@ -28,7 +30,7 @@ class UserCreationForm(forms.ModelForm):
     email = forms.EmailField(label=_('E-mail'))
     phone = forms.CharField(label=_('Phone'))
 
-    class Meta:
+    class Meta(object):
         model = User
         exclude = []
 
@@ -66,7 +68,7 @@ class BlankPasswordField(forms.Field):
     def bound_data(self, data, initial):
         return initial
 
-    def _has_changed(self, initial, data):
+    def has_changed(self, initial, data):
         return False
 
 
@@ -88,7 +90,7 @@ class UserChangeForm(forms.ModelForm):
     def clean_password(self):
         return self.initial['password']
 
-    class Meta:
+    class Meta(object):
         model = User
         exclude = []
 
@@ -102,19 +104,19 @@ class UserDataWidget(forms.Widget):
         ]
 
         other_fields = [
-            field for field in json.loads(value).keys()
+            field for field in list(json.loads(value).keys())
             if field not in priority_fields
         ]
 
         context = {
             'data': value,
             'fields': json.dumps(priority_fields + sorted(other_fields)),
-            'debug': unicode(settings.USERDATA_DEBUG).lower()
+            'debug': str(settings.USERDATA_DEBUG).lower()
         }
         html = render_to_string('admin/userdata_widget.html', context)
         return mark_safe(html)
 
-    class Media:
+    class Media(object):
         js = (
             'lib/angular/angular.min.js',
         )

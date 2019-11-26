@@ -21,7 +21,8 @@ class Migration(migrations.Migration):
                 ('variable', models.CharField(max_length=64, verbose_name='variable')),
                 ('pre_value', models.CharField(max_length=64, verbose_name='pre value', blank=True)),
                 ('post_value', models.CharField(max_length=64, verbose_name='post value', blank=True)),
-                ('actor', models.ForeignKey(verbose_name='actor', to=settings.AUTH_USER_MODEL)),
+                ('actor', models.ForeignKey(verbose_name='actor', to=settings.AUTH_USER_MODEL,
+                                            on_delete=models.CASCADE)),
             ],
             options={
                 'verbose_name': 'event',

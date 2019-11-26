@@ -1,5 +1,7 @@
 from __future__ import unicode_literals
 
+from builtins import str
+from builtins import object
 from django.utils.translation import ugettext_lazy as _
 from django import forms
 from django.conf import settings
@@ -41,7 +43,7 @@ class VariableForm(forms.ModelForm):
             raise forms.ValidationError(_('You are trying to use a reserved variable name'))
         return data
 
-    class Meta:
+    class Meta(object):
         model = Variable
         exclude = []
         widgets = {
@@ -81,7 +83,7 @@ class VariableAdmin(admin.ModelAdmin):
         #('values', _('User values')),
     )
 
-    class Media:
+    class Media(object):
         js = ['admin/variable.js']
 
     def get_queryset(self, request):
@@ -302,7 +304,7 @@ class SessionForm(forms.ModelForm):
 
         return data
 
-    class Meta:
+    class Meta(object):
         model = Session
         exclude = []
         widgets = {
@@ -589,7 +591,7 @@ class ContentAdmin(VersionAdmin):
 
 
 class PageForm(ContentForm):
-    class Meta:
+    class Meta(object):
         model = Page
         exclude = []
 
@@ -617,7 +619,7 @@ class EmailForm(TextContentForm):
         super(EmailForm, self).__init__(*args, **kwargs)
         self.fields['display_title'].label = _('Subject')
 
-    class Meta:
+    class Meta(object):
         model = Email
         exclude = []
 
@@ -644,7 +646,7 @@ class EmailAdmin(ContentAdmin):
 
 
 class SMSForm(TextContentForm):
-    class Meta:
+    class Meta(object):
         model = SMS
         exclude = []
 
