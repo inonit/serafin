@@ -11,11 +11,15 @@ from django.utils.translation import ugettext_lazy as _
 from django.utils import timezone
 
 from events.signals import log_event
-from system.models import Variable, Session, Page, Email, SMS
+from system.models import Variable, Session, Page, Email, SMS, Code
 from tasker.models import Task
 from .expressions import Parser
 
 import logging
+import json
+import requests
+from requests.exceptions import Timeout
+from django.conf import settings
 
 
 class EngineException(Exception):
@@ -393,6 +397,96 @@ class Engine(object):
                 return self.transition(node_id)
             else:
                 return Page()
+
+        if node_type == 'code':
+
+            code = Code.objects.get(id=ref_id)
+            pythoncode = code.data[0].get('content')
+
+            # get user.data and predefined Variables
+            from system.models import Variable
+            predefined_vars = Variable.objects.all()
+            predefined_values = {var.name: var.get_value() for var in predefined_vars}
+
+            data={}
+            data['predefined_values'] = predefined_values
+            data['userdata'] = self.user.data
+            body = {}
+            body['code'] = pythoncode
+            body['v3'] = True
+            body['data'] = data
+
+            try:
+                # send request to python sandbox
+                self.logger.debug(
+                    '%s %s python code: code sent to sandbox',
+                    self.user, self.session)
+                r = requests.post(settings.SANDBOX_URL, data=json.dumps(body), timeout=12, headers={"X-API-Key": settings.SANDBOX_API_KEY,"Content-Type":"application/json"})
+
+            except Timeout:
+                # handle error or timeout
+                # what to do? continue the transition?
+                self.logger.debug(
+                    '%s %s python code: timeout during sending code to sandbox: code:%s, data:%s',
+                    self.user, self.session, code, data
+                )
+                return self.transition(node_id)
+            except requests.exceptions.ConnectionError:
+                # handle error or timeout
+                # what to do? continue the transition?
+                self.logger.debug(
+                    '%s %s python code: connection error during sending code to sandbox: code:%s, data:%s',
+                    self.user, self.session, code, data
+                )
+                return self.transition(node_id)
+            else:
+                status_code = r.status_code
+
+                r = r.json() # only r.text converted to python dict
+
+                if status_code == 200:
+                    if r['stderr'] or r['timedOut'] or r['killedByContainer']:
+                        # python code failed to execute
+                        # must handle the error here
+                        self.logger.debug(
+                            '%s %s python code: sandbox returned timeout code:%s, data:%s, killedByContainer:%s',
+                            self.user, self.session, code, data, r['killedByContainer']
+                        )
+                        return self.transition(node_id)
+                    else:
+                        # python code executed successfully
+                        # update self.user.data with variables get in the result
+                        self.logger.debug(
+                            '%s %s python code: result received from sandbox',
+                            self.user, self.session
+                        )
+                        # be carefull on variable name returned by python code!
+                        # check first if all returned variables are allready predefined?
+                        # or is it possible to add new variables?
+
+                        # update: update existing values and or add new variables
+                        try:
+                            self.user.data.update(r['stdout'])
+                            self.user.save()
+                            self.logger.debug(
+                                '%s %s python code: result updated',
+                                self.user, self.session
+                            )
+                        except:
+                            self.logger.debug(
+                                '%s %s python code: user.data can not be updated with sandbox output(python dict?) code=%s, data=%s, output=%s',
+                                self.user, self.session, code, data, r['stdout']
+                            )
+                        return self.transition(node_id)
+                else:
+                    # python code failed during execution
+                    # must handle the error here
+                    self.logger.debug(
+                        '%s %s python code: failed, status_code=%s code=%s, data=%s ',
+                        self.user, self.session, status_code, code, data
+                    )
+                    return self.transition(node_id)
+            return self.transition(node_id)
 
         if node_type == 'register':
 

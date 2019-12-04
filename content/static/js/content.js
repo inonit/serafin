@@ -1,4 +1,4 @@
-var content = angular.module('content', ['autocompleteSearch', 'stringExpression']);
+var content = angular.module('content', ['autocompleteSearch', 'stringExpression','ui.codemirror']);
 
 var fileTemplate = {
     url: '',
@@ -152,8 +152,33 @@ content.run(['$rootScope', '$http', function (scope, http) {
 
     scope.variables = [];
     http.get('/api/system/variables/').success(function (data) {
-        scope.variables = data.concat(reservedVars || []);
+        //scope.variables = data.concat(reservedVars || []);
     });
+
+    scope.editorOpts = {
+      mode: 'python',
+      theme: 'lucario',
+      lineNumbers: true,
+      lineWrapping: true
+    };
+
+    scope.codemirrorLoaded = function(_editor){
+      // for futur improvement
+
+      // Editor part
+      /*var _doc = _editor.getDoc();
+      _editor.focus();
+
+      // Options
+      _editor.setOption('firstLineNumber', 10);
+      _doc.markClean()
+
+      // Events
+      _editor.on("beforeChange", function(){ ... });
+      _editor.on("change", function(){ ... });*/
+      return true
+    };
+
 }]);
 
 content.controller('contentArray', ['$scope', function (scope) {
@@ -172,6 +197,7 @@ content.controller('contentArray', ['$scope', function (scope) {
     scope.delete = function (array, index) {
         array.splice(index, 1);
     };
+
 }]);
 
 content.controller('markdown', ['$scope', '$window', '$sce', function (scope, window, sce) {

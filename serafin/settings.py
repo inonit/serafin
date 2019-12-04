@@ -498,6 +498,15 @@ RESERVED_VARIABLES = [
     },
 ]
 
+# SANDBOX CONFIG : Must run the SANDBOX API project on another server
+#(https://github.com/inonit/serafin-api-sandbox.git)
+# configure the following variables according to the value set in config.js in serafin-api-sandbox
+# all variables must be set as environment variables in both projects
+#SANDBOX_IP = "http://localhost"
+SANDBOX_PORT = "3030"
+SANDBOX_URL = SANDBOX_IP+":"+SANDBOX_PORT+"/compile"
+SANDBOX_API_KEY = "sdkljf56789#KT34_"
+
 
 # Available stylesheets for the dynamic switcher
 

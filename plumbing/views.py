@@ -4,7 +4,7 @@ from django.contrib.admin.views.decorators import staff_member_required
 from django.core.urlresolvers import reverse
 from django.http import HttpResponse
 from django.shortcuts import get_object_or_404
-from system.models import Session, Page, Email, SMS
+from system.models import Session, Page, Email, SMS, Code
 import json
 
 
@@ -20,6 +20,9 @@ def api_node(request, node_type=None, node_id=None):
     elif node_type == 'sms':
         node = get_object_or_404(SMS, id=node_id)
         url = reverse('admin:system_sms_change', args=[node.id])
+    elif node_type == 'code':
+        node = get_object_or_404(Code, id=node_id)
+        url = reverse('admin:system_code_change', args=[node.id])
     elif node_type == 'session' or node_type == 'background_session':
         node = get_object_or_404(Session, id=node_id)
         url = reverse('admin:system_session_change', args=[node.id])

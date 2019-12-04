@@ -440,6 +440,28 @@ class Email(Content):
             pdfs=pdfs
         )
 
+class CodeManager(models.Manager):
+    def get_queryset(self):
+        return super(CodeManager, self).get_queryset().filter(content_type='code')
+
+
+class Code(Content):
+    '''A model for 'python code' content'''
+
+    objects = CodeManager()
+
+    class Meta:
+        proxy = True
+        verbose_name = _('code')
+        verbose_name_plural = _('codes')
+
+    def __init__(self, *args, **kwargs):
+        super(Code, self).__init__(*args, **kwargs)
+        self.content_type = 'code'
+
+    def execute(self, user):
+        message = self.data[0].get('content')
+        print("message in Code Excecute")
 
 class SMSManager(models.Manager):
     def get_queryset(self):

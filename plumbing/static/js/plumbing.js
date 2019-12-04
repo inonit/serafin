@@ -435,7 +435,7 @@ plumbing.directive('edge', ['jsPlumb', function(jsPlumbService) {
                     'start', 'page', 'session', 'wait'
                 ]
                 var background = [
-                    'email', 'sms', 'register', 'enroll', 'leave', 'delay', 'background_session'
+                    'email', 'sms', 'register', 'enroll', 'leave', 'delay', 'background_session','code'
                 ]
 
                 // disallow/delete edge with start as target,

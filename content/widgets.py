@@ -118,3 +118,33 @@ class SMSContentWidget(forms.Widget):
             'js/expression.js',
             'js/content.js',
         )
+
+class CodeContentWidget(forms.Widget):
+
+    def render(self, name, value, attrs=None):
+        context = {
+            'value': value,
+        }
+
+        html = render_to_string('admin/code_content_widget.html', context)
+        return mark_safe(html)
+
+    class Media:
+        css = {
+            'all': (
+                'css/content.css',
+                'lib/codemirror/lib/codemirror.css',
+                'lib/codemirror/theme/lucario.css',
+            )
+        }
+        js = (
+            'lib/angular/angular.min.js',
+            'lib/lodash/lodash.min.js',
+            'lib/ment.io/dist/mentio.min.js',
+            'js/autocomplete.js',
+            'js/expression.js',
+            'js/content.js',
+            'lib/codemirror/lib/codemirror.js',
+            'lib/codemirror/mode/python/python.js',
+            'lib/angular-ui-codemirror/ui-codemirror.min.js',
+        )

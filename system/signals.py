@@ -108,7 +108,7 @@ def session_pre_save(sender, **kwargs):
         ref_id = node.get('ref_id')
         node_type = node.get('type')
 
-        if node_type in ['page', 'email', 'sms', 'session']:
+        if node_type in ['page', 'email', 'sms', 'session', 'code']:
 
             # Temp. dirty fix for occational empty ref_ids
             if not ref_id or ref_id == '0':
@@ -119,7 +119,7 @@ def session_pre_save(sender, **kwargs):
                     pass
 
             # Update title of content
-            if node_type in ['page', 'email', 'sms']:
+            if node_type in ['page', 'email', 'sms', 'code']:
                 try:
                     node['title'] = Content.objects.get(id=node['ref_id']).title
                 except:
@@ -150,7 +150,7 @@ def add_content_relations(sender, **kwargs):
     session.content.clear()
     ids = [
         node['ref_id'] for node in session.data['nodes']
-        if node['type'] in ['page', 'email', 'sms']
+        if node['type'] in ['page', 'email', 'sms', 'code']
     ]
     ids = list(set(ids))
     ids = Content.objects.filter(id__in=ids).values_list('id', flat=True)
@@ -252,7 +252,7 @@ def revoke_tasks(sender, **kwargs):
 @receiver(signals.post_save)
 def content_post_save(sender, **kwargs):
 
-    content_types = ['Page', 'Email', 'SMS']
+    content_types = ['Page', 'Email', 'SMS', 'Code']
     node_types = [t.lower() for t in content_types]
 
     if sender.__name__ in content_types:

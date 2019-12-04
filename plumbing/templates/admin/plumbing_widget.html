@@ -19,6 +19,7 @@
         <div class="btn" ng-click="addNode('enroll')" id="lookup_{% verbatim %}{{ current_noderef }}{% endverbatim %}">{% trans '+ Enroll' %}</div>
         <div class="btn" ng-click="addNode('leave')" id="lookup_{% verbatim %}{{ current_noderef }}{% endverbatim %}">{% trans '+ Leave' %}</div>
         <div class="btn" ng-click="addNode('wait')" id="lookup_{% verbatim %}{{ current_noderef }}{% endverbatim %}">{% trans '+ Wait' %}</div>
+        <div class="btn" ng-click="addNode('code')" id="lookup_{% verbatim %}{{ current_noderef }}{% endverbatim %}">{% trans '+ Code' %}</div>
     </div>
 
     <div class="floatbox"></div>
@@ -53,6 +54,9 @@
         </span>
         <span ng-if="node.type == 'wait'">
             <i class="icon-globe icon-alpha5"></i>
+        </span>
+        <span ng-if="node.type == 'code'">
+            <i class="icon-align-left icon-alpha5"></i>{#icon-code not available in /static/suit/bootstrap/img/glyphicons-halflings.png #}
         </span>
 
         {% verbatim %}

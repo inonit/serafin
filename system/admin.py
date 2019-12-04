@@ -14,10 +14,10 @@ from suit.widgets import SuitSplitDateTimeWidget, LinkedSelect, AutosizedTextare
 from jsonfield import JSONField
 from reversion.admin import VersionAdmin
 
-from system.models import Variable, Program, Session, Content, Page, Email, SMS
+from system.models import Variable, Program, Session, Content, Page, Email, SMS, Code
 from system.expressions import Parser
 from plumbing.widgets import PlumbingWidget
-from content.widgets import ContentWidget, TextContentWidget, SMSContentWidget
+from content.widgets import ContentWidget, TextContentWidget, SMSContentWidget, CodeContentWidget
 
 
 class VariableForm(forms.ModelForm):
@@ -194,7 +194,7 @@ class ProgramAdmin(VersionAdmin):
                 nodes = session.data.get('nodes')
                 ids = [
                     node['ref_id'] for node in nodes
-                    if node['type'] in ['page', 'email', 'sms']
+                    if node['type'] in ['page', 'email', 'sms', 'code']
                 ]
                 contents = Content.objects.filter(id__in=ids)
 
@@ -447,7 +447,7 @@ class SessionAdmin(VersionAdmin):
             nodes = session.data.get('nodes')
             ids = [
                 node['ref_id'] for node in nodes
-                if node['type'] in ['page', 'email', 'sms']
+                if node['type'] in ['page', 'email', 'sms','code']
             ]
             contents = Content.objects.filter(id__in=ids)
 
@@ -659,5 +659,24 @@ class SMSAdmin(ContentAdmin):
         },
         JSONField: {
             'widget': SMSContentWidget
+        }
+    }
+
+class CodeForm(TextContentForm):
+    class Meta:
+        model = Code
+        exclude = []
+
+
+@admin.register(Code)
+class CodeAdmin(ContentAdmin):
+    fields = ['title', 'admin_note', 'program', 'data']
+    form = CodeForm
+    formfield_overrides = {
+        models.TextField: {
+            'widget': AutosizedTextarea(attrs={'rows': 3, 'class': 'input-xlarge'})
+        },
+        JSONField: {
+            'widget': CodeContentWidget
         }
     }

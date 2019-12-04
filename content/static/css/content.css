@@ -189,3 +189,11 @@ form .form-row .content .filer-dropzone .filerFile span:empty+.related-lookup {
     width: 50%;
     margin-right: 0;
 }
+
+.CodeMirror {
+  height: 800px !important;
+  min-width:800px;
+}
+.code {
+    font: 23px monospace;
+}
