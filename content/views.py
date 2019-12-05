@@ -32,7 +32,7 @@ def get_session(request):
 
     session_id = request.user.data.get('session')
 
-    if not session_id or not request.user.is_authenticated():
+    if not session_id or not request.user.is_authenticated:
         return HttpResponseRedirect(settings.HOME_URL)
 
     session = get_object_or_404(Session, id=session_id)

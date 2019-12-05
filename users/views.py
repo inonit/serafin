@@ -26,7 +26,7 @@ import logging
 def manual_login(request):
     '''Redirect to root if logged in or present login screen'''
 
-    if request.user.is_authenticated():
+    if request.user.is_authenticated:
         return redirect('/')
     return login_view(request, template_name='login.html', extra_context={'title': _('Log in')})
 
@@ -34,7 +34,7 @@ def manual_login(request):
 def manual_logout(request):
     '''Log user out if logged in and redirect to root'''
 
-    if request.user.is_authenticated():
+    if request.user.is_authenticated:
         logout(request)
     return redirect('/')
 
