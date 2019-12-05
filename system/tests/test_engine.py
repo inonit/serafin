@@ -421,7 +421,7 @@ class EngineTestCase(TestCase):
         # then registering the user,
         registered_user = engine.user
         self.assertIsNotNone(registered_user)
-        self.assertFalse(registered_user.is_anonymous())
+        self.assertFalse(registered_user.is_anonymous)
 
         # having set password for the user,
         self.assertTrue(registered_user.check_password('hunter2'))

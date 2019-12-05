@@ -205,7 +205,7 @@ class Parser(object):
             return now.date().isoformat()
 
         if variable == "registered":
-            return not self.user.is_anonymous() if self.user else False
+            return not self.user.is_anonymous if self.user else False
 
         if variable == "enrolled":
             if "session" in self.userdata:
