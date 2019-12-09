@@ -17,7 +17,7 @@ from collections import OrderedDict
 from jsonfield import JSONField
 from plivo import RestClient as PlivoRestClient
 from tokens.tokens import token_generator
-from twilio.rest import TwilioRestClient
+from twilio.rest import Client
 import requests
 
 
@@ -54,7 +54,7 @@ class User(AbstractBaseUser, PermissionsMixin):
         to='system.Program', blank=True,
         verbose_name=_('program restrictions'),
         help_text=_('Staff user has limited access only to the chosen Programs (and related data). '
-            'If no Programs are chosen, there is no restriction.'),
+                    'If no Programs are chosen, there is no restriction.'),
         related_name='user_restriction_set',
         related_query_name='user_restriction'
     )
@@ -86,15 +86,15 @@ class User(AbstractBaseUser, PermissionsMixin):
         return self.groups.filter(name=group_name).exists()
 
     def send_sms(self, message=None):
-        if len(self.phone)<11: # 11 character phone number +4712345678 (norway)
+        if len(self.phone) < 11:  # 11 character phone number +4712345678 (norway)
             return False
 
         if message and settings.SMS_SERVICE == 'Twilio':
-            client = TwilioRestClient(
+            client = Client(
                 settings.TWILIO_ACCOUNT_SID,
                 settings.TWILIO_AUTH_TOKEN
             )
-
+            
             response = client.messages.create(
                 body=message,
                 to=self.phone,
@@ -111,7 +111,7 @@ class User(AbstractBaseUser, PermissionsMixin):
 
             response = client.send_message({
                 'src': settings.PLIVO_FROM_NUMBER,
-                'dst': self.phone[1:], # drop the + before country code
+                'dst': self.phone[1:],  # drop the + before country code
                 'text': message,
             })
 
@@ -130,7 +130,7 @@ class User(AbstractBaseUser, PermissionsMixin):
                 },
                 headers={
                     'Authorization':
-                    'Token %s' % settings.PRIMAFON_KEY,
+                        'Token %s' % settings.PRIMAFON_KEY,
                 })
 
             res.raise_for_status()
