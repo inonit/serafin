@@ -200,6 +200,21 @@ class Parser(object):
         if variable == "current_date":
             return now.date().isoformat()
 
+        if variable == "current_year":
+            return now.year
+        if variable == "current_month":
+            return now.month
+        if variable == "current_date_dd":
+            return now.day
+        if variable == "current_week":
+            return now.isocalendar()[1]
+        if variable == "current_hour":
+            return now.hour
+        if variable == "current_minute":
+            return now.minute
+        if variable == "current_second":
+            return now.second
+
         if variable == "registered":
             return not self.user.is_anonymous() if self.user else False
 

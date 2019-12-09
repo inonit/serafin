@@ -457,6 +457,41 @@ RESERVED_VARIABLES = [
         'domains': ['user']
     },
     {
+        'name': 'current_year',
+        'admin_note': 'Returns the current localized year in 4 digits format, i.e 2015',
+        'domains': ['user']
+    },
+    {
+        'name': 'current_month',
+        'admin_note': 'Returns the current localized month in 2 digits format, i.e. 05 for Mai',
+        'domains': ['user']
+    },
+    {
+        'name': 'current_date_dd',
+        'admin_note': 'Returns the current localized day in 2 digits format, i.e. 23',
+        'domains': ['user']
+    },
+    {
+        'name': 'current_week',
+        'admin_note': 'Returns the current localized week in the year (consists of 52 or 53 full weeks). A week starts on a Monday and ends on a Sunday',
+        'domains': ['user']
+    },
+    {
+        'name': 'current_hour',
+        'admin_note': 'Returns the current localized hour in 2 digits (24 hours format), i.e. 18',
+        'domains': ['user']
+    },
+    {
+        'name': 'current_minute',
+        'admin_note': 'Returns the current localized minute in 2 digits, i.e. 54',
+        'domains': ['user']
+    },
+    {
+        'name': 'current_second',
+        'admin_note': 'Returns the current localized second in 2 digits, i.e. 58',
+        'domains': ['user']
+    },
+    {
         'name': 'session',
         'admin_note': 'For system use. Returns the id of the current Session.',
         'domains': []
@@ -502,7 +537,7 @@ RESERVED_VARIABLES = [
 #(https://github.com/inonit/serafin-api-sandbox.git)
 # configure the following variables according to the value set in config.js in serafin-api-sandbox
 # all variables must be set as environment variables in both projects
-#SANDBOX_IP = "http://localhost"
+SANDBOX_IP = "http://localhost"
 SANDBOX_PORT = "3030"
 SANDBOX_URL = SANDBOX_IP+":"+SANDBOX_PORT+"/compile"
 SANDBOX_API_KEY = "sdkljf56789#KT34_"
