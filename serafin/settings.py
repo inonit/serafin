@@ -39,7 +39,6 @@ INSTALLED_APPS = (
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'django.contrib.sites',
-    'django.contrib.admin',
     'django_user_agents',
     'django.db.models',
     'request',
@@ -55,6 +54,7 @@ INSTALLED_APPS = (
 
     'filer',
     'suit',
+    'django.contrib.admin',
     'sitetree',
     'django_extensions',
     'rules.apps.AutodiscoverRulesConfig',

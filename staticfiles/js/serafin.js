@@ -24,7 +24,7 @@ serafin.run(['$rootScope', '$http', function(scope, http) {
             scope.dead_end = response.data.dead_end;
             scope.stacked = response.data.stacked;
         }, reason => {
-            scope.error = reason;
+            scope.error = reason.data;
             scope.page = {};
         });
     }
@@ -52,6 +52,7 @@ serafin.controller('pages', ['$scope', '$http', function(scope, http) {
         }
 
         var data = {};
+        debugger;
         scope.page.forEach(function(pagelet) {
             if (pagelet.content_type == 'form' ||
                 pagelet.content_type == 'quiz') {
@@ -79,17 +80,17 @@ serafin.controller('pages', ['$scope', '$http', function(scope, http) {
             data: data,
         };
 
-        http(request).success(function(data) {
+        http(request).then(response => {
             scope.error = null;
-            scope.getVariables(data.data);
-            scope.$emit('title', data.title);
-            scope.page = data.data;
-            scope.dead_end = data.dead_end;
-            scope.stacked = data.stacked;
+            scope.getVariables(response.data.data);
+            scope.$emit('title', response.data.title);
+            scope.page = response.data.data;
+            scope.dead_end = response.data.dead_end;
+            scope.stacked = response.data.stacked;
             scope.form.submitted = false;
             window.scrollTo(0,0);
-        }).error(function(data, status, error, config) {
-            scope.error = data;
+        }, reason => {
+            scope.error = reason.data;
             scope.page = {};
         });
     };
