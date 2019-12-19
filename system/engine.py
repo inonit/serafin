@@ -14,6 +14,7 @@ from events.signals import log_event
 from system.models import Variable, Session, Page, Email, SMS, Code
 from tasker.models import Task
 from .expressions import Parser
+from codelogs.models import CodeLog
 
 import logging
 import json
@@ -424,16 +425,33 @@ class Engine(object):
                 r = requests.post(settings.SANDBOX_URL, data=json.dumps(body), timeout=12, headers={"X-API-Key": settings.SANDBOX_API_KEY,"Content-Type":"application/json"})
 
             except Timeout:
-                # handle error or timeout
+                # handle error
                 # what to do? continue the transition?
+                cl = CodeLog.objects.create(
+                    sender=self.session,
+                    time=timezone.now(),
+                    subject=self.user,
+                    code=code,
+                    log="timeout during sending code to sandbox"
+                )
+                cl.save()
+
                 self.logger.debug(
                     '%s %s python code: timeout during sending code to sandbox: code:%s, data:%s',
                     self.user, self.session, code, data
                 )
                 return self.transition(node_id)
             except requests.exceptions.ConnectionError:
-                # handle error or timeout
+                # handle error
                 # what to do? continue the transition?
+                cl = CodeLog.objects.create(
+                    sender=self.session,
+                    time=timezone.now(),
+                    subject=self.user,
+                    code=code,
+                    log="connection error during sending code to sandbox"
+                )
+                cl.save()
                 self.logger.debug(
                     '%s %s python code: connection error during sending code to sandbox: code:%s, data:%s',
                     self.user, self.session, code, data
@@ -445,12 +463,37 @@ class Engine(object):
                 r = r.json() # only r.text converted to python dict
 
                 if status_code == 200:
-                    if r['stderr'] or r['timedOut'] or r['killedByContainer']:
-                        # python code failed to execute
+                    if r['timedOut'] or r['killedByContainer']:
+                        # timeout in sandbox or in the container during code execution
                         # must handle the error here
+                        cl = CodeLog.objects.create(
+                            sender=self.session,
+                            time=timezone.now(),
+                            subject=self.user,
+                            code=code,
+                            log="sandbox returned timeout. killedByContainer:"+str(r['killedByContainer'])
+                        )
+                        cl.save()
+
                         self.logger.debug(
                             '%s %s python code: sandbox returned timeout code:%s, data:%s, killedByContainer:%s',
                             self.user, self.session, code, data, r['killedByContainer']
+                        )
+                        return self.transition(node_id)
+                    elif r['stderr']:
+                        # an error occured during python code execution
+                        # must handle the error here
+                        cl = CodeLog.objects.create(
+                            sender=self.session,
+                            time=timezone.now(),
+                            subject=self.user,
+                            code=code,
+                            log=r['stderr']
+                        )
+                        cl.save()
+                        self.logger.debug(
+                            '%s %s python code: sandbox returned stderr:%s, data:%s',
+                            self.user, self.session, r['stderr'], data
                         )
                         return self.transition(node_id)
                     else:
@@ -472,15 +515,40 @@ class Engine(object):
                                 '%s %s python code: result updated',
                                 self.user, self.session
                             )
+                            cl = CodeLog.objects.create(
+                                sender=self.session,
+                                time=timezone.now(),
+                                subject=self.user,
+                                code=code,
+                                log="user.data updated"
+                            )
+                            cl.save()
+
                         except:
+                            cl = CodeLog.objects.create(
+                                sender=self.session,
+                                time=timezone.now(),
+                                subject=self.user,
+                                code=code,
+                                log="user.data can not be updated with sandbox output. stdout="+str(r['stdout'])
+                            )
+                            cl.save()
                             self.logger.debug(
                                 '%s %s python code: user.data can not be updated with sandbox output(python dict?) code=%s, data=%s, output=%s',
                                 self.user, self.session, code, data, r['stdout']
                             )
                         return self.transition(node_id)
                 else:
-                    # python code failed during execution
+                    # python code failed
                     # must handle the error here
+                    cl = CodeLog.objects.create(
+                        sender=self.session,
+                        time=timezone.now(),
+                        subject=self.user,
+                        code=code,
+                        log="status of the request: " + str(r)
+                    )
+                    cl.save()
                     self.logger.debug(
                         '%s %s python code: failed, status_code=%s code=%s, data=%s ',
                         self.user, self.session, status_code, code, data

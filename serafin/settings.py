@@ -51,6 +51,7 @@ INSTALLED_APPS = (
     'content',
     'plumbing',
     'system',
+    'codelogs',
 
     'filer',
     'suit',
@@ -305,7 +306,8 @@ SUIT_CONFIG = {
                 [
                     'event',
                     'tasker.task',
-                    'request.request'
+                    'request.request',
+                    'codelogs.codelog'
                 ]
         },
         {
