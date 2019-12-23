@@ -432,12 +432,12 @@ class Engine(object):
                     time=timezone.now(),
                     subject=self.user,
                     code=code,
-                    log="timeout during sending code to sandbox"
+                    log="timeout while sending code to sandbox"
                 )
                 cl.save()
 
                 self.logger.debug(
-                    '%s %s python code: timeout during sending code to sandbox: code:%s, data:%s',
+                    '%s %s python code: timeout while sending code to sandbox: code:%s, data:%s',
                     self.user, self.session, code, data
                 )
                 return self.transition(node_id)
@@ -449,11 +449,11 @@ class Engine(object):
                     time=timezone.now(),
                     subject=self.user,
                     code=code,
-                    log="connection error during sending code to sandbox"
+                    log="connection error while sending code to sandbox"
                 )
                 cl.save()
                 self.logger.debug(
-                    '%s %s python code: connection error during sending code to sandbox: code:%s, data:%s',
+                    '%s %s python code: connection error while sending code to sandbox: code:%s, data:%s',
                     self.user, self.session, code, data
                 )
                 return self.transition(node_id)

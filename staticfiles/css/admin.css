@@ -37,3 +37,9 @@
 .filebrowser #container #suit-center .breadcrumbs+.messagelist+#content {
     margin-left: 0 !important;
 }
+
+/* display formatted python error log in admin interface Codelogs */
+.field-log {
+  white-space: pre;
+  font-family: monospace;
+}
