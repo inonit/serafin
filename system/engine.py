@@ -422,7 +422,7 @@ class Engine(object):
                 self.logger.debug(
                     '%s %s python code: code sent to sandbox',
                     self.user, self.session)
-                r = requests.post(settings.SANDBOX_URL, data=json.dumps(body), timeout=12, headers={"X-API-Key": settings.SANDBOX_API_KEY,"Content-Type":"application/json"})
+                r = requests.post(settings.SANDBOX_URL, data=json.dumps(body), timeout=12, headers={"X-API-Key": str(settings.SANDBOX_API_KEY),"Content-Type":"application/json"})
 
             except Timeout:
                 # handle error
