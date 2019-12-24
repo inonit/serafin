@@ -541,7 +541,7 @@ RESERVED_VARIABLES = [
 # all variables must be set as environment variables in both projects
 SANDBOX_IP = "http://localhost"
 SANDBOX_PORT = "3030"
-SANDBOX_URL = SANDBOX_IP+":"+SANDBOX_PORT+"/compile"
+SANDBOX_ENDPOINT= "compile"
 SANDBOX_API_KEY = "sdkljf56789#KT34_"
 
 
