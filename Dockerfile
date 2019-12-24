@@ -7,7 +7,7 @@ RUN curl -sL https://deb.nodesource.com/setup_6.x | bash - && \
 	apt-get install -y npm && \
     npm install -g bower
 
-RUN npm install -g quill-image-resize
+RUN npm install quill-image-resize
 	
 RUN apt-get autoremove -y && \
     apt-get clean && \

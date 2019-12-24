@@ -8,7 +8,7 @@ from system.views import VariableViewSet, VariableSearchViewSet, ExpressionViewS
 
 router = routers.DefaultRouter()
 router.register(r'variables/search', VariableSearchViewSet)
-router.register(r'evaluate-expression', ExpressionViewSet, base_name="evaluate-expression-viewset")
+router.register(r'evaluate-expression', ExpressionViewSet, basename="evaluate-expression-viewset")
 router.register(r'variables', VariableViewSet)
 
 urlpatterns = [
