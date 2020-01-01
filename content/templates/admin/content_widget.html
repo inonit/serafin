@@ -16,7 +16,7 @@
         <a class="btn btn-outline-secondary add" ng-click="add(data, 'image')">{% trans '+ Image' %}</>
         <a class="btn btn-outline-secondary add" ng-click="add(data, 'video')">{% trans '+ Video' %}</>
         <a class="btn btn-outline-secondary add" ng-click="add(data, 'audio')">{% trans '+ Audio' %}</>
-        <a class="btn btn-outline-secondaryadd" ng-click="add(data, 'file')">{% trans '+ File' %}</a>
+        <a class="btn btn-outline-secondary add" ng-click="add(data, 'file')">{% trans '+ File' %}</a>
     </div>
 
     <div class="pagelet" ng-repeat="pagelet in data track by $index">
@@ -31,12 +31,7 @@
         <h3 ng-if="pagelet.title != undefined" class="title">{% verbatim %}{{ pagelet.title }}{% endverbatim %}</h3>
 
         <div ng-if="pagelet.content_type == 'richtext'" class="text" ng-controller="markdown">
-            <ng-quill-editor ng-model="pagelet.content"
-                toolbar="true" link-tooltip="true"
-                image-tooltip="true" 
-                editor-required="true" required="" 
-                error-class="input-error">
-            </ng-quill-editor>
+             <div class="summernote-richtext" ng-model="pagelet.content"></div>
         </div>
 
         <div ng-if="pagelet.content_type == 'text'" class="text" ng-controller="markdown">

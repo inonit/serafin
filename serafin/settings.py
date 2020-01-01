@@ -165,7 +165,6 @@ STATICFILES_FINDERS = (
 )
 
 NPM_FILE_PATTERNS = {
-    'quill-image-resize': ['*']
 }
 
 THUMBNAIL_ALIASES = {

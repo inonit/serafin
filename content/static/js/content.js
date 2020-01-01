@@ -1,4 +1,4 @@
-var content = angular.module('content', ['autocompleteSearch', 'stringExpression', 'ngQuill']);
+var content = angular.module('content', ['autocompleteSearch', 'stringExpression']);
 
 var fileTemplate = {
     url: '',
@@ -207,21 +207,45 @@ content.directive('markdownText', ['$timeout', function (timeout) {
     };
 }]);
 
-content.directive('uiTinymce', function() {
+
+content.directive('summernoteRichtext', ['$timeout', function (timeout) {
     return {
-        restrict: 'A',
+        restrict: 'C',
         require: 'ngModel',
-        link: function(scope, elem, attrs, ngModel) {
-            console.log('init empty');
-            scope.tinymceOptions = {
-                inline: false,
-                plugins : 'advlist autolink link image lists charmap print preview textcolor',
-                skin: 'lightgray',
-                theme : 'modern',
-            }
+        link: function (scope, elem, attrs, ngModel) {
+            if (ngModel) {
+                ngModel.$render = function () {
+                    if (ngModel.$viewValue) {
+                        elem.summernote('code', ngModel.$viewValue);
+                    } else {
+                        elem.summernote('empty');
+                    }
+                };
+            };
+
+            var updateNgModel = function () {
+                var newValue = elem.summernote('code');
+                if (elem.summernote('isEmpty')) {
+                    newValue = '';
+                }
+                if (ngModel && ngModel.$viewValue !== newValue) {
+                    timeout(function () {
+                        ngModel.$setViewValue(newValue);
+                    }, 0);
+                }
+            };
+
+            elem.summernote({
+                tabsize: 2,
+                height: 150,
+            });
+
+            elem.on('summernote.change', function (we, contents, $editable) {
+                updateNgModel();
+            });
         }
     }
-});
+}]);
 
 content.directive('textarea', function () {
     // autoresize textarea as you type.
@@ -373,39 +397,3 @@ content.directive('optTitle', [function () {
         }
     };
 }]);
-
-content.constant("NG_QUILL_CONFIG", {
-    modules: {
-        toolbar: [
-            ['bold', 'italic', 'underline', 'strike'],        // toggled buttons
-            ['blockquote', 'code-block'],
-  
-            [{ 'header': 1 }, { 'header': 2 }],               // custom button values
-            [{ 'list': 'ordered' }, { 'list': 'bullet' }],
-            [{ 'script': 'sub' }, { 'script': 'super' }],      // superscript/subscript
-            [{ 'indent': '-1' }, { 'indent': '+1' }],          // outdent/indent
-            [{ 'direction': 'rtl' }],                         // text direction
-  
-            [{ 'size': ['small', false, 'large', 'huge'] }],  // custom dropdown
-            [{ 'header': [1, 2, 3, 4, 5, 6, false] }],
-  
-            [{ 'color': [] }, { 'background': [] }],          // dropdown with defaults from theme
-            [{ 'font': [] }],
-            [{ 'align': [] }],
-  
-            ['clean'],                                         // remove formatting button
-  
-            ['link', 'image', 'video']                         // link and image, video
-        ],
-        imageResize: {}
-    }
-});
-
-content.config([
-    'ngQuillConfigProvider',
-    'NG_QUILL_CONFIG',
-  
-    function (ngQuillConfigProvider, NG_QUILL_CONFIG) {
-      ngQuillConfigProvider.set(NG_QUILL_CONFIG);
-    }
-]);
