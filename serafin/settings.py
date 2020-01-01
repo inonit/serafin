@@ -28,9 +28,9 @@ ALLOWED_HOSTS = ['*']
 
 # Application definition
 
-from multisite import SiteID
-
-SITE_ID = SiteID(default=1)
+#from multisite import SiteID
+#SITE_ID = SiteID(default=1)
+SITE_ID = 1
 
 INSTALLED_APPS = (
     'django.contrib.auth',
@@ -43,7 +43,6 @@ INSTALLED_APPS = (
     'django.db.models',
     'request',
 
-    'multisite',
     'tokens',
     'users',
     'tasker',
@@ -53,7 +52,7 @@ INSTALLED_APPS = (
     'system',
 
     'filer',
-    'suit',
+    'serafin.apps.SuitConfig',
     'django.contrib.admin',
     'sitetree',
     'django_extensions',
@@ -71,6 +70,7 @@ INSTALLED_APPS = (
 )
 
 MIDDLEWARE = (
+    'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.locale.LocaleMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -80,8 +80,7 @@ MIDDLEWARE = (
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'django_user_agents.middleware.UserAgentMiddleware',
     'events.middleware.EventTrackingMiddleware',
-    'request.middleware.RequestMiddleware',
-    'multisite.middleware.DynamicSiteMiddleware',
+    'request.middleware.RequestMiddleware'
 )
 
 ROOT_URLCONF = 'serafin.urls'
@@ -101,8 +100,6 @@ TEMPLATES = [
                 'django.contrib.auth.context_processors.auth',
                 'django.template.context_processors.request',
                 'django_settings_export.settings_export',
-                'system.context_processors.site',
-                'system.context_processors.stylesheet',
                 # Insert your TEMPLATE_CONTEXT_PROCESSORS here or use this
                 # list if you haven't customized them:
             ],
@@ -266,67 +263,6 @@ REST_FRAMEWORK = {
 
 # Admin interface
 
-SUIT_CONFIG = {
-    'CONFIRM_UNSAVED_CHANGES': False,
-    'ADMIN_NAME': 'Serafin admin',
-    'HEADER_DATE_FORMAT': 'l j. F Y',
-
-    'SEARCH_URL': '/admin/system/page/',
-
-    'MENU': [
-        {
-            'app': 'users',
-            'label': _('Users'),
-            'icon': 'icon-user',
-            'models':
-                [
-                    'user',
-                    'auth.group',
-                ]
-        },
-        {
-            'app': 'system',
-            'label': _('Program'),
-            'icon': 'icon-wrench',
-            'models':
-                [
-                    'program',
-                    'session',
-                    'page',
-                    'email',
-                    'sms',
-                    'variable',
-                ]
-        },
-        {
-            'app': 'events',
-            'label': _('Events'),
-            'icon': 'icon-bullhorn',
-            'models':
-                [
-                    'event',
-                    'tasker.task',
-                    'request.request'
-                ]
-        },
-        {
-            'app': 'filer',
-            'label': _('Media'),
-            'icon': 'icon-picture'
-        },
-        {
-            'app': 'sites',
-            'label': _('Settings'),
-            'icon': 'icon-cog',
-            'models':
-                [
-                    'site',
-                    'sitetree.tree',
-                    'constance.config',
-                ]
-        },
-    ]
-}
 
 # Logging
 

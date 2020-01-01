@@ -7,6 +7,7 @@
 
 {# Additional CSS includes #}
 {% block extrastyle %}
+    {{ block.super }}
     <style>
         {% for group in user.groups.all %}
         {% if group.name == 'Admin visitor' %}

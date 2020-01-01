@@ -37,3 +37,24 @@
 .filebrowser #container #suit-center .breadcrumbs+.messagelist+#content {
     margin-left: 0 !important;
 }
+
+#footer {
+    position: fixed !important;
+    bottom: 0 !important;
+}
+
+* {
+  -webkit-box-sizing: content-box;
+     -moz-box-sizing: content-box;
+          box-sizing: content-box;
+}
+*:before,
+*:after {
+  -webkit-box-sizing: content-box;
+     -moz-box-sizing: content-box;
+          box-sizing: content-box;
+}
+
+.icon-alpha5 {
+                opacity: .5;
+}

@@ -4,27 +4,27 @@
     <textarea id="id_data" name="data" class="data ng-hide">{% verbatim %}{{ data }}{% endverbatim %}</textarea>
 
     <div class="toolbox">
-        <div class="btn add" ng-click="add(data, 'richtext')">{% trans '+ Rich Text' %}</div>
-        <div class="btn add" ng-click="add(data, 'text')">{% trans '+ Text' %}</div>
-        <div class="btn add" ng-click="add(data, 'toggle')">{% trans '+ Toggle' %}</div>
-        <div class="btn add" ng-click="add(data, 'toggleset')">{% trans '+ Toggleset' %}</div>
-        <div class="btn add" ng-click="add(data, 'togglesetmulti')">{% trans '+ Toggleset multi' %}</div>
-        <div class="btn add" ng-click="add(data, 'conditionalset')">{% trans '+ Conditional set' %}</div>
-        <div class="btn add" ng-click="add(data, 'expression')">{% trans '+ Expression' %}</div>
-        <div class="btn add" ng-click="add(data, 'form')">{% trans '+ Form' %}</div>
-        <div class="btn add" ng-click="add(data, 'quiz')">{% trans '+ Quiz' %}</div>
-        <div class="btn add" ng-click="add(data, 'image')">{% trans '+ Image' %}</div>
-        <div class="btn add" ng-click="add(data, 'video')">{% trans '+ Video' %}</div>
-        <div class="btn add" ng-click="add(data, 'audio')">{% trans '+ Audio' %}</div>
-        <div class="btn add" ng-click="add(data, 'file')">{% trans '+ File' %}</div>
+        <a class="btn btn-outline-secondary add" ng-click="add(data, 'richtext')">{% trans '+ Rich Text' %}</a>
+        <a class="btn btn-outline-secondary add" ng-click="add(data, 'text')">{% trans '+ Text' %}</a>
+        <a class="btn btn-outline-secondary add" ng-click="add(data, 'toggle')">{% trans '+ Toggle' %}</a>
+        <a class="btn btn-outline-secondary add" ng-click="add(data, 'toggleset')">{% trans '+ Toggleset' %}</a>
+        <a class="btn btn-outline-secondary add" ng-click="add(data, 'togglesetmulti')">{% trans '+ Toggleset multi' %}</a>
+        <a class="btn btn-outline-secondary add" ng-click="add(data, 'conditionalset')">{% trans '+ Conditional set' %}</>
+        <a class="btn btn-outline-secondary add" ng-click="add(data, 'expression')">{% trans '+ Expression' %}</>
+        <a class="btn btn-outline-secondary add" ng-click="add(data, 'form')">{% trans '+ Form' %}</>
+        <a class="btn btn-outline-secondary add" ng-click="add(data, 'quiz')">{% trans '+ Quiz' %}</>
+        <a class="btn btn-outline-secondary add" ng-click="add(data, 'image')">{% trans '+ Image' %}</>
+        <a class="btn btn-outline-secondary add" ng-click="add(data, 'video')">{% trans '+ Video' %}</>
+        <a class="btn btn-outline-secondary add" ng-click="add(data, 'audio')">{% trans '+ Audio' %}</>
+        <a class="btn btn-outline-secondaryadd" ng-click="add(data, 'file')">{% trans '+ File' %}</a>
     </div>
 
     <div class="pagelet" ng-repeat="pagelet in data track by $index">
 
         <div class="ctrl right">
-            <a ng-click="up(data, $index)" ng-hide="$first"><i class="icon-arrow-up icon-alpha5"></i></a>
-            <a ng-click="down(data, $index)" ng-hide="$last"><i class="icon-arrow-down icon-alpha5"></i></a>
-            <a ng-click="delete(data, $index)"><i class="icon-trash icon-alpha5"></i></a>
+            <a ng-click="up(data, $index)" ng-hide="$first"><i class="fa fa-arrow-up icon-alpha5"></i></a>
+            <a ng-click="down(data, $index)" ng-hide="$last"><i class="fa fa-arrow-down icon-alpha5"></i></a>
+            <a ng-click="delete(data, $index)"><i class="fa fa-trash icon-alpha5"></i></a>
         </div>
 
         <h3 ng-if="pagelet.title == undefined" class="title">{% verbatim %}{{ pagelet.content_type }}{% endverbatim %}</h3>
@@ -93,9 +93,9 @@
             <div class="alt" ng-repeat="alt in pagelet.content.alternatives track by $index">
 
                 <div class="ctrl right">
-                    <a ng-click="up(pagelet.content.alternatives, $index)" ng-hide="$first"><i class="icon-arrow-up icon-alpha5"></i></a>
-                    <a ng-click="down(pagelet.content.alternatives, $index)" ng-hide="$last"><i class="icon-arrow-down icon-alpha5"></i></a>
-                    <a ng-click="delete(pagelet.content.alternatives, $index)"><i class="icon-trash icon-alpha5"></i></a>
+                    <a ng-click="up(pagelet.content.alternatives, $index)" ng-hide="$first"><i class="fa fa-arrow-up icon-alpha5"></i></a>
+                    <a ng-click="down(pagelet.content.alternatives, $index)" ng-hide="$last"><i class="fa fa-arrow-down icon-alpha5"></i></a>
+                    <a ng-click="delete(pagelet.content.alternatives, $index)"><i class="fa fa-trash icon-alpha5"></i></a>
                 </div>
 
                 <div class="fieldset">
@@ -126,9 +126,9 @@
             <div class="field" ng-repeat="content in pagelet.content track by $index">
 
                 <div class="ctrl right">
-                    <a ng-click="up(pagelet.content, $index)" ng-hide="$first"><i class="icon-arrow-up icon-alpha5"></i></a>
-                    <a ng-click="down(pagelet.content, $index)" ng-hide="$last"><i class="icon-arrow-down icon-alpha5"></i></a>
-                    <a ng-click="delete(pagelet.content, $index)"><i class="icon-trash icon-alpha5"></i></a>
+                    <a ng-click="up(pagelet.content, $index)" ng-hide="$first"><i class="fa fa-arrow-up icon-alpha5"></i></a>
+                    <a ng-click="down(pagelet.content, $index)" ng-hide="$last"><i class="fa fa-arrow-down icon-alpha5"></i></a>
+                    <a ng-click="delete(pagelet.content, $index)"><i class="fa fa-trash icon-alpha5"></i></a>
                 </div>
 
                 <h4 class="title">{% trans 'Text' %}</h4>
@@ -207,9 +207,9 @@
             <div class="field" ng-repeat="field in pagelet.content track by $index">
 
                 <div class="ctrl right">
-                    <a ng-click="up(pagelet.content, $index)" ng-hide="$first"><i class="icon-arrow-up icon-alpha5"></i></a>
-                    <a ng-click="down(pagelet.content, $index)" ng-hide="$last"><i class="icon-arrow-down icon-alpha5"></i></a>
-                    <a ng-click="delete(pagelet.content, $index)"><i class="icon-trash icon-alpha5"></i></a>
+                    <a ng-click="up(pagelet.content, $index)" ng-hide="$first"><i class="fa fa-arrow-up icon-alpha5"></i></a>
+                    <a ng-click="down(pagelet.content, $index)" ng-hide="$last"><i class="fa fa-arrow-down icon-alpha5"></i></a>
+                    <a ng-click="delete(pagelet.content, $index)"><i class="fa fa-trash icon-alpha5"></i></a>
                 </div>
 
                 <h4 class="title">{% verbatim %}{{ field.field_type }}{% endverbatim %}</h4>
@@ -267,9 +267,9 @@
                     <div class="alt" ng-repeat="alt in field.alternatives track by $index">
 
                         <div class="ctrl right">
-                            <a ng-click="up(field.alternatives, $index)" ng-hide="$first"><i class="icon-arrow-up icon-alpha5"></i></a>
-                            <a ng-click="down(field.alternatives, $index)" ng-hide="$last"><i class="icon-arrow-down icon-alpha5"></i></a>
-                            <a ng-click="delete(field.alternatives, $index)"><i class="icon-trash icon-alpha5"></i></a>
+                            <a ng-click="up(field.alternatives, $index)" ng-hide="$first"><i class="fa fa-arrow-up icon-alpha5"></i></a>
+                            <a ng-click="down(field.alternatives, $index)" ng-hide="$last"><i class="fa fa-arrow-down icon-alpha5"></i></a>
+                            <a ng-click="delete(field.alternatives, $index)"><i class="fa fa-trash icon-alpha5"></i></a>
                         </div>
 
                         <div class="fieldset">
@@ -299,9 +299,9 @@
             <div class="field" ng-repeat="question in pagelet.content track by $index">
 
                 <div class="ctrl right">
-                    <a ng-click="up(pagelet.content, $index)" ng-hide="$first"><i class="icon-arrow-up icon-alpha5"></i></a>
-                    <a ng-click="down(pagelet.content, $index)" ng-hide="$last"><i class="icon-arrow-down icon-alpha5"></i></a>
-                    <a ng-click="delete(pagelet.content, $index)"><i class="icon-trash icon-alpha5"></i></a>
+                    <a ng-click="up(pagelet.content, $index)" ng-hide="$first"><i class="fa fa-arrow-up icon-alpha5"></i></a>
+                    <a ng-click="down(pagelet.content, $index)" ng-hide="$last"><i class="fa fa-arrow-down icon-alpha5"></i></a>
+                    <a ng-click="delete(pagelet.content, $index)"><i class="fa fa-trash icon-alpha5"></i></a>
                 </div>
 
                 <h4 class="title">{% trans 'Question' %}</h4>
@@ -331,9 +331,9 @@
                     <div class="alt" ng-repeat="alt in question.alternatives track by $index">
 
                         <div class="ctrl right">
-                            <a ng-click="up(question.alternatives, $index)" ng-hide="$first"><i class="icon-arrow-up icon-alpha5"></i></a>
-                            <a ng-click="down(question.alternatives, $index)" ng-hide="$last"><i class="icon-arrow-down icon-alpha5"></i></a>
-                            <a ng-click="delete(question.alternatives, $index)"><i class="icon-trash icon-alpha5"></i></a>
+                            <a ng-click="up(question.alternatives, $index)" ng-hide="$first"><i class="fa fa-arrow-up icon-alpha5"></i></a>
+                            <a ng-click="down(question.alternatives, $index)" ng-hide="$last"><i class="fa fa-arrow-down icon-alpha5"></i></a>
+                            <a ng-click="delete(question.alternatives, $index)"><i class="fa fa-trash icon-alpha5"></i></a>
                         </div>
 
                         <div class="fieldset">

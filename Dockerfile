@@ -20,6 +20,7 @@ RUN bower --allow-root install
 COPY requirements.txt /code/
 RUN pip install -r requirements.txt
 RUN pip install ptvsd
+RUN pip install https://github.com/darklow/django-suit/tarball/v2
 COPY supervisor.conf /etc/supervisor/supervisor.conf
 COPY . /code/
 COPY filer.base64.json /code/

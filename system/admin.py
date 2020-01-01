@@ -12,7 +12,7 @@ from django.db import models, IntegrityError
 from django.db.models import Q
 from django.http import HttpResponseRedirect
 
-from suit.widgets import SuitSplitDateTimeWidget, LinkedSelect, AutosizedTextarea, NumberInput
+from suit.widgets import AutosizedTextarea
 from jsonfield import JSONField
 from reversion.admin import VersionAdmin
 
@@ -119,10 +119,10 @@ class ProgramUserAccessInline(admin.TabularInline):
 
     formfield_overrides = {
         models.ForeignKey: {
-            'widget': LinkedSelect
+            'widget': forms.Select
         },
         models.DateTimeField: {
-            'widget': SuitSplitDateTimeWidget
+            'widget': forms.DateTimeInput
         },
         models.DecimalField: {
             'widget': forms.NumberInput(attrs={'class': 'input-mini'})
@@ -353,7 +353,7 @@ class SessionAdmin(VersionAdmin):
             'widget': AutosizedTextarea(attrs={'rows': 3, 'class': 'input-xlarge'})
         },
         models.IntegerField: {
-            'widget': NumberInput(attrs={'class': 'input-mini'})
+            'widget': forms.NumberInput(attrs={'class': 'input-mini'})
         },
         JSONField: {
             'widget': PlumbingWidget
