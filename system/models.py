@@ -82,6 +82,9 @@ class Program(models.Model):
 
     users = models.ManyToManyField(settings.AUTH_USER_MODEL, verbose_name=_('users'), through='ProgramUserAccess')
 
+    def __str__(self):
+        return self.display_title
+
     class Meta(object):
         verbose_name = _('program')
         verbose_name_plural = _('programs')
