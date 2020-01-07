@@ -64,6 +64,10 @@ class ContentWidget(forms.Widget):
             'js/autocomplete.js',
             'js/expression.js',
             'js/content.js',
+
+            'lib/codemirror/lib/codemirror.js',
+            'lib/codemirror/mode/python/python.js',
+            'lib/angular-ui-codemirror/ui-codemirror.min.js',
         )
 
 
@@ -91,6 +95,10 @@ class TextContentWidget(forms.Widget):
             'js/autocomplete.js',
             'js/expression.js',
             'js/content.js',
+
+            'lib/codemirror/lib/codemirror.js',
+            'lib/codemirror/mode/python/python.js',
+            'lib/angular-ui-codemirror/ui-codemirror.min.js',
         )
 
 
@@ -117,6 +125,10 @@ class SMSContentWidget(forms.Widget):
             'js/autocomplete.js',
             'js/expression.js',
             'js/content.js',
+
+            'lib/codemirror/lib/codemirror.js',
+            'lib/codemirror/mode/python/python.js',
+            'lib/angular-ui-codemirror/ui-codemirror.min.js',
         )
 
 class CodeContentWidget(forms.Widget):
