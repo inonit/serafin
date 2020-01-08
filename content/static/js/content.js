@@ -152,7 +152,7 @@ content.run(['$rootScope', '$http', function (scope, http) {
 
     scope.variables = [];
     http.get('/api/system/variables/').success(function (data) {
-        //scope.variables = data.concat(reservedVars || []);
+        scope.variables = data.concat(reservedVars || []);
     });
 
     scope.editorOpts = {
