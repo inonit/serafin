@@ -19,7 +19,7 @@ class SerafinReConfig(AppConfig):
 
 
 class SuitConfig(DjangoSuitConfig):
-    layout = 'vertical'
+    layout = 'horizontal'
     SUIT_FORM_SIZE_LABEL = 'col-xs-12 col-sm-3 col-md-2 col-lg-1'
     SUIT_FORM_SIZE_XXX_LARGE = (SUIT_FORM_SIZE_LABEL, 'col-xs-12 col-sm-9 col-md-10 col-lg-10')
 

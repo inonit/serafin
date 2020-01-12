@@ -182,11 +182,10 @@ angular.module("autocompleteSearch", [])
                     url: url,
                     params: queryString
                 })
-                .success(function(response, status) {
-                    deferred.resolve(response);
-                })
-                .error(function(reason) {
-                    deferred.reject(reason);
+                .then(function(response, status) {
+                    deferred.resolve(response.data);
+                }, function(reason) {
+                    deferred.reject(reason.data);
                 });
                 return deferred.promise;
             },
@@ -197,11 +196,10 @@ angular.module("autocompleteSearch", [])
                     url: url,
                     data: data
                 })
-                .success(function(response, status) {
-                    deferred.resolve(response);
-                })
-                .error(function(reason) {
-                    deferred.reject(reason);
+                .then(function(response, status) {
+                    deferred.resolve(response.data);
+                }, function(reason) {
+                    deferred.reject(reason.data);
                 });
                 return deferred.promise;
             }

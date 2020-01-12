@@ -51,6 +51,9 @@ class Variable(models.Model):
     def __unicode__(self):
         return self.name
 
+    def __str__(self):
+        return self.name
+
     def get_value(self):
         if self.random_type == 'boolean':
             return random.choice([True, False])
