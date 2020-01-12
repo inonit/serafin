@@ -121,9 +121,6 @@ class ProgramUserAccessInline(admin.TabularInline):
         models.ForeignKey: {
             'widget': forms.Select
         },
-        models.DateTimeField: {
-            'widget': forms.DateTimeInput
-        },
         models.DecimalField: {
             'widget': forms.NumberInput(attrs={'class': 'input-mini'})
         },

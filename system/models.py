@@ -118,7 +118,7 @@ class ProgramUserAccess(models.Model):
     program = models.ForeignKey('Program', verbose_name=_('program'), on_delete=models.CASCADE)
     user = models.ForeignKey(settings.AUTH_USER_MODEL, verbose_name=_('user'), on_delete=models.CASCADE)
 
-    start_time = models.DateTimeField(_('start time'), default=timezone.now)
+    start_time = models.DateTimeField(_('start time'), default=timezone.now())
     time_factor = models.DecimalField(_('time factor'), default=1.0, max_digits=5, decimal_places=3)
 
     class Meta(object):
@@ -127,6 +127,9 @@ class ProgramUserAccess(models.Model):
 
     def __unicode__(self):
         return '%s: %s' % (self.program, self.user.__unicode__())
+
+    def __str__(self):
+        return '%s: %s' % (self.program, self.user.__str__())
 
 
 class Session(models.Model):
@@ -161,6 +164,9 @@ class Session(models.Model):
     def __unicode__(self):
         return self.title or _('Session %s' % self.id)
 
+    def __str__(self):
+        return self.title or _('Session %s' % self.id)
+
     def get_absolute_url(self):
         return '%s?session_id=%i' % (
             reverse('content'),
@@ -193,6 +199,9 @@ class Content(models.Model):
         verbose_name_plural = _('contents')
 
     def __unicode__(self):
+        return self.title or '%s %s' % (self._meta.verbose_name, self.id)
+
+    def __str__(self):
         return self.title or '%s %s' % (self._meta.verbose_name, self.id)
 
     def get_absolute_url(self):
