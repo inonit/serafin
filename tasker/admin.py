@@ -42,7 +42,11 @@ class TaskAdmin(admin.ModelAdmin):
     subject_link.allow_tags = True
 
     def task_result(self, obj):
-        return obj.result
+        try:
+            res = obj.result
+        except Exception as ex:
+            res = "Error: %s" % ex
+        return res
     task_result.short_description = _('Task result')
 
     def get_queryset(self, request):

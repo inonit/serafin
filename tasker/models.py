@@ -62,6 +62,13 @@ class Task(models.Model):
             'action': self.action,
         }
 
+    def __str__(self):
+        return _('%(time)s: %(sender)s, %(action)s') % {
+            'time': self.time,
+            'sender': self.sender,
+            'action': self.action,
+        }
+
     class Meta(object):
         verbose_name = _('task')
         verbose_name_plural = _('tasks')
