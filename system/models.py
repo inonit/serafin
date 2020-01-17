@@ -15,6 +15,8 @@ from django.core.exceptions import ValidationError
 from django.template.loader import render_to_string
 from django.utils import timezone
 from django.utils.translation import ugettext_lazy as _
+from adminsortable.fields import SortableForeignKey
+from adminsortable.models import SortableMixin
 
 from jsonfield import JSONField
 from collections import OrderedDict
@@ -118,7 +120,7 @@ class ProgramUserAccess(models.Model):
     program = models.ForeignKey('Program', verbose_name=_('program'), on_delete=models.CASCADE)
     user = models.ForeignKey(settings.AUTH_USER_MODEL, verbose_name=_('user'), on_delete=models.CASCADE)
 
-    start_time = models.DateTimeField(_('start time'), default=timezone.now())
+    start_time = models.DateTimeField(_('start time'), default=timezone.now)
     time_factor = models.DecimalField(_('time factor'), default=1.0, max_digits=5, decimal_places=3)
 
     class Meta(object):
@@ -181,6 +183,39 @@ class Session(models.Model):
         return start_time + timedelta
 
 
+class Module(models.Model):
+    title = models.CharField('title', max_length=64, unique=True)
+    display_title = models.CharField('display title', max_length=64)
+    program = models.ForeignKey(Program, verbose_name='program', on_delete=models.CASCADE)
+
+    class Meta:
+        verbose_name = 'module'
+        verbose_name_plural = 'modules'
+
+    def __str__(self):
+        return self.title
+
+
+class Chapter(SortableMixin):
+    title = models.CharField('title', max_length=64, unique=True)
+    display_title = models.CharField('display title', max_length=64)
+    program = models.ForeignKey(Program, verbose_name='program', blank=True, null=True,
+                                help_text='Can optionally be bound to a specific program',
+                                on_delete=models.CASCADE)
+    module = SortableForeignKey(Module, verbose_name='module', blank=True, null=True,
+                                help_text='Can optionally be bound to a specific module',
+                                on_delete=models.SET_NULL)
+    chapter_order = models.PositiveIntegerField(default=0, editable=False)
+
+    class Meta:
+        verbose_name = 'chapter'
+        verbose_name_plural = 'chapters'
+        ordering = ['chapter_order']
+
+    def __str__(self):
+        return self.title
+
+
 class Content(models.Model):
     '''An ordered collection of JSON content'''
 
@@ -193,6 +228,7 @@ class Content(models.Model):
                                 on_delete=models.CASCADE)
 
     data = JSONField(load_kwargs={'object_pairs_hook': OrderedDict}, default=[])
+    chapter = models.ForeignKey(Chapter, verbose_name='chapter', blank=True, null=True, on_delete=models.SET_NULL)
 
     class Meta(object):
         verbose_name = _('content')
@@ -231,15 +267,15 @@ class Page(Content):
         self.content_type = 'page'
 
     def check_value(self, user, value, field_type):
-        if isinstance(value,list):
-            #for some cases value=[] (always empty [] and can't be edited in page)
+        if isinstance(value, list):
+            # for some cases value=[] (always empty [] and can't be edited in page)
             return value
 
         value = variable_replace(user, value)
         if value == None or value.lower() == "none":
-            value=''
+            value = ''
 
-        if field_type=="numeric":
+        if field_type == "numeric":
             is_num = False
             try:
                 int(value)
@@ -251,7 +287,7 @@ class Page(Content):
                 except:
                     is_num = False
             if not is_num:
-                value=''
+                value = ''
 
         return value
 
@@ -261,7 +297,7 @@ class Page(Content):
                 content = pagelet.get('content')
                 content, pagelet['variables'] = live_variable_replace(user, content)
                 pagelet['content'] = content
-                
+
             if pagelet['content_type'] in ['text', 'toggle']:
                 content = pagelet.get('content')
                 content = remove_comments(content)
@@ -275,15 +311,15 @@ class Page(Content):
 
             if pagelet['content_type'] in ['toggleset', 'togglesetmulti']:
                 content = pagelet.get('content')
-                variableName=content.get('variable_name')
+                variableName = content.get('variable_name')
                 if 'label' in content:
                     label = content.get('label')
                     label = variable_replace(user, label)
                     content['label'] = label
 
-                if 'value' in content: #not really usefull-cannot be set with admin portalen!
+                if 'value' in content:  # not really usefull-cannot be set with admin portalen!
                     value = content.get('value')
-                    content['value'] = self.check_value(user, value,"")
+                    content['value'] = self.check_value(user, value, "")
 
                 if 'alternatives' in content:
                     for alt in content['alternatives']:
@@ -293,14 +329,14 @@ class Page(Content):
                             alt['label'] = label
                         if 'value' in alt:
                             value = alt.get('value')
-                            alt['value'] = self.check_value(user, value,"")
+                            alt['value'] = self.check_value(user, value, "")
                             # set previously selected value for togglesetmulti and toggleset
-                            checked = is_it_checked(user,variableName,alt['value'])
+                            checked = is_it_checked(user, variableName, alt['value'])
                             if pagelet['content_type'] == 'togglesetmulti':
                                 alt['selected'] = checked
                             if checked:
                                 if pagelet['content_type'] == 'toggleset':
-                                    content['value']=alt['value']
+                                    content['value'] = alt['value']
                                 else:
                                     content['value'].append(alt['value'])
                         if 'text' in alt:
@@ -315,7 +351,7 @@ class Page(Content):
                         label = variable_replace(user, label)
                         field['label'] = label
 
-                    if 'alternatives' in field: # for multipleselection and multiplechoice
+                    if 'alternatives' in field:  # for multipleselection and multiplechoice
                         for alt in field['alternatives']:
                             if 'label' in alt:
                                 label = alt.get('label')
@@ -323,28 +359,28 @@ class Page(Content):
                                 alt['label'] = label
                             if 'value' in alt:
                                 value = alt.get('value')
-                                alt['value'] = self.check_value(user, value,"")
+                                alt['value'] = self.check_value(user, value, "")
                                 # set previously selected value for multiplechoice and multipleselection in form
-                                checked = is_it_checked(user,field['variable_name'],alt['value'])
+                                checked = is_it_checked(user, field['variable_name'], alt['value'])
                                 if field['field_type'] == 'multipleselection':
                                     alt['selected'] = checked
                                 if checked:
                                     if field['field_type'] == 'multiplechoice':
-                                        field['value']=alt['value']
+                                        field['value'] = alt['value']
                                     else:
                                         field['value'].append(alt['value'])
 
                     if 'value' in field:
                         value = field.get('value')
-                        field['value'] = self.check_value(user, value,field["field_type"])
+                        field['value'] = self.check_value(user, value, field["field_type"])
 
                     if 'lower_limit' in field:
                         lower_limit = field.get('lower_limit')
-                        field['lower_limit'] = self.check_value(user, lower_limit,field["field_type"])
+                        field['lower_limit'] = self.check_value(user, lower_limit, field["field_type"])
 
                     if 'upper_limit' in field:
                         upper_limit = field.get('upper_limit')
-                        field['upper_limit'] = self.check_value(user, upper_limit,field["field_type"])
+                        field['upper_limit'] = self.check_value(user, upper_limit, field["field_type"])
 
             if pagelet['content_type'] == 'quiz':
                 content_array = pagelet.get('content')
@@ -362,7 +398,7 @@ class Page(Content):
                             alt['label'] = label
                         if 'value' in alt:
                             value = alt.get('value')
-                            alt['value'] = self.check_value(user, value,"")
+                            alt['value'] = self.check_value(user, value, "")
                         if 'response' in alt:
                             response = alt.get('response')
                             response = variable_replace(user, response)
@@ -386,7 +422,7 @@ class Page(Content):
                     else:
                         text['content'] = ''
 
-            if pagelet['content_type'] in ['image','audio','file','video']:
+            if pagelet['content_type'] in ['image', 'audio', 'file', 'video']:
                 content = pagelet.get('content')
                 if 'title' in content:
                     title = content.get('title')

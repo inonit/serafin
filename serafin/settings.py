@@ -42,6 +42,7 @@ INSTALLED_APPS = (
     'django_user_agents',
     'django.db.models',
     'request',
+    'adminsortable',
 
     'tokens',
     'users',
@@ -100,6 +101,7 @@ TEMPLATES = [
                 'django.contrib.auth.context_processors.auth',
                 'django.template.context_processors.request',
                 'django_settings_export.settings_export',
+                'django.template.context_processors.static'
                 # Insert your TEMPLATE_CONTEXT_PROCESSORS here or use this
                 # list if you haven't customized them:
             ],

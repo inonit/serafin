@@ -42,6 +42,11 @@
     position: fixed !important;
     bottom: 0 !important;
     z-index: 999;
+    min-height: 22px !important;
+}
+
+.footer {
+    min-height: 22px !important;
 }
 
 * {

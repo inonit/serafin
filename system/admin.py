@@ -11,12 +11,13 @@ from django.contrib.contenttypes.models import ContentType
 from django.db import models, IntegrityError
 from django.db.models import Q
 from django.http import HttpResponseRedirect
+from adminsortable.admin import NonSortableParentAdmin, SortableStackedInline
 
 from suit.widgets import AutosizedTextarea
 from jsonfield import JSONField
 from reversion.admin import VersionAdmin
 
-from system.models import Variable, Program, Session, Content, Page, Email, SMS
+from system.models import Variable, Program, Session, Content, Page, Email, SMS, Chapter, Module
 from system.expressions import Parser
 from plumbing.widgets import PlumbingWidget
 from content.widgets import ContentWidget, TextContentWidget, SMSContentWidget
@@ -597,7 +598,8 @@ class PageForm(ContentForm):
 class PageAdmin(ContentAdmin):
     list_display = ['title', 'display_title', 'note_excerpt', 'page_excerpt']
     search_fields = ['title', 'display_title', 'admin_note', 'data']
-    fields = ['title', 'display_title', 'program', 'admin_note', 'data']
+    fields = ['title', 'display_title', 'program', 'admin_note', 'data', 'chapter']
+    raw_id_fields = ('chapter',)
     form = PageForm
 
 
@@ -660,3 +662,22 @@ class SMSAdmin(ContentAdmin):
             'widget': SMSContentWidget
         }
     }
+
+
+@admin.register(Chapter)
+class ChapterAdmin(VersionAdmin):
+    list_display = ['title', 'display_title', 'module', 'program']
+    search_fields = ['title', 'display_title', 'module']
+    raw_id_fields = ('module',)
+
+
+class ChapterInline(SortableStackedInline):
+    model = Chapter
+    extra = 1
+
+
+@admin.register(Module)
+class ModuleAdmin(NonSortableParentAdmin):
+    list_display = ['title', 'display_title', 'program']
+    search_fields = ['title', 'display_title']
+    inlines = [ChapterInline]
