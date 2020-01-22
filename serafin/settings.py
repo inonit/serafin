@@ -187,6 +187,7 @@ AUTH_USER_MODEL = 'users.User'
 
 AUTHENTICATION_BACKENDS = (
     'rules.permissions.ObjectPermissionBackend',
+    'users.backends.EmailOrPhoneBackend',
     'django.contrib.auth.backends.ModelBackend',
     'users.backends.TokenBackend',
 )
