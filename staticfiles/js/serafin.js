@@ -23,6 +23,8 @@ serafin.run(['$rootScope', '$http', function(scope, http) {
             scope.page = response.data.data;
             scope.dead_end = response.data.dead_end;
             scope.stacked = response.data.stacked;
+            scope.is_chapter = response.data.is_chapter;
+            scope.chapters = response.data.chapters;
         }, reason => {
             scope.error = reason.data;
             scope.page = {};
@@ -45,14 +47,8 @@ serafin.run(['$rootScope', '$http', function(scope, http) {
 serafin.controller('pages', ['$scope', '$http', function(scope, http) {
     var timerStart = new Date();
 
-    scope.next = function() {
-        scope.form.submitted = true;
-        if (scope.form.$invalid) {
-            return;
-        }
-
+    var read_form_data = function() {
         var data = {};
-        debugger;
         scope.page.forEach(function(pagelet) {
             if (pagelet.content_type == 'form' ||
                 pagelet.content_type == 'quiz') {
@@ -68,7 +64,16 @@ serafin.controller('pages', ['$scope', '$http', function(scope, http) {
                 data['expression_' + pagelet.content.variable_name] = pagelet.content.value
             }
         });
+        return data;
+    };
 
+    scope.next = function() {
+        scope.form.submitted = true;
+        if (scope.form.$invalid) {
+            return;
+        }
+
+        var data = read_form_data();
         var timerEnd = new Date();
         var timeSpent = timerEnd.getTime() - timerStart.getTime();
         data.timer = timeSpent;
@@ -87,6 +92,8 @@ serafin.controller('pages', ['$scope', '$http', function(scope, http) {
             scope.page = response.data.data;
             scope.dead_end = response.data.dead_end;
             scope.stacked = response.data.stacked;
+            scope.is_chapter = response.data.is_chapter;
+            scope.chapters = response.data.chapters;
             scope.form.submitted = false;
             window.scrollTo(0,0);
         }, reason => {
@@ -94,6 +101,42 @@ serafin.controller('pages', ['$scope', '$http', function(scope, http) {
             scope.page = {};
         });
     };
+
+    scope.chapter_url = function (chapter_id) {
+        var data = read_form_data();
+        if (Object.entries(data).length > 0) {
+             var answer = confirm("Are you sure you want to leave?");
+             if (!answer) {
+                 return;
+             }
+        }
+        var timerEnd = new Date();
+        var timeSpent = timerEnd.getTime() - timerStart.getTime();
+        data.timer = timeSpent;
+
+        var url = (api + '?chapter=' + chapter_id);
+        var request = {
+            method: 'POST',
+            url: url,
+            data: data,
+        };
+
+        http(request).then(response => {
+            scope.error = null;
+            scope.getVariables(response.data.data);
+            scope.$emit('title', response.data.title);
+            scope.page = response.data.data;
+            scope.dead_end = response.data.dead_end;
+            scope.stacked = response.data.stacked;
+            scope.is_chapter = response.data.is_chapter;
+            scope.chapters = response.data.chapters;
+            scope.form.submitted = false;
+            window.scrollTo(0,0);
+        }, reason => {
+            scope.error = reason.data;
+            scope.page = {};
+        });
+    }
 }]);
 
 serafin.directive('page', function() {

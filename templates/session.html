@@ -1,7 +1,19 @@
 {% extends 'base.html' %}
 {% load i18n thumbnail %}
 {% block content %}
-<div class="page" ng-controller="pages" ng-form="form">
+<div class="row" ng-controller="pages">
+  <div class="small-2 large-2 columns page" ng-if="is_chapter == true">
+    <ul class="side-nav">
+        {% verbatim %}
+        <li ng-repeat="chapter in chapters" ng-class="{'active' : chapter.is_current, 'li-disabled' : !chapter.is_enabled}">
+            <a ng-class="{'li-disabled' : !chapter.is_enabled}" ng-click="chapter_url(chapter.id)" href="#"> {{ chapter.name }} </a>
+        </li>
+    </ul>
+  </div>
+  <div class="small-10 large=10 columns">
+
+<div class="page" ng-form="form">
+
     <div class="error" ng-cloak ng-if="error">
         {% trans "Something went wrong. We weren't able to find the right path for you. You can try reloading the page. If that doesn't work, try again in a few hours?" %}
     </div>
@@ -264,6 +276,7 @@
         <a class="button next" ng-disabled="form.$invalid || form.submitted || error" ng-click="next()">{% trans 'Next page' %}</a>
     </nav>
 </div>
+  </div>
 {% endblock content %}
 
 {% block scripts %}

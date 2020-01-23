@@ -13,7 +13,7 @@
     {% compress css %}
     <link rel="stylesheet" href="{% static 'lib/foundation/css/foundation.min.css' %}" />
     {% if stylesheet %}
-    <link rel="stylesheet" href="{% static styleheet %}" />
+    <link rel="stylesheet" href="{% static stylesheet %}" />
     {% elif program.style %}
     <link rel="stylesheet" href="{% static program.style %}" />
     {% elif site.program.style %}
@@ -21,6 +21,7 @@
     {% else %}
     <link rel="stylesheet" href="{% static 'css/style.css' %}" />
     {% endif %}
+    <link rel="stylesheet" href="{% static 'css/extra.css' %}" />
     {% block styles %}{% endblock %}
     {% endcompress %}
   </head>

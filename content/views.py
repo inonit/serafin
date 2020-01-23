@@ -61,13 +61,16 @@ def get_page(request):
         page.update_html(request.user)
         page.dead_end = True
         page.stacked = False
+        page.is_chapter = page.chapter is not None
+        page.chapters = page.render_section(request.user)
 
     # engine selection
     else:
         next = request.GET.get('next')
         pop = request.GET.get('pop')
+        chapter = request.GET.get('chapter')
         engine = Engine(user=request.user, context=context, is_interactive=True)
-        page = engine.run(next=next, pop=pop)
+        page = engine.run(next=next, pop=pop, chapter=chapter)
 
     if not page:
         raise Http404
@@ -76,7 +79,9 @@ def get_page(request):
         'title': page.display_title,
         'data': page.data,
         'dead_end': page.dead_end,
-        'stacked': page.stacked
+        'stacked': page.stacked,
+        'is_chapter': page.is_chapter,
+        'chapters': page.chapters
     }
 
     return JsonResponse(response)

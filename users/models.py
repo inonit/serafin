@@ -223,6 +223,27 @@ class User(AbstractBaseUser, PermissionsMixin):
         '''
         return self, False
 
+    @staticmethod
+    def _get_chapter_key(chapter_id):
+        return "chapter_%s" % str(chapter_id)
+
+    def register_chapter_to_page(self, page):
+        if page.chapter is not None:
+            key = User._get_chapter_key(page.chapter.id)
+            if key not in self.data or not self.data[key]:
+                self.data[key] = page.id
+
+    def get_page_id_by_chapter(self, chapter_id):
+        if not str(chapter_id).isnumeric():
+            return None
+        chapter_id = int(chapter_id)
+        if chapter_id <= 0:
+            return None
+        key = User._get_chapter_key(chapter_id)
+        if key in self.data:
+            return self.data[key]
+        return None
+
     def __str__(self):
         return '%s' % self.id
 

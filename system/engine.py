@@ -258,6 +258,8 @@ class Engine(object):
 
             page.dead_end = self.is_dead_end(node_id)
             page.stacked = self.is_stacked()
+            page.is_chapter = page.chapter is not None
+            page.chapters = page.render_section(self.user)
 
             if 'node' in self.user.data and self.user.data['node'] in self.nodes:
                 # TODO: Better fix
@@ -272,6 +274,7 @@ class Engine(object):
 
             self.user.data['session'] = self.session.id
             self.user.data['node'] = node_id
+            self.user.register_chapter_to_page(page)
             self.user.save()
 
             return page
@@ -523,7 +526,32 @@ class Engine(object):
 
                 return
 
-    def run(self, next=False, pop=False):
+    def show_chapter(self, chapter_id):
+        # todo: fill the page in case it's a form
+        page_id = self.user.get_page_id_by_chapter(chapter_id)
+        if page_id:
+            page = Page.objects.get(id=page_id)
+            page.update_html(self.user)
+
+            page.dead_end = True
+            page.stacked = False
+            page.is_chapter = page.chapter is not None
+            page.chapters = page.render_section(self.user)
+
+            if 'node' in self.user.data and self.user.data['node'] in self.nodes:
+                log_event.send(
+                    self,
+                    domain='session',
+                    actor=self.user,
+                    variable='show_chapter',
+                    pre_value=self.nodes[self.user.data['node']]['title'],
+                    post_value=page.title
+                )
+
+            return page
+
+
+    def run(self, next=False, pop=False, chapter=0):
         '''
         Run the Engine after initializing and return a node if available
 
@@ -532,11 +560,14 @@ class Engine(object):
 
         If pop=True, session and node is popped from the users stack and
         initialized.
+
+        If chapter>0, for view purpose, get the page related to the chapter (id)
+        if exists.
         '''
 
         self.logger.debug(
-            '%s %s run, next %s, pop %s',
-            self.user, self.session, next, pop
+            '%s %s run, next %s, pop %s, chapter %s',
+            self.user, self.session, next, pop, chapter
         )
 
         node_id = self.node_id if self.node_id is not None else self.user.data.get('node')
@@ -544,6 +575,18 @@ class Engine(object):
         if node_id is None:
             self.user.data['node'] = 0
             self.user.save()
+
+        if chapter:
+            '''
+            Return only the page related to the chapter
+            '''
+            page = self.show_chapter(chapter)
+            if page:
+                node = self.nodes.get(node_id)
+                current_page = self.trigger_node(node)
+                if page.id == current_page.id:
+                    return current_page
+                return page
 
         # transition to next page
         if next:

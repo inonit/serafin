@@ -433,6 +433,23 @@ class Page(Content):
                     alt = variable_replace(user, alt)
                     content['alt'] = alt
 
+    def render_section(self, user):
+        if not self.chapter:
+            return None
+
+        module = self.chapter.module
+        if not module:
+            return None
+
+        chapters = []
+        for chapter in module.chapter_set.all():
+            chapter_name = chapter.display_title
+            chapter_id = chapter.id
+            is_current = chapter == self.chapter
+            chapters.append({"name": chapter_name, "id": chapter_id, "is_current": is_current,
+                             "is_enabled": bool(is_current or user.get_page_id_by_chapter(chapter_id))})
+        return chapters
+
     def simple_render(self):
         assert self.user is not None
         html = []
