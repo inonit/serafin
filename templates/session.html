@@ -8,6 +8,7 @@
         <li ng-repeat="chapter in chapters" ng-class="{'active' : chapter.is_current, 'li-disabled' : !chapter.is_enabled}">
             <a ng-class="{'li-disabled' : !chapter.is_enabled}" ng-click="chapter_url(chapter.id)" href="#"> {{ chapter.name }} </a>
         </li>
+        {% endverbatim %}
     </ul>
   </div>
   <div class="small-10 large=10 columns">
@@ -40,7 +41,7 @@
         </div>
 
         <form class="toggleset" ng-if="pagelet.content_type == 'toggleset'" novalidate>
-            <fieldset ng-form="subForm" ng-if="!pagelet.content.horizontal">
+            <fieldset ng-disabled="read_only" ng-form="subForm" ng-if="!pagelet.content.horizontal">
                 <legend>{{ pagelet.content.label }}</legend>
                 {% endverbatim %}
                 <div class="error right" ng-show="form.submitted && subForm.$error.required">{% trans 'Please choose one' %}</div>
@@ -76,7 +77,7 @@
         </form>
 
         <form class="togglesetmulti" ng-if="pagelet.content_type == 'togglesetmulti'" novalidate>
-            <fieldset ng-form="subForm" ng-if="!pagelet.content.horizontal">
+            <fieldset ng-disabled="read_only" ng-form="subForm" ng-if="!pagelet.content.horizontal">
                 <legend>{{ pagelet.content.label }}</legend>
                 {% endverbatim %}
                 <div class="error right" ng-show="form.submitted && subForm.$error.required">{% trans 'Please choose one' %}</div>
@@ -96,7 +97,7 @@
                     <tbody>
                         <tr>
                             <td ng-repeat="alt in pagelet.content.alternatives track by $index">
-                                <input name="answer" type="checkbox" checkboxlist ng-model="alt.selected" ng-click="toggle(pagelet.content.value, alt.value)" ng-required="field.required">
+                                <input ng-disabled="read_only" name="answer" type="checkbox" checkboxlist ng-model="alt.selected" ng-click="toggle(pagelet.content.value, alt.value)" ng-required="field.required">
                                 <br>
                                 {{ alt.label }}
                             </td>
@@ -125,7 +126,7 @@
                     <div class="error right" ng-show="subForm.field.$dirty && (subForm.field.$error.min || subForm.field.$error.max )">{% trans 'Please enter a number between {{ field.lower_limit }} and {{ field.upper_limit }}' %}</div>
                     {% verbatim %}
                     <label for="field"><strong>{{ field.label }}</strong></label>
-                    <input name="field" type="number" min="{{ field.lower_limit }}" max="{{ field.upper_limit }}" string-to-number ng-model="field.value" ng-required="field.required" liveinput>
+                    <input ng-disabled="read_only" name="field" type="number" min="{{ field.lower_limit }}" max="{{ field.upper_limit }}" string-to-number ng-model="field.value" ng-required="field.required" liveinput>
                 </div>
 
                 <div ng-if="field.field_type == 'string'">
@@ -136,8 +137,8 @@
                     <div class="error right" ng-show="form.submitted && subForm.phone.$error.pattern">{% trans '+Country code then number, no other characters, e.g. "+4798765432"' %}</div>
                     {% verbatim %}
                     <label for="field"><strong>{{ field.label }}</strong></label>
-                    <input ng-if="field.variable_name !== 'phone'" name="field" type="text" ng-model="field.value" ng-required="field.required" liveinput>
-                    <input ng-if="field.variable_name === 'phone'" name="phone" type="text" ng-model="field.value" ng-required="field.required" ng-minlength="11" ng-pattern="/^\+\d+$/" liveinput>
+                    <input ng-disabled="read_only" ng-if="field.variable_name !== 'phone'" name="field" type="text" ng-model="field.value" ng-required="field.required" liveinput>
+                    <input ng-disabled="read_only" ng-if="field.variable_name === 'phone'" name="phone" type="text" ng-model="field.value" ng-required="field.required" ng-minlength="11" ng-pattern="/^\+\d+$/" liveinput>
                 </div>
 
                 <div ng-if="field.field_type == 'text'">
@@ -145,11 +146,11 @@
                     <div class="error right" ng-show="form.submitted && subForm.field.$error.required">{% trans 'This field is required' %}</div>
                     {% verbatim %}
                     <label for="field"><strong>{{ field.label }}</strong></label>
-                    <textarea name="field" ng-model="field.value" ng-required="field.required" liveinput></textarea>
+                    <textarea ng-disabled="read_only" name="field" ng-model="field.value" ng-required="field.required" liveinput></textarea>
                 </div>
 
                 <div ng-if="field.field_type == 'multiplechoice'">
-                    <fieldset ng-if="!field.horizontal">
+                    <fieldset ng-disabled="read_only" ng-if="!field.horizontal">
                         <legend>{{ field.label }}</legend>
                         {% endverbatim %}
                         <div class="error right" ng-show="form.submitted && subForm.$error.required">{% trans 'Please choose one' %}</div>
@@ -169,7 +170,7 @@
                             <tbody>
                                 <tr>
                                     <td ng-repeat="alt in field.alternatives track by $index">
-                                        <input name="{{ 'multi' + $parent.$index }}" type="radio" ng-model="field.value" value="{{ alt.value }}" ng-required="field.required">
+                                        <input ng-disabled="read_only" name="{{ 'multi' + $parent.$index }}" type="radio" ng-model="field.value" value="{{ alt.value }}" ng-required="field.required">
                                         <br>
                                         {{ alt.label }}
                                     </td>
@@ -180,7 +181,7 @@
                 </div>
 
                 <div ng-if="field.field_type == 'multipleselection'">
-                    <fieldset ng-if="!field.horizontal">
+                    <fieldset ng-disabled="read_only" ng-if="!field.horizontal">
                         <legend>{{ field.label }}</legend>
                         {% endverbatim %}
                         <div class="error right" ng-show="form.submitted && subForm.$error.required">{% trans 'Please choose one' %}</div>
@@ -200,7 +201,7 @@
                             <tbody>
                                 <tr>
                                     <td ng-repeat="alt in field.alternatives track by $index">
-                                        <input name="{{ 'multiselect' + $parent.$index }}" type="checkbox" checkboxlist ng-model="alt.selected" ng-click="toggle(field.value, alt.value)" ng-required="field.required && field.value.length==0">
+                                        <input ng-disabled="read_only" name="{{ 'multiselect' + $parent.$index }}" type="checkbox" checkboxlist ng-model="alt.selected" ng-click="toggle(field.value, alt.value)" ng-required="field.required && field.value.length==0">
                                         <br>
                                         {{ alt.label }}
                                     </td>
@@ -216,7 +217,7 @@
                     <div class="error right" ng-show="form.submitted && subForm.email.$error.email">{% trans 'Please input a valid e-mail address' %}</div>
                     {% verbatim %}
                     <label for="email"><strong>{{ field.label }}</strong></label>
-                    <input name="email" type="email" ng-model="field.value" ng-required="field.required" liveinput>
+                    <input ng-disabled="read_only" name="email" type="email" ng-model="field.value" ng-required="field.required" liveinput>
                 </div>
 
                 <div ng-if="field.field_type == 'password'">
@@ -224,7 +225,7 @@
                     <div class="error right" ng-show="form.submitted && subForm.password.$error.required">{% trans 'This field is required' %}</div>
                     {% verbatim %}
                     <label for="password"><strong>{{ field.label }}</strong></label>
-                    <input name="password" type="password" ng-model="field.value" ng-required="field.required">
+                    <input ng-disabled="read_only" name="password" type="password" ng-model="field.value" ng-required="field.required">
                 </div>
 
                 <div ng-if="field.field_type == 'hiddenfield'">
@@ -235,13 +236,13 @@
         </form>
 
         <form class="quiz" ng-if="pagelet.content_type == 'quiz'" novalidate>
-            <fieldset ng-repeat="question in pagelet.content track by $index" ng-form="subForm">
+            <fieldset ng-disabled="read_only" ng-repeat="question in pagelet.content track by $index" ng-form="subForm">
                 <legend>{{ question.question }}</legend>
                 {% endverbatim %}
                 <div class="error right" ng-show="form.submitted && subForm.$error.required">{% trans 'Please choose one' %}</div>
                 {% verbatim %}
                 <label ng-repeat="alt in question.alternatives track by $index">
-                    <input name="answer" type="radio" ng-model="question.value" ng-change="question.correct = alt.correct; question.response = alt.response" value="{{ alt.value }}" required>
+                    <input name="answer_{{ $parent.$index }}" type="radio" ng-model="question.value" ng-change="question.correct = alt.correct; question.response = alt.response" value="{{ alt.value }}" required>
                     {{ alt.label }}
                 </label>
                 <div ng-show="subForm.$dirty">{{ question.response }}</div>

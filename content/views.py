@@ -63,6 +63,7 @@ def get_page(request):
         page.stacked = False
         page.is_chapter = page.chapter is not None
         page.chapters = page.render_section(request.user)
+        page.read_only = False
 
     # engine selection
     else:
@@ -81,7 +82,8 @@ def get_page(request):
         'dead_end': page.dead_end,
         'stacked': page.stacked,
         'is_chapter': page.is_chapter,
-        'chapters': page.chapters
+        'chapters': page.chapters,
+        'read_only': page.read_only
     }
 
     return JsonResponse(response)

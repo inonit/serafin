@@ -260,6 +260,7 @@ class Engine(object):
             page.stacked = self.is_stacked()
             page.is_chapter = page.chapter is not None
             page.chapters = page.render_section(self.user)
+            page.read_only = False
 
             if 'node' in self.user.data and self.user.data['node'] in self.nodes:
                 # TODO: Better fix
@@ -535,6 +536,7 @@ class Engine(object):
 
             page.dead_end = True
             page.stacked = False
+            page.read_only = True
             page.is_chapter = page.chapter is not None
             page.chapters = page.render_section(self.user)
 

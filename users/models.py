@@ -230,8 +230,7 @@ class User(AbstractBaseUser, PermissionsMixin):
     def register_chapter_to_page(self, page):
         if page.chapter is not None:
             key = User._get_chapter_key(page.chapter.id)
-            if key not in self.data or not self.data[key]:
-                self.data[key] = page.id
+            self.data[key] = page.id
 
     def get_page_id_by_chapter(self, chapter_id):
         if not str(chapter_id).isnumeric():

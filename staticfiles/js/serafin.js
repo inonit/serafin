@@ -95,6 +95,7 @@ serafin.controller('pages', ['$scope', '$http', function(scope, http) {
             scope.is_chapter = response.data.is_chapter;
             scope.chapters = response.data.chapters;
             scope.form.submitted = false;
+            scope.read_only = response.data.read_only;
             window.scrollTo(0,0);
         }, reason => {
             scope.error = reason.data;
@@ -104,7 +105,7 @@ serafin.controller('pages', ['$scope', '$http', function(scope, http) {
 
     scope.chapter_url = function (chapter_id) {
         var data = read_form_data();
-        if (Object.entries(data).length > 0) {
+        if (!scope.read_only && Object.entries(data).length > 0) {
              var answer = confirm("Are you sure you want to leave?");
              if (!answer) {
                  return;
@@ -130,6 +131,7 @@ serafin.controller('pages', ['$scope', '$http', function(scope, http) {
             scope.stacked = response.data.stacked;
             scope.is_chapter = response.data.is_chapter;
             scope.chapters = response.data.chapters;
+            scope.read_only = response.data.read_only;
             scope.form.submitted = false;
             window.scrollTo(0,0);
         }, reason => {

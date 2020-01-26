@@ -311,7 +311,7 @@ class Page(Content):
 
             if pagelet['content_type'] in ['toggleset', 'togglesetmulti']:
                 content = pagelet.get('content')
-                variableName = content.get('variable_name')
+                variable_name = content.get('variable_name')
                 if 'label' in content:
                     label = content.get('label')
                     label = variable_replace(user, label)
@@ -331,7 +331,7 @@ class Page(Content):
                             value = alt.get('value')
                             alt['value'] = self.check_value(user, value, "")
                             # set previously selected value for togglesetmulti and toggleset
-                            checked = is_it_checked(user, variableName, alt['value'])
+                            checked = is_it_checked(user, variable_name, alt['value'])
                             if pagelet['content_type'] == 'togglesetmulti':
                                 alt['selected'] = checked
                             if checked:
@@ -382,27 +382,37 @@ class Page(Content):
                         upper_limit = field.get('upper_limit')
                         field['upper_limit'] = self.check_value(user, upper_limit, field["field_type"])
 
+                    if field['field_type'] in ['numeric', 'string', 'text', 'email']:
+                        user_data = user.data
+                        variable_value = user_data.get(field.get('variable_name'))
+                        if variable_value is not None:
+                            field['value'] = self.check_value(user, variable_value, field['field_type'])
+
             if pagelet['content_type'] == 'quiz':
                 content_array = pagelet.get('content')
-                content = content_array[0]
-                if 'question' in content:
-                    question = content.get('question')
-                    question = variable_replace(user, question)
-                    content['question'] = question
+                for content in content_array:
+                    if 'question' in content:
+                        question = content.get('question')
+                        question = variable_replace(user, question)
+                        content['question'] = question
 
-                if 'alternatives' in content:
-                    for alt in content['alternatives']:
-                        if 'label' in alt:
-                            label = alt.get('label')
-                            label = variable_replace(user, label)
-                            alt['label'] = label
-                        if 'value' in alt:
-                            value = alt.get('value')
-                            alt['value'] = self.check_value(user, value, "")
-                        if 'response' in alt:
-                            response = alt.get('response')
-                            response = variable_replace(user, response)
-                            alt['response'] = response
+                    if 'alternatives' in content:
+                        for alt in content['alternatives']:
+                            if 'label' in alt:
+                                label = alt.get('label')
+                                label = variable_replace(user, label)
+                                alt['label'] = label
+                            if 'value' in alt:
+                                value = alt.get('value')
+                                alt['value'] = self.check_value(user, value, "")
+                                checked = is_it_checked(user, content['variable_name'], alt['value'])
+                                if checked:
+                                    content['value'] = alt['value']
+
+                            if 'response' in alt:
+                                response = alt.get('response')
+                                response = variable_replace(user, response)
+                                alt['response'] = response
 
             if pagelet['content_type'] == 'conditionalset':
                 pagelet['variables'] = {}
