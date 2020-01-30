@@ -275,7 +275,8 @@ class Engine(object):
 
             self.user.data['session'] = self.session.id
             self.user.data['node'] = node_id
-            self.user.register_chapter_to_page(page)
+            if self.user.is_authenticated:
+                self.user.register_chapter_to_page(page)
             self.user.save()
 
             return page
