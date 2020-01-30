@@ -227,6 +227,10 @@ class User(AbstractBaseUser, PermissionsMixin):
     def _get_chapter_key(chapter_id):
         return "chapter_%s" % str(chapter_id)
 
+    @staticmethod
+    def _get_module_key(module_id):
+        return "module_%s" % str(module_id)
+
     def register_chapter_to_page(self, page):
         if page.chapter is not None:
             key = User._get_chapter_key(page.chapter.id)
@@ -242,6 +246,29 @@ class User(AbstractBaseUser, PermissionsMixin):
         if key in self.data:
             return self.data[key]
         return None
+
+    def is_module_enabled(self, module_id):
+        if not str(module_id).isnumeric():
+            return False
+        module_id = int(module_id)
+        if module_id <= 0:
+            return False
+        key = User._get_module_key(module_id)
+        return key is self.data
+
+    def get_modules(self):
+        result = []
+        current_site = Site.objects.get_current()
+        if hasattr(current_site, 'program'):
+            program_modules = current_site.program.module_set.all()
+            for module in program_modules:
+                result.append({"name": module.display_title,
+                               "id": module.id,
+                               "is_enabled": self.is_module_enabled(module.id)})
+        else:
+            return []
+
+        return result
 
     def __str__(self):
         return '%s' % self.id

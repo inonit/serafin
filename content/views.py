@@ -13,6 +13,41 @@ from system.engine import Engine
 import json
 
 
+def main_page(request):
+
+    session_id = request.user.data.get('session')
+
+    if not session_id or not request.user.is_authenticated:
+        return HttpResponseRedirect(settings.HOME_URL)
+
+    session = get_object_or_404(Session, id=session_id)
+    context = {
+        'api': reverse('portal'),
+        'program': session.program,
+    }
+    return render(request, 'portal.html', context)
+
+
+def get_portal(request):
+    if not request.is_ajax():
+        return new_index(request)
+
+    modules = request.user.get_modules()
+    engine = Engine(user=request.user, context={}, is_interactive=True)
+    page = engine.run()
+
+    current_module_title = page.chapter.module.display_title if page.chapter and page.chapter.module else None
+    current_module_id = page.chapter.module.id if page.chapter and page.chapter.module else None
+    context = {
+        'modules': modules,
+        'modules_finished': len([m for m in modules if m['is_enabled'] == 1]) - (0 if current_module_id else 1),
+        'current_page_title': page.display_title,
+        'current_module_title': current_module_title,
+        'current_module_id': current_module_id
+    }
+
+    return JsonResponse(context)
+
 def home(request):
     return render(request, 'home.html', {})
 

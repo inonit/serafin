@@ -314,3 +314,34 @@ serafin.directive('menu', ['$timeout', function(timeout) {
         }
     }
 }]);
+
+const newserafin = angular.module('newserafin', []);
+
+newserafin.config(['$httpProvider', function(httpProvider) {
+    httpProvider.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
+    httpProvider.defaults.headers.post['X-CSRFToken'] = csrf_token;
+    if (!httpProvider.defaults.headers.get) {
+        httpProvider.defaults.headers.get = {};
+    }
+    // disable IE AJAX request caching
+    httpProvider.defaults.headers.get['If-Modified-Since'] = '0';
+}]);
+
+newserafin.run(['$rootScope', '$http', function(scope, http) {
+    scope.modules_finished = -1
+
+    if (api) {
+        http.get(api + window.location.search).then(response => {
+            scope.error = null;
+            scope = Object.assign(scope, response.data);
+        }, reason => {
+            scope.error = reason.data;
+            scope.page = {};
+        });
+    }
+
+}]);
+
+newserafin.controller('newindex', ['$scope', '$http', function (scope, http) {
+
+}]);
