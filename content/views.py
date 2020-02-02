@@ -48,6 +48,7 @@ def get_portal(request):
 
     return JsonResponse(context)
 
+
 def home(request):
     return render(request, 'home.html', {})
 
@@ -78,7 +79,12 @@ def get_session(request):
         'api': reverse('content_api'),
     }
 
-    return render(request, 'session.html', context)
+    template = 'session.html'
+    if request.GET.get("new") == '1':
+        template = 'sessionnew.html'
+        context["stylesheet"] = 'css/style-nalokson-rtl.css'
+
+    return render(request, template, context)
 
 
 def get_page(request):
@@ -150,7 +156,7 @@ def content_route(request, route_slug=None):
         'api': reverse('content_api'),
     }
 
-    return render(request, 'session.html', context)
+    return render(request, 'sessessionnew.html', context)
 
 
 @staff_member_required

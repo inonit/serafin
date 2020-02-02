@@ -1,4 +1,4 @@
-var serafin = angular.module('serafin', ['serafinTopbarMenu']);
+var serafin = angular.module('serafin', []);
 
 serafin.config(['$httpProvider', function(httpProvider) {
     httpProvider.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
@@ -272,6 +272,11 @@ serafin.directive('livereplace', ['$compile', function(compile) {
 }]);
 
 serafin.directive('richtextlivereplace', ['$compile', function(compile) {
+
+    const floatImageHandling = function (html) {
+        return html;
+    };
+
     return {
         restrict: 'A',
         controller: 'pages',
@@ -283,7 +288,7 @@ serafin.directive('richtextlivereplace', ['$compile', function(compile) {
             scope.$watch('text', function() {
                 var template = scope.text;
                 if (template) {
-                    template = template.replace(/\\n/g, '<br/>');
+                    template = floatImageHandling(template);
                     var compiled = compile(template)(scope);
                     element.html('');
                     element.append(compiled);

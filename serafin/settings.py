@@ -438,6 +438,8 @@ RESERVED_VARIABLES = [
 
 STYLESHEETS = [
     {"name": _("Default stylesheet"), "path": "css/style.css"},
+    {"name": _("New-Nalokson"), "path": "css/style-nalokson-ltr.css"},
+    {"name": _("RTL-Nalokson"), "path": "css/style-nalokson-rtl.css"},
     {"name": _("Nalokson"), "path": "css/style-nalokson.css"},
     {"name": _("Miksmaster"), "path": "css/style-miksmaster.css"},
     {"name": _("Miksmaster alternate"), "path": "css/style-miksmaster-alt.css"},
