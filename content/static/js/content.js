@@ -235,33 +235,6 @@ content.directive('summernoteRichtext', ['$timeout', function (timeout) {
                 }
             };
 
-             $.extend($.summernote.plugins, {
-                 /**
-                  *  @param {Object} context - context object has status of editor.
-                  */
-                 'customFloat': function (context) {
-                     const self = this;
-
-                     // ui has renders to build ui elements
-                      $editor   = context.layoutInfo.editor;
-                      $editable = context.layoutInfo.editable;
-
-                     const floatMe = function (value) {
-                         let $target = $(this.$editable.data('target'));
-                          $target.toggleClass('note-float-left', value === 'left');
-                          $target.toggleClass('mr-3',  value === 'left');
-                          $target.toggleClass('note-float-right', value === 'right');
-                          $target.toggleClass('ml-3',  value === 'right');
-                          $target.css('float', (value === 'none' ? '' : value));
-                          $target.addClass('rounded');
-                     };
-
-                    context.modules.editor.floatMe = context.modules.editor.wrapCommand(function (value) {
-                        floatMe(value)
-                    });
-                 }
-             });
-
              elem.summernote({
                  tabsize: 2,
                  height: 150,

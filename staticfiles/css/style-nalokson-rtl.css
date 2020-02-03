@@ -521,3 +521,13 @@ div.error {
 .toggled-rtl {
     display: block !important;
 }
+
+img.note-float-right {
+    margin-left: 1.5rem !important;
+    border-radius: .25rem!important;
+}
+
+img.note-float-left {
+    margin-left: 1.5rem !important;
+    border-radius: .25rem!important;
+}
