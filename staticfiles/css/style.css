@@ -236,6 +236,7 @@ fieldset label:last-child {
 }
 
 fieldset legend,
+.alt-text,
 .table .caption,
 label {
     font-size: 85%;

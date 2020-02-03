@@ -45,6 +45,62 @@ serafin.run(['$rootScope', '$http', function(scope, http) {
 serafin.controller('pages', ['$scope', '$http', function(scope, http) {
     var timerStart = new Date();
 
+    // api call to find user's country and set conditons on phone field in registration form
+    scope.getphonelocation=function(){
+
+      var request = {
+       method: 'GET',
+       url: 'http://ip-api.com/json/',
+       headers: {
+         'If-Modified-Since': undefined
+       },
+      }
+      http(request).success(function(response) {
+        var country = response.country ? (response.country).toLowerCase() : "";
+        switch (country) {
+          case "norway":
+            scope.countrycode="+47";
+            scope.minTel = 11;
+            scope.maxTel = 11;
+            break;
+          case "denmark":
+            scope.countrycode="+45";
+            scope.minTel = 11;
+            scope.maxTel = 11;
+            break;
+          case "iceland":
+            scope.minTel = 11;
+            scope.maxTel = 11;
+            scope.countrycode="+354";
+            break;
+          case "sweden":
+            scope.minTel = 12;
+            scope.maxTel = 12;
+            scope.countrycode="+46";
+            break;
+          case "finland":
+            scope.minTel = 13;
+            scope.maxTel = 14;
+            scope.countrycode="+358";
+            break;
+          case "israel":
+            scope.minTel = 13;
+            scope.maxTel = 13;
+            scope.countrycode="+972";
+            break;
+          default:
+            scope.minTel = 11;
+            scope.maxTel = 11;
+            scope.countrycode="";
+        }
+      }).error(function(response) {
+          // default
+          scope.minTel = 11;
+          scope.maxTel = 11;
+          scope.countrycode="";
+      });
+    }
+
     scope.next = function() {
         scope.form.submitted = true;
         if (scope.form.$invalid) {
@@ -223,6 +279,24 @@ serafin.directive('livereplace', ['$compile', function(compile) {
             })
         }
     };
+}]);
+
+serafin.directive('phonerestrictions', ['$timeout', function(timeout) {
+    return {
+        restrict: 'A',
+        require: 'ngModel',
+        controller: 'pages',
+        link: function(scope, element, attrs,ngModel) {
+            scope.$watch("countrycode", function(){
+                if(scope.countrycode){
+                  timeout(function() {
+                    ngModel.$setViewValue(scope.countrycode);
+                    ngModel.$render();
+                  });
+                }
+            });
+        }
+    }
 }]);
 
 serafin.directive('menu', ['$timeout', function(timeout) {

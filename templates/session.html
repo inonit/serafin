@@ -30,12 +30,14 @@
                 {% endverbatim %}
                 <div class="error right" ng-show="form.submitted && subForm.$error.required">{% trans 'Please choose one' %}</div>
                 {% verbatim %}
-                <label ng-repeat="alt in pagelet.content.alternatives track by $index">
-                    <input name="answer" type="radio" ng-model="pagelet.content.value" value="{{ alt.value }}" required>
-                    {{ alt.label }}
-                </label>
-                <div ng-repeat="alt in pagelet.content.alternatives track by $index" ng-show="subForm.$dirty && pagelet.content.value == alt.value">
-                    {{ alt.text }}
+                <div ng-repeat="alt in pagelet.content.alternatives track by $index">
+                  <label>
+                      <input name="answer" type="radio" ng-model="pagelet.content.value" value="{{ alt.value }}" required>
+                      {{ alt.label }}
+                  </label>
+                  <div class="alt-text" ng-show="subForm.$dirty && pagelet.content.value == alt.value">
+                      {{ alt.text }}
+                  </div>
                 </div>
             </fieldset>
             <div ng-form="subForm" ng-if="pagelet.content.horizontal" class="table">
@@ -66,11 +68,16 @@
                 {% endverbatim %}
                 <div class="error right" ng-show="form.submitted && subForm.$error.required">{% trans 'Please choose one' %}</div>
                 {% verbatim %}
-                <label ng-repeat="alt in pagelet.content.alternatives track by $index">
-                    <input name="answer" type="checkbox" checkboxlist ng-model="alt.selected" ng-click="toggle(pagelet.content.value, alt.value)" ng-required="field.required">
-                    {{ alt.label }}
-                </label>
-                <div>{{ pagelet.content.text }}</div>
+                <div ng-repeat="alt in pagelet.content.alternatives track by $index">
+                  <label>
+                      <input name="answer" type="checkbox" checkboxlist ng-model="alt.selected" ng-click="toggle(pagelet.content.value, alt.value)" ng-required="field.required">
+                      {{ alt.label }}
+                  </label>
+                  <div class="alt-text" ng-show="pagelet.content.value.indexOf(alt.value) != -1 ">
+                    {{ alt.text }}
+                  </div>
+                </div>
+
             </fieldset>
             <div ng-form="subForm" ng-if="pagelet.content.horizontal" class="table">
                 {% endverbatim %}
@@ -118,11 +125,12 @@
                     <div class="error right" ng-show="form.submitted && field.variable_name !== 'phone' && subForm.field.$error.required">{% trans 'This field is required' %}</div>
                     <div class="error right" ng-show="form.submitted && field.variable_name === 'phone' && subForm.phone.$error.required">{% trans 'This field is required' %}</div>
                     <div class="error right" ng-show="form.submitted && subForm.phone.$error.minlength">{% trans 'Your phone number is too short' %}</div>
+                    <div class="error right" ng-show="form.submitted && subForm.phone.$error.maxlength">{% trans 'Your phone number is too  big' %}</div>
                     <div class="error right" ng-show="form.submitted && subForm.phone.$error.pattern">{% trans '+Country code then number, no other characters, e.g. "+4798765432"' %}</div>
                     {% verbatim %}
                     <label for="field"><strong>{{ field.label }}</strong></label>
                     <input ng-if="field.variable_name !== 'phone'" name="field" type="text" ng-model="field.value" ng-required="field.required" liveinput>
-                    <input ng-if="field.variable_name === 'phone'" name="phone" type="text" ng-model="field.value" ng-required="field.required" ng-minlength="11" ng-pattern="/^\+\d+$/" liveinput>
+                    <input ng-if="field.variable_name === 'phone'" name="phone" type="text" ng-model="field.value" phonerestrictions ng-init="getphonelocation()" ng-required="field.required" ng-minlength="minTel" ng-maxlength="maxTel" ng-pattern="/^\+\d+$/" liveinput>
                 </div>
 
                 <div ng-if="field.field_type == 'text'">
@@ -225,11 +233,13 @@
                 {% endverbatim %}
                 <div class="error right" ng-show="form.submitted && subForm.$error.required">{% trans 'Please choose one' %}</div>
                 {% verbatim %}
-                <label ng-repeat="alt in question.alternatives track by $index">
-                    <input name="answer" type="radio" ng-model="question.value" ng-change="question.correct = alt.correct; question.response = alt.response" value="{{ alt.value }}" required>
-                    {{ alt.label }}
-                </label>
-                <div ng-show="subForm.$dirty">{{ question.response }}</div>
+                <div ng-repeat="alt in question.alternatives track by $index">
+                  <label>
+                      <input name="answer" type="radio" ng-model="question.value" ng-change="question.correct = alt.correct; question.response = alt.response" value="{{ alt.value }}" required>
+                      {{ alt.label }}
+                  </label>
+                  <div class="alt-text" ng-show="subForm.$dirty && question.value == alt.value">{{ alt.response }}</div>
+                </div>
             </fieldset>
         </form>
 

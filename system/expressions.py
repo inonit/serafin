@@ -74,6 +74,15 @@ def str_trim_float(value):
         return value
     return unicode(value)
 
+def stringSize(value):
+    """ get value of type unicode - return the number of character in a string """
+
+    if value == "VariableNotExist" or isinstance(value, float) or isinstance(value, list):
+        return -1
+    try:
+        return len(value)
+    except:
+        return -1
 
 class Parser(object):
     """
@@ -106,6 +115,7 @@ class Parser(object):
         "abs": abs, "trunc": lambda a: int(a), "round": round,
         "sign": lambda a: abs(a) > float_info.epsilon and cmp(a, 0) or 0,
         "str": str_trim_float,
+        "nbChar": stringSize,
     }
 
     constants = {
@@ -249,6 +259,24 @@ class Parser(object):
         if tokens and tokens[0] == "-":
             self.stack.append(self.UNARY)
 
+    def get_var_in_unicode(self, expr):
+        operator = expr.pop()
+
+        if operator and operator[0] == "$":
+            variable = operator[1:]
+            if variable in [v["name"] for v in self.reserved_variables]:
+                return unicode(variable)
+            if not self.user:
+                raise ParseException("No user instance set. Please initialize the %s "
+                                     "with a `user_obj` argument." % self.__class__.__name__)
+
+            if variable in self.userdata:
+                return unicode(self.userdata.get(variable))
+            else:
+                return unicode("VariableNotExist")
+        else:
+            return unicode(operator)
+
     def evaluate_stack(self, expr):
         """
         Recursively reads the next expression from the stack.
@@ -274,6 +302,8 @@ class Parser(object):
                 lhs = [self._get_return_value(item) for item in lhs]
             return self.operators[operator](lhs, rhs)
         elif operator in self.functions:
+            if operator == "nbChar":
+                return self.functions[operator](self.get_var_in_unicode(expr))
             return self.functions[operator](self.evaluate_stack(expr))
         elif operator in self.constants:
             return self.constants[operator]
