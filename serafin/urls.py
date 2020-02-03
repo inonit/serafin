@@ -20,7 +20,7 @@ urlpatterns = [
                url(r'^admin/import_text/', import_text),
                url(r'^admin/set_program/$', set_program, name="set_program"),
                url(r'^admin/set_stylesheet/$', set_stylesheet, name="set_stylesheet"),
-               url(r'^i18n/', i18n.i18n_patterns, name="set_language"),
+               url('i18n/', include('django.conf.urls.i18n')),
 
                url(r'^healthz$', lambda r: HttpResponse()),
 

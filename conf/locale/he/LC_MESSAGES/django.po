@@ -1,0 +1,1596 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2020-02-03 13:52+0200\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: .\content\templates\admin\content_widget.html:7
+msgid "+ Rich Text"
+msgstr ""
+
+#: .\content\templates\admin\content_widget.html:8
+#: .\content\templates\admin\content_widget.html:195
+msgid "+ Text"
+msgstr ""
+
+#: .\content\templates\admin\content_widget.html:9
+msgid "+ Toggle"
+msgstr ""
+
+#: .\content\templates\admin\content_widget.html:10
+msgid "+ Toggleset"
+msgstr ""
+
+#: .\content\templates\admin\content_widget.html:11
+msgid "+ Toggleset multi"
+msgstr ""
+
+#: .\content\templates\admin\content_widget.html:12
+msgid "+ Conditional set"
+msgstr ""
+
+#: .\content\templates\admin\content_widget.html:13
+#: .\plumbing\templates\admin\plumbing_widget.html:14
+msgid "+ Expression"
+msgstr ""
+
+#: .\content\templates\admin\content_widget.html:14
+msgid "+ Form"
+msgstr ""
+
+#: .\content\templates\admin\content_widget.html:15
+msgid "+ Quiz"
+msgstr ""
+
+#: .\content\templates\admin\content_widget.html:16
+msgid "+ Image"
+msgstr ""
+
+#: .\content\templates\admin\content_widget.html:17
+msgid "+ Video"
+msgstr ""
+
+#: .\content\templates\admin\content_widget.html:18
+msgid "+ Audio"
+msgstr ""
+
+#: .\content\templates\admin\content_widget.html:19
+msgid "+ File"
+msgstr ""
+
+#: .\content\templates\admin\content_widget.html:39
+#: .\content\templates\admin\content_widget.html:54
+#: .\content\templates\admin\content_widget.html:150
+#: .\content\templates\admin\text_content_widget.html:12
+msgid ""
+"This element uses <a href=\"http://markdown-guide.readthedocs.org/en/latest/"
+"basics.html\">Markdown</a>. For variable replacement use <code ng-non-"
+"bindable>&#123;&#123; var_name &#125;&#125;</code>. This markup will be "
+"replaced by the user's value for <code>var_name</code>, if available."
+msgstr ""
+
+#: .\content\templates\admin\content_widget.html:50
+msgid "Toggle text"
+msgstr ""
+
+#: .\content\templates\admin\content_widget.html:64
+#: .\content\templates\admin\content_widget.html:98
+#: .\content\templates\admin\content_widget.html:214
+#: .\content\templates\admin\content_widget.html:272
+#: .\content\templates\admin\content_widget.html:336
+msgid "Label"
+msgstr ""
+
+#: .\content\templates\admin\content_widget.html:68
+#: .\content\templates\admin\content_widget.html:162
+#: .\content\templates\admin\content_widget.html:218
+#: .\content\templates\admin\content_widget.html:310
+#: .\plumbing\templates\admin\plumbing_widget.html:93
+#: .\plumbing\templates\admin\plumbing_widget.html:110
+msgid "Variable name"
+msgstr ""
+
+#: .\content\templates\admin\content_widget.html:77
+#: .\content\templates\admin\content_widget.html:239
+msgid "Horizontal?"
+msgstr ""
+
+#: .\content\templates\admin\content_widget.html:83
+msgid "+ Item"
+msgstr ""
+
+#: .\content\templates\admin\content_widget.html:86
+#: .\content\templates\admin\content_widget.html:260
+#: .\content\templates\admin\content_widget.html:324
+msgid "Alternatives"
+msgstr ""
+
+#: .\content\templates\admin\content_widget.html:102
+#: .\content\templates\admin\content_widget.html:229
+#: .\content\templates\admin\content_widget.html:276
+#: .\content\templates\admin\content_widget.html:340
+msgid "Value"
+msgstr ""
+
+#: .\content\templates\admin\content_widget.html:108
+#: .\content\templates\admin\content_widget.html:129
+msgid "Text"
+msgstr ""
+
+#: .\content\templates\admin\content_widget.html:118
+msgid "+ Conditional text"
+msgstr ""
+
+#: .\content\templates\admin\content_widget.html:133
+#: .\content\templates\admin\content_widget.html:173
+#: .\plumbing\templates\admin\plumbing_widget.html:116
+#: .\plumbing\templates\admin\plumbing_widget.html:154
+msgid "Expression"
+msgstr ""
+
+#: .\content\templates\admin\content_widget.html:136
+#: .\content\templates\admin\content_widget.html:176
+#: .\plumbing\templates\admin\plumbing_widget.html:119
+#: .\plumbing\templates\admin\plumbing_widget.html:157
+msgid "Start writing..."
+msgstr ""
+
+#: .\content\templates\admin\content_widget.html:137
+#: .\content\templates\admin\content_widget.html:177
+#: .\plumbing\templates\admin\plumbing_widget.html:120
+#: .\plumbing\templates\admin\plumbing_widget.html:158
+msgid "Preview"
+msgstr ""
+
+#: .\content\templates\admin\content_widget.html:139
+#: .\content\templates\admin\content_widget.html:179
+#: .\plumbing\templates\admin\plumbing_widget.html:122
+#: .\plumbing\templates\admin\plumbing_widget.html:160
+msgid "Serafin Expression Syntax"
+msgstr ""
+
+#: .\content\templates\admin\content_widget.html:193
+msgid "+ Numeric"
+msgstr ""
+
+#: .\content\templates\admin\content_widget.html:194
+msgid "+ String"
+msgstr ""
+
+#: .\content\templates\admin\content_widget.html:196
+msgid "+ Multiple choice"
+msgstr ""
+
+#: .\content\templates\admin\content_widget.html:197
+msgid "+ Multiple selection"
+msgstr ""
+
+#: .\content\templates\admin\content_widget.html:198
+#: .\plumbing\templates\admin\plumbing_widget.html:15
+msgid "+ Email"
+msgstr ""
+
+#: .\content\templates\admin\content_widget.html:199
+msgid "+ Password"
+msgstr ""
+
+#: .\content\templates\admin\content_widget.html:234
+msgid "Required?"
+msgstr ""
+
+#: .\content\templates\admin\content_widget.html:246
+msgid "Lower limit"
+msgstr ""
+
+#: .\content\templates\admin\content_widget.html:250
+msgid "Upper limit"
+msgstr ""
+
+#: .\content\templates\admin\content_widget.html:257
+#: .\content\templates\admin\content_widget.html:321
+msgid "+ Alternative"
+msgstr ""
+
+#: .\content\templates\admin\content_widget.html:290
+msgid "+ Question"
+msgstr ""
+
+#: .\content\templates\admin\content_widget.html:302
+#: .\content\templates\admin\content_widget.html:306
+msgid "Question"
+msgstr ""
+
+#: .\content\templates\admin\content_widget.html:345
+msgid "Correct?"
+msgstr ""
+
+#: .\content\templates\admin\content_widget.html:351
+msgid "Response"
+msgstr ""
+
+#: .\content\templates\admin\content_widget.html:365
+msgid "Alt title"
+msgstr ""
+
+#: .\content\templates\admin\content_widget.html:369
+#: .\content\templates\admin\content_widget.html:379
+#: .\content\templates\admin\content_widget.html:389
+#: .\content\templates\admin\content_widget.html:399
+#: .\templates\admin\sitetree\tree\change_form.html:38
+msgid "Title"
+msgstr ""
+
+#: .\content\templates\admin\sms_content_widget.html:11
+msgid "characters used"
+msgstr ""
+
+#: .\content\templates\expression_syntax.html:21
+msgid ""
+"\n"
+"    The Serafin expression \"mini-language\" has a predefined set of "
+"operators\n"
+"    and functions which can be used to write simple expressions which can "
+"help\n"
+"    making decisions in user programs. Click the links below to expand "
+"syntax\n"
+"    descriptions.\n"
+"  "
+msgstr ""
+
+#: .\content\templates\expression_syntax.html:34
+#: .\content\templates\expression_syntax.html:39
+msgid "Grouping"
+msgstr ""
+
+#: .\content\templates\expression_syntax.html:41
+msgid "Expression can be grouped by putting them in parentheses."
+msgstr ""
+
+#: .\content\templates\expression_syntax.html:42
+msgid "Evaluation order"
+msgstr ""
+
+#: .\content\templates\expression_syntax.html:43
+msgid ""
+"\n"
+"            <p>\n"
+"              Normally, expressions will be evaluated left-to-right. For "
+"example the expression\n"
+"              <span class=\"label label-info\">1 + 1 * 2</span> will return "
+"the value 3,\n"
+"              because it is evaluated like <span class=\"label label-info"
+"\">1 + (1 * 2)</span>.\n"
+"              By grouping expressions in parentheses you can control the "
+"evaluation order.\n"
+"            </p>\n"
+"            <dl class=\"dl-horizontal column35pst\">\n"
+"              <dt><span class=\"label label-info\">1 + 1 * 2 = 3</span></"
+"dt>\n"
+"              <dd>Because of default left-to-right evaluation. Evaluates "
+"like\n"
+"                <span class=\"label label-info\">1 + (1 * 2)</span></dd>\n"
+"              <dt><span class=\"label label-info\">(1 + 1) * 2 = 4</span></"
+"dt>\n"
+"              <dd>Because it is explicitly grouped in parentheses.</dd>\n"
+"            </dl>\n"
+"          "
+msgstr ""
+
+#: .\content\templates\expression_syntax.html:67
+#: .\content\templates\expression_syntax.html:72
+msgid "Variables"
+msgstr ""
+
+#: .\content\templates\expression_syntax.html:73
+msgid ""
+"\n"
+"            Variables must be prefixed with <span class=\"label label-info\">"
+"$</span> like for\n"
+"            example <span class=\"label label-info\">$MyLittlePony</span>. "
+"Any variable must\n"
+"            be pre-defined and will be looked up whenever encountered.\n"
+"            If a variable is not found for the current user (on evaluation "
+"time),\n"
+"            it is evaluated as <span class=\"label label-info\">False</"
+"span>.\n"
+"          "
+msgstr ""
+
+#: .\content\templates\expression_syntax.html:81
+msgid "Reserved variables"
+msgstr ""
+
+#: .\content\templates\expression_syntax.html:82
+msgid "The following list of variables is reserved by the system"
+msgstr ""
+
+#: .\content\templates\expression_syntax.html:85
+msgid ""
+"Returns the current weekday as number, where Monday is 1 and Sunday is 7"
+msgstr ""
+
+#: .\content\templates\expression_syntax.html:88
+msgid "Returns the current time in ISO format, i.e. "
+msgstr ""
+
+#: .\content\templates\expression_syntax.html:92
+msgid "Returns the current date in ISO format, i.e. "
+msgstr ""
+
+#: .\content\templates\expression_syntax.html:96
+msgid "Returns True if the user has an active account"
+msgstr ""
+
+#: .\content\templates\expression_syntax.html:99
+msgid "Returns True if the user is enrolled with the current program"
+msgstr ""
+
+#: .\content\templates\expression_syntax.html:111
+#: .\content\templates\expression_syntax.html:116
+msgid "Operators"
+msgstr ""
+
+#: .\content\templates\expression_syntax.html:117
+msgid ""
+"\n"
+"            We have two set of expression types; simple arithmetic "
+"expressions\n"
+"            and boolean expressions. Expression evaluation between mixed "
+"types are not\n"
+"            supported, and will either throw an error or yield incorrect or "
+"unpredictable results.\n"
+"          "
+msgstr ""
+
+#: .\content\templates\expression_syntax.html:123
+msgid "Arithmetic operators"
+msgstr ""
+
+#: .\content\templates\expression_syntax.html:127
+msgid "Addition"
+msgstr ""
+
+#: .\content\templates\expression_syntax.html:128
+msgid "Subtraction"
+msgstr ""
+
+#: .\content\templates\expression_syntax.html:129
+msgid "Division"
+msgstr ""
+
+#: .\content\templates\expression_syntax.html:134
+msgid "Multiplication"
+msgstr ""
+
+#: .\content\templates\expression_syntax.html:135
+msgid "Factorisation"
+msgstr ""
+
+#: .\content\templates\expression_syntax.html:136
+msgid "Modulus"
+msgstr ""
+
+#: .\content\templates\expression_syntax.html:140
+msgid "Boolean and comparison operators"
+msgstr ""
+
+#: .\content\templates\expression_syntax.html:144
+msgid "Equal"
+msgstr ""
+
+#: .\content\templates\expression_syntax.html:145
+msgid "Less than"
+msgstr ""
+
+#: .\content\templates\expression_syntax.html:146
+msgid "Greater than"
+msgstr ""
+
+#: .\content\templates\expression_syntax.html:147
+msgid "AND"
+msgstr ""
+
+#: .\content\templates\expression_syntax.html:152
+msgid "Contains"
+msgstr ""
+
+#: .\content\templates\expression_syntax.html:153
+msgid "Not equal"
+msgstr ""
+
+#: .\content\templates\expression_syntax.html:154
+msgid "Less or equal"
+msgstr ""
+
+#: .\content\templates\expression_syntax.html:155
+msgid "Greater or equal"
+msgstr ""
+
+#: .\content\templates\expression_syntax.html:156
+msgid "OR"
+msgstr ""
+
+#: .\content\templates\expression_syntax.html:161
+msgid ""
+"\n"
+"              Expressions evaluated using boolean or comparison operators "
+"will return either\n"
+"              <span class=\"label label-info\">true</span> or <span class="
+"\"label label-info\">false</span> value.\n"
+"              For truth value testing, use the built-in <span class=\"label "
+"label-info\">True</span> or\n"
+"              <span class=\"label label-info\">False</span>.\n"
+"            "
+msgstr ""
+
+#: .\content\templates\expression_syntax.html:171
+#: .\content\templates\expression_syntax.html:172
+#: .\content\templates\expression_syntax.html:173
+#: .\content\templates\expression_syntax.html:196
+#: .\content\templates\expression_syntax.html:197
+#: .\content\templates\expression_syntax.html:198
+#: .\content\templates\expression_syntax.html:199
+#: .\content\templates\expression_syntax.html:224
+#: .\content\templates\expression_syntax.html:225
+msgid "Returns the value"
+msgstr ""
+
+#: .\content\templates\expression_syntax.html:177
+msgid ""
+"\n"
+"              All falsey values; <span class=\"label label-info\">False</"
+"span>,\n"
+"              <span class=\"label label-info\">None</span>, <span class="
+"\"label label-info\">$missing</span> variables,\n"
+"              <span class=\"label label-info\">0</span>, <span class=\"label "
+"label-info\">[ ]</span>,\n"
+"              <span class=\"label label-info\">\"\"</span> and <span class="
+"\"label label-info\">''</span>,\n"
+"              are handled as <span class=\"label label-info\">False</span>.\n"
+"            "
+msgstr ""
+
+#: .\content\templates\expression_syntax.html:186
+msgid ""
+"\n"
+"              Time and date can be compared with boolean operators, either "
+"by using a\n"
+"              <span class=\"label label-info\">$myTimeOrDate</span> "
+"variable, or writing the time or date value\n"
+"              directly. If writing the value directly, make sure it's passed "
+"as a\n"
+"              <span class=\"label label-info\">string value</span> "
+"(encapsulate the value in single or double quotes).\n"
+"            "
+msgstr ""
+
+#: .\content\templates\expression_syntax.html:212
+#: .\content\templates\expression_syntax.html:217
+msgid "Functions"
+msgstr ""
+
+#: .\content\templates\expression_syntax.html:218
+msgid ""
+"\n"
+"            Some basic functions are supported. Functions are applied by "
+"passing a value or\n"
+"            an expression which returns a value to it.\n"
+"          "
+msgstr ""
+
+#: .\content\templates\expression_syntax.html:222
+msgid "Examples"
+msgstr ""
+
+#: .\content\templates\expression_syntax.html:231
+msgid "Sine"
+msgstr ""
+
+#: .\content\templates\expression_syntax.html:234
+msgid "Cosines"
+msgstr ""
+
+#: .\content\templates\expression_syntax.html:237
+msgid "Tangents"
+msgstr ""
+
+#: .\content\templates\expression_syntax.html:240
+msgid "Absolute value"
+msgstr ""
+
+#: .\content\templates\expression_syntax.html:247
+msgid "Truncate"
+msgstr ""
+
+#: .\content\templates\expression_syntax.html:250
+msgid "Round"
+msgstr ""
+
+#: .\content\templates\expression_syntax.html:253
+msgid "Sign digit"
+msgstr ""
+
+#: .\content\templates\expression_syntax.html:259
+msgid ""
+"\n"
+"                The <span class=\"label label-info\">sign</span> function "
+"returns\n"
+"                <span class=\"label label-info\">-1</span> if passed a "
+"negative value,\n"
+"                <span class=\"label label-info\">0</span> if passed zero "
+"and\n"
+"                <span class=\"label label-info\">1</span> if passed a "
+"positive value.\n"
+"              "
+msgstr ""
+
+#: .\content\templates\expression_syntax.html:276
+#: .\content\templates\expression_syntax.html:281
+msgid "Constants"
+msgstr ""
+
+#: .\content\templates\expression_syntax.html:282
+msgid "Supported constants are"
+msgstr ""
+
+#: .\content\templates\expression_syntax.html:285
+msgid "and"
+msgstr ""
+
+#: .\content\templates\expression_syntax.html:290
+#: .\content\templates\expression_syntax.html:293
+msgid "provides the mathematical constant"
+msgstr ""
+
+#: .\content\templates\expression_syntax.html:291
+#: .\content\templates\expression_syntax.html:294
+msgid "to available precision"
+msgstr ""
+
+#: .\content\templates\expression_syntax.html:306
+msgid "Close"
+msgstr ""
+
+#: .\events\admin.py:24
+msgid "Actor"
+msgstr ""
+
+#: .\events\models.py:12 .\tasker\models.py:54
+#: .\users\templates\admin\userlog.html:7
+msgid "time"
+msgstr ""
+
+#: .\events\models.py:13 .\tasker\models.py:50
+#: .\users\templates\admin\userlog.html:8
+msgid "domain"
+msgstr ""
+
+#: .\events\models.py:14
+msgid "actor"
+msgstr ""
+
+#: .\events\models.py:15 .\system\models.py:49
+#: .\users\templates\admin\userlog.html:9
+msgid "variable"
+msgstr ""
+
+#: .\events\models.py:16 .\users\templates\admin\userlog.html:10
+msgid "pre value"
+msgstr ""
+
+#: .\events\models.py:17 .\users\templates\admin\userlog.html:11
+msgid "post value"
+msgstr ""
+
+#: .\events\models.py:23
+msgid "event"
+msgstr ""
+
+#: .\events\models.py:24
+msgid "events"
+msgstr ""
+
+#: .\events\signals.py:42
+msgid "Other"
+msgstr ""
+
+#: .\events\signals.py:44
+msgid "Mobile"
+msgstr ""
+
+#: .\events\signals.py:46
+msgid "Tablet"
+msgstr ""
+
+#: .\events\signals.py:48
+msgid "PC"
+msgstr ""
+
+#: .\events\templates\admin\events\event\change_list.html:9
+msgid "Export"
+msgstr ""
+
+#: .\plumbing\templates\admin\plumbing_widget.html:11
+msgid "+ Page"
+msgstr ""
+
+#: .\plumbing\templates\admin\plumbing_widget.html:12
+msgid "+ Session"
+msgstr ""
+
+#: .\plumbing\templates\admin\plumbing_widget.html:13
+msgid "+ Background Session"
+msgstr ""
+
+#: .\plumbing\templates\admin\plumbing_widget.html:16
+msgid "+ Sms"
+msgstr ""
+
+#: .\plumbing\templates\admin\plumbing_widget.html:17
+msgid "+ Delay"
+msgstr ""
+
+#: .\plumbing\templates\admin\plumbing_widget.html:18
+msgid "+ Register"
+msgstr ""
+
+#: .\plumbing\templates\admin\plumbing_widget.html:19
+msgid "+ Enroll"
+msgstr ""
+
+#: .\plumbing\templates\admin\plumbing_widget.html:20
+msgid "+ Leave"
+msgstr ""
+
+#: .\plumbing\templates\admin\plumbing_widget.html:21
+msgid "+ Wait"
+msgstr ""
+
+#: .\plumbing\templates\admin\plumbing_widget.html:73
+#: .\templates\sitetree\topbar_navmenu\navmenu.html:18
+msgid "Register"
+msgstr ""
+
+#: .\plumbing\templates\admin\plumbing_widget.html:76
+msgid "Enroll"
+msgstr ""
+
+#: .\plumbing\templates\admin\plumbing_widget.html:79
+msgid "Leave"
+msgstr ""
+
+#: .\plumbing\templates\admin\plumbing_widget.html:82
+msgid "Wait"
+msgstr ""
+
+#: .\plumbing\templates\admin\plumbing_widget.html:91
+msgid "Delay value"
+msgstr ""
+
+#: .\plumbing\templates\admin\plumbing_widget.html:92
+msgid "Number"
+msgstr ""
+
+#: .\plumbing\templates\admin\plumbing_widget.html:100
+msgid "Unit"
+msgstr ""
+
+#: .\plumbing\templates\admin\plumbing_widget.html:102
+msgid "seconds"
+msgstr ""
+
+#: .\plumbing\templates\admin\plumbing_widget.html:103
+msgid "minutes"
+msgstr ""
+
+#: .\plumbing\templates\admin\plumbing_widget.html:104 .\system\models.py:149
+msgid "hours"
+msgstr ""
+
+#: .\plumbing\templates\admin\plumbing_widget.html:132
+msgid "Start time (leave blank for immediate)"
+msgstr ""
+
+#: .\plumbing\templates\admin\plumbing_widget.html:133
+msgid "E.g. 06:00"
+msgstr ""
+
+#: .\plumbing\templates\admin\plumbing_widget.html:147
+msgid "Pass"
+msgstr ""
+
+#: .\serafin\apps.py:14 .\users\admin.py:137 .\users\admin.py:151
+#: .\users\admin.py:165
+msgid "Permissions"
+msgstr ""
+
+#: .\serafin\apps.py:15
+msgid "Filer"
+msgstr ""
+
+#: .\serafin\models.py:20 .\tasker\admin.py:41
+msgid "User"
+msgstr ""
+
+#: .\serafin\models.py:27
+msgid "Show only requests from this IP address."
+msgstr ""
+
+#: .\serafin\models.py:30
+msgid "IP"
+msgstr ""
+
+#: .\serafin\settings - Deploy.py:132 .\serafin\settings.py:134
+#: .\serafin\settings_SENSEATIVE.py:135
+msgid "English"
+msgstr ""
+
+#: .\serafin\settings - Deploy.py:133 .\serafin\settings.py:135
+#: .\serafin\settings_SENSEATIVE.py:136
+msgid "Norwegian"
+msgstr ""
+
+#: .\serafin\settings - Deploy.py:453 .\serafin\settings.py:441
+#: .\serafin\settings_SENSEATIVE.py:517
+msgid "Default stylesheet"
+msgstr ""
+
+#: .\serafin\settings - Deploy.py:454 .\serafin\settings.py:444
+#: .\serafin\settings_SENSEATIVE.py:518
+msgid "Nalokson"
+msgstr ""
+
+#: .\serafin\settings - Deploy.py:455 .\serafin\settings.py:445
+#: .\serafin\settings_SENSEATIVE.py:519
+msgid "Miksmaster"
+msgstr ""
+
+#: .\serafin\settings - Deploy.py:456 .\serafin\settings.py:446
+#: .\serafin\settings_SENSEATIVE.py:520
+msgid "Miksmaster alternate"
+msgstr ""
+
+#: .\serafin\settings.py:136
+msgid "Hebrew"
+msgstr ""
+
+#: .\serafin\settings.py:442
+msgid "New-Nalokson"
+msgstr ""
+
+#: .\serafin\settings.py:443
+msgid "RTL-Nalokson"
+msgstr ""
+
+#: .\serafin\settings_SENSEATIVE.py:293
+msgid "Users"
+msgstr ""
+
+#: .\serafin\settings_SENSEATIVE.py:303
+msgid "Program"
+msgstr ""
+
+#: .\serafin\settings_SENSEATIVE.py:317
+msgid "Events"
+msgstr ""
+
+#: .\serafin\settings_SENSEATIVE.py:328
+msgid "Media"
+msgstr ""
+
+#: .\serafin\settings_SENSEATIVE.py:333
+msgid "Settings"
+msgstr ""
+
+#: .\system\admin.py:29
+msgid ""
+"Initial value remains static unless set as a user value using a hidden set "
+"value field."
+msgstr ""
+
+#: .\system\admin.py:31
+msgid ""
+"User editable fields can be changed at any time by the user on their profile "
+"page."
+msgstr ""
+
+#: .\system\admin.py:33
+msgid "Setting a randomization type will set the variable to a random value."
+msgstr ""
+
+#: .\system\admin.py:35
+msgid ""
+"If set, this value will be randomized once for each user when the Variable "
+"is first saved OR changed, then once for each new user."
+msgstr ""
+
+#: .\system\admin.py:38
+msgid ""
+"The value of the Variable will be randomly selected from a set of comma "
+"separated strings in this field."
+msgstr ""
+
+#: .\system\admin.py:44
+msgid "You are trying to use a reserved variable name"
+msgstr ""
+
+#: .\system\admin.py:83
+msgid "Variable"
+msgstr ""
+
+#: .\system\admin.py:148 .\system\admin.py:386 .\system\admin.py:547
+msgid "Admin note excerpt"
+msgstr ""
+
+#: .\system\admin.py:161 .\system\admin.py:189 .\system\admin.py:210
+#: .\system\admin.py:442 .\system\admin.py:463 .\system\admin.py:554
+#, python-format
+msgid "%(title)s (copy)"
+msgstr ""
+
+#: .\system\admin.py:225
+msgid "Copy selected programs"
+msgstr ""
+
+#: .\system\admin.py:232
+msgid "Export text of selected program"
+msgstr ""
+
+#: .\system\admin.py:238
+msgid "Import program text"
+msgstr ""
+
+#: .\system\admin.py:262
+msgid ""
+"URL at which this Session will be available to registered Program users at "
+"all times"
+msgstr ""
+
+#: .\system\admin.py:265
+msgid "Session open even to unregistered users"
+msgstr ""
+
+#: .\system\admin.py:267
+msgid "Relative to the user's start time for the Program"
+msgstr ""
+
+#: .\system\admin.py:269
+msgid "Activate automatically for Program users at the given start time"
+msgstr ""
+
+#: .\system\admin.py:271
+msgid "Trigger a login e-mail at the scheduled time"
+msgstr ""
+
+#: .\system\admin.py:284
+#, python-format
+msgid "edge %(id)s"
+msgstr ""
+
+#: .\system\admin.py:291
+msgid "expression node"
+msgstr ""
+
+#: .\system\admin.py:297 .\system\admin.py:507
+#, python-format
+msgid "Error in expression, %(id)s: %(error)s"
+msgstr ""
+
+#: .\system\admin.py:478
+msgid "Copy selected sessions"
+msgstr ""
+
+#: .\system\admin.py:494
+#, python-format
+msgid "pagelet %(id)s"
+msgstr ""
+
+#: .\system\admin.py:534
+msgid "No content"
+msgstr ""
+
+#: .\system\admin.py:542
+msgid "Page excerpt"
+msgstr ""
+
+#: .\system\admin.py:559
+msgid "Copy selected content"
+msgstr ""
+
+#: .\system\admin.py:619 .\system\admin.py:644
+msgid "Subject"
+msgstr ""
+
+#: .\system\engine.py:520
+msgid "Delayed node execution"
+msgstr ""
+
+#: .\system\models.py:31
+msgid "name"
+msgstr ""
+
+#: .\system\models.py:32
+msgid "display name"
+msgstr ""
+
+#: .\system\models.py:33 .\system\models.py:86 .\system\models.py:146
+#: .\system\models.py:225
+msgid "admin note"
+msgstr ""
+
+#: .\system\models.py:34 .\system\models.py:94 .\system\models.py:120
+#: .\system\models.py:144 .\system\models.py:226
+msgid "program"
+msgstr ""
+
+#: .\system\models.py:35
+msgid "initial value"
+msgstr ""
+
+#: .\system\models.py:36
+msgid "user editable"
+msgstr ""
+
+#: .\system\models.py:38
+msgid "boolean"
+msgstr ""
+
+#: .\system\models.py:39
+msgid "numeric"
+msgstr ""
+
+#: .\system\models.py:40
+msgid "string"
+msgstr ""
+
+#: .\system\models.py:42
+msgid "randomization type"
+msgstr ""
+
+#: .\system\models.py:43
+msgid "randomize once"
+msgstr ""
+
+#: .\system\models.py:44
+msgid "range min (inclusive)"
+msgstr ""
+
+#: .\system\models.py:45
+msgid "range max (inclusive)"
+msgstr ""
+
+#: .\system\models.py:46
+msgid "random string set"
+msgstr ""
+
+#: .\system\models.py:50
+msgid "variables"
+msgstr ""
+
+#: .\system\models.py:81 .\system\models.py:140 .\system\models.py:222
+msgid "title"
+msgstr ""
+
+#: .\system\models.py:82 .\system\models.py:141 .\system\models.py:223
+msgid "display title"
+msgstr ""
+
+#: .\system\models.py:83
+msgid "site"
+msgstr ""
+
+#: .\system\models.py:84
+msgid "stylesheet"
+msgstr ""
+
+#: .\system\models.py:85
+msgid "from email"
+msgstr ""
+
+#: .\system\models.py:88 .\users\models.py:278
+msgid "users"
+msgstr ""
+
+#: .\system\models.py:95
+msgid "programs"
+msgstr ""
+
+#: .\system\models.py:121 .\users\models.py:277
+msgid "user"
+msgstr ""
+
+#: .\system\models.py:123
+msgid "start time"
+msgstr ""
+
+#: .\system\models.py:124
+msgid "time factor"
+msgstr ""
+
+#: .\system\models.py:127
+msgid "user access"
+msgstr ""
+
+#: .\system\models.py:128
+msgid "user accesses"
+msgstr ""
+
+#: .\system\models.py:142
+msgid "route slug"
+msgstr ""
+
+#: .\system\models.py:143
+msgid "is open"
+msgstr ""
+
+#: .\system\models.py:145 .\system\models.py:234
+msgid "content"
+msgstr ""
+
+#: .\system\models.py:150
+msgid "days"
+msgstr ""
+
+#: .\system\models.py:152
+msgid "start time delta"
+msgstr ""
+
+#: .\system\models.py:153
+msgid "start time unit"
+msgstr ""
+
+#: .\system\models.py:154
+msgid "end time delta"
+msgstr ""
+
+#: .\system\models.py:155
+msgid "end time unit"
+msgstr ""
+
+#: .\system\models.py:156
+msgid "first start time"
+msgstr ""
+
+#: .\system\models.py:157
+msgid "scheduled"
+msgstr ""
+
+#: .\system\models.py:158
+msgid "trigger login"
+msgstr ""
+
+#: .\system\models.py:163
+msgid "session"
+msgstr ""
+
+#: .\system\models.py:164
+msgid "sessions"
+msgstr ""
+
+#: .\system\models.py:167 .\system\models.py:170
+#, python-format
+msgid "Session %s"
+msgstr ""
+
+#: .\system\models.py:224
+msgid "content type"
+msgstr ""
+
+#: .\system\models.py:227
+msgid "Can optionally be bound to a specific program"
+msgstr ""
+
+#: .\system\models.py:235
+msgid "contents"
+msgstr ""
+
+#: .\system\models.py:262
+msgid "page"
+msgstr ""
+
+#: .\system\models.py:263
+msgid "pages"
+msgstr ""
+
+#: .\system\models.py:506
+msgid "e-mail"
+msgstr ""
+
+#: .\system\models.py:507
+msgid "e-mails"
+msgstr ""
+
+#: .\system\models.py:541
+msgid "SMS"
+msgstr ""
+
+#: .\system\models.py:542
+msgid "SMSs"
+msgstr ""
+
+#: .\system\serializers.py:43
+msgid "An error has occurred. Your expression cannot be evaluated."
+msgstr ""
+
+#: .\system\signals.py:95 .\system\signals.py:184 .\system\signals.py:219
+msgid "Initialize session"
+msgstr ""
+
+#: .\system\tasks.py:22 .\system\tasks.py:49
+msgid "Inactive user, no action taken"
+msgstr ""
+
+#: .\system\tasks.py:26
+#, python-format
+msgid "%(session)s transitioned to node %(node)s"
+msgstr ""
+
+#: .\system\tasks.py:55
+msgid "Session initialized and login e-mail sent"
+msgstr ""
+
+#: .\system\tasks.py:57
+msgid "Session initialized"
+msgstr ""
+
+#: .\system\templates\import_text.html:18
+msgid "Choose a text file to import"
+msgstr ""
+
+#: .\system\templates\import_text.html:19
+msgid "Upload"
+msgstr ""
+
+#: .\system\utils.py:16
+#, python-format
+msgid "%(first)s and %(last)s"
+msgstr ""
+
+#: .\tasker\admin.py:29
+msgid "Source"
+msgstr ""
+
+#: .\tasker\admin.py:50
+msgid "Task result"
+msgstr ""
+
+#: .\tasker\models.py:44
+msgid "sender"
+msgstr ""
+
+#: .\tasker\models.py:47
+msgid "subject"
+msgstr ""
+
+#: .\tasker\models.py:51
+msgid "action"
+msgstr ""
+
+#: .\tasker\models.py:52 .\tasker\models.py:73
+msgid "task"
+msgstr ""
+
+#: .\tasker\models.py:59 .\tasker\models.py:66
+#, python-format
+msgid "%(time)s: %(sender)s, %(action)s"
+msgstr ""
+
+#: .\tasker\models.py:74
+msgid "tasks"
+msgstr ""
+
+#: .\templates\admin\base_site.html:45
+msgid "Developed by"
+msgstr ""
+
+#: .\templates\admin\index.html:33
+msgid "Traffic graph"
+msgstr ""
+
+#: .\templates\admin\index.html:33
+msgid "Week"
+msgstr ""
+
+#: .\templates\admin\index.html:33
+msgid "Month"
+msgstr ""
+
+#: .\templates\admin\index.html:33
+msgid "Year"
+msgstr ""
+
+#: .\templates\admin\program-switcher.html:9
+msgid "All programs"
+msgstr ""
+
+#: .\templates\admin\sitetree\tree\change_form.html:19
+msgid "Add Site Tree item"
+msgstr ""
+
+#: .\templates\admin\sitetree\tree\change_form.html:24
+msgid "Site Tree Items"
+msgstr ""
+
+#: .\templates\admin\sitetree\tree\change_form.html:31
+msgid "Hidden"
+msgstr ""
+
+#: .\templates\admin\sitetree\tree\change_form.html:32
+msgid "Menu"
+msgstr ""
+
+#: .\templates\admin\sitetree\tree\change_form.html:33
+msgid "Breadcrumbs"
+msgstr ""
+
+#: .\templates\admin\sitetree\tree\change_form.html:34
+msgid "Tree"
+msgstr ""
+
+#: .\templates\admin\sitetree\tree\change_form.html:35
+msgid "Restricted"
+msgstr ""
+
+#: .\templates\admin\sitetree\tree\change_form.html:36
+msgid "Users only"
+msgstr ""
+
+#: .\templates\admin\sitetree\tree\change_form.html:37
+msgid "Guests only"
+msgstr ""
+
+#: .\templates\admin\sitetree\tree\change_form.html:39
+msgid "URL"
+msgstr ""
+
+#: .\templates\admin\sitetree\tree\change_form.html:40
+msgid "Sort order"
+msgstr ""
+
+#: .\templates\registration\password_reset_complete.html:4
+#: .\templates\registration\password_reset_complete.html:8
+msgid "Password reset complete"
+msgstr ""
+
+#: .\templates\registration\password_reset_complete.html:10
+msgid "Your password has been set.  You may go ahead and log in now."
+msgstr ""
+
+#: .\templates\registration\password_reset_complete.html:12
+#: .\users\templates\login.html:5 .\users\templates\login.html:9
+#: .\users\templates\login.html:19 .\users\views.py:31
+msgid "Log in"
+msgstr ""
+
+#: .\templates\registration\password_reset_confirm.html:4
+#: .\templates\registration\password_reset_form.html:4
+#: .\templates\registration\password_reset_form.html:8
+msgid "Password reset"
+msgstr ""
+
+#: .\templates\registration\password_reset_confirm.html:10
+msgid "Enter new password"
+msgstr ""
+
+#: .\templates\registration\password_reset_confirm.html:12
+msgid ""
+"Please enter your new password twice so we can verify you typed it in "
+"correctly."
+msgstr ""
+
+#: .\templates\registration\password_reset_confirm.html:16
+msgid "New password:"
+msgstr ""
+
+#: .\templates\registration\password_reset_confirm.html:18
+msgid "Confirm password:"
+msgstr ""
+
+#: .\templates\registration\password_reset_confirm.html:19
+msgid "Change my password"
+msgstr ""
+
+#: .\templates\registration\password_reset_confirm.html:24
+msgid "Password reset unsuccessful"
+msgstr ""
+
+#: .\templates\registration\password_reset_confirm.html:26
+msgid ""
+"The password reset link was invalid, possibly because it has already been "
+"used.  Please request a new password reset."
+msgstr ""
+
+#: .\templates\registration\password_reset_done.html:4
+#: .\templates\registration\password_reset_done.html:8
+msgid "Password reset successful"
+msgstr ""
+
+#: .\templates\registration\password_reset_done.html:10
+msgid ""
+"We've emailed you instructions for setting your password. You should be "
+"receiving them shortly."
+msgstr ""
+
+#: .\templates\registration\password_reset_done.html:12
+msgid ""
+"If you don't receive an email, please make sure you've entered the address "
+"you registered with, and check your spam folder."
+msgstr ""
+
+#: .\templates\registration\password_reset_email.html:2
+#, python-format
+msgid ""
+"You're receiving this email because you requested a password reset for your "
+"user account at %(site_name)s."
+msgstr ""
+
+#: .\templates\registration\password_reset_email.html:4
+msgid "Please go to the following page and choose a new password:"
+msgstr ""
+
+#: .\templates\registration\password_reset_email.html:8
+msgid "Your ID, in case you've forgotten:"
+msgstr ""
+
+#: .\templates\registration\password_reset_email.html:10
+msgid "Thanks for using our site!"
+msgstr ""
+
+#: .\templates\registration\password_reset_email.html:12
+#, python-format
+msgid "The %(site_name)s team"
+msgstr ""
+
+#: .\templates\registration\password_reset_form.html:10
+msgid ""
+"Forgotten your password? Enter your email address below, and we'll email "
+"instructions for setting a new one."
+msgstr ""
+
+#: .\templates\registration\password_reset_form.html:14
+msgid "Email address:"
+msgstr ""
+
+#: .\templates\registration\password_reset_form.html:14
+msgid "Reset my password"
+msgstr ""
+
+#: .\templates\registration\password_reset_subject.txt:2
+#, python-format
+msgid "Password reset on %(site_name)s"
+msgstr ""
+
+#: .\templates\session.html:19 .\templates\sessionnew.html:89
+msgid ""
+"Something went wrong. We weren't able to find the right path for you. You "
+"can try reloading the page. If that doesn't work, try again in a few hours?"
+msgstr ""
+
+#: .\templates\session.html:47 .\templates\session.html:59
+#: .\templates\session.html:83 .\templates\session.html:93
+#: .\templates\session.html:156 .\templates\session.html:166
+#: .\templates\session.html:187 .\templates\session.html:197
+#: .\templates\session.html:242 .\templates\sessionnew.html:118
+#: .\templates\sessionnew.html:132 .\templates\sessionnew.html:158
+#: .\templates\sessionnew.html:170 .\templates\sessionnew.html:236
+#: .\templates\sessionnew.html:246 .\templates\sessionnew.html:269
+#: .\templates\sessionnew.html:278 .\templates\sessionnew.html:325
+msgid "Please choose one"
+msgstr ""
+
+#: .\templates\session.html:125 .\templates\sessionnew.html:203
+msgid "Please enter a number"
+msgstr ""
+
+#: .\templates\session.html:126 .\templates\sessionnew.html:204
+msgid ""
+"Please enter a number between {{ field.lower_limit }} and {{ field."
+"upper_limit }}"
+msgstr ""
+
+#: .\templates\session.html:134 .\templates\session.html:135
+#: .\templates\session.html:146 .\templates\session.html:216
+#: .\templates\session.html:225 .\templates\sessionnew.html:212
+#: .\templates\sessionnew.html:213 .\templates\sessionnew.html:225
+#: .\templates\sessionnew.html:298 .\templates\sessionnew.html:307
+msgid "This field is required"
+msgstr ""
+
+#: .\templates\session.html:136 .\templates\sessionnew.html:214
+msgid "Your phone number is too short"
+msgstr ""
+
+#: .\templates\session.html:137 .\templates\sessionnew.html:215
+msgid "+Country code then number, no other characters, e.g. \"+4798765432\""
+msgstr ""
+
+#: .\templates\session.html:217 .\templates\sessionnew.html:299
+msgid "Please input a valid e-mail address"
+msgstr ""
+
+#: .\templates\session.html:277 .\templates\sessionnew.html:363
+msgid "Next page"
+msgstr "דף הבא"
+
+#: .\templates\sessionnew.html:75
+msgid "Chapters"
+msgstr "פרקים"
+
+#: .\templates\sitetree\topbar_navmenu\navmenu.html:18
+msgid "Account"
+msgstr ""
+
+#: .\users\admin.py:28 .\users\admin.py:78
+msgid "Password"
+msgstr ""
+
+#: .\users\admin.py:29
+msgid "Password (again)"
+msgstr ""
+
+#: .\users\admin.py:30
+msgid "E-mail"
+msgstr ""
+
+#: .\users\admin.py:31
+msgid "Phone"
+msgstr ""
+
+#: .\users\admin.py:41
+msgid "The passwords are not equal."
+msgstr ""
+
+#: .\users\admin.py:79
+msgid "Password can be changed with <a href=\"../password/\">this form</a>."
+msgstr ""
+
+#: .\users\admin.py:86
+msgid ""
+"Designates whether this user should be treated as active. Unselect this "
+"instead of deleting accounts."
+msgstr ""
+
+#: .\users\admin.py:88
+msgid "Designates whether the user can log into this admin site."
+msgstr ""
+
+#: .\users\admin.py:183
+msgid "User info"
+msgstr ""
+
+#: .\users\admin.py:184
+msgid "User data"
+msgstr ""
+
+#: .\users\admin.py:185
+msgid "Log entries"
+msgstr ""
+
+#: .\users\forms.py:20
+msgid "Email"
+msgstr ""
+
+#: .\users\forms.py:72
+msgid "ID should be an integer value"
+msgstr ""
+
+#: .\users\models.py:48
+msgid "e-mail address"
+msgstr ""
+
+#: .\users\models.py:49
+msgid "phone number"
+msgstr ""
+
+#: .\users\models.py:51
+msgid "staff status"
+msgstr ""
+
+#: .\users\models.py:52
+msgid "active"
+msgstr ""
+
+#: .\users\models.py:55
+msgid "program restrictions"
+msgstr ""
+
+#: .\users\models.py:56
+msgid ""
+"Staff user has limited access only to the chosen Programs (and related "
+"data). If no Programs are chosen, there is no restriction."
+msgstr ""
+
+#: .\users\models.py:61
+msgid "date joined"
+msgstr ""
+
+#: .\users\models.py:63
+msgid "token"
+msgstr ""
+
+#: .\users\models.py:191
+msgid "Today's login link"
+msgstr ""
+
+#: .\users\templates\email\login_link.html:14
+#: .\users\templates\email\login_link.txt:3
+#, python-format
+msgid "Here is your login link for today's program at %(site_name)s."
+msgstr ""
+
+#: .\users\templates\email\login_link.html:18
+#: .\users\templates\email\login_link.txt:7
+msgid "Please keep in mind that you should never share your login link."
+msgstr ""
+
+#: .\users\templates\email\login_link.html:20
+#: .\users\templates\email\login_link.txt:9
+#, python-format
+msgid ""
+"Should you have trouble logging in using the login link, you can log in with "
+"your ID and password at %(manual_login)s."
+msgstr ""
+
+#: .\users\templates\email\login_link.html:25
+#: .\users\templates\email\login_link.txt:11
+#, python-format
+msgid "%(site_name)s"
+msgstr ""
+
+#: .\users\templates\login.html:20
+msgid "Forgot your password?"
+msgstr ""
+
+#: .\users\templates\profile.html:6 .\users\templates\profile.html:15
+msgid "User profile"
+msgstr ""
+
+#: .\users\templates\profile.html:10
+msgid "Today's session"
+msgstr ""
+
+#: .\users\templates\profile.html:22
+msgid "days since start"
+msgstr ""
+
+#: .\users\templates\profile.html:27
+msgid "sessions done"
+msgstr ""
+
+#: .\users\templates\profile.html:32
+msgid "sessions remaining"
+msgstr ""
+
+#: .\users\templates\profile.html:38
+msgid "Edit your data"
+msgstr ""
+
+#: .\users\templates\profile.html:45
+msgid "Save"
+msgstr ""
+
+#: .\users\views.py:93
+msgid "Sorry, I'm not sure who this is."
+msgstr ""
+
+#: .\users\views.py:132
+msgid ""
+"Sorry, there was an error processing your SMS. Our technicians have been "
+"notified and will try to fix it."
+msgstr ""
+
+#: .\users\views.py:136
+msgid "No data received."
+msgstr ""

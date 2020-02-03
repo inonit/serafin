@@ -7,6 +7,7 @@ from django.contrib.admin.views.decorators import staff_member_required
 from django.urls import reverse
 from django.http import Http404, HttpResponseRedirect, JsonResponse
 from django.shortcuts import get_object_or_404, render
+from django.utils import translation
 from filer.models import File, Image
 from system.models import Session, Page
 from system.engine import Engine
@@ -83,6 +84,8 @@ def get_session(request):
     if request.GET.get("new") == '1':
         template = 'sessionnew.html'
         context["stylesheet"] = 'css/style-nalokson-rtl.css'
+        if '-rtl.css' in context["stylesheet"]:
+            translation.activate('he')
 
     return render(request, template, context)
 

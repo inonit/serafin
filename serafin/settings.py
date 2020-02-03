@@ -133,6 +133,7 @@ from django.utils.translation import ugettext_lazy as _
 LANGUAGES = (
     ('en', _('English')),
     ('nb', _('Norwegian')),
+    ('he', _('Hebrew')),
 )
 
 LOCALE_PATHS = (

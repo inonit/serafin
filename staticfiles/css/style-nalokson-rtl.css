@@ -490,7 +490,7 @@ div.error {
     flex-direction: row-reverse !important;
 }
 
-.land-direction {
+.lang-direction {
     direction: rtl;
     text-align: right !important;
 }
@@ -508,4 +508,16 @@ div.error {
 .form-check {
     padding-right: 1.25rem;
     padding-left: 0;
+}
+
+.toggled-ltr {
+    display: none;
+}
+
+.toggled-ltr {
+    display: none;
+}
+
+.toggled-rtl {
+    display: block !important;
 }
