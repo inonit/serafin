@@ -33,16 +33,6 @@
 <body class="d-flex flex-column h-100" ng-controller="pages">
 
   <!-- Navigation -->
-{% comment %}
-  <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
-    <div class="container">
-      <a class="navbar-brand mx-auto" href="#">Mind Tools</a>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#sidebar-wrapper" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-          <span class="navbar-toggler-icon"></span>
-        </button>
-    </div>
-  </nav>
-{% endcomment %}
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
     <div class="container">
       <p class="navbar-brand mx-auto my-auto">Mind Tools</p>
@@ -71,7 +61,7 @@
               <li ng-repeat="chapter in chapters"
                  ng-class="chapter.is_current ? 'active' : !chapter.is_enabled ? 'disabled' : 'dsfasdf'"
                  class="nav-item">
-                  <a class="nav-link lang-direction" ng-class="{'disabled' : !chapter.is_enabled}" href="#" ng-click="chapter_url(chapter.id)"> {{ chapter.name }} </a>
+                  <a class="nav-link lang-direction" data-toggle="collapse" data-target=".navbar-collapse.show" ng-class="{'disabled' : !chapter.is_enabled}" href="#" ng-click="chapter_url(chapter.id)"> {{ chapter.name }} </a>
               </li>
               {% endverbatim %}
         </ul>

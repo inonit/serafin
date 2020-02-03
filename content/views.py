@@ -31,7 +31,7 @@ def main_page(request):
 
 def get_portal(request):
     if not request.is_ajax():
-        return new_index(request)
+        return main_page(request)
 
     modules = request.user.get_modules()
     engine = Engine(user=request.user, context={}, is_interactive=True)
@@ -80,12 +80,12 @@ def get_session(request):
         'api': reverse('content_api'),
     }
 
-    template = 'session.html'
-    if request.GET.get("new") == '1':
-        template = 'sessionnew.html'
-        context["stylesheet"] = 'css/style-nalokson-rtl.css'
-        if '-rtl.css' in context["stylesheet"]:
-            translation.activate('he')
+    template = 'sessionnew.html'
+    if request.GET.get("old") == '1':
+        template = 'session.html'
+
+    if '-rtl.css' in session.program.style:
+        translation.activate('he')
 
     return render(request, template, context)
 
