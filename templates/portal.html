@@ -1,6 +1,11 @@
 {% load static %}
+{% load i18n %}
+{% get_current_language as lang %}
+{% get_current_language_bidi as lang_dir %}
+
 <!DOCTYPE html>
-<html lang="en" ng-app="newserafin" class="h-100">
+<html lang="{{ lang }}" ng-app="newserafin" class="h-100" dir="{% if lang_dir %} rtl {% else %} ltr {% endif %}"
+style="direction: {% if lang_dir %} rtl {% else %} ltr {% endif %}">
 
 <head>
 
@@ -24,7 +29,7 @@
 <body class="d-flex flex-column h-100">
 
   <!-- Navigation -->
-  <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+  <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top" style="direction: ltr">
     <div class="container">
       <a class="navbar-brand" href="#">Mind Tools</a>
       <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
@@ -57,20 +62,20 @@
     <!-- Jumbotron Header -->
     <header class="jumbotron my-4">
         <h2 class="display-4 text-center">{{ program|safe }}</h2>
-        {% verbatim %}
-        <p ng-cloak class="lead text-center" ng-if="modules_finished > 1">You have finish {{ modules_finished }} modules</p>
+
+        <p ng-cloak class="lead text-center" ng-if="modules_finished > 1">{% trans "You have finish {{ modules_finished }} " %}{% trans 'modules' %}</p>
         <p ng-cloak class="lead text-center" ng-if="modules_finished == 1">You have finish {{ modules_finished }} module</p>
-        <p ng-cloak class="lead text-center" ng-if="modules_finished == 0">You haven't finished a module yet</p>
-        {% endverbatim %}
+        <p ng-cloak class="lead text-center" ng-if="modules_finished == 0">{% trans "You haven't finished a module yet" %}</p>
+
         <div class="row justify-content-md-center" ng-cloak ng-if="current_module_id">
             <div class="col-lg-5 col-md-7 col-sm-12">
                 <div class="card text-center">
                   <div class="card-body">
+                      <h6 class="card-title" dir="">{% trans 'Current Module:' %}</h6>
                       {% verbatim %}
-                      <h6 class="card-title">Current Module:</h6>
                       <h4 class="card-text">{{ current_module_title }}</h4>
-                      <p><em><a href="#">See all</a></em></p>
                       {% endverbatim %}
+                      <p><em><a href="#">{% trans "See All" %}</a></em></p>
                   </div>
                 </div>
             </div>
@@ -80,11 +85,11 @@
             <div class="col-lg-5 col-md-7 col-sm-12">
                 <div class="card text-center">
                   <div class="card-body">
+                      <h6 class="card-title">{% trans 'Current Page:' %}</h6>
                       {% verbatim %}
-                      <h6 class="card-title">Current Page:</h6>
                       <h4 class="card-text">{{ current_page_title }}</h4>
                       {% endverbatim %}
-                      <a href="{% url 'content' %}" class="btn btn-primary">Continue >></a>
+                      <a href="{% url 'content' %}" class="btn btn-primary">{% trans "Continue" %} >></a>
 
                   </div>
                 </div>
