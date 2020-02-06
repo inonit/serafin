@@ -10,6 +10,7 @@ var dataTemplates = {
     'richtext': {
         content_type: 'richtext',
         content: '',
+        box: '',
         title: 'Rich Text'
     },
     'text': {

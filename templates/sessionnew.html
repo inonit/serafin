@@ -98,7 +98,12 @@
                 {% verbatim %}
                 <div class="pagelet" ng-repeat="pagelet in page track by $index" ng-cloak>
 
-                    <div class="text" ng-if="pagelet.content_type == 'richtext'" richtextlivereplace="pagelet.content">
+                    <div ng-if="pagelet.content_type == 'richtext' && pagelet.box != ''">
+                        <div class="text p-3 rounded" richtextlivereplace="pagelet.content" style="background-color:{{ pagelet.box }}"></div>
+                    </div>
+
+                    <div ng-if="pagelet.content_type == 'richtext' && pagelet.box == ''">
+                        <div class="text" richtextlivereplace="pagelet.content"></div>
                     </div>
 
                     <div class="text" ng-if="pagelet.content_type == 'text'" livereplace="pagelet.content">

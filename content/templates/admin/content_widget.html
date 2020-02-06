@@ -32,6 +32,13 @@
 
         <div ng-if="pagelet.content_type == 'richtext'" class="text" ng-controller="markdown">
              <div class="summernote-richtext" ng-model="pagelet.content"></div>
+             <div class="field-data">
+                <label>{% trans 'Box Color' %}</label>
+                 <select opt-title ng-model="pagelet.box">
+                     <option value="">None</option>
+                     <option value="#B6CEC7">Blue</option>
+                 </select>
+             </div>
         </div>
 
         <div ng-if="pagelet.content_type == 'text'" class="text" ng-controller="markdown">
