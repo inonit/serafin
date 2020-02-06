@@ -25,6 +25,9 @@ serafin.run(['$rootScope', '$http', function(scope, http) {
             scope.stacked = response.data.stacked;
             scope.is_chapter = response.data.is_chapter;
             scope.chapters = response.data.chapters;
+            scope.is_back = response.data.is_back;
+            scope.page_id = response.data.page_id;
+            scope.read_only = response.data.read_only;
         }, reason => {
             scope.error = reason.data;
             scope.page = {};
@@ -79,6 +82,10 @@ serafin.controller('pages', ['$scope', '$http', function(scope, http) {
         data.timer = timeSpent;
 
         var url = (scope.dead_end && scope.stacked ? api + '?pop=1' : api + '?next=1');
+        if (scope.read_only) {
+            url = api + "?back=" + scope.page_id;
+            data = {};
+        }
         var request = {
             method: 'POST',
             url: url,
@@ -94,6 +101,8 @@ serafin.controller('pages', ['$scope', '$http', function(scope, http) {
             scope.stacked = response.data.stacked;
             scope.is_chapter = response.data.is_chapter;
             scope.chapters = response.data.chapters;
+            scope.is_back = response.data.is_back;
+            scope.page_id = response.data.page_id;
             scope.form.submitted = false;
             scope.read_only = response.data.read_only;
             window.scrollTo(0,0);
@@ -104,16 +113,15 @@ serafin.controller('pages', ['$scope', '$http', function(scope, http) {
     };
 
     scope.chapter_url = function (chapter_id) {
-        var data = read_form_data();
-        if (!scope.read_only && Object.entries(data).length > 0) {
-             var answer = confirm("Are you sure you want to leave?");
+        if (!scope.read_only && $("form .ng-not-empty").length > 0) {
+             var answer = confirm(areYouSure);
              if (!answer) {
                  return;
              }
         }
         var timerEnd = new Date();
         var timeSpent = timerEnd.getTime() - timerStart.getTime();
-        data.timer = timeSpent;
+        var data = {'timer' : timeSpent}
 
         var url = (api + '?chapter=' + chapter_id);
         var request = {
@@ -132,12 +140,53 @@ serafin.controller('pages', ['$scope', '$http', function(scope, http) {
             scope.is_chapter = response.data.is_chapter;
             scope.chapters = response.data.chapters;
             scope.read_only = response.data.read_only;
+            scope.is_back = response.data.is_back;
+            scope.page_id = response.data.page_id;
             scope.form.submitted = false;
             window.scrollTo(0,0);
         }, reason => {
             scope.error = reason.data;
             scope.page = {};
         });
+    }
+
+    scope.back = function() {
+        if (!scope.read_only && $("form .ng-not-empty").length > 0) {
+             var answer = confirm(areYouSure);
+             if (!answer) {
+                 return;
+             }
+        }
+        var timerEnd = new Date();
+        var timeSpent = timerEnd.getTime() - timerStart.getTime();
+        var data = {'timer': timeSpent};
+
+        var url = (api + '?back=-' + scope.page_id);
+        var request = {
+            method: 'POST',
+            url: url,
+            data: data,
+        };
+
+        http(request).then(response => {
+            scope.error = null;
+            scope.getVariables(response.data.data);
+            scope.$emit('title', response.data.title);
+            scope.page = response.data.data;
+            scope.dead_end = response.data.dead_end;
+            scope.stacked = response.data.stacked;
+            scope.is_chapter = response.data.is_chapter;
+            scope.chapters = response.data.chapters;
+            scope.read_only = response.data.read_only;
+            scope.is_back = response.data.is_back;
+            scope.page_id = response.data.page_id;
+            scope.form.submitted = false;
+            window.scrollTo(0,0);
+        }, reason => {
+            scope.error = reason.data;
+            scope.page = {};
+        });
+
     }
 }]);
 

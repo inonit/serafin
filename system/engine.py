@@ -261,6 +261,7 @@ class Engine(object):
             page.is_chapter = page.chapter is not None
             page.chapters = page.render_section(self.user)
             page.read_only = False
+            page.is_back = page.chapter and page.chapter.get_previous() is not None
 
             if 'node' in self.user.data and self.user.data['node'] in self.nodes:
                 # TODO: Better fix
@@ -535,11 +536,13 @@ class Engine(object):
             page = Page.objects.get(id=page_id)
             page.update_html(self.user)
 
-            page.dead_end = True
+            next_chapter = page.chapter.get_next()
+            page.dead_end = not (next_chapter and self.user.get_page_id_by_chapter(next_chapter.id))
             page.stacked = False
             page.read_only = True
             page.is_chapter = page.chapter is not None
             page.chapters = page.render_section(self.user)
+            page.is_back = page.chapter and page.chapter.get_previous() is not None
 
             if 'node' in self.user.data and self.user.data['node'] in self.nodes:
                 log_event.send(
@@ -554,7 +557,7 @@ class Engine(object):
             return page
 
 
-    def run(self, next=False, pop=False, chapter=0):
+    def run(self, next=False, pop=False, chapter=0, back=0):
         '''
         Run the Engine after initializing and return a node if available
 
@@ -566,6 +569,9 @@ class Engine(object):
 
         If chapter>0, for view purpose, get the page related to the chapter (id)
         if exists.
+
+        If nav != 0, for view purpose, get the next page (positive id) /
+        previous page (negative id) in module by current page_id (id) if exists.
         '''
 
         self.logger.debug(
@@ -578,6 +584,22 @@ class Engine(object):
         if node_id is None:
             self.user.data['node'] = 0
             self.user.save()
+
+        if back:
+            '''
+            Return back page by the current page id (view)
+            '''
+            page = Page.objects.get(id=back if int(back) > 0 else -int(back))
+            if page.chapter:
+                nav_to_chapter = page.chapter.get_next() if int(back) > 0 else page.chapter.get_previous()
+                if nav_to_chapter:
+                    page = self.show_chapter(nav_to_chapter.id)
+                    if page:
+                        node = self.nodes.get(node_id)
+                        current_page = self.trigger_node(node)
+                        if page.id == current_page.id:
+                            return current_page
+                        return page
 
         if chapter:
             '''

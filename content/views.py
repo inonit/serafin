@@ -26,6 +26,10 @@ def main_page(request):
         'api': reverse('portal'),
         'program': session.program,
     }
+
+    if '-rtl.css' in session.program.style:
+        translation.activate('he')
+
     return render(request, 'portal.html', context)
 
 
@@ -108,14 +112,16 @@ def get_page(request):
         page.is_chapter = page.chapter is not None
         page.chapters = page.render_section(request.user)
         page.read_only = False
+        page.is_back = False
 
     # engine selection
     else:
         next = request.GET.get('next')
         pop = request.GET.get('pop')
         chapter = request.GET.get('chapter')
+        back = request.GET.get('back')
         engine = Engine(user=request.user, context=context, is_interactive=True)
-        page = engine.run(next=next, pop=pop, chapter=chapter)
+        page = engine.run(next=next, pop=pop, chapter=chapter, back=back)
 
     if not page:
         raise Http404
@@ -127,7 +133,9 @@ def get_page(request):
         'stacked': page.stacked,
         'is_chapter': page.is_chapter,
         'chapters': page.chapters,
-        'read_only': page.read_only
+        'read_only': page.read_only,
+        'is_back': page.is_back,
+        'page_id': page.id
     }
 
     return JsonResponse(response)
