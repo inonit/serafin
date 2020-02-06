@@ -12,12 +12,6 @@ html, body {
     margin: 0 auto -3rem;
 }
 
-.footer, .push {
-    height: 3rem;
-    overflow: hidden;
-    clear: both;
-}
-
 h1,
 h2,
 h3,
@@ -122,11 +116,6 @@ header {
 
 .top-bar-section .dropdown li.title h5 a {
     line-height: 1.6;
-}
-
-.footer {
-    height: 3rem;
-    padding: .75rem 6rem 0;
 }
 
 header .logo {
@@ -461,19 +450,6 @@ fieldset legend,
 .top-bar-section ul.active li > a,
 .top-bar-section ul.active li > a:hover {
     cursor: default;
-}
-
-.footer {
-    background: #334282;
-    color: #FFF;
-}
-
-.footer a {
-    color: rgba(255, 255, 255, 0.5);
-}
-
-.footer a:hover {
-    color: rgba(255, 255, 255, 0.75);
 }
 
 div.error {
