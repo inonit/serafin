@@ -10,6 +10,7 @@ from filer.models import File, Image
 from system.models import Session, Page
 from system.engine import Engine
 import json
+import requests
 
 
 def home(request):
@@ -44,6 +45,20 @@ def get_session(request):
 
     return render(request, 'session.html', context)
 
+
+def get_location_from_ip(request):
+
+    x_forwarded_for = request.META.get('HTTP_X_FORWARDED_FOR')
+    if x_forwarded_for:
+        ip = x_forwarded_for.split(',')[0]
+    else:
+        ip = request.META.get('REMOTE_ADDR')
+
+    url ="http://ip-api.com/json/" + ip
+    r = requests.get(url)
+    r = r.json()
+
+    return JsonResponse(r)
 
 def get_page(request):
 

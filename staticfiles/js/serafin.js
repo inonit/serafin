@@ -50,7 +50,7 @@ serafin.controller('pages', ['$scope', '$http', function(scope, http) {
 
       var request = {
        method: 'GET',
-       url: 'http://ip-api.com/json/',
+       url: window.location.origin+'/get_location_from_ip/',
        headers: {
          'If-Modified-Since': undefined
        },
