@@ -208,6 +208,21 @@ content.directive('markdownText', ['$timeout', function (timeout) {
     };
 }]);
 
+content.directive('richtextBoxColor', ['$timeout', function () {
+    return {
+        restrict: 'C',
+        require: 'ngModel',
+        link: function (scope, elem, attrs, ngModel) {
+            scope.boxColorChanged = function (color) {
+                $(elem).parent().parent().parent().find(".note-editable div").css("background",color)
+            };
+
+            scope.$watch(function () {
+                return ngModel.$modelValue;
+            }, scope.boxColorChanged);
+        }
+    };
+}]);
 
 content.directive('summernoteRichtext', ['$timeout', function (timeout) {
     return {

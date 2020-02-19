@@ -36,30 +36,16 @@
   <!-- Navigation -->
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
     <div class="container">
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#session-navbar" aria-controls="session-navbar" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-      </button>
+        {% verbatim %}
+        <button ng-hide="!chapters.length" class="navbar-toggler" type="button" data-toggle="collapse" data-target="#session-navbar" aria-controls="session-navbar" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        {% endverbatim %}
         <p class="navbar-brand mx-auto my-auto">Mind Tools</p>
         <a class="navbar-brand px-1 my-auto border-bottom-0" href="{% url 'main_page' %}"><i class="fa fa-home"></i></a>
 
         <div class="collapse navbar-collapse" id="session-navbar">
         <ul class="navbar-nav ml-auto">
-            <li>
-                <form action="{% url 'set_language' %}" method="post">{% csrf_token %}
-                    <input name="next" type="hidden" value="{{ redirect_to }}">
-                    <select name="language">
-                        {% get_current_language as LANGUAGE_CODE %}
-                        {% get_available_languages as LANGUAGES %}
-                        {% get_language_info_list for LANGUAGES as languages %}
-                        {% for language in languages %}
-                            <option value="{{ language.code }}"{% if language.code == LANGUAGE_CODE %} selected{% endif %}>
-                                {{ language.name_local }} ({{ language.code }})
-                            </option>
-                        {% endfor %}
-                    </select>
-                    <input type="submit" value="Go">
-                </form>
-            </li>
               {% verbatim %}
               <li ng-repeat="chapter in chapters"
                  ng-class="chapter.is_current ? 'active' : !chapter.is_enabled ? 'disabled' : 'dsfasdf'"
@@ -76,9 +62,9 @@
   <div class="d-flex flex-lg-row flex-column container-fluid justify-content-between">
       {% comment %}<div class="ml-lg-2 mt-lg-2 mt-sm-0 navbar-expand-lg">{% endcomment %}
           <div class="mt-lg-5 mt-0 flex-lg-grow-1">
-
-
-            <div class="bg-light border-right rounded mx-lg-auto w-50 flex-grow-1 d-none d-lg-block sticky" id="sidebar-wrapper">
+            {% verbatim %}
+            <div ng-hide="!chapters.length" class="bg-light border-right rounded mx-lg-auto w-50 flex-grow-1 d-none d-lg-block sticky" id="sidebar-wrapper">
+                {% endverbatim %}
                 <div class="sidebar-heading text-center">{% trans 'Chapters' %}</div>
               <div class="list-group list-group-flush">
                   {% verbatim %}
@@ -90,7 +76,7 @@
               </div>
             </div>
       </div>
-      <div class="mt-lg-1 flex-lg-grow-1 lang-direction page">
+      <div class="mt-lg-1 flex-grow-1 lang-direction page">
           <div class="" ng-form="form">
                 <div class="error" ng-cloak ng-if="error">
                     {% trans "Something went wrong. We weren't able to find the right path for you. You can try reloading the page. If that doesn't work, try again in a few hours?" %}
@@ -139,7 +125,7 @@
                             <div class="form-check" ng-repeat="alt in pagelet.content.alternatives track by $index">
                                 <input name="answer" type="radio" class="form-check-input" ng-model="pagelet.content.value" value="{{ alt.value }}" required>
                                 <label class="form-check-label">
-                                    {{ alt.text }}
+                                    {{ alt.label }}
                                 </label>
                             </div>
                             <div ng-repeat="alt in pagelet.content.alternatives track by $index" ng-show="subForm.$dirty && pagelet.content.value == alt.value">
@@ -179,7 +165,7 @@
                             <div class="form-check" ng-repeat="alt in pagelet.content.alternatives track by $index">
                                 <input name="answer" type="checkbox" checkboxlist class="form-check-input" ng-model="alt.selected" ng-click="toggle(pagelet.content.value, alt.value)" ng-required="field.required">
                                 <label class="form-check-label">
-                                    {{ alt.text }}
+                                    {{ alt.label }}
                                 </label>
                             </div>
                             <div>{{ pagelet.content.text }}</div>

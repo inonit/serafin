@@ -200,6 +200,7 @@ fieldset {
 
 fieldset legend,
 .table .caption {
+    background: #FFF;
     font-size: 100%;
     width: auto !important;
     padding-right: 0.25rem;
@@ -321,8 +322,7 @@ input[type="number"],
 textarea,
 fieldset,
 .table {
-    background: #FFF;
-    color: #334282;
+    border: 1px solid #CCC;
 }
 
 h1,
@@ -331,55 +331,54 @@ h3,
 h4,
 h5,
 h6 {
-    color: #334282;
+
 }
 
 a {
-    color: #334282;
-    border-bottom: 1px solid #334282;
+
+
 }
 
 a:hover {
-    color: #334282;
     border-bottom: none;
 }
 
 button,
 .button {
-    background: #334282;
-    border: 1px solid #334282;
-    color: #FFF;
+
+
+
 }
 
 button:hover,
 .button:hover,
 button:focus,
 .button:focus {
-    background: #5F6DA7;
-    border: 1px solid #334282;
-    color: #FFF;
+
+
+
 }
 
 button.disabled,
 button[disabled],
 .button.disabled,
 .button[disabled] {
-    background: #FFF;
-    border: 1px solid #334282;
-    color: #334282;
+
+
+
 }
 
 button.disabled:hover,
 button[disabled]:hover,
 .button.disabled:hover,
 .button[disabled]:hover {
-    background: #FFF;
-    color: #334282;
+
+
 }
 
 blockquote,
 blockquote p {
-    color: #334282;
+
 }
 
 blockquote:after {
@@ -393,7 +392,7 @@ input[type="number"],
 textarea,
 fieldset,
 .table {
-    border: 1px solid #CCC;
+
 }
 
 input[type="text"]:focus,
@@ -401,50 +400,50 @@ input[type="email"]:focus,
 input[type="password"]:focus,
 input[type="number"]:focus,
 textarea:focus {
-    background: #FEFEFE;
+
 }
 
 fieldset legend,
 .table .caption {
-    background: #FFF;
+
 }
 
 .top-bar {
-    background: #334282;
+
 }
 
 .top-bar-section ul li,
 .top-bar.expanded .title-area {
-    background: #334282;
+
 }
 
 .top-bar ul.title-area h1 a {
-    color: #FFF;
+
 }
 
 .top-bar-section ul,
 .top-bar-section li:not(.has-form) a:not(.button),
 .top-bar-section ul.active li:not(.has-form) a:not(.button):hover,
 .top-bar-section .dropdown li:not(.has-form):not(.active)>a:not(.button) {
-    background: #334282;
+
 }
 
 .top-bar-section ul li:hover:not(.has-form) > a,
 .top-bar-section .dropdown li.title h5 a:hover,
 .top-bar-section li:not(.has-form) a:not(.button):hover,
 .top-bar-section .dropdown li:not(.has-form):not(.active)>a:not(.button):hover {
-    background: rgba(0, 0, 0, 0.1);
+
 }
 
 .top-bar-section .has-dropdown > ul.dropdown {
-    border-top: 1px solid rgba(0, 0, 0, 0.1);
+
 }
 
 .top-bar-section ul li > a,
 .top-bar-section ul li > a:hover,
 .top-bar-section .has-dropdown > a,
 .top-bar-section .dropdown li > a {
-    color: #FFF;
+
 }
 
 .top-bar-section ul.active li > a,
@@ -469,4 +468,8 @@ img.note-float-right {
 img.note-float-left {
     margin-left: 1.5rem !important;
     border-radius: .25rem!important;
+}
+
+.sidebar-heading {
+ color: #334282;
 }
