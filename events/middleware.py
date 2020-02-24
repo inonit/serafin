@@ -69,13 +69,19 @@ class EventTrackingMiddleware(MiddlewareMixin):
                 if key in ['email', 'phone', 'password']:
                     continue
 
+                def recursive_stripe(v):
+                    if isinstance(v, list):
+                        return '[' + ', '.join([recursive_stripe(x) for x in v]) + ']'
+                    else:
+                        return v.strip()
+
                 pre_value = request.user.data.get(key, '')
 
                 if isinstance(pre_value, list):
-                    pre_value = ', '.join([v.strip() for v in pre_value])
+                    pre_value = ', '.join([recursive_stripe(v) for v in pre_value])
 
                 if isinstance(post_value, list):
-                    post_value = ', '.join([v.strip() for v in post_value])
+                    post_value = ', '.join([recursive_stripe(v) for v in post_value])
 
                 event = Event(
                     time=timezone.localtime(timezone.now()),

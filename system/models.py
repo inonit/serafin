@@ -44,6 +44,7 @@ class Variable(models.Model):
     range_min = models.IntegerField(_('range min (inclusive)'), null=True, blank=True)
     range_max = models.IntegerField(_('range max (inclusive)'), null=True, blank=True)
     random_set = models.TextField(_('random string set'), blank=True)
+    is_array = models.BooleanField('is array', default=False)
 
     class Meta(object):
         verbose_name = _('variable')
@@ -384,9 +385,13 @@ class Page(Content):
 
                     if field['field_type'] in ['numeric', 'string', 'text', 'email']:
                         user_data = user.data
-                        variable_value = user_data.get(field.get('variable_name'))
+                        variable_name = field.get('variable_name')
+                        variable_value = user_data.get(variable_name)
                         if variable_value is not None:
-                            field['value'] = self.check_value(user, variable_value, field['field_type'])
+                            if isinstance(variable_value, list) and Variable.objects.get(name=variable_name).is_array:
+                                field['value'] = self.check_value(user, variable_value[-1], field['field_type'])
+                            else:
+                                field['value'] = self.check_value(user, variable_value, field['field_type'])
 
             if pagelet['content_type'] == 'quiz':
                 content_array = pagelet.get('content')
@@ -442,6 +447,32 @@ class Page(Content):
                     alt = content.get('alt')
                     alt = variable_replace(user, alt)
                     content['alt'] = alt
+
+    def clear_html_from_array_variable(self):
+        for pagelet in self.data:
+            if pagelet['content_type'] in ['form', 'quiz']:
+                for field in pagelet['content']:
+                    if 'variable_name' in field:
+                        variable_name = field['variable_name']
+                        if Variable.objects.get(name=variable_name).is_array:
+                            if 'alternatives' in field:
+                                for alt in field['alternatives']:
+                                    if 'selected' in alt:
+                                        alt['selected'] = False
+                            if 'value' in field:
+                                field['value'] = []
+            if pagelet['content_type'] in ['toggleset', 'togglesetmulti']:
+                content = pagelet['content']
+                if 'variable_name' in content:
+                    variable_name = content['variable_name']
+                    if Variable.objects.get(name=variable_name).is_array:
+                        if 'alternatives' in content:
+                            for alt in content['alternatives']:
+                                if 'selected' in alt:
+                                    alt['selected'] = False
+                        if 'value' in content:
+                            content['value'] = []
+
 
     def render_section(self, user):
         if not self.chapter:

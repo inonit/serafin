@@ -85,7 +85,13 @@ class Engine(object):
                     self.user.data[key] = value
 
                 elif key and value is not None:
-                    self.user.data[key] = value
+                    if Variable.objects.get(name=key).is_array:
+                        if key in self.user.data and isinstance(self.user.data[key], list):
+                            self.user.data[key].append(value)
+                        else:
+                            self.user.data[key] = [value]
+                    else:
+                        self.user.data[key] = value
 
         # save
         if push or context:
@@ -228,7 +234,7 @@ class Engine(object):
             )
             return self.handle_dead_end(source_id)
 
-    def trigger_node(self, node):
+    def trigger_node(self, node, clear_array_variable=True):
         '''Trigger action for a given node, return if normal node'''
 
         node_id = node.get('id')
@@ -279,6 +285,9 @@ class Engine(object):
             if self.user.is_authenticated:
                 self.user.register_chapter_to_page(page)
             self.user.save()
+
+            if clear_array_variable:
+                page.clear_html_from_array_variable()
 
             return page
 
@@ -487,11 +496,11 @@ class Engine(object):
                 if variable_name:
                     try:
                         # if variable is dynamically changed in the graph tree (back office)
-                        if variable_name in self.user.data :
+                        if variable_name in self.user.data:
                             delay_number = int(self.user.data.get(variable_name))
                             self.logger.debug("Delay node using variable: %s => %s" % (variable_name, delay_number))
-                        else :
-                        # trying to get the predefined value of the variable from the database
+                        else:
+                            # trying to get the predefined value of the variable from the database
                             delay_number = int(Variable.objects.get(name=variable_name).get_value())
                             self.logger.debug("Delay node using variable: %s => %s" % (variable_name, delay_number))
                     except Exception as e:
@@ -596,7 +605,7 @@ class Engine(object):
                     page = self.show_chapter(nav_to_chapter.id)
                     if page:
                         node = self.nodes.get(node_id)
-                        current_page = self.trigger_node(node)
+                        current_page = self.trigger_node(node, clear_array_variable=False)
                         if page.id == current_page.id:
                             return current_page
                         return page
@@ -608,7 +617,7 @@ class Engine(object):
             page = self.show_chapter(chapter)
             if page:
                 node = self.nodes.get(node_id)
-                current_page = self.trigger_node(node)
+                current_page = self.trigger_node(node, clear_array_variable=False)
                 if page.id == current_page.id:
                     return current_page
                 return page

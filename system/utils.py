@@ -31,7 +31,11 @@ def variable_replace(user, text):
         variable = code[2:-2].strip()
         value = user_data.get(variable)
         if isinstance(value, list):
-            value = natural_join(value)
+            from system.models import Variable
+            if Variable.objects.get(name=variable).is_array:
+                value = value[-1]
+            else:
+                value = natural_join(value)
 
         if value is None:
             try:
@@ -60,7 +64,11 @@ def live_variable_replace(user, text):
         variable = code[2:-2].strip()
         value = user_data.get(variable)
         if isinstance(value, list):
-            value = natural_join(value)
+            from system.models import Variable
+            if Variable.objects.get(name=variable).is_array:
+                value = value[-1]
+            else:
+                value = natural_join(value)
 
         if value is None:
             try:
@@ -75,26 +83,32 @@ def live_variable_replace(user, text):
     return text, variables
 
 # for toggleset, togglesetmulti, multiplechoice, multipleselection
-# try to find if the option value (choicevalue) is already checked previously
-# by the user (saved in variable variableName)
-def is_it_checked(user, variableName,choiceValue):
+# try to find if the option value (choice_value) is already checked previously
+# by the user (saved in variable variable_name)
+def is_it_checked(user, variable_name, choice_value):
     user_data = user.data
-    variableValue = user_data.get(variableName)
+    variable_value = user_data.get(variable_name)
 
-    if variableValue is None:
+    if variable_value is None:
         try:
             from system.models import Variable
-            variableValue = Variable.objects.get(name=variableName).get_value()
+            variable_value = Variable.objects.get(name=variable_name).get_value()
         except:
             pass
 
-    if variableValue is None:
+    if variable_value is None:
         return False
 
-    if not isinstance(variableValue, list):
-        variableValue = [variableValue]
+    if not isinstance(variable_value, list):
+        variable_value = [variable_value]
+    else:
+        from system.models import Variable
+        if Variable.objects.get(name=variable_name).is_array:
+            variable_value = variable_value[-1]
+            if not isinstance(variable_value, list):
+                variable_value = [variable_value]
 
-    if choiceValue in variableValue:
+    if choice_value in variable_value:
         return True
     else:
         return False

@@ -37,6 +37,7 @@ class VariableForm(forms.ModelForm):
             'each new user.')
         self.fields['random_set'].help_text = _('The value of the Variable will be randomly '
             'selected from a set of comma separated strings in this field.')
+        self.fields['is_array'].help_text = 'The variable accumulate data as array'
 
     def clean_name(self):
         data = self.cleaned_data['name']
@@ -75,6 +76,7 @@ class VariableAdmin(admin.ModelAdmin):
                 'range_min',
                 'range_max',
                 'random_set',
+                'is_array',
             ),
             'classes': ('suit-tab suit-tab-variable', ),
         }),
