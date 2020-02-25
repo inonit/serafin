@@ -21,13 +21,18 @@ def main_page(request):
     if not session_id or not request.user.is_authenticated:
         return HttpResponseRedirect(settings.HOME_URL)
 
+    engine = Engine(user=request.user, context={}, is_interactive=True)
+    page = engine.run()
+    if not page.chapter:
+        return get_session(request)
+
     session = get_object_or_404(Session, id=session_id)
     context = {
         'api': reverse('portal'),
         'program': session.program,
     }
 
-    if '-rtl.css' in session.program.style:
+    if session and session.program and session.program.style and '-rtl.css' in session.program.style:
         translation.activate('he')
 
     return render(request, 'portal.html', context)
@@ -88,7 +93,7 @@ def get_session(request):
     if request.GET.get("old") == '1':
         template = 'session.html'
 
-    if '-rtl.css' in session.program.style:
+    if session and session.program and session.program.style and '-rtl.css' in session.program.style:
         translation.activate('he')
 
     return render(request, template, context)
@@ -167,7 +172,7 @@ def content_route(request, route_slug=None):
         'api': reverse('content_api'),
     }
 
-    return render(request, 'sessessionnew.html', context)
+    return render(request, 'sessionnew.html', context)
 
 
 @staff_member_required
