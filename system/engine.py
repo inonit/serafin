@@ -85,7 +85,7 @@ class Engine(object):
                     self.user.data[key] = value
 
                 elif key and value is not None:
-                    if Variable.objects.get(name=key).is_array:
+                    if Variable.is_array_variable(key):
                         if key in self.user.data and isinstance(self.user.data[key], list):
                             self.user.data[key].append(value)
                         else:

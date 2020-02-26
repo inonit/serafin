@@ -32,7 +32,7 @@ def variable_replace(user, text):
         value = user_data.get(variable)
         if isinstance(value, list):
             from system.models import Variable
-            if Variable.objects.get(name=variable).is_array:
+            if Variable.is_array_variable(variable):
                 value = value[-1]
             else:
                 value = natural_join(value)
@@ -65,7 +65,7 @@ def live_variable_replace(user, text):
         value = user_data.get(variable)
         if isinstance(value, list):
             from system.models import Variable
-            if Variable.objects.get(name=variable).is_array:
+            if Variable.is_array_variable(variable):
                 value = value[-1]
             else:
                 value = natural_join(value)
@@ -103,7 +103,7 @@ def is_it_checked(user, variable_name, choice_value):
         variable_value = [variable_value]
     else:
         from system.models import Variable
-        if Variable.objects.get(name=variable_name).is_array:
+        if Variable.is_array_variable(variable_name):
             variable_value = variable_value[-1]
             if not isinstance(variable_value, list):
                 variable_value = [variable_value]

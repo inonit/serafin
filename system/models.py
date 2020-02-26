@@ -75,6 +75,14 @@ class Variable(models.Model):
         else:
             return self.value
 
+    @staticmethod
+    def is_array_variable(variable_name):
+        try:
+            obj = Variable.objects.get(name=variable_name)
+            return obj.is_array
+        except Variable.DoesNotExist:
+            return False
+
 
 class Program(models.Model):
     '''A top level model for a separate Program, having one or more sessions'''
@@ -82,7 +90,8 @@ class Program(models.Model):
     title = models.CharField(_('title'), max_length=64, unique=True)
     display_title = models.CharField(_('display title'), max_length=64)
     site = models.OneToOneField(Site, verbose_name=_('site'), null=True, blank=True, on_delete=models.SET_NULL)
-    style = models.CharField(_('stylesheet'), choices=settings.STYLESHEET_CHOICES, null=True, blank=True, max_length=128)
+    style = models.CharField(_('stylesheet'), choices=settings.STYLESHEET_CHOICES, null=True, blank=True,
+                             max_length=128)
     from_email = models.CharField(_('from email'), null=True, blank=True, max_length=128)
     admin_note = models.TextField(_('admin note'), blank=True)
 
@@ -388,7 +397,7 @@ class Page(Content):
                         variable_name = field.get('variable_name')
                         variable_value = user_data.get(variable_name)
                         if variable_value is not None:
-                            if isinstance(variable_value, list) and Variable.objects.get(name=variable_name).is_array:
+                            if isinstance(variable_value, list) and Variable.is_array_variable(variable_name):
                                 field['value'] = self.check_value(user, variable_value[-1], field['field_type'])
                             else:
                                 field['value'] = self.check_value(user, variable_value, field['field_type'])
@@ -454,7 +463,7 @@ class Page(Content):
                 for field in pagelet['content']:
                     if 'variable_name' in field:
                         variable_name = field['variable_name']
-                        if Variable.objects.get(name=variable_name).is_array:
+                        if Variable.is_array_variable(variable_name):
                             if 'alternatives' in field:
                                 for alt in field['alternatives']:
                                     if 'selected' in alt:
@@ -465,14 +474,13 @@ class Page(Content):
                 content = pagelet['content']
                 if 'variable_name' in content:
                     variable_name = content['variable_name']
-                    if Variable.objects.get(name=variable_name).is_array:
+                    if Variable.is_array_variable(variable_name):
                         if 'alternatives' in content:
                             for alt in content['alternatives']:
                                 if 'selected' in alt:
                                     alt['selected'] = False
                         if 'value' in content:
                             content['value'] = []
-
 
     def render_section(self, user):
         if not self.chapter:
