@@ -354,14 +354,16 @@
 
                     <div class="video" ng-if="pagelet.content_type == 'video'">
                         <label>{{ pagelet.content.title }}</label>
-                        <video ng-src="{{ pagelet.content.url }}">
+                        <video width="100%" height="100%" controls="controls">
+                            <source src="{{ pagelet.content.url }}" type="video/mp4">
                             <!-- Add fallback option -->
                         </video>
                     </div>
 
                     <div class="audio" ng-if="pagelet.content_type == 'audio'">
-                        <label>{{ pagelet.content.title }}</label>
-                        <audio ng-src="{{ pagelet.content.url }}">
+                        <label>{{ pagelet.content.title }}</label><br/>
+                        <audio controls="controls">
+                            <source src="{{ pagelet.content.url }}" type="audio/mpeg">
                             <!-- Add fallback option -->
                         </audio>
                     </div>
