@@ -46,8 +46,15 @@ var dataTemplates = {
         content: []
     },
     'conditionaltext': {
+        type: 'text',
         expression: '',
         content: ''
+    },
+    'conditionalrichtext': {
+        type: 'richtext',
+        expression: '',
+        content: '',
+        box: ''
     },
     'condition': {
         var_name: '',
@@ -214,7 +221,7 @@ content.directive('richtextBoxColor', ['$timeout', function () {
         require: 'ngModel',
         link: function (scope, elem, attrs, ngModel) {
             scope.boxColorChanged = function (color) {
-                $(elem).parent().parent().parent().find(".note-editable div").css("background",color)
+                $(elem).parent().parent().parent().find(".note-editable").css("background",color)
             };
 
             scope.$watch(function () {

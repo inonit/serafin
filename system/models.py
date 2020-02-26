@@ -430,7 +430,7 @@ class Page(Content):
 
             if pagelet['content_type'] == 'conditionalset':
                 pagelet['variables'] = {}
-
+                text_to_remove = []
                 for text in pagelet['content']:
 
                     expression = text.get('expression')
@@ -444,7 +444,10 @@ class Page(Content):
                         pagelet['variables'].update(variables)
                         text['content'] = mistune.markdown(content, escape=False)
                     else:
-                        text['content'] = ''
+                        text_to_remove.append(text)
+
+                for text in text_to_remove:
+                    pagelet['content'].remove(text)
 
             if pagelet['content_type'] in ['image', 'audio', 'file', 'video']:
                 content = pagelet.get('content')

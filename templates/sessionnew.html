@@ -192,7 +192,15 @@
                     </form>
 
                     <div class="conditionalset" ng-if="pagelet.content_type == 'conditionalset'" class="conditionalset">
-                        <div ng-repeat="text in pagelet.content track by $index" livereplace="text.content">
+                        <div ng-repeat="text in pagelet.content track by $index">
+                            <div ng-if="text.type == 'text'" livereplace="text.content">
+                            </div>
+                            <div ng-if="text.type == 'richtext' && text.box != ''">
+                                <div class="text p-3 rounded" richtextlivereplace="text.content" style="background-color:{{ text.box }}"></div>
+                            </div>
+                            <div ng-if="text.type == 'richtext' && text.box == ''">
+                                <div class="text" richtextlivereplace="text.content"></div>
+                            </div>
                         </div>
                     </div>
 

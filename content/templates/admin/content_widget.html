@@ -128,6 +128,7 @@
 
             <div class="toolbox">
                 <div class="btn add" ng-click="add(pagelet.content, 'conditionaltext')">{% trans '+ Conditional text' %}</div>
+                <div class="btn add" ng-click="add(pagelet.content, 'conditionalrichtext')">{% trans '+ Conditional rich text' %}</div>
             </div>
 
             <div class="field" ng-repeat="content in pagelet.content track by $index">
@@ -157,12 +158,28 @@
                 </div>
                 {% include "expression_syntax.html" %}
 
-                <div class="field-data text" ng-controller="markdown">
+                <div ng-if="content.type == 'text'" class="field-data text" ng-controller="markdown">
                     <div class="markdown-guide">
                         <p>{% blocktrans %}This element uses <a href="http://markdown-guide.readthedocs.org/en/latest/basics.html">Markdown</a>. For variable replacement use <code ng-non-bindable>&#123;&#123; var_name &#125;&#125;</code>. This markup will be replaced by the user's value for <code>var_name</code>, if available.{% endblocktrans %}</p>
                     </div>
                     <textarea class="markdown-text" ng-model="content.content"></textarea>
                     <div class="markdown-html" ng-bind-html="html"></div>
+                </div>
+
+                <div ng-if="content.type == 'richtext'" class="field-data text" ng-controller="markdown">
+                    <div class="summernote-richtext" ng-model="content.content"></div>
+                     <div class="field-data">
+                        <label>{% trans 'Box Color' %}</label>
+                         <select class="richtext-box-color" ng-model="content.box">
+                             <option value="">None</option>
+                             <option value="#d0e5ef">Blue</option>
+                             <option value="#f3f3f3">Grey</option>
+                             <option value="#fbf2e4">Yellow</option>
+                             <option value="#fbe8e4">Red</option>
+                             <option value="#e9fbe4">Green</option>
+                             <option value="#fbe4f9">Purple</option>
+                         </select>
+                     </div>
                 </div>
             </div>
         </div>
