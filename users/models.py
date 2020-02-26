@@ -9,7 +9,7 @@ from django.contrib.auth.models import BaseUserManager, AbstractBaseUser, Permis
 from django.contrib.sites.models import Site
 from django.core.mail.message import EmailMultiAlternatives
 from django.urls import reverse
-from django.db import models
+from django.db import models, IntegrityError
 from django.template import Context
 from django.template.loader import get_template
 
@@ -28,6 +28,11 @@ class UserManager(BaseUserManager):
         user = self.model()
         user.set_password(password)
         user.email = email
+        if phone:
+            # verify it's unique
+            if User.objects.filter(phone=phone).count():
+                raise IntegrityError()
+
         user.phone = phone
         if data:
             user.data = data
@@ -46,7 +51,7 @@ class User(AbstractBaseUser, PermissionsMixin):
     '''Custom User, identified by ID and password'''
 
     email = models.EmailField(_('e-mail address'), max_length=254, unique=True)
-    phone = models.CharField(_('phone number'), max_length=32, unique=True)
+    phone = models.CharField(_('phone number'), max_length=32, unique=False, null=True)
 
     is_staff = models.BooleanField(_('staff status'), default=False)
     is_active = models.BooleanField(_('active'), default=True)
@@ -87,7 +92,7 @@ class User(AbstractBaseUser, PermissionsMixin):
         return self.groups.filter(name=group_name).exists()
 
     def send_sms(self, message=None):
-        if len(self.phone) < 11:  # 11 character phone number +4712345678 (norway)
+        if not self.phone or len(self.phone) < 11:  # 11 character phone number +4712345678 (norway)
             return False
 
         if message and settings.SMS_SERVICE == 'Twilio':
@@ -302,11 +307,12 @@ class StatefulAnonymousUser(AnonymousUser):
         '''
         password = self.data['password']
         email = self.data['email']
-        phone = self.data['phone']
+        phone = self.data['phone'] if 'phone' in self.data else None
 
         del self.data['password']
         del self.data['email']
-        del self.data['phone']
+        if 'phone' in self.data:
+            del self.data['phone']
 
         user = User.objects.create_user(None, password, email, phone, data=self.data)
 
