@@ -12,7 +12,7 @@ import json
 
 class PlumbingWidget(forms.Widget):
 
-    def render(self, name, value, attrs=None):
+    def render(self, name, value, attrs=None, renderer=None):
         context = {
             'value': value,
             'vars': json.dumps(list(Variable.objects.values_list('name', flat=True))),

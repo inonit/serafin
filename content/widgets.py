@@ -17,7 +17,7 @@ import json
 
 class DummyForeignObjectRel(object):
     class DummyRelatedField(object):
-        name = None
+        name = ''
 
     def __init__(self, *args, **kwargs):
         self.limit_choices_to = {}
@@ -32,7 +32,7 @@ class DummyForeignObjectRel(object):
 
 class ContentWidget(forms.Widget):
 
-    def render(self, name, value, attrs=None):
+    def render(self, name, value, attrs=None, renderer=None):
         file_widget = AdminFileWidget(DummyForeignObjectRel(), site)
         file_widget = file_widget.render('file', None, {'id': 'id_file'})
         file_widget = re.sub(r'<script.*?>.*?</script>', r'', file_widget, flags=re.DOTALL)
@@ -81,7 +81,7 @@ class ContentWidget(forms.Widget):
 
 class TextContentWidget(forms.Widget):
 
-    def render(self, name, value, attrs=None):
+    def render(self, name, value, attrs=None, renderer=None):
         context = {
             'value': value,
         }
@@ -108,7 +108,7 @@ class TextContentWidget(forms.Widget):
 
 class SMSContentWidget(forms.Widget):
 
-    def render(self, name, value, attrs=None):
+    def render(self, name, value, attrs=None, renderer=None):
         context = {
             'value': value,
         }

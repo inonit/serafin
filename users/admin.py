@@ -53,7 +53,7 @@ class UserCreationForm(forms.ModelForm):
 
 class BlankWidget(forms.Widget):
     '''A widget that will display nothing'''
-    def render(self, name, value, attrs):
+    def render(self, name, value, attrs=None, renderer=None):
         return ''
 
 
@@ -97,7 +97,7 @@ class UserChangeForm(forms.ModelForm):
 
 class UserDataWidget(forms.Widget):
 
-    def render(self, name, value, attrs=None):
+    def render(self, name, value, attrs=None, renderer=None):
         priority_fields = [
             field.strip() for field in config.USER_VARIABLE_PROFILE_ORDER.split(',')
             if field

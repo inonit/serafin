@@ -4,7 +4,7 @@ from django.utils.translation import ugettext_lazy as _
 from django.conf import settings
 from django.contrib.auth import login, logout, authenticate
 from django.contrib.auth.decorators import login_required
-from django.contrib.auth.views import login as login_view
+from django.contrib.auth import views as auth_views
 from django.http import HttpResponse, JsonResponse
 from django.shortcuts import redirect, render
 from django.utils import timezone
@@ -28,7 +28,7 @@ def manual_login(request):
 
     if request.user.is_authenticated:
         return redirect('/')
-    return login_view(request, template_name='login.html', extra_context={'title': _('Log in')})
+    return auth_views.LoginView.as_view(template_name='login.html', extra_context={'title': _('Log in')})(request)
 
 
 def manual_logout(request):

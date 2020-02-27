@@ -15,6 +15,10 @@ ENV PYTHONUNBUFFERED 1
 WORKDIR /code
 COPY bower.json .bowerrc /code/
 RUN bower --allow-root install
+COPY django-multisite.tar.gz /code/
+RUN tar xvzf django-multisite.tar.gz
+RUN python django-multisite/setup.py install
+RUN rm -fr django-multisite django-multisite.tar.gz django_multisite.egg-info
 COPY requirements.txt /code/
 RUN pip install -r requirements.txt
 RUN pip install ptvsd
