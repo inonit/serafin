@@ -165,7 +165,7 @@ class Parser(object):
             lists << (lbrack + Optional(delimitedList(numeric ^ variable ^ boolean ^ string)) + rbrack)
 
             atom = (Optional("-") +
-                    (pi | e | numeric | ident + lparen + expression + rparen).setParseAction(self.push_stack)
+                    (pi | e | numeric | ident + lparen + expression + rparen | variable + lbrack + expression + rbrack).setParseAction(self.push_stack)
                     | (variable | none | boolean | string | Group(lists)).setParseAction(self.push_stack)
                     | (lparen + expression.suppress() + rparen)).setParseAction(self.push_unary_stack)
 
@@ -268,6 +268,9 @@ class Parser(object):
             return self.constants[operator]
         elif operator and operator[0] == "$":
             variable = operator[1:]
+            variable_index = None
+            if expr:
+                variable_index = self.evaluate_stack(expr)
 
             if variable in [v["name"] for v in self.reserved_variables]:
                 return self._get_reserved_variable(variable)
@@ -276,7 +279,13 @@ class Parser(object):
                 raise ParseException("No user instance set. Please initialize the %s "
                                      "with a `user_obj` argument." % self.__class__.__name__)
 
-            return self._get_return_value(self.userdata.get(variable))
+            variable_value = self._get_return_value(self.userdata.get(variable))
+            if variable_index is not None:
+                from system.models import Variable
+                if Variable.is_array_variable(variable):
+                    return self._get_return_value(variable_value[int(variable_index)])
+            return variable_value
+
         elif operator in ("True", "False"):
             return True if operator == "True" else False
         elif operator == "None":
