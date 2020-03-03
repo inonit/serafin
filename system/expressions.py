@@ -90,6 +90,7 @@ class Parser(object):
     """
 
     UNARY = "unary -"
+    INDEXED_VARIABLE = "var idx"
 
     bool_operators = {
         "==": oper.eq, "!=": oper.ne, "<": oper.lt, "<=": oper.le,
@@ -165,7 +166,8 @@ class Parser(object):
             lists << (lbrack + Optional(delimitedList(numeric ^ variable ^ boolean ^ string)) + rbrack)
 
             atom = (Optional("-") +
-                    (pi | e | numeric | ident + lparen + expression + rparen | variable + lbrack + expression + rbrack).setParseAction(self.push_stack)
+                    (pi | e | numeric | ident + lparen + expression + rparen).setParseAction(self.push_stack)
+                    | (variable + lbrack + expression + rbrack).setParseAction(self.push_array_variable)
                     | (variable | none | boolean | string | Group(lists)).setParseAction(self.push_stack)
                     | (lparen + expression.suppress() + rparen)).setParseAction(self.push_unary_stack)
 
@@ -238,6 +240,10 @@ class Parser(object):
         if tokens and tokens[0] == "-":
             self.stack.append(self.UNARY)
 
+    def push_array_variable(self, s, location, tokens):
+        self.stack.append(tokens[0])
+        self.stack.append(self.INDEXED_VARIABLE)
+
     def evaluate_stack(self, expr):
         """
         Recursively reads the next expression from the stack.
@@ -247,8 +253,6 @@ class Parser(object):
         operator = expr.pop()
         if operator == self.UNARY:
             return -self.evaluate_stack(expr)
-
-            rhs, lhs = self.evaluate_stack(expr), self.evaluate_stack(expr)
 
         if operator in self.operators:
             rhs, lhs = self.evaluate_stack(expr), self.evaluate_stack(expr)
@@ -266,11 +270,12 @@ class Parser(object):
             return self.functions[operator](self.evaluate_stack(expr))
         elif operator in self.constants:
             return self.constants[operator]
-        elif operator and operator[0] == "$":
-            variable = operator[1:]
+        elif operator and (operator[0] == "$" or operator == self.INDEXED_VARIABLE):
             variable_index = None
-            if expr:
+            if operator == self.INDEXED_VARIABLE:
+                operator = expr.pop()
                 variable_index = self.evaluate_stack(expr)
+            variable = operator[1:]
 
             if variable in [v["name"] for v in self.reserved_variables]:
                 return self._get_reserved_variable(variable)
