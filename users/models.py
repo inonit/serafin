@@ -240,6 +240,8 @@ class User(AbstractBaseUser, PermissionsMixin):
         if page.chapter is not None:
             key = User._get_chapter_key(page.chapter.id)
             self.data[key] = page.id
+            module_key = User._get_module_key(page.chapter.module.id)
+            self.data[module_key] = page.chapter.id
 
     def get_page_id_by_chapter(self, chapter_id):
         if not str(chapter_id).isnumeric():
@@ -259,7 +261,7 @@ class User(AbstractBaseUser, PermissionsMixin):
         if module_id <= 0:
             return False
         key = User._get_module_key(module_id)
-        return key is self.data
+        return key in self.data
 
     def get_modules(self):
         result = []
@@ -274,6 +276,12 @@ class User(AbstractBaseUser, PermissionsMixin):
             return []
 
         return result
+
+    def get_chapter_by_module(self, module_id):
+        module_key = User._get_module_key(module_id)
+        if module_key not in self.data:
+            return None
+        return self.data[module_key]
 
     def __str__(self):
         return '%s' % self.id

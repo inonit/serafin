@@ -38,6 +38,58 @@ def main_page(request):
     return render(request, 'portal.html', context)
 
 
+def modules_page(request):
+    session_id = request.user.data.get('session')
+
+    if not session_id or not request.user.is_authenticated:
+        return HttpResponseRedirect(settings.HOME_URL)
+
+    modules = request.user.get_modules()
+    engine = Engine(user=request.user, context={}, is_interactive=True)
+    page = engine.run()
+
+    current_module_id = page.chapter.module.id if page.chapter and page.chapter.module else None
+    context = {
+        'modules': json.dumps(modules),
+        'current_module_id': current_module_id
+    }
+
+    return render(request, 'modules.html', context)
+
+
+def module_redirect(request, module_id):
+    if not request.is_ajax():
+        return main_page(request)
+
+    session_id = request.user.data.get('session')
+    if not session_id or not request.user.is_authenticated:
+        raise Http404
+
+    chapter_id = request.user.get_chapter_by_module(module_id)
+    if not chapter_id:
+        raise Http404
+
+    engine = Engine(user=request.user, context={}, is_interactive=True)
+    page = engine.run(next=0, pop=0, chapter=chapter_id)
+
+    if not page:
+        raise Http404
+
+    response = {
+        'title': page.display_title,
+        'data': page.data,
+        'dead_end': page.dead_end,
+        'stacked': page.stacked,
+        'is_chapter': page.is_chapter,
+        'chapters': page.chapters,
+        'read_only': page.read_only,
+        'is_back': page.is_back,
+        'page_id': page.id
+    }
+
+    return JsonResponse(response)
+
+
 def get_portal(request):
     if not request.is_ajax():
         return main_page(request)
@@ -63,7 +115,7 @@ def home(request):
     return render(request, 'home.html', {})
 
 
-def get_session(request):
+def get_session(request, module_id=None):
 
     if request.is_ajax():
         return get_page(request)
@@ -87,6 +139,7 @@ def get_session(request):
         'program': session.program,
         'title': session.display_title,
         'api': reverse('content_api'),
+        'module_id': 0 if not module_id else module_id
     }
 
     template = 'sessionnew.html'

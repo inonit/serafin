@@ -31,18 +31,18 @@ style="direction: {% if lang_dir %} rtl {% else %} ltr {% endif %}">
   <!-- Navigation -->
   <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top" style="direction: ltr">
     <div class="container">
-      <a class="navbar-brand" href="#">Mind Tools</a>
+      <a class="navbar-brand" href="{% url 'main_page' %}">Mind Tools</a>
       <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>
       <div class="collapse navbar-collapse" id="navbarResponsive">
         <ul class="navbar-nav ml-auto">
-          <li class="nav-item active">
+          <li class="nav-item">
             <a class="nav-link" href="#">Home
               <span class="sr-only">(current)</span>
             </a>
           </li>
-          <li class="nav-item">
+          <li class="nav-item active">
             <a class="nav-link" href="#">Program</a>
           </li>
           <li class="nav-item">
@@ -57,45 +57,41 @@ style="direction: {% if lang_dir %} rtl {% else %} ltr {% endif %}">
   </nav>
 
   <!-- Page Content -->
-  <div class="container" ng-controller="portal">
+  <div class="container" ng-controller="modules">
 
     <!-- Jumbotron Header -->
     <header class="jumbotron my-4">
-        <h2 class="display-4 text-center">{{ program|safe }}</h2>
+        <div class="flex-row row justify-content-center">
+            <div class="col-md-3 col-6 d-flex align-items-center justify-content-center"  ng-repeat="module in modules" ng-if="module.is_enabled">
+                    <div class="card text-center mb-3 w-100">
+                        <div class="card-body" ng-class="{'border': module.id == current_module_id, 'border-primary': module.id == current_module_id}">
+                            <h5 class="card-title"><a href="{% url 'content' %}{% verbatim %}{{ module.id }}{% endverbatim %}">
+                            {% verbatim %}
+                                {{ module.name }}
+                            </a></h5>
+                            {% endverbatim %}
+                            <p class="card-text" ng-if="module.id == current_module_id">{% trans 'this is your current module' %}</p>
+                            <p class="card-text" ng-if="module.id != current_module_id">{% trans 'module available' %}</p>
+                        </div>
+                    </div>
+            </div>
 
-        <p ng-cloak class="lead text-center" ng-if="modules_finished > 1">{% trans "You have finish {{ modules_finished }} " %} {% trans 'modules' %}</p>
-        <p ng-cloak class="lead text-center" ng-if="modules_finished == 1">You have finish {{ modules_finished }} module</p>
-        <p ng-cloak class="lead text-center" ng-if="modules_finished == 0">{% trans "You haven't finished a module yet" %}</p>
-
-        <div class="row justify-content-md-center" ng-cloak ng-if="current_module_id">
-            <div class="col-lg-5 col-md-7 col-sm-12">
-                <div class="card text-center">
-                  <div class="card-body">
-                      <h6 class="card-title" dir="">{% trans 'Current Module:' %}</h6>
-                      {% verbatim %}
-                      <h4 class="card-text">{{ current_module_title }}</h4>
-                      {% endverbatim %}
-                      <p><em><a href="{% url 'modules' %}">{% trans "See All" %}</a></em></p>
-                  </div>
-                </div>
+        </div>
+        <div class="row mb-lg-2">
+            <h3 class="mx-auto">{% trans "Next steps:" %}</h3>
+        </div>
+        <div class="flex-row row">
+            <div class="col-md-4 col-6 d-flex align-items-center"  ng-repeat="module in modules" ng-if="!module.is_enabled">
+                    <div class="card text-center mb-3 w-100 bg-light">
+                        <div class="card-body">
+                            {% verbatim %}
+                            <h5 class="card-title">{{ module.name }}</h5>
+                            {% endverbatim %}
+                            <p class="card-text">{% trans 'This module is not available yet' %}</p>
+                        </div>
+                    </div>
             </div>
         </div>
-
-        <div class="row justify-content-md-center" ng-cloak ng-if="current_module_id">
-            <div class="col-lg-5 col-md-7 col-sm-12">
-                <div class="card text-center">
-                  <div class="card-body">
-                      <h6 class="card-title">{% trans 'Current Page:' %}</h6>
-                      {% verbatim %}
-                      <h4 class="card-text">{{ current_page_title }}</h4>
-                      {% endverbatim %}
-                      <a href="{% url 'content' %}" class="btn btn-primary">{% trans "Continue" %} >></a>
-
-                  </div>
-                </div>
-            </div>
-        </div>
-
     </header>
 
     <!-- Page Features -->
@@ -123,6 +119,8 @@ style="direction: {% if lang_dir %} rtl {% else %} ltr {% endif %}">
     <script>
         var api = '{{ api|safe }}';
         var csrf_token = '{{ csrf_token }}';
+        var modules = {{ modules|safe }};
+        var current_module_id = {{ current_module_id|safe }};
     </script>
 
 </body>

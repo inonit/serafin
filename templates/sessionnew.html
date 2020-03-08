@@ -355,7 +355,7 @@
                     <div class="video" ng-if="pagelet.content_type == 'video'">
                         <label>{{ pagelet.content.title }}</label>
                         <video width="100%" height="100%" controls="controls">
-                            <source src="{{ pagelet.content.url }}" type="video/mp4">
+                            <source ng-src="{{ pagelet.content.url }}" type="video/mp4">
                             <!-- Add fallback option -->
                         </video>
                     </div>
@@ -363,7 +363,7 @@
                     <div class="audio" ng-if="pagelet.content_type == 'audio'">
                         <label>{{ pagelet.content.title }}</label><br/>
                         <audio controls="controls">
-                            <source src="{{ pagelet.content.url }}" type="audio/mpeg">
+                            <source ng-src="{{ pagelet.content.url }}" type="audio/mpeg">
                             <!-- Add fallback option -->
                         </audio>
                     </div>
@@ -410,6 +410,7 @@
         var api = '{{ api|safe }}';
         var csrf_token = '{{ csrf_token }}';
         var areYouSure = '{% trans "Are you sure you want to leave?" %}';
+        var module_id = {{ module_id|safe }};
     </script>
 
 </body>

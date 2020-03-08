@@ -16,7 +16,12 @@ serafin.run(['$rootScope', '$http', function(scope, http) {
     scope.variables = {};
 
     if (api) {
-        http.get(api + window.location.search).then(response => {
+        var url = api + window.location.search;
+        if (module_id) {
+            url = '/module/' + module_id;
+        }
+
+        http.get(url).then(response => {
             scope.error = null;
             scope.getVariables(response.data.data);
             scope.title = response.data.title;
@@ -382,7 +387,13 @@ newserafin.config(['$httpProvider', function(httpProvider) {
 }]);
 
 newserafin.run(['$rootScope', '$http', function(scope, http) {
-    scope.modules_finished = -1
+    scope.modules_finished = -1;
+    if (typeof(modules) !== 'undefined') {
+        scope.modules = modules;
+    }
+    if (typeof(current_module_id) !== 'undefined') {
+        scope.current_module_id = current_module_id;
+    }
 
     if (api) {
         http.get(api + window.location.search).then(response => {
@@ -396,6 +407,11 @@ newserafin.run(['$rootScope', '$http', function(scope, http) {
 
 }]);
 
-newserafin.controller('newindex', ['$scope', '$http', function (scope, http) {
+newserafin.controller('portal', ['$scope', '$http', function (scope, http) {
 
 }]);
+
+newserafin.controller('modules', ['$scope', '$http', function (scope, http) {
+
+}]);
+
