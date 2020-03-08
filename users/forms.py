@@ -66,7 +66,7 @@ class AdminIDAuthenticationForm(AdminAuthenticationForm):
 
     def clean_username(self):
         try:
-            username = int(self.cleaned_data.get('username'))
+            username = (self.cleaned_data.get('username')).strip()
             return username
         except:
             message = _('ID should be an integer value')
