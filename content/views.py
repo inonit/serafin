@@ -21,11 +21,6 @@ def main_page(request):
     if not session_id or not request.user.is_authenticated:
         return HttpResponseRedirect(settings.HOME_URL)
 
-    engine = Engine(user=request.user, context={}, is_interactive=True)
-    page = engine.run()
-    if not page.chapter:
-        return get_session(request)
-
     session = get_object_or_404(Session, id=session_id)
     context = {
         'api': reverse('portal'),
@@ -51,7 +46,7 @@ def modules_page(request):
     current_module_id = page.chapter.module.id if page.chapter and page.chapter.module else None
     context = {
         'modules': json.dumps(modules),
-        'current_module_id': current_module_id
+        'current_module_id': current_module_id if current_module_id else 0
     }
 
     return render(request, 'modules.html', context)
@@ -102,7 +97,7 @@ def get_portal(request):
     current_module_id = page.chapter.module.id if page.chapter and page.chapter.module else None
     context = {
         'modules': modules,
-        'modules_finished': len([m for m in modules if m['is_enabled'] == 1]) - (0 if current_module_id else 1),
+        'modules_finished': len([m for m in modules if m['is_enabled'] == 1]) - (0 if current_module_id is None else 1),
         'current_page_title': page.display_title,
         'current_module_title': current_module_title,
         'current_module_id': current_module_id
@@ -223,6 +218,7 @@ def content_route(request, route_slug=None):
         'program': session.program,
         'title': session.display_title,
         'api': reverse('content_api'),
+        'module_id': 0
     }
 
     return render(request, 'sessionnew.html', context)

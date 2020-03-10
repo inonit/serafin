@@ -43,7 +43,7 @@ style="direction: {% if lang_dir %} rtl {% else %} ltr {% endif %}">
             </a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="#">Program</a>
+            <a class="nav-link" href="{% url 'modules' %}">Program</a>
           </li>
           <li class="nav-item">
             <a class="nav-link" href="#">Tools</a>
@@ -63,8 +63,8 @@ style="direction: {% if lang_dir %} rtl {% else %} ltr {% endif %}">
     <header class="jumbotron my-4">
         <h2 class="display-4 text-center">{{ program|safe }}</h2>
 
-        <p ng-cloak class="lead text-center" ng-if="modules_finished > 1">{% trans "You have finish {{ modules_finished }} " %} {% trans 'modules' %}</p>
-        <p ng-cloak class="lead text-center" ng-if="modules_finished == 1">You have finish {{ modules_finished }} module</p>
+        <p ng-cloak class="lead text-center" ng-if="modules_finished > 1">{% trans "You have finished {{ modules_finished }} modules" %} {% trans 'modules' %}</p>
+        <p ng-cloak class="lead text-center" ng-if="modules_finished == 1">{% trans "You have finished a module" %}</p>
         <p ng-cloak class="lead text-center" ng-if="modules_finished == 0">{% trans "You haven't finished a module yet" %}</p>
 
         <div class="row justify-content-md-center" ng-cloak ng-if="current_module_id">
@@ -75,13 +75,14 @@ style="direction: {% if lang_dir %} rtl {% else %} ltr {% endif %}">
                       {% verbatim %}
                       <h4 class="card-text">{{ current_module_title }}</h4>
                       {% endverbatim %}
+                      <a href="{% url 'content' %}" class="btn btn-primary">{% trans "Continue" %} >></a>
                       <p><em><a href="{% url 'modules' %}">{% trans "See All" %}</a></em></p>
                   </div>
                 </div>
             </div>
         </div>
 
-        <div class="row justify-content-md-center" ng-cloak ng-if="current_module_id">
+        <div class="row justify-content-md-center" ng-cloak ng-if="!current_module_id">
             <div class="col-lg-5 col-md-7 col-sm-12">
                 <div class="card text-center">
                   <div class="card-body">
@@ -90,7 +91,6 @@ style="direction: {% if lang_dir %} rtl {% else %} ltr {% endif %}">
                       <h4 class="card-text">{{ current_page_title }}</h4>
                       {% endverbatim %}
                       <a href="{% url 'content' %}" class="btn btn-primary">{% trans "Continue" %} >></a>
-
                   </div>
                 </div>
             </div>
