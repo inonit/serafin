@@ -120,6 +120,10 @@ class Program(models.Model):
         self.programuseraccess_set.filter(user=user).delete()
         return True
 
+    @property
+    def is_rtl(self):
+        return self.style is not None and '-rtl.css' in self.style
+
 
 class ProgramUserAccess(models.Model):
     '''
@@ -559,6 +563,10 @@ class Email(Content):
         message = remove_comments(message)
         message = variable_replace(user, message)
         html_message = mistune.markdown(message, escape=False)
+        if self.program.is_rtl:
+            p_tag = '<p>'
+            p_rtl_tag = '<p dir="rtl">'
+            html_message = html_message.replace(p_tag, p_rtl_tag)
 
         user.send_email(
             subject=self.display_title,

@@ -27,7 +27,7 @@ def main_page(request):
         'program': session.program,
     }
 
-    if session and session.program and session.program.style and '-rtl.css' in session.program.style:
+    if session and session.program and session.program.is_rtl:
         translation.activate('he')
 
     return render(request, 'portal.html', context)
@@ -141,7 +141,7 @@ def get_session(request, module_id=None):
     if request.GET.get("old") == '1':
         template = 'session.html'
 
-    if session and session.program and session.program.style and '-rtl.css' in session.program.style:
+    if session and session.program and session.program.is_rtl:
         translation.activate('he')
 
     return render(request, template, context)
