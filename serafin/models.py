@@ -1,4 +1,5 @@
 from django.urls import reverse
+from django.utils.html import format_html
 from django.utils.translation import ugettext_lazy as _
 from request.admin import RequestAdmin
 
@@ -22,10 +23,9 @@ class CustomRequestAdmin(RequestAdmin):
     user_link.admin_order_field = 'user_id'
 
     def ip_filter(self, obj):
-        return '<a href="?ip={0}" title="{1}">{0}</a>'.format(
-            obj.ip,
-            _('Show only requests from this IP address.'),
-        )
+        return format_html('<a href="?ip={}" title="{}">{}</a>', obj.ip,
+                           _('Show only requests from this IP address.'),
+                           obj.ip)
 
     ip_filter.short_description = _('IP')
     ip_filter.allow_tags = True

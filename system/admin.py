@@ -672,6 +672,11 @@ class ChapterAdmin(VersionAdmin):
     search_fields = ['title', 'display_title', 'module']
     raw_id_fields = ('module',)
 
+    class Media(object):
+        css = {
+            'all': ('//stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css',)
+        }
+
 
 class ChapterInline(SortableStackedInline):
     model = Chapter

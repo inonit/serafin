@@ -53,6 +53,7 @@ class UserCreationForm(forms.ModelForm):
 
 class BlankWidget(forms.Widget):
     '''A widget that will display nothing'''
+
     def render(self, name, value, attrs=None, renderer=None):
         return ''
 
@@ -210,6 +211,11 @@ class UserAdmin(UserAdmin, ImportExportModelAdmin):
         return queryset
 
     resource_class = UserResource
+
+    class Media(object):
+        css = {
+            'all': ('//stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css',)
+        }
 
 
 class CustomUserModelFilerAdmin(FolderAdmin):

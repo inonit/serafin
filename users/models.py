@@ -76,7 +76,7 @@ class User(AbstractBaseUser, PermissionsMixin):
     @property
     def username(self):
         # return _('User %i' % self.id)
-        return self.id
+        return self.email
 
     def get_short_name(self):
         return self.username

@@ -96,7 +96,11 @@ class Task(models.Model):
         '''Revokes this task and returns its result'''
 
         if self.task_id:
-            result = huey.result(self.task_id, preserve=True)
+            result = None
+            try:
+                result = huey.result(self.task_id, preserve=True)
+            except:
+                pass
             huey.revoke_by_id(self.task_id)
             return result
 

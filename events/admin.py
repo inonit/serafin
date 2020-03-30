@@ -4,6 +4,7 @@ from django.utils.translation import ugettext_lazy as _
 from django.contrib import admin
 from django.urls import reverse
 from import_export.admin import ImportExportModelAdmin
+from django.utils.html import format_html
 
 from events.importexport import EventResource
 from events.models import Event
@@ -20,7 +21,7 @@ class EventAdmin(ImportExportModelAdmin):
 
     def actor_link(self, instance):
         url = reverse('admin:users_user_change', args=[instance.actor.id])
-        return '<a href="%s">%s</a>' % (url, instance.actor) #.actor_link())
+        return format_html('<a href="{}">{} ({})</a>', url, instance.actor.email, instance.actor) #.actor_link())
     actor_link.short_description = _('Actor')
     actor_link.allow_tags = True
 
