@@ -39,3 +39,7 @@ rules.add_perm('system.delete_content', has_program_related_access)
 
 rules.add_perm('users.change_user', has_program_related_access)
 rules.add_perm('users.delete_user', has_program_related_access)
+
+rules.add_perm('system.change_chapter', has_program_related_access)
+
+rules.add_perm('system.change_module', has_program_related_access)

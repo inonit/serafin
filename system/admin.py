@@ -95,9 +95,12 @@ class VariableAdmin(admin.ModelAdmin):
         if '_program_id' in request.session:
             queryset = queryset.filter(program__id=request.session['_program_id'])
 
-        if request.user.program_restrictions.exists():
-            program_ids = request.user.program_restrictions.values_list('id')
-            return queryset.filter(program__id__in=program_ids)
+        if not request.user.is_superuser:
+            if request.user.program_restrictions.exists():
+                program_ids = request.user.program_restrictions.values_list('id')
+                return queryset.filter(program__id__in=program_ids)
+            else:
+                return Variable.objects.none()
 
         return queryset
 
@@ -242,9 +245,12 @@ class ProgramAdmin(VersionAdmin):
     def get_queryset(self, request):
         queryset = super(ProgramAdmin, self).get_queryset(request)
 
-        if request.user.program_restrictions.exists():
-            program_ids = request.user.program_restrictions.values_list('id')
-            return queryset.filter(id__in=program_ids)
+        if not request.user.is_superuser:
+            if request.user.program_restrictions.exists():
+                program_ids = request.user.program_restrictions.values_list('id')
+                return queryset.filter(id__in=program_ids)
+            else:
+                return Program.objects.none()
 
         return queryset
 
@@ -393,9 +399,12 @@ class SessionAdmin(VersionAdmin):
         if '_program_id' in request.session:
             queryset = queryset.filter(program__id=request.session['_program_id'])
 
-        if request.user.program_restrictions.exists():
-            program_ids = request.user.program_restrictions.values_list('id')
-            return queryset.filter(program__id__in=program_ids)
+        if not request.user.is_superuser:
+            if request.user.program_restrictions.exists():
+                program_ids = request.user.program_restrictions.values_list('id')
+                return queryset.filter(program__id__in=program_ids)
+            else:
+                return Session.objects.none()
 
         return queryset
 
@@ -569,9 +578,12 @@ class ContentAdmin(VersionAdmin):
                 Q(program_id=None)
             )
 
-        if request.user.program_restrictions.exists():
-            program_ids = request.user.program_restrictions.values_list('id')
-            return queryset.filter(program__id__in=program_ids)
+        if not request.user.is_superuser:
+            if request.user.program_restrictions.exists():
+                program_ids = request.user.program_restrictions.values_list('id')
+                return queryset.filter(program__id__in=program_ids)
+            else:
+                return self.model._default_manager.none()
 
         return queryset
 
@@ -677,6 +689,32 @@ class ChapterAdmin(VersionAdmin):
             'all': ('//stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css',)
         }
 
+    def get_form(self, request, obj=None, **kwargs):
+         form = super(ChapterAdmin, self).get_form(request, obj, **kwargs)
+         form.request_user = request.user
+         if request.user.program_restrictions.exists():
+            program_ids = request.user.program_restrictions.values_list('id')
+            form.base_fields['program'].queryset = Program.objects.filter(id__in=program_ids)
+         return form
+
+    def get_queryset(self, request):
+        queryset = super(ChapterAdmin, self).get_queryset(request)
+
+        if not request.user.is_superuser:
+            if request.user.program_restrictions.exists():
+                program_ids = request.user.program_restrictions.values_list('id')
+                return queryset.filter(program__id__in=program_ids)
+            else:
+                return Chapter.objects.none()
+
+        return queryset
+
+    def has_change_permission(self, request, obj=None):
+        return request.user.has_perm('system.change_chapter', obj)
+
+    def has_view_permission(self, request, obj=None):
+        return request.user.has_perm('system.view_chapter', obj)
+
 
 class ChapterInline(SortableStackedInline):
     model = Chapter
@@ -688,3 +726,34 @@ class ModuleAdmin(NonSortableParentAdmin):
     list_display = ['title', 'display_title', 'program']
     search_fields = ['title', 'display_title']
     inlines = [ChapterInline]
+
+    class Media(object):
+        css = {
+            'all': ('//stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css',)
+        }
+
+    def get_form(self, request, obj=None, **kwargs):
+         form = super(ModuleAdmin, self).get_form(request, obj, **kwargs)
+         form.request_user = request.user
+         if request.user.program_restrictions.exists():
+            program_ids = request.user.program_restrictions.values_list('id')
+            form.base_fields['program'].queryset = Program.objects.filter(id__in=program_ids)
+         return form
+
+    def get_queryset(self, request):
+        queryset = super(ModuleAdmin, self).get_queryset(request)
+
+        if not request.user.is_superuser:
+            if request.user.program_restrictions.exists():
+                program_ids = request.user.program_restrictions.values_list('id')
+                return queryset.filter(program__id__in=program_ids)
+            else:
+                return Module.objects.none()
+
+        return queryset
+
+    def has_change_permission(self, request, obj=None):
+        return request.user.has_perm('system.change_module', obj)
+
+    def has_view_permission(self, request, obj=None):
+        return request.user.has_perm('system.view_module', obj)

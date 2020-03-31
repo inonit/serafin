@@ -123,6 +123,7 @@ class UserDataWidget(forms.Widget):
         )
 
 
+@admin.register(User)
 class UserAdmin(UserAdmin, ImportExportModelAdmin):
     list_display = ['id', 'email', 'phone',  'date_joined', 'last_login', 'is_superuser', 'is_staff', 'is_active']
     search_fields = ['id', 'email', 'phone', 'data']
@@ -168,6 +169,16 @@ class UserAdmin(UserAdmin, ImportExportModelAdmin):
             'classes': ('suit-tab suit-tab-info', ),
         }),
     )
+    restricted_add_fieldsets = (
+        (None, {
+            'fields': ('password1', 'password2', 'email', 'phone'),
+            'classes': ('suit-tab suit-tab-info', ),
+        }),
+        (_('Permissions'), {
+            'fields': ('is_active',),
+            'classes': ('suit-tab suit-tab-info', ),
+        }),
+    )
     readonly_fields = [
         'id',
         'date_joined',
@@ -199,14 +210,20 @@ class UserAdmin(UserAdmin, ImportExportModelAdmin):
         if request.user.is_superuser:
             return super(UserAdmin, self).get_fieldsets(request, obj=obj)
         else:
-            return self.restricted_fieldsets
+            if not obj:
+                return self.restricted_add_fieldsets
+            else:
+                return self.restricted_fieldsets
 
     def get_queryset(self, request):
         queryset = super(UserAdmin, self).get_queryset(request)
 
-        if request.user.program_restrictions.exists():
-            program_ids = request.user.program_restrictions.values_list('id')
-            return queryset.filter(program__id__in=program_ids)
+        if not request.user.is_superuser:
+            if request.user.program_restrictions.exists():
+                program_ids = request.user.program_restrictions.values_list('id')
+                return queryset.filter(program__id__in=program_ids).distinct()
+            else:
+                return User.objects.none()
 
         return queryset
 
@@ -239,5 +256,4 @@ class CustomUserModelFilerAdmin(FolderAdmin):
 
 
 admin.site.unregister(Folder)
-admin.site.register(User, UserAdmin)
 admin.site.register(Folder, CustomUserModelFilerAdmin)
