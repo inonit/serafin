@@ -14,6 +14,7 @@ from import_export.admin import ImportExportModelAdmin
 from jsonfield import JSONField
 from constance import config
 from events.models import Event
+from system.models import Program
 from users.importexport import UserResource
 from users.models import User
 
@@ -29,6 +30,18 @@ class UserCreationForm(forms.ModelForm):
     password2 = forms.CharField(label=_('Password (again)'), widget=forms.PasswordInput)
     email = forms.EmailField(label=_('E-mail'))
     phone = forms.CharField(label=_('Phone'))
+    program_access = forms.ModelChoiceField(label='Program Access', queryset=Program.objects.all())
+
+    def __init__(self, *args, **kwargs):
+        super(UserCreationForm, self).__init__(*args, **kwargs)
+        if not self.request_user.is_superuser:
+            if self.request_user.program_restrictions.exists():
+                program_ids = self.request_user.program_restrictions.values_list('id')
+                self.fields['program_access'].queryset = Program.objects.filter(id__in=program_ids)
+            else:
+                self.fields['program_access'].queryset = Program.objects.none()
+        else:
+            self.fields['program_access'].required = False
 
     class Meta(object):
         model = User
@@ -171,7 +184,7 @@ class UserAdmin(UserAdmin, ImportExportModelAdmin):
     )
     restricted_add_fieldsets = (
         (None, {
-            'fields': ('password1', 'password2', 'email', 'phone'),
+            'fields': ('password1', 'password2', 'email', 'phone', 'program_access'),
             'classes': ('suit-tab suit-tab-info', ),
         }),
         (_('Permissions'), {
@@ -200,6 +213,11 @@ class UserAdmin(UserAdmin, ImportExportModelAdmin):
         ('admin/userlog.html', 'top', 'log'),
     )
 
+    def get_form(self, request, obj=None, **kwargs):
+        form = super().get_form(request, obj, **kwargs)
+        form.request_user = request.user
+        return form
+
     def change_view(self, request, object_id, form_url='', extra_context=None):
         extra_context = extra_context or {}
         extra_context['log'] = Event.objects.filter(actor=object_id).order_by('-time')
@@ -226,6 +244,13 @@ class UserAdmin(UserAdmin, ImportExportModelAdmin):
                 return User.objects.none()
 
         return queryset
+
+    def save_model(self, request, obj, form, change):
+        super().save_model(request, obj, form, change)
+        if 'program_access' in form.cleaned_data:
+            program = form.cleaned_data['program_access']
+            if program:
+                program.enroll(obj)
 
     resource_class = UserResource
 
