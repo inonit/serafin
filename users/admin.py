@@ -239,7 +239,7 @@ class UserAdmin(UserAdmin, ImportExportModelAdmin):
         if not request.user.is_superuser:
             if request.user.program_restrictions.exists():
                 program_ids = request.user.program_restrictions.values_list('id')
-                return queryset.filter(program__id__in=program_ids).distinct()
+                return queryset.filter(program__id__in=program_ids).filter(is_superuser=False).distinct()
             else:
                 return User.objects.none()
 
