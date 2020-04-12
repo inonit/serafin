@@ -14,7 +14,7 @@ from import_export.admin import ImportExportModelAdmin
 from jsonfield import JSONField
 from constance import config
 from events.models import Event
-from system.models import Program
+from system.models import Program, ProgramUserAccess
 from users.importexport import UserResource
 from users.models import User
 
@@ -100,6 +100,15 @@ class UserChangeForm(forms.ModelForm):
         self.fields['is_active'].help_text = _('Designates whether this user should be treated as active. Unselect this instead of deleting accounts.')
         if 'is_staff' in self.fields:
             self.fields['is_staff'].help_text = _('Designates whether the user can log into this admin site.')
+        if 'is_therapist' in self.fields:
+            self.fields['is_therapist'].help_text = 'Designates whether the user is a therapist.'
+
+        # get the user's program, add relevant therapist to the list
+        user_program = ProgramUserAccess.objects.filter(user=self.instance).first()
+        if user_program is not None:
+            # find therapist for this program
+            self.fields['therapist'].queryset = User.objects.filter(is_therapist=True,
+                                                                    program_restrictions=user_program.program)
 
     def clean_password(self):
         return self.initial['password']
@@ -138,7 +147,8 @@ class UserDataWidget(forms.Widget):
 
 @admin.register(User)
 class UserAdmin(UserAdmin, ImportExportModelAdmin):
-    list_display = ['id', 'email', 'phone',  'date_joined', 'last_login', 'is_superuser', 'is_staff', 'is_active']
+    list_display = ['id', 'email', 'phone',  'date_joined', 'last_login', 'is_superuser', 'is_staff', 'is_therapist',
+                    'is_active']
     search_fields = ['id', 'email', 'phone', 'data']
     ordering = ['id']
 
@@ -146,11 +156,11 @@ class UserAdmin(UserAdmin, ImportExportModelAdmin):
     add_form = UserCreationForm
     fieldsets = (
         (None, {
-            'fields': ('id', 'password', 'email', 'phone', 'last_login', 'date_joined'),
+            'fields': ('id', 'password', 'email', 'phone', 'last_login', 'date_joined', 'therapist'),
             'classes': ('suit-tab suit-tab-info', ),
         }),
         (_('Permissions'), {
-            'fields': ('is_active', 'is_staff', 'is_superuser', 'groups', 'program_restrictions'),
+            'fields': ('is_active', 'is_staff', 'is_superuser', 'is_therapist', 'groups', 'program_restrictions'),
             'classes': ('suit-tab suit-tab-info', ),
         }),
         (None, {

@@ -55,6 +55,9 @@ class User(AbstractBaseUser, PermissionsMixin):
 
     is_staff = models.BooleanField(_('staff status'), default=False)
     is_active = models.BooleanField(_('active'), default=True)
+    is_therapist = models.BooleanField('is therapist', default=False)
+    therapist = models.ForeignKey('self', verbose_name='therapist', related_name='patients',
+                                  on_delete=models.SET_NULL, null=True, blank=True)
     program_restrictions = models.ManyToManyField(
         to='system.Program', blank=True,
         verbose_name=_('program restrictions'),
@@ -100,7 +103,7 @@ class User(AbstractBaseUser, PermissionsMixin):
                 settings.TWILIO_ACCOUNT_SID,
                 settings.TWILIO_AUTH_TOKEN
             )
-            
+
             response = client.messages.create(
                 body=message,
                 to=self.phone,
