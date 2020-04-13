@@ -415,3 +415,34 @@ newserafin.controller('modules', ['$scope', '$http', function (scope, http) {
 
 }]);
 
+
+const therapistapp = angular.module('therapistapp', []);
+
+therapistapp.config(['$httpProvider', function(httpProvider) {
+    httpProvider.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
+    httpProvider.defaults.headers.post['X-CSRFToken'] = csrf_token;
+    if (!httpProvider.defaults.headers.get) {
+        httpProvider.defaults.headers.get = {};
+    }
+    // disable IE AJAX request caching
+    httpProvider.defaults.headers.get['If-Modified-Since'] = '0';
+}]);
+
+therapistapp.run(['$rootScope', '$http', function(scope, http) {
+
+    if (api) {
+        http.get(api + window.location.search).then(response => {
+            scope.error = null;
+            scope = Object.assign(scope, response.data);
+        }, reason => {
+            scope.error = reason.data;
+            scope.page = {};
+        });
+    }
+
+}]);
+
+
+therapistapp.controller('mock', ['$scope', '$http', function (scope, http) {
+
+}]);

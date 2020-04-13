@@ -1,21 +1,26 @@
 from __future__ import unicode_literals
 from __future__ import print_function
 
+from datetime import timedelta
+from django.db.models import Q, Max, Sum, CharField, FloatField, Value as V
+from django.db.models.functions import Substr, StrIndex, Cast
 from django.conf import settings
 from django.contrib.auth.decorators import login_required
 from django.contrib.admin.views.decorators import staff_member_required
 from django.urls import reverse
 from django.http import Http404, HttpResponseRedirect, JsonResponse
 from django.shortcuts import get_object_or_404, render
-from django.utils import translation
+from django.utils import translation, timezone
 from filer.models import File, Image
-from system.models import Session, Page
+from system.models import Session, Page, ProgramUserAccess
+from events.models import Event
+from users.models import User
 from system.engine import Engine
+from serafin.settings import TIME_ZONE
 import json
 
 
 def main_page(request):
-
     session_id = request.user.data.get('session')
 
     if not session_id or not request.user.is_authenticated:
@@ -31,6 +36,70 @@ def main_page(request):
         translation.activate('he')
 
     return render(request, 'portal.html', context)
+
+
+def therapist_zone(request):
+    if not request.user.is_authenticated or not request.user.is_therapist:
+        return main_page(request)
+
+    context = {
+        'api': reverse('users_stats')
+    }
+    return render(request, 'therapist.html', context)
+
+
+def users_stats(request):
+    if not request.user.is_authenticated or not request.user.is_therapist:
+        return main_page(request)
+
+    if not request.is_ajax():
+        return therapist_zone(request)
+
+    users = User.objects.filter(therapist=request.user)
+
+    users_table = []
+    all_users_events = Event.objects.filter(actor__in=users)
+    current_tz = timezone.get_current_timezone()
+    for user in users:
+        # we assume the user has only one program
+        current_user_events = all_users_events.filter(actor=user)
+        program_user_access = ProgramUserAccess.objects.filter(user=user).first()
+        program_title = None
+        start_time = None
+        if program_user_access is not None:
+            program_title = program_user_access.program.display_title
+            start_time = program_user_access.start_time.astimezone(current_tz).strftime('%d-%b-%Y (%H:%M)')
+
+        total_ms = current_user_events.filter(variable='timer') \
+            .annotate(ms_part_noise=Substr('post_value', StrIndex('post_value', V(',')) + 2, 1000,
+                                           output_field=CharField(max_length=100))) \
+            .annotate(ms_part=Cast(Substr('ms_part_noise', 1, StrIndex('ms_part_noise', V(' ')) - 1,
+                                          output_field=CharField(max_length=10)), FloatField())) \
+            .aggregate(total_ms=Sum('ms_part'))
+
+        total_time = 0
+        if total_ms.get('total_ms') is not None:
+            total_time = str(timedelta(seconds=int(timedelta(milliseconds=total_ms.get('total_ms')).total_seconds())))
+
+        last_transition_time = None
+        last_transition_row = current_user_events.filter(variable='transition').order_by('-time').first()
+        if last_transition_row is not None:
+            last_transition_time = last_transition_row.time.astimezone(current_tz).strftime('%d-%b-%Y (%H:%M)')
+
+        last_login = None
+        if user.last_login is not None:
+            last_login = user.last_login.astimezone(current_tz).strftime('%d-%b-%Y (%H:%M)')
+
+        user_row = {'id': user.id, 'email': user.email, 'phone': user.phone, 'last_login': last_login,
+                    'program_phase': user.data.get('Program_Phase'), 'start_time': start_time,
+                    'program': program_title, 'last_transition': last_transition_time, 'total_time': total_time}
+
+        users_table.append(user_row)
+
+    objects = {
+        'users': users_table
+    }
+    return JsonResponse(objects)
 
 
 def modules_page(request):
@@ -111,7 +180,6 @@ def home(request):
 
 
 def get_session(request, module_id=None):
-
     if request.is_ajax():
         return get_page(request)
 
@@ -148,7 +216,6 @@ def get_session(request, module_id=None):
 
 
 def get_page(request):
-
     context = {}
 
     if request.method == 'POST':
@@ -195,15 +262,14 @@ def get_page(request):
 
 
 def content_route(request, route_slug=None):
-
     if request.is_ajax():
         return get_page(request)
 
     session = get_object_or_404(Session, route_slug=route_slug)
 
     if (not session.is_open and
-        session.program and
-        session.program.programuseraccess_set.filter(user=request.user.id).exists()):
+            session.program and
+            session.program.programuseraccess_set.filter(user=request.user.id).exists()):
         return HttpResponseRedirect(settings.HOME_URL)
 
     context = {
@@ -226,7 +292,6 @@ def content_route(request, route_slug=None):
 
 @staff_member_required
 def api_filer_file(request, content_type=None, file_id=None):
-
     if content_type == 'image':
         filer_file = get_object_or_404(Image, id=file_id)
     else:
