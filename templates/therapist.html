@@ -70,9 +70,11 @@
                 <th scope="col">Phone</th>
                 <th scope="col">Join</th>
                 <th scope="col">Program Phase</th>
+                <th scope="col">Current Page</th>
                 <th scope="col">Total Time</th>
                 <th scope="col">Last Login</th>
-                <th scope="col">Last Transition</th>
+                <th scope="col">Distinct Days (Login)</th>
+                <th scope="col">Login Count</th>
             </tr>
             </thead>
             <tbody>
@@ -84,9 +86,11 @@
                 <td>{{u.phone}}</td>
                 <td>{{u.start_time}}</td>
                 <td>{{u.program_phase}}</td>
+                <td>{{u.current_page}}</td>
                 <td>{{u.total_time}}</td>
                 <td>{{u.last_login}}</td>
-                <td>{{u.last_transition}}</td>
+                <td>{{u.distinct_days}}</td>
+                <td>{{u.login_count}}</td>
                 {% endverbatim %}
             </tr>
             </tbody>

@@ -2,7 +2,7 @@ from __future__ import unicode_literals
 from __future__ import print_function
 
 from datetime import timedelta
-from django.db.models import Q, Max, Sum, CharField, FloatField, Value as V
+from django.db.models import Q, Max, Sum, CharField, FloatField, Value as V, DateField
 from django.db.models.functions import Substr, StrIndex, Cast
 from django.conf import settings
 from django.contrib.auth.decorators import login_required
@@ -81,18 +81,23 @@ def users_stats(request):
         if total_ms.get('total_ms') is not None:
             total_time = str(timedelta(seconds=int(timedelta(milliseconds=total_ms.get('total_ms')).total_seconds())))
 
-        last_transition_time = None
+        last_transition_page = None
         last_transition_row = current_user_events.filter(variable='transition').order_by('-time').first()
         if last_transition_row is not None:
-            last_transition_time = last_transition_row.time.astimezone(current_tz).strftime('%d-%b-%Y (%H:%M)')
+            last_transition_page = last_transition_row.post_value
 
         last_login = None
         if user.last_login is not None:
             last_login = user.last_login.astimezone(current_tz).strftime('%d-%b-%Y (%H:%M)')
 
+        login_count = current_user_events.filter(variable='login').count()
+        distinct_days = current_user_events.filter(variable='login').annotate(day=Cast('time', DateField()))\
+            .values('day').distinct('day').count()
+
         user_row = {'id': user.id, 'email': user.email, 'phone': user.phone, 'last_login': last_login,
                     'program_phase': user.data.get('Program_Phase'), 'start_time': start_time,
-                    'program': program_title, 'last_transition': last_transition_time, 'total_time': total_time}
+                    'program': program_title, 'total_time': total_time, 'distinct_days': distinct_days,
+                    'login_count': login_count, 'current_page': last_transition_page}
 
         users_table.append(user_row)
 
