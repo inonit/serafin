@@ -58,9 +58,12 @@
 </nav>
 
 <!-- Page Content -->
-<div class="container" ng-controller="mock">
+<div class="container" ng-controller="therapist">
 
-    <div class="table-responsive">
+    <a class="btn btn-primary" data-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample">
+    Link with href
+  </a>
+    <div class="table-responsive collapse show" id="collapseExample">
         <table class="table">
             <caption>List of users</caption>
             <thead>
@@ -80,8 +83,7 @@
             <tbody>
             <tr ng-repeat="u in users">
                 {% verbatim %}
-
-                <th scope="row">{{u.id}}</th>
+                <th scope="row"><a href="#" ng-click="userstat(u.id)">{{u.id}}</a></th>
                 <td>{{u.email}}</td>
                 <td>{{u.phone}}</td>
                 <td>{{u.start_time}}</td>
@@ -96,6 +98,33 @@
             </tbody>
         </table>
     </div>
+
+    <div class="container collapse show" id="user_pages_table">
+        <div class="row">
+            <div class="col-2">Page</div>
+            <div class="col-10">Variables</div>
+        </div>
+        <div class="row" ng-repeat="page in user_pages">
+            {% verbatim %}
+            <div class="col-2">{{ page.name }}</div>
+            <div class="col-10">
+                <div class="row" ng-repeat="fill in page.variables">
+                    <div class="col-12">
+                        <button ng-if="fill.expanded" ng-click="fill.expanded = false">-</button>
+                        <button ng-if="!fill.expanded" ng-click="fill.expanded = true">+</button>
+                        {{ fill.time }}
+                        <div ng-if="fill.expanded" class="row" ng-repeat="variable in fill.vars">
+                            <div class="offset-1 col-3">{{ variable.name }}</div>
+                            <div class="col-8">{{ variable.value }}</div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+            {% endverbatim %}
+        </div>
+    </div>
+
 
 </div>
 <!-- /.container -->

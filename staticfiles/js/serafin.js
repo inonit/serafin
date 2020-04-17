@@ -430,6 +430,8 @@ therapistapp.config(['$httpProvider', function(httpProvider) {
 
 therapistapp.run(['$rootScope', '$http', function(scope, http) {
 
+    scope.user_pages = [];
+
     if (api) {
         http.get(api + window.location.search).then(response => {
             scope.error = null;
@@ -443,6 +445,16 @@ therapistapp.run(['$rootScope', '$http', function(scope, http) {
 }]);
 
 
-therapistapp.controller('mock', ['$scope', '$http', function (scope, http) {
+therapistapp.controller('therapist', ['$scope', '$http', function (scope, http) {
 
+    scope.userstat = function(user_id) {
+        // alert(user_id);
+        var url = api + '?user_id=' + user_id;
+        http.get(url).then(response => {
+            scope.user_pages = response.data.pages
+        }, reason => {
+            scope.error = reason.data;
+            scope.page = {};
+        })
+    }
 }]);

@@ -55,6 +55,10 @@ def users_stats(request):
     if not request.is_ajax():
         return therapist_zone(request)
 
+    user_id = request.GET.get('user_id')
+    if user_id is not None:
+        return user_state(request, user_id)
+
     users = User.objects.filter(therapist=request.user)
 
     users_table = []
@@ -105,6 +109,46 @@ def users_stats(request):
         'users': users_table
     }
     return JsonResponse(objects)
+
+
+def user_state(request, user_id):
+    if not request.user.is_authenticated or not request.user.is_therapist:
+        return main_page(request)
+
+    if not request.is_ajax():
+        return therapist_zone(request)
+
+    # verify the therapist is the owner of this user
+    user = User.objects.get(id=user_id)
+    if user.therapist != request.user:
+        return JsonResponse({'error': 'access denied'}, status=403)
+
+    current_tz = timezone.get_current_timezone()
+    user_events = Event.objects.filter(Q(actor=user) & ((Q(domain='session') & Q(variable='transition')) |
+                                       (Q(domain='userdata') & ~Q(variable='timer')))).order_by('-time')
+
+    pages = []
+    variables = []
+    current_page = None
+    page_time = None
+    for event in user_events:
+        if event.domain == 'session' and event.variable == 'transition':
+            if variables:
+                page = next((item for item in pages if item['name'] == current_page), None)
+                if page is None:
+                    page = {'name': current_page, 'variables': []}
+                    pages.append(page)
+                page['variables'].append({'time': page_time.astimezone(current_tz).strftime('%d-%m-%Y %H:%M'),
+                                          'vars': variables})
+            current_page = event.pre_value
+            page_time = event.time
+            variables = []
+        elif event.domain == 'userdata' and current_page is not None:
+            variables.append({'name': event.variable, 'value': event.post_value})
+        else:
+            pass
+
+    return JsonResponse({'pages': pages})
 
 
 def modules_page(request):
