@@ -148,7 +148,14 @@ def user_state(request, user_id):
         else:
             pass
 
-    return JsonResponse({'pages': pages})
+    context = {
+        'pages': pages,
+        'variables': None,
+        'email': user.email,
+        'phone': user.phone,
+        'id': user.id
+    }
+    return JsonResponse(context)
 
 
 def modules_page(request):

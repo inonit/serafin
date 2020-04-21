@@ -431,6 +431,7 @@ therapistapp.config(['$httpProvider', function(httpProvider) {
 therapistapp.run(['$rootScope', '$http', function(scope, http) {
 
     scope.user_pages = [];
+    scope.display_show_table = true;
 
     if (api) {
         http.get(api + window.location.search).then(response => {
@@ -447,8 +448,10 @@ therapistapp.run(['$rootScope', '$http', function(scope, http) {
 
 therapistapp.controller('therapist', ['$scope', '$http', function (scope, http) {
 
+
     scope.userstat = function(user_id) {
-        // alert(user_id);
+        $('#users-table').removeClass('show');
+        scope.display_show_table = false;
         var url = api + '?user_id=' + user_id;
         http.get(url).then(response => {
             scope.user_pages = response.data.pages
