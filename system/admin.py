@@ -133,6 +133,18 @@ class ProgramUserAccessInline(admin.TabularInline):
     }
 
 
+class ProgramGoldVariableInline(admin.TabularInline):
+    model = Program.gold_variables.through
+    extra = 0
+    ordering = ['variable_id']
+
+    formfield_overrides = {
+        models.ForeignKey: {
+            'widget': forms.Select
+        }
+    }
+
+
 @admin.register(Program)
 class ProgramAdmin(VersionAdmin):
     list_display = ['title', 'display_title', 'note_excerpt']
@@ -140,7 +152,7 @@ class ProgramAdmin(VersionAdmin):
     actions = ['copy', 'export_text', 'import_text']
     save_as = True
 
-    inlines = [ProgramUserAccessInline]
+    inlines = [ProgramUserAccessInline, ProgramGoldVariableInline]
     formfield_overrides = {
         models.TextField: {
             'widget': AutosizedTextarea(attrs={'rows': 3, 'class': 'input-xlarge'})

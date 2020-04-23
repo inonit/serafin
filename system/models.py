@@ -96,6 +96,8 @@ class Program(models.Model):
     admin_note = models.TextField(_('admin note'), blank=True)
 
     users = models.ManyToManyField(settings.AUTH_USER_MODEL, verbose_name=_('users'), through='ProgramUserAccess')
+    gold_variables = models.ManyToManyField('Variable', verbose_name=_('gold variables'), related_name='program_golds',
+                                            through='ProgramGoldVariable')
 
     def __str__(self):
         return self.title
@@ -146,6 +148,31 @@ class ProgramUserAccess(models.Model):
 
     def __str__(self):
         return '%s: %s' % (self.program, self.user.__str__())
+
+
+class ProgramGoldVariable(models.Model):
+    """
+    A relation model that define 'Gold' Variable to a Program
+    with additional properties
+    """
+
+    program = models.ForeignKey('Program', verbose_name=_('program'), on_delete=models.CASCADE)
+    variable = models.ForeignKey('Variable', verbose_name=_('variable'), on_delete=models.CASCADE)
+
+    GOLDEN_TYPES = [
+        ('primary', _('Primary')),
+        ('secondary', _('Secondary'))
+    ]
+
+    golden_type = models.CharField('Golden type', max_length=10, choices=GOLDEN_TYPES)
+    therapist_can_edit = models.BooleanField('Therapist can edit', default=False)
+
+    class Meta(object):
+        verbose_name = _('gold variable')
+        verbose_name_plural = _('gold variables')
+
+    def __str__(self):
+        return '%s: %s' % (self.program, self.variable)
 
 
 class Session(models.Model):

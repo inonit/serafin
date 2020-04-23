@@ -12,7 +12,7 @@ from django.http import Http404, HttpResponseRedirect, JsonResponse
 from django.shortcuts import get_object_or_404, render
 from django.utils import translation, timezone
 from filer.models import File, Image
-from system.models import Session, Page, ProgramUserAccess
+from system.models import Session, Page, ProgramUserAccess, ProgramGoldVariable
 from events.models import Event
 from users.models import User
 from system.engine import Engine
@@ -67,7 +67,7 @@ def users_stats(request):
     for user in users:
         # we assume the user has only one program
         current_user_events = all_users_events.filter(actor=user)
-        program_user_access = ProgramUserAccess.objects.filter(user=user).first()
+        program_user_access = user.get_first_program_user_access()
         program_title = None
         start_time = None
         if program_user_access is not None:
@@ -148,12 +148,24 @@ def user_state(request, user_id):
         else:
             pass
 
+    # extract gold variables
+    program = user.get_first_program()
+    gold_variables_dataset = program.programgoldvariable_set.all()
+
+    gold_variables = []
+    for gold_variable in gold_variables_dataset:
+        gold_variables.append({'name': gold_variable.variable.name,
+                                    'value': user.data.get(gold_variable.variable.name),
+                                    'editable': gold_variable.therapist_can_edit,
+                                    'is_array': gold_variable.variable.is_array,
+                                    'is_primary': gold_variable.golden_type == 'primary'})
+
     context = {
         'pages': pages,
-        'variables': None,
+        'variables': gold_variables,
         'email': user.email,
         'phone': user.phone,
-        'id': user.id
+        'id': user.id,
     }
     return JsonResponse(context)
 

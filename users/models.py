@@ -16,6 +16,8 @@ from django.template.loader import get_template
 from collections import OrderedDict
 from jsonfield import JSONField
 from plivo import RestClient as PlivoRestClient
+
+from system.models import ProgramUserAccess
 from tokens.tokens import token_generator
 from twilio.rest import Client
 import requests
@@ -285,6 +287,16 @@ class User(AbstractBaseUser, PermissionsMixin):
         if module_key not in self.data:
             return None
         return self.data[module_key]
+
+    def get_first_program_user_access(self):
+        program_user_access = ProgramUserAccess.objects.filter(user=self).first()
+        return program_user_access
+
+    def get_first_program(self):
+        program_user_access = self.get_first_program_user_access()
+        if program_user_access is not None:
+            return program_user_access.program
+        return None
 
     def __str__(self):
         return '%s' % self.id

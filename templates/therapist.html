@@ -60,9 +60,10 @@
 <!-- Page Content -->
 <div class="container mt-1" ng-controller="therapist">
 
-    <a class="btn btn-primary" ng-hide="display_show_table" ng-click="display_show_table=true" data-toggle="collapse" href="#users-table" role="button" aria-expanded="false" aria-controls="users-table">
-    Show all users
-  </a>
+    <a class="btn btn-primary" ng-hide="display_show_table" ng-click="display_show_table=true" data-toggle="collapse"
+       href="#users-table" role="button" aria-expanded="false" aria-controls="users-table">
+        Show all users
+    </a>
     <div class="table-responsive collapse show" id="users-table">
         <table class="table">
             <thead>
@@ -98,49 +99,68 @@
         </table>
     </div>
 
-    <nav ng-hide="display_show_table">
-        <div class="nav nav-tabs" id="nav-tab" role="tablist">
-            <a class="nav-item nav-link active" id="#nav-user-pages-tab" data-toggle="tab" href="#nav-user-pages" role="tab"
-               aria-controls="nav-home" aria-selected="true">Forms</a>
-            <a class="nav-item nav-link" id="nav-profile-tab" data-toggle="tab" href="#nav-profile" role="tab"
-               aria-controls="nav-profile" aria-selected="false">Profile</a>
-            <a class="nav-item nav-link" id="nav-contact-tab" data-toggle="tab" href="#nav-contact" role="tab"
-               aria-controls="nav-contact" aria-selected="false">Contact</a>
-        </div>
-    </nav>
-    <div ng-hide="display_show_table" class="tab-content" id="nav-tabContent">
-        <div class="tab-pane fade show active" id="nav-user-pages" role="tabpanel" aria-labelledby="nav-user-pages">
-            <div class="container" id="user_pages_table">
-                <div class="row">
-                    <div class="col-2">Page</div>
-                    <div class="col-10">Variables</div>
-                </div>
-                <div class="row" ng-repeat="page in user_pages">
-                    {% verbatim %}
-                    <div class="col-2">{{ page.name }}</div>
-                    <div class="col-10">
-                        <div class="row" ng-repeat="fill in page.variables">
-                            <div class="col-12">
-                                <button ng-if="fill.expanded" ng-click="fill.expanded = false">-</button>
-                                <button ng-if="!fill.expanded" ng-click="fill.expanded = true">+</button>
-                                {{ fill.time }}
-                                <div ng-if="fill.expanded" class="row" ng-repeat="variable in fill.vars">
-                                    <div class="offset-1 col-3">{{ variable.name }}</div>
-                                    <div class="col-8">{{ variable.value }}</div>
-                                </div>
-                            </div>
 
+    <div id="user-section" ng-hide="display_show_table" class="my-2">
+
+        <div class="jumbotron">
+            <h2 class="display-4">Patient</h2>
+            {% verbatim %}
+            <p class="my-1">User Id: {{ user_id }}</p>
+            <p class="my-1">Email: {{ user_email }}</p>
+            <p class="my-1">Phone: {{ user_phone }}</p>
+            <hr class="my-2">
+            <ul class="list-group">
+                <li class="list-group-item" ng-repeat="variable in variables | filter: {is_primary: true}">
+                    {{variable.name}}: {{ variable.value }}
+                </li>
+            </ul>
+            <a class="lead collapsed" ng-hide="hideShowMoreButton" ng-click="hideShowMoreButton = true"
+               data-toggle="collapse" href="#more-gold-variable" role="button" aria-expanded="false"
+               aria-controls="more-gold-variable">See more</a>
+            <div class="collapse" id="more-gold-variable">
+
+                <ul class="list-group mt-2">
+                    <li class="list-group-item" ng-repeat="variable in variables | filter: {is_primary: false}">
+                        {{variable.name}}: {{ variable.value }}
+                    </li>
+                </ul>
+
+            <a class="lead collapsed" ng-click="hideShowMoreButton = false"
+               data-toggle="collapse" href="#more-gold-variable" role="button" aria-expanded="false"
+               aria-controls="more-gold-variable">Hide</a>
+
+            </div>
+            {% endverbatim %}
+        </div>
+        <nav>
+            <div class="nav nav-tabs" id="nav-tab" role="tablist">
+                <a class="nav-item nav-link active" id="#nav-user-pages-tab" data-toggle="tab" href="#nav-user-pages"
+                   role="tab"
+                   aria-controls="nav-home" aria-selected="true">Forms</a>
+                <a class="nav-item nav-link" id="nav-profile-tab" data-toggle="tab" href="#nav-profile" role="tab"
+                   aria-controls="nav-profile" aria-selected="false">Profile</a>
+                <a class="nav-item nav-link" id="nav-contact-tab" data-toggle="tab" href="#nav-contact" role="tab"
+                   aria-controls="nav-contact" aria-selected="false">Contact</a>
+            </div>
+        </nav>
+        <div class="tab-content" id="nav-tabContent">
+            <div class="tab-pane fade show active" id="nav-user-pages" role="tabpanel" aria-labelledby="nav-user-pages">
+                <div class="container mt-2" id="user_pages_table">
+                    <div class="row" ng-repeat="page in user_pages">
+                        {% verbatim %}
+                        <div class="col-md-auto">{{ page.name }}</div>
+                        <div class="col-12">
+                            <page-variables-table variables="page.variables" />
                         </div>
+                        {% endverbatim %}
                     </div>
-                    {% endverbatim %}
                 </div>
             </div>
+            <div class="tab-pane fade" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab">...</div>
+            <div class="tab-pane fade" id="nav-contact" role="tabpanel" aria-labelledby="nav-contact-tab">...</div>
         </div>
-        <div class="tab-pane fade" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab">...</div>
-        <div class="tab-pane fade" id="nav-contact" role="tabpanel" aria-labelledby="nav-contact-tab">...</div>
+
     </div>
-
-
 
 
 </div>
