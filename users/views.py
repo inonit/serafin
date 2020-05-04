@@ -190,10 +190,12 @@ def profile(request):
 
             if start_time > now:
                 sessions_remaining += 1
+        try:
+            days_since_start = (now - min(start_times)).days
+        except:
+            pass
 
-        days_since_start = (now - min(start_times)).days
-
-        progress_set[useraccess.program] = {
+        progress_set[useraccess.program.display_title] = {
             'sessions_done': sessions_done,
             'sessions_remaining': sessions_remaining,
             'days_since_start': days_since_start
