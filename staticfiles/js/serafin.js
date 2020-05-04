@@ -449,6 +449,13 @@ therapistapp.run(['$rootScope', '$http', function (scope, http) {
 
 therapistapp.controller('therapist', ['$scope', '$http', function (scope, http) {
 
+    scope.selectedTransformationVariable = '';
+    scope.transofrmationTable;
+
+    scope.updateTransformationTable = function() {
+        let selectedVariable = scope.variables.find(elem => elem.name == scope.selectedTransformationVariable);
+        scope.transofrmationTable = selectedVariable.values;
+    };
 
     scope.showMoreGoldVariables = function (element) {
         debugger;

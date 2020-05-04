@@ -5,7 +5,8 @@
             <strong>{{ field }}:</strong>
         </div>
         <div class="span4">
-            <input ng-if="debug" type="text" ng-model="data[field]">
+            <input ng-if="debug && int_fields.indexOf(field) > -1" type="number" ng-model="data[field]">
+            <input ng-if="debug && int_fields.indexOf(field) == -1" type="text" ng-model="data[field]">
             <span ng-if="!debug">{{ display(data[field]) }}</span>
         </div>
     </div>
@@ -17,6 +18,7 @@
         scope.data = {{ data|safe }};
         scope.fields = {{ fields|safe }};
         scope.debug = {{ debug }};
+        scope.int_fields = {{ int_fields|safe }};
         scope.display = function(value) {
             return typeof(value.join) === 'function' ? value.join(', ') : value;
         }

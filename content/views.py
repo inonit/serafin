@@ -12,7 +12,8 @@ from django.http import Http404, HttpResponseRedirect, JsonResponse
 from django.shortcuts import get_object_or_404, render
 from django.utils import translation, timezone
 from filer.models import File, Image
-from system.models import Session, Page, ProgramUserAccess, ProgramGoldVariable
+from itertools import chain
+from system.models import Session, Page, ProgramUserAccess, ProgramGoldVariable, Variable
 from events.models import Event
 from users.models import User
 from system.engine import Engine
@@ -95,7 +96,7 @@ def users_stats(request):
             last_login = user.last_login.astimezone(current_tz).strftime('%d-%b-%Y (%H:%M)')
 
         login_count = current_user_events.filter(variable='login').count()
-        distinct_days = current_user_events.filter(variable='login').annotate(day=Cast('time', DateField()))\
+        distinct_days = current_user_events.filter(variable='login').annotate(day=Cast('time', DateField())) \
             .values('day').distinct('day').count()
 
         user_row = {'id': user.id, 'email': user.email, 'phone': user.phone, 'last_login': last_login,
@@ -125,7 +126,10 @@ def user_state(request, user_id):
 
     current_tz = timezone.get_current_timezone()
     user_events = Event.objects.filter(Q(actor=user) & ((Q(domain='session') & Q(variable='transition')) |
-                                       (Q(domain='userdata') & ~Q(variable='timer')))).order_by('-time')
+                                                        (Q(domain='userdata') & ~Q(variable='timer')))).order_by(
+        '-time')
+
+    user_expressions_events = Event.objects.filter(Q(actor=user) & Q(domain='expression')).order_by('-time')
 
     pages = []
     variables = []
@@ -154,11 +158,31 @@ def user_state(request, user_id):
 
     gold_variables = []
     for gold_variable in gold_variables_dataset:
-        gold_variables.append({'name': gold_variable.variable.name,
-                                    'value': user.data.get(gold_variable.variable.name),
-                                    'editable': gold_variable.therapist_can_edit,
-                                    'is_array': gold_variable.variable.is_array,
-                                    'is_primary': gold_variable.golden_type == 'primary'})
+        variable_value = user.data.get(gold_variable.variable.name)
+        if Variable.is_array_variable(gold_variable.variable.name) and isinstance(variable_value, list):
+            variable_value = variable_value[-1]
+
+        gold_variable_element = {'name': gold_variable.variable.name,
+                                 'value': variable_value,
+                                 'editable': gold_variable.therapist_can_edit,
+                                 'is_array': gold_variable.variable.is_array,
+                                 'is_primary': gold_variable.golden_type == 'primary'}
+
+        if gold_variable.variable.is_array:
+            variable_values_by_date = []
+            userdata_variable_events = user_events.filter(
+                Q(domain='userdata') & Q(variable=gold_variable.variable.name))
+            expressions_variable_event = user_expressions_events.filter(variable=gold_variable.variable.name)
+            for e in list(chain(userdata_variable_events, expressions_variable_event)):
+                variable_values_by_date.append({'time': e.time, 'value': e.post_value})
+            variable_values_by_date.sort(key=lambda x: x['time'], reverse=True)
+            variable_values_by_date = list(
+                map(lambda x: {'value': x['value'],
+                               'time': x['time'].astimezone(current_tz).strftime('%d-%m-%Y %H:%M')},
+                    variable_values_by_date))
+            gold_variable_element['values'] = variable_values_by_date
+
+        gold_variables.append(gold_variable_element)
 
     context = {
         'pages': pages,

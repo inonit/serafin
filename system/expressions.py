@@ -289,6 +289,10 @@ class Parser(object):
                 from system.models import Variable
                 if Variable.is_array_variable(variable):
                     return self._get_return_value(variable_value[int(variable_index)])
+            else:
+                from system.models import Variable
+                if Variable.is_array_variable(variable) and isinstance(variable_value, list):
+                    variable_value = variable_value[-1]
             return variable_value
 
         elif operator in ("True", "False"):

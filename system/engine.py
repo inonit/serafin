@@ -254,7 +254,6 @@ class Engine(object):
         )
 
         if node_type == 'start':
-
             return self.transition(node_id)
 
         if node_type == 'page':
@@ -324,7 +323,6 @@ class Engine(object):
             return self.transition(0)
 
         if node_type == 'background_session':
-
             current_node = node_id
             current_session = self.session.pk
             is_interactive = self.is_interactive
@@ -352,8 +350,33 @@ class Engine(object):
                     result = None
 
                 if variable_name:
-                    self.user.data[variable_name] = result
+                    def recursive_stripe(v):
+                        if isinstance(v, list):
+                            return '[' + ', '.join([recursive_stripe(x) for x in v]) + ']'
+                        else:
+                            return v.strip()
+
+                    pre_value = self.user.data.get(variable_name, '')
+                    if isinstance(pre_value, list):
+                        pre_value = ', '.join([recursive_stripe(v) for v in pre_value])
+
+                    if Variable.is_array_variable(variable_name):
+                        if variable_name in self.user.data and isinstance(self.user.data[variable_name], list):
+                            self.user.data[variable_name].append(result)
+                        else:
+                            self.user.data[variable_name] = [result]
+                    else:
+                        self.user.data[variable_name] = result
                     self.user.save()
+
+                    log_event.send(
+                        self,
+                        domain='expression',
+                        actor=self.user,
+                        variable=variable_name,
+                        pre_value=str(pre_value),
+                        post_value=str(result)
+                    )
 
             self.logger.debug(
                 '%s %s processed expression %s',
@@ -363,7 +386,6 @@ class Engine(object):
             return self.transition(node_id)
 
         if node_type == 'email':
-
             email = Email.objects.get(id=ref_id)
             email.send(self.user)
 
@@ -466,7 +488,6 @@ class Engine(object):
             return self.transition(node_id)
 
         if node_type == 'leave':
-
             self.session.program.leave(self.user)
 
             log_event.send(
@@ -512,7 +533,6 @@ class Engine(object):
                     delay.get('unit'): float(delay_number * useraccess.time_factor),
                 }
                 delta = timedelta(**kwargs)
-
 
                 from system.tasks import transition
 
@@ -564,7 +584,6 @@ class Engine(object):
                 )
 
             return page
-
 
     def run(self, next=False, pop=False, chapter=0, back=0):
         '''
