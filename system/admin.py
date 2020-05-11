@@ -66,7 +66,7 @@ class VariableAdmin(admin.ModelAdmin):
         (None, {
             'fields': (
                 'name',
-                #'display_name',
+                'display_name',
                 'admin_note',
                 'program',
                 'value',
