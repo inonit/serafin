@@ -298,6 +298,19 @@ class User(AbstractBaseUser, PermissionsMixin):
             return program_user_access.program
         return None
 
+    def get_pre_variable_value_for_log(self, variable_name):
+        def recursive_stripe(v):
+            if isinstance(v, list):
+                return '[' + ', '.join([recursive_stripe(x) for x in v]) + ']'
+            else:
+                return v.strip()
+
+        pre_value = self.data.get(variable_name, '')
+        if isinstance(pre_value, list):
+            pre_value = ', '.join([recursive_stripe(v) for v in pre_value])
+
+        return pre_value
+
     def __str__(self):
         return '%s' % self.id
 

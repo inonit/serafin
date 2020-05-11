@@ -134,14 +134,14 @@
         </div>
         <nav>
             <div class="nav nav-tabs" id="nav-tab" role="tablist">
-                <a class="nav-item nav-link active" id="#nav-user-pages-tab" data-toggle="tab" href="#nav-user-pages"
+                <a class="nav-item nav-link active" id="nav-user-pages-tab" data-toggle="tab" href="#nav-user-pages"
                    role="tab"
                    aria-controls="nav-home" aria-selected="true">Forms</a>
                 <a class="nav-item nav-link" id="nav-transformation-tab" data-toggle="tab" href="#nav-transformation"
                    role="tab"
                    aria-controls="nav-transformation" aria-selected="false">Transformations</a>
-                <a class="nav-item nav-link" id="nav-contact-tab" data-toggle="tab" href="#nav-contact" role="tab"
-                   aria-controls="nav-contact" aria-selected="false">Contact</a>
+                <a class="nav-item nav-link" id="nav-edit-vars-tab" data-toggle="tab" href="#nav-edit-vars" role="tab"
+                   aria-controls="nav-edit-vars" aria-selected="false">Edit Variables</a>
             </div>
         </nav>
         <div class="tab-content" id="nav-tabContent">
@@ -164,9 +164,10 @@
                             <div class="form-group">
                                 <label for="arrayVariableSelect">Array variables</label>
                                 <select class="form-control" id="arrayVariableSelect"
-                                        ng-model="selectedTransformationVariable" ng-change="updateTransformationTable()">
+                                        ng-model="selectedTransformationVariable"
+                                        ng-change="updateTransformationTable()">
                                     {% verbatim %}
-                                    <option value="{{ variable.name }}" ng-repeat="variable in variables | filter: {is_array: true}">{{
+                                    <option value="{{ variable.name }}" ng-repeat="variable in variables">{{
                                         variable.name }}
                                     </option>
                                     {% endverbatim %}
@@ -195,7 +196,22 @@
                     </div>
                 </div>
             </div>
-            <div class="tab-pane fade" id="nav-contact" role="tabpanel" aria-labelledby="nav-contact-tab">...</div>
+            <div class="tab-pane fade" id="nav-edit-vars" role="tabpanel" aria-labelledby="nav-edit-vars-tab">
+                <h2>{% trans 'Edit patient data' %}</h2>
+                <form ng-submit="postVariables()">
+                    {% csrf_token %}
+                    <div ng-repeat="field in variablesForm.fields">
+                        <div class="form-group">
+                            {% verbatim %}
+                            <label for="{{field.name}}">{{ field.name }}</label>
+                            <input type="text" class="form-control" id="{{field.name}}"
+                                   placeholder="" ng-model="variablesForm.data[field.name]">
+                            {% endverbatim %}
+                        </div>
+                    </div>
+                    <button>Submit</button>
+                </form>
+            </div>
         </div>
 
     </div>

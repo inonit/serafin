@@ -15,6 +15,7 @@ from filer.models import File, Image
 from itertools import chain
 from system.models import Session, Page, ProgramUserAccess, ProgramGoldVariable, Variable
 from events.models import Event
+from events.signals import log_event
 from users.models import User
 from system.engine import Engine
 from serafin.settings import TIME_ZONE
@@ -124,12 +125,34 @@ def user_state(request, user_id):
     if user.therapist != request.user:
         return JsonResponse({'error': 'access denied'}, status=403)
 
+    # extract gold variables
+    program = user.get_first_program()
+    gold_variables_dataset = program.programgoldvariable_set.all()
+
+    if request.method == 'POST':
+        for key, value in list(request.POST.items()):
+            gold_variable = gold_variables_dataset.filter(variable__name=key).first()
+            if gold_variable is not None and gold_variable.therapist_can_edit:
+                # todo: support array variable / refactor get/set user variable to user
+                pre_value = user.get_pre_variable_value_for_log(key)
+                log_event.send(
+                    request.user,
+                    domain='therapist',
+                    actor=user,
+                    variable=key,
+                    pre_value=str(pre_value),
+                    post_value=str(value)
+                )
+                user.data[key] = value
+        user.save()
+
     current_tz = timezone.get_current_timezone()
     user_events = Event.objects.filter(Q(actor=user) & ((Q(domain='session') & Q(variable='transition')) |
-                                                        (Q(domain='userdata') & ~Q(variable='timer')))).order_by(
-        '-time')
+                                                        (Q(domain='userdata') & ~Q(variable='timer'))))\
+        .order_by('-time')
 
-    user_expressions_events = Event.objects.filter(Q(actor=user) & Q(domain='expression')).order_by('-time')
+    user_expressions_events = Event.objects.filter(Q(actor=user) & (Q(domain='expression') | Q(domain='therapist')))\
+        .order_by('-time')
 
     pages = []
     variables = []
@@ -152,10 +175,6 @@ def user_state(request, user_id):
         else:
             pass
 
-    # extract gold variables
-    program = user.get_first_program()
-    gold_variables_dataset = program.programgoldvariable_set.all()
-
     gold_variables = []
     for gold_variable in gold_variables_dataset:
         variable_value = user.data.get(gold_variable.variable.name)
@@ -165,22 +184,18 @@ def user_state(request, user_id):
         gold_variable_element = {'name': gold_variable.variable.name,
                                  'value': variable_value,
                                  'editable': gold_variable.therapist_can_edit,
-                                 'is_array': gold_variable.variable.is_array,
                                  'is_primary': gold_variable.golden_type == 'primary'}
 
-        if gold_variable.variable.is_array:
-            variable_values_by_date = []
-            userdata_variable_events = user_events.filter(
-                Q(domain='userdata') & Q(variable=gold_variable.variable.name))
-            expressions_variable_event = user_expressions_events.filter(variable=gold_variable.variable.name)
-            for e in list(chain(userdata_variable_events, expressions_variable_event)):
-                variable_values_by_date.append({'time': e.time, 'value': e.post_value})
-            variable_values_by_date.sort(key=lambda x: x['time'], reverse=True)
-            variable_values_by_date = list(
-                map(lambda x: {'value': x['value'],
-                               'time': x['time'].astimezone(current_tz).strftime('%d-%m-%Y %H:%M')},
-                    variable_values_by_date))
-            gold_variable_element['values'] = variable_values_by_date
+        variable_values_by_date = []
+        userdata_variable_events = user_events.filter(Q(domain='userdata') & Q(variable=gold_variable.variable.name))
+        expressions_variable_event = user_expressions_events.filter(variable=gold_variable.variable.name)
+        for e in list(chain(userdata_variable_events, expressions_variable_event)):
+            variable_values_by_date.append({'time': e.time, 'value': e.post_value})
+        variable_values_by_date.sort(key=lambda x: x['time'], reverse=True)
+        variable_values_by_date = list(
+            map(lambda x: {'value': x['value'], 'time': x['time'].astimezone(current_tz).strftime('%d-%m-%Y %H:%M')},
+                variable_values_by_date))
+        gold_variable_element['values'] = variable_values_by_date
 
         gold_variables.append(gold_variable_element)
 

@@ -350,15 +350,7 @@ class Engine(object):
                     result = None
 
                 if variable_name:
-                    def recursive_stripe(v):
-                        if isinstance(v, list):
-                            return '[' + ', '.join([recursive_stripe(x) for x in v]) + ']'
-                        else:
-                            return v.strip()
-
-                    pre_value = self.user.data.get(variable_name, '')
-                    if isinstance(pre_value, list):
-                        pre_value = ', '.join([recursive_stripe(v) for v in pre_value])
+                    pre_value = self.user.get_pre_variable_value_for_log(variable_name)
 
                     if Variable.is_array_variable(variable_name):
                         if variable_name in self.user.data and isinstance(self.user.data[variable_name], list):

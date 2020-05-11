@@ -75,10 +75,7 @@ class EventTrackingMiddleware(MiddlewareMixin):
                     else:
                         return v.strip()
 
-                pre_value = request.user.data.get(key, '')
-
-                if isinstance(pre_value, list):
-                    pre_value = ', '.join([recursive_stripe(v) for v in pre_value])
+                pre_value = request.user.get_pre_variable_value_for_log(key)
 
                 if isinstance(post_value, list):
                     post_value = ', '.join([recursive_stripe(v) for v in post_value])

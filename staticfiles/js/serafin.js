@@ -447,12 +447,30 @@ therapistapp.run(['$rootScope', '$http', function (scope, http) {
 }]);
 
 
-therapistapp.controller('therapist', ['$scope', '$http', function (scope, http) {
+therapistapp.controller('therapist', ['$scope', '$http', '$httpParamSerializerJQLike', function (scope, http, httpParamSerializerJQLike) {
 
+    var loadResponse = function (response) {
+        scope.selectedTransformationVariable = null;
+        scope.transofrmationTable = null;
+        scope.user_pages = response.data.pages;
+        scope.user_id = response.data.id;
+        scope.user_email = response.data.email;
+        scope.user_phone = response.data.phone;
+        scope.variables = response.data.variables;
+        scope.variablesForm = {
+            fields: [],
+            data: {}
+        };
+        scope.variables.forEach(function (variable) {
+            if (variable.editable) {
+                scope.variablesForm.fields.push({'name': variable.name, 'value': variable.value});
+                scope.variablesForm.data[variable.name] = variable.value;
+            }
+        });
+    };
     scope.selectedTransformationVariable = '';
-    scope.transofrmationTable;
 
-    scope.updateTransformationTable = function() {
+    scope.updateTransformationTable = function () {
         let selectedVariable = scope.variables.find(elem => elem.name == scope.selectedTransformationVariable);
         scope.transofrmationTable = selectedVariable.values;
     };
@@ -466,15 +484,26 @@ therapistapp.controller('therapist', ['$scope', '$http', function (scope, http) 
         scope.display_show_table = false;
         var url = api + '?user_id=' + user_id;
         http.get(url).then(response => {
-            scope.user_pages = response.data.pages;
-            scope.user_id = response.data.id;
-            scope.user_email = response.data.email;
-            scope.user_phone = response.data.phone;
-            scope.variables = response.data.variables;
+            loadResponse(response);
         }, reason => {
             scope.error = reason.data;
             scope.page = {};
         })
+    };
+
+    scope.postVariables = function () {
+        var url = api + '?user_id=' + scope.user_id;
+        var data = httpParamSerializerJQLike(scope.variablesForm.data);
+        http({
+            url: url,
+            method: 'POST',
+            data: data,
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded'
+            }
+        }).then(function (response) {
+            loadResponse(response);
+        });
     }
 }]);
 
