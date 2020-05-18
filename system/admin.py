@@ -27,16 +27,16 @@ class VariableForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         super(VariableForm, self).__init__(*args, **kwargs)
         self.fields['value'].help_text = _('Initial value remains static unless '
-            'set as a user value using a hidden set value field.')
+                                           'set as a user value using a hidden set value field.')
         self.fields['user_editable'].help_text = _('User editable fields can be changed '
-            'at any time by the user on their profile page.')
+                                                   'at any time by the user on their profile page.')
         self.fields['random_type'].help_text = _('Setting a randomization type will '
-            'set the variable to a random value.')
+                                                 'set the variable to a random value.')
         self.fields['randomize_once'].help_text = _('If set, this value will be randomized '
-            'once for each user when the Variable is first saved OR changed, then once for '
-            'each new user.')
+                                                    'once for each user when the Variable is first saved OR changed, then once for '
+                                                    'each new user.')
         self.fields['random_set'].help_text = _('The value of the Variable will be randomly '
-            'selected from a set of comma separated strings in this field.')
+                                                'selected from a set of comma separated strings in this field.')
         self.fields['is_array'].help_text = 'The variable accumulate data as array'
 
     def clean_name(self):
@@ -78,12 +78,12 @@ class VariableAdmin(admin.ModelAdmin):
                 'random_set',
                 'is_array',
             ),
-            'classes': ('suit-tab suit-tab-variable', ),
+            'classes': ('suit-tab suit-tab-variable',),
         }),
     )
     suit_form_tabs = (
         ('variable', _('Variable')),
-        #('values', _('User values')),
+        # ('values', _('User values')),
     )
 
     class Media(object):
@@ -105,11 +105,11 @@ class VariableAdmin(admin.ModelAdmin):
         return queryset
 
     def get_form(self, request, obj=None, **kwargs):
-         form = super(VariableAdmin, self).get_form(request, obj, **kwargs)
-         if request.user.program_restrictions.exists():
+        form = super(VariableAdmin, self).get_form(request, obj, **kwargs)
+        if request.user.program_restrictions.exists():
             program_ids = request.user.program_restrictions.values_list('id')
             form.base_fields['program'].queryset = Program.objects.filter(id__in=program_ids)
-         return form
+        return form
 
     def has_change_permission(self, request, obj=None):
         return request.user.has_perm('system.change_variable', obj)
@@ -138,6 +138,13 @@ class ProgramGoldVariableInline(admin.TabularInline):
     extra = 0
     ordering = ['variable_id']
 
+    def formfield_for_foreignkey(self, db_field, request, **kwargs):
+        if db_field.name == 'variable':
+            program_id = request.resolver_match.kwargs.get('object_id')
+            program = Program.objects.get(id=program_id)
+            kwargs["queryset"] = Variable.objects.filter(program=program)
+        return super().formfield_for_foreignkey(db_field, request, **kwargs)
+
     formfield_overrides = {
         models.ForeignKey: {
             'widget': forms.Select
@@ -149,7 +156,7 @@ class ProgramGoldVariableInline(admin.TabularInline):
 class ProgramAdmin(VersionAdmin):
     list_display = ['title', 'display_title', 'note_excerpt']
     search_fields = ['title', 'display_title', 'admin_note']
-    actions = ['copy', 'export_text', 'import_text']
+    actions = ['copy', 'export_text', 'import_text', 'set_program']
     save_as = True
 
     inlines = [ProgramUserAccessInline, ProgramGoldVariableInline]
@@ -254,6 +261,21 @@ class ProgramAdmin(VersionAdmin):
 
     import_text.short_description = _('Import program text')
 
+    def changelist_view(self, request, extra_context=None):
+        if 'action' in request.POST and request.POST['action'] == 'set_program':
+            if not request.POST.getlist(admin.ACTION_CHECKBOX_NAME):
+                if hasattr(request, "session"):
+                    del request.session["_program_id"]
+        return super(ProgramAdmin, self).changelist_view(request, extra_context)
+
+    def set_program(modeladmin, request, queryset):
+        program_id = queryset.first().id
+        if program_id:
+            if hasattr(request, "session"):
+                request.session["_program_id"] = program_id
+
+    set_program.short_description = _('Set Program')
+
     def get_queryset(self, request):
         queryset = super(ProgramAdmin, self).get_queryset(request)
 
@@ -279,7 +301,8 @@ class SessionForm(forms.ModelForm):
         if 'data' in self.fields:
             self.fields['data'].help_text = ''
         if 'route_slug' in self.fields:
-            self.fields['route_slug'].help_text = _('URL at which this Session will be available to registered Program users at all times')
+            self.fields['route_slug'].help_text = _(
+                'URL at which this Session will be available to registered Program users at all times')
             self.fields['route_slug'].required = False
         if 'is_open' in self.fields:
             self.fields['is_open'].help_text = _('Session open even to unregistered users')
@@ -315,10 +338,10 @@ class SessionForm(forms.ModelForm):
 
         except Exception as e:
             raise forms.ValidationError(_('Error in expression, %(id)s: %(error)s') % {
-                    'id': id,
-                    'error': e,
-                }
-            )
+                'id': id,
+                'error': e,
+            }
+                                        )
 
         return data
 
@@ -327,7 +350,7 @@ class SessionForm(forms.ModelForm):
         exclude = []
         widgets = {
             'start_time_unit': forms.Select(attrs={'class': 'input-small'}),
-            #'end_time_unit': forms.Select(attrs={'class': 'input-small'}),
+            # 'end_time_unit': forms.Select(attrs={'class': 'input-small'}),
         }
 
 
@@ -335,15 +358,15 @@ class SessionForm(forms.ModelForm):
 class SessionAdmin(VersionAdmin):
     list_display = [
         'title',
-        #'display_title',
+        # 'display_title',
         'route_slug',
         'is_open',
         'program',
         'note_excerpt',
         'start_time_delta',
         'start_time_unit',
-        #'end_time_delta',
-        #'end_time_unit',
+        # 'end_time_delta',
+        # 'end_time_unit',
         'start_time',
         'scheduled',
         'trigger_login',
@@ -351,8 +374,8 @@ class SessionAdmin(VersionAdmin):
     list_editable = [
         'start_time_delta',
         'start_time_unit',
-        #'end_time_delta',
-        #'end_time_unit',
+        # 'end_time_delta',
+        # 'end_time_unit',
         'scheduled',
         'trigger_login',
     ]
@@ -381,21 +404,21 @@ class SessionAdmin(VersionAdmin):
         (None, {
             'fields': [
                 'title',
-                #'display_title',
+                # 'display_title',
                 'route_slug',
                 'is_open',
                 'program',
                 'admin_note',
                 'start_time_delta',
                 'start_time_unit',
-                #'end_time_delta',
-                #'end_time_unit',
+                # 'end_time_delta',
+                # 'end_time_unit',
                 'scheduled',
                 'trigger_login',
             ]
         }),
         (None, {
-            'classes': ('full-width', ),
+            'classes': ('full-width',),
             'fields': ['data']
         }),
     ]
@@ -407,9 +430,6 @@ class SessionAdmin(VersionAdmin):
 
     def get_queryset(self, request):
         queryset = super(SessionAdmin, self).get_queryset(request)
-
-        if '_program_id' in request.session:
-            queryset = queryset.filter(program__id=request.session['_program_id'])
 
         if not request.user.is_superuser:
             if request.user.program_restrictions.exists():
@@ -427,12 +447,17 @@ class SessionAdmin(VersionAdmin):
         return request.user.has_perm('system.view_session', obj)
 
     def get_form(self, request, obj=None, **kwargs):
-         form = super(SessionAdmin, self).get_form(request, obj, **kwargs)
-         form.request_user = request.user
-         if request.user.program_restrictions.exists():
+        form = super(SessionAdmin, self).get_form(request, obj, **kwargs)
+        form.request_user = request.user
+        if not request.user.is_superuser and request.user.program_restrictions.exists():
             program_ids = request.user.program_restrictions.values_list('id')
             form.base_fields['program'].queryset = Program.objects.filter(id__in=program_ids)
-         return form
+
+        if hasattr(request, "session"):
+            if obj is not None:
+                request.session["_program_id"] = obj.program.id
+
+        return form
 
     def get_changelist_form(self, request, **kwargs):
         return SessionForm
@@ -528,10 +553,10 @@ class ContentForm(forms.ModelForm):
 
         except Exception as e:
             raise forms.ValidationError(_('Error in expression, %(id)s: %(error)s') % {
-                    'id': id,
-                    'error': e,
-                }
-            )
+                'id': id,
+                'error': e,
+            }
+                                        )
 
         return data
 
@@ -606,12 +631,12 @@ class ContentAdmin(VersionAdmin):
         return request.user.has_perm('system.view_content', obj)
 
     def get_form(self, request, obj=None, **kwargs):
-         form = super(ContentAdmin, self).get_form(request, obj, **kwargs)
-         form.request_user = request.user
-         if request.user.program_restrictions.exists():
+        form = super(ContentAdmin, self).get_form(request, obj, **kwargs)
+        form.request_user = request.user
+        if request.user.program_restrictions.exists():
             program_ids = request.user.program_restrictions.values_list('id')
             form.base_fields['program'].queryset = Program.objects.filter(id__in=program_ids)
-         return form
+        return form
 
 
 class PageForm(ContentForm):
@@ -702,12 +727,12 @@ class ChapterAdmin(VersionAdmin):
         }
 
     def get_form(self, request, obj=None, **kwargs):
-         form = super(ChapterAdmin, self).get_form(request, obj, **kwargs)
-         form.request_user = request.user
-         if request.user.program_restrictions.exists():
+        form = super(ChapterAdmin, self).get_form(request, obj, **kwargs)
+        form.request_user = request.user
+        if request.user.program_restrictions.exists():
             program_ids = request.user.program_restrictions.values_list('id')
             form.base_fields['program'].queryset = Program.objects.filter(id__in=program_ids)
-         return form
+        return form
 
     def get_queryset(self, request):
         queryset = super(ChapterAdmin, self).get_queryset(request)
@@ -745,12 +770,12 @@ class ModuleAdmin(NonSortableParentAdmin):
         }
 
     def get_form(self, request, obj=None, **kwargs):
-         form = super(ModuleAdmin, self).get_form(request, obj, **kwargs)
-         form.request_user = request.user
-         if request.user.program_restrictions.exists():
+        form = super(ModuleAdmin, self).get_form(request, obj, **kwargs)
+        form.request_user = request.user
+        if request.user.program_restrictions.exists():
             program_ids = request.user.program_restrictions.values_list('id')
             form.base_fields['program'].queryset = Program.objects.filter(id__in=program_ids)
-         return form
+        return form
 
     def get_queryset(self, request):
         queryset = super(ModuleAdmin, self).get_queryset(request)
