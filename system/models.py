@@ -83,6 +83,17 @@ class Variable(models.Model):
         except Variable.DoesNotExist:
             return False
 
+    @staticmethod
+    def display_name_by_name(variable_name):
+        try:
+            obj = Variable.objects.get(name=variable_name)
+            if obj.display_name:
+                return obj.display_name
+            else:
+                return variable_name
+        except Variable.DoesNotExist:
+            return variable_name
+
 
 class Program(models.Model):
     '''A top level model for a separate Program, having one or more sessions'''
@@ -562,6 +573,29 @@ class Page(Content):
         html = render_to_string('pdf.html', context=context)
         pdf = HTML(string=html, base_url=base_url).write_pdf()
         return pdf
+
+    def extract_label(self, variable_name, variable_value):
+        selected_alternatives = []
+        for component in self.data:
+            if isinstance(component['content'], list):
+                for sub_component in component['content']:
+                    if isinstance(sub_component, dict) and sub_component.get('variable_name') == variable_name:
+                        selected_alternatives = sub_component.get('alternatives')
+                        break
+            else:
+                if isinstance(component['content'], dict) and \
+                        component['content'].get('variable_name') == variable_name:
+                    selected_alternatives = component['content'].get('alternatives')
+                    break
+
+        if selected_alternatives is None:
+            return variable_value
+
+        for alternative in selected_alternatives:
+            if alternative['value'] == variable_value:
+                return alternative['label']
+
+        return variable_value
 
 
 class EmailManager(models.Manager):

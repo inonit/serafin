@@ -171,7 +171,16 @@ def user_state(request, user_id):
             page_time = event.time
             variables = []
         elif event.domain == 'userdata' and current_page is not None:
-            variables.append({'name': event.variable, 'value': event.post_value})
+            # find label by post_value
+            variable_display_value = event.post_value
+            if event.post_value.isnumeric():
+                try:
+                    page = Page.objects.get(title=current_page)
+                    variable_display_value = page.extract_label(event.variable, event.post_value)
+                except Page.DoesNotExist:
+                    pass
+
+            variables.append({'name': Variable.display_name_by_name(event.variable), 'value': variable_display_value})
         else:
             pass
 
@@ -181,7 +190,12 @@ def user_state(request, user_id):
         if Variable.is_array_variable(gold_variable.variable.name) and isinstance(variable_value, list):
             variable_value = variable_value[-1]
 
+        variable_display_name = gold_variable.variable.display_name
+        if not variable_display_name:
+            variable_display_name = gold_variable.variable.name
+
         gold_variable_element = {'name': gold_variable.variable.name,
+                                 'display_name': variable_display_name,
                                  'value': variable_value,
                                  'editable': gold_variable.therapist_can_edit,
                                  'is_primary': gold_variable.golden_type == 'primary'}

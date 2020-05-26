@@ -72,10 +72,10 @@
                 <th scope="col">Email</th>
                 <th scope="col">Phone</th>
                 <th scope="col">Join</th>
+                <th scope="col">Last Login</th>
                 <th scope="col">Program Phase</th>
                 <th scope="col">Current Page</th>
                 <th scope="col">Total Time</th>
-                <th scope="col">Last Login</th>
                 <th scope="col">Distinct Days (Login)</th>
                 <th scope="col">Login Count</th>
             </tr>
@@ -87,10 +87,10 @@
                 <td>{{u.email}}</td>
                 <td>{{u.phone}}</td>
                 <td>{{u.start_time}}</td>
+                <td>{{u.last_login}}</td>
                 <td>{{u.program_phase}}</td>
                 <td>{{u.current_page}}</td>
                 <td>{{u.total_time}}</td>
-                <td>{{u.last_login}}</td>
                 <td>{{u.distinct_days}}</td>
                 <td>{{u.login_count}}</td>
                 {% endverbatim %}
@@ -111,7 +111,7 @@
             <hr class="my-2">
             <ul class="list-group">
                 <li class="list-group-item" ng-repeat="variable in variables | filter: {is_primary: true}">
-                    {{variable.name}}: {{ variable.value }}
+                    {{variable.display_name}}: {{ variable.value }}
                 </li>
             </ul>
             <a class="lead collapsed" ng-hide="hideShowMoreButton" ng-click="hideShowMoreButton = true"
@@ -121,7 +121,7 @@
 
                 <ul class="list-group mt-2">
                     <li class="list-group-item" ng-repeat="variable in variables | filter: {is_primary: false}">
-                        {{variable.name}}: {{ variable.value }}
+                        {{variable.display_name}}: {{ variable.value }}
                     </li>
                 </ul>
 
@@ -162,13 +162,13 @@
                     <div class="row justify-content-center">
                         <div class="col-6">
                             <div class="form-group">
-                                <label for="arrayVariableSelect">Array variables</label>
+                                <label for="arrayVariableSelect">Main variables</label>
                                 <select class="form-control" id="arrayVariableSelect"
                                         ng-model="selectedTransformationVariable"
                                         ng-change="updateTransformationTable()">
                                     {% verbatim %}
-                                    <option value="{{ variable.name }}" ng-repeat="variable in variables">{{
-                                        variable.name }}
+                                    <option value="{{ variable.name }}" ng-repeat="variable in variables">
+                                        {{ variable.display_name }}
                                     </option>
                                     {% endverbatim %}
                                 </select>
@@ -203,7 +203,7 @@
                     <div ng-repeat="field in variablesForm.fields">
                         <div class="form-group">
                             {% verbatim %}
-                            <label for="{{field.name}}">{{ field.name }}</label>
+                            <label for="{{field.name}}">{{ field.display }}</label>
                             <input type="text" class="form-control" id="{{field.name}}"
                                    placeholder="" ng-model="variablesForm.data[field.name]">
                             {% endverbatim %}

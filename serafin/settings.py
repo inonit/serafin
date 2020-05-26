@@ -200,7 +200,7 @@ AUTHENTICATION_BACKENDS = (
 LOGIN_URL = '/login'
 LOGIN_REDIRECT_URL = '/'
 
-HOME_URL = '/home'
+HOME_URL = LOGIN_URL
 REGISTER_URL = '/register'
 
 TOKEN_TIMEOUT_DAYS = 1
@@ -235,6 +235,7 @@ HUEY = {
     'name': 'serafin',
     'store_none': True,
     'always_eager': False,
+    'immediate': True,
     'consumer': {
         'quiet': True,
         'workers': 100,
@@ -306,7 +307,8 @@ LOGGING = {
             'filename': 'debug.log',
             'maxBytes': 1024 * 1024 * 5,  # 5 MB
             'backupCount': 0,
-            'formatter': 'verbose'
+            'formatter': 'verbose',
+            'encoding': 'utf-8'
         },
         'huey': {
             'level': 'INFO',
@@ -475,7 +477,7 @@ CONSTANCE_REDIS_CONNECTION = {
 REQUEST_IGNORE_PATHS = (
     r'^admin',
     r'^static',
-    r'^api',
+    r'^api.*(?<!users_stats)$',
 )
 
 REQUEST_IGNORE_USER_AGENTS = (
