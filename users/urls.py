@@ -14,21 +14,12 @@ urlpatterns = [
         login_via_email,
         name='login_via_email'
         ),
-    url(r'^recover_password/$', auth_views.PasswordResetView.as_view(), {
-        'post_reset_redirect': '/recover_password/sent/',
-        'password_reset_form': PasswordResetForm,
-    },
-        name='password_reset'
-        ),
-    url(r'^recover_password/sent/$', auth_views.PasswordResetDoneView.as_view()),
+    url(r'^recover_password/$', auth_views.PasswordResetView.as_view(form_class=PasswordResetForm),
+        name='password_reset'),
+    url(r'^recover_password/sent/$', auth_views.PasswordResetDoneView.as_view(), name='password_reset_done'),
     url(r'^recover_password/(?P<uidb64>[0-9A-Za-z_\-]+)/(?P<token>.+)$',
-        auth_views.PasswordResetConfirmView.as_view(), {
-            'post_reset_redirect': '/recover_password/done/',
-            'token_generator': token_generator,
-        },
-        name='password_reset_confirm'
-        ),
-    url(r'^recover_password/done/$', auth_views.PasswordResetCompleteView.as_view()),
+        auth_views.PasswordResetConfirmView.as_view(token_generator=token_generator), name='password_reset_confirm'),
+    url(r'^recover_password/done/$', auth_views.PasswordResetCompleteView.as_view(), name='password_reset_complete'),
     url(r'^profile/$', profile, name='profile'),
     url(r'^api/users/receive_sms$', receive_sms, name='receive_sms')
 ]
