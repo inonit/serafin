@@ -550,6 +550,14 @@ class Engine(object):
 
                 return
 
+        if node_type == 'tool':
+            tools = self.user.data.get('tools', [])
+            tool = node.get('tool')
+            tools.append({'url': tool['url'], 'type': tool['type'], 'title': tool['title']})
+            self.user.data['tools'] = tools
+            self.user.save()
+            return
+
     def show_chapter(self, chapter_id):
         # todo: fill the page in case it's a form
         page_id = self.user.get_page_id_by_chapter(chapter_id)

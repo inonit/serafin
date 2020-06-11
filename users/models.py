@@ -311,6 +311,14 @@ class User(AbstractBaseUser, PermissionsMixin):
 
         return pre_value
 
+    def get_tools(self):
+        """
+        return list of Tools asset {'url': <>, 'type': <file/video/audio>, 'title': <>}
+        """
+
+        tools = self.data.get('tools', [])
+        return tools
+
     def __str__(self):
         return '%s' % self.id
 

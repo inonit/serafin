@@ -197,6 +197,25 @@ plumbing.controller('graph', ['$scope', 'jsPlumb', function(scope, jsPlumbServic
             return;
         }
 
+        if (type == 'tool') {
+            scope.data.nodes.push({
+                id: id,
+                type: type,
+                tool: {
+                    title: '',
+                    type: 'file',
+                    url: '',
+                    file_id: '',
+                    description: ''
+                },
+                metrics: {
+                    left: (300 - scope.scrolling.x) + 'px',
+                    top: (100 - scope.scrolling.y) + 'px'
+                }
+            });
+            return;
+        }
+
         if (type == 'expression') {
             scope.data.nodes.push({
                 id: id,
@@ -325,7 +344,8 @@ plumbing.directive('node', ['$timeout', 'jsPlumb', function(timeout, jsPlumbServ
                 if (scope.node.id > 0) {
                     if (scope.node.type == 'delay' ||
                         scope.node.type == 'expression' ||
-                        scope.node.type == 'enroll') {
+                        scope.node.type == 'enroll' ||
+                        scope.node.type == 'tool') {
                         scope.$apply(function() {
                             scope.$parent.showSettings = scope.$index;
                             scope.$parent.showConditions = -1;
@@ -435,7 +455,7 @@ plumbing.directive('edge', ['jsPlumb', function(jsPlumbService) {
                     'start', 'page', 'session', 'wait'
                 ]
                 var background = [
-                    'email', 'sms', 'register', 'enroll', 'leave', 'delay', 'background_session'
+                    'email', 'sms', 'register', 'enroll', 'leave', 'delay', 'background_session', 'tool'
                 ]
 
                 // disallow/delete edge with start as target,
@@ -482,6 +502,72 @@ plumbing.directive('optTitle', [function() {
             element.bind('mouseenter', function() {
                 element[0].title = element.children(':selected')[0].title
             })
+        }
+    };
+}]);
+
+plumbing.directive('filer', ['$compile', '$http', function (compile, http) {
+    return {
+        restrict: 'C',
+        replace: true,
+        link: function (scope, elem, attrs) {
+            var index = scope.$index;
+            var node = scope.$parent.node;
+            var url = filerApi + node.type + '/';
+
+            // clear on click
+            elem.find('.filerClearer').on('click', function () {
+                scope.$apply(function () {
+                    node.tool.file_id = '';
+                    node.tool.url = '';
+                    node.tool.thumbnail = '';
+                    node.tool.description = '';
+                })
+            });
+
+            // set up popup handler
+            elem.find('#id_file_lookup')
+                .attr('onclick', 'return showRelatedObjectLookupPopup(this)');
+
+            // differentiate externally interacting elements
+            elem.find('#id_file')[0].id = 'id_file_' + index;
+            elem.find('#id_file_lookup')[0].id = 'id_file_lookup_' + index;
+
+            // set models
+            var file_id = elem.find('#id_file' + index)
+                .attr('ng-model', 'pagelet.content.file_id');
+            var thumb = elem.find('.thumbnail_img')
+                .attr('ng-src', node.tool.thumbnail);
+            var name = elem.find('.description_text')
+                .attr('ng-bind', 'node.tool.description');
+            compile(file_id)(scope);
+            compile(thumb)(scope);
+            compile(name)(scope);
+
+            // receive on select
+            angular.element(window).bind('focus', function (val) {
+                var value = elem.find('#id_file_' + index).attr('value');
+                if (value && value !== node.tool.file_id) {
+                    scope.$apply(function () {
+                        node.tool.file_id = value;
+                    });
+                    http.get(url + value + '/').then(function (response) {
+                        node.tool.url = response.data['url'];
+                        node.tool.thumbnail = response.data['thumbnail'];
+                        node.tool.description = response.data['description'];
+                    });
+                }
+            });
+
+            // populate on load
+            if (node.tool.file_id) {
+                http.get(url + node.tool.file_id + '/').then(function (response) {
+                    elem.find('.thumbnail_img').removeClass('hidden');
+                    elem.find('.description_text').removeClass('hidden');
+                    elem.find('.filerClearer').removeClass('hidden');
+                    elem.find('#id_file_lookup_' + index).addClass('hidden');
+                });
+            }
         }
     };
 }]);

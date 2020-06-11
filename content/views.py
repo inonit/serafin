@@ -22,6 +22,11 @@ from serafin.settings import TIME_ZONE
 import json
 
 
+def set_language_by_session(session):
+    if session and session.program and session.program.is_rtl:
+        translation.activate('he')
+
+
 def main_page(request):
     session_id = request.user.data.get('session')
 
@@ -34,8 +39,7 @@ def main_page(request):
         'program': session.program,
     }
 
-    if session and session.program and session.program.is_rtl:
-        translation.activate('he')
+    set_language_by_session(session)
 
     return render(request, 'portal.html', context)
 
@@ -240,6 +244,24 @@ def modules_page(request):
     }
 
     return render(request, 'modules.html', context)
+
+
+@login_required
+def tools_page(request):
+    session_id = request.user.data.get('session')
+
+    if not request.user.is_authenticated:
+        return HttpResponseRedirect(settings.HOME_URL)
+
+    session = get_object_or_404(Session, id=session_id)
+    set_language_by_session(session)
+
+    tools = request.user.get_tools()
+    context = {
+        'tools': tools
+    }
+
+    return render(request, 'tools.html', context)
 
 
 def module_redirect(request, module_id):

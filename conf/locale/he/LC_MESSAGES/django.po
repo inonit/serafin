@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-03-10 20:42+0200\n"
+"POT-Creation-Date: 2020-06-11 18:34+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -102,8 +102,8 @@ msgstr ""
 #: .\content\templates\admin\content_widget.html:191
 #: .\content\templates\admin\content_widget.html:247
 #: .\content\templates\admin\content_widget.html:339
-#: .\plumbing\templates\admin\plumbing_widget.html:93
-#: .\plumbing\templates\admin\plumbing_widget.html:110
+#: .\plumbing\templates\admin\plumbing_widget.html:101
+#: .\plumbing\templates\admin\plumbing_widget.html:118
 msgid "Variable name"
 msgstr ""
 
@@ -144,29 +144,29 @@ msgstr ""
 
 #: .\content\templates\admin\content_widget.html:146
 #: .\content\templates\admin\content_widget.html:202
-#: .\plumbing\templates\admin\plumbing_widget.html:116
-#: .\plumbing\templates\admin\plumbing_widget.html:154
+#: .\plumbing\templates\admin\plumbing_widget.html:124
+#: .\plumbing\templates\admin\plumbing_widget.html:184
 msgid "Expression"
 msgstr ""
 
 #: .\content\templates\admin\content_widget.html:149
 #: .\content\templates\admin\content_widget.html:205
-#: .\plumbing\templates\admin\plumbing_widget.html:119
-#: .\plumbing\templates\admin\plumbing_widget.html:157
+#: .\plumbing\templates\admin\plumbing_widget.html:127
+#: .\plumbing\templates\admin\plumbing_widget.html:187
 msgid "Start writing..."
 msgstr ""
 
 #: .\content\templates\admin\content_widget.html:150
 #: .\content\templates\admin\content_widget.html:206
-#: .\plumbing\templates\admin\plumbing_widget.html:120
-#: .\plumbing\templates\admin\plumbing_widget.html:158
+#: .\plumbing\templates\admin\plumbing_widget.html:128
+#: .\plumbing\templates\admin\plumbing_widget.html:188
 msgid "Preview"
 msgstr ""
 
 #: .\content\templates\admin\content_widget.html:152
 #: .\content\templates\admin\content_widget.html:208
-#: .\plumbing\templates\admin\plumbing_widget.html:122
-#: .\plumbing\templates\admin\plumbing_widget.html:160
+#: .\plumbing\templates\admin\plumbing_widget.html:130
+#: .\plumbing\templates\admin\plumbing_widget.html:190
 msgid "Serafin Expression Syntax"
 msgstr ""
 
@@ -237,6 +237,7 @@ msgstr ""
 #: .\content\templates\admin\content_widget.html:408
 #: .\content\templates\admin\content_widget.html:418
 #: .\content\templates\admin\content_widget.html:428
+#: .\plumbing\templates\admin\plumbing_widget.html:150
 #: .\templates\admin\sitetree\tree\change_form.html:38
 msgid "Title"
 msgstr ""
@@ -572,7 +573,7 @@ msgstr ""
 msgid "Close"
 msgstr ""
 
-#: .\events\admin.py:24
+#: .\events\admin.py:25
 msgid "Actor"
 msgstr ""
 
@@ -590,7 +591,7 @@ msgstr ""
 msgid "actor"
 msgstr ""
 
-#: .\events\models.py:15 .\system\models.py:50
+#: .\events\models.py:15 .\system\models.py:50 .\system\models.py:171
 #: .\users\templates\admin\userlog.html:9
 msgid "variable"
 msgstr ""
@@ -667,61 +668,85 @@ msgstr ""
 msgid "+ Wait"
 msgstr ""
 
-#: .\plumbing\templates\admin\plumbing_widget.html:73
+#: .\plumbing\templates\admin\plumbing_widget.html:22
+msgid "+ Tool"
+msgstr ""
+
+#: .\plumbing\templates\admin\plumbing_widget.html:78
 #: .\templates\sitetree\topbar_navmenu\navmenu.html:18
 msgid "Register"
 msgstr ""
 
-#: .\plumbing\templates\admin\plumbing_widget.html:76
+#: .\plumbing\templates\admin\plumbing_widget.html:81
 msgid "Enroll"
 msgstr ""
 
-#: .\plumbing\templates\admin\plumbing_widget.html:79
+#: .\plumbing\templates\admin\plumbing_widget.html:84
 msgid "Leave"
 msgstr ""
 
-#: .\plumbing\templates\admin\plumbing_widget.html:82
+#: .\plumbing\templates\admin\plumbing_widget.html:87
 msgid "Wait"
 msgstr ""
 
-#: .\plumbing\templates\admin\plumbing_widget.html:91
+#: .\plumbing\templates\admin\plumbing_widget.html:90
+msgid "Tool"
+msgstr ""
+
+#: .\plumbing\templates\admin\plumbing_widget.html:99
 msgid "Delay value"
 msgstr ""
 
-#: .\plumbing\templates\admin\plumbing_widget.html:92
+#: .\plumbing\templates\admin\plumbing_widget.html:100
 msgid "Number"
 msgstr ""
 
-#: .\plumbing\templates\admin\plumbing_widget.html:100
+#: .\plumbing\templates\admin\plumbing_widget.html:108
 msgid "Unit"
 msgstr ""
 
-#: .\plumbing\templates\admin\plumbing_widget.html:102
+#: .\plumbing\templates\admin\plumbing_widget.html:110
 msgid "seconds"
 msgstr ""
 
-#: .\plumbing\templates\admin\plumbing_widget.html:103
+#: .\plumbing\templates\admin\plumbing_widget.html:111
 msgid "minutes"
 msgstr ""
 
-#: .\plumbing\templates\admin\plumbing_widget.html:104 .\system\models.py:159
+#: .\plumbing\templates\admin\plumbing_widget.html:112 .\system\models.py:201
 msgid "hours"
 msgstr ""
 
-#: .\plumbing\templates\admin\plumbing_widget.html:132
+#: .\plumbing\templates\admin\plumbing_widget.html:140
 msgid "Start time (leave blank for immediate)"
 msgstr ""
 
-#: .\plumbing\templates\admin\plumbing_widget.html:133
+#: .\plumbing\templates\admin\plumbing_widget.html:141
 msgid "E.g. 06:00"
 msgstr ""
 
-#: .\plumbing\templates\admin\plumbing_widget.html:147
+#: .\plumbing\templates\admin\plumbing_widget.html:153
+msgid "Type"
+msgstr ""
+
+#: .\plumbing\templates\admin\plumbing_widget.html:158
+msgid "file"
+msgstr ""
+
+#: .\plumbing\templates\admin\plumbing_widget.html:159
+msgid "audio"
+msgstr ""
+
+#: .\plumbing\templates\admin\plumbing_widget.html:160
+msgid "video"
+msgstr ""
+
+#: .\plumbing\templates\admin\plumbing_widget.html:177
 msgid "Pass"
 msgstr ""
 
-#: .\serafin\apps.py:14 .\users\admin.py:137 .\users\admin.py:151
-#: .\users\admin.py:165
+#: .\serafin\apps.py:14 .\users\admin.py:163 .\users\admin.py:177
+#: .\users\admin.py:191 .\users\admin.py:201
 msgid "Permissions"
 msgstr ""
 
@@ -729,7 +754,7 @@ msgstr ""
 msgid "Filer"
 msgstr ""
 
-#: .\serafin\models.py:20 .\tasker\admin.py:41
+#: .\serafin\models.py:21 .\tasker\admin.py:43
 msgid "User"
 msgstr ""
 
@@ -751,22 +776,22 @@ msgstr ""
 msgid "Norwegian"
 msgstr ""
 
-#: .\serafin\settings - Deploy.py:453 .\serafin\settings.py:441
+#: .\serafin\settings - Deploy.py:453 .\serafin\settings.py:448
 #: .\serafin\settings_SENSEATIVE.py:517
 msgid "Default stylesheet"
 msgstr ""
 
-#: .\serafin\settings - Deploy.py:454 .\serafin\settings.py:444
+#: .\serafin\settings - Deploy.py:454 .\serafin\settings.py:451
 #: .\serafin\settings_SENSEATIVE.py:518
 msgid "Nalokson"
 msgstr ""
 
-#: .\serafin\settings - Deploy.py:455 .\serafin\settings.py:445
+#: .\serafin\settings - Deploy.py:455 .\serafin\settings.py:452
 #: .\serafin\settings_SENSEATIVE.py:519
 msgid "Miksmaster"
 msgstr ""
 
-#: .\serafin\settings - Deploy.py:456 .\serafin\settings.py:446
+#: .\serafin\settings - Deploy.py:456 .\serafin\settings.py:453
 #: .\serafin\settings_SENSEATIVE.py:520
 msgid "Miksmaster alternate"
 msgstr ""
@@ -775,11 +800,11 @@ msgstr ""
 msgid "Hebrew"
 msgstr ""
 
-#: .\serafin\settings.py:442
+#: .\serafin\settings.py:449
 msgid "New-Nalokson"
 msgstr ""
 
-#: .\serafin\settings.py:443
+#: .\serafin\settings.py:450
 msgid "RTL-Nalokson"
 msgstr ""
 
@@ -839,90 +864,94 @@ msgstr ""
 msgid "Variable"
 msgstr ""
 
-#: .\system\admin.py:150 .\system\admin.py:388 .\system\admin.py:549
+#: .\system\admin.py:172 .\system\admin.py:429 .\system\admin.py:595
 msgid "Admin note excerpt"
 msgstr ""
 
-#: .\system\admin.py:163 .\system\admin.py:191 .\system\admin.py:212
-#: .\system\admin.py:444 .\system\admin.py:465 .\system\admin.py:556
+#: .\system\admin.py:185 .\system\admin.py:213 .\system\admin.py:234
+#: .\system\admin.py:490 .\system\admin.py:511 .\system\admin.py:602
 #, python-format
 msgid "%(title)s (copy)"
 msgstr ""
 
-#: .\system\admin.py:227
+#: .\system\admin.py:249
 msgid "Copy selected programs"
 msgstr ""
 
-#: .\system\admin.py:234
+#: .\system\admin.py:256
 msgid "Export text of selected program"
 msgstr ""
 
-#: .\system\admin.py:240
+#: .\system\admin.py:262
 msgid "Import program text"
 msgstr ""
 
-#: .\system\admin.py:264
+#: .\system\admin.py:277
+msgid "Set Program"
+msgstr ""
+
+#: .\system\admin.py:305
 msgid ""
 "URL at which this Session will be available to registered Program users at "
 "all times"
 msgstr ""
 
-#: .\system\admin.py:267
+#: .\system\admin.py:308
 msgid "Session open even to unregistered users"
 msgstr ""
 
-#: .\system\admin.py:269
+#: .\system\admin.py:310
 msgid "Relative to the user's start time for the Program"
 msgstr ""
 
-#: .\system\admin.py:271
+#: .\system\admin.py:312
 msgid "Activate automatically for Program users at the given start time"
 msgstr ""
 
-#: .\system\admin.py:273
+#: .\system\admin.py:314
 msgid "Trigger a login e-mail at the scheduled time"
 msgstr ""
 
-#: .\system\admin.py:286
+#: .\system\admin.py:327
 #, python-format
 msgid "edge %(id)s"
 msgstr ""
 
-#: .\system\admin.py:293
+#: .\system\admin.py:334
 msgid "expression node"
 msgstr ""
 
-#: .\system\admin.py:299 .\system\admin.py:509
+#: .\system\admin.py:340 .\system\admin.py:555
 #, python-format
 msgid "Error in expression, %(id)s: %(error)s"
 msgstr ""
 
-#: .\system\admin.py:480
+#: .\system\admin.py:526
 msgid "Copy selected sessions"
 msgstr ""
 
-#: .\system\admin.py:496
+#: .\system\admin.py:542
 #, python-format
 msgid "pagelet %(id)s"
 msgstr ""
 
-#: .\system\admin.py:536
+#: .\system\admin.py:582
 msgid "No content"
 msgstr ""
 
-#: .\system\admin.py:544
+#: .\system\admin.py:590
 msgid "Page excerpt"
 msgstr ""
 
-#: .\system\admin.py:561
+#: .\system\admin.py:607
 msgid "Copy selected content"
 msgstr ""
 
-#: .\system\admin.py:621 .\system\admin.py:646
+#: .\system\admin.py:670 .\system\admin.py:695
 msgid "Subject"
 msgstr ""
 
-#: .\system\engine.py:530
+#: .\system\engine.py:542
 msgid "Delayed node execution"
 msgstr ""
 
@@ -934,13 +963,13 @@ msgstr ""
 msgid "display name"
 msgstr ""
 
-#: .\system\models.py:33 .\system\models.py:96 .\system\models.py:156
-#: .\system\models.py:235
+#: .\system\models.py:33 .\system\models.py:107 .\system\models.py:198
+#: .\system\models.py:277
 msgid "admin note"
 msgstr ""
 
-#: .\system\models.py:34 .\system\models.py:104 .\system\models.py:130
-#: .\system\models.py:154 .\system\models.py:236
+#: .\system\models.py:34 .\system\models.py:117 .\system\models.py:147
+#: .\system\models.py:170 .\system\models.py:196 .\system\models.py:278
 msgid "program"
 msgstr ""
 
@@ -988,144 +1017,160 @@ msgstr ""
 msgid "variables"
 msgstr ""
 
-#: .\system\models.py:90 .\system\models.py:150 .\system\models.py:232
+#: .\system\models.py:101 .\system\models.py:192 .\system\models.py:274
 msgid "title"
 msgstr ""
 
-#: .\system\models.py:91 .\system\models.py:151 .\system\models.py:233
+#: .\system\models.py:102 .\system\models.py:193 .\system\models.py:275
 msgid "display title"
 msgstr ""
 
-#: .\system\models.py:92
+#: .\system\models.py:103
 msgid "site"
 msgstr ""
 
-#: .\system\models.py:93
+#: .\system\models.py:104
 msgid "stylesheet"
 msgstr ""
 
-#: .\system\models.py:95
+#: .\system\models.py:106
 msgid "from email"
 msgstr ""
 
-#: .\system\models.py:98 .\users\models.py:291
+#: .\system\models.py:109 .\users\models.py:327
 msgid "users"
 msgstr ""
 
-#: .\system\models.py:105
+#: .\system\models.py:110 .\system\models.py:183
+msgid "gold variables"
+msgstr ""
+
+#: .\system\models.py:118
 msgid "programs"
 msgstr ""
 
-#: .\system\models.py:131 .\users\models.py:290
+#: .\system\models.py:148 .\users\models.py:326
 msgid "user"
 msgstr ""
 
-#: .\system\models.py:133
+#: .\system\models.py:150
 msgid "start time"
 msgstr ""
 
-#: .\system\models.py:134
+#: .\system\models.py:151
 msgid "time factor"
 msgstr ""
 
-#: .\system\models.py:137
+#: .\system\models.py:154
 msgid "user access"
 msgstr ""
 
-#: .\system\models.py:138
+#: .\system\models.py:155
 msgid "user accesses"
 msgstr ""
 
-#: .\system\models.py:152
+#: .\system\models.py:174
+msgid "Primary"
+msgstr ""
+
+#: .\system\models.py:175
+msgid "Secondary"
+msgstr ""
+
+#: .\system\models.py:182
+msgid "gold variable"
+msgstr ""
+
+#: .\system\models.py:194
 msgid "route slug"
 msgstr ""
 
-#: .\system\models.py:153
+#: .\system\models.py:195
 msgid "is open"
 msgstr ""
 
-#: .\system\models.py:155 .\system\models.py:244
+#: .\system\models.py:197 .\system\models.py:286
 msgid "content"
 msgstr ""
 
-#: .\system\models.py:160
+#: .\system\models.py:202
 msgid "days"
 msgstr ""
 
-#: .\system\models.py:162
+#: .\system\models.py:204
 msgid "start time delta"
 msgstr ""
 
-#: .\system\models.py:163
+#: .\system\models.py:205
 msgid "start time unit"
 msgstr ""
 
-#: .\system\models.py:164
+#: .\system\models.py:206
 msgid "end time delta"
 msgstr ""
 
-#: .\system\models.py:165
+#: .\system\models.py:207
 msgid "end time unit"
 msgstr ""
 
-#: .\system\models.py:166
+#: .\system\models.py:208
 msgid "first start time"
 msgstr ""
 
-#: .\system\models.py:167
+#: .\system\models.py:209
 msgid "scheduled"
 msgstr ""
 
-#: .\system\models.py:168
+#: .\system\models.py:210
 msgid "trigger login"
 msgstr ""
 
-#: .\system\models.py:173
+#: .\system\models.py:215
 msgid "session"
 msgstr ""
 
-#: .\system\models.py:174
+#: .\system\models.py:216
 msgid "sessions"
 msgstr ""
 
-#: .\system\models.py:177 .\system\models.py:180
+#: .\system\models.py:219 .\system\models.py:222
 #, python-format
 msgid "Session %s"
 msgstr ""
 
-#: .\system\models.py:234
+#: .\system\models.py:276
 msgid "content type"
 msgstr ""
 
-#: .\system\models.py:237
+#: .\system\models.py:279
 msgid "Can optionally be bound to a specific program"
 msgstr ""
 
-#: .\system\models.py:245
+#: .\system\models.py:287
 msgid "contents"
 msgstr ""
 
-#: .\system\models.py:272
+#: .\system\models.py:314
 msgid "page"
 msgstr ""
 
-#: .\system\models.py:273
+#: .\system\models.py:315
 msgid "pages"
 msgstr ""
 
-#: .\system\models.py:548
+#: .\system\models.py:613
 msgid "e-mail"
 msgstr ""
 
-#: .\system\models.py:549
+#: .\system\models.py:614
 msgid "e-mails"
 msgstr ""
 
-#: .\system\models.py:583
+#: .\system\models.py:652
 msgid "SMS"
 msgstr ""
 
-#: .\system\models.py:584
+#: .\system\models.py:653
 msgid "SMSs"
 msgstr ""
 
@@ -1167,11 +1212,11 @@ msgstr ""
 msgid "%(first)s and %(last)s"
 msgstr ""
 
-#: .\tasker\admin.py:29
+#: .\tasker\admin.py:31
 msgid "Source"
 msgstr ""
 
-#: .\tasker\admin.py:50
+#: .\tasker\admin.py:52
 msgid "Task result"
 msgstr ""
 
@@ -1273,7 +1318,6 @@ msgid "module available"
 msgstr ""
 
 #: .\templates\modules.html:81
-#| msgid "Next page"
 msgid "Next steps:"
 msgstr "דף הבא"
 
@@ -1282,7 +1326,6 @@ msgid "This module is not available yet"
 msgstr ""
 
 #: .\templates\portal.html:66
-#| msgid "You have finished {{ modules_finished }} "
 msgid "You have finished {{ modules_finished }} modules"
 msgstr "סיימת {{ modules_finished }} מודלים"
 
@@ -1291,7 +1334,6 @@ msgid "modules"
 msgstr "פרקים"
 
 #: .\templates\portal.html:67
-#| msgid "You haven't finished a module yet"
 msgid "You have finished a module"
 msgstr "סיימת פרק אחד"
 
@@ -1497,49 +1539,65 @@ msgstr "האם את/ה בטוח שברצונך לעזוב את הדף?"
 msgid "Account"
 msgstr ""
 
-#: .\users\admin.py:28 .\users\admin.py:78
+#: .\templates\therapist.html:200
+msgid "Edit patient data"
+msgstr ""
+
+#: .\templates\tools.html:64
+msgid "Files"
+msgstr "קבצים"
+
+#: .\templates\tools.html:75
+msgid "Videos"
+msgstr "סרטונים"
+
+#: .\templates\tools.html:86
+msgid "Audios"
+msgstr "השמעה"
+
+#: .\users\admin.py:29 .\users\admin.py:92
 msgid "Password"
 msgstr ""
 
-#: .\users\admin.py:29
+#: .\users\admin.py:30
 msgid "Password (again)"
 msgstr ""
 
-#: .\users\admin.py:30
+#: .\users\admin.py:31
 msgid "E-mail"
 msgstr ""
 
-#: .\users\admin.py:31
+#: .\users\admin.py:32
 msgid "Phone"
 msgstr ""
 
-#: .\users\admin.py:41
+#: .\users\admin.py:54
 msgid "The passwords are not equal."
 msgstr ""
 
-#: .\users\admin.py:79
+#: .\users\admin.py:93
 msgid "Password can be changed with <a href=\"../password/\">this form</a>."
 msgstr ""
 
-#: .\users\admin.py:86
+#: .\users\admin.py:100
 msgid ""
 "Designates whether this user should be treated as active. Unselect this "
 "instead of deleting accounts."
 msgstr ""
 
-#: .\users\admin.py:88
+#: .\users\admin.py:102
 msgid "Designates whether the user can log into this admin site."
 msgstr ""
 
-#: .\users\admin.py:183
+#: .\users\admin.py:219
 msgid "User info"
 msgstr ""
 
-#: .\users\admin.py:184
+#: .\users\admin.py:220
 msgid "User data"
 msgstr ""
 
-#: .\users\admin.py:185
+#: .\users\admin.py:221
 msgid "Log entries"
 msgstr ""
 
@@ -1551,41 +1609,41 @@ msgstr ""
 msgid "ID should be an integer value"
 msgstr ""
 
-#: .\users\models.py:53
+#: .\users\models.py:55
 msgid "e-mail address"
 msgstr ""
 
-#: .\users\models.py:54
+#: .\users\models.py:56
 msgid "phone number"
 msgstr ""
 
-#: .\users\models.py:56
+#: .\users\models.py:58
 msgid "staff status"
 msgstr ""
 
-#: .\users\models.py:57
+#: .\users\models.py:59
 msgid "active"
 msgstr ""
 
-#: .\users\models.py:60
+#: .\users\models.py:65
 msgid "program restrictions"
 msgstr ""
 
-#: .\users\models.py:61
+#: .\users\models.py:66
 msgid ""
 "Staff user has limited access only to the chosen Programs (and related "
 "data). If no Programs are chosen, there is no restriction."
 msgstr ""
 
-#: .\users\models.py:66
+#: .\users\models.py:71
 msgid "date joined"
 msgstr ""
 
-#: .\users\models.py:68
+#: .\users\models.py:73
 msgid "token"
 msgstr ""
 
-#: .\users\models.py:196
+#: .\users\models.py:201
 msgid "Today's login link"
 msgstr ""
 

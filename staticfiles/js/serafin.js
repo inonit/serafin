@@ -332,6 +332,18 @@ serafin.directive('richtextlivereplace', ['$compile', function (compile) {
         return html;
     };
 
+    const bulletColorHandling = function (html) {
+        var root = $("<div>").append($(html));
+
+        $(root).find("ul,ol").each(function() {
+            var color = $(this).find('span:first').css("color");
+            if (color !== undefined) {
+                $(this).css("color", color);
+            }
+        });
+        return root.html();
+    };
+
     return {
         restrict: 'A',
         controller: 'pages',
@@ -344,6 +356,7 @@ serafin.directive('richtextlivereplace', ['$compile', function (compile) {
                 var template = scope.text;
                 if (template) {
                     template = floatImageHandling(template);
+                    template = bulletColorHandling(template);
                     var compiled = compile(template)(scope);
                     element.html('');
                     element.append(compiled);

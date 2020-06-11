@@ -19,6 +19,7 @@
         <div class="btn" ng-click="addNode('enroll')" id="lookup_{% verbatim %}{{ current_noderef }}{% endverbatim %}">{% trans '+ Enroll' %}</div>
         <div class="btn" ng-click="addNode('leave')" id="lookup_{% verbatim %}{{ current_noderef }}{% endverbatim %}">{% trans '+ Leave' %}</div>
         <div class="btn" ng-click="addNode('wait')" id="lookup_{% verbatim %}{{ current_noderef }}{% endverbatim %}">{% trans '+ Wait' %}</div>
+        <div class="btn" ng-click="addNode('tool')" id="lookup_{% verbatim %}{{ current_noderef }}{% endverbatim %}">{% trans '+ Tool' %}</div>
     </div>
 
     <div class="floatbox"></div>
@@ -54,6 +55,10 @@
         <span ng-if="node.type == 'wait'">
             <i class="icon-globe icon-alpha5"></i>
         </span>
+        <span ng-if="node.type == 'tool'">
+            <i class="icon-cog icon-alpha5"></i>
+        </span>
+
 
         {% verbatim %}
         <div class="id">
@@ -80,6 +85,9 @@
         </span>
         <span ng-if="node.type == 'wait'">
             {% endverbatim %}{% trans 'Wait' %}{% verbatim %}
+        </span>
+        <span ng-if="node.type == 'tool'">
+            {% endverbatim %}{% trans 'Tool' %}{% verbatim %}
         </span>
         <div class="ep"></div>
         <div class="delete" ng-click="deleteNode($index)" ng-hide="node.id == 0">×</div>
@@ -132,7 +140,29 @@
             <label>{% trans 'Start time (leave blank for immediate)' %}</label>
             <input type="text" ng-model="node.start_time" placeholder="{% trans 'E.g. 06:00' %}">
         </div>
+
+        <div ng-if="node.type == 'tool'" class="tool settings box" ng-show="showSettings == $index">
+            <div class="close" ng-click="close()">×</div>
+            <div class="filer">
+                {{ file_widget|safe }}
+            </div>
+            <div class="field-data">
+                <label>{% trans 'Title' %}</label>
+                <input type="text" ng-model="node.tool.title">
+            </div>
+            <label>{% trans "Type" %}</label>
+            {% verbatim %}
+            {{ $index }}
+            {% endverbatim %}
+            <select ng-model="node.tool.type">
+                <option value="file"> {% trans 'file' %} </option>
+                <option value="audio"> {% trans 'audio' %} </option>
+                <option value="video"> {% trans 'video' %} </option>
+            </select>
+        </div>
+
     </div>
+
 
     <div class="edge" ng-repeat="edge in data.edges track by edge.id" ng-model="data.edges">
 
@@ -179,6 +209,7 @@
     var adminUrl = '{{ admin_url }}';
     var nodeApiUrl = '{{ node_api }}';
     var reservedVars = {{ reserved_vars|default:'undefined'|safe }};
+    var filerApi = '{{ filer_api }}';
     $(function () {
         $('[data-toggle="popover"]').popover();
     });

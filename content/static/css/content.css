@@ -30,11 +30,6 @@
     text-transform: capitalize
 }
 
-.content .pagelet h3 {
-    padding: 0;
-}
-
-.content .pagelet h3,
 .content .ctrl {
     display: inline-block;
 }
