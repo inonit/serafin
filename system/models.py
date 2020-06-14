@@ -94,6 +94,9 @@ class Variable(models.Model):
         except Variable.DoesNotExist:
             return variable_name
 
+    def clean(self):
+        Program.clean_is_lock(self.program)
+
 
 class Program(models.Model):
     '''A top level model for a separate Program, having one or more sessions'''
@@ -109,6 +112,8 @@ class Program(models.Model):
     users = models.ManyToManyField(settings.AUTH_USER_MODEL, verbose_name=_('users'), through='ProgramUserAccess')
     gold_variables = models.ManyToManyField('Variable', verbose_name=_('gold variables'), related_name='program_golds',
                                             through='ProgramGoldVariable')
+
+    is_lock = models.BooleanField(_('is program lock'), default=False)
 
     def __str__(self):
         return self.title
@@ -136,6 +141,11 @@ class Program(models.Model):
     @property
     def is_rtl(self):
         return self.style is not None and '-rtl.css' in self.style
+
+    @staticmethod
+    def clean_is_lock(program):
+        if program is not None and program.is_lock:
+            raise ValidationError(_('Program is locked. Could not save.'))
 
 
 class ProgramUserAccess(models.Model):
@@ -234,6 +244,9 @@ class Session(models.Model):
         timedelta = datetime.timedelta(**kwargs)
         return start_time + timedelta
 
+    def clean(self):
+        Program.clean_is_lock(self.program)
+
 
 class Module(models.Model):
     title = models.CharField('title', max_length=64, unique=True)
@@ -246,6 +259,9 @@ class Module(models.Model):
 
     def __str__(self):
         return self.title
+
+    def clean(self):
+        Program.clean_is_lock(self.program)
 
 
 class Chapter(SortableMixin):
@@ -266,6 +282,9 @@ class Chapter(SortableMixin):
 
     def __str__(self):
         return self.title
+
+    def clean(self):
+        Program.clean_is_lock(self.program)
 
 
 class Content(models.Model):
@@ -297,6 +316,9 @@ class Content(models.Model):
             reverse('content'),
             self.id,
         )
+
+    def clean(self):
+        Program.clean_is_lock(self.program)
 
 
 class PageManager(models.Manager):

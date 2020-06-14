@@ -140,7 +140,7 @@ LOCALE_PATHS = (
     os.path.join(BASE_DIR, 'conf/locale'),
 )
 
-TIME_ZONE = 'Europe/Oslo'
+TIME_ZONE = 'Asia/Jerusalem'
 USE_I18N = True
 USE_L10N = True
 USE_TZ = True
@@ -435,6 +435,11 @@ RESERVED_VARIABLES = [
         'admin_note': 'For system use, never accessible. Used for timing page visits.',
         'domains': []
     },
+    {
+        'name': 'tools',
+        'admin_note': 'For the available tools of the user',
+        'domains': []
+    }
 ]
 
 # Available stylesheets for the dynamic switcher
