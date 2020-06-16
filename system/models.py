@@ -103,7 +103,7 @@ class Program(models.Model):
 
     title = models.CharField(_('title'), max_length=64, unique=True)
     display_title = models.CharField(_('display title'), max_length=64)
-    site = models.OneToOneField(Site, verbose_name=_('site'), null=True, blank=True, on_delete=models.SET_NULL)
+    site = models.ForeignKey(Site, verbose_name=_('site'), null=True, blank=True, on_delete=models.SET_NULL)
     style = models.CharField(_('stylesheet'), choices=settings.STYLESHEET_CHOICES, null=True, blank=True,
                              max_length=128)
     from_email = models.CharField(_('from email'), null=True, blank=True, max_length=128)
