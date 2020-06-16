@@ -259,6 +259,9 @@ content.directive('summernoteRichtext', ['$timeout', function (timeout) {
             };
 
              elem.summernote({
+                 fontNames: ['Arial', 'Arial Black', 'Comic Sans MS', 'Courier New', 'Helvetica', 'Impact', 'Tahoma',
+                     'Times New Roman', 'Verdana', 'Heebo', 'Assistant', 'Rubik'],
+                 fontNamesIgnoreCheck: ['Heebo', 'Assistant', 'Rubik'],
                  tabsize: 2,
                  height: 150,
              });
