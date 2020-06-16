@@ -45,6 +45,7 @@ class Variable(models.Model):
     range_max = models.IntegerField(_('range max (inclusive)'), null=True, blank=True)
     random_set = models.TextField(_('random string set'), blank=True)
     is_array = models.BooleanField('is array', default=False)
+    optional_values = models.CharField(_('optional values'), max_length=512, null=True, blank=True)
 
     class Meta(object):
         verbose_name = _('variable')

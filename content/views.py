@@ -198,11 +198,16 @@ def user_state(request, user_id):
         if not variable_display_name:
             variable_display_name = gold_variable.variable.name
 
+        variable_optional_values = []
+        if gold_variable.variable.optional_values:
+            variable_optional_values = [x.strip() for x in gold_variable.variable.optional_values.split(',')]
+
         gold_variable_element = {'name': gold_variable.variable.name,
                                  'display_name': variable_display_name,
                                  'value': variable_value,
                                  'editable': gold_variable.therapist_can_edit,
-                                 'is_primary': gold_variable.golden_type == 'primary'}
+                                 'is_primary': gold_variable.golden_type == 'primary',
+                                 'options': variable_optional_values}
 
         variable_values_by_date = []
         userdata_variable_events = user_events.filter(Q(domain='userdata') & Q(variable=gold_variable.variable.name))

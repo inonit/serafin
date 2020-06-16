@@ -476,7 +476,8 @@ therapistapp.controller('therapist', ['$scope', '$http', '$httpParamSerializerJQ
         };
         scope.variables.forEach(function (variable) {
             if (variable.editable) {
-                scope.variablesForm.fields.push({'name': variable.name, 'value': variable.value, 'display': variable.display_name });
+                scope.variablesForm.fields.push({'name': variable.name, 'value': variable.value, 'display': variable.display_name,
+                'options': variable.options});
                 scope.variablesForm.data[variable.name] = variable.value;
             }
         });

@@ -201,12 +201,22 @@
                 <form ng-submit="postVariables()">
                     {% csrf_token %}
                     <div ng-repeat="field in variablesForm.fields">
-                        <div class="form-group">
+                        <div class="form-group" ng-if="field.options.length == 0">
                             {% verbatim %}
                             <label for="{{field.name}}">{{ field.display }}</label>
                             <input type="text" class="form-control" id="{{field.name}}"
                                    placeholder="" ng-model="variablesForm.data[field.name]">
                             {% endverbatim %}
+                        </div>
+                        <div class="form-group" ng-if="field.options.length > 0">
+                                {% verbatim %}
+                                <label for="{{field.name}}">{{ field.display }}</label>
+                                <select class="form-control" id="{{field.name}}" ng-model="variablesForm.data[field.name]">
+                                    <option value="{{ option }}" ng-repeat="option in field.options">
+                                        {{ option }}
+                                    </option>
+                                </select>
+                                {% endverbatim %}
                         </div>
                     </div>
                     <button>Submit</button>
