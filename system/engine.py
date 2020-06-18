@@ -12,7 +12,7 @@ from django.utils.translation import ugettext_lazy as _
 from django.utils import timezone
 
 from events.signals import log_event
-from system.models import Variable, Session, Page, Email, SMS
+from system.models import Variable, Session, Page, Email, SMS, TherapistNotification
 from tasker.models import Task
 from .expressions import Parser
 
@@ -556,6 +556,17 @@ class Engine(object):
             tools.append({'url': tool['url'], 'type': tool['type'], 'title': tool['title']})
             self.user.data['tools'] = tools
             self.user.save()
+            return
+
+        if node_type == 'therapist_notification':
+            message = node.get('message')
+            therapist = self.user.therapist
+            TherapistNotification.objects.create(
+                program=self.session.program,
+                patient=self.user,
+                therapist=therapist,
+                message=message
+            )
             return
 
     def show_chapter(self, chapter_id):

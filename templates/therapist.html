@@ -21,6 +21,7 @@
 
 
     <!-- Custom styles for this template -->
+    <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
     <link href="{% static 'css/mind-tools.css' %}" rel="stylesheet">
 
     <script src="{% static 'lib/angular/angular.min.js' %}"></script>
@@ -142,6 +143,8 @@
                    aria-controls="nav-transformation" aria-selected="false">Transformations</a>
                 <a class="nav-item nav-link" id="nav-edit-vars-tab" data-toggle="tab" href="#nav-edit-vars" role="tab"
                    aria-controls="nav-edit-vars" aria-selected="false">Edit Variables</a>
+                <a class="nav-item nav-link" id="nav-notifications-tab" data-toggle="tab" href="#nav-notifications" role="tab"
+                   aria-controls="nav-notifications" aria-selected="false">Notifications <i ng-if="notifications_icon" class="fa fa-exclamation-circle"></i> </a>
             </div>
         </nav>
         <div class="tab-content" id="nav-tabContent">
@@ -222,6 +225,26 @@
                     <button>Submit</button>
                 </form>
             </div>
+            <div class="tab-pane fade" id="nav-notifications" role="tabpanel" aria-labelledby="nav-notifications-tab">
+                <h2>{% trans 'Notifications' %}</h2>
+                <div class="list-group">
+                  <a href="#" class="list-group-item list-group-item-action flex-column align-items-start"
+                     ng-class="!notification.is_read ? 'font-weight-bold bg-light' : ''"
+                     ng-repeat="notification in notifications"
+                     ng-click="markNotificationRead(notification.id)">
+                      {% verbatim %}
+                      <div class="d-flex w-100 justify-content-between">
+                        <p class="mb-1">{{ notification.message }}</p>
+                          <small ng-class="!notification.is_read ? 'font-weight-bold' : ''">{{ notification.time_display }}</small>
+                      </div>
+
+                      <div ng-if="!notification.is_read" class="d-flex w-100 justify-content-end">
+                        <small class="font-weight-bold">mark as read</small>
+                      </div>
+                      {% endverbatim %}
+                  </a>
+                </div>
+            </div>
         </div>
 
     </div>
@@ -239,6 +262,7 @@
 </footer>
 
 <!-- Bootstrap core JavaScript -->
+<script src="{% static 'lib/moment/min/moment.min.js' %}"></script>
 <script src="{% static 'js/jquery.min.js' %}"></script>
 <script src="{% static 'js/bootstrap.bundle.min.js' %}"></script>
 <script src="{% static 'js/topbar-menu.js' %}"></script>

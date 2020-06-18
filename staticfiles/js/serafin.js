@@ -470,6 +470,8 @@ therapistapp.controller('therapist', ['$scope', '$http', '$httpParamSerializerJQ
         scope.user_email = response.data.email;
         scope.user_phone = response.data.phone;
         scope.variables = response.data.variables;
+        scope.notifications = response.data.notifications;
+
         scope.variablesForm = {
             fields: [],
             data: {}
@@ -481,12 +483,42 @@ therapistapp.controller('therapist', ['$scope', '$http', '$httpParamSerializerJQ
                 scope.variablesForm.data[variable.name] = variable.value;
             }
         });
+        scope.notifications_icon = false;
+        scope.notifications.forEach(function (notification) {
+            scope.notifications_icon = scope.notifications_icon || !notification.is_read;
+            notification['time_display'] = moment(notification.timestamp).calendar();
+        });
     };
     scope.selectedTransformationVariable = '';
 
     scope.updateTransformationTable = function () {
         let selectedVariable = scope.variables.find(elem => elem.name == scope.selectedTransformationVariable);
         scope.transofrmationTable = selectedVariable.values;
+    };
+
+    scope.markNotificationRead = function(notificationId) {
+        let notification = scope.notifications.find(elem => elem.id == notificationId);
+        if (notification.is_read) {
+            return;
+        }
+        var url = api + '?user_id=' + scope.user_id;
+        http({
+            url: url,
+            method: 'POST',
+            data: httpParamSerializerJQLike({'notification_id': notificationId}),
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded'
+            }
+        }).then(function (response) {
+            loadResponse(response);
+        });
+        scope.notifications_icon = false;
+        scope.notifications.forEach(function (notification) {
+            if (notification.id == notificationId) {
+                notification.is_read = true;
+            }
+            scope.notifications_icon = scope.notifications_icon || !notification.is_read;
+        });
     };
 
     scope.showMoreGoldVariables = function (element) {

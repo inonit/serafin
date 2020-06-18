@@ -698,3 +698,25 @@ class SMS(Content):
         message = remove_comments(message)
         message = variable_replace(user, message)
         return message
+
+
+class TherapistNotification(models.Model):
+
+    program = models.ForeignKey('Program', verbose_name=_('program'), null=True, on_delete=models.CASCADE)
+    therapist = models.ForeignKey(settings.AUTH_USER_MODEL, verbose_name=_('therapist'),
+                                  null=True, on_delete=models.SET_NULL, related_name='therapist_notifications')
+    patient = models.ForeignKey(settings.AUTH_USER_MODEL, verbose_name=_('patient'), on_delete=models.CASCADE,
+                                related_name='patient_notifications')
+    is_read = models.BooleanField(_('is read'), default=False)
+    message = models.CharField(_('message'), max_length=512)
+    timestamp = models.DateTimeField(_('timestamp'), default=timezone.now)
+
+    def __str__(self):
+        return self.message
+
+    class Meta(object):
+        verbose_name = _('therapist notification')
+        verbose_name_plural = _('therapist notifications')
+
+    def __unicode__(self):
+        return self.message

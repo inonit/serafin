@@ -20,6 +20,7 @@
         <div class="btn" ng-click="addNode('leave')" id="lookup_{% verbatim %}{{ current_noderef }}{% endverbatim %}">{% trans '+ Leave' %}</div>
         <div class="btn" ng-click="addNode('wait')" id="lookup_{% verbatim %}{{ current_noderef }}{% endverbatim %}">{% trans '+ Wait' %}</div>
         <div class="btn" ng-click="addNode('tool')" id="lookup_{% verbatim %}{{ current_noderef }}{% endverbatim %}">{% trans '+ Tool' %}</div>
+        <div class="btn" ng-click="addNode('therapist_notification')" id="lookup_{% verbatim %}{{ current_noderef }}{% endverbatim %}">{% trans '+ Therapist Notification' %}</div>
     </div>
 
     <div class="floatbox"></div>
@@ -58,6 +59,9 @@
         <span ng-if="node.type == 'tool'">
             <i class="icon-cog icon-alpha5"></i>
         </span>
+        <span ng-if="node.type == 'therapist_notification'">
+            <i class="icon-bell icon-alpha5"></i>
+        </span>
 
 
         {% verbatim %}
@@ -88,6 +92,9 @@
         </span>
         <span ng-if="node.type == 'tool'">
             {% endverbatim %}{% trans 'Tool' %}{% verbatim %}
+        </span>
+        <span ng-if="node.type == 'therapist_notification'">
+            {% endverbatim %}{% trans 'Therapist Notification' %}{% verbatim %}
         </span>
         <div class="ep"></div>
         <div class="delete" ng-click="deleteNode($index)" ng-hide="node.id == 0">×</div>
@@ -143,7 +150,7 @@
 
         <div ng-if="node.type == 'tool'" class="tool settings box" ng-show="showSettings == $index">
             <div class="close" ng-click="close()">×</div>
-            <div class="filer">
+            <div class="filer mt-2">
                 {{ file_widget|safe }}
             </div>
             <div class="field-data">
@@ -161,8 +168,13 @@
             </select>
         </div>
 
-    </div>
+        <div ng-if="node.type == 'therapist_notification'" class="therapist_notification settings box" ng-show="showSettings == $index">
+            <div class="close" ng-click="close()">×</div>
+            <label>{% trans "Message" %}</label>
+            <input type="text" placeholder="{% trans "Start writing..." %}" ng-model="node.message">
+        </div>
 
+    </div>
 
     <div class="edge" ng-repeat="edge in data.edges track by edge.id" ng-model="data.edges">
 

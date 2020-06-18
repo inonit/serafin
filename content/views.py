@@ -13,7 +13,7 @@ from django.shortcuts import get_object_or_404, render
 from django.utils import translation, timezone
 from filer.models import File, Image
 from itertools import chain
-from system.models import Session, Page, ProgramUserAccess, ProgramGoldVariable, Variable
+from system.models import Session, Page, ProgramUserAccess, ProgramGoldVariable, Variable, TherapistNotification
 from events.models import Event
 from events.signals import log_event
 from users.models import User
@@ -134,21 +134,29 @@ def user_state(request, user_id):
     gold_variables_dataset = program.programgoldvariable_set.all()
 
     if request.method == 'POST':
-        for key, value in list(request.POST.items()):
-            gold_variable = gold_variables_dataset.filter(variable__name=key).first()
-            if gold_variable is not None and gold_variable.therapist_can_edit:
-                # todo: support array variable / refactor get/set user variable to user
-                pre_value = user.get_pre_variable_value_for_log(key)
-                log_event.send(
-                    request.user,
-                    domain='therapist',
-                    actor=user,
-                    variable=key,
-                    pre_value=str(pre_value),
-                    post_value=str(value)
-                )
-                user.data[key] = value
-        user.save()
+        notification_read_id = request.POST.get("notification_id")
+        if notification_read_id:
+            notification = TherapistNotification.objects.get(id=notification_read_id)
+            # verify this notification belongs to the user and this therapist
+            if notification.therapist == request.user and notification.patient == user:
+                notification.is_read = True
+                notification.save()
+        else:
+            for key, value in list(request.POST.items()):
+                gold_variable = gold_variables_dataset.filter(variable__name=key).first()
+                if gold_variable is not None and gold_variable.therapist_can_edit:
+                    # todo: support array variable / refactor get/set user variable to user
+                    pre_value = user.get_pre_variable_value_for_log(key)
+                    log_event.send(
+                        request.user,
+                        domain='therapist',
+                        actor=user,
+                        variable=key,
+                        pre_value=str(pre_value),
+                        post_value=str(value)
+                    )
+                    user.data[key] = value
+            user.save()
 
     current_tz = timezone.get_current_timezone()
     user_events = Event.objects.filter(Q(actor=user) & ((Q(domain='session') & Q(variable='transition')) |
@@ -222,9 +230,15 @@ def user_state(request, user_id):
 
         gold_variables.append(gold_variable_element)
 
+        notifications_objects = TherapistNotification.objects.filter(Q(therapist=user.therapist) & Q(patient=user))\
+            .order_by('-timestamp')
+        notifications = [{'id': obj.id, 'message': obj.message, 'timestamp': obj.timestamp, 'is_read': obj.is_read}
+                         for obj in notifications_objects]
+
     context = {
         'pages': pages,
         'variables': gold_variables,
+        'notifications': notifications,
         'email': user.email,
         'phone': user.phone,
         'id': user.id,

@@ -216,6 +216,19 @@ plumbing.controller('graph', ['$scope', 'jsPlumb', function(scope, jsPlumbServic
             return;
         }
 
+        if (type == 'therapist_notification') {
+            scope.data.nodes.push({
+                id: id,
+                type: type,
+                message: '',
+                metrics: {
+                    left: (300 - scope.scrolling.x) + 'px',
+                    top: (100 - scope.scrolling.y) + 'px'
+                }
+            });
+            return;
+        }
+
         if (type == 'expression') {
             scope.data.nodes.push({
                 id: id,
@@ -345,7 +358,8 @@ plumbing.directive('node', ['$timeout', 'jsPlumb', function(timeout, jsPlumbServ
                     if (scope.node.type == 'delay' ||
                         scope.node.type == 'expression' ||
                         scope.node.type == 'enroll' ||
-                        scope.node.type == 'tool') {
+                        scope.node.type == 'tool' ||
+                        scope.node.type == 'therapist_notification') {
                         scope.$apply(function() {
                             scope.$parent.showSettings = scope.$index;
                             scope.$parent.showConditions = -1;
@@ -455,7 +469,7 @@ plumbing.directive('edge', ['jsPlumb', function(jsPlumbService) {
                     'start', 'page', 'session', 'wait'
                 ]
                 var background = [
-                    'email', 'sms', 'register', 'enroll', 'leave', 'delay', 'background_session', 'tool'
+                    'email', 'sms', 'register', 'enroll', 'leave', 'delay', 'background_session', 'tool', 'therapist_notification'
                 ]
 
                 // disallow/delete edge with start as target,
