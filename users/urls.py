@@ -21,5 +21,7 @@ urlpatterns = [
         auth_views.PasswordResetConfirmView.as_view(token_generator=token_generator), name='password_reset_confirm'),
     url(r'^recover_password/done/$', auth_views.PasswordResetCompleteView.as_view(), name='password_reset_complete'),
     url(r'^profile/$', profile, name='profile'),
-    url(r'^api/users/receive_sms$', receive_sms, name='receive_sms')
+    url(r'^api/users/receive_sms$', receive_sms, name='receive_sms'),
+    url(r'^password_change/$', auth_views.PasswordChangeView.as_view(template_name='registration/password_change_form.html'), name='password_change'),
+    url(r'^password_change/done/$', auth_views.PasswordChangeDoneView.as_view(), name='password_change_done')
 ]

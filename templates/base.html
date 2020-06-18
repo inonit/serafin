@@ -47,14 +47,13 @@
       <div class="push"></div>
     </div>
 
-    <footer class="footer">
-      <div class="left">
-        © {% now 'Y' %} <a href="http://www.med.uio.no/klinmed/forskning/sentre/seraf/">SERAF</a>, UiO
-      </div>
+  <footer class="py-3 bg-dark mt-auto footer">
+    <div class="container">
+      <p class="m-0 text-center text-white">Copyright &copy; {% now 'Y' %} MindTools.io</p>
+    </div>
+    <!-- /.container -->
+  </footer>
 
-      <div class="right">
-      </div>
-    </footer>
 
     {% compress js %}
     <script src="{% static 'lib/angular/angular.min.js' %}"></script>
