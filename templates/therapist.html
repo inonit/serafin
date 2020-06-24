@@ -84,7 +84,9 @@
             <tbody>
             <tr ng-repeat="u in users">
                 {% verbatim %}
-                <th scope="row"><a href="#" ng-click="userstat(u.id)">{{u.id}}</a></th>
+                <th scope="row">
+                    <span class="text-nowrap"><i ng-if="u.has_notification" class="fa fa-exclamation-circle mr-1"></i><a href="#" ng-click="userstat(u.id)">{{u.id}}</a></span>
+                </th>
                 <td>{{u.email}}</td>
                 <td>{{u.phone}}</td>
                 <td>{{u.start_time}}</td>

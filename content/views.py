@@ -104,10 +104,13 @@ def users_stats(request):
         distinct_days = current_user_events.filter(variable='login').annotate(day=Cast('time', DateField())) \
             .values('day').distinct('day').count()
 
+        has_notification = user.patient_notifications.filter(Q(therapist=request.user) & Q(is_read=False)).count() > 0
+
         user_row = {'id': user.id, 'email': user.email, 'phone': user.phone, 'last_login': last_login,
                     'program_phase': user.data.get('Program_Phase'), 'start_time': start_time,
                     'program': program_title, 'total_time': total_time, 'distinct_days': distinct_days,
-                    'login_count': login_count, 'current_page': last_transition_page}
+                    'login_count': login_count, 'current_page': last_transition_page,
+                    'has_notification': has_notification}
 
         users_table.append(user_row)
 
