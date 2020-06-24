@@ -7,6 +7,7 @@ import datetime
 import mistune
 import random
 
+from django.core.validators import RegexValidator
 from django.db import models
 from django.conf import settings
 from django.contrib.sites.models import Site
@@ -28,7 +29,8 @@ from weasyprint import HTML
 class Variable(models.Model):
     '''A variable model allowing different options'''
 
-    name = models.CharField(_('name'), max_length=64, unique=True)
+    name = models.CharField(_('name'), max_length=64, unique=True, validators=[RegexValidator(r'^[^ ]+$',
+            _('No spaces allowed'))])
     display_name = models.CharField(_('display name'), max_length=64, blank=True, default='')
     admin_note = models.TextField(_('admin note'), blank=True)
     program = models.ForeignKey('Program', verbose_name=_('program'), null=True, on_delete=models.CASCADE)
