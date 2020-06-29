@@ -13,7 +13,8 @@ from django.shortcuts import get_object_or_404, render
 from django.utils import translation, timezone
 from filer.models import File, Image
 from itertools import chain
-from system.models import Session, Page, ProgramUserAccess, ProgramGoldVariable, Variable, TherapistNotification
+from system.models import Session, Page, ProgramUserAccess, ProgramGoldVariable, Variable, TherapistNotification, \
+    ChatMessage
 from events.models import Event
 from events.signals import log_event
 from users.models import User
@@ -25,6 +26,11 @@ import json
 def set_language_by_session(session):
     if session and session.program and session.program.is_rtl:
         translation.activate('he')
+
+
+def set_language_by_program(program):
+    if program and program.is_rtl:
+        translation.activate('en')
 
 
 def main_page(request):
@@ -48,8 +54,13 @@ def therapist_zone(request):
     if not request.user.is_authenticated or not request.user.is_therapist:
         return main_page(request)
 
+    if request.user.patients.first() is not None and \
+            request.user.patients.first().programuseraccess_set.first() is not None:
+        set_language_by_program(request.user.patients.first().programuseraccess_set.first().program)
+
     context = {
-        'api': reverse('users_stats')
+        'api': reverse('users_stats'),
+        'chat_api': reverse('chat')
     }
     return render(request, 'therapist.html', context)
 
@@ -163,10 +174,10 @@ def user_state(request, user_id):
 
     current_tz = timezone.get_current_timezone()
     user_events = Event.objects.filter(Q(actor=user) & ((Q(domain='session') & Q(variable='transition')) |
-                                                        (Q(domain='userdata') & ~Q(variable='timer'))))\
+                                                        (Q(domain='userdata') & ~Q(variable='timer')))) \
         .order_by('-time')
 
-    user_expressions_events = Event.objects.filter(Q(actor=user) & (Q(domain='expression') | Q(domain='therapist')))\
+    user_expressions_events = Event.objects.filter(Q(actor=user) & (Q(domain='expression') | Q(domain='therapist'))) \
         .order_by('-time')
 
     pages = []
@@ -233,15 +244,19 @@ def user_state(request, user_id):
 
         gold_variables.append(gold_variable_element)
 
-        notifications_objects = TherapistNotification.objects.filter(Q(therapist=user.therapist) & Q(patient=user))\
-            .order_by('-timestamp')
-        notifications = [{'id': obj.id, 'message': obj.message, 'timestamp': obj.timestamp, 'is_read': obj.is_read}
-                         for obj in notifications_objects]
+    notifications_objects = TherapistNotification.objects.filter(Q(therapist=user.therapist) & Q(patient=user)) \
+        .order_by('-timestamp')
+    notifications = [{'id': obj.id, 'message': obj.message, 'timestamp': obj.timestamp, 'is_read': obj.is_read}
+                     for obj in notifications_objects]
+
+    has_messages = ChatMessage.objects.filter(
+        Q(receiver=user.therapist) & Q(sender=user) & Q(is_read=False)).count() > 0
 
     context = {
         'pages': pages,
         'variables': gold_variables,
         'notifications': notifications,
+        'has_messages': has_messages,
         'email': user.email,
         'phone': user.phone,
         'id': user.id,
@@ -472,3 +487,104 @@ def api_filer_file(request, content_type=None, file_id=None):
     }
 
     return JsonResponse(response)
+
+
+@login_required
+def send_message(request):
+    if request.method != 'POST':
+        raise ValueError('bad method')
+
+    message = request.POST.get("msg", None)
+    if message is None or message.strip() == '':
+        raise ValueError('message is empty')
+
+    obj = None
+    other_user = None
+    user_id = request.POST.get("user_id", None)
+    if user_id is not None and request.user.is_therapist:
+        patient = User.objects.get(id=user_id)
+        other_user = patient
+        obj = ChatMessage.objects.create(
+            sender=request.user,
+            receiver=patient,
+            message=message)
+    elif user_id is None:
+        therapist = request.user.therapist
+        if therapist is None:
+            raise ValueError('no therapist')
+        other_user = therapist
+        obj = ChatMessage.objects.create(
+            sender=request.user,
+            receiver=therapist,
+            message=message)
+    else:
+        raise ValueError('bad request')
+
+    return receive_messages_internal(prev=None, next=obj.id - 1, current_user=request.user, other_user=other_user)
+
+
+@login_required
+def receive_messages(request):
+    prev = request.GET.get("prev", None)
+    next = request.GET.get("next", None)
+    user_id = request.GET.get("user", None)
+    current_user = request.user
+
+    if user_id is None:
+        if request.user.therapist is None:
+            return
+        user_id = request.user.therapist.id
+    other_user = User.objects.get(id=user_id)
+
+    return receive_messages_internal(prev, next, current_user, other_user)
+
+
+def receive_messages_internal(prev, next, current_user, other_user):
+    max_messages = 5
+    messages = None
+    if next is None and prev is None:
+        messages = ChatMessage.objects.filter((Q(sender=current_user) & Q(receiver=other_user)) |
+                                              (Q(sender=other_user) & Q(receiver=current_user))) \
+                       .order_by('timestamp').reverse()[:max_messages]
+
+    elif prev is not None:
+        messages = ChatMessage.objects.filter(Q(id__lt=prev) & ((Q(sender=current_user) & Q(receiver=other_user)) |
+                                                                (Q(sender=other_user) & Q(receiver=current_user)))) \
+                       .order_by('timestamp').reverse()[:max_messages]
+    else:
+        messages = ChatMessage.objects.filter(Q(id__gt=next) & ((Q(sender=current_user) & Q(receiver=other_user)) |
+                                                                (Q(sender=other_user) & Q(receiver=current_user)))) \
+                       .order_by('timestamp').reverse()[:]
+
+    objects = {
+        'messages': [{'id': m.id, 'msg': m.message, 'time': m.timestamp, 's': m.sender.id == current_user.id, 'r': m.receiver.id == current_user.id}
+                     for m in messages]
+    }
+
+    return JsonResponse(objects)
+
+
+def chat(request):
+    send_message_val = request.GET.get('send_message', None)
+    if send_message_val is not None:
+        return send_message(request)
+
+    receive_message_val = request.GET.get('receive_message', None)
+    if receive_message_val is not None:
+        return receive_messages(request)
+
+
+def my_therapist(request):
+    session_id = request.user.data.get('session')
+
+    if not request.user.is_authenticated:
+        return HttpResponseRedirect(settings.HOME_URL)
+
+    session = get_object_or_404(Session, id=session_id)
+    set_language_by_session(session)
+
+    context = {
+        'chat_api': reverse('chat')
+    }
+
+    return render(request, 'mytherapist.html', context)

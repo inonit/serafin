@@ -430,9 +430,8 @@ newserafin.controller('modules', ['$scope', '$http', function (scope, http) {
 }]);
 
 
-const therapistapp = angular.module('therapistapp', []);
-
-therapistapp.config(['$httpProvider', function (httpProvider) {
+var generalConfig = function() {
+    return function (httpProvider) {
     httpProvider.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
     httpProvider.defaults.headers.post['X-CSRFToken'] = csrf_token;
     if (!httpProvider.defaults.headers.get) {
@@ -440,7 +439,13 @@ therapistapp.config(['$httpProvider', function (httpProvider) {
     }
     // disable IE AJAX request caching
     httpProvider.defaults.headers.get['If-Modified-Since'] = '0';
-}]);
+
+    }
+};
+
+const therapistapp = angular.module('therapistapp', []);
+
+therapistapp.config(['$httpProvider', generalConfig()]);
 
 therapistapp.run(['$rootScope', '$http', function (scope, http) {
 
@@ -459,8 +464,10 @@ therapistapp.run(['$rootScope', '$http', function (scope, http) {
 
 }]);
 
+therapistapp.controller('ChatController', ['$scope', '$http', '$httpParamSerializerJQLike', '$timeout', '$interval', ChatController()]);
 
-therapistapp.controller('therapist', ['$scope', '$http', '$httpParamSerializerJQLike', function (scope, http, httpParamSerializerJQLike) {
+therapistapp.controller('therapist', ['$scope', '$http', '$httpParamSerializerJQLike', '$timeout', '$interval', function (scope, http, httpParamSerializerJQLike, timeout, interval) {
+
 
     var loadResponse = function (response) {
         scope.selectedTransformationVariable = null;
@@ -471,6 +478,7 @@ therapistapp.controller('therapist', ['$scope', '$http', '$httpParamSerializerJQ
         scope.user_phone = response.data.phone;
         scope.variables = response.data.variables;
         scope.notifications = response.data.notifications;
+        scope.has_messages = response.data.has_messages;
 
         scope.variablesForm = {
             fields: [],
@@ -490,6 +498,11 @@ therapistapp.controller('therapist', ['$scope', '$http', '$httpParamSerializerJQ
         });
     };
     scope.selectedTransformationVariable = '';
+
+    scope.showAllUsers = function() {
+        scope.display_show_table=true;
+        scope.stop_chat();
+    };
 
     scope.updateTransformationTable = function () {
         let selectedVariable = scope.variables.find(elem => elem.name == scope.selectedTransformationVariable);
@@ -550,7 +563,20 @@ therapistapp.controller('therapist', ['$scope', '$http', '$httpParamSerializerJQ
         }).then(function (response) {
             loadResponse(response);
         });
-    }
+    };
+
+    scope.$watch('$viewContentLoaded', function () {
+        console.log('$viewContentLoaded');
+    });
+
+    scope.start_chat = function () {
+        scope.$broadcast('startChat');
+    };
+
+    scope.stop_chat = function () {
+        scope.$broadcast('stopChat');
+    };
+
 }]);
 
 therapistapp.component('pageVariablesTable', {
@@ -598,3 +624,8 @@ therapistapp.component('pageVariablesTable', {
         variables: '<'
     }
 });
+
+
+const mytherapistapp = angular.module('mytherapist', []);
+mytherapistapp.config(['$httpProvider', generalConfig()]);
+mytherapistapp.controller('ChatController', ['$scope', '$http', '$httpParamSerializerJQLike', '$timeout', '$interval', ChatController()]);

@@ -61,7 +61,7 @@
 <!-- Page Content -->
 <div class="container mt-1" ng-controller="therapist">
 
-    <a class="btn btn-primary" ng-hide="display_show_table" ng-click="display_show_table=true" data-toggle="collapse"
+    <a class="btn btn-primary" ng-hide="display_show_table" ng-click="showAllUsers()" data-toggle="collapse"
        href="#users-table" role="button" aria-expanded="false" aria-controls="users-table">
         Show all users
     </a>
@@ -139,14 +139,16 @@
             <div class="nav nav-tabs" id="nav-tab" role="tablist">
                 <a class="nav-item nav-link active" id="nav-user-pages-tab" data-toggle="tab" href="#nav-user-pages"
                    role="tab"
-                   aria-controls="nav-home" aria-selected="true">Forms</a>
+                   aria-controls="nav-home" aria-selected="true" ng-click="stop_chat()">Forms</a>
                 <a class="nav-item nav-link" id="nav-transformation-tab" data-toggle="tab" href="#nav-transformation"
                    role="tab"
-                   aria-controls="nav-transformation" aria-selected="false">Transformations</a>
+                   aria-controls="nav-transformation" aria-selected="false" ng-click="stop_chat()">Transformations</a>
                 <a class="nav-item nav-link" id="nav-edit-vars-tab" data-toggle="tab" href="#nav-edit-vars" role="tab"
-                   aria-controls="nav-edit-vars" aria-selected="false">Edit Variables</a>
+                   aria-controls="nav-edit-vars" aria-selected="false" ng-click="stop_chat()">Edit Variables</a>
                 <a class="nav-item nav-link" id="nav-notifications-tab" data-toggle="tab" href="#nav-notifications" role="tab"
-                   aria-controls="nav-notifications" aria-selected="false">Notifications <i ng-if="notifications_icon" class="fa fa-exclamation-circle"></i> </a>
+                   aria-controls="nav-notifications" aria-selected="false" ng-click="stop_chat()">Notifications <i ng-if="notifications_icon" class="fa fa-exclamation-circle"></i> </a>
+                <a class="nav-item nav-link" id="nav-messages-tab" data-toggle="tab" href="#nav-messages" role="tab"
+                   aria-controls="nav-messages" aria-selected="false" ng-click="start_chat()">Messages <i ng-if="has_messages" class="fa fa-exclamation-circle"></i> </a>
             </div>
         </nav>
         <div class="tab-content" id="nav-tabContent">
@@ -247,6 +249,10 @@
                   </a>
                 </div>
             </div>
+            <div class="tab-pane fade" id="nav-messages" role="tabpanel" aria-labelledby="nav-messages-tab">
+                <h2>{% trans 'Messages' %}</h2>
+                {% include 'chat.html' %}
+            </div>
         </div>
 
     </div>
@@ -268,11 +274,13 @@
 <script src="{% static 'js/jquery.min.js' %}"></script>
 <script src="{% static 'js/bootstrap.bundle.min.js' %}"></script>
 <script src="{% static 'js/topbar-menu.js' %}"></script>
+<script src="{% static 'js/chat.js' %}"></script>
 <script src="{% static 'js/serafin.js' %}"></script>
 
 <script>
     var api = '{{ api|safe }}';
     var csrf_token = '{{ csrf_token }}';
+    var chatApi = '{{ chat_api|safe }}';
 </script>
 
 </body>

@@ -21,6 +21,7 @@ style="direction: {% if lang_dir %} rtl {% else %} ltr {% endif %}">
 
 
   <!-- Custom styles for this template -->
+  <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
   <link href="{% static 'css/mind-tools.css' %}" rel="stylesheet">
 
     <script src="{% static 'lib/angular/angular.min.js' %}"></script>
@@ -45,10 +46,10 @@ style="direction: {% if lang_dir %} rtl {% else %} ltr {% endif %}">
           <li class="nav-item">
             <a class="nav-link" href="{% url 'modules' %}">Program</a>
           </li>
-          <li class="nav-item active">
+          <li class="nav-item">
             <a class="nav-link" href="#">Tools</a>
           </li>
-          <li class="nav-item">
+          <li class="nav-item active">
             <a class="nav-link" href="{% url 'mytherapist' %}">My Therapist</a>
           </li>
         </ul>
@@ -57,45 +58,10 @@ style="direction: {% if lang_dir %} rtl {% else %} ltr {% endif %}">
   </nav>
 
   <!-- Page Content -->
-  <div class="container">
+  <div class="container" ng-app="mytherapist">
 
     <!-- Jumbotron Header -->
-    <header class="jumbotron my-4 {% if lang_dir %} text-right {% endif %}">
-        <h4>{% trans 'Files' %}</h4>
-        <ul class="list-group list-group-flush">
-            {% for tool in tools %}
-                {% if tool.type == 'file' %}
-                  <li class="list-group-item">
-                        <a href="{{ tool.url }}" target="_blank">{{ tool.title }}</a>
-                  </li>
-                {% endif %}
-            {% endfor %}
-        </ul>
-
-        <h4>{% trans 'Videos' %}</h4>
-        <ul class="list-group list-group-flush">
-            {% for tool in tools %}
-                {% if tool.type == 'video' %}
-                  <li class="list-group-item">
-                        <a href="{{ tool.url }}" target="_blank">{{ tool.title }}</a>
-                  </li>
-                {% endif %}
-            {% endfor %}
-        </ul>
-
-        <h4>{% trans 'Audios' %}</h4>
-        <ul class="list-group list-group-flush">
-            {% for tool in tools %}
-                {% if tool.type == 'audio' %}
-                  <li class="list-group-item">
-                        <a href="{{ tool.url }}" target="_blank">{{ tool.title }}</a>
-                  </li>
-                {% endif %}
-            {% endfor %}
-        </ul>
-
-    </header>
-
+      {% include 'chat.html' %}
     <!-- Page Features -->
     <div>
 
@@ -113,9 +79,22 @@ style="direction: {% if lang_dir %} rtl {% else %} ltr {% endif %}">
   </footer>
 
   <!-- Bootstrap core JavaScript -->
+  <script src="{% static 'lib/moment/min/moment.min.js' %}"></script>
   <script src="{% static 'js/jquery.min.js' %}"></script>
   <script src="{% static 'js/bootstrap.bundle.min.js' %}"></script>
   <script src="{% static 'js/topbar-menu.js' %}"></script>
+  <script src="{% static 'js/chat.js' %}"></script>
+  <script src="{% static 'js/serafin.js' %}"></script>
+
+<script>
+    var api = '{{ api|safe }}';
+    var csrf_token = '{{ csrf_token }}';
+    var chatApi = '{{ chat_api|safe }}';
+
+    window.onload = function () {
+        angular.element(document.getElementById('chat_component')).scope().load_messages();
+    }
+</script>
 
 </body>
 

@@ -722,3 +722,20 @@ class TherapistNotification(models.Model):
 
     def __unicode__(self):
         return self.message
+
+
+class ChatMessage(models.Model):
+    sender = models.ForeignKey(settings.AUTH_USER_MODEL, verbose_name=_('sender'),
+                               null=True, on_delete=models.SET_NULL, related_name='sent_messages')
+    receiver = models.ForeignKey(settings.AUTH_USER_MODEL, verbose_name=_('receiver'),
+                                 null=True, on_delete=models.SET_NULL, related_name='received_messages')
+    timestamp = models.DateTimeField(_('timestamp'), default=timezone.now)
+    is_read = models.BooleanField(_('is read'), default=False)
+    message = models.TextField(_('message'))
+
+    def __str__(self):
+        return "message #{}".format(self.id)
+
+    def __unicode__(self):
+        return "message #{}".format(self.id)
+
