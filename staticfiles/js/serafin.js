@@ -501,7 +501,18 @@ therapistapp.controller('therapist', ['$scope', '$http', '$httpParamSerializerJQ
 
     scope.showAllUsers = function() {
         scope.display_show_table=true;
+        $("#nav-user-pages-tab").click();
         scope.stop_chat();
+
+        if (api) {
+            http.get(api + window.location.search).then(response => {
+            scope.error = null;
+            scope = Object.assign(scope, response.data);
+        }, reason => {
+            scope.error = reason.data;
+            scope.page = {};
+        });
+    }
     };
 
     scope.updateTransformationTable = function () {

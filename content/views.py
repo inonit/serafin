@@ -116,12 +116,14 @@ def users_stats(request):
             .values('day').distinct('day').count()
 
         has_notification = user.patient_notifications.filter(Q(therapist=request.user) & Q(is_read=False)).count() > 0
+        has_unread_messages = ChatMessage.objects.filter(Q(sender=user) & Q(receiver=request.user) & Q(is_read=False)) \
+                                  .count() > 0
 
         user_row = {'id': user.id, 'email': user.email, 'phone': user.phone, 'last_login': last_login,
                     'program_phase': user.data.get('Program_Phase'), 'start_time': start_time,
                     'program': program_title, 'total_time': total_time, 'distinct_days': distinct_days,
                     'login_count': login_count, 'current_page': last_transition_page,
-                    'has_notification': has_notification}
+                    'has_notification': has_notification, 'has_messages': has_unread_messages}
 
         users_table.append(user_row)
 
