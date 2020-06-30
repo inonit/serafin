@@ -58,6 +58,12 @@ function ChatController() {
             }
         };
 
+        scope.message_key_press = function(keyEvent) {
+            if (keyEvent.which == 13) {
+                scope.send_message();
+            }
+        };
+
         scope.send_message = function () {
             const url = chatApi + '?send_message=1';
             var data;
@@ -67,6 +73,12 @@ function ChatController() {
             else {
                 data = httpParamSerializerJQLike({'msg': scope.message, 'user_id': scope.user_id})
             }
+            scope.messages.forEach(x => {
+               if (x.r) {
+                   x.read = true;
+               }
+            });
+            scope.message = '';
             http({
                 url: url,
                 method: 'POST',
@@ -75,7 +87,6 @@ function ChatController() {
                     'Content-Type': 'application/x-www-form-urlencoded'
                 }
             }).then(function (response) {
-                scope.message = '';
                 console.log("message sent");
                 handle_messages(response.data);
             });

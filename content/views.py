@@ -532,8 +532,10 @@ def receive_messages(request):
 
     if user_id is None:
         if request.user.therapist is None:
-            return
+            raise PermissionError("no therapist")
         user_id = request.user.therapist.id
+    elif not request.user.is_therapist:
+        raise PermissionError("bad request")
     other_user = User.objects.get(id=user_id)
 
     return receive_messages_internal(prev, next, current_user, other_user)
@@ -546,6 +548,15 @@ def receive_messages_internal(prev, next, current_user, other_user):
         messages = ChatMessage.objects.filter((Q(sender=current_user) & Q(receiver=other_user)) |
                                               (Q(sender=other_user) & Q(receiver=current_user))) \
                        .order_by('timestamp').reverse()[:max_messages]
+        old_count = len(messages)
+        new_count = 0
+        while old_count != new_count and not messages[0].is_read and messages[0].receiver == current_user:
+            old_count = len(messages)
+            max_messages = max_messages * 2
+            messages = ChatMessage.objects.filter((Q(sender=current_user) & Q(receiver=other_user)) |
+                                                  (Q(sender=other_user) & Q(receiver=current_user))) \
+                           .order_by('timestamp').reverse()[:max_messages]
+            new_count = len(messages)
 
     elif prev is not None:
         messages = ChatMessage.objects.filter(Q(id__lt=prev) & ((Q(sender=current_user) & Q(receiver=other_user)) |
@@ -557,9 +568,15 @@ def receive_messages_internal(prev, next, current_user, other_user):
                        .order_by('timestamp').reverse()[:]
 
     objects = {
-        'messages': [{'id': m.id, 'msg': m.message, 'time': m.timestamp, 's': m.sender.id == current_user.id, 'r': m.receiver.id == current_user.id}
-                     for m in messages]
+        'messages': [{'id': m.id, 'msg': m.message, 'time': m.timestamp,
+                      's': m.sender.id == current_user.id, 'r': m.receiver.id == current_user.id,
+                      'read': m.is_read} for m in messages]
     }
+
+    for m in messages:
+        if not m.is_read and current_user == m.receiver:
+            m.is_read = True
+            m.save()
 
     return JsonResponse(objects)
 

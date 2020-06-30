@@ -6,18 +6,22 @@
             </button>
         </div>
         <div ng-repeat="msg in messages">
+        <div ng-if="msg.r && msg.read == false && ($index == 0 || messages[$index-1].s || messages[$index-1].read != false)" class="new_messages">New Messages</div>
             <div class="received_msg" ng-if="msg.s != true" dir="{% if lang_dir %}ltr{% endif %}">
                 <div class="received_withd_msg">
+
+                    <p dir="{% if lang_dir %}rtl{% endif %}" class="{% if lang_dir %}text-right{% endif %}">
                     {% verbatim %}
-                    <p>{{ msg.msg }}</p>
+                        {{ msg.msg }}</p>
                     <span class="time_date"> {{ msg.time_display }}</span>
                     {% endverbatim %}
                 </div>
             </div>
             <div class="outgoing_msg" ng-if="msg.s == true">
                 <div class="sent_msg">
+                    <p class="{% if lang_dir %}text-right{% endif %}">
                     {% verbatim %}
-                    <p>{{ msg.msg }}</p>
+                        {{ msg.msg }}</p>
                     <span class="time_date"> {{ msg.time_display }}</span>
                     {% endverbatim %}
                 </div>
@@ -26,7 +30,7 @@
     </div>
     <div class="type_msg">
         <div class="input_msg_write">
-            <input type="text" class="write_msg" placeholder="Type a message" ng-model="message"/>
+            <input type="text" class="write_msg" placeholder="Type a message" ng-model="message" ng-keypress="message_key_press()"/>
             <button class="msg_send_btn" {% if lang_dir %}style="left:0px;right:auto;"{% endif %} type="button" ng-click="send_message()"><i class="fa fa-paper-plane-o"
                                                                                     aria-hidden="true"></i></button>
         </div>
