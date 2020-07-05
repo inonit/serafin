@@ -91,6 +91,7 @@ class Parser(object):
 
     UNARY = "unary -"
     INDEXED_VARIABLE = "var idx"
+    NOT = "!"
 
     bool_operators = {
         "==": oper.eq, "!=": oper.ne, "<": oper.lt, "<=": oper.le,
@@ -141,7 +142,7 @@ class Parser(object):
         if not self.bnf:
             # Operators
             exponent_operator = Literal("^")
-            # negate_operator = Literal("!")  # TODO: Implement this so we can write `!True`
+            negate_operator = Literal("!")
             multiply_operator = oneOf("* / %")
             add_operator = oneOf("+ -")
             comparison_operator = oneOf("== != < <= > >= & |") ^ Keyword("in")
@@ -169,7 +170,7 @@ class Parser(object):
                     (pi | e | numeric | ident + lparen + expression + rparen).setParseAction(self.push_stack)
                     | (variable + lbrack + expression + rbrack).setParseAction(self.push_array_variable)
                     | (variable | none | boolean | string | Group(lists)).setParseAction(self.push_stack)
-                    | (lparen + expression.suppress() + rparen)).setParseAction(self.push_unary_stack)
+                    | Optional(negate_operator) + (lparen + expression.suppress() + rparen)).setParseAction(self.push_unary_stack)
 
             # By defining exponentiation as "atom [^factor]" instead of "atom [^atom],
             # we get left to right exponents. 2^3^2 = 2^(3^2), not (2^3)^2.
@@ -239,6 +240,8 @@ class Parser(object):
     def push_unary_stack(self, s, location, tokens):
         if tokens and tokens[0] == "-":
             self.stack.append(self.UNARY)
+        elif tokens and tokens[0] == "!":
+            self.stack.append(self.NOT)
 
     def push_array_variable(self, s, location, tokens):
         self.stack.append(tokens[0])
@@ -253,6 +256,8 @@ class Parser(object):
         operator = expr.pop()
         if operator == self.UNARY:
             return -self.evaluate_stack(expr)
+        elif operator == self.NOT:
+            return not self.evaluate_stack(expr)
 
         if operator in self.operators:
             rhs, lhs = self.evaluate_stack(expr), self.evaluate_stack(expr)

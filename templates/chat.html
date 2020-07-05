@@ -30,7 +30,7 @@
     </div>
     <div class="type_msg">
         <div class="input_msg_write">
-            <input type="text" class="write_msg" placeholder="Type a message" ng-model="message" ng-keypress="message_key_press()"/>
+            <input type="text" class="write_msg" placeholder="Type a message" ng-model="message" ng-keypress="message_key_press($event)"/>
             <button class="msg_send_btn" {% if lang_dir %}style="left:0px;right:auto;"{% endif %} type="button" ng-click="send_message()"><i class="fa fa-paper-plane-o"
                                                                                     aria-hidden="true"></i></button>
         </div>
