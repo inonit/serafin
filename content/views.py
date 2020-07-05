@@ -40,9 +40,11 @@ def main_page(request):
         return HttpResponseRedirect(settings.HOME_URL)
 
     session = get_object_or_404(Session, id=session_id)
+    has_therapist = request.user.therapist is not None
     context = {
         'api': reverse('portal'),
         'program': session.program,
+        'has_therapist': has_therapist
     }
 
     set_language_by_session(session)
@@ -277,9 +279,17 @@ def modules_page(request):
     page = engine.run()
 
     current_module_id = page.chapter.module.id if page.chapter and page.chapter.module else None
+    has_therapist = request.user.therapist is not None
+    has_unread_messages = False
+    if has_therapist:
+        has_unread_messages = ChatMessage.objects.filter(Q(sender=request.user.therapist) & Q(receiver=request.user)
+                                                         & Q(is_read=False)).count() > 0
+
     context = {
         'modules': json.dumps(modules),
-        'current_module_id': current_module_id if current_module_id else 0
+        'current_module_id': current_module_id if current_module_id else 0,
+        'has_therapist': has_therapist,
+        'has_messages': has_unread_messages
     }
 
     return render(request, 'modules.html', context)
@@ -296,8 +306,16 @@ def tools_page(request):
     set_language_by_session(session)
 
     tools = request.user.get_tools()
+    has_therapist = request.user.therapist is not None
+    has_unread_messages = False
+    if has_therapist:
+        has_unread_messages = ChatMessage.objects.filter(Q(sender=request.user.therapist) & Q(receiver=request.user)
+                                                         & Q(is_read=False)).count() > 0
+
     context = {
-        'tools': tools
+        'tools': tools,
+        'has_therapist': has_therapist,
+        'has_messages': has_unread_messages
     }
 
     return render(request, 'tools.html', context)
@@ -346,12 +364,17 @@ def get_portal(request):
 
     current_module_title = page.chapter.module.display_title if page.chapter and page.chapter.module else None
     current_module_id = page.chapter.module.id if page.chapter and page.chapter.module else None
+    has_unread_messages = False
+    if request.user.therapist is not None:
+        has_unread_messages = ChatMessage.objects.filter(Q(sender=request.user.therapist) & Q(receiver=request.user)
+                                                         & Q(is_read=False)).count() > 0
     context = {
         'modules': modules,
         'modules_finished': len([m for m in modules if m['is_enabled'] == 1]) - (0 if current_module_id is None else 1),
         'current_page_title': page.display_title,
         'current_module_title': current_module_title,
-        'current_module_id': current_module_id
+        'current_module_id': current_module_id,
+        'has_messages': has_unread_messages
     }
 
     return JsonResponse(context)

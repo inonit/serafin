@@ -17,6 +17,7 @@ style="direction: {% if lang_dir %} rtl {% else %} ltr {% endif %}">
   <title>Mind Tools</title>
 
   <!-- Bootstrap core CSS -->
+  <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
   <link href="{% static 'css/bootstrap.min.css' %}" rel="stylesheet">
 
 
@@ -48,9 +49,11 @@ style="direction: {% if lang_dir %} rtl {% else %} ltr {% endif %}">
           <li class="nav-item active">
             <a class="nav-link" href="#">Tools</a>
           </li>
+          {% if has_therapist %}
           <li class="nav-item">
-            <a class="nav-link" href="{% url 'mytherapist' %}">My Therapist</a>
+            <a class="nav-link" href="{% url 'mytherapist' %}">My Therapist {% if has_messages %} <i class="fa fa-envelope mr-1"></i>{% endif %}</a>
           </li>
+          {% endif %}
         </ul>
       </div>
     </div>

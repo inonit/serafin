@@ -21,6 +21,7 @@ style="direction: {% if lang_dir %} rtl {% else %} ltr {% endif %}">
 
 
   <!-- Custom styles for this template -->
+  <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
   <link href="{% static 'css/mind-tools.css' %}" rel="stylesheet">
 
     <script src="{% static 'lib/angular/angular.min.js' %}"></script>
@@ -48,9 +49,11 @@ style="direction: {% if lang_dir %} rtl {% else %} ltr {% endif %}">
           <li class="nav-item">
             <a class="nav-link" href="{% url 'tools' %}">Tools</a>
           </li>
+          {% if has_therapist %}
           <li class="nav-item">
-            <a class="nav-link" href="{% url 'mytherapist' %}">My Therapist</a>
+            <a class="nav-link" href="{% url 'mytherapist' %}">My Therapist <i ng-if="has_messages" class="fa fa-envelope mr-1"></i></a>
           </li>
+          {% endif %}
         </ul>
       </div>
     </div>
