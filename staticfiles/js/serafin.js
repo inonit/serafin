@@ -464,10 +464,12 @@ therapistapp.run(['$rootScope', '$http', function (scope, http) {
 
 }]);
 
-therapistapp.controller('ChatController', ['$scope', '$http', '$httpParamSerializerJQLike', '$timeout', '$interval', ChatController()]);
+if (ChatController !== undefined) {
+    therapistapp.controller('ChatController', ['$scope', '$http', '$httpParamSerializerJQLike', '$timeout', '$interval', ChatController()]);
+    therapistapp.directive('fileModel', ['$parse', FileModelDirective()]);
+}
 
 therapistapp.controller('therapist', ['$scope', '$http', '$httpParamSerializerJQLike', '$timeout', '$interval', function (scope, http, httpParamSerializerJQLike, timeout, interval) {
-
 
     var loadResponse = function (response) {
         scope.selectedTransformationVariable = null;
@@ -639,4 +641,7 @@ therapistapp.component('pageVariablesTable', {
 
 const mytherapistapp = angular.module('mytherapist', []);
 mytherapistapp.config(['$httpProvider', generalConfig()]);
-mytherapistapp.controller('ChatController', ['$scope', '$http', '$httpParamSerializerJQLike', '$timeout', '$interval', ChatController()]);
+if (ChatController !== undefined) {
+    mytherapistapp.controller('ChatController', ['$scope', '$http', '$httpParamSerializerJQLike', '$timeout', '$interval', ChatController()]);
+    mytherapistapp.directive('fileModel', ['$parse', FileModelDirective()]);
+}

@@ -5,6 +5,8 @@ function ChatController() {
 
         scope.show_load_previous = false;
         scope.messages = [];
+        scope.message = '';
+        scope.uploadFile = null;
         scope.load_message_interval = null;
 
         scope.$on('startChat', function (event, arg) {
@@ -66,12 +68,13 @@ function ChatController() {
 
         scope.send_message = function () {
             const url = chatApi + '?send_message=1';
-            var data;
-            if (scope.user_id === undefined) {
-                data = httpParamSerializerJQLike({'msg': scope.message});
+            var data = new FormData();
+            data.append('msg', scope.message);
+            if (scope.user_id !== undefined) {
+                data.append('user_id', scope.user_id)
             }
-            else {
-                data = httpParamSerializerJQLike({'msg': scope.message, 'user_id': scope.user_id})
+            if (scope.uploadFile) {
+                data.append('file', scope.uploadFile);
             }
             scope.messages.forEach(x => {
                if (x.r) {
@@ -79,17 +82,28 @@ function ChatController() {
                }
             });
             scope.message = '';
+            scope.uploadFile = null;
             http({
                 url: url,
                 method: 'POST',
                 data: data,
                 headers: {
-                    'Content-Type': 'application/x-www-form-urlencoded'
+                    'Content-Type': undefined
                 }
             }).then(function (response) {
                 console.log("message sent");
                 handle_messages(response.data);
+            }, function (error) {
+                console.log(error);
             });
+        };
+
+        scope.clear_file = function () {
+            scope.uploadFile = null;
+        };
+
+        scope.get_attachment_url = function(msg_id) {
+            return chatApi + '?attachment_id=' + msg_id
         };
 
         scope.load_messages = function (previous, next) {
@@ -104,7 +118,12 @@ function ChatController() {
                         start_polling = true;
                         scope.load_message_interval = interval(function () {
                             if (start_polling == true) {
-                                scope.load_messages(null, 1);
+                                if (scope.messages.length > 0) {
+                                    scope.load_messages(null, 1);
+                                }
+                                else {
+                                    scope.load_messages(null, null);
+                                }
                             }
                         }, 3000);
                     }
@@ -127,4 +146,32 @@ function ChatController() {
         };
     }
 
+}
+
+function FileModelDirective() {
+    return function (parse) {
+        return {
+            restrict: 'A', //the directive can be used as an attribute only
+
+            /*
+             link is a function that defines functionality of directive
+             scope: scope associated with the element
+             element: element on which this directive used
+             attrs: key value pair of element attributes
+             */
+            link: function (scope, element, attrs) {
+                var model = parse(attrs.fileModel),
+                    modelSetter = model.assign; //define a setter for demoFileModel
+
+                //Bind change event on the element
+                element.bind('change', function () {
+                    //Call apply on scope, it checks for value changes and reflect them on UI
+                    scope.$apply(function () {
+                        //set the model value
+                        modelSetter(scope, element[0].files[0]);
+                    });
+                });
+            }
+        };
+    };
 }

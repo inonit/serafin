@@ -8,7 +8,7 @@ from django.conf import settings
 from django.contrib.auth.decorators import login_required
 from django.contrib.admin.views.decorators import staff_member_required
 from django.urls import reverse
-from django.http import Http404, HttpResponseRedirect, JsonResponse
+from django.http import Http404, HttpResponseRedirect, JsonResponse, HttpResponse
 from django.shortcuts import get_object_or_404, render
 from django.utils import translation, timezone
 from filer.models import File, Image
@@ -520,32 +520,39 @@ def send_message(request):
         raise ValueError('bad method')
 
     message = request.POST.get("msg", None)
-    if message is None or message.strip() == '':
+    file = request.FILES.get("file", None)
+    if (message is None or message.strip() == '') and file is None:
         raise ValueError('message is empty')
 
     obj = None
     other_user = None
     user_id = request.POST.get("user_id", None)
+    chat_message = ChatMessage(message=message, sender=request.user)
     if user_id is not None and request.user.is_therapist:
         patient = User.objects.get(id=user_id)
         other_user = patient
-        obj = ChatMessage.objects.create(
-            sender=request.user,
-            receiver=patient,
-            message=message)
+        chat_message.receiver = patient
     elif user_id is None:
         therapist = request.user.therapist
         if therapist is None:
             raise ValueError('no therapist')
         other_user = therapist
-        obj = ChatMessage.objects.create(
-            sender=request.user,
-            receiver=therapist,
-            message=message)
+        chat_message.receiver = therapist
     else:
         raise ValueError('bad request')
 
-    return receive_messages_internal(prev=None, next=obj.id - 1, current_user=request.user, other_user=other_user)
+    if file is not None:
+        if file.content_type not in ['application/msword', 'text/plain', 'application/pdf']:
+            raise ValueError('bad file')
+        if file.size > 4194304:
+            raise ValueError('big file')
+        chat_message.file_type = file.content_type
+        chat_message.file_name = file.name
+        chat_message.file_data = file.read()
+
+    chat_message.save()
+
+    return receive_messages_internal(prev=None, next=chat_message.id - 1, current_user=request.user, other_user=other_user)
 
 
 @login_required
@@ -564,6 +571,14 @@ def receive_messages(request):
     other_user = User.objects.get(id=user_id)
 
     return receive_messages_internal(prev, next, current_user, other_user)
+
+
+@login_required
+def get_attachment(request, msg_id):
+    message = ChatMessage.objects.get(id=msg_id)
+    if (request.user == message.sender or request.user == message.receiver) and message.file_data is not None:
+        return HttpResponse(content=bytes(message.file_data), content_type=message.file_type)
+    raise FileNotFoundError("attachment not found")
 
 
 def receive_messages_internal(prev, next, current_user, other_user):
@@ -595,7 +610,7 @@ def receive_messages_internal(prev, next, current_user, other_user):
     objects = {
         'messages': [{'id': m.id, 'msg': m.message, 'time': m.timestamp,
                       's': m.sender.id == current_user.id, 'r': m.receiver.id == current_user.id,
-                      'read': m.is_read} for m in messages]
+                      'read': m.is_read, 'file_name': m.file_name} for m in messages]
     }
 
     for m in messages:
@@ -614,6 +629,10 @@ def chat(request):
     receive_message_val = request.GET.get('receive_message', None)
     if receive_message_val is not None:
         return receive_messages(request)
+
+    attachment_id = request.GET.get('attachment_id', None)
+    if attachment_id:
+        return get_attachment(request, attachment_id)
 
 
 def my_therapist(request):

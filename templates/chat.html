@@ -10,18 +10,22 @@
             <div class="received_msg" ng-if="msg.s != true" dir="{% if lang_dir %}ltr{% endif %}">
                 <div class="received_withd_msg">
 
-                    <p dir="{% if lang_dir %}rtl{% endif %}" class="{% if lang_dir %}text-right{% endif %}">
+                    <div dir="{% if lang_dir %}rtl{% endif %}" class="{% if lang_dir %}text-right{% endif %}">
                     {% verbatim %}
-                        {{ msg.msg }}</p>
+                        {{ msg.msg }}
+                    <div ng-if="msg.file_name != null" class="file_box"><a href="{{ get_attachment_url(msg.id) }}" target="_blank">{{ msg.file_name }}</a> </div>
+                    </div>
                     <span class="time_date"> {{ msg.time_display }}</span>
                     {% endverbatim %}
                 </div>
             </div>
             <div class="outgoing_msg" ng-if="msg.s == true">
                 <div class="sent_msg">
-                    <p class="{% if lang_dir %}text-right{% endif %}">
+                    <div class="{% if lang_dir %}text-right{% endif %}">
                     {% verbatim %}
-                        {{ msg.msg }}</p>
+                        {{ msg.msg }}
+                    <div ng-if="msg.file_name != null" class="file_box"><a href="{{ get_attachment_url(msg.id) }}" target="_blank">{{ msg.file_name }}</a> </div>
+                    </div>
                     <span class="time_date"> {{ msg.time_display }}</span>
                     {% endverbatim %}
                 </div>
@@ -33,6 +37,13 @@
             <input type="text" class="write_msg" placeholder="Type a message" ng-model="message" ng-keypress="message_key_press($event)"/>
             <button class="msg_send_btn" {% if lang_dir %}style="left:0px;right:auto;"{% endif %} type="button" ng-click="send_message()"><i class="fa fa-paper-plane-o"
                                                                                     aria-hidden="true"></i></button>
+            <input type="file" file-model="uploadFile"  class="inputfile form-control" id ="myFileField" accept="application/msword, text/plain, application/pdf" />
+            <label {% if lang_dir %}style="left:0px;right:auto;"{% endif %} for="myFileField"><i class="fa fa-paperclip" aria-hidden="true"></i></label>
+        {% verbatim %}
+            <span>{{ uploadFile.name }}</span>
+            <button ng-if="uploadFile != null" type="button" ng-click="clear_file()">Clear</button>
+            {%  endverbatim %}
+
         </div>
     </div>
 </div>

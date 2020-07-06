@@ -732,6 +732,9 @@ class ChatMessage(models.Model):
     timestamp = models.DateTimeField(_('timestamp'), default=timezone.now)
     is_read = models.BooleanField(_('is read'), default=False)
     message = models.TextField(_('message'))
+    file_name = models.TextField(_('file name'), null=True, default=None)
+    file_type = models.TextField(_('file type'), null=True, default=None)
+    file_data = models.BinaryField(_('file data'), null=True, default=None)
 
     def __str__(self):
         return "message #{}".format(self.id)
