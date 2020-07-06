@@ -17,6 +17,9 @@ function ChatController() {
             interval.cancel(scope.load_message_interval);
             start_polling = false;
             scope.messages = [];
+            scope.show_load_previous = false;
+            scope.message = '';
+            scope.uploadFile = null;
         });
 
         var get_user_id_queryset = function () {
@@ -34,6 +37,10 @@ function ChatController() {
                 firstId = scope.messages[0].id;
             }
 
+            if (response.messages.length == 0) {
+                return;
+            }
+
             let newMessages = response.messages;
             newMessages.forEach(function (message) {
                 message['time_display'] = moment(message.time).calendar();
@@ -47,11 +54,9 @@ function ChatController() {
                 return a.id - b.id;
             });
 
-            if (newMessages.length > 0) {
-                scope.show_load_previous = true;
-            }
+            scope.show_load_previous = true;
 
-            if (newMessages.length > 0 && scope.messages[0].id >= firstId) {
+            if (scope.messages[0].id >= firstId) {
                 timeout(function () {
                     window.scrollTo(0, document.body.scrollHeight);
                     let msgHistory = $('.msg_history');
@@ -118,12 +123,7 @@ function ChatController() {
                         start_polling = true;
                         scope.load_message_interval = interval(function () {
                             if (start_polling == true) {
-                                if (scope.messages.length > 0) {
-                                    scope.load_messages(null, 1);
-                                }
-                                else {
-                                    scope.load_messages(null, null);
-                                }
+                                scope.load_messages(null, 1);
                             }
                         }, 3000);
                     }
@@ -136,12 +136,14 @@ function ChatController() {
                     handle_messages(response.data);
                 });
             } else if (next != null) {
-                let last_id = scope.messages[scope.messages.length - 1].id;
-                let url = chatApi + '?receive_message=1' + get_user_id_queryset() + '&next=' + last_id;
+                let url = chatApi + '?receive_message=1' + get_user_id_queryset();
+                if (scope.messages.length > 0) {
+                    let last_id = scope.messages[scope.messages.length - 1].id;
+                    url = url + '&next=' + last_id;
+                }
                 http.get(url).then(function (response) {
                     handle_messages(response.data);
                 });
-
             }
         };
     }
