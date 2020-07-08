@@ -467,6 +467,7 @@ therapistapp.run(['$rootScope', '$http', function (scope, http) {
 if (ChatController !== undefined) {
     therapistapp.controller('ChatController', ['$scope', '$http', '$httpParamSerializerJQLike', '$timeout', '$interval', ChatController()]);
     therapistapp.directive('fileModel', ['$parse', FileModelDirective()]);
+    therapistapp.directive('html5afix', FixAudioSrcDirective());
 }
 
 therapistapp.controller('therapist', ['$scope', '$http', '$httpParamSerializerJQLike', '$timeout', '$interval', function (scope, http, httpParamSerializerJQLike, timeout, interval) {
@@ -644,4 +645,5 @@ mytherapistapp.config(['$httpProvider', generalConfig()]);
 if (ChatController !== undefined) {
     mytherapistapp.controller('ChatController', ['$scope', '$http', '$httpParamSerializerJQLike', '$timeout', '$interval', ChatController()]);
     mytherapistapp.directive('fileModel', ['$parse', FileModelDirective()]);
+    mytherapistapp.directive('html5afix', FixAudioSrcDirective());
 }

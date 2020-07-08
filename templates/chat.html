@@ -14,7 +14,7 @@
                     {% verbatim %}
                         {{ msg.msg }}
                     <div ng-if="msg.file_name != null && !msg.is_audio" class="file_box"><a href="{{ get_attachment_url(msg.id) }}" target="_blank">{{ msg.file_name }}</a> </div>
-                    <div ng-if="msg.file_name != null && msg.is_audio"><audio src="{{ get_attachment_url(msg.id) }}" controls controlslist="nodownload"></audio> </div>
+                    <div ng-if="msg.file_name != null && msg.is_audio"><audio html5afix vsrc="{{ get_attachment_url(msg.id) }}" controls controlslist="nodownload"></audio> </div>
                     </div>
                     <span class="time_date"> {{ msg.time_display }}</span>
                     {% endverbatim %}
@@ -26,7 +26,7 @@
                     {% verbatim %}
                         {{ msg.msg }}
                     <div ng-if="msg.file_name != null && !msg.is_audio" class="file_box"><a href="{{ get_attachment_url(msg.id) }}" target="_blank">{{ msg.file_name }}</a> </div>
-                    <div ng-if="msg.file_name != null && msg.is_audio" ng-cloak><audio ng-cloak src="{{ get_attachment_url(msg.id) }}" controls controlslist="nodownload"></audio> </div>
+                    <div ng-if="msg.file_name != null && msg.is_audio" ng-cloak><audio html5afix vsrc="{{ get_attachment_url(msg.id) }}" controls controlslist="nodownload"></audio> </div>
                     </div>
                     <span class="time_date"> {{ msg.time_display }}</span>
                     {% endverbatim %}

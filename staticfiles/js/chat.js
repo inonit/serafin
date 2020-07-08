@@ -235,3 +235,15 @@ function FileModelDirective() {
         };
     };
 }
+
+function FixAudioSrcDirective() {
+    return function () {
+        return {
+            restrict: 'A',
+            link: function (scope, element, attrs) {
+                attrs.$set('src', attrs.vsrc);
+            }
+        }
+
+    }
+}
