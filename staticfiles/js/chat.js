@@ -8,6 +8,7 @@ function ChatController() {
         scope.message = '';
         scope.uploadFile = null;
         scope.load_message_interval = null;
+        scope.audio_blob = null;
 
         scope.$on('startChat', function (event, arg) {
             scope.load_messages();
@@ -81,13 +82,19 @@ function ChatController() {
             if (scope.uploadFile) {
                 data.append('file', scope.uploadFile);
             }
+
+            if (scope.audio_blob) {
+                data.append('audio_file', scope.audio_blob);
+            }
+
             scope.messages.forEach(x => {
                if (x.r) {
                    x.read = true;
                }
             });
             scope.message = '';
-            scope.uploadFile = null;
+            scope.clear_file();
+            scope.clear_record();
             http({
                 url: url,
                 method: 'POST',
@@ -146,6 +153,57 @@ function ChatController() {
                 });
             }
         };
+
+        var gumStream;
+        var AudioContext = window.AudioContext || window.webkitAudioContext;
+        var input;
+        scope.rec = null;
+        scope.is_recording = false;
+
+        scope.clear_record = function() {
+            if (scope.rec) {
+                scope.rec.clear()
+            }
+            scope.rec = null;
+            scope.audio_blob = null;
+        };
+
+        scope.start_recording = function () {
+            scope.is_recording = true;
+            scope.audio_blob = null;
+            scope.uploadFile = null;
+            if (scope.rec) {
+                scope.rec.clear();
+            }
+            var constraints = {audio: true, video: false};
+            navigator.mediaDevices.getUserMedia(constraints).then(function (stream) {
+                audioContext = new AudioContext();
+                gumStream = stream;
+                input = audioContext.createMediaStreamSource(stream);
+                scope.rec = new Recorder(input,{numChannels:1});
+
+		        //start the recording process
+		        scope.rec.record();
+            }).catch(function(err) {
+
+            });
+        };
+
+        var createDownloadLink = function (blob) {
+            var url = URL.createObjectURL(blob);
+            scope.audio_blob = blob;
+            var au = $(".type_msg .input_msg_write audio");
+            au.attr('src', url);
+        };
+
+        scope.stop_recording = function () {
+            scope.rec.stop();
+            scope.rec.context.close();
+            gumStream.getAudioTracks()[0].stop();
+            scope.rec.exportWAV(createDownloadLink)
+            scope.is_recording = false;
+        };
+
     }
 
 }

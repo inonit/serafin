@@ -521,7 +521,8 @@ def send_message(request):
 
     message = request.POST.get("msg", None)
     file = request.FILES.get("file", None)
-    if (message is None or message.strip() == '') and file is None:
+    audio = request.FILES.get("audio_file", None)
+    if (message is None or message.strip() == '') and file is None and audio is None:
         raise ValueError('message is empty')
 
     obj = None
@@ -549,6 +550,10 @@ def send_message(request):
         chat_message.file_type = file.content_type
         chat_message.file_name = file.name
         chat_message.file_data = file.read()
+    elif audio is not None and audio.content_type == "audio/wav":
+        chat_message.file_type = audio.content_type
+        chat_message.file_name = "audio"
+        chat_message.file_data = audio.read()
 
     chat_message.save()
 
@@ -610,7 +615,8 @@ def receive_messages_internal(prev, next, current_user, other_user):
     objects = {
         'messages': [{'id': m.id, 'msg': m.message, 'time': m.timestamp,
                       's': m.sender.id == current_user.id, 'r': m.receiver.id == current_user.id,
-                      'read': m.is_read, 'file_name': m.file_name} for m in messages]
+                      'read': m.is_read, 'file_name': m.file_name, 'is_audio': m.file_type == 'audio/wav'}
+                     for m in messages]
     }
 
     for m in messages:

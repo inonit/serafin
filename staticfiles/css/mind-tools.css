@@ -53,6 +53,7 @@ a:hover {
 .mesgs {
   float: left;
   padding: 30px 15px 0 25px;
+  margin-bottom: 10px;
   width: 60%;
 }
 
@@ -72,11 +73,13 @@ a:hover {
 .outgoing_msg{ overflow:hidden; margin:26px 0 26px;}
 .sent_msg {
   float: right;
-  width: 46%;
+  min-width: 46%;
+  max-width: 80%;
 }
 .input_msg_write input {
   background: rgba(0, 0, 0, 0) none repeat scroll 0 0;
   border: medium none;
+  outline: none;
   color: #4c4c4c;
   font-size: 15px;
   min-height: 48px;
@@ -117,7 +120,7 @@ a:hover {
 .inputfile {
 	width: 0.1px;
 	height: 0.1px;
-	opacity: 0;
+	opacity: 0 !important;
 	overflow: hidden;
 	position: absolute;
 	z-index: -1;
@@ -137,6 +140,29 @@ a:hover {
   top: 11px;
   right: 0px;
   width: 33px;
-  padding-left: 8px;
-  padding-top: 5px;
+  padding-left: 9px;
+  padding-top: 3px;
+}
+
+button.record_audio {
+  background: #3a738f none repeat scroll 0 0;
+  border: medium none;
+  border-radius: 50%;
+  color: #fff;
+  cursor: pointer;
+  font-size: 17px;
+  height: 33px;
+  position: absolute;
+  margin-right: 80px;
+  margin-left: 80px;
+  top: 11px;
+  right: 0px;
+  width: 33px;
+  padding-left: 6px;
+  padding-top: 0px;
+}
+
+audio.inline_msg {
+    position:absolute;
+    left:0px;
 }
