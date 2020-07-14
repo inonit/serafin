@@ -30,7 +30,7 @@ class Variable(models.Model):
     '''A variable model allowing different options'''
 
     name = models.CharField(_('name'), max_length=64, unique=True, validators=[RegexValidator(r'^[^ ]+$',
-            _('No spaces allowed'))])
+                                                                                              _('No spaces allowed'))])
     display_name = models.CharField(_('display name'), max_length=64, blank=True, default='')
     admin_note = models.TextField(_('admin note'), blank=True)
     program = models.ForeignKey('Program', verbose_name=_('program'), null=True, on_delete=models.CASCADE)
@@ -703,7 +703,6 @@ class SMS(Content):
 
 
 class TherapistNotification(models.Model):
-
     program = models.ForeignKey('Program', verbose_name=_('program'), null=True, on_delete=models.CASCADE)
     therapist = models.ForeignKey(settings.AUTH_USER_MODEL, verbose_name=_('therapist'),
                                   null=True, on_delete=models.SET_NULL, related_name='therapist_notifications')
@@ -742,3 +741,18 @@ class ChatMessage(models.Model):
     def __unicode__(self):
         return "message #{}".format(self.id)
 
+
+class Note(models.Model):
+    therapist = models.ForeignKey(settings.AUTH_USER_MODEL, verbose_name=_('therapist'),
+                                  null=True, on_delete=models.SET_NULL, related_name='written_notes')
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, verbose_name=_('user'),
+                             null=True, on_delete=models.SET_NULL, related_name='notes')
+
+    timestamp = models.DateTimeField(_('timestamp'), default=timezone.now)
+    message = models.TextField(_('message'))
+
+    def __str__(self):
+        return "note ${}".format(self.id)
+
+    def __unicode__(self):
+        return "note ${}".format(self.id)

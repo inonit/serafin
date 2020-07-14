@@ -14,7 +14,7 @@ from django.utils import translation, timezone
 from filer.models import File, Image
 from itertools import chain
 from system.models import Session, Page, ProgramUserAccess, ProgramGoldVariable, Variable, TherapistNotification, \
-    ChatMessage
+    ChatMessage, Note
 from events.models import Event
 from events.signals import log_event
 from users.models import User
@@ -119,7 +119,7 @@ def users_stats(request):
 
         has_notification = user.patient_notifications.filter(Q(therapist=request.user) & Q(is_read=False)).count() > 0
         has_unread_messages = ChatMessage.objects.filter(Q(sender=user) & Q(receiver=request.user) & Q(is_read=False)) \
-                                  .count() > 0
+            .count() > 0
 
         user_row = {'id': user.id, 'email': user.email, 'phone': user.phone, 'last_login': last_login,
                     'program_phase': user.data.get('Program_Phase'), 'start_time': start_time,
@@ -152,13 +152,20 @@ def user_state(request, user_id):
     gold_variables_dataset = program.programgoldvariable_set.all()
 
     if request.method == 'POST':
-        notification_read_id = request.POST.get("notification_id")
+        notification_read_id = request.POST.get("notification_id", None)
+        note_msg = request.POST.get("note_msg", None)
         if notification_read_id:
             notification = TherapistNotification.objects.get(id=notification_read_id)
             # verify this notification belongs to the user and this therapist
             if notification.therapist == request.user and notification.patient == user:
                 notification.is_read = True
                 notification.save()
+        elif note_msg:
+            Note.objects.create(
+                message=note_msg,
+                therapist=request.user,
+                user=user
+            )
         else:
             for key, value in list(request.POST.items()):
                 gold_variable = gold_variables_dataset.filter(variable__name=key).first()
@@ -256,10 +263,15 @@ def user_state(request, user_id):
     has_messages = ChatMessage.objects.filter(
         Q(receiver=user.therapist) & Q(sender=user) & Q(is_read=False)).count() > 0
 
+    notes_objects = request.user.written_notes.filter(Q(therapist=request.user) & Q(user=user))
+
+    notes = [{'id': obj.id, 'message': obj.message, 'time': obj.timestamp} for obj in notes_objects]
+
     context = {
         'pages': pages,
         'variables': gold_variables,
         'notifications': notifications,
+        'notes': notes,
         'has_messages': has_messages,
         'email': user.email,
         'phone': user.phone,
@@ -557,7 +569,8 @@ def send_message(request):
 
     chat_message.save()
 
-    return receive_messages_internal(prev=None, next=chat_message.id - 1, current_user=request.user, other_user=other_user)
+    return receive_messages_internal(prev=None, next=chat_message.id - 1, current_user=request.user,
+                                     other_user=other_user)
 
 
 @login_required

@@ -482,6 +482,7 @@ therapistapp.controller('therapist', ['$scope', '$http', '$httpParamSerializerJQ
         scope.variables = response.data.variables;
         scope.notifications = response.data.notifications;
         scope.has_messages = response.data.has_messages;
+        scope.notes = response.data.notes;
 
         scope.variablesForm = {
             fields: [],
@@ -546,6 +547,30 @@ therapistapp.controller('therapist', ['$scope', '$http', '$httpParamSerializerJQ
             }
             scope.notifications_icon = scope.notifications_icon || !notification.is_read;
         });
+    };
+
+    scope.addNote = function() {
+        if (scope.new_note == null || scope.new_note.trim() == '') {
+            return;
+        }
+
+        var url = api + '?user_id=' + scope.user_id;
+        http({
+            url: url,
+            method: 'POST',
+            data: httpParamSerializerJQLike({'note_msg': scope.new_note}),
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded'
+            }
+        }).then(function (response) {
+            scope.new_note = '';
+            loadResponse(response);
+        });
+
+    };
+
+    scope.convertTime = function(time) {
+        return moment(time).calendar();
     };
 
     scope.showMoreGoldVariables = function (element) {
