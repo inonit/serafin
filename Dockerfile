@@ -15,6 +15,8 @@ ENV PYTHONUNBUFFERED 1
 WORKDIR /code
 COPY bower.json .bowerrc /code/
 RUN bower --allow-root install
+RUN sed -i 's/\/assets\/images\/ng-emoji-picker/\/static\/lib\/ng-emoji-picker\/img/g' /code/staticfiles/lib/ng-emoji-picker/js/jquery.emojiarea.js
+RUN sed -i 's/\/assets\/images\/ng-emoji-picker/\/static\/lib\/ng-emoji-picker\/img/g' /code/staticfiles/lib/ng-emoji-picker/css/emoji.css
 COPY django-multisite.tar.gz /code/
 RUN tar xvzf django-multisite.tar.gz
 RUN python django-multisite/setup.py install

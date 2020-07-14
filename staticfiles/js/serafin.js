@@ -443,7 +443,7 @@ var generalConfig = function() {
     }
 };
 
-const therapistapp = angular.module('therapistapp', []);
+const therapistapp = angular.module('therapistapp', ['ngEmojiPicker']);
 
 therapistapp.config(['$httpProvider', generalConfig()]);
 
@@ -464,7 +464,7 @@ therapistapp.run(['$rootScope', '$http', function (scope, http) {
 
 }]);
 
-if (ChatController !== undefined) {
+if (typeof(ChatController) !== 'undefined') {
     therapistapp.controller('ChatController', ['$scope', '$http', '$httpParamSerializerJQLike', '$timeout', '$interval', ChatController()]);
     therapistapp.directive('fileModel', ['$parse', FileModelDirective()]);
     therapistapp.directive('html5afix', FixAudioSrcDirective());
@@ -640,9 +640,9 @@ therapistapp.component('pageVariablesTable', {
 });
 
 
-const mytherapistapp = angular.module('mytherapist', []);
+const mytherapistapp = angular.module('mytherapist', ['ngEmojiPicker']);
 mytherapistapp.config(['$httpProvider', generalConfig()]);
-if (ChatController !== undefined) {
+if (typeof(ChatController) !== 'undefined') {
     mytherapistapp.controller('ChatController', ['$scope', '$http', '$httpParamSerializerJQLike', '$timeout', '$interval', ChatController()]);
     mytherapistapp.directive('fileModel', ['$parse', FileModelDirective()]);
     mytherapistapp.directive('html5afix', FixAudioSrcDirective());

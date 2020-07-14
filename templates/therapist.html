@@ -22,6 +22,8 @@
 
     <!-- Custom styles for this template -->
     <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+    <link href="{% static 'lib/ng-emoji-picker/css/emoji.css' %}" rel="stylesheet">
+    <link href="{% static 'lib/ng-emoji-picker/css/nanoscroller.css' %}" rel="stylesheet">
     <link href="{% static 'css/mind-tools.css' %}" rel="stylesheet">
 
     <script src="{% static 'lib/angular/angular.min.js' %}"></script>
@@ -278,6 +280,12 @@
 <script src="https://cdn.rawgit.com/mattdiamond/Recorderjs/08e7abd9/dist/recorder.js"></script>
 <script src="{% static 'js/chat.js' %}"></script>
 <script src="{% static 'js/serafin.js' %}"></script>
+<script src="{% static 'lib/ng-emoji-picker/js/nanoscroller.min.js' %}"></script>
+<script src="{% static 'lib/ng-emoji-picker/js/tether.min.js' %}"></script>
+<script src="{% static 'lib/ng-emoji-picker/js/config.js' %}"></script>
+<script src="{% static 'lib/ng-emoji-picker/js/util.js' %}"></script>
+<script src="{% static 'lib/ng-emoji-picker/js/jquery.emojiarea.js' %}"></script>
+<script src="{% static 'lib/ng-emoji-picker/js/emoji-picker.js' %}"></script>
 
 <script>
     var api = '{{ api|safe }}';

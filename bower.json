@@ -23,6 +23,7 @@
     "jsplumb": "1.7.10",
     "foundation": "~5.5.2",
     "angular-foundation": "~0.6.0",
-	"moment":"2.26.0"
+    "moment": "2.26.0",
+    "ng-emoji-picker": "^0.13.3"
   }
 }
