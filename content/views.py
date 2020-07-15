@@ -569,6 +569,10 @@ def send_message(request):
 
     chat_message.save()
 
+    if not other_user.is_therapist:
+        # the other user is patient
+        other_user.send_new_message_notification()
+
     return receive_messages_internal(prev=None, next=chat_message.id - 1, current_user=request.user,
                                      other_user=other_user)
 

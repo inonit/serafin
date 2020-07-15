@@ -226,6 +226,35 @@ class User(AbstractBaseUser, PermissionsMixin):
             html_message=html_content
         )
 
+    def send_new_message_notification(self):
+        '''Sends user new message notification with link'''
+
+        subject = str(_("You received new message"))
+        html_template = get_template('email/new_message.html')
+        text_template = get_template('email/new_message.txt')
+
+        current_site = Site.objects.get_current()
+
+        mytherapist_link = '%s://%s%s' % (
+            'https' if settings.USE_HTTPS else 'http',
+            current_site.domain,
+            reverse('mytherapist'),
+        )
+
+        context = {
+            'my_therapist': mytherapist_link,
+            'site_name': current_site.name,
+        }
+
+        text_content = text_template.render(context)
+        html_content = html_template.render(context)
+
+        self.send_email(
+            subject=subject,
+            message=text_content,
+            html_message=html_content
+        )
+
     def register(self):
         '''
         Registration is not needed for a registered user

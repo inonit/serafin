@@ -1,0 +1,10 @@
+{% load i18n %}
+{% autoescape off %}
+{% blocktrans %}Hello!{% endblocktrans %}
+
+{% blocktrans %}You received a new message at program {{ site_name }}{% endblocktrans %}
+
+{{ my_therapist }}
+
+{% blocktrans %}{{ site_name }}{% endblocktrans %}
+{% endautoescape %}
