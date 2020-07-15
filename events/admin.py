@@ -37,7 +37,7 @@ class EventAdmin(ImportExportModelAdmin):
         return False
 
     def has_delete_permission(self, request, obj=None):
-        return False
+        return request.user.is_superuser
 
     resource_class = EventResource
     change_list_template = 'admin/events/event/change_list.html'
@@ -47,7 +47,7 @@ class EventAdmin(ImportExportModelAdmin):
 
         if request.user.program_restrictions.exists():
             program_ids = request.user.program_restrictions.values_list('id')
-            return queryset.filter(actor__program__id__in=program_ids)
+            return queryset.filter(actor__program__id__in=program_ids).distinct()
 
         return queryset
 

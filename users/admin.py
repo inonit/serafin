@@ -171,7 +171,7 @@ class UserAdmin(UserAdmin, ImportExportModelAdmin):
     )
     restricted_fieldsets = (
         (None, {
-            'fields': ('id', 'password', 'email', 'phone', 'last_login', 'date_joined'),
+            'fields': ('id', 'password', 'email', 'phone', 'last_login', 'date_joined', 'therapist'),
             'classes': ('suit-tab suit-tab-info', ),
         }),
         (_('Permissions'), {
