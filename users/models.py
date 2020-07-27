@@ -17,7 +17,7 @@ from collections import OrderedDict
 from jsonfield import JSONField
 from plivo import RestClient as PlivoRestClient
 
-from system.models import ProgramUserAccess
+from system.models import ProgramUserAccess, Session
 from tokens.tokens import token_generator
 from twilio.rest import Client
 import requests
@@ -299,9 +299,16 @@ class User(AbstractBaseUser, PermissionsMixin):
 
     def get_modules(self):
         result = []
-        current_site = Site.objects.get_current()
-        if hasattr(current_site, 'program'):
-            program_modules = current_site.program.module_set.all()
+        # we assume user has only one program
+        session_id = self.data.get('session')
+        if not session_id:
+            return []
+        session = Session.objects.get(id=session_id)
+        if not session:
+            return []
+        program = session.program
+        if program:
+            program_modules = program.module_set.all()
             for module in program_modules:
                 result.append({"name": module.display_title,
                                "id": module.id,

@@ -14,6 +14,7 @@ serafin.run(['$rootScope', '$http', function (scope, http) {
     scope.title = '...';
     scope.page = {};
     scope.variables = {};
+    scope.dead_end = true;
 
     if (api) {
         var url = api + window.location.search;
@@ -118,7 +119,7 @@ serafin.controller('pages', ['$scope', '$http', function (scope, http) {
     };
 
     scope.chapter_url = function (chapter_id) {
-        if (!scope.read_only && $("form .ng-not-empty").length > 0) {
+        if (!scope.read_only && $("form .ng-dirty").length > 0) {
             var answer = confirm(areYouSure);
             if (!answer) {
                 return;
@@ -156,7 +157,7 @@ serafin.controller('pages', ['$scope', '$http', function (scope, http) {
     }
 
     scope.back = function () {
-        if (!scope.read_only && $("form .ng-not-empty").length > 0) {
+        if (!scope.read_only && $("form .ng-dirty").length > 0) {
             var answer = confirm(areYouSure);
             if (!answer) {
                 return;
@@ -672,3 +673,43 @@ if (typeof(ChatController) !== 'undefined') {
     mytherapistapp.directive('fileModel', ['$parse', FileModelDirective()]);
     mytherapistapp.directive('html5afix', FixAudioSrcDirective());
 }
+
+$(window).on("click", function(e) {
+    if ((e.target.classList.contains("menu-icon") ||
+            e.target.parentElement.classList.contains("menu-icon"))) {
+        $(".header-tabs").show();
+    }
+
+    if ((e.target.classList.contains("mobile-close") ||
+            e.target.parentElement.classList.contains("mobile-close"))) {
+        $(".header-tabs").removeAttr("style");
+    }
+
+
+    if (( e.target.classList.contains("header-user") || e.target.parentElement.classList.contains("header-user"))
+        && $(".header-user-menu").css('display') == 'none') {
+            $(".header-user-menu").show();
+    }
+    else {
+        $(".header-user-menu").hide();
+    }
+
+        if (( e.target.classList.contains("episodes-menu-title-mobile") || e.target.parentElement.classList.contains("episodes-menu-title-mobile"))
+        && $(".episodes-menu").css('display') == 'none') {
+            $(".episodes-menu").show();
+        }
+        else {
+            $(".episodes-menu").hide();
+            $(".page").show();
+        }
+
+        if (( e.target.classList.contains("episodes-link") || e.target.parentElement.classList.contains("episodes-link"))
+        && $(".episodes-menu").css('display') == 'none') {
+            $(".episodes-menu").show();
+            $(".page").hide();
+        }
+        else {
+            $(".episodes-menu").hide();
+        }
+
+});

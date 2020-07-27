@@ -1,125 +1,93 @@
 {% load static %}
 {% load i18n %}
-{% get_current_language as lang %}
 {% get_current_language_bidi as lang_dir %}
 
 <!DOCTYPE html>
-<html lang="{{ lang }}" class="h-100" dir="{% if lang_dir %} rtl {% else %} ltr {% endif %}"
-style="direction: {% if lang_dir %} rtl {% else %} ltr {% endif %}">
-
+<html lang="{{ lang }}">
 <head>
+    <meta charset="UTF-8">
+    <title>Tools</title>
+    {% if lang_dir %}
+    <link rel="stylesheet" type="text/css" href="{% static 'css/main.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/main-mobile.css' %}">
+    {% else %}
+    <link rel="stylesheet" type="text/css" href="{% static 'css/main_en.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/main-mobile_en.css' %}">
+    {% endif %}
 
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <meta name="description" content="">
-  <meta name="author" content="">
-
-  <title>Mind Tools</title>
-
-  <!-- Bootstrap core CSS -->
-  <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
-  <link href="{% static 'css/bootstrap.min.css' %}" rel="stylesheet">
-
-
-  <!-- Custom styles for this template -->
-  <link href="{% static 'css/mind-tools.css' %}" rel="stylesheet">
-
+    <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@300;500;700&display=swap" rel="stylesheet">
     <script src="{% static 'lib/angular/angular.min.js' %}"></script>
 </head>
+<body>
+<!--starts header-->
+{% include 'navbar.html' %}
+<!--end header-->
+<div class="page right">
+    <div class="page-container full-width">
+        <div class="header-1">{% trans 'Tools' %}</div>
+        {% if captions.file %}
+            <div class="header-2">{% trans 'Printable materials' %}</div>
+            <div class="column right">
+                {% for tool in tools %}
+                    {% if tool.type == 'file' %}
+                        <a class="text-box" href="{{ tool.url }}" target="_blank">
+                            <div>{{ tool.title }}</div>
+                        </a>
+                    {% endif %}
+                {% endfor %}
+            </div>
+        {% endif %}
 
-<body class="d-flex flex-column h-100">
+        {% if captions.audio %}
+            <div class="header-2 space">{% trans 'Audio files to listen to when needed' %}</div>
 
-  <!-- Navigation -->
-  <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top" style="direction: ltr">
-    <div class="container">
-      <a class="navbar-brand" href="{% url 'main_page' %}">Mind Tools</a>
-      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-      </button>
-      <div class="collapse navbar-collapse" id="navbarResponsive">
-        <ul class="navbar-nav ml-auto">
-          <li class="nav-item">
-            <a class="nav-link" href="{% url 'main_page' %}">Home
-              <span class="sr-only">(current)</span>
-            </a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="{% url 'modules' %}">Program</a>
-          </li>
-          <li class="nav-item active">
-            <a class="nav-link" href="#">Tools</a>
-          </li>
-          {% if has_therapist %}
-          <li class="nav-item">
-            <a class="nav-link" href="{% url 'mytherapist' %}">My Therapist {% if has_messages %} <i class="fa fa-envelope mr-1"></i>{% endif %}</a>
-          </li>
-          {% endif %}
-        </ul>
-      </div>
+            <div class="column right">
+                {% for tool in tools %}
+                    {% if tool.type == 'audio' %}
+
+                        <a class="text-box" href="{{ tool.url }}" target="_blank">
+                            <div class="row">
+                                <div>{{ tool.title }}</div>
+                                <div class="text-box-icon left-icon">
+                                    <img class="text-box-img" src="{% static 'img/play.svg' %}"/>
+                                </div>
+                            </div>
+                        </a>
+                    {% endif %}
+                {% endfor %}
+
+            </div>
+        {% endif %}
+        {% if captions.video %}
+            <div class="header-2 space">{% trans 'Video file to watch when needed' %}</div>
+            <div class="column right">
+                {% for tool in tools %}
+                    {% if tool.type == 'video' %}
+                        <a class="text-box" href="{{ tool.url }}" target="_blank">
+                            <div class="row">
+                                <div>{{ tool.title }}</div>
+                                <div class="text-box-icon left-icon">
+                                    <img class="text-box-img" src="{% static 'img/play.svg' %}"/>
+                                </div>
+                            </div>
+                        </a>
+                    {% endif %}
+                {% endfor %}
+            </div>
+        {% endif %}
+        <div class="footer-spacer"></div>
+        <div class="footer">
+            Mindtools.io © All right reserved
+        </div>
     </div>
-  </nav>
+</div>
 
-  <!-- Page Content -->
-  <div class="container">
-
-    <!-- Jumbotron Header -->
-    <header class="jumbotron my-4 {% if lang_dir %} text-right {% endif %}">
-        <h4>{% trans 'Files' %}</h4>
-        <ul class="list-group list-group-flush">
-            {% for tool in tools %}
-                {% if tool.type == 'file' %}
-                  <li class="list-group-item">
-                        <a href="{{ tool.url }}" target="_blank">{{ tool.title }}</a>
-                  </li>
-                {% endif %}
-            {% endfor %}
-        </ul>
-
-        <h4>{% trans 'Videos' %}</h4>
-        <ul class="list-group list-group-flush">
-            {% for tool in tools %}
-                {% if tool.type == 'video' %}
-                  <li class="list-group-item">
-                        <a href="{{ tool.url }}" target="_blank">{{ tool.title }}</a>
-                  </li>
-                {% endif %}
-            {% endfor %}
-        </ul>
-
-        <h4>{% trans 'Audios' %}</h4>
-        <ul class="list-group list-group-flush">
-            {% for tool in tools %}
-                {% if tool.type == 'audio' %}
-                  <li class="list-group-item">
-                        <a href="{{ tool.url }}" target="_blank">{{ tool.title }}</a>
-                  </li>
-                {% endif %}
-            {% endfor %}
-        </ul>
-
-    </header>
-
-    <!-- Page Features -->
-    <div>
-
-    </div>
-
-  </div>
-  <!-- /.container -->
-
-  <!-- Footer -->
-  <footer class="py-3 bg-dark mt-auto footer">
-    <div class="container">
-      <p class="m-0 text-center text-white">Copyright &copy; {% now 'Y' %} MindTools.io</p>
-    </div>
-    <!-- /.container -->
-  </footer>
-
-  <!-- Bootstrap core JavaScript -->
-  <script src="{% static 'js/jquery.min.js' %}"></script>
-  <script src="{% static 'js/bootstrap.bundle.min.js' %}"></script>
-  <script src="{% static 'js/topbar-menu.js' %}"></script>
+<script src="{% static 'js/jquery.min.js' %}"></script>
+<script src="{% static 'js/bootstrap.bundle.min.js' %}"></script>
+<script src="{% static 'js/serafin.js' %}"></script>
 
 </body>
-
 </html>
+
+
+

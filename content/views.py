@@ -30,7 +30,7 @@ def set_language_by_session(session):
 
 def set_language_by_program(program):
     if program and program.is_rtl:
-        translation.activate('en')
+        translation.activate('he')
 
 
 def main_page(request):
@@ -44,7 +44,8 @@ def main_page(request):
     context = {
         'api': reverse('portal'),
         'program': session.program,
-        'has_therapist': has_therapist
+        'has_therapist': has_therapist,
+        'page': 'home'
     }
 
     set_language_by_session(session)
@@ -298,10 +299,11 @@ def modules_page(request):
                                                          & Q(is_read=False)).count() > 0
 
     context = {
-        'modules': json.dumps(modules),
+        'modules': modules,
         'current_module_id': current_module_id if current_module_id else 0,
         'has_therapist': has_therapist,
-        'has_messages': has_unread_messages
+        'has_messages': has_unread_messages,
+        'page': 'modules'
     }
 
     return render(request, 'modules.html', context)
@@ -326,8 +328,12 @@ def tools_page(request):
 
     context = {
         'tools': tools,
+        'captions': {'file': any(x['type'] == "file" for x in tools),
+                      'audio': any(x['type'] == "audio" for x in tools),
+                      'video': any(x['type'] == "video" for x in tools)},
         'has_therapist': has_therapist,
-        'has_messages': has_unread_messages
+        'has_messages': has_unread_messages,
+        'page': 'tools'
     }
 
     return render(request, 'tools.html', context)
@@ -376,6 +382,11 @@ def get_portal(request):
 
     current_module_title = page.chapter.module.display_title if page.chapter and page.chapter.module else None
     current_module_id = page.chapter.module.id if page.chapter and page.chapter.module else None
+    program = page.program
+    if not program:
+        session_id = request.user.data.get("session")
+        session = get_object_or_404(Session, id=session_id)
+        program = session.program
     has_unread_messages = False
     if request.user.therapist is not None:
         has_unread_messages = ChatMessage.objects.filter(Q(sender=request.user.therapist) & Q(receiver=request.user)
@@ -386,14 +397,15 @@ def get_portal(request):
         'current_page_title': page.display_title,
         'current_module_title': current_module_title,
         'current_module_id': current_module_id,
-        'has_messages': has_unread_messages
+        'has_messages': has_unread_messages,
+        'program_name': program.display_title
     }
 
     return JsonResponse(context)
 
 
 def home(request):
-    return render(request, 'home.html', {})
+    return render(request, 'home.html2', {})
 
 
 def get_session(request, module_id=None):
@@ -426,8 +438,7 @@ def get_session(request, module_id=None):
     if request.GET.get("old") == '1':
         template = 'session.html'
 
-    if session and session.program and session.program.is_rtl:
-        translation.activate('he')
+    set_language_by_session(session)
 
     return render(request, template, context)
 

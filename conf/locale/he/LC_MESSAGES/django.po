@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-06-11 18:34+0300\n"
+"POT-Creation-Date: 2020-07-23 21:50+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -102,8 +102,8 @@ msgstr ""
 #: .\content\templates\admin\content_widget.html:191
 #: .\content\templates\admin\content_widget.html:247
 #: .\content\templates\admin\content_widget.html:339
-#: .\plumbing\templates\admin\plumbing_widget.html:101
-#: .\plumbing\templates\admin\plumbing_widget.html:118
+#: .\plumbing\templates\admin\plumbing_widget.html:108
+#: .\plumbing\templates\admin\plumbing_widget.html:125
 msgid "Variable name"
 msgstr ""
 
@@ -144,29 +144,30 @@ msgstr ""
 
 #: .\content\templates\admin\content_widget.html:146
 #: .\content\templates\admin\content_widget.html:202
-#: .\plumbing\templates\admin\plumbing_widget.html:124
-#: .\plumbing\templates\admin\plumbing_widget.html:184
+#: .\plumbing\templates\admin\plumbing_widget.html:131
+#: .\plumbing\templates\admin\plumbing_widget.html:196
 msgid "Expression"
 msgstr ""
 
 #: .\content\templates\admin\content_widget.html:149
 #: .\content\templates\admin\content_widget.html:205
-#: .\plumbing\templates\admin\plumbing_widget.html:127
-#: .\plumbing\templates\admin\plumbing_widget.html:187
+#: .\plumbing\templates\admin\plumbing_widget.html:134
+#: .\plumbing\templates\admin\plumbing_widget.html:174
+#: .\plumbing\templates\admin\plumbing_widget.html:199
 msgid "Start writing..."
 msgstr ""
 
 #: .\content\templates\admin\content_widget.html:150
 #: .\content\templates\admin\content_widget.html:206
-#: .\plumbing\templates\admin\plumbing_widget.html:128
-#: .\plumbing\templates\admin\plumbing_widget.html:188
+#: .\plumbing\templates\admin\plumbing_widget.html:135
+#: .\plumbing\templates\admin\plumbing_widget.html:200
 msgid "Preview"
 msgstr ""
 
 #: .\content\templates\admin\content_widget.html:152
 #: .\content\templates\admin\content_widget.html:208
-#: .\plumbing\templates\admin\plumbing_widget.html:130
-#: .\plumbing\templates\admin\plumbing_widget.html:190
+#: .\plumbing\templates\admin\plumbing_widget.html:137
+#: .\plumbing\templates\admin\plumbing_widget.html:202
 msgid "Serafin Expression Syntax"
 msgstr ""
 
@@ -237,7 +238,7 @@ msgstr ""
 #: .\content\templates\admin\content_widget.html:408
 #: .\content\templates\admin\content_widget.html:418
 #: .\content\templates\admin\content_widget.html:428
-#: .\plumbing\templates\admin\plumbing_widget.html:150
+#: .\plumbing\templates\admin\plumbing_widget.html:157
 #: .\templates\admin\sitetree\tree\change_form.html:38
 msgid "Title"
 msgstr ""
@@ -591,7 +592,7 @@ msgstr ""
 msgid "actor"
 msgstr ""
 
-#: .\events\models.py:15 .\system\models.py:50 .\system\models.py:171
+#: .\events\models.py:15 .\system\models.py:53 .\system\models.py:184
 #: .\users\templates\admin\userlog.html:9
 msgid "variable"
 msgstr ""
@@ -672,76 +673,88 @@ msgstr ""
 msgid "+ Tool"
 msgstr ""
 
-#: .\plumbing\templates\admin\plumbing_widget.html:78
+#: .\plumbing\templates\admin\plumbing_widget.html:23
+msgid "+ Therapist Notification"
+msgstr ""
+
+#: .\plumbing\templates\admin\plumbing_widget.html:82
 #: .\templates\sitetree\topbar_navmenu\navmenu.html:18
 msgid "Register"
 msgstr ""
 
-#: .\plumbing\templates\admin\plumbing_widget.html:81
+#: .\plumbing\templates\admin\plumbing_widget.html:85
 msgid "Enroll"
 msgstr ""
 
-#: .\plumbing\templates\admin\plumbing_widget.html:84
+#: .\plumbing\templates\admin\plumbing_widget.html:88
 msgid "Leave"
 msgstr ""
 
-#: .\plumbing\templates\admin\plumbing_widget.html:87
+#: .\plumbing\templates\admin\plumbing_widget.html:91
 msgid "Wait"
 msgstr ""
 
-#: .\plumbing\templates\admin\plumbing_widget.html:90
+#: .\plumbing\templates\admin\plumbing_widget.html:94
 msgid "Tool"
 msgstr ""
 
-#: .\plumbing\templates\admin\plumbing_widget.html:99
+#: .\plumbing\templates\admin\plumbing_widget.html:97
+msgid "Therapist Notification"
+msgstr ""
+
+#: .\plumbing\templates\admin\plumbing_widget.html:106
 msgid "Delay value"
 msgstr ""
 
-#: .\plumbing\templates\admin\plumbing_widget.html:100
+#: .\plumbing\templates\admin\plumbing_widget.html:107
 msgid "Number"
 msgstr ""
 
-#: .\plumbing\templates\admin\plumbing_widget.html:108
+#: .\plumbing\templates\admin\plumbing_widget.html:115
 msgid "Unit"
 msgstr ""
 
-#: .\plumbing\templates\admin\plumbing_widget.html:110
+#: .\plumbing\templates\admin\plumbing_widget.html:117
 msgid "seconds"
 msgstr ""
 
-#: .\plumbing\templates\admin\plumbing_widget.html:111
+#: .\plumbing\templates\admin\plumbing_widget.html:118
 msgid "minutes"
 msgstr ""
 
-#: .\plumbing\templates\admin\plumbing_widget.html:112 .\system\models.py:201
+#: .\plumbing\templates\admin\plumbing_widget.html:119 .\system\models.py:214
 msgid "hours"
 msgstr ""
 
-#: .\plumbing\templates\admin\plumbing_widget.html:140
+#: .\plumbing\templates\admin\plumbing_widget.html:147
 msgid "Start time (leave blank for immediate)"
 msgstr ""
 
-#: .\plumbing\templates\admin\plumbing_widget.html:141
+#: .\plumbing\templates\admin\plumbing_widget.html:148
 msgid "E.g. 06:00"
 msgstr ""
 
-#: .\plumbing\templates\admin\plumbing_widget.html:153
+#: .\plumbing\templates\admin\plumbing_widget.html:160
 msgid "Type"
 msgstr ""
 
-#: .\plumbing\templates\admin\plumbing_widget.html:158
+#: .\plumbing\templates\admin\plumbing_widget.html:165
 msgid "file"
 msgstr ""
 
-#: .\plumbing\templates\admin\plumbing_widget.html:159
+#: .\plumbing\templates\admin\plumbing_widget.html:166
 msgid "audio"
 msgstr ""
 
-#: .\plumbing\templates\admin\plumbing_widget.html:160
+#: .\plumbing\templates\admin\plumbing_widget.html:167
 msgid "video"
 msgstr ""
 
-#: .\plumbing\templates\admin\plumbing_widget.html:177
+#: .\plumbing\templates\admin\plumbing_widget.html:173
+msgid "Message"
+msgstr ""
+
+#: .\plumbing\templates\admin\plumbing_widget.html:189
 msgid "Pass"
 msgstr ""
 
@@ -766,46 +779,46 @@ msgstr ""
 msgid "IP"
 msgstr ""
 
-#: .\serafin\settings - Deploy.py:132 .\serafin\settings.py:134
+#: .\serafin\settings - Deploy.py:134 .\serafin\settings.py:134
 #: .\serafin\settings_SENSEATIVE.py:135
 msgid "English"
 msgstr ""
 
-#: .\serafin\settings - Deploy.py:133 .\serafin\settings.py:135
+#: .\serafin\settings - Deploy.py:135 .\serafin\settings.py:135
 #: .\serafin\settings_SENSEATIVE.py:136
 msgid "Norwegian"
 msgstr ""
 
-#: .\serafin\settings - Deploy.py:453 .\serafin\settings.py:448
+#: .\serafin\settings - Deploy.py:136 .\serafin\settings.py:136
+msgid "Hebrew"
+msgstr ""
+
+#: .\serafin\settings - Deploy.py:461 .\serafin\settings.py:448
 #: .\serafin\settings_SENSEATIVE.py:517
 msgid "Default stylesheet"
 msgstr ""
 
-#: .\serafin\settings - Deploy.py:454 .\serafin\settings.py:451
+#: .\serafin\settings - Deploy.py:462 .\serafin\settings.py:449
+msgid "New-Nalokson"
+msgstr ""
+
+#: .\serafin\settings - Deploy.py:463 .\serafin\settings.py:450
+msgid "RTL-Nalokson"
+msgstr ""
+
+#: .\serafin\settings - Deploy.py:464 .\serafin\settings.py:451
 #: .\serafin\settings_SENSEATIVE.py:518
 msgid "Nalokson"
 msgstr ""
 
-#: .\serafin\settings - Deploy.py:455 .\serafin\settings.py:452
+#: .\serafin\settings - Deploy.py:465 .\serafin\settings.py:452
 #: .\serafin\settings_SENSEATIVE.py:519
 msgid "Miksmaster"
 msgstr ""
 
-#: .\serafin\settings - Deploy.py:456 .\serafin\settings.py:453
+#: .\serafin\settings - Deploy.py:466 .\serafin\settings.py:453
 #: .\serafin\settings_SENSEATIVE.py:520
 msgid "Miksmaster alternate"
-msgstr ""
-
-#: .\serafin\settings.py:136
-msgid "Hebrew"
-msgstr ""
-
-#: .\serafin\settings.py:449
-msgid "New-Nalokson"
-msgstr ""
-
-#: .\serafin\settings.py:450
-msgid "RTL-Nalokson"
 msgstr ""
 
 #: .\serafin\settings_SENSEATIVE.py:293
@@ -856,98 +869,106 @@ msgid ""
 "separated strings in this field."
 msgstr ""
 
-#: .\system\admin.py:45
+#: .\system\admin.py:40
+msgid "The variable accumulate data as array"
+msgstr ""
+
+#: .\system\admin.py:41
+msgid "Available optional values for variable. separated by commas"
+msgstr ""
+
+#: .\system\admin.py:46
 msgid "You are trying to use a reserved variable name"
 msgstr ""
 
-#: .\system\admin.py:85
+#: .\system\admin.py:87
 msgid "Variable"
 msgstr ""
 
-#: .\system\admin.py:172 .\system\admin.py:429 .\system\admin.py:595
+#: .\system\admin.py:174 .\system\admin.py:431 .\system\admin.py:597
 msgid "Admin note excerpt"
 msgstr ""
 
-#: .\system\admin.py:185 .\system\admin.py:213 .\system\admin.py:234
-#: .\system\admin.py:490 .\system\admin.py:511 .\system\admin.py:602
+#: .\system\admin.py:187 .\system\admin.py:215 .\system\admin.py:236
+#: .\system\admin.py:492 .\system\admin.py:513 .\system\admin.py:604
 #, python-format
 msgid "%(title)s (copy)"
 msgstr ""
 
-#: .\system\admin.py:249
+#: .\system\admin.py:251
 msgid "Copy selected programs"
 msgstr ""
 
-#: .\system\admin.py:256
+#: .\system\admin.py:258
 msgid "Export text of selected program"
 msgstr ""
 
-#: .\system\admin.py:262
+#: .\system\admin.py:264
 msgid "Import program text"
 msgstr ""
 
-#: .\system\admin.py:277
+#: .\system\admin.py:279
 msgid "Set Program"
 msgstr ""
 
-#: .\system\admin.py:305
+#: .\system\admin.py:307
 msgid ""
 "URL at which this Session will be available to registered Program users at "
 "all times"
 msgstr ""
 
-#: .\system\admin.py:308
+#: .\system\admin.py:310
 msgid "Session open even to unregistered users"
 msgstr ""
 
-#: .\system\admin.py:310
+#: .\system\admin.py:312
 msgid "Relative to the user's start time for the Program"
 msgstr ""
 
-#: .\system\admin.py:312
+#: .\system\admin.py:314
 msgid "Activate automatically for Program users at the given start time"
 msgstr ""
 
-#: .\system\admin.py:314
+#: .\system\admin.py:316
 msgid "Trigger a login e-mail at the scheduled time"
 msgstr ""
 
-#: .\system\admin.py:327
+#: .\system\admin.py:329
 #, python-format
 msgid "edge %(id)s"
 msgstr ""
 
-#: .\system\admin.py:334
+#: .\system\admin.py:336
 msgid "expression node"
 msgstr ""
 
-#: .\system\admin.py:340 .\system\admin.py:555
+#: .\system\admin.py:342 .\system\admin.py:557
 #, python-format
 msgid "Error in expression, %(id)s: %(error)s"
 msgstr ""
 
-#: .\system\admin.py:526
+#: .\system\admin.py:528
 msgid "Copy selected sessions"
 msgstr ""
 
-#: .\system\admin.py:542
+#: .\system\admin.py:544
 #, python-format
 msgid "pagelet %(id)s"
 msgstr ""
 
-#: .\system\admin.py:582
+#: .\system\admin.py:584
 msgid "No content"
 msgstr ""
 
-#: .\system\admin.py:590
+#: .\system\admin.py:592
 msgid "Page excerpt"
 msgstr ""
 
-#: .\system\admin.py:607
+#: .\system\admin.py:609
 msgid "Copy selected content"
 msgstr ""
 
-#: .\system\admin.py:670 .\system\admin.py:695
+#: .\system\admin.py:672 .\system\admin.py:697
 msgid "Subject"
 msgstr ""
 
@@ -955,223 +976,288 @@ msgstr ""
 msgid "Delayed node execution"
 msgstr ""
 
-#: .\system\models.py:31
+#: .\system\models.py:32
 msgid "name"
 msgstr ""
 
-#: .\system\models.py:32
+#: .\system\models.py:33
+msgid "No spaces allowed"
+msgstr ""
+
+#: .\system\models.py:34
 msgid "display name"
 msgstr ""
 
-#: .\system\models.py:33 .\system\models.py:107 .\system\models.py:198
-#: .\system\models.py:277
+#: .\system\models.py:35 .\system\models.py:113 .\system\models.py:211
+#: .\system\models.py:299
 msgid "admin note"
 msgstr ""
 
-#: .\system\models.py:34 .\system\models.py:117 .\system\models.py:147
-#: .\system\models.py:170 .\system\models.py:196 .\system\models.py:278
+#: .\system\models.py:36 .\system\models.py:125 .\system\models.py:160
+#: .\system\models.py:183 .\system\models.py:209 .\system\models.py:300
+#: .\system\models.py:706
 msgid "program"
 msgstr ""
 
-#: .\system\models.py:35
+#: .\system\models.py:37
 msgid "initial value"
 msgstr ""
 
-#: .\system\models.py:36
+#: .\system\models.py:38
 msgid "user editable"
 msgstr ""
 
-#: .\system\models.py:38
+#: .\system\models.py:40
 msgid "boolean"
 msgstr ""
 
-#: .\system\models.py:39
+#: .\system\models.py:41
 msgid "numeric"
 msgstr ""
 
-#: .\system\models.py:40
+#: .\system\models.py:42
 msgid "string"
 msgstr ""
 
-#: .\system\models.py:42
+#: .\system\models.py:44
 msgid "randomization type"
 msgstr ""
 
-#: .\system\models.py:43
+#: .\system\models.py:45
 msgid "randomize once"
 msgstr ""
 
-#: .\system\models.py:44
+#: .\system\models.py:46
 msgid "range min (inclusive)"
 msgstr ""
 
-#: .\system\models.py:45
+#: .\system\models.py:47
 msgid "range max (inclusive)"
 msgstr ""
 
-#: .\system\models.py:46
+#: .\system\models.py:48
 msgid "random string set"
 msgstr ""
 
-#: .\system\models.py:51
+#: .\system\models.py:50
+msgid "optional values"
+msgstr ""
+
+#: .\system\models.py:54
 msgid "variables"
 msgstr ""
 
-#: .\system\models.py:101 .\system\models.py:192 .\system\models.py:274
+#: .\system\models.py:107 .\system\models.py:205 .\system\models.py:296
 msgid "title"
 msgstr ""
 
-#: .\system\models.py:102 .\system\models.py:193 .\system\models.py:275
+#: .\system\models.py:108 .\system\models.py:206 .\system\models.py:297
 msgid "display title"
 msgstr ""
 
-#: .\system\models.py:103
+#: .\system\models.py:109
 msgid "site"
 msgstr ""
 
-#: .\system\models.py:104
+#: .\system\models.py:110
 msgid "stylesheet"
 msgstr ""
 
-#: .\system\models.py:106
+#: .\system\models.py:112
 msgid "from email"
 msgstr ""
 
-#: .\system\models.py:109 .\users\models.py:327
+#: .\system\models.py:115 .\users\models.py:363
 msgid "users"
 msgstr ""
 
-#: .\system\models.py:110 .\system\models.py:183
+#: .\system\models.py:116 .\system\models.py:196
 msgid "gold variables"
 msgstr ""
 
-#: .\system\models.py:118
+#: .\system\models.py:119
+msgid "is program lock"
+msgstr ""
+
+#: .\system\models.py:126
 msgid "programs"
 msgstr ""
 
-#: .\system\models.py:148 .\users\models.py:326
+#: .\system\models.py:151
+msgid "Program is locked. Could not save."
+msgstr ""
+
+#: .\system\models.py:161 .\system\models.py:748 .\users\models.py:362
 msgid "user"
 msgstr ""
 
-#: .\system\models.py:150
+#: .\system\models.py:163
 msgid "start time"
 msgstr ""
 
-#: .\system\models.py:151
+#: .\system\models.py:164
 msgid "time factor"
 msgstr ""
 
-#: .\system\models.py:154
+#: .\system\models.py:167
 msgid "user access"
 msgstr ""
 
-#: .\system\models.py:155
+#: .\system\models.py:168
 msgid "user accesses"
 msgstr ""
 
-#: .\system\models.py:174
+#: .\system\models.py:187
 msgid "Primary"
 msgstr ""
 
-#: .\system\models.py:175
+#: .\system\models.py:188
 msgid "Secondary"
 msgstr ""
 
-#: .\system\models.py:182
+#: .\system\models.py:195
 msgid "gold variable"
 msgstr ""
 
-#: .\system\models.py:194
+#: .\system\models.py:207
 msgid "route slug"
 msgstr ""
 
-#: .\system\models.py:195
+#: .\system\models.py:208
 msgid "is open"
 msgstr ""
 
-#: .\system\models.py:197 .\system\models.py:286
+#: .\system\models.py:210 .\system\models.py:308
 msgid "content"
 msgstr ""
 
-#: .\system\models.py:202
+#: .\system\models.py:215
 msgid "days"
 msgstr ""
 
-#: .\system\models.py:204
+#: .\system\models.py:217
 msgid "start time delta"
 msgstr ""
 
-#: .\system\models.py:205
+#: .\system\models.py:218
 msgid "start time unit"
 msgstr ""
 
-#: .\system\models.py:206
+#: .\system\models.py:219
 msgid "end time delta"
 msgstr ""
 
-#: .\system\models.py:207
+#: .\system\models.py:220
 msgid "end time unit"
 msgstr ""
 
-#: .\system\models.py:208
+#: .\system\models.py:221
 msgid "first start time"
 msgstr ""
 
-#: .\system\models.py:209
+#: .\system\models.py:222
 msgid "scheduled"
 msgstr ""
 
-#: .\system\models.py:210
+#: .\system\models.py:223
 msgid "trigger login"
 msgstr ""
 
-#: .\system\models.py:215
+#: .\system\models.py:228
 msgid "session"
 msgstr ""
 
-#: .\system\models.py:216
+#: .\system\models.py:229
 msgid "sessions"
 msgstr ""
 
-#: .\system\models.py:219 .\system\models.py:222
+#: .\system\models.py:232 .\system\models.py:235
 #, python-format
 msgid "Session %s"
 msgstr ""
 
-#: .\system\models.py:276
+#: .\system\models.py:298
 msgid "content type"
 msgstr ""
 
-#: .\system\models.py:279
+#: .\system\models.py:301
 msgid "Can optionally be bound to a specific program"
 msgstr ""
 
-#: .\system\models.py:287
+#: .\system\models.py:309
 msgid "contents"
 msgstr ""
 
-#: .\system\models.py:314
+#: .\system\models.py:339
 msgid "page"
 msgstr ""
 
-#: .\system\models.py:315
+#: .\system\models.py:340
 msgid "pages"
 msgstr ""
 
-#: .\system\models.py:613
+#: .\system\models.py:638
 msgid "e-mail"
 msgstr ""
 
-#: .\system\models.py:614
+#: .\system\models.py:639
 msgid "e-mails"
 msgstr ""
 
-#: .\system\models.py:652
+#: .\system\models.py:677
 msgid "SMS"
 msgstr ""
 
-#: .\system\models.py:653
+#: .\system\models.py:678
 msgid "SMSs"
+msgstr ""
+
+#: .\system\models.py:707 .\system\models.py:746
+msgid "therapist"
+msgstr ""
+
+#: .\system\models.py:709
+msgid "patient"
+msgstr ""
+
+#: .\system\models.py:711 .\system\models.py:732
+msgid "is read"
+msgstr ""
+
+#: .\system\models.py:712 .\system\models.py:733 .\system\models.py:752
+msgid "message"
+msgstr ""
+
+#: .\system\models.py:713 .\system\models.py:731 .\system\models.py:751
+msgid "timestamp"
+msgstr ""
+
+#: .\system\models.py:719
+msgid "therapist notification"
+msgstr ""
+
+#: .\system\models.py:720
+msgid "therapist notifications"
+msgstr ""
+
+#: .\system\models.py:727 .\tasker\models.py:44
+msgid "sender"
+msgstr ""
+
+#: .\system\models.py:729
+msgid "receiver"
+msgstr ""
+
+#: .\system\models.py:734
+msgid "file name"
+msgstr ""
+
+#: .\system\models.py:735
+msgid "file type"
+msgstr ""
+
+#: .\system\models.py:736
+msgid "file data"
 msgstr ""
 
 #: .\system\serializers.py:43
@@ -1218,10 +1304,6 @@ msgstr ""
 
 #: .\tasker\admin.py:52
 msgid "Task result"
-msgstr ""
-
-#: .\tasker\models.py:44
-msgid "sender"
 msgstr ""
 
 #: .\tasker\models.py:47
@@ -1309,53 +1391,80 @@ msgstr ""
 msgid "Sort order"
 msgstr ""
 
-#: .\templates\modules.html:73
-msgid "this is your current module"
+#: .\templates\modules.html:26 .\templates\navbar.html:23
+msgid "Study meetings"
+msgstr "מפגשי למידה"
+
+#: .\templates\modules.html:28
+#, fuzzy
+#| msgid "Next steps:"
+msgid "Open steps"
+msgstr "שלבים פתוחים"
+
+#: .\templates\modules.html:29
+msgid "Press item to view content"
+msgstr "לחץ לצפייה בתכנים"
+
+#: .\templates\modules.html:46 .\templates\portal.html:32
+#, fuzzy
+#| msgid "Current Page:"
+msgid "Current step"
+msgstr "השלב הנוכחי"
+
+#: .\templates\modules.html:48
+msgid "Completed"
+msgstr "הושלם"
+
+#: .\templates\modules.html:57
+#, fuzzy
+#| msgid "Next steps:"
+msgid "Future steps"
+msgstr "שלבים בהמשך"
+
+#: .\templates\navbar.html:17
+#: .\templates\registration\password_change_done.html:6
+msgid "Home"
 msgstr ""
 
-#: .\templates\modules.html:74
-msgid "module available"
+#: .\templates\navbar.html:29 .\templates\tools.html:27
+msgid "Tools"
+msgstr "כלים"
+
+#: .\templates\navbar.html:35
+msgid "Supporter"
+msgstr "תומך"
+
+#: .\templates\navbar.html:41 .\templates\navbar.html:49
+msgid "Logout"
+msgstr "התנתק"
+
+#: .\templates\portal.html:43
+msgid "Show"
+msgstr "הצג"
+
+#: .\templates\portal.html:48
+msgid "You have unread message from your supporter"
+msgstr "יש לך הודעה אחת מהתומך שלא נקראה"
+
+#: .\templates\registration\password_change_done.html:3
+msgid "Documentation"
 msgstr ""
 
-#: .\templates\modules.html:81
-msgid "Next steps:"
-msgstr "דף הבא"
-
-#: .\templates\modules.html:90
-msgid "This module is not available yet"
+#: .\templates\registration\password_change_done.html:3
+msgid "Change password"
 msgstr ""
 
-#: .\templates\portal.html:66
-msgid "You have finished {{ modules_finished }} modules"
-msgstr "סיימת {{ modules_finished }} מודלים"
+#: .\templates\registration\password_change_done.html:3
+msgid "Log out"
+msgstr ""
 
-#: .\templates\portal.html:66
-msgid "modules"
-msgstr "פרקים"
+#: .\templates\registration\password_change_done.html:7
+msgid "Password change"
+msgstr ""
 
-#: .\templates\portal.html:67
-msgid "You have finished a module"
-msgstr "סיימת פרק אחד"
-
-#: .\templates\portal.html:68
-msgid "You haven't finished a module yet"
-msgstr "עדיין לא סיימת פרק"
-
-#: .\templates\portal.html:74
-msgid "Current Module:"
-msgstr "הפרק הנוכחי:"
-
-#: .\templates\portal.html:78 .\templates\portal.html:93
-msgid "Continue"
-msgstr "המשך"
-
-#: .\templates\portal.html:79
-msgid "See All"
-msgstr "כל הפרקים"
-
-#: .\templates\portal.html:89
-msgid "Current Page:"
-msgstr "הדף הנוכחי:"
+#: .\templates\registration\password_change_done.html:14
+msgid "Your password was changed."
+msgstr ""
 
 #: .\templates\registration\password_reset_complete.html:4
 #: .\templates\registration\password_reset_complete.html:8
@@ -1439,7 +1548,7 @@ msgid "Please go to the following page and choose a new password:"
 msgstr ""
 
 #: .\templates\registration\password_reset_email.html:8
-msgid "Your ID, in case you've forgotten:"
+msgid "Your email, in case you've forgotten:"
 msgstr ""
 
 #: .\templates\registration\password_reset_email.html:10
@@ -1470,68 +1579,90 @@ msgstr ""
 msgid "Password reset on %(site_name)s"
 msgstr ""
 
-#: .\templates\session.html:19 .\templates\sessionnew.html:83
+#: .\templates\session.html:19 .\templates\sessionnew.html:71
 msgid ""
 "Something went wrong. We weren't able to find the right path for you. You "
 "can try reloading the page. If that doesn't work, try again in a few hours?"
-msgstr ""
+msgstr "משהו השתבש. אנא נסה/י שוב מאוחר יותר. או פנה/י לתמיכה הטכנית."
 
 #: .\templates\session.html:47 .\templates\session.html:59
 #: .\templates\session.html:83 .\templates\session.html:93
 #: .\templates\session.html:156 .\templates\session.html:166
 #: .\templates\session.html:187 .\templates\session.html:197
-#: .\templates\session.html:242 .\templates\sessionnew.html:124
-#: .\templates\sessionnew.html:138 .\templates\sessionnew.html:164
-#: .\templates\sessionnew.html:176 .\templates\sessionnew.html:250
-#: .\templates\sessionnew.html:260 .\templates\sessionnew.html:283
-#: .\templates\sessionnew.html:292 .\templates\sessionnew.html:339
+#: .\templates\session.html:242 .\templates\sessionnew.html:111
+#: .\templates\sessionnew.html:136 .\templates\sessionnew.html:227
+#: .\templates\sessionnew.html:251 .\templates\sessionnew.html:311
 msgid "Please choose one"
-msgstr ""
+msgstr "אנא בחר/י אחד"
 
-#: .\templates\session.html:125 .\templates\sessionnew.html:217
+#: .\templates\session.html:125 .\templates\sessionnew.html:178
 msgid "Please enter a number"
-msgstr ""
+msgstr "אנא הכנס/י מספר"
 
-#: .\templates\session.html:126 .\templates\sessionnew.html:218
+#: .\templates\session.html:126 .\templates\sessionnew.html:180
 msgid ""
 "Please enter a number between {{ field.lower_limit }} and {{ field."
 "upper_limit }}"
-msgstr ""
+msgstr "אנא הכנס/י מספר בין {{ field.lower_limit}} ל-{{ field.upper_limit }}"
 
 #: .\templates\session.html:134 .\templates\session.html:135
 #: .\templates\session.html:146 .\templates\session.html:216
-#: .\templates\session.html:225 .\templates\sessionnew.html:226
-#: .\templates\sessionnew.html:227 .\templates\sessionnew.html:239
-#: .\templates\sessionnew.html:312 .\templates\sessionnew.html:321
+#: .\templates\session.html:225 .\templates\sessionnew.html:192
+#: .\templates\sessionnew.html:194 .\templates\sessionnew.html:214
+#: .\templates\sessionnew.html:275 .\templates\sessionnew.html:288
 msgid "This field is required"
-msgstr ""
+msgstr "שדה זה הוא חובה"
 
-#: .\templates\session.html:136 .\templates\sessionnew.html:228
+#: .\templates\session.html:136 .\templates\sessionnew.html:196
 msgid "Your phone number is too short"
-msgstr ""
+msgstr "מספר הטלפון קצר"
 
-#: .\templates\session.html:137 .\templates\sessionnew.html:229
+#: .\templates\session.html:137 .\templates\sessionnew.html:198
 msgid "+Country code then number, no other characters, e.g. \"+4798765432\""
 msgstr ""
 
-#: .\templates\session.html:217 .\templates\sessionnew.html:313
+#: .\templates\session.html:217 .\templates\sessionnew.html:277
 msgid "Please input a valid e-mail address"
-msgstr ""
+msgstr "אנא הכנס כותבת דואר אלקטרוני תקנית"
 
-#: .\templates\session.html:277 .\templates\sessionnew.html:383
-#: .\templates\sessionnew.html:386
+#: .\templates\session.html:277
 msgid "Next page"
 msgstr "דף הבא"
 
-#: .\templates\sessionnew.html:69
+#: .\templates\sessionnew.html:43
 msgid "Chapters"
 msgstr "פרקים"
 
-#: .\templates\sessionnew.html:379 .\templates\sessionnew.html:382
-msgid "Previous page"
-msgstr "דף קודם"
+#: .\templates\sessionnew.html:46
+msgid "Program Chapters"
+msgstr "פרקי התוכנית"
 
-#: .\templates\sessionnew.html:413
+#: .\templates\sessionnew.html:62
+msgid "Chapters list"
+msgstr "לרשימת הפרקים"
+
+#: .\templates\sessionnew.html:109 .\templates\sessionnew.html:225
+#: .\templates\sessionnew.html:309
+msgid "Choose only one option"
+msgstr "ניתן למלא אפשרות אחת"
+
+#: .\templates\sessionnew.html:134 .\templates\sessionnew.html:249
+msgid "You can choose multiple options"
+msgstr "ניתן למלא יותר מאפשרות אחת"
+
+#: .\templates\sessionnew.html:216
+msgid "Type here..."
+msgstr "הקלד/י תשובתך כאן..."
+
+#: .\templates\sessionnew.html:356
+msgid "Back"
+msgstr "חזור"
+
+#: .\templates\sessionnew.html:358
+msgid "Next"
+msgstr "הבא"
+
+#: .\templates\sessionnew.html:383
 msgid "Are you sure you want to leave?"
 msgstr "האם את/ה בטוח שברצונך לעזוב את הדף?"
 
@@ -1539,21 +1670,33 @@ msgstr "האם את/ה בטוח שברצונך לעזוב את הדף?"
 msgid "Account"
 msgstr ""
 
-#: .\templates\therapist.html:200
+#: .\templates\therapist.html:212
 msgid "Edit patient data"
 msgstr ""
 
-#: .\templates\tools.html:64
-msgid "Files"
-msgstr "קבצים"
+#: .\templates\therapist.html:238
+msgid "Notifications"
+msgstr ""
 
-#: .\templates\tools.html:75
-msgid "Videos"
-msgstr "סרטונים"
+#: .\templates\therapist.html:258
+msgid "Messages"
+msgstr ""
 
-#: .\templates\tools.html:86
-msgid "Audios"
-msgstr "השמעה"
+#: .\templates\therapist.html:262
+msgid "Notes"
+msgstr ""
+
+#: .\templates\tools.html:29
+msgid "Printable materials"
+msgstr "חומרים להדפסה"
+
+#: .\templates\tools.html:42
+msgid "Audio files to listen to when needed"
+msgstr "קבצי אודיו לשמיעה בשעת הצורך"
+
+#: .\templates\tools.html:62
+msgid "Video file to watch when needed"
+msgstr "קבצי וידיאו לצפייה בשעת הצורך"
 
 #: .\users\admin.py:29 .\users\admin.py:92
 msgid "Password"
@@ -1647,6 +1790,10 @@ msgstr ""
 msgid "Today's login link"
 msgstr ""
 
+#: .\users\models.py:232
+msgid "You received new message"
+msgstr ""
+
 #: .\users\templates\email\login_link.html:14
 #: .\users\templates\email\login_link.txt:3
 #, python-format
@@ -1668,8 +1815,21 @@ msgstr ""
 
 #: .\users\templates\email\login_link.html:25
 #: .\users\templates\email\login_link.txt:11
+#: .\users\templates\email\new_message.html:21
+#: .\users\templates\email\new_message.txt:9
 #, python-format
 msgid "%(site_name)s"
+msgstr ""
+
+#: .\users\templates\email\new_message.html:14
+#: .\users\templates\email\new_message.txt:3
+msgid "Hello!"
+msgstr ""
+
+#: .\users\templates\email\new_message.html:15
+#: .\users\templates\email\new_message.txt:5
+#, python-format
+msgid "You received a new message at program %(site_name)s"
 msgstr ""
 
 #: .\users\templates\login.html:20
@@ -1717,3 +1877,42 @@ msgstr ""
 #: .\users\views.py:136
 msgid "No data received."
 msgstr ""
+
+#~ msgid "Next steps:"
+#~ msgstr "דף הבא"
+
+#~ msgid "You have finished {{ modules_finished }} modules"
+#~ msgstr "סיימת {{ modules_finished }} מודלים"
+
+#~ msgid "modules"
+#~ msgstr "פרקים"
+
+#~ msgid "You have finished a module"
+#~ msgstr "סיימת פרק אחד"
+
+#~ msgid "You haven't finished a module yet"
+#~ msgstr "עדיין לא סיימת פרק"
+
+#~ msgid "Current Module:"
+#~ msgstr "הפרק הנוכחי:"
+
+#~ msgid "Continue"
+#~ msgstr "המשך"
+
+#~ msgid "See All"
+#~ msgstr "כל הפרקים"
+
+#~ msgid "Current Page:"
+#~ msgstr "הדף הנוכחי:"
+
+#~ msgid "Previous page"
+#~ msgstr "דף קודם"
+
+#~ msgid "Files"
+#~ msgstr "קבצים"
+
+#~ msgid "Videos"
+#~ msgstr "סרטונים"
+
+#~ msgid "Audios"
+#~ msgstr "השמעה"

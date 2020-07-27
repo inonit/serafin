@@ -1,421 +1,405 @@
 {% load static %}
 {% load i18n %}
+{% get_current_language_bidi as lang_dir %}
+
 <!DOCTYPE html>
-<html lang="en" ng-app="serafin" class="h-100">
+<html lang="en" ng-app="serafin">
 
 <head>
 
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <meta name="description" content="">
-  <meta name="author" content="">
+    <meta charset="utf-8">
 
-  <title>Mind Tools</title>
+    <title>Mind Tools</title>
 
-  <!-- Bootstrap core CSS -->
-  <link href="{% static 'css/bootstrap.min.css' %}" rel="stylesheet">
-
-    {% if stylesheet %}
-    <link rel="stylesheet" href="{% static stylesheet %}" />
-    {% elif program.style %}
-    <link rel="stylesheet" href="{% static program.style %}" />
-    {% elif site.program.style %}
-    <link rel="stylesheet" href="{% static site.program.style %}" />
+    <!-- Bootstrap core CSS -->
+    {% if lang_dir %}
+    <link rel="stylesheet" type="text/css" href="{% static 'css/main.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/main-mobile.css' %}">
     {% else %}
-    <link rel="stylesheet" href="{% static 'css/style.css' %}" />
+    <link rel="stylesheet" type="text/css" href="{% static 'css/main_en.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/main-mobile_en.css' %}">
     {% endif %}
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+{% comment %}
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Heebo">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Assistant">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Rubik">
+{% endcomment %}
+<link href="https://fonts.googleapis.com/css2?family=Heebo:wght@300;500;700&display=swap" rel="stylesheet">
 
-  <!-- Custom styles for this template -->
-  <link href="{% static 'css/mind-tools.css' %}" rel="stylesheet">
+    <!-- Custom styles for this template -->
 
 </head>
 
-<body class="d-flex flex-column h-100" ng-controller="pages">
+<body ng-controller="pages">
 
-  <!-- Navigation -->
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
-    <div class="container">
-        {% verbatim %}
-        <button ng-hide="!chapters.length" class="navbar-toggler" type="button" data-toggle="collapse" data-target="#session-navbar" aria-controls="session-navbar" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        {% endverbatim %}
-        <p class="navbar-brand mx-auto my-auto">Mind Tools</p>
-        <a class="navbar-brand px-1 my-auto border-bottom-0" href="{% url 'main_page' %}"><i class="fa fa-home"></i></a>
+<!-- Navigation -->
+{% include 'navbar.html' %}
+<!-- Page Content -->
 
-        <div class="collapse navbar-collapse" id="session-navbar">
-        <ul class="navbar-nav ml-auto">
-              {% verbatim %}
-              <li ng-repeat="chapter in chapters"
-                 ng-class="chapter.is_current ? 'active' : !chapter.is_enabled ? 'disabled' : 'dsfasdf'"
-                 class="nav-item">
-                  <a class="nav-link lang-direction" data-toggle="collapse" data-target=".navbar-collapse.show" ng-class="{'disabled' : !chapter.is_enabled}" href="#" ng-click="chapter_url(chapter.id)"> {{ chapter.name }} </a>
-              </li>
-              {% endverbatim %}
-        </ul>
-      </div>
+
+<div class="episodes-menu" ng-hide="!chapters.length">
+    <h2 class="episodes-menu-title">{% trans 'Chapters' %}</h2>
+    <div class="episodes-menu-title-mobile">
+        <img src="{% static 'img/left-arrow.svg' %}"/>
+        <span>{% trans 'Program Chapters' %}</span>
     </div>
-  </nav>
-  <!-- Page Content -->
 
-  <div class="d-flex flex-lg-row flex-column container-fluid justify-content-between">
-      {% comment %}<div class="ml-lg-2 mt-lg-2 mt-sm-0 navbar-expand-lg">{% endcomment %}
-          <div class="mt-lg-5 mt-0 flex-lg-grow-1">
-            {% verbatim %}
-            <div ng-hide="!chapters.length" class="bg-light border-right rounded mx-lg-auto w-50 flex-grow-1 d-none d-lg-block sticky" id="sidebar-wrapper">
-                {% endverbatim %}
-                <div class="sidebar-heading text-center">{% trans 'Chapters' %}</div>
-              <div class="list-group list-group-flush">
-                  {% verbatim %}
-                  <a ng-repeat="chapter in chapters"
-                     ng-class="chapter.is_current ? 'active' : !chapter.is_enabled ? 'disabled' : 'bg-light'"
-                     class="list-group-item list-group-item-action"
-                     href="#" ng-click="chapter_url(chapter.id)"> {{ chapter.name }} </a>
-                  {% endverbatim %}
-              </div>
+    <div class="episodes-menu-item" ng-repeat="chapter in chapters"
+         ng-class="chapter.is_current ? 'active' : !chapter.ie_enabled ? 'enable' : 'disabled'"
+         ng-click="chapter_url(chapter.id)">
+
+        {% verbatim %}
+        {{ chapter.name }}
+        {% endverbatim %}
+
+    </div>
+</div>
+<div class="page">
+    <div class="content">
+        <div class="episodes-link" ng-hide="!chapters.length">
+            <div>{% trans 'Chapters list' %}</div>
+            <div class="episodes-link-group">
+                <img class="episodes-link-icon-left" src="{% static 'img/left-arrow.svg' %}"/>
+                <img class="episodes-link-icon-right" src="{% static 'img/right-arrow.svg' %}"/>
             </div>
-      </div>
-      <div class="mt-lg-1 flex-grow-1 lang-direction page">
-          <div class="" ng-form="form">
-                <div class="error" ng-cloak ng-if="error">
-                    {% trans "Something went wrong. We weren't able to find the right path for you. You can try reloading the page. If that doesn't work, try again in a few hours?" %}
+        </div>
+
+        <div class="" ng-form="form">
+            <div class="error" ng-cloak ng-if="error">
+                {% trans "Something went wrong. We weren't able to find the right path for you. You can try reloading the page. If that doesn't work, try again in a few hours?" %}
+            </div>
+            {% verbatim %}
+            <div class="" ng-repeat="pagelet in page track by $index" ng-cloak>
+                <div ng-if="pagelet.content_type == 'richtext' && pagelet.box != ''">
+                    <div class="page-content rounded" richtextlivereplace="pagelet.content"
+                         style="background-color:{{ pagelet.box }}"></div>
                 </div>
-                {% verbatim %}
-                <div class="pagelet" ng-repeat="pagelet in page track by $index" ng-cloak>
 
-                    <div ng-if="pagelet.content_type == 'richtext' && pagelet.box != ''">
-                        <div class="text p-3 rounded" richtextlivereplace="pagelet.content" style="background-color:{{ pagelet.box }}"></div>
+                <div ng-if="pagelet.content_type == 'richtext' && pagelet.box == ''">
+                    <div class="page-content" richtextlivereplace="pagelet.content"></div>
+                </div>
+
+                <div class="page-content" ng-if="pagelet.content_type == 'text'" livereplace="pagelet.content">
+                </div>
+
+                <div class="toggle page-content" ng-class="{'hasimage': pagelet.img_content.url}"
+                     ng-if="pagelet.content_type == 'toggle'">
+                    <img ng-if="pagelet.img_content && pagelet.img_content.url"
+                         ng-click="pagelet.toggled = !pagelet.toggled" ng-src="{{ pagelet.img_content.url }}"
+                         alt="{{ pagelet.toggle }}" title="{{ pagelet.toggle }}">
+                    <p>
+                        <a ng-click="pagelet.toggled = !pagelet.toggled">
+                            {{ pagelet.toggle }}
+                            <span ng-hide="pagelet.toggled" class="toggle-arrow"><span></span></span>
+                            <span ng-show="pagelet.toggled">▼</span>
+                        </a>
+                    </p>
+
+                    <div ng-show="pagelet.toggled" livereplace="pagelet.content">
                     </div>
+                </div>
 
-                    <div ng-if="pagelet.content_type == 'richtext' && pagelet.box == ''">
-                        <div class="text" richtextlivereplace="pagelet.content"></div>
-                    </div>
-
-                    <div class="text" ng-if="pagelet.content_type == 'text'" livereplace="pagelet.content">
-                    </div>
-
-                    <div class="toggle" ng-class="{'hasimage': pagelet.img_content.url}" ng-if="pagelet.content_type == 'toggle'">
-                        <img ng-if="pagelet.img_content && pagelet.img_content.url" ng-click="pagelet.toggled = !pagelet.toggled" ng-src="{{ pagelet.img_content.url }}" alt="{{ pagelet.toggle }}" title="{{ pagelet.toggle }}">
-                        <p class="toggled-ltr">
-                            <a ng-click="pagelet.toggled = !pagelet.toggled">
-                                <span ng-hide="pagelet.toggled">▶</span>
-                                <span ng-show="pagelet.toggled">▼</span>
-                                {{ pagelet.toggle }}
-                            </a>
-                        </p>
-                        <p class="toggled-rtl d-none">
-                            <a ng-click="pagelet.toggled = !pagelet.toggled">
-                                {{ pagelet.toggle }}
-                                <span ng-hide="pagelet.toggled">◀</span>
-                                <span ng-show="pagelet.toggled">▼</span>
-                            </a>
-                        </p>
-                        <div ng-show="pagelet.toggled" livereplace="pagelet.content">
-                        </div>
-                    </div>
-
-                    <form class="toggleset" ng-if="pagelet.content_type == 'toggleset'" novalidate>
-                        <div class="form-group">
-                        <fieldset ng-disabled="read_only" ng-form="subForm" ng-if="!pagelet.content.horizontal">
-                            <legend>{{ pagelet.content.label }}</legend>
+                <form class="" ng-if="pagelet.content_type == 'toggleset'" novalidate>
+                    <div class="form-group">
+                        <div class="question" ng-form="subForm" ng-disabled="read_only">
+                            <div class="question-label">{{ pagelet.content.label }}</div>
                             {% endverbatim %}
-                            <div class="error right" ng-show="form.submitted && subForm.$error.required">{% trans 'Please choose one' %}</div>
+                            <div class="question-hint">({% trans 'Choose only one option' %})</div>
+                            <div class="question-error"
+                                 ng-show="form.submitted && subForm.$error.required">{% trans 'Please choose one' %}
+                            </div>
                             {% verbatim %}
-                            <div class="form-check" ng-repeat="alt in pagelet.content.alternatives track by $index">
-                                <input name="answer" type="radio" class="form-check-input" ng-model="pagelet.content.value" value="{{ alt.value }}" required>
-                                <label class="form-check-label">
-                                    {{ alt.label }}
-                                </label>
+                            <div class="radio-options">
+                                <div class="radio-option"
+                                     ng-repeat="alt in pagelet.content.alternatives track by $index">
+                                    <label class="radio-container">
+                                        <input ng-disabled="read_only" type="radio" name="answer"
+                                               ng-model="pagelet.content.value" value="{{ alt.value }}" required>
+                                        <span class="radio-checkmark"></span>
+                                    </label>
+                                    <div class="radio-text">{{ alt.label }}</div>
+                                </div>
                             </div>
-                            <div ng-repeat="alt in pagelet.content.alternatives track by $index" ng-show="subForm.$dirty && pagelet.content.value == alt.value">
-                                {{ alt.text }}
-                            </div>
-                        </fieldset>
-                        <div ng-form="subForm" ng-if="pagelet.content.horizontal" class="table">
-                            {% endverbatim %}
-                            <div class="error right" ng-show="form.submitted && subForm.$error.required">{% trans 'Please choose one' %}</div>
-                            {% verbatim %}
-                            <table>
-                                <div class="caption">{{ pagelet.content.label }}</div>
-                                <tbody>
-                                    <tr>
-                                        <td ng-repeat="alt in pagelet.content.alternatives track by $index">
-                                            <input name="answer" type="radio" ng-model="pagelet.content.value" value="{{ alt.value }}" required>
-                                            <br>
-                                            {{ alt.label }}
-                                        </td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                            <div ng-repeat="alt in pagelet.content.alternatives track by $index" ng-show="subForm.$dirty && pagelet.content.value == alt.value">
-                                {{ alt.text }}
-                            </div>
-                        </div>
-                        </div>
-                    </form>
-
-                    <form class="togglesetmulti" ng-if="pagelet.content_type == 'togglesetmulti'" novalidate>
-                        <div class="form-group">
-                        <fieldset ng-disabled="read_only" ng-form="subForm" ng-if="!pagelet.content.horizontal">
-                            <legend>{{ pagelet.content.label }}</legend>
-                            {% endverbatim %}
-                            <div class="error right" ng-show="form.submitted && subForm.$error.required">{% trans 'Please choose one' %}</div>
-                            {% verbatim %}
-                            <div class="form-check" ng-repeat="alt in pagelet.content.alternatives track by $index">
-                                <input name="answer" type="checkbox" checkboxlist class="form-check-input" ng-model="alt.selected" ng-click="toggle(pagelet.content.value, alt.value)" ng-required="field.required">
-                                <label class="form-check-label">
-                                    {{ alt.label }}
-                                </label>
-                            </div>
-                            <div>{{ pagelet.content.text }}</div>
-                        </fieldset>
-                        <div ng-form="subForm" ng-if="pagelet.content.horizontal" class="table">
-                            {% endverbatim %}
-                            <div class="error right" ng-show="form.submitted && subForm.$error.required">{% trans 'Please choose one' %}</div>
-                            {% verbatim %}
-                            <table>
-                                <div class="caption">{{ pagelet.content.label }}</div>
-                                <tbody>
-                                    <tr>
-                                        <td ng-repeat="alt in pagelet.content.alternatives track by $index">
-                                            <input ng-disabled="read_only" name="answer" type="checkbox" checkboxlist ng-model="alt.selected" ng-click="toggle(pagelet.content.value, alt.value)" ng-required="field.required">
-                                            <br>
-                                            {{ alt.label }}
-                                        </td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                            <div>{{ pagelet.content.text }}</div>
-                        </div>
-                        </div>
-                    </form>
-
-                    <div class="conditionalset" ng-if="pagelet.content_type == 'conditionalset'" class="conditionalset">
-                        <div ng-repeat="text in pagelet.content track by $index">
-                            <div ng-if="text.type == 'text'" livereplace="text.content">
-                            </div>
-                            <div ng-if="text.type == 'richtext' && text.box != ''">
-                                <div class="text p-3 rounded" richtextlivereplace="text.content" style="background-color:{{ text.box }}"></div>
-                            </div>
-                            <div ng-if="text.type == 'richtext' && text.box == ''">
-                                <div class="text" richtextlivereplace="text.content"></div>
-                            </div>
+                             <div ng-repeat="alt in pagelet.content.alternatives track by $index"
+                                 ng-show="subForm.$dirty && pagelet.content.value == alt.value">
+                                 {{ alt.text }}
+                             </div>
                         </div>
                     </div>
+                </form>
 
-                    <form class="expression" ng-if="pagelet.content_type == 'expression'">
-                        <input type="hidden" name="{{ pagelet.content.variable_name }}" value="{{ pagelet.content.value }}">
-                    </form>
-
-                    <form class="form" ng-if="pagelet.content_type == 'form'" novalidate>
-                        <div ng-repeat="field in pagelet.content track by $index" ng-form="subForm">
-
-                            <div class="form-group" ng-if="field.field_type == 'numeric'">
-                                {% endverbatim %}
-                                <div class="error right" ng-show="(form.submitted || subForm.field.$dirty) && subForm.field.$error.required">{% trans 'Please enter a number' %}</div>
-                                <div class="error right" ng-show="subForm.field.$dirty && (subForm.field.$error.min || subForm.field.$error.max )">{% trans 'Please enter a number between {{ field.lower_limit }} and {{ field.upper_limit }}' %}</div>
-                                {% verbatim %}
-                                <label for="field"><strong>{{ field.label }}</strong></label>
-                                <input class="form-control" ng-disabled="read_only" name="field" type="number" min="{{ field.lower_limit }}" max="{{ field.upper_limit }}" string-to-number ng-model="field.value" ng-required="field.required" liveinput>
+                <form class="togglesetmulti" ng-if="pagelet.content_type == 'togglesetmulti'" novalidate>
+                    <div class="form-group">
+                        <div class="question" ng-form="subForm" ng-disabled="read_only">
+                            <div class="question-label">{{ pagelet.content.label }}</div>
+                            {% endverbatim %}
+                            <div class="question-hint">({% trans 'You can choose multiple options' %})</div>
+                            <div class="question-error"
+                                 ng-show="form.submitted && subForm.$error.required">{% trans 'Please choose one' %}
                             </div>
-
-                            <div class="form-group" ng-if="field.field_type == 'string'">
-                                {% endverbatim %}
-                                <div class="error right" ng-show="form.submitted && field.variable_name !== 'phone' && subForm.field.$error.required">{% trans 'This field is required' %}</div>
-                                <div class="error right" ng-show="form.submitted && field.variable_name === 'phone' && subForm.phone.$error.required">{% trans 'This field is required' %}</div>
-                                <div class="error right" ng-show="form.submitted && subForm.phone.$error.minlength">{% trans 'Your phone number is too short' %}</div>
-                                <div class="error right" ng-show="form.submitted && subForm.phone.$error.pattern">{% trans '+Country code then number, no other characters, e.g. "+4798765432"' %}</div>
-                                {% verbatim %}
-                                <label for="field"><strong>{{ field.label }}</strong></label>
-                                <input class="form-control" ng-disabled="read_only" ng-if="field.variable_name !== 'phone'" name="field" type="text" ng-model="field.value" ng-required="field.required" liveinput>
-                                <input class="form-control" ng-disabled="read_only" ng-if="field.variable_name === 'phone'" name="phone" type="text" ng-model="field.value" ng-required="field.required" ng-minlength="11" ng-pattern="/^\+\d+$/" liveinput>
-
+                            {% verbatim %}
+                            <div class="options">
+                                <div class="option" ng-repeat="alt in pagelet.content.alternatives track by $index">
+                                    <label class="cb-container">
+                                        <input name="answer" type="checkbox" checkboxlist
+                                               ng-model="alt.selected"
+                                               ng-click="toggle(pagelet.content.value, alt.value)"
+                                               ng-required="field.required" ng-disabled="read_only">
+                                        <span class="checkmark"></span>
+                                    </label>
+                                    <div class="cb-text">{{ alt.label }}</div>
+                                </div>
                             </div>
+                            <div class="checkbox-value">{{ pagelet.content.text }}</div>
+                        </div>
+                    </div>
+                </form>
 
-                            <div class="form-group" ng-if="field.field_type == 'text'">
-                                {% endverbatim %}
-                                <div class="error right" ng-show="form.submitted && subForm.field.$error.required">{% trans 'This field is required' %}</div>
-                                {% verbatim %}
-                                <label for="field"><strong>{{ field.label }}</strong></label>
-                                <textarea class="form-control" ng-disabled="read_only" name="field" ng-model="field.value" ng-required="field.required" liveinput></textarea>
-                            </div>
+                <div ng-if="pagelet.content_type == 'conditionalset'">
+                    <div ng-repeat="text in pagelet.content track by $index">
+                        <div class="page-content" ng-if="text.type == 'text'" livereplace="text.content">
+                        </div>
+                        <div ng-if="text.type == 'richtext' && text.box != ''">
+                            <div class="page-content rounded" richtextlivereplace="text.content"
+                                 style="background-color:{{ text.box }}"></div>
+                        </div>
+                        <div ng-if="text.type == 'richtext' && text.box == ''">
+                            <div class="page-content" richtextlivereplace="text.content"></div>
+                        </div>
+                    </div>
+                </div>
 
-                            <div ng-if="field.field_type == 'multiplechoice'">
-                                <div class="form-group">
-                                <fieldset ng-disabled="read_only" ng-if="!field.horizontal">
-                                    <legend>{{ field.label }}</legend>
+                <form class="expression" ng-if="pagelet.content_type == 'expression'">
+                    <input type="hidden" name="{{ pagelet.content.variable_name }}" value="{{ pagelet.content.value }}">
+                </form>
+
+                <form class="form" ng-if="pagelet.content_type == 'form'" novalidate>
+                    <div ng-repeat="field in pagelet.content track by $index" ng-form="subForm">
+
+                        <div class="question" ng-if="field.field_type == 'numeric'">
+                            <div class="question-label">{{ field.label }}</div>
+                            {% endverbatim %}
+                            <div class="question-error"
+                                 ng-show="(form.submitted || subForm.field.$dirty) && subForm.field.$error.required">{% trans 'Please enter a number' %}</div>
+                            <div class="question-error"
+                                 ng-show="subForm.field.$dirty && (subForm.field.$error.min || subForm.field.$error.max )">{% trans 'Please enter a number between {{ field.lower_limit }} and {{ field.upper_limit }}' %}</div>
+                            {% verbatim %}
+
+                            <input class="input-box" ng-disabled="read_only" name="field" type="number"
+                                   min="{{ field.lower_limit }}" max="{{ field.upper_limit }}" string-to-number
+                                   ng-model="field.value" ng-required="field.required" liveinput>
+                        </div>
+
+                        <div class="question" ng-if="field.field_type == 'string'">
+                            <div class="question-label">{{ field.label }}</div>
+                            {% endverbatim %}
+                            <div class="question-error"
+                                 ng-show="form.submitted && field.variable_name !== 'phone' && subForm.field.$error.required">{% trans 'This field is required' %}</div>
+                            <div class="question-error"
+                                 ng-show="form.submitted && field.variable_name === 'phone' && subForm.phone.$error.required">{% trans 'This field is required' %}</div>
+                            <div class="question-error"
+                                 ng-show="form.submitted && subForm.phone.$error.minlength">{% trans 'Your phone number is too short' %}</div>
+                            <div class="question-error"
+                                 ng-show="form.submitted && subForm.phone.$error.pattern">{% trans '+Country code then number, no other characters, e.g. "+4798765432"' %}</div>
+                            {% verbatim %}
+
+                            <input class="input-box" ng-disabled="read_only" ng-if="field.variable_name !== 'phone'"
+                                   name="field" type="text" ng-model="field.value" ng-required="field.required"
+                                   liveinput>
+                            <input class="input-box" ng-disabled="read_only" ng-if="field.variable_name === 'phone'"
+                                   name="phone" type="text" ng-model="field.value" ng-required="field.required"
+                                   ng-minlength="11" ng-pattern="/^\+\d+$/" liveinput>
+
+                        </div>
+
+                        <div class="question" ng-if="field.field_type == 'text'">
+                            <div class="question-label">{{ field.label }}</div>
+                            {% endverbatim %}
+                            <div class="question-error"
+                                 ng-show="form.submitted && subForm.field.$error.required">{% trans 'This field is required' %}</div>
+                            <textarea class="text-area" ng-disabled="read_only" name="field" ng-model="field.value"
+                                      ng-required="field.required" rows="7" cols="61" placeholder="{% trans 'Type here...' %}" liveinput></textarea>
+                            {% verbatim %}
+                        </div>
+
+                        <div ng-if="field.field_type == 'multiplechoice'">
+                            <div class="form-group">
+                                <div class="question" ng-disabled="read_only">
+                                    <div class="question-label">{{ field.label }}</div>
                                     {% endverbatim %}
-                                    <div class="error right" ng-show="form.submitted && subForm.$error.required">{% trans 'Please choose one' %}</div>
-                                    {% verbatim %}
-                                    <div class="form-check" ng-repeat="alt in field.alternatives track by $index">
-                                        <input name="{{ 'multi' + $parent.$index }}" type="radio" class="form-check-input" ng-model="field.value" value="{{ alt.value }}" ng-required="field.required">
-                                        <label class="form-check-label">{{ alt.label }}</label>
+                                    <div class="question-hint">({% trans 'Choose only one option' %})</div>
+                                    <div class="error right"
+                                         ng-show="form.submitted && subForm.$error.required">{% trans 'Please choose one' %}
                                     </div>
-                                </fieldset>
-
-                                <div ng-if="field.horizontal" class="table">
-                                    {% endverbatim %}
-                                    <div class="error right" ng-show="form.submitted && subForm.$error.required">{% trans 'Please choose one' %}</div>
                                     {% verbatim %}
-                                    <table ng-if="field.field_type == 'multiplechoice'">
-                                        <div class="caption">{{ field.label }}</div>
-                                        <tbody>
-                                            <tr>
-                                                <td ng-repeat="alt in field.alternatives track by $index">
-                                                    <input ng-disabled="read_only" name="{{ 'multi' + $parent.$index }}" type="radio" ng-model="field.value" value="{{ alt.value }}" ng-required="field.required">
-                                                    <br>
-                                                    {{ alt.label }}
-                                                </td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
-                                </div>
-                                </div>
-                            </div>
-
-                            <div ng-if="field.field_type == 'multipleselection'">
-                                <div class="form-group">
-                                <fieldset ng-disabled="read_only" ng-if="!field.horizontal">
-                                    <legend>{{ field.label }}</legend>
-                                    {% endverbatim %}
-                                    <div class="error right" ng-show="form.submitted && subForm.$error.required">{% trans 'Please choose one' %}</div>
-                                    {% verbatim %}
-                                    <div class="form-check" ng-repeat="alt in field.alternatives track by $index">
-                                        <input name="{{ 'multiselect' + $parent.$index }}" type="checkbox" class="form-check-input" checkboxlist ng-model="alt.selected" ng-click="toggle(field.value, alt.value)" ng-required="field.required && field.value.length==0">
-                                        <label class="form-check-label">{{ alt.label }}</label>
+                                    <div class="radio-options">
+                                        <div class="radio-option"
+                                             ng-repeat="alt in field.alternatives track by $index">
+                                            <label class="radio-container">
+                                                <input ng-disabled="read_only" type="radio"
+                                                       name="{{ 'multi' + $parent.$index }}"
+                                                       ng-model="field.value" value="{{ alt.value }}"
+                                                       ng-required="field.required">
+                                                <span class="radio-checkmark"></span>
+                                            </label>
+                                            <div class="radio-text">{{ alt.label }}</div>
+                                        </div>
                                     </div>
-                                </fieldset>
-                                <div ng-if="field.horizontal" class="table">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div ng-if="field.field_type == 'multipleselection'">
+                            <div class="form-group">
+                                <div class="question" ng-disabled="read_only">
+                                    <div class="question-label">{{ field.label }}</div>
                                     {% endverbatim %}
-                                    <div class="error right" ng-show="form.submitted && subForm.$error.required">{% trans 'Please choose one' %}</div>
+                                    <div class="question-hint">({% trans 'You can choose multiple options' %})</div>
+                                    <div class="question-error"
+                                         ng-show="form.submitted && subForm.$error.required">{% trans 'Please choose one' %}
+                                    </div>
                                     {% verbatim %}
-                                    <table>
-                                        <div class="caption">{{ field.label }}</div>
-                                        <tbody>
-                                            <tr>
-                                                <td ng-repeat="alt in field.alternatives track by $index">
-                                                    <input ng-disabled="read_only" name="{{ 'multiselect' + $parent.$index }}" type="checkbox" checkboxlist ng-model="alt.selected" ng-click="toggle(field.value, alt.value)" ng-required="field.required && field.value.length==0">
-                                                    <br>
-                                                    {{ alt.label }}
-                                                </td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
+                                    <div class="options">
+                                        <div class="option"
+                                             ng-repeat="alt in field.alternatives track by $index">
+                                            <label class="cb-container">
+                                                <input name="{{ 'multiselect' + $parent.$index }}" type="checkbox"
+                                                       checkboxlist
+                                                       ng-model="alt.selected"
+                                                       ng-click="toggle(pagelet.content.value, alt.value)"
+                                                       ng-required="field.required && field.value.length==0"
+                                                       ng-disabled="read_only">
+                                                <span class="checkmark"></span>
+                                            </label>
+                                            <div class="cb-text">{{ alt.label }}</div>
+                                        </div>
+                                    </div>
+                                    <div class="checkbox-value">{{ pagelet.content.text }}</div>
                                 </div>
-                                </div>
-                            </div>
-
-                            <div class="form-group" ng-if="field.field_type == 'email'">
-                                {% endverbatim %}
-                                <div class="error right" ng-show="form.submitted && subForm.email.$error.required">{% trans 'This field is required' %}</div>
-                                <div class="error right" ng-show="form.submitted && subForm.email.$error.email">{% trans 'Please input a valid e-mail address' %}</div>
-                                {% verbatim %}
-                                <label for="email"><strong>{{ field.label }}</strong></label>
-                                <input class="form-control" ng-disabled="read_only" name="email" type="email" ng-model="field.value" ng-required="field.required" liveinput>
-                            </div>
-
-                            <div class="form-group" ng-if="field.field_type == 'password'">
-                                {% endverbatim %}
-                                <div class="error right" ng-show="form.submitted && subForm.password.$error.required">{% trans 'This field is required' %}</div>
-                                {% verbatim %}
-                                <label for="password"><strong>{{ field.label }}</strong></label>
-                                <input class="form-control" ng-disabled="read_only" name="password" type="password" ng-model="field.value" ng-required="field.required">
-                            </div>
-
-                            <div ng-if="field.field_type == 'hiddenfield'">
-                                <input type="hidden" name="{{ field.name }}" value="{{ field.value }}" ng-model="field.value">
                             </div>
 
                         </div>
-                    </form>
 
-                    <form class="quiz" ng-if="pagelet.content_type == 'quiz'" novalidate>
-                        <div class="form-group">
-                        <fieldset ng-disabled="read_only" ng-repeat="question in pagelet.content track by $index" ng-form="subForm">
-                            <legend>{{ question.question }}</legend>
+                        <div class="question" ng-if="field.field_type == 'email'">
+                            <div class="question-label">{{ field.label }}</div>
                             {% endverbatim %}
-                            <div class="error right" ng-show="form.submitted && subForm.$error.required">{% trans 'Please choose one' %}</div>
+                            <div class="question-error"
+                                 ng-show="form.submitted && subForm.email.$error.required">{% trans 'This field is required' %}</div>
+                            <div class="question-error"
+                                 ng-show="form.submitted && subForm.email.$error.email">{% trans 'Please input a valid e-mail address' %}</div>
                             {% verbatim %}
-                            <div class="form-check" ng-repeat="alt in question.alternatives track by $index">
-                                <input class="form-check-input" name="answer_{{ $parent.$index }}" type="radio" ng-model="question.value" ng-change="question.correct = alt.correct; question.response = alt.response" value="{{ alt.value }}" required>
-                                <label class="form-check-label">
-                                    {{ alt.label }}
-                                </label>
+
+                            <input class="input-box" ng-disabled="read_only" name="email" type="email"
+                                   ng-model="field.value" ng-required="field.required" liveinput>
+                        </div>
+
+                        <div class="question" ng-if="field.field_type == 'password'">
+                            <div class="question-label">{{ field.label }}</div>
+                            {% endverbatim %}
+                            <div class="question-error"
+                                 ng-show="form.submitted && subForm.password.$error.required">{% trans 'This field is required' %}</div>
+                            {% verbatim %}
+                            <input class="input-box" ng-disabled="read_only" name="password" type="password"
+                                   ng-model="field.value" ng-required="field.required">
+                        </div>
+
+                        <div ng-if="field.field_type == 'hiddenfield'">
+                            <input type="hidden" name="{{ field.name }}" value="{{ field.value }}"
+                                   ng-model="field.value">
+                        </div>
+
+                    </div>
+                </form>
+
+                <form class="quiz" ng-if="pagelet.content_type == 'quiz'" novalidate>
+                    <div class="form-group">
+                        <div class="question" ng-form="subForm" ng-disabled="read_only"
+                             ng-repeat="question in pagelet.content track by $index">
+
+                            <div class="question-label">{{ question.question }}</div>
+                            {% endverbatim %}
+                            <div class="question-hint">({% trans 'Choose only one option' %})</div>
+                            <div class="question-error"
+                                 ng-show="form.submitted && subForm.$error.required">{% trans 'Please choose one' %}
+                            </div>
+                            {% verbatim %}
+                            <div class="radio-options">
+                                <div class="radio-option" ng-repeat="alt in question.alternatives track by $index">
+                                    <label class="radio-container">
+                                        <input ng-disabled="read_only" type="radio" name="answer_{{ $parent.$index }}"
+                                               ng-model="question.value" value="{{ alt.value }}" required>
+                                        <span class="radio-checkmark"></span>
+                                    </label>
+                                    <div class="radio-text">{{ alt.label }}</div>
+                                </div>
                             </div>
                             <div ng-show="subForm.$dirty">{{ question.response }}</div>
-                        </fieldset>
                         </div>
-                    </form>
-
-                    <div class="image" ng-if="pagelet.content_type == 'image'">
-                        <img ng-src="{{ pagelet.content.url }}" alt="{{ pagelet.content.alt }}" title="{{ pagelet.content.title }}">
                     </div>
+                </form>
 
-                    <div class="video" ng-if="pagelet.content_type == 'video'">
-                        <label>{{ pagelet.content.title }}</label>
-                        <video width="100%" height="100%" controls="controls">
-                            <source ng-src="{{ pagelet.content.url }}" type="video/mp4">
-                            <!-- Add fallback option -->
-                        </video>
-                    </div>
-
-                    <div class="audio" ng-if="pagelet.content_type == 'audio'">
-                        <label>{{ pagelet.content.title }}</label><br/>
-                        <audio controls="controls">
-                            <source ng-src="{{ pagelet.content.url }}" type="audio/mpeg">
-                            <!-- Add fallback option -->
-                        </audio>
-                    </div>
-
-                    <div class="file" ng-if="pagelet.content_type == 'file'">
-                        <a href="{{ pagelet.content.url }}">{{ pagelet.content.title }}</a>
-                    </div>
-
+                <div class="page-content image" ng-if="pagelet.content_type == 'image'">
+                    <img ng-src="{{ pagelet.content.url }}" alt="{{ pagelet.content.alt }}"
+                         title="{{ pagelet.content.title }}">
                 </div>
-                {% endverbatim %}
-                <nav ng-cloak class="text-center" ng-if="is_back && !(!dead_end || stacked)">
-                    <a class="btn btn-primary btn-lg rounded-pill next" ng-click="back()">{% trans 'Previous page' %}</a>
-                </nav>
-                <nav ng-cloak class="text-center" ng-if="is_back && (!dead_end || stacked)">
-                    <a class="btn btn-primary btn-lg rounded-pill next" ng-click="back()">{% trans 'Previous page' %}</a>
-                    <a class="btn btn-primary btn-lg rounded-pill next" ng-disabled="form.$invalid || form.submitted || error" ng-click="next()">{% trans 'Next page' %}</a>
-                </nav>
-                <nav ng-cloak class="text-center" ng-if="(!dead_end || stacked) && !is_back">
-                    <a class="btn btn-primary btn-lg rounded-pill next" ng-disabled="form.$invalid || form.submitted || error" ng-click="next()">{% trans 'Next page' %}</a>
-                </nav>
-          </div>
-      </div>
-      <div class="flex-lg-grow-1 flex-grow-0" ></div>
-  </div>
 
-  </div>
-  <!-- /.container -->
+                <div class="page-content video" ng-if="pagelet.content_type == 'video'">
+                    <label>{{ pagelet.content.title }}</label>
+                    <video width="100%" height="100%" controls="controls">
+                        <source ng-src="{{ pagelet.content.url }}" type="video/mp4">
+                        <!-- Add fallback option -->
+                    </video>
+                </div>
 
-  <!-- Footer -->
-  <footer class="py-3 bg-dark mt-auto footer">
-    <div class="container">
-      <p class="m-0 text-center text-white">Copyright &copy; {% now 'Y' %} MindTools.io</p>
+                <div class="page-content audio" ng-if="pagelet.content_type == 'audio'">
+                    <label>{{ pagelet.content.title }}</label><br/>
+                    <audio controls="controls">
+                        <source ng-src="{{ pagelet.content.url }}" type="audio/mpeg">
+                        <!-- Add fallback option -->
+                    </audio>
+                </div>
+
+                <div class="page-content file" ng-if="pagelet.content_type == 'file'">
+                    <a href="{{ pagelet.content.url }}">{{ pagelet.content.title }}</a>
+                </div>
+            </div>
+            {% endverbatim %}
+
+            <div class="page-buttons">
+                <hr class="line">
+                <button ng-cloak ng-if="is_back" ng-click="back()"
+                        class="btn-outline btn-page-left">{% trans 'Back' %}</button>
+                <button ng-cloak ng-if="!dead_end || stacked" ng-click="next()"
+                        class="btn-outline btn-page-right">{% trans 'Next' %}</button>
+            </div>
+
+
+        </div>
     </div>
-    <!-- /.container -->
-  </footer>
+</div>
 
-  <!-- Bootstrap core JavaScript -->
-  <script src="{% static 'js/jquery.min.js' %}"></script>
-  <script src="{% static 'js/bootstrap.bundle.min.js' %}"></script>
-  <script src="{% static 'lib/angular/angular.min.js' %}"></script>
-  <script src="{% static 'js/serafin.js' %}"></script>
+<!-- /.container -->
 
-    <script>
-        var api = '{{ api|safe }}';
-        var csrf_token = '{{ csrf_token }}';
-        var areYouSure = '{% trans "Are you sure you want to leave?" %}';
-        var module_id = {{ module_id|safe }};
-    </script>
+<!-- Footer -->
+<div class="footer-spacer"></div>
+<div class="footer">
+    Mindtools.io © All right reserved
+</div>
+
+<!-- Bootstrap core JavaScript -->
+<script src="{% static 'js/jquery.min.js' %}"></script>
+<script src="{% static 'js/bootstrap.bundle.min.js' %}"></script>
+<script src="{% static 'lib/angular/angular.min.js' %}"></script>
+<script src="{% static 'js/serafin.js' %}"></script>
+
+<script>
+    var api = '{{ api|safe }}';
+    var csrf_token = '{{ csrf_token }}';
+    var areYouSure = '{% trans "Are you sure you want to leave?" %}';
+    var module_id = {{ module_id|safe }};
+</script>
 
 </body>
 

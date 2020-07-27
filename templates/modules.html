@@ -1,131 +1,88 @@
 {% load static %}
 {% load i18n %}
-{% get_current_language as lang %}
 {% get_current_language_bidi as lang_dir %}
 
 <!DOCTYPE html>
-<html lang="{{ lang }}" ng-app="newserafin" class="h-100" dir="{% if lang_dir %} rtl {% else %} ltr {% endif %}"
-style="direction: {% if lang_dir %} rtl {% else %} ltr {% endif %}">
-
+<html lang="{{ lang }}">
 <head>
-
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <meta name="description" content="">
-  <meta name="author" content="">
-
-  <title>Mind Tools</title>
-
-  <!-- Bootstrap core CSS -->
-  <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
-  <link href="{% static 'css/bootstrap.min.css' %}" rel="stylesheet">
-
-
-  <!-- Custom styles for this template -->
-  <link href="{% static 'css/mind-tools.css' %}" rel="stylesheet">
-
+    <meta charset="UTF-8">
+    <title>Study Meetings</title>
+    {% if lang_dir %}
+    <link rel="stylesheet" type="text/css" href="{% static 'css/main.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/main-mobile.css' %}">
+    {% else %}
+    <link rel="stylesheet" type="text/css" href="{% static 'css/main_en.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/main-mobile_en.css' %}">
+    {% endif %}
+    <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@300;500;700&display=swap" rel="stylesheet">
     <script src="{% static 'lib/angular/angular.min.js' %}"></script>
 </head>
-
-<body class="d-flex flex-column h-100">
-
-  <!-- Navigation -->
-  <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top" style="direction: ltr">
-    <div class="container">
-      <a class="navbar-brand" href="{% url 'main_page' %}">Mind Tools</a>
-      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-      </button>
-      <div class="collapse navbar-collapse" id="navbarResponsive">
-        <ul class="navbar-nav ml-auto">
-          <li class="nav-item">
-            <a class="nav-link" href="{% url 'main_page' %}">Home
-              <span class="sr-only">(current)</span>
-            </a>
-          </li>
-          <li class="nav-item active">
-            <a class="nav-link" href="#">Program</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="{% url 'tools' %}">Tools</a>
-          </li>
-          {% if has_therapist %}
-          <li class="nav-item">
-            <a class="nav-link" href="{% url 'mytherapist' %}">My Therapist {% if has_messages %} <i class="fa fa-envelope mr-1"></i>{% endif %}</a>
-          </li>
-          {% endif %}
-        </ul>
-      </div>
-    </div>
-  </nav>
-
-  <!-- Page Content -->
-  <div class="container" ng-controller="modules">
-
-    <!-- Jumbotron Header -->
-    <header class="jumbotron my-4">
-        <div class="flex-row row justify-content-center">
-            <div class="col-md-3 col-6 d-flex align-items-center justify-content-center"  ng-repeat="module in modules" ng-if="module.is_enabled">
-                    <div class="card text-center mb-3 w-100">
-                        <div class="card-body" ng-class="{'border': module.id == current_module_id, 'border-primary': module.id == current_module_id}">
-                            <h5 class="card-title"><a href="{% url 'content' %}{% verbatim %}{{ module.id }}{% endverbatim %}">
-                            {% verbatim %}
-                                {{ module.name }}
-                            </a></h5>
-                            {% endverbatim %}
-                            <p class="card-text" ng-if="module.id == current_module_id">{% trans 'this is your current module' %}</p>
-                            <p class="card-text" ng-if="module.id != current_module_id">{% trans 'module available' %}</p>
-                        </div>
-                    </div>
+<body>
+<!--starts header-->
+{% include 'navbar.html' %}
+<!--end header-->
+<div class="page right">
+    <div class="page-container full-width">
+        <div class="header-1">{% trans 'Study meetings' %}</div>
+        <div>
+            <div class="header-2">{% trans 'Open steps' %}</div>
+            <div class="question-hint">{% trans 'Press item to view content' %}</div>
+            <div class="column right">
+                {% for module in modules %}
+                    {% if module.is_enabled %}
+                        <a class="text-box {% if module.id == current_module_id %}active{% endif %}"
+                           href="{% url 'content' %}{{ module.id }}">
+                            <div class="row">
+                                <div class="text-box-icon right-icon">
+                                    {% if module.id == current_module_id %}
+                                        <img class="circle-img" src="{% static 'img/circle.svg' %}">
+                                    {% else %}
+                                        <img class="circle-img" src="{% static 'img/check.svg' %}"/>
+                                    {% endif %}
+                                </div>
+                                <div class="module-name">{{ module.name }}</div>
+                            </div>
+                            {% if module.id == current_module_id %}
+                                <div class="hint active">{% trans 'Current step' %}</div>
+                            {% else %}
+                                <div class="hint">{% trans 'Completed' %}</div>
+                            {% endif %}
+                        </a>
+                    {% endif %}
+                {% endfor %}
             </div>
 
-        </div>
-        <div class="row mb-lg-2">
-            <h3 class="mx-auto">{% trans "Next steps:" %}</h3>
-        </div>
-        <div class="flex-row row">
-            <div class="col-md-4 col-6 d-flex align-items-center"  ng-repeat="module in modules" ng-if="!module.is_enabled">
-                    <div class="card text-center mb-3 w-100 bg-light">
-                        <div class="card-body">
-                            {% verbatim %}
-                            <h5 class="card-title">{{ module.name }}</h5>
-                            {% endverbatim %}
-                            <p class="card-text">{% trans 'This module is not available yet' %}</p>
+            <div class="footer-spacer"></div>
+
+            <div class="header-2">{% trans 'Future steps' %}</div>
+            <div class="column right">
+                {% for module in modules %}
+                    {% if not module.is_enabled %}
+                        <div class="text-box">
+                            <div>{{ module.name }}</div>
                         </div>
-                    </div>
+                    {% endif %}
+                {% endfor %}
             </div>
         </div>
-    </header>
-
-    <!-- Page Features -->
-    <div>
-
     </div>
+</div>
+<div class="footer-spacer"></div>
+<div class="footer">
+    Mindtools.io © All right reserved
+</div>
 
-  </div>
-  <!-- /.container -->
+<script src="{% static 'js/jquery.min.js' %}"></script>
+<script src="{% static 'js/bootstrap.bundle.min.js' %}"></script>
+<script src="{% static 'js/serafin.js' %}"></script>
 
-  <!-- Footer -->
-  <footer class="py-3 bg-dark mt-auto footer">
-    <div class="container">
-      <p class="m-0 text-center text-white">Copyright &copy; {% now 'Y' %} MindTools.io</p>
-    </div>
-    <!-- /.container -->
-  </footer>
-
-  <!-- Bootstrap core JavaScript -->
-  <script src="{% static 'js/jquery.min.js' %}"></script>
-  <script src="{% static 'js/bootstrap.bundle.min.js' %}"></script>
-  <script src="{% static 'js/topbar-menu.js' %}"></script>
-  <script src="{% static 'js/serafin.js' %}"></script>
-
-    <script>
-        var api = '{{ api|safe }}';
-        var csrf_token = '{{ csrf_token }}';
-        var modules = {{ modules|safe }};
-        var current_module_id = {{ current_module_id|safe }};
-    </script>
+<script>
+    var api = '{{ api|safe }}';
+    var csrf_token = '{{ csrf_token }}';
+</script>
 
 </body>
-
 </html>
+
+
+

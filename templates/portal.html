@@ -1,133 +1,75 @@
 {% load static %}
 {% load i18n %}
-{% get_current_language as lang %}
 {% get_current_language_bidi as lang_dir %}
 
 <!DOCTYPE html>
-<html lang="{{ lang }}" ng-app="newserafin" class="h-100" dir="{% if lang_dir %} rtl {% else %} ltr {% endif %}"
-style="direction: {% if lang_dir %} rtl {% else %} ltr {% endif %}">
-
+<html lang="en" ng-app="newserafin">
 <head>
-
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <meta name="description" content="">
-  <meta name="author" content="">
-
-  <title>Mind Tools</title>
-
-  <!-- Bootstrap core CSS -->
-  <link href="{% static 'css/bootstrap.min.css' %}" rel="stylesheet">
-
-
-  <!-- Custom styles for this template -->
-  <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
-  <link href="{% static 'css/mind-tools.css' %}" rel="stylesheet">
-
+    <meta charset="UTF-8">
+    <title>Home</title>
+    {% if lang_dir %}
+    <link rel="stylesheet" type="text/css" href="{% static 'css/main.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/main-mobile.css' %}">
+    {% else %}
+    <link rel="stylesheet" type="text/css" href="{% static 'css/main_en.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/main-mobile_en.css' %}">
+    {% endif %}
+    <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@300;500;700&display=swap" rel="stylesheet">
     <script src="{% static 'lib/angular/angular.min.js' %}"></script>
 </head>
-
-<body class="d-flex flex-column h-100">
-
-  <!-- Navigation -->
-  <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top" style="direction: ltr">
-    <div class="container">
-      <a class="navbar-brand" href="#">Mind Tools</a>
-      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-      </button>
-      <div class="collapse navbar-collapse" id="navbarResponsive">
-        <ul class="navbar-nav ml-auto">
-          <li class="nav-item active">
-            <a class="nav-link" href="#">Home
-              <span class="sr-only">(current)</span>
-            </a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="{% url 'modules' %}">Program</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="{% url 'tools' %}">Tools</a>
-          </li>
-          {% if has_therapist %}
-          <li class="nav-item">
-            <a class="nav-link" href="{% url 'mytherapist' %}">My Therapist <i ng-if="has_messages" class="fa fa-envelope mr-1"></i></a>
-          </li>
-          {% endif %}
-        </ul>
-      </div>
+<body>
+<!--starts header-->
+ {% include 'navbar.html' %}
+<!--end header-->
+<div class="home-container">
+    <div class="home-image">
+        {% verbatim %}
+        <div class="home-image-text">{{ program_name }}</div>
+        {% endverbatim %}
     </div>
-  </nav>
+    <div class="home-box-wrapper">
+        <div class="home-box">
+            <div class="home-box-text-1">{% trans 'Current step' %}</div>
+            {% verbatim %}
+            <div ng-cloak class="home-box-text-2">{{ current_page_title }}</div>
+            {% endverbatim %}
+            <button onclick="location.href='{% url 'content' %}'" class="home-box-btn">כניסה</button>
+        </div>
+    </div>
 
-  <!-- Page Content -->
-  <div class="container" ng-controller="portal">
 
-    <!-- Jumbotron Header -->
-    <header class="jumbotron my-4">
-        <h2 class="display-4 text-center">{{ program|safe }}</h2>
-
-        <p ng-cloak class="lead text-center" ng-if="modules_finished > 1">{% trans "You have finished {{ modules_finished }} modules" %} {% trans 'modules' %}</p>
-        <p ng-cloak class="lead text-center" ng-if="modules_finished == 1">{% trans "You have finished a module" %}</p>
-        <p ng-cloak class="lead text-center" ng-if="modules_finished == 0">{% trans "You haven't finished a module yet" %}</p>
-
-        <div class="row justify-content-md-center" ng-cloak ng-if="current_module_id">
-            <div class="col-lg-5 col-md-7 col-sm-12">
-                <div class="card text-center">
-                  <div class="card-body">
-                      <h6 class="card-title" dir="">{% trans 'Current Module:' %}</h6>
-                      {% verbatim %}
-                      <h4 class="card-text">{{ current_module_title }}</h4>
-                      {% endverbatim %}
-                      <a href="{% url 'content' %}" class="btn btn-primary">{% trans "Continue" %} >></a>
-                      <p><em><a href="{% url 'modules' %}">{% trans "See All" %}</a></em></p>
-                  </div>
+    <div ng-cloak class="notification-box-wrapper" ng-if="has_messages">
+        <div class="notification-box">
+            <button class="notification-btn btn-outline">{% trans 'Show' %}</button>
+            <div class="row">
+                <div class="notification-icon">
+                    <img src="{% static 'img/notification.svg' %}"/>
                 </div>
+                <div class="notification-text">{% trans 'You have unread message from your supporter' %}</div>
             </div>
         </div>
+    </div>
 
-        <div class="row justify-content-md-center" ng-cloak ng-if="!current_module_id">
-            <div class="col-lg-5 col-md-7 col-sm-12">
-                <div class="card text-center">
-                  <div class="card-body">
-                      <h6 class="card-title">{% trans 'Current Page:' %}</h6>
-                      {% verbatim %}
-                      <h4 class="card-text">{{ current_page_title }}</h4>
-                      {% endverbatim %}
-                      <a href="{% url 'content' %}" class="btn btn-primary">{% trans "Continue" %} >></a>
-                  </div>
-                </div>
-            </div>
+    <div class="home-info">
+        <div class="home-info-text">
         </div>
-
-    </header>
-
-    <!-- Page Features -->
-    <div>
-
     </div>
 
-  </div>
-  <!-- /.container -->
+</div>
 
-  <!-- Footer -->
-  <footer class="py-3 bg-dark mt-auto footer">
-    <div class="container">
-      <p class="m-0 text-center text-white">Copyright &copy; {% now 'Y' %} MindTools.io</p>
-    </div>
-    <!-- /.container -->
-  </footer>
 
-  <!-- Bootstrap core JavaScript -->
+<div class="footer-spacer"></div>
+<div class="footer">
+    Mindtools.io © All right reserved
+</div>
+
   <script src="{% static 'js/jquery.min.js' %}"></script>
   <script src="{% static 'js/bootstrap.bundle.min.js' %}"></script>
-  <script src="{% static 'js/topbar-menu.js' %}"></script>
   <script src="{% static 'js/serafin.js' %}"></script>
-
     <script>
         var api = '{{ api|safe }}';
         var csrf_token = '{{ csrf_token }}';
     </script>
 
 </body>
-
 </html>
