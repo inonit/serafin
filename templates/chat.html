@@ -1,68 +1,63 @@
-<div class="mesgs" id="chat_component" ng-controller="ChatController">
-    <div class="msg_history">
-        <div class="text-center" ng-if="show_load_previous">
-            <button type="button" class="btn btn-secondary mt-1 mb-1 btn-sm" ng-click="load_messages(1,null)">
+<div class="chat-box" id="chat_component" ng-controller="ChatController">
+    <div class="msgs-content">
+        <div class="load-previous-container" ng-if="show_load_previous">
+            <button type="button" class="load-previous-btn" ng-click="load_messages(1,null)">
                 Load previous
             </button>
         </div>
-        <div ng-repeat="msg in messages">
-        <div ng-if="msg.r && msg.read == false && ($index == 0 || messages[$index-1].s || messages[$index-1].read != false)" class="new_messages">New Messages</div>
-            <div class="received_msg" ng-if="msg.s != true" dir="{% if lang_dir %}ltr{% endif %}">
-                <div class="received_withd_msg">
-
-                    <div dir="{% if lang_dir %}rtl{% endif %}" class="{% if lang_dir %}text-right{% endif %}">
-                    {% verbatim %}
+        <div class="msgs-history">
+            <div class="msg" ng-repeat="msg in messages">
+                <div ng-if="msg.r && msg.read == false && ($index == 0 || messages[$index-1].s || messages[$index-1].read != false)" class="new-chat-messages">New Messages</div>
+                <div class="msg-in" ng-if="msg.s != true">
+                    <div class="msg-text" dir="auto">
+                        {% verbatim %}
                         {{ msg.msg }}
-                    <div ng-if="msg.file_name != null && !msg.is_audio" class="file_box"><a href="{{ get_attachment_url(msg.id) }}" target="_blank">{{ msg.file_name }}</a> </div>
-                    <div ng-if="msg.file_name != null && msg.is_audio"><audio html5afix vsrc="{{ get_attachment_url(msg.id) }}" controls controlslist="nodownload"></audio> </div>
+
+                        <div ng-if="msg.file_name != null && !msg.is_audio" class="file-box"><a href="{{ get_attachment_url(msg.id) }}" target="_blank">{{ msg.file_name }}</a> </div>
+                        <div ng-if="msg.file_name != null && msg.is_audio" ng-cloak><audio html5afix vsrc="{{ get_attachment_url(msg.id) }}" controls controlslist="nodownload"></audio> </div>
+
                     </div>
-                    <span class="time_date"> {{ msg.time_display }}</span>
+                    <span class="time-date"> {{ msg.time_display }}</span>
                     {% endverbatim %}
                 </div>
-            </div>
-            <div class="outgoing_msg" ng-if="msg.s == true">
-                <div class="sent_msg">
-                    <div class="{% if lang_dir %}text-right{% endif %}">
-                    {% verbatim %}
+
+                <div class="msg-out" ng-if="msg.s == true">
+                    <div class="msg-text" dir="auto">
+                        {% verbatim %}
                         {{ msg.msg }}
-                    <div ng-if="msg.file_name != null && !msg.is_audio" class="file_box"><a href="{{ get_attachment_url(msg.id) }}" target="_blank">{{ msg.file_name }}</a> </div>
-                    <div ng-if="msg.file_name != null && msg.is_audio" ng-cloak><audio html5afix vsrc="{{ get_attachment_url(msg.id) }}" controls controlslist="nodownload"></audio> </div>
+                        <div ng-if="msg.file_name != null && !msg.is_audio" class="file-box"><a href="{{ get_attachment_url(msg.id) }}" target="_blank">{{ msg.file_name }}</a> </div>
+                        <div ng-if="msg.file_name != null && msg.is_audio" ng-cloak><audio html5afix vsrc="{{ get_attachment_url(msg.id) }}" controls controlslist="nodownload"></audio> </div>
                     </div>
-                    <span class="time_date"> {{ msg.time_display }}</span>
+                    <span class="time-date"> {{ msg.time_display }}</span>
                     {% endverbatim %}
                 </div>
             </div>
         </div>
+
     </div>
-    <div class="type_msg">
-        <div class="input_msg_write">
-            <input ng-disabled="rec != null" placeholder="Type a message" type="text" data-emoji-input="unicode" class="write_msg" emoji-picker="emoji-picker" data-emojiable="true" ng-model="message"
-                    ng-keypress="message_key_press($event)" onchange="angular_change(this)" />
+    <div class="type-msg">
+        <input type="text" data-emoji-input="unicode" emoji-picker="emoji-picker" data-emojiable="true"
+               placeholder="Type a message" ng-model="message"
+               ng-keypress="message_key_press($event)" onchange="angular_change(this)"/>
+        <audio ng-show="audio_blob != null" class="inline-msg audio-controller" src="" controls controlslist="nodownload"></audio>
 
-            <audio ng-show="audio_blob != null" class="inline_msg" {% if lang_dir %}style="right:0px;left:auto;"{% endif %} src="" controls controlslist="nodownload"></audio>
+        <button class="msg-send-btn" type="button" ng-click="send_message()"><i class="fa fa-paper-plane-o" aria-hidden="true"></i></button>
 
-            <button class="msg_send_btn" {% if lang_dir %}style="left:0px;right:auto;"{% endif %} type="button" ng-click="send_message()"><i class="fa fa-paper-plane-o"
-                                                                                    aria-hidden="true"></i></button>
-            <button class="record_audio" ng-if="!is_recording && rec == null" {% if lang_dir %}style="left:0px;right:auto;"{% endif %} type="button" ng-click="start_recording()"><i class="fa fa-microphone"
-                                                                                    aria-hidden="true"></i></button>
-            <button class="record_audio bg-danger"
-                    ng-if="is_recording" {% if lang_dir %}style="left:0px;right:auto;"{% endif %} type="button" ng-click="stop_recording()"><i class="fa fa-stop"
-                                                                                    aria-hidden="true"></i> </button>
-            <button class="record_audio bg-danger"
-            ng-if="!is_recording && rec != null" {% if lang_dir %}style="left:0px;right:auto;"{% endif %} type="button" ng-click="clear_record()"><i class="fa fa-trash"
-                                                                            aria-hidden="true"></i> </button>
+        <input ng-disabled="rec != null" type="file" file-model="uploadFile"  class="inputfile" id ="myFileField" accept="application/msword, text/plain, application/pdf" />
+        <label ng-disabled="rec != null" for="myFileField"><i class="fa fa-paperclip" aria-hidden="true"></i></label>
 
-            <div ng-if="is_recording">...Recording...</div>
-            <input ng-disabled="rec != null" type="file" file-model="uploadFile"  class="inputfile form-control" id ="myFileField" accept="application/msword, text/plain, application/pdf" />
-            <label ng-disabled="rec != null" {% if lang_dir %}style="left:0px;right:auto;"{% endif %} for="myFileField"><i class="fa fa-paperclip" aria-hidden="true"></i></label>
-
+        <button class="record-audio" ng-if="!is_recording && rec == null" type="button" ng-click="start_recording()"><i class="fa fa-microphone" aria-hidden="true"></i></button>
+        <button class="record-audio red" ng-if="is_recording" type="button" ng-click="stop_recording()"><i class="fa fa-stop" aria-hidden="true"></i></button>
+        <button class="record-audio red" ng-if="!is_recording && rec != null" type="button" ng-click="clear_record()"><i class="fa fa-trash" aria-hidden="true"></i></button>
+    </div>
+    <div class="type-msg-indicators">
+        <div ng-if="is_recording">...Recording...</div>
         {% verbatim %}
-            <span>{{ uploadFile.name }}</span>
-            <button ng-if="uploadFile != null" type="button" ng-click="clear_file()">Clear</button>
-            {%  endverbatim %}
-
-        </div>
+        <span>{{ uploadFile.name }}</span>
+        <button ng-if="uploadFile != null" type="button" ng-click="clear_file()">Clear</button>
+        {%  endverbatim %}
     </div>
+
 </div>
 
 <script>
@@ -71,11 +66,8 @@
     }
 </script>
 
-{% if lang_dir %}
 <script>
 document.addEventListener("DOMContentLoaded", function(event) {
-    $("i.emoji-picker-icon").css('left', '0px');
-    $("i.emoji-picker-icon").css('right', 'auto');
+    $(".msg-send-btn").after($("i.emoji-picker-icon"));
 });
 </script>
-{% endif %}

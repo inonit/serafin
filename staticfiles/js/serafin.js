@@ -675,6 +675,10 @@ if (typeof(ChatController) !== 'undefined') {
 }
 
 $(window).on("click", function(e) {
+    if (e.target == null || e.target.parentElement == null) {
+        return;
+    }
+
     if ((e.target.classList.contains("menu-icon") ||
             e.target.parentElement.classList.contains("menu-icon"))) {
         $(".header-tabs").show();
@@ -694,22 +698,28 @@ $(window).on("click", function(e) {
         $(".header-user-menu").hide();
     }
 
-        if (( e.target.classList.contains("episodes-menu-title-mobile") || e.target.parentElement.classList.contains("episodes-menu-title-mobile"))
-        && $(".episodes-menu").css('display') == 'none') {
-            $(".episodes-menu").show();
-        }
-        else {
+    if (( e.target.classList.contains("episodes-menu-title-mobile") || e.target.parentElement.classList.contains("episodes-menu-title-mobile"))
+    && $(".episodes-menu").css('display') == 'none') {
+        $(".episodes-menu").show();
+    }
+    else {
+        if ($(".page").css("display") !== "flex") {
+
+
             $(".episodes-menu").hide();
             $(".page").show();
         }
+    }
 
-        if (( e.target.classList.contains("episodes-link") || e.target.parentElement.classList.contains("episodes-link"))
-        && $(".episodes-menu").css('display') == 'none') {
-            $(".episodes-menu").show();
-            $(".page").hide();
-        }
-        else {
+    if (( e.target.classList.contains("episodes-link") || e.target.parentElement.classList.contains("episodes-link"))
+    && $(".episodes-menu").css('display') == 'none') {
+        $(".episodes-menu").show();
+        $(".page").hide();
+    }
+    else {
+        if ($(".page").css("display") !== "flex") {
             $(".episodes-menu").hide();
         }
+    }
 
 });

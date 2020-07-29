@@ -46,11 +46,9 @@
                     {% if tool.type == 'audio' %}
 
                         <a class="text-box" href="{{ tool.url }}" target="_blank">
-                            <div class="row">
-                                <div>{{ tool.title }}</div>
-                                <div class="text-box-icon left-icon">
-                                    <img class="text-box-img" src="{% static 'img/play.svg' %}"/>
-                                </div>
+                            <div>{{ tool.title }}</div>
+                            <div class="text-box-icon left-icon">
+                                <img class="text-box-img" src="{% static 'img/play.svg' %}"/>
                             </div>
                         </a>
                     {% endif %}
@@ -64,12 +62,10 @@
                 {% for tool in tools %}
                     {% if tool.type == 'video' %}
                         <a class="text-box" href="{{ tool.url }}" target="_blank">
-                            <div class="row">
                                 <div>{{ tool.title }}</div>
                                 <div class="text-box-icon left-icon">
                                     <img class="text-box-img" src="{% static 'img/play.svg' %}"/>
                                 </div>
-                            </div>
                         </a>
                     {% endif %}
                 {% endfor %}

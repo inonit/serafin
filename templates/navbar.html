@@ -28,12 +28,12 @@
             </div>
             <div class="header-tab-text">{% trans 'Tools' %}</div>
         </a>
-        <div class="header-tab">
+        <a class="header-tab {% if page == 'mytherapist' %} active {% endif %}" href="{% url 'mytherapist' %}">
             <div class="header-tab-icon">
                 <img class="header-tab-img" src="{% static 'img/support.svg' %}"/>
             </div>
             <div class="header-tab-text" ng-class="{'notification-badge': has_messages}">{% trans 'Supporter' %}</div>
-        </div>
+        </a>
         <a class="header-tab-episodes-mobile" href="{% url 'logout' %}">
             <div class="header-tab-icon">
                 <img class="header-tab-img"  src="{% static 'img/exit.svg' %}"/>

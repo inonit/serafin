@@ -26,27 +26,28 @@
         <div class="header-1">{% trans 'Study meetings' %}</div>
         <div>
             <div class="header-2">{% trans 'Open steps' %}</div>
-            <div class="question-hint">{% trans 'Press item to view content' %}</div>
+            <div class="module-press-to-view">{% trans 'Press item to view content' %}</div>
             <div class="column right">
                 {% for module in modules %}
                     {% if module.is_enabled %}
                         <a class="text-box {% if module.id == current_module_id %}active{% endif %}"
                            href="{% url 'content' %}{{ module.id }}">
-                            <div class="row">
-                                <div class="text-box-icon right-icon">
-                                    {% if module.id == current_module_id %}
-                                        <img class="circle-img" src="{% static 'img/circle.svg' %}">
-                                    {% else %}
-                                        <img class="circle-img" src="{% static 'img/check.svg' %}"/>
-                                    {% endif %}
-                                </div>
-                                <div class="module-name">{{ module.name }}</div>
+                            <div class="text-box-icon right-icon">
+                                {% if module.id == current_module_id %}
+                                    <img class="circle-img" src="{% static 'img/circle.svg' %}">
+                                {% else %}
+                                    <img class="circle-img" src="{% static 'img/check.svg' %}"/>
+                                {% endif %}
                             </div>
-                            {% if module.id == current_module_id %}
-                                <div class="hint active">{% trans 'Current step' %}</div>
-                            {% else %}
-                                <div class="hint">{% trans 'Completed' %}</div>
-                            {% endif %}
+
+                            <div class="text-box-text">
+                                <div class="module-name">{{ module.name }}</div>
+                                {% if module.id == current_module_id %}
+                                    <div class="hint active">{% trans 'Current step' %}</div>
+                                {% else %}
+                                    <div class="hint">{% trans 'Completed' %}</div>
+                                {% endif %}
+                            </div>
                         </a>
                     {% endif %}
                 {% endfor %}
@@ -59,7 +60,7 @@
                 {% for module in modules %}
                     {% if not module.is_enabled %}
                         <div class="text-box">
-                            <div>{{ module.name }}</div>
+                            <div class="module-name-future">{{ module.name }}</div>
                         </div>
                     {% endif %}
                 {% endfor %}

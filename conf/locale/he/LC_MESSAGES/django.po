@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-07-23 21:50+0300\n"
+"POT-Creation-Date: 2020-07-29 18:49+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -1396,8 +1396,6 @@ msgid "Study meetings"
 msgstr "מפגשי למידה"
 
 #: .\templates\modules.html:28
-#, fuzzy
-#| msgid "Next steps:"
 msgid "Open steps"
 msgstr "שלבים פתוחים"
 
@@ -1406,8 +1404,6 @@ msgid "Press item to view content"
 msgstr "לחץ לצפייה בתכנים"
 
 #: .\templates\modules.html:46 .\templates\portal.html:32
-#, fuzzy
-#| msgid "Current Page:"
 msgid "Current step"
 msgstr "השלב הנוכחי"
 
@@ -1416,15 +1412,13 @@ msgid "Completed"
 msgstr "הושלם"
 
 #: .\templates\modules.html:57
-#, fuzzy
-#| msgid "Next steps:"
 msgid "Future steps"
 msgstr "שלבים בהמשך"
 
 #: .\templates\navbar.html:17
 #: .\templates\registration\password_change_done.html:6
 msgid "Home"
-msgstr ""
+msgstr "בית"
 
 #: .\templates\navbar.html:29 .\templates\tools.html:27
 msgid "Tools"
@@ -1590,16 +1584,16 @@ msgstr "משהו השתבש. אנא נסה/י שוב מאוחר יותר. או �
 #: .\templates\session.html:156 .\templates\session.html:166
 #: .\templates\session.html:187 .\templates\session.html:197
 #: .\templates\session.html:242 .\templates\sessionnew.html:111
-#: .\templates\sessionnew.html:136 .\templates\sessionnew.html:227
-#: .\templates\sessionnew.html:251 .\templates\sessionnew.html:311
+#: .\templates\sessionnew.html:140 .\templates\sessionnew.html:234
+#: .\templates\sessionnew.html:261 .\templates\sessionnew.html:325
 msgid "Please choose one"
 msgstr "אנא בחר/י אחד"
 
-#: .\templates\session.html:125 .\templates\sessionnew.html:178
+#: .\templates\session.html:125 .\templates\sessionnew.html:185
 msgid "Please enter a number"
 msgstr "אנא הכנס/י מספר"
 
-#: .\templates\session.html:126 .\templates\sessionnew.html:180
+#: .\templates\session.html:126 .\templates\sessionnew.html:187
 msgid ""
 "Please enter a number between {{ field.lower_limit }} and {{ field."
 "upper_limit }}"
@@ -1607,21 +1601,21 @@ msgstr "אנא הכנס/י מספר בין {{ field.lower_limit}} ל-{{ field.up
 
 #: .\templates\session.html:134 .\templates\session.html:135
 #: .\templates\session.html:146 .\templates\session.html:216
-#: .\templates\session.html:225 .\templates\sessionnew.html:192
-#: .\templates\sessionnew.html:194 .\templates\sessionnew.html:214
-#: .\templates\sessionnew.html:275 .\templates\sessionnew.html:288
+#: .\templates\session.html:225 .\templates\sessionnew.html:199
+#: .\templates\sessionnew.html:201 .\templates\sessionnew.html:221
+#: .\templates\sessionnew.html:289 .\templates\sessionnew.html:302
 msgid "This field is required"
 msgstr "שדה זה הוא חובה"
 
-#: .\templates\session.html:136 .\templates\sessionnew.html:196
+#: .\templates\session.html:136 .\templates\sessionnew.html:203
 msgid "Your phone number is too short"
 msgstr "מספר הטלפון קצר"
 
-#: .\templates\session.html:137 .\templates\sessionnew.html:198
+#: .\templates\session.html:137 .\templates\sessionnew.html:205
 msgid "+Country code then number, no other characters, e.g. \"+4798765432\""
 msgstr ""
 
-#: .\templates\session.html:217 .\templates\sessionnew.html:277
+#: .\templates\session.html:217 .\templates\sessionnew.html:291
 msgid "Please input a valid e-mail address"
 msgstr "אנא הכנס כותבת דואר אלקטרוני תקנית"
 
@@ -1641,28 +1635,28 @@ msgstr "פרקי התוכנית"
 msgid "Chapters list"
 msgstr "לרשימת הפרקים"
 
-#: .\templates\sessionnew.html:109 .\templates\sessionnew.html:225
-#: .\templates\sessionnew.html:309
+#: .\templates\sessionnew.html:109 .\templates\sessionnew.html:232
+#: .\templates\sessionnew.html:323
 msgid "Choose only one option"
 msgstr "ניתן למלא אפשרות אחת"
 
-#: .\templates\sessionnew.html:134 .\templates\sessionnew.html:249
+#: .\templates\sessionnew.html:138 .\templates\sessionnew.html:259
 msgid "You can choose multiple options"
 msgstr "ניתן למלא יותר מאפשרות אחת"
 
-#: .\templates\sessionnew.html:216
+#: .\templates\sessionnew.html:223
 msgid "Type here..."
 msgstr "הקלד/י תשובתך כאן..."
 
-#: .\templates\sessionnew.html:356
+#: .\templates\sessionnew.html:373
 msgid "Back"
 msgstr "חזור"
 
-#: .\templates\sessionnew.html:358
+#: .\templates\sessionnew.html:375
 msgid "Next"
 msgstr "הבא"
 
-#: .\templates\sessionnew.html:383
+#: .\templates\sessionnew.html:400
 msgid "Are you sure you want to leave?"
 msgstr "האם את/ה בטוח שברצונך לעזוב את הדף?"
 
@@ -1670,19 +1664,19 @@ msgstr "האם את/ה בטוח שברצונך לעזוב את הדף?"
 msgid "Account"
 msgstr ""
 
-#: .\templates\therapist.html:212
+#: .\templates\therapist.html:220
 msgid "Edit patient data"
 msgstr ""
 
-#: .\templates\therapist.html:238
+#: .\templates\therapist.html:246
 msgid "Notifications"
 msgstr ""
 
-#: .\templates\therapist.html:258
+#: .\templates\therapist.html:266
 msgid "Messages"
 msgstr ""
 
-#: .\templates\therapist.html:262
+#: .\templates\therapist.html:270
 msgid "Notes"
 msgstr ""
 

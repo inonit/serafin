@@ -290,6 +290,8 @@ def modules_page(request):
     modules = request.user.get_modules()
     engine = Engine(user=request.user, context={}, is_interactive=True)
     page = engine.run()
+    session = get_object_or_404(Session, id=session_id)
+    set_language_by_session(session)
 
     current_module_id = page.chapter.module.id if page.chapter and page.chapter.module else None
     has_therapist = request.user.therapist is not None
@@ -623,7 +625,8 @@ def receive_messages_internal(prev, next, current_user, other_user):
                        .order_by('timestamp').reverse()[:max_messages]
         old_count = len(messages)
         new_count = 0
-        while old_count != new_count and not messages[0].is_read and messages[0].receiver == current_user:
+        while old_count != new_count and not messages[len(messages)-1].is_read and \
+                messages[len(messages)-1].receiver == current_user:
             old_count = len(messages)
             max_messages = max_messages * 2
             messages = ChatMessage.objects.filter((Q(sender=current_user) & Q(receiver=other_user)) |
@@ -679,7 +682,8 @@ def my_therapist(request):
     set_language_by_session(session)
 
     context = {
-        'chat_api': reverse('chat')
+        'chat_api': reverse('chat'),
+        'page': 'mytherapist'
     }
 
     return render(request, 'mytherapist.html', context)

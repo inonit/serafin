@@ -60,7 +60,7 @@ function ChatController() {
             if (scope.messages[0].id >= firstId) {
                 timeout(function () {
                     window.scrollTo(0, document.body.scrollHeight);
-                    let msgHistory = $('.msg_history');
+                    let msgHistory = $('.msgs-history');
                     msgHistory.scrollTop(msgHistory.prop('scrollHeight'));
                 }, 100);
             }
@@ -112,6 +112,7 @@ function ChatController() {
 
         scope.clear_file = function () {
             scope.uploadFile = null;
+            $("input.inputfile").val(null);
         };
 
         scope.get_attachment_url = function(msg_id) {
@@ -192,7 +193,7 @@ function ChatController() {
         var createDownloadLink = function (blob) {
             var url = URL.createObjectURL(blob);
             scope.audio_blob = blob;
-            var au = $(".type_msg .input_msg_write audio");
+            var au = $("audio.audio-controller");
             au.attr('src', url);
         };
 

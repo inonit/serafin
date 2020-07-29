@@ -134,9 +134,8 @@ and (-webkit-min-device-pixel-ratio: 2) {
     }
 
     .home-image {
-        background: linear-gradient(0deg, rgba(71, 211, 255, 0.2), rgba(71, 211, 255, 0.2)), linear-gradient(0deg, rgba(0, 0, 0, 0.7) -35.4%, rgba(0, 0, 0, 0) 106.07%), url(assests/images/7b14b68d93b6d916eb23d9100161bad0.jpg);
+        background: linear-gradient(0deg, rgba(71, 211, 255, 0.2), rgba(71, 211, 255, 0.2)), linear-gradient(0deg, rgba(0, 0, 0, 0.7) -35.4%, rgba(0, 0, 0, 0) 106.07%), url(/static/img/7b14b68d93b6d916eb23d9100161bad0.jpg);
         height: 25.5vh;
-        width: 100vw;
         background-size: cover;
         display: flex;
         align-items: center;
@@ -325,29 +324,55 @@ and (-webkit-min-device-pixel-ratio: 2) {
     }
 
     .header-2 {
-        font-size: 3.7rem;
-        font-weight: bold;
+        font-size: 2.7rem;
+        font-weight: 700;
         margin-top: 2%;
     }
 
     .text-box {
-        font-size: 2.5rem;
+        font-size: 2rem;
         border: 2px solid #B1C4D2;
         box-sizing: border-box;
         border-radius: 18px;
-        padding: 4% 4% 1% 1%;
+        padding: 4% 4% 4% 4%;
         width: 88vw;
         text-align: right;
-        display: block;
+        display: flex;
+        flex-flow: row;
+        flex-direction: row-reverse;
+        align-items: center;
         margin-top: 2vh;
         margin-bottom: -0.2vh;
-        min-height: 7.5vh;;
+        min-height: 7.5vh;
+        font-weight: 500;
+    }
+
+    .text-box-text {
+        display: flex;
+        flex-flow: column;
+    }
+
+    .module-name {
+        font-size: 2.5rem;
+    }
+
+    .module-name-future {
+        font-size: 2.5rem;
+        color: #5E6166;
+    }
+
+    .module-press-to-view {
+        font-size: 2rem;
+        line-height: 22px;
+        color: #83929D;
+        margin-top: 15px;
     }
 
     .text-box-icon {
         display: flex;
         align-items: center;
-        margin-left: 3%;
+        margin-left: 4%;
+        font-size: 4rem;
     }
 
     .text-box-icon img {
@@ -362,11 +387,10 @@ and (-webkit-min-device-pixel-ratio: 2) {
     .space{
         margin-top: 5vh;
     }
+
     .hint {
         font-size: 2.2rem;
         color: #B1C4D2;
-        margin-right: 8.5vw;
-        margin-bottom: 0.5vh;
     }
 
     .hint.active {
@@ -409,17 +433,16 @@ and (-webkit-min-device-pixel-ratio: 2) {
         font-size: 19px;
         line-height: 4.1rem;
         text-align: right;
-        width: 84vw;
+        width: 88vw;
         letter-spacing: -0.5px;
-        word-spacing: 0px;
-        margin-left: 7.5vw;
-        margin-bottom: 4vh;
-        margin-top: -0.5vh;
+        word-spacing: 0;
+        margin: -0.5vh auto 4vh;
     }
 
     .page-content.rounded {
         border-radius: 12px;
-        padding: 0.75rem;
+        padding: 1rem 2rem 1rem;
+        margin-top: 0;
     }
 
     .page-img {
@@ -438,7 +461,8 @@ and (-webkit-min-device-pixel-ratio: 2) {
     }
 
     .line {
-        margin-left: 7vw;
+        margin-left: auto;
+        margin-right: auto;
         position: relative;
         width: 88.6vw;
         border: 2px solid #1B418A;
@@ -446,6 +470,9 @@ and (-webkit-min-device-pixel-ratio: 2) {
 
     .buttons {
         display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        justify-items: center;
     }
 
     .btn-outline {
@@ -461,14 +488,15 @@ and (-webkit-min-device-pixel-ratio: 2) {
     }
 
     .btn-page-left{
-        margin-left: 22vw;
+        margin-right: 5vw;
+        margin-left: auto;
         margin-top: 2.5vh;
         color: #1B418A;
     }
 
     .btn-page-right {
-        margin-right: 23vw;
         margin-left: 5vw;
+        margin-right: auto;
         margin-top: 2.5vh;
         color: #1B418A;
     }
@@ -494,7 +522,7 @@ and (-webkit-min-device-pixel-ratio: 2) {
         padding-right: 5vw;
         font-size: 2.5em;
         letter-spacing: 1px;
-        margin-bottom: -2vh;
+        margin-bottom: 50px;
         display: flex;
         direction: rtl;
         font-weight: bold;
@@ -813,7 +841,7 @@ and (-webkit-min-device-pixel-ratio: 2) {
     }
 
     a.text-box {
-        color: black;
+        color: #5E6166;
         text-decoration-line: none;
     }
 
@@ -851,7 +879,7 @@ and (-webkit-min-device-pixel-ratio: 2) {
         margin-right: 0.2vw;
         height: 2.5vh;
         width: 33vw;
-        font-size: 1.25rem;
+        font-size: 1.5rem;
     }
 
     img.note-float-right {

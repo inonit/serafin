@@ -369,10 +369,12 @@
 
             <div class="page-buttons">
                 <hr class="line">
+                <div class="buttons">
                 <button ng-cloak ng-if="is_back" ng-click="back()"
                         class="btn-outline btn-page-left">{% trans 'Back' %}</button>
                 <button ng-cloak ng-if="!dead_end || stacked" ng-click="next()"
                         class="btn-outline btn-page-right">{% trans 'Next' %}</button>
+                </div>
             </div>
 
 

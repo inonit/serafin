@@ -148,9 +148,8 @@ and (-webkit-min-device-pixel-ratio: 2) {
     }
 
     .home-image {
-        background: linear-gradient(0deg, rgba(71, 211, 255, 0.2), rgba(71, 211, 255, 0.2)), linear-gradient(0deg, rgba(0, 0, 0, 0.7) -35.4%, rgba(0, 0, 0, 0) 106.07%), url(assests/images/7b14b68d93b6d916eb23d9100161bad0.jpg);
+        background: linear-gradient(0deg, rgba(71, 211, 255, 0.2), rgba(71, 211, 255, 0.2)), linear-gradient(0deg, rgba(0, 0, 0, 0.7) -35.4%, rgba(0, 0, 0, 0) 106.07%), url(/static/img/7b14b68d93b6d916eb23d9100161bad0.jpg);
         height: 25.5vh;
-        width: 101vw;
         background-size: cover;
         display: flex;
         align-items: center;
@@ -275,10 +274,26 @@ and (-webkit-min-device-pixel-ratio: 2) {
         margin-bottom: 9vh;
     }
 
+    .module-name {
+        font-size: 2.5rem;
+    }
+
+    .module-name-future {
+        font-size: 2.5rem;
+        color: #5E6166;
+    }
+
+    .module-press-to-view {
+        font-size: 2rem;
+        line-height: 22px;
+        color: #83929D;
+        margin-bottom: 5px;
+    }
 
     .text-box-icon {
-        position: absolute;
-        right: 83vw;
+        display: flex;
+        align-items: center;
+        margin-right: 4%;
     }
 
     .left-icon {
@@ -338,29 +353,32 @@ and (-webkit-min-device-pixel-ratio: 2) {
     }
 
     .header-2 {
-        font-size: 3.7rem;
-        font-weight: bold;
-        margin-bottom: 1%;
+        font-size: 2.7rem;
+        font-weight: 700;
         margin-top: 2%;
-        color: #5E6166;
     }
 
     .text-box {
-        font-size: 3rem;
+        font-size: 2rem;
         border: 2px solid #B1C4D2;
         box-sizing: border-box;
         border-radius: 18px;
-        padding: 4% 1% 1% 4%;
+        padding: 4% 4% 4% 4%;
         width: 88vw;
-        text-align: left;
-        display: block;
+        display: flex;
+        flex-flow: row;
+        flex-direction: row;
+        justify-content: flex-start;
+        align-items: center;
         margin-top: 2vh;
         margin-bottom: -0.2vh;
-        min-height: 8.5vh;;
+        min-height: 7.5vh;
+        font-weight: 500;
     }
 
-    .text-box  {
-        justify-content: flex-end;
+    .text-box-text {
+        display: flex;
+        flex-flow: column;
     }
 
     .text-box .row .text {
@@ -368,6 +386,7 @@ and (-webkit-min-device-pixel-ratio: 2) {
     }
 
     .text-box-icon img {
+        font-size: 4rem;
         width: 2.2em;
     }
 
@@ -383,9 +402,6 @@ and (-webkit-min-device-pixel-ratio: 2) {
     .hint {
         font-size: 2.2rem;
         color: #B1C4D2;
-        margin-left: 13vw;
-        margin-bottom: 0.5vh;
-        text-align: left;
     }
 
     .hint.active {
@@ -427,17 +443,16 @@ and (-webkit-min-device-pixel-ratio: 2) {
         font-size: 19px;
         line-height: 4.1rem;
         text-align: left;
-        width: 84vw;
+        width: 88vw;
         letter-spacing: -0.5px;
-        word-spacing: 0px;
-        margin-left: 7.5vw;
-        margin-bottom: 4vh;
-        margin-top: -0.5vh;
+        word-spacing: 0;
+        margin: -0.5vh auto 4vh;
     }
 
     .page-content.rounded {
         border-radius: 12px;
-        padding: 0.75rem;
+        padding: 1rem 2rem 1rem;
+        margin-top: 0;
     }
 
     .page-img {
@@ -455,7 +470,8 @@ and (-webkit-min-device-pixel-ratio: 2) {
     }
 
     .line {
-        margin-left: 7vw;
+        margin-left: auto;
+        margin-right: auto;
         position: relative;
         width: 88.6vw;
         border: 2px solid #1B418A;
@@ -463,6 +479,9 @@ and (-webkit-min-device-pixel-ratio: 2) {
 
     .buttons {
         display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        justify-items: center;
     }
 
     .btn-outline {
@@ -477,18 +496,19 @@ and (-webkit-min-device-pixel-ratio: 2) {
         width: 13.4rem;
     }
 
-    .btn-page-right{
-        margin-left: 22vw;
-        margin-top: 2.5vh;
-        color: #1B418A;
-    }
     .btn-page-left{
-        margin-right: 23vw;
-        margin-left: 3vw;
+        margin-right: auto;
+        margin-left: 5vw;
         margin-top: 2.5vh;
         color: #1B418A;
     }
 
+    .btn-page-right {
+        margin-left: auto;
+        margin-right: 5vw;
+        margin-top: 2.5vh;
+        color: #1B418A;
+    }
 
     .side-bar {
         flex-wrap: wrap;
@@ -509,7 +529,7 @@ and (-webkit-min-device-pixel-ratio: 2) {
         padding-left: 5vw;
         font-size: 2vh;
         letter-spacing: 1px;
-        margin-bottom: 0vh;
+        margin-bottom: 1vh;
         display: flex;
         align-items: center;
         justify-content: flex-start;
@@ -830,7 +850,7 @@ and (-webkit-min-device-pixel-ratio: 2) {
     }
 
     a.text-box {
-        color: black;
+        color: #5E6166;
         text-decoration-line: none;
     }
 
@@ -868,7 +888,7 @@ and (-webkit-min-device-pixel-ratio: 2) {
         margin-right: 0.2vw;
         height: 2.5vh;
         width: 33vw;
-        font-size: 1.25rem;
+        font-size: 1.5rem;
     }
 
     img.note-float-right {

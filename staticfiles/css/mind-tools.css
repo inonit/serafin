@@ -4,7 +4,7 @@
  * Licensed under MIT (https://github.com/BlackrockDigital/startbootstrap-heroic-features/blob/master/LICENSE)
  */
 body {
-  padding-top: 56px;
+  //padding-top: 56px;
 }
 
 #sidebar-wrapper .sidebar-heading {
@@ -43,19 +43,7 @@ a:hover {
   padding: 5px 10px 5px 12px;
   width: 100%;
 }
-.time_date {
-  color: #747474;
-  display: block;
-  font-size: 12px;
-  margin: 8px 0 0;
-}
 .received_withd_msg { width: 62%;}
-.mesgs {
-  float: left;
-  padding: 30px 15px 0 25px;
-  margin-bottom: 10px;
-  width: 60%;
-}
 
  .sent_msg div {
   background: #05728f none repeat scroll 0 0;
@@ -101,48 +89,8 @@ a:hover {
   width: 33px;
 }
 .messaging { padding: 0 0 50px 0;}
-.msg_history {
-  max-height: 516px;
-  overflow-y: auto;
-}
-.new_messages {
-    margin: auto;
-    width: 130px;
-    border: 3px solid cadetblue;
-    background-color: #599fcf;
-    border-radius: 20px;
-    padding: 10px;
-    text-align: center;
-    font-size: 12px;
-    font-weight: bold;
-}
 
-.inputfile {
-	width: 0.1px;
-	height: 0.1px;
-	opacity: 0 !important;
-	overflow: hidden;
-	position: absolute;
-	z-index: -1;
-}
 
-.inputfile + label {
-  background: #278f0a none repeat scroll 0 0;
-  border: medium none;
-  border-radius: 50%;
-  color: #fff;
-  cursor: pointer;
-  font-size: 17px;
-  height: 33px;
-  position: absolute;
-  margin-right: 40px;
-  margin-left: 40px;
-  top: 11px;
-  right: 0px;
-  width: 33px;
-  padding-left: 9px;
-  padding-top: 3px;
-}
 
 button.record_audio {
   background: #3a738f none repeat scroll 0 0;
@@ -167,24 +115,6 @@ audio.inline_msg {
     left:0px;
 }
 
-.emoji-picker-icon{
-  background: #93c54b none repeat scroll 0 0;
-  border: medium none;
-  border-radius: 50%;
-  color: #fff;
-  cursor: pointer;
-  font-size: 17px;
-  height: 33px;
-  position: absolute;
-  margin-right: 120px;
-  margin-left: 120px;
-  top: 11px;
-  right: 0px;
-  width: 33px;
-  padding-left: 9px;
-  padding-top: 8px;
-  opacity: 1;
- }
 
 .notes-box {
    max-height: 516px;
