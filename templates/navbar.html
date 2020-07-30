@@ -3,7 +3,7 @@
 
 <div class="header">
     <div class="header-user">
-        <div class="header-user-text">user@company.com</div>
+        <div class="header-user-text">{{ email }}</div>
         <div class="header-user-arrow"></div>
     </div>
     <div class="header-tabs">
@@ -32,7 +32,7 @@
             <div class="header-tab-icon">
                 <img class="header-tab-img" src="{% static 'img/support.svg' %}"/>
             </div>
-            <div class="header-tab-text" ng-class="{'notification-badge': has_messages}">{% trans 'Supporter' %}</div>
+            <div class="header-tab-text {% if has_message %} notification-badge {% endif %}" ng-class="{'notification-badge': has_messages}">{% trans 'Supporter' %}</div>
         </a>
         <a class="header-tab-episodes-mobile" href="{% url 'logout' %}">
             <div class="header-tab-icon">
@@ -41,7 +41,7 @@
             <div class="header-tab-text">{% trans 'Logout' %}</div>
         </a>
     </div>
-    <div class="menu-icon" ng-class="{'notification-badge-home': has_messages}">
+    <div class="menu-icon {% if has_message %} notification-badge-home {% endif %}" ng-class="{'notification-badge-home': has_messages}">
         <img src="{% static 'img/menu.svg' %}"/>
     </div>
     <div class="header-user-menu">

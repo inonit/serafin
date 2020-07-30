@@ -33,6 +33,19 @@ def set_language_by_program(program):
         translation.activate('he')
 
 
+def basic_context_user_info(user):
+    has_therapist = user.therapist is not None
+    has_unread_messages = False
+    if has_therapist:
+        has_unread_messages = ChatMessage.objects.filter(Q(sender=user.therapist) & Q(receiver=user)
+                                                     & Q(is_read=False)).count() > 0
+    return {
+        'has_therapist': has_therapist,
+        'email': user.email,
+        'has_message': has_unread_messages
+    }
+
+
 def main_page(request):
     session_id = request.user.data.get('session')
 
@@ -40,13 +53,13 @@ def main_page(request):
         return HttpResponseRedirect(settings.HOME_URL)
 
     session = get_object_or_404(Session, id=session_id)
-    has_therapist = request.user.therapist is not None
     context = {
         'api': reverse('portal'),
         'program': session.program,
-        'has_therapist': has_therapist,
         'page': 'home'
     }
+
+    context.update(basic_context_user_info(request.user))
 
     set_language_by_session(session)
 
@@ -294,19 +307,14 @@ def modules_page(request):
     set_language_by_session(session)
 
     current_module_id = page.chapter.module.id if page.chapter and page.chapter.module else None
-    has_therapist = request.user.therapist is not None
-    has_unread_messages = False
-    if has_therapist:
-        has_unread_messages = ChatMessage.objects.filter(Q(sender=request.user.therapist) & Q(receiver=request.user)
-                                                         & Q(is_read=False)).count() > 0
 
     context = {
         'modules': modules,
         'current_module_id': current_module_id if current_module_id else 0,
-        'has_therapist': has_therapist,
-        'has_messages': has_unread_messages,
         'page': 'modules'
     }
+
+    context.update(basic_context_user_info(request.user))
 
     return render(request, 'modules.html', context)
 
@@ -322,21 +330,16 @@ def tools_page(request):
     set_language_by_session(session)
 
     tools = request.user.get_tools()
-    has_therapist = request.user.therapist is not None
-    has_unread_messages = False
-    if has_therapist:
-        has_unread_messages = ChatMessage.objects.filter(Q(sender=request.user.therapist) & Q(receiver=request.user)
-                                                         & Q(is_read=False)).count() > 0
 
     context = {
         'tools': tools,
         'captions': {'file': any(x['type'] == "file" for x in tools),
                       'audio': any(x['type'] == "audio" for x in tools),
                       'video': any(x['type'] == "video" for x in tools)},
-        'has_therapist': has_therapist,
-        'has_messages': has_unread_messages,
         'page': 'tools'
     }
+
+    context.update(basic_context_user_info(request.user))
 
     return render(request, 'tools.html', context)
 
@@ -400,7 +403,9 @@ def get_portal(request):
         'current_module_title': current_module_title,
         'current_module_id': current_module_id,
         'has_messages': has_unread_messages,
-        'program_name': program.display_title
+        'program_name': program.display_title,
+        'program_about': program.about,
+        'cover_image': program.cover_image.url if program.cover_image is not None else None
     }
 
     return JsonResponse(context)
@@ -441,6 +446,7 @@ def get_session(request, module_id=None):
         template = 'session.html'
 
     set_language_by_session(session)
+    context.update(basic_context_user_info(request.user))
 
     return render(request, template, context)
 
@@ -685,5 +691,8 @@ def my_therapist(request):
         'chat_api': reverse('chat'),
         'page': 'mytherapist'
     }
+
+    context.update(basic_context_user_info(request.user))
+    context['has_message'] = False
 
     return render(request, 'mytherapist.html', context)

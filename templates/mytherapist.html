@@ -4,7 +4,7 @@
 {% get_current_language_bidi as lang_dir %}
 
 <!DOCTYPE html>
-<html lang="{{ lang }}" class="h-100" dir="{% if lang_dir %} rtl {% else %} ltr {% endif %}">
+<html>
 
 <head>
 
@@ -30,12 +30,11 @@
   <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
   <link href="{% static 'lib/ng-emoji-picker/css/emoji.css' %}" rel="stylesheet">
   <link href="{% static 'lib/ng-emoji-picker/css/nanoscroller.css' %}" rel="stylesheet">
-  {% comment %}<link href="{% static 'css/mind-tools.css' %}" rel="stylesheet">{% endcomment %}
-
-    <script src="{% static 'lib/angular/angular.min.js' %}"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@300;500;700&display=swap" rel="stylesheet">
+  <script src="{% static 'lib/angular/angular.min.js' %}"></script>
 </head>
 
-<body class="d-flex flex-column h-100">
+<body>
 
   <!-- Navigation -->
   {% include 'navbar.html' %}

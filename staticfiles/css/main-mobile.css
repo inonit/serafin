@@ -134,7 +134,7 @@ and (-webkit-min-device-pixel-ratio: 2) {
     }
 
     .home-image {
-        background: linear-gradient(0deg, rgba(71, 211, 255, 0.2), rgba(71, 211, 255, 0.2)), linear-gradient(0deg, rgba(0, 0, 0, 0.7) -35.4%, rgba(0, 0, 0, 0) 106.07%), url(/static/img/7b14b68d93b6d916eb23d9100161bad0.jpg);
+        background: linear-gradient(0deg, rgba(71, 211, 255, 0.2), rgba(71, 211, 255, 0.2)), linear-gradient(0deg, rgba(0, 0, 0, 0.7) -35.4%, rgba(0, 0, 0, 0) 106.07%);
         height: 25.5vh;
         background-size: cover;
         display: flex;

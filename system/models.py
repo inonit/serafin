@@ -18,6 +18,7 @@ from django.utils import timezone
 from django.utils.translation import ugettext_lazy as _
 from adminsortable.fields import SortableForeignKey
 from adminsortable.models import SortableMixin
+from filer.fields.image import FilerImageField
 
 from jsonfield import JSONField
 from collections import OrderedDict
@@ -106,6 +107,9 @@ class Program(models.Model):
 
     title = models.CharField(_('title'), max_length=64, unique=True)
     display_title = models.CharField(_('display title'), max_length=64)
+    about = models.TextField(_('about'), null=True, blank=True)
+    cover_image = FilerImageField(verbose_name=_('cover image'), related_name="program_cover_images",
+                                  null=True, blank=True, on_delete=models.SET_NULL)
     site = models.ForeignKey(Site, verbose_name=_('site'), null=True, blank=True, on_delete=models.SET_NULL)
     style = models.CharField(_('stylesheet'), choices=settings.STYLESHEET_CHOICES, null=True, blank=True,
                              max_length=128)

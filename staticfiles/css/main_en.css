@@ -464,7 +464,7 @@ and (-webkit-min-device-pixel-ratio: 0.75){
 
     .page-img {
         margin-top: -10px;
-        background: linear-gradient(0deg, rgba(71, 211, 255, 0.2), rgba(71, 211, 255, 0.2)), linear-gradient(0deg, rgba(0, 0, 0, 0.7) -35.4%, rgba(0, 0, 0, 0) 106.07%), url(9fed4167-a51d-44c0-bc6f-d6b90282312e.jpg);
+        background: linear-gradient(0deg, rgba(71, 211, 255, 0.2), rgba(71, 211, 255, 0.2)), linear-gradient(0deg, rgba(0, 0, 0, 0.7) -35.4%, rgba(0, 0, 0, 0) 106.07%);
         border-radius: 0px;
         height: 28vh;
         position: relative;
