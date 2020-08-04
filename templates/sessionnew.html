@@ -72,12 +72,12 @@
             </div>
             {% verbatim %}
             <div class="" ng-repeat="pagelet in page track by $index" ng-cloak>
-                <div ng-if="pagelet.content_type == 'richtext' && pagelet.box != ''">
+                <div ng-if="pagelet.content_type == 'richtext' && pagelet.box != undefined">
                     <div class="page-content rounded" richtextlivereplace="pagelet.content"
                          style="background-color:{{ pagelet.box }}"></div>
                 </div>
 
-                <div ng-if="pagelet.content_type == 'richtext' && pagelet.box == ''">
+                <div ng-if="pagelet.content_type == 'richtext' && pagelet.box == undefined">
                     <div class="page-content" richtextlivereplace="pagelet.content"></div>
                 </div>
 
@@ -230,7 +230,7 @@
                                     <div class="question-label">{{ field.label }}</div>
                                     {% endverbatim %}
                                     <div class="question-hint">({% trans 'Choose only one option' %})</div>
-                                    <div class="error right"
+                                    <div class="question-error"
                                          ng-show="form.submitted && subForm.$error.required">{% trans 'Please choose one' %}
                                     </div>
                                     {% verbatim %}
@@ -268,7 +268,7 @@
                                                 <input name="{{ 'multiselect' + $parent.$index }}" type="checkbox"
                                                        checkboxlist
                                                        ng-model="alt.selected"
-                                                       ng-click="toggle(pagelet.content.value, alt.value)"
+                                                       ng-click="toggle(field.value, alt.value)"
                                                        ng-required="field.required && field.value.length==0"
                                                        ng-disabled="read_only">
                                                 <span class="checkmark"></span>
@@ -370,9 +370,9 @@
             <div class="page-buttons">
                 <hr class="line">
                 <div class="buttons">
-                <button ng-cloak ng-if="is_back" ng-click="back()"
+                <button ng-cloak ng-show="is_back" ng-click="back()"
                         class="btn-outline btn-page-left">{% trans 'Back' %}</button>
-                <button ng-cloak ng-if="!dead_end || stacked" ng-click="next()"
+                <button ng-cloak ng-show="!dead_end || stacked" ng-click="next()"
                         class="btn-outline btn-page-right">{% trans 'Next' %}</button>
                 </div>
             </div>

@@ -483,7 +483,6 @@ and (-webkit-min-device-pixel-ratio: 0.75){
 
     .page-buttons {
         margin-top: 8.4vh;
-        direction: rtl;
     }
 
     .line {
@@ -496,6 +495,11 @@ and (-webkit-min-device-pixel-ratio: 0.75){
 
     .buttons {
         display: flex;
+        flex-direction: row-reverse;
+        justify-content: space-between;
+        justify-items: center;
+        margin-left: 26vw;
+        width: 44vw;
     }
 
     .btn-outline {
@@ -510,10 +514,17 @@ and (-webkit-min-device-pixel-ratio: 0.75){
         font-size: 15px;
     }
 
-    .btn-page-left, .btn-page-right {
-        margin-left: 14vw;
-        margin-right: 16.5vw;
-        margin-top: 1.8vh;
+    .btn-page-left{
+        margin-right: 0;
+        margin-left: auto;
+        margin-top: 2.5vh;
+        color: #1B418A;
+    }
+
+    .btn-page-right {
+        margin-left: 0;
+        margin-right: auto;
+        margin-top: 2.5vh;
         color: #1B418A;
     }
 
