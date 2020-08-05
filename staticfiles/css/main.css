@@ -177,11 +177,13 @@ and (-webkit-min-device-pixel-ratio: 0.75){
 
     .home-box {
         margin-top: -37px;
-        width: 600px;
+        width: 540px;
+        height: 300px;
         box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.15);
         border-radius: 3px;
-        background: white;
-        padding: 27px 1% 1%;
+        background: #FFFEF8;
+        padding: 27px 30px 1%;
+        position: relative;
     }
 
     .home-box-text-1 {
@@ -193,20 +195,23 @@ and (-webkit-min-device-pixel-ratio: 0.75){
 
     .home-box-text-2 {
         font-weight: bold;
-        font-size: 3.5rem;
-        line-height: 100px;
+        font-size: 50px;
+        line-height: 88px;
     }
 
     .home-box-btn {
         background: #1B418A;
         border-radius: 4px;
-        width: 10vw;
-        min-height: 7vh;
+        width: 143px;
+        height: 58px;
+        line-height: 29px;
         font-weight: 500;
         font-size: 20px;
         color: white;
-        margin-top: 4vh;
         cursor: pointer;
+        position: absolute;
+        bottom: 38px;
+        left: 225px;
     }
 
     .home-box-btn:hover{
@@ -254,8 +259,7 @@ and (-webkit-min-device-pixel-ratio: 0.75){
     .home-info {
         font-size: 13px;
         width: 89vw;
-        margin-left: 6vw;
-        margin-top: 7vh;
+        margin: 7vh auto 0;
         text-align: center;
         justify-content: center;
         display: flex;
@@ -347,7 +351,7 @@ and (-webkit-min-device-pixel-ratio: 0.75){
         border-radius: 10px;
         margin-bottom: 1%;
         padding: 1% 1% 1% 1%;
-        width: 45%;
+        width: 600px;
         display: flex;
         justify-content: space-between;
         align-items: center;
@@ -464,8 +468,8 @@ and (-webkit-min-device-pixel-ratio: 0.75){
     }
 
     .page-container {
-        margin-right: 5%;
-        margin-top: 5%;
+        margin-right: 150px;
+        margin-top: 45px;
         width: 100%;
         margin-bottom: 11vh;
     }
@@ -571,12 +575,22 @@ and (-webkit-min-device-pixel-ratio: 0.75){
 
     .episodes-menu-item {
         letter-spacing: -0.2px;
-        width: 17.7vw;
+        width: 16vw;
+        height: 64px;
         background: #E1F1FF;
         border-radius: 5px;
-        font-size: 13px;
+        font-size: 15px;
+        font-style: normal;
+        font-weight: normal;
         margin-top: 1vh;
-        padding: 12px 14px 15px 0px;
+        padding-right: 12px;
+        padding-left: 12px;
+        display: table;
+    }
+
+    .episodes-menu-item p {
+        vertical-align: middle;
+        display: table-cell;
     }
 
     .episodes-menu-item.enable:hover,.episodes-menu-item.active:hover {
@@ -643,7 +657,6 @@ and (-webkit-min-device-pixel-ratio: 0.75){
         display: block;
         position: relative;
         padding-left: 19px;
-        margin-bottom: 12px;
         cursor: pointer;
         font-size: 18px;
         font-weight: 300;
@@ -652,6 +665,7 @@ and (-webkit-min-device-pixel-ratio: 0.75){
         -ms-user-select: none;
         user-select: none;
         margin-right: 2vw;
+        margin-top: 12px;
     }
     .cb-container input {
         position: absolute;
@@ -706,12 +720,15 @@ and (-webkit-min-device-pixel-ratio: 0.75){
     }
 
     /*Radio*/
+    .radio-option {
+        min-height: 22px;
+    }
+
     .radio-container {
         white-space: nowrap;
         width: 0vw;
         display: block;
         position: relative;
-        margin-bottom: 12px;
         cursor: pointer;
         font-size: 18px;
         -webkit-user-select: none;
@@ -1103,6 +1120,18 @@ and (-webkit-min-device-pixel-ratio: 0.75){
         text-align: center;
         font-size: 12px;
         font-weight: bold;
+    }
+
+    .horizontal-options {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-around;
+    }
+
+    .horizontal-options:after {
+        content: "";
+        flex: 0 1 200px;
+        margin: 5px;
     }
 }
 

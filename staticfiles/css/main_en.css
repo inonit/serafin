@@ -177,11 +177,13 @@ and (-webkit-min-device-pixel-ratio: 0.75){
 
     .home-box {
         margin-top: -5vh;
-        width: 600px;
+        width: 540px;
+        height: 300px;
         box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.15);
         border-radius: 3px;
-        background: white;
-        padding: 27px 1% 1%;
+        background: #FFFEF8;
+        padding: 27px 30px 1%;
+        position: relative;
     }
 
     .home-box-text-1 {
@@ -192,23 +194,24 @@ and (-webkit-min-device-pixel-ratio: 0.75){
     }
 
     .home-box-text-2 {
-        padding: 3px;
         font-weight: bold;
-        font-size: 3.5rem;
-        line-height: 100px;
+        font-size: 50px;
+        line-height: 88px;
     }
 
     .home-box-btn {
         background: #1B418A;
         border-radius: 4px;
-        width: 10vw;
-        min-height: 50px;
+        width: 143px;
+        height: 58px;
+        line-height: 29px;
         font-weight: 500;
         font-size: 20px;
         color: white;
-        margin-top: 20px;
-        margin-bottom: 20px;
         cursor: pointer;
+        position: absolute;
+        bottom: 38px;
+        left: 225px;
     }
 
     .notification-badge::after, .notification-badge-home::before {
@@ -249,7 +252,9 @@ and (-webkit-min-device-pixel-ratio: 0.75){
     }
 
     .home-info {
-        margin-top: 5%;
+        font-size: 13px;
+        width: 89vw;
+        margin: 7vh auto 0;
         text-align: center;
         justify-content: center;
         display: flex;
@@ -344,7 +349,7 @@ and (-webkit-min-device-pixel-ratio: 0.75){
         border-radius: 10px;
         margin-bottom: 1%;
         padding: 1% 1% 1% 1%;
-        width: 45%;
+        width: 600px;
         display: flex;
         justify-content: space-between;
         font-weight: 500;
@@ -457,9 +462,10 @@ and (-webkit-min-device-pixel-ratio: 0.75){
 
 
     .page-container {
-        margin-left: 5%;
-        margin-top: 5%;
+        margin-left: 150px;
+        margin-top: 45px;
         width: 100%;
+        margin-bottom: 11vh;
     }
 
     .page-img {
@@ -572,12 +578,22 @@ and (-webkit-min-device-pixel-ratio: 0.75){
 
     .episodes-menu-item {
         letter-spacing: -0.2px;
-        width: 17.7vw;
+        width: 16vw;
+        height: 64px;
         background: #E1F1FF;
         border-radius: 5px;
-        font-size: 13px;
+        font-size: 15px;
+        font-style: normal;
+        font-weight: normal;
         margin-top: 1vh;
-        padding: 12px 7px 15px 11px;
+        padding-right: 12px;
+        padding-left: 12px;
+        display: table;
+    }
+
+    .episodes-menu-item p {
+        vertical-align: middle;
+        display: table-cell;
     }
 
     .episodes-menu-item.enable:hover,.episodes-menu-item.active:hover {
@@ -609,6 +625,7 @@ and (-webkit-min-device-pixel-ratio: 0.75){
         margin-top: 7.5vh;
         margin-left: 27vw;
         margin-bottom: 10.5vh;
+        width: 42vw;
         font-weight: 500;
     }
 
@@ -629,12 +646,19 @@ and (-webkit-min-device-pixel-ratio: 0.75){
     }
 
     /* Create a custom checkbox */
+    .cb-text{
+        margin-left: 26px;
+        font-weight: 300;
+        font-size: 15px;
+        color: #5E6166;
+    }
+
     .cb-container {
         white-space: nowrap;
         width: 0vw;
         display: block;
         position: relative;
-        margin-bottom: 12px;
+        padding-right: 19px;
         cursor: pointer;
         -webkit-user-select: none;
         -moz-user-select: none;
@@ -643,8 +667,7 @@ and (-webkit-min-device-pixel-ratio: 0.75){
         font-size: 18px;
         font-weight: 300;
         margin-top: 2.8vh;
-        margin-left: 3vw;
-
+        margin-left: 2vw;
     }
     .cb-container input {
         position: absolute;
@@ -657,7 +680,7 @@ and (-webkit-min-device-pixel-ratio: 0.75){
     .checkmark {
         position: absolute;
         top: 0;
-        right: 1vw;
+        right: 2.5vw;
         height: 19px;
         width: 19px;
         border-radius: 5px;
@@ -699,12 +722,15 @@ and (-webkit-min-device-pixel-ratio: 0.75){
     }
 
     /*Radio*/
+    .radio-option {
+        min-height: 22px;
+    }
+
     .radio-container {
         white-space: nowrap;
         width: 0vw;
         display: block;
         position: relative;
-        margin-bottom: 12px;
         cursor: pointer;
         font-size: 18px;
         -webkit-user-select: none;
@@ -712,8 +738,8 @@ and (-webkit-min-device-pixel-ratio: 0.75){
         -ms-user-select: none;
         user-select: none;
         font-weight: 300;
-        margin-top: 2.8vh;
-        margin-left: 3vw;
+        margin-top: 12px;
+        margin-left: 1.5vw;
     }
 
     .radio-container input {
@@ -725,7 +751,7 @@ and (-webkit-min-device-pixel-ratio: 0.75){
     .radio-checkmark {
         position: absolute;
         top: 0;
-        right: 1vw;
+        right: 0.7vw;
         height: 18px;
         width: 18px;
         border: 1px solid #B1C4D2;
@@ -757,6 +783,13 @@ and (-webkit-min-device-pixel-ratio: 0.75){
         height: 14px;
         border-radius: 50%;
         background: #1B418A;;
+    }
+
+    .radio-text{
+        padding-left: 20px;
+        color: #5E6166;
+        font-weight: 300;
+        font-size: 15px;
     }
 
 
@@ -1084,4 +1117,15 @@ and (-webkit-min-device-pixel-ratio: 0.75){
         font-weight: bold;
     }
 
+    .horizontal-options {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-around;
+    }
+
+    .horizontal-options:after {
+        content: "";
+        flex: 0 1 200px;
+        margin: 5px;
+    }
 }

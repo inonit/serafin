@@ -47,11 +47,11 @@
     </div>
 
     <div class="episodes-menu-item" ng-repeat="chapter in chapters"
-         ng-class="chapter.is_current ? 'active' : !chapter.ie_enabled ? 'enable' : 'disabled'"
+         ng-class="chapter.is_current ? 'active' : chapter.is_enabled ? 'enable' : 'disabled'"
          ng-click="chapter_url(chapter.id)">
 
         {% verbatim %}
-        {{ chapter.name }}
+        <p dir="auto">{{ chapter.name }}</p>
         {% endverbatim %}
 
     </div>
@@ -111,7 +111,7 @@
                                  ng-show="form.submitted && subForm.$error.required">{% trans 'Please choose one' %}
                             </div>
                             {% verbatim %}
-                            <div class="radio-options">
+                            <div class="radio-options" ng-class="{'horizontal-options': pagelet.content.horizontal}">
                                 <div class="radio-option"
                                      ng-repeat="alt in pagelet.content.alternatives track by $index">
                                     <label class="radio-container">
@@ -140,7 +140,7 @@
                                  ng-show="form.submitted && subForm.$error.required">{% trans 'Please choose one' %}
                             </div>
                             {% verbatim %}
-                            <div class="options">
+                            <div class="options" ng-class="{'horizontal-options': pagelet.content.horizontal}">
                                 <div class="option" ng-repeat="alt in pagelet.content.alternatives track by $index">
                                     <label class="cb-container">
                                         <input name="answer" type="checkbox" checkboxlist
@@ -234,7 +234,7 @@
                                          ng-show="form.submitted && subForm.$error.required">{% trans 'Please choose one' %}
                                     </div>
                                     {% verbatim %}
-                                    <div class="radio-options">
+                                    <div class="radio-options" ng-class="{'horizontal-options': field.horizontal}">
                                         <div class="radio-option"
                                              ng-repeat="alt in field.alternatives track by $index">
                                             <label class="radio-container">
@@ -261,7 +261,7 @@
                                          ng-show="form.submitted && subForm.$error.required">{% trans 'Please choose one' %}
                                     </div>
                                     {% verbatim %}
-                                    <div class="options">
+                                    <div class="options" ng-class="{'horizontal-options': field.horizontal}">
                                         <div class="option"
                                              ng-repeat="alt in field.alternatives track by $index">
                                             <label class="cb-container">
@@ -325,7 +325,7 @@
                                  ng-show="form.submitted && subForm.$error.required">{% trans 'Please choose one' %}
                             </div>
                             {% verbatim %}
-                            <div class="radio-options">
+                            <div class="radio-options" ng-class="{'horizontal-options': question.horizontal}">
                                 <div class="radio-option" ng-repeat="alt in question.alternatives track by $index">
                                     <label class="radio-container">
                                         <input ng-disabled="read_only" type="radio" name="answer_{{ $parent.$index }}"
