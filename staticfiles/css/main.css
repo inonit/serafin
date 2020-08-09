@@ -440,7 +440,7 @@ and (-webkit-min-device-pixel-ratio: 0.75){
 
     .page-content {
         font-size: 16px;
-        margin-top: 3.2vh;
+        margin-top: 32px;
         line-height: 26px;
         text-align: right;
         width: 42vw;

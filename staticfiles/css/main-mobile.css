@@ -650,6 +650,7 @@ and (-webkit-min-device-pixel-ratio: 2) {
     .cb-text {
         font-size:14px;
         font-weight: 300;
+        min-height: 51px;
     }
 
     .cb-container input {
@@ -719,7 +720,9 @@ and (-webkit-min-device-pixel-ratio: 2) {
         font-weight: 300;
         padding-top: 2px;
         padding-right: 10px;
+        min-height: 51px;
     }
+
     .radio-container {
         white-space: nowrap;
         width: 0vw;

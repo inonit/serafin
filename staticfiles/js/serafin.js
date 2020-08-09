@@ -338,8 +338,12 @@ serafin.directive('richtextlivereplace', ['$compile', function (compile) {
 
         $(root).find("ul,ol").each(function() {
             var color = $(this).find('span:first').css("color");
+            var direction = $(this).find('li:first').css("direction");
             if (color !== undefined) {
                 $(this).css("color", color);
+            }
+            if (direction !== undefined) {
+                $(this).css("direction", direction);
             }
         });
         return root.html();
