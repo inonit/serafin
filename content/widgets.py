@@ -104,6 +104,12 @@ class TextContentWidget(forms.Widget):
 class SMSContentWidget(forms.Widget):
 
     def render(self, name, value, attrs=None, renderer=None):
+        # verify is_whatsapp flag
+        j = json.loads(value)
+        if len(j) == 1:
+            j.append({'content_type': 'is_whatsapp', 'content': False})
+            value = json.dumps(j)
+
         context = {
             'value': value,
         }

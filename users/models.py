@@ -96,7 +96,7 @@ class User(AbstractBaseUser, PermissionsMixin):
         '''Check if user is part of a given group by name'''
         return self.groups.filter(name=group_name).exists()
 
-    def send_sms(self, message=None):
+    def send_sms(self, message=None, is_whatsapp=False):
         if not self.phone or len(self.phone) < 11:  # 11 character phone number +4712345678 (norway)
             return False
 
@@ -106,11 +106,18 @@ class User(AbstractBaseUser, PermissionsMixin):
                 settings.TWILIO_AUTH_TOKEN
             )
 
-            response = client.messages.create(
-                body=message,
-                to=self.phone,
-                from_=settings.TWILIO_FROM_NUMBER,
-            )
+            if is_whatsapp:
+                response = client.messages.create(
+                    body=message,
+                    to="whatsapp:" + self.phone,
+                    from_="whatsapp:" + settings.TWILIO_WHATSAPP_FROM_NUMBER,
+                )
+            else:
+                response = client.messages.create(
+                    body=message,
+                    to=self.phone,
+                    from_=settings.TWILIO_FROM_NUMBER,
+                )
 
             return response.sid
 
@@ -405,7 +412,7 @@ class StatefulAnonymousUser(AnonymousUser):
         '''
         pass
 
-    def send_sms(self, message=None):
+    def send_sms(self, message=None, is_whatsapp=False):
         '''
         Not implemented for an AnonymousUser,
         but pass rather than raise an exception

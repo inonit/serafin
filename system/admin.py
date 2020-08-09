@@ -697,7 +697,18 @@ class EmailAdmin(ContentAdmin):
     subject.short_description = _('Subject')
 
 
-class SMSForm(TextContentForm):
+class SMSForm(ContentForm):
+    def __init__(self, *args, **kwargs):
+        super(ContentForm, self).__init__(*args, **kwargs)
+        self.fields['data'].help_text = ''
+        self.fields['data'].initial = '''[{
+            "content_type": "text",
+            "content": ""
+            }, {
+                "content_type": "is_whatsapp",
+                "content": false
+        }]'''
+
     class Meta(object):
         model = SMS
         exclude = []

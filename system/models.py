@@ -693,8 +693,13 @@ class SMS(Content):
         message = remove_comments(message)
         message = variable_replace(user, message)
 
+        is_whatsapp = False
+        if len(self.data) == 2 and self.data[1]['content_type'] == 'is_whatsapp':
+            is_whatsapp = self.data[1]['content']
+
         user.send_sms(
-            message=message
+            message=message,
+            is_whatsapp=is_whatsapp
         )
 
     def get_content(self, user, **kwargs):

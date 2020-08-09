@@ -3,13 +3,14 @@
 
     <textarea id="id_data" name="data" class="data ng-hide">{% verbatim %}{{ data }}{% endverbatim %}</textarea>
 
-    <div class="pagelet" ng-repeat="pagelet in data track by $index">
+    <div class="pagelet">
 
         <h3 class="title">SMS</h3>
 
         <div class="sms">
-            {% verbatim %}{{ pagelet.content.length }}{% endverbatim %} {% trans 'characters used' %}
-            <textarea class="input-xlarge" ng-model="pagelet.content"></textarea>
+            {% verbatim %}{{ data[0].content.length }}{% endverbatim %} {% trans 'characters used' %}
+            <textarea class="input-xlarge" ng-model="data[0].content"></textarea>
+            <div><input type="checkbox" ng-model="data[1].content"> Is Whatsapp?</div>
         </div>
     </div>
     <script>
