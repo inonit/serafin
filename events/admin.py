@@ -37,7 +37,7 @@ class EventAdmin(ImportExportModelAdmin):
         return False
 
     def has_delete_permission(self, request, obj=None):
-        return request.user.is_superuser
+        return False
 
     resource_class = EventResource
     change_list_template = 'admin/events/event/change_list.html'

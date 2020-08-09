@@ -1,4 +1,6 @@
 from __future__ import unicode_literals
+
+import uuid
 from builtins import str
 from builtins import object
 from django.utils.translation import ugettext_lazy as _
@@ -262,6 +264,13 @@ class UserAdmin(UserAdmin, ImportExportModelAdmin):
             program = form.cleaned_data['program_access']
             if program:
                 program.enroll(obj)
+
+    def delete_model(self, request, obj):
+        # make anonymous email and phone number
+        new_email = uuid.uuid4().hex + '@' + uuid.uuid4().hex + '.com'
+        obj.email = new_email
+        obj.phone = '0'
+        obj.save()
 
     resource_class = UserResource
 
