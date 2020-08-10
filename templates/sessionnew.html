@@ -112,14 +112,14 @@
                             </div>
                             {% verbatim %}
                             <div class="radio-options" ng-class="{'horizontal-options': pagelet.content.horizontal}">
-                                <div class="radio-option"
+                                <div class="radio-option" ng-class="{'radio-option-horizontal': pagelet.content.horizontal}"
                                      ng-repeat="alt in pagelet.content.alternatives track by $index">
-                                    <label class="radio-container">
+                                    <label class="radio-container" ng-class="{'radio-container-horizontal': pagelet.content.horizontal}">
                                         <input ng-disabled="read_only" type="radio" name="answer"
                                                ng-model="pagelet.content.value" value="{{ alt.value }}" required>
-                                        <span class="radio-checkmark"></span>
+                                        <span class="radio-checkmark" ng-class="{'radio-checkmark-horizontal': pagelet.content.horizontal}"></span>
                                     </label>
-                                    <div class="radio-text">{{ alt.label }}</div>
+                                    <div class="radio-text" ng-class="{'radio-text-horizontal': pagelet.content.horizontal}">{{ alt.label }}</div>
                                 </div>
                             </div>
                              <div ng-repeat="alt in pagelet.content.alternatives track by $index"
@@ -141,15 +141,15 @@
                             </div>
                             {% verbatim %}
                             <div class="options" ng-class="{'horizontal-options': pagelet.content.horizontal}">
-                                <div class="option" ng-repeat="alt in pagelet.content.alternatives track by $index">
-                                    <label class="cb-container">
+                                <div class="option" ng-class="{'option-horizontal': pagelet.content.horizontal}" ng-repeat="alt in pagelet.content.alternatives track by $index">
+                                    <label class="cb-container" ng-class="{'cb-container-horizontal': pagelet.content.horizontal}">
                                         <input name="answer" type="checkbox" checkboxlist
                                                ng-model="alt.selected"
                                                ng-click="toggle(pagelet.content.value, alt.value)"
                                                ng-required="field.required" ng-disabled="read_only">
-                                        <span class="checkmark"></span>
+                                        <span class="checkmark" ng-class="{'checkmark-horizontal': pagelet.content.horizontal}"></span>
                                     </label>
-                                    <div class="cb-text">{{ alt.label }}</div>
+                                    <div class="cb-text" ng-class="{'cb-text-horizontal': pagelet.content.horizontal}">{{ alt.label }}</div>
                                 </div>
                             </div>
                             <div class="checkbox-value">{{ pagelet.content.text }}</div>
@@ -235,16 +235,16 @@
                                     </div>
                                     {% verbatim %}
                                     <div class="radio-options" ng-class="{'horizontal-options': field.horizontal}">
-                                        <div class="radio-option"
+                                        <div class="radio-option" ng-class="{'radio-option-horizontal': field.horizontal}"
                                              ng-repeat="alt in field.alternatives track by $index">
-                                            <label class="radio-container">
+                                            <label class="radio-container" ng-class="{'radio-container-horizontal': field.horizontal}">
                                                 <input ng-disabled="read_only" type="radio"
                                                        name="{{ 'multi' + $parent.$index }}"
                                                        ng-model="field.value" value="{{ alt.value }}"
                                                        ng-required="field.required">
-                                                <span class="radio-checkmark"></span>
+                                                <span class="radio-checkmark" ng-class="{'radio-checkmark-horizontal': field.horizontal}"></span>
                                             </label>
-                                            <div class="radio-text">{{ alt.label }}</div>
+                                            <div class="radio-text" ng-class="{'radio-text-horizontal': field.horizontal}">{{ alt.label }}</div>
                                         </div>
                                     </div>
                                 </div>
@@ -262,18 +262,18 @@
                                     </div>
                                     {% verbatim %}
                                     <div class="options" ng-class="{'horizontal-options': field.horizontal}">
-                                        <div class="option"
+                                        <div class="option" ng-class="{'option-horizontal': field.horizontal}"
                                              ng-repeat="alt in field.alternatives track by $index">
-                                            <label class="cb-container">
+                                            <label class="cb-container" ng-class="{'cb-container-horizontal': field.horizontal}">
                                                 <input name="{{ 'multiselect' + $parent.$index }}" type="checkbox"
                                                        checkboxlist
                                                        ng-model="alt.selected"
                                                        ng-click="toggle(field.value, alt.value)"
                                                        ng-required="field.required && field.value.length==0"
                                                        ng-disabled="read_only">
-                                                <span class="checkmark"></span>
+                                                <span class="checkmark" ng-class="{'checkmark-horizontal': field.horizontal}"></span>
                                             </label>
-                                            <div class="cb-text">{{ alt.label }}</div>
+                                            <div class="cb-text" ng-class="{'cb-text-horizontal': field.horizontal}">{{ alt.label }}</div>
                                         </div>
                                     </div>
                                     <div class="checkbox-value">{{ pagelet.content.text }}</div>
@@ -326,13 +326,13 @@
                             </div>
                             {% verbatim %}
                             <div class="radio-options" ng-class="{'horizontal-options': question.horizontal}">
-                                <div class="radio-option" ng-repeat="alt in question.alternatives track by $index">
-                                    <label class="radio-container">
+                                <div class="radio-option" ng-class="{'radio-option-horizontal': question.horizontal}" ng-repeat="alt in question.alternatives track by $index">
+                                    <label class="radio-container" ng-class="{'radio-container-horizontal': question.horizontal}">
                                         <input ng-disabled="read_only" type="radio" name="answer_{{ $parent.$index }}"
                                                ng-model="question.value" value="{{ alt.value }}" required>
-                                        <span class="radio-checkmark"></span>
+                                        <span class="radio-checkmark" ng-class="{'radio-checkmark-horizontal': question.horizontal}"></span>
                                     </label>
-                                    <div class="radio-text">{{ alt.label }}</div>
+                                    <div class="radio-text" ng-class="{'radio-text-horizontal': question.horizontal}">{{ alt.label }}</div>
                                 </div>
                             </div>
                             <div ng-show="subForm.$dirty">{{ question.response }}</div>

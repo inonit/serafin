@@ -654,6 +654,12 @@ and (-webkit-min-device-pixel-ratio: 0.75){
     }
 
     /* Create a custom checkbox */
+    .option-horizontal {
+        display: flex;
+        flex-direction: column-reverse;
+        align-items: center;
+    }
+
     .cb-text{
         margin-left: 26px;
         font-weight: 300;
@@ -661,12 +667,16 @@ and (-webkit-min-device-pixel-ratio: 0.75){
         color: #5E6166;
     }
 
+    .cb-text.cb-text-horizontal {
+        margin-right: 26px;
+        margin-left: 0;
+    }
+
     .cb-container {
         white-space: nowrap;
         width: 0vw;
         display: block;
         position: relative;
-        padding-right: 19px;
         cursor: pointer;
         -webkit-user-select: none;
         -moz-user-select: none;
@@ -674,9 +684,16 @@ and (-webkit-min-device-pixel-ratio: 0.75){
         user-select: none;
         font-size: 18px;
         font-weight: 300;
-        margin-top: 2.8vh;
-        margin-left: 2vw;
+        margin-top: 12px;
+        margin-left: 1.5vw;
     }
+
+    .cb-container.cb-container-horizontal {
+        width: auto;
+        display: flex;
+        margin-left: 0;
+    }
+
     .cb-container input {
         position: absolute;
         opacity: 0;
@@ -688,11 +705,16 @@ and (-webkit-min-device-pixel-ratio: 0.75){
     .checkmark {
         position: absolute;
         top: 0;
-        right: 2.5vw;
+        right: 0.7vw;
         height: 19px;
         width: 19px;
         border-radius: 5px;
         border: 1px solid #B1C4D2;
+    }
+
+    .checkmark.checkmark-horizontal {
+        position: relative;
+        top: auto;
     }
 
     .cb-container:hover input ~ .checkmark {
@@ -734,6 +756,12 @@ and (-webkit-min-device-pixel-ratio: 0.75){
         min-height: 22px;
     }
 
+    .radio-option-horizontal {
+        display: flex;
+        flex-direction: column-reverse;
+        align-items: center;
+    }
+
     .radio-container {
         white-space: nowrap;
         width: 0vw;
@@ -750,6 +778,12 @@ and (-webkit-min-device-pixel-ratio: 0.75){
         margin-left: 1.5vw;
     }
 
+    .radio-container.radio-container-horizontal {
+        width: auto;
+        display: flex;
+        margin-left: 0;
+    }
+
     .radio-container input {
         position: absolute;
         opacity: 0;
@@ -764,6 +798,11 @@ and (-webkit-min-device-pixel-ratio: 0.75){
         width: 18px;
         border: 1px solid #B1C4D2;
         border-radius: 50%;
+    }
+
+    .radio-checkmark.radio-checkmark-horizontal {
+        position: relative;
+        top: auto;
     }
 
     .radio-container:hover input ~ .radio-checkmark {
@@ -800,6 +839,10 @@ and (-webkit-min-device-pixel-ratio: 0.75){
         font-size: 15px;
     }
 
+    .radio-text.radio-text-horizontal{
+        padding-right: 20px;
+        padding-left: 0;
+    }
 
     .text-area {
         margin-top: 2.3vh;
