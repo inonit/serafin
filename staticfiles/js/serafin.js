@@ -433,6 +433,34 @@ newserafin.run(['$rootScope', '$http', function (scope, http) {
 
 }]);
 
+newserafin.directive('dynamicTextSize', function () {
+    return {
+        restrict: 'A',
+        link: function (scope, element, attrs) {
+
+            function updateFontSize(textLength) {
+                if (textLength > 20) {
+                    $(element).css("font-size", "7vmin");
+                }
+                if (textLength > 30) {
+                    $(element).css("font-size", "6vmin");
+                }
+                if (textLength > 40) {
+                    $(element).css("font-size", "5vmin");
+                }
+            }
+
+
+            scope.$watch('current_page_title', function (newValue, oldValue, scope, element) {
+                if (newValue !== undefined) {
+                    let valueSize = newValue.length;
+                    updateFontSize(valueSize);
+                }
+            });
+        }
+    };
+});
+
 newserafin.controller('portal', ['$scope', '$http', function (scope, http) {
 
 }]);

@@ -13,7 +13,7 @@ and (-webkit-min-device-pixel-ratio: 0.75){
     /*Header*/
     .header {
         display: flex;
-        height: 3.8em;
+        height: 6vh;
         background: #1B418A;
         flex-flow: row-reverse;
         justify-content: space-between;
@@ -155,8 +155,9 @@ and (-webkit-min-device-pixel-ratio: 0.75){
     }
 
     .home-image {
-        height: 230px;
-        background: linear-gradient(0deg, rgba(71, 211, 255, 0.2), rgba(71, 211, 255, 0.2)), linear-gradient(0deg, rgba(0, 0, 0, 0.7) -35.4%, rgba(0, 0, 0, 0) 106.07%), url(/static/img/7b14b68d93b6d916eb23d9100161bad0.jpg);
+        height: 22vh;
+        min-height: 100px;
+        background: linear-gradient(0deg, rgba(71, 211, 255, 0.2), rgba(71, 211, 255, 0.2)), linear-gradient(0deg, rgba(0, 0, 0, 0.7) -35.4%, rgba(0, 0, 0, 0) 106.07%);
         background-size: cover;
         display: flex;
         align-items: center;
@@ -164,8 +165,11 @@ and (-webkit-min-device-pixel-ratio: 0.75){
     }
 
     .home-image-text {
-        font-size: 3em;
+        font-size: 4.5vmin;
+        margin-top: 3vh;
         color: white;
+        font-weight: normal;
+        font-style: normal;
     }
 
     .home-box-wrapper {
@@ -176,14 +180,19 @@ and (-webkit-min-device-pixel-ratio: 0.75){
     }
 
     .home-box {
-        margin-top: -5vh;
-        width: 540px;
-        height: 300px;
+        margin-top: -4vh;
+        width: 35vw;
+        height: 32vh;
+        min-height: 190px;
         box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.15);
         border-radius: 3px;
         background: #FFFEF8;
-        padding: 27px 30px 1%;
+        padding: 2.8vh 30px 4vh;
         position: relative;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: space-between;
     }
 
     .home-box-text-1 {
@@ -195,23 +204,22 @@ and (-webkit-min-device-pixel-ratio: 0.75){
 
     .home-box-text-2 {
         font-weight: bold;
-        font-size: 50px;
-        line-height: 88px;
+        font-size: 8vmin;
     }
 
     .home-box-btn {
+        border: none;
         background: #1B418A;
         border-radius: 4px;
-        width: 143px;
-        height: 58px;
+        width: 15vh;
+        min-width: 85px;
+        height: 6vh;
+        min-height: 37px;
         line-height: 29px;
         font-weight: 500;
         font-size: 20px;
         color: white;
         cursor: pointer;
-        position: absolute;
-        bottom: 38px;
-        left: 225px;
     }
 
     .notification-badge::after, .notification-badge-home::before {
@@ -320,7 +328,7 @@ and (-webkit-min-device-pixel-ratio: 0.75){
         align-items: center;
         justify-content: center;
         background: #F6F5EA;
-        height: 60px;
+        height: 6vh;
         color: #9F9E97;
         font-size: 13px;
     }
