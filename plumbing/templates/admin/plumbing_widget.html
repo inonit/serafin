@@ -21,46 +21,50 @@
         <div class="btn" ng-click="addNode('wait')" id="lookup_{% verbatim %}{{ current_noderef }}{% endverbatim %}">{% trans '+ Wait' %}</div>
         <div class="btn" ng-click="addNode('tool')" id="lookup_{% verbatim %}{{ current_noderef }}{% endverbatim %}">{% trans '+ Tool' %}</div>
         <div class="btn" ng-click="addNode('therapist_notification')" id="lookup_{% verbatim %}{{ current_noderef }}{% endverbatim %}">{% trans '+ Therapist Notification' %}</div>
+        <div class="btn" ng-click="addNode('end')" id="lookup_{% verbatim %}{{ current_noderef }}{% endverbatim %}">{% trans '+ End' %}</div>
     </div>
 
     <div class="floatbox"></div>
 
     <div class="node box" ng-class="node.type" ng-repeat="node in data.nodes track by node.id" ng-style="getMetrics(node)" ng-model="data.nodes">
         <span ng-if="node.type == 'email'">
-            <i class="icon-envelope icon-alpha5"></i>
+            <i class="fa fa-envelope-o icon-alpha5"></i>
         </span>
         <span ng-if="node.type == 'sms'">
-            <i class="icon-comment icon-alpha5"></i>
+            <i class="fa fa-comment icon-alpha5"></i>
         </span>
         <span ng-if="node.type == 'delay'">
-            <i class="icon-time icon-alpha5"></i>
+            <i class="fa fa-clock-o icon-alpha5"></i>
         </span>
         <span ng-if="node.type == 'session'">
-            <i class="icon-tasks icon-alpha5"></i>
+            <i class="fa fa-tasks icon-alpha5"></i>
         </span>
         <span ng-if="node.type == 'background_session'">
-            <i class="icon-cog icon-alpha5"></i>
+            <i class="fa fa-cog icon-alpha5"></i>
         </span>
         <span ng-if="node.type == 'expression'">
-            <i class="icon-exclamation-sign icon-alpha5"></i>
+            <i class="fa fa-exclamation-circle icon-alpha5"></i>
         </span>
         <span ng-if="node.type == 'register'">
-            <i class="icon-user icon-alpha5"></i>
+            <i class="fa fa-user icon-alpha5"></i>
         </span>
         <span ng-if="node.type == 'enroll'">
-            <i class="icon-ok icon-alpha5"></i>
+            <i class="fa facheck-circle icon-alpha5"></i>
         </span>
         <span ng-if="node.type == 'leave'">
-            <i class="icon-remove icon-alpha5"></i>
+            <i class="fa fa-times icon-alpha5"></i>
         </span>
         <span ng-if="node.type == 'wait'">
-            <i class="icon-globe icon-alpha5"></i>
+            <i class="fa fa-globe icon-alpha5"></i>
         </span>
         <span ng-if="node.type == 'tool'">
-            <i class="icon-cog icon-alpha5"></i>
+            <i class="fa fa-cog icon-alpha5"></i>
         </span>
         <span ng-if="node.type == 'therapist_notification'">
-            <i class="icon-bell icon-alpha5"></i>
+            <i class="fa fa-bell icon-alpha5"></i>
+        </span>
+        <span ng-if="node.type == 'end'">
+            <i class="fa fa-hand-paper-o icon-alpha5"></i>
         </span>
 
 
@@ -95,6 +99,9 @@
         </span>
         <span ng-if="node.type == 'therapist_notification'">
             {% endverbatim %}{% trans 'Therapist Notification' %}{% verbatim %}
+        </span>
+        <span ng-if="node.type == 'end'">
+            {% endverbatim %}{% trans 'End' %}{% verbatim %}
         </span>
         <div class="ep"></div>
         <div class="delete" ng-click="deleteNode($index)" ng-hide="node.id == 0">×</div>

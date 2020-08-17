@@ -306,7 +306,7 @@ def modules_page(request):
     session = get_object_or_404(Session, id=session_id)
     set_language_by_session(session)
 
-    current_module_id = page.chapter.module.id if page.chapter and page.chapter.module else None
+    current_module_id = page.chapter.module.id if page and page.chapter and page.chapter.module else None
 
     context = {
         'modules': modules,
@@ -385,9 +385,9 @@ def get_portal(request):
     engine = Engine(user=request.user, context={}, is_interactive=True)
     page = engine.run()
 
-    current_module_title = page.chapter.module.display_title if page.chapter and page.chapter.module else None
-    current_module_id = page.chapter.module.id if page.chapter and page.chapter.module else None
-    program = page.program
+    current_module_title = page.chapter.module.display_title if page and page.chapter and page.chapter.module else None
+    current_module_id = page.chapter.module.id if page and page.chapter and page.chapter.module else None
+    program = page.program if page else None
     if not program:
         session_id = request.user.data.get("session")
         session = get_object_or_404(Session, id=session_id)
@@ -399,7 +399,7 @@ def get_portal(request):
     context = {
         'modules': modules,
         'modules_finished': len([m for m in modules if m['is_enabled'] == 1]) - (0 if current_module_id is None else 1),
-        'current_page_title': current_module_title if current_module_title else page.display_title,
+        'current_page_title': current_module_title if current_module_title else page.display_title if page else None,
         'current_module_title': current_module_title,
         'current_module_id': current_module_id,
         'has_messages': has_unread_messages,

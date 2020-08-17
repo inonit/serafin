@@ -243,7 +243,7 @@ plumbing.controller('graph', ['$scope', 'jsPlumb', function(scope, jsPlumbServic
             return;
         }
 
-        if (type == 'register' || type == 'enroll' || type == 'leave' || type == 'wait') {
+        if (type == 'register' || type == 'enroll' || type == 'leave' || type == 'wait' || type == 'end') {
             scope.data.nodes.push({
                 id: id,
                 type: type,
@@ -366,7 +366,8 @@ plumbing.directive('node', ['$timeout', 'jsPlumb', function(timeout, jsPlumbServ
                         });
                     } else if (scope.node.type == 'register' ||
                                scope.node.type == 'leave' ||
-                               scope.node.type == 'wait') {
+                               scope.node.type == 'wait' ||
+                               scope.node.type == 'end') {
                         // do nothing
                     } else {
                         scope.popup(
@@ -469,7 +470,7 @@ plumbing.directive('edge', ['jsPlumb', function(jsPlumbService) {
                     'start', 'page', 'session', 'wait'
                 ]
                 var background = [
-                    'email', 'sms', 'register', 'enroll', 'leave', 'delay', 'background_session', 'tool', 'therapist_notification'
+                    'email', 'sms', 'register', 'enroll', 'leave', 'delay', 'background_session', 'tool', 'therapist_notification', 'end'
                 ]
 
                 // disallow/delete edge with start as target,
@@ -488,6 +489,14 @@ plumbing.directive('edge', ['jsPlumb', function(jsPlumbService) {
                 if (background.indexOf(target_type) > -1 ||
                     target_type == 'expression') {
                     scope.edge.type = 'special';
+                }
+
+                if (source_type == 'end') {
+                    scope.deleteEdge(scope.$index);
+                }
+
+                if (target_type == 'end' && source_type != 'page') {
+                    scope.deleteEdge(scope.$index);
                 }
 
                 // finally make connection and add overlay

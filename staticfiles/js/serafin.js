@@ -439,6 +439,9 @@ newserafin.directive('dynamicTextSize', function () {
         link: function (scope, element, attrs) {
 
             function updateFontSize(textLength) {
+                if (textLength > 0) {
+                    $(element).css("font-size", "8vmin");
+                }
                 if (textLength > 20) {
                     $(element).css("font-size", "7vmin");
                 }

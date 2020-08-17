@@ -32,9 +32,14 @@
         <div class="home-box">
             <div class="home-box-text-1">{% trans 'Current step' %}</div>
             {% verbatim %}
-            <div ng-cloak class="home-box-text-2" dynamic-text-size>{{ current_page_title }}</div>
+            <div ng-cloak class="home-box-text-2" dynamic-text-size ng-if="current_page_title">{{ current_page_title }}</div>
+            <div ng-cloak class="home-box-text-2" dynamic-text-size ng-if="!current_page_title">
+                {% endverbatim %}
+                {% trans 'there is no new available lesson, continue your training in accordance to your last session' %}
+                {% verbatim %}
+            </div>
             {% endverbatim %}
-            <button onclick="location.href='{% url 'content' %}'" class="home-box-btn">כניסה</button>
+            <button onclick="location.href='{% url 'content' %}'" class="home-box-btn" ng-if="current_page_title">כניסה</button>
         </div>
     </div>
 

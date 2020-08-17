@@ -159,6 +159,19 @@ class Engine(object):
             if node.get('type') in ['start', 'session', 'expression']:
                 return self.run(pop=True)
 
+    def is_end_session(self, node_id):
+        if self.is_dead_end(node_id):
+            node = self.nodes.get(node_id)
+            node_type = node.get('type')
+            if node_type == 'page':
+                target_edges = self.get_node_edges(node_id)
+                special_edges = self.get_special_edges(target_edges)
+                if len(special_edges) == 1:
+                    target_id = special_edges[0].get('target')
+                    node = self.nodes.get(target_id)
+                    node_type = node.get('type')
+                    return node_type == 'end'
+
     def traverse(self, edges, source_id):
         '''Select and return first edge where the user passes edge conditions'''
 
@@ -684,4 +697,6 @@ class Engine(object):
             return self.transition(node_id)
 
         node = self.nodes.get(node_id)
+        if self.is_end_session(node_id):
+            return None
         return self.trigger_node(node)
