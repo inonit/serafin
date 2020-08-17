@@ -267,7 +267,7 @@ def redirect_media(request, path):
 
 class VariableViewSet(viewsets.ModelViewSet):
 
-    queryset = Variable.objects.all()
+    queryset = Variable.objects.all().order_by("name")
     serializer_class = VariableSerializer
 
     def get_queryset(self):
@@ -283,7 +283,7 @@ class VariableViewSet(viewsets.ModelViewSet):
 
 class VariableSearchViewSet(viewsets.ModelViewSet):
 
-    queryset = Variable.objects.all()
+    queryset = Variable.objects.all().order_by("name")
     serializer_class = VariableSerializer
     filter_backends = [VariableSearchFilter]
     search_fields = ["name", "display_name"]

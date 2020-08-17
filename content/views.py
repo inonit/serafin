@@ -399,7 +399,7 @@ def get_portal(request):
     context = {
         'modules': modules,
         'modules_finished': len([m for m in modules if m['is_enabled'] == 1]) - (0 if current_module_id is None else 1),
-        'current_page_title': page.display_title,
+        'current_page_title': current_module_title if current_module_title else page.display_title,
         'current_module_title': current_module_title,
         'current_module_id': current_module_id,
         'has_messages': has_unread_messages,
