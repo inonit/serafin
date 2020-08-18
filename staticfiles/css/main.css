@@ -1199,6 +1199,10 @@ and (-webkit-min-device-pixel-ratio: 0.75){
         flex: 0 1 200px;
         margin: 5px;
     }
+
+    .pointer-cursor {
+        cursor: pointer;
+    }
 }
 
 

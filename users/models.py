@@ -331,8 +331,11 @@ class User(AbstractBaseUser, PermissionsMixin):
             return None
         return self.data[module_key]
 
-    def get_first_program_user_access(self):
-        program_user_access = ProgramUserAccess.objects.filter(user=self).first()
+    def get_first_program_user_access(self, program=None):
+        if program:
+            program_user_access = ProgramUserAccess.objects.filter(user=self, program=program).first()
+        else:
+            program_user_access = ProgramUserAccess.objects.filter(user=self).first()
         return program_user_access
 
     def get_first_program(self):

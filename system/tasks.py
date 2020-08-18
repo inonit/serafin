@@ -2,8 +2,10 @@ from __future__ import unicode_literals
 from django.utils.translation import ugettext_lazy as _
 
 from django.contrib.auth import get_user_model
+from django.utils import timezone
 from huey.contrib.djhuey import db_task
 from system.engine import Engine
+from tasker.models import Task
 
 
 @db_task()
@@ -55,5 +57,21 @@ def init_session(session_id, user_id, push=False):
         message = _('Session initialized and login e-mail sent')
     else:
         message = _('Session initialized')
+
+    if engine.session.scheduled and engine.session.is_recurrent:
+        useraccess = engine.user.get_first_program_user_access(engine.session.program)
+        if engine.session.get_end_time(useraccess.start_time, useraccess.time_factor) > \
+                engine.session.get_start_time(timezone.now(), 1.0):
+
+            start_time = engine.session.get_start_time(timezone.now(), 1.0)
+            Task.objects.create_task(
+                sender=engine.session,
+                domain='init',
+                time=start_time,
+                task=init_session,
+                args=(session_id, user_id),
+                action=_('Initialize session recurrent'),
+                subject=engine.user
+            )
 
     return message

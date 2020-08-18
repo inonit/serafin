@@ -245,8 +245,8 @@
             <div class="tab-pane fade" id="nav-notifications" role="tabpanel" aria-labelledby="nav-notifications-tab">
                 <h2>{% trans 'Notifications' %}</h2>
                 <div class="list-group">
-                  <a href="#" class="list-group-item list-group-item-action flex-column align-items-start"
-                     ng-class="!notification.is_read ? 'font-weight-bold bg-light' : ''"
+                  <div class="list-group-item list-group-item-action flex-column align-items-start"
+                     ng-class="!notification.is_read ? ['font-weight-bold bg-light', 'pointer-cursor'] : ''"
                      ng-repeat="notification in notifications"
                      ng-click="markNotificationRead(notification.id)">
                       {% verbatim %}
@@ -259,7 +259,7 @@
                         <small class="font-weight-bold">mark as read</small>
                       </div>
                       {% endverbatim %}
-                  </a>
+                  </div>
                 </div>
             </div>
             <div class="tab-pane fade" id="nav-messages" role="tabpanel" aria-labelledby="nav-messages-tab" dir="ltr">

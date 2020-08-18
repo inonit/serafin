@@ -367,21 +367,22 @@ class SessionAdmin(VersionAdmin):
         'note_excerpt',
         'start_time_delta',
         'start_time_unit',
-        # 'end_time_delta',
+        'end_time_delta',
         # 'end_time_unit',
         'start_time',
         'scheduled',
+        'is_recurrent',
         'trigger_login',
     ]
     list_editable = [
         'start_time_delta',
         'start_time_unit',
-        # 'end_time_delta',
+        'end_time_delta',
         # 'end_time_unit',
         'scheduled',
         'trigger_login',
     ]
-    list_filter = ['program__title', 'scheduled', 'trigger_login']
+    list_filter = ['program__title', 'scheduled', 'trigger_login', 'is_recurrent']
     list_display_links = ['title']
     search_fields = ['title', 'display_title', 'admin_note', 'program__title', 'data']
     ordering = ['start_time']
@@ -413,9 +414,10 @@ class SessionAdmin(VersionAdmin):
                 'admin_note',
                 'start_time_delta',
                 'start_time_unit',
-                # 'end_time_delta',
+                'end_time_delta',
                 # 'end_time_unit',
                 'scheduled',
+                'is_recurrent',
                 'trigger_login',
             ]
         }),
