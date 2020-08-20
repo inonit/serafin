@@ -109,9 +109,8 @@ and (-webkit-min-device-pixel-ratio: 0.75){
         background: white;
         padding: 8px;
         min-width: 10%;
-        margin-top: 14vh;
+        margin-top: 12vh;
         width: 12vw;
-        height: 4vh;
         margin-left: 2vw;
         box-shadow: 1px 1px 1px 1px grey;
         display: none;
@@ -127,6 +126,7 @@ and (-webkit-min-device-pixel-ratio: 0.75){
         display: flex;
         flex-flow: row;
         justify-content: flex-end;
+        margin-top: 1vh;
 
     }
 

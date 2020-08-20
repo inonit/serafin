@@ -45,6 +45,11 @@
         <img src="{% static 'img/menu.svg' %}"/>
     </div>
     <div class="header-user-menu">
+        <a class="header-user-menu-item" href="{% url 'password_change' %}">
+            <div class="header-user-menu-item-text">{% trans 'Change Password' %}</div>
+            <div class="header-user-menu-item-icon">
+            </div>
+        </a>
         <a class="header-user-menu-item" href="{% url 'logout' %}">
             <div class="header-user-menu-item-text">{% trans 'Logout' %}</div>
             <div class="header-user-menu-item-icon">

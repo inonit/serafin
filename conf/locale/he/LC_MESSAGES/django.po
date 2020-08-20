@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-08-17 21:18+0300\n"
+"POT-Creation-Date: 2020-08-20 21:00+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -787,44 +787,44 @@ msgstr ""
 msgid "IP"
 msgstr ""
 
-#: .\serafin\settings - Deploy.py:134 .\serafin\settings.py:134
+#: .\serafin\settings - Deploy.py:134 .\serafin\settings.py:136
 #: .\serafin\settings_SENSEATIVE.py:135
 msgid "English"
 msgstr ""
 
-#: .\serafin\settings - Deploy.py:135 .\serafin\settings.py:135
+#: .\serafin\settings - Deploy.py:135 .\serafin\settings.py:137
 #: .\serafin\settings_SENSEATIVE.py:136
 msgid "Norwegian"
 msgstr ""
 
-#: .\serafin\settings - Deploy.py:136 .\serafin\settings.py:136
+#: .\serafin\settings - Deploy.py:136 .\serafin\settings.py:138
 msgid "Hebrew"
 msgstr ""
 
-#: .\serafin\settings - Deploy.py:462 .\serafin\settings.py:448
+#: .\serafin\settings - Deploy.py:462 .\serafin\settings.py:450
 #: .\serafin\settings_SENSEATIVE.py:517
 msgid "Default stylesheet"
 msgstr ""
 
-#: .\serafin\settings - Deploy.py:463 .\serafin\settings.py:449
+#: .\serafin\settings - Deploy.py:463 .\serafin\settings.py:451
 msgid "New-Nalokson"
 msgstr ""
 
-#: .\serafin\settings - Deploy.py:464 .\serafin\settings.py:450
+#: .\serafin\settings - Deploy.py:464 .\serafin\settings.py:452
 msgid "RTL-Nalokson"
 msgstr ""
 
-#: .\serafin\settings - Deploy.py:465 .\serafin\settings.py:451
+#: .\serafin\settings - Deploy.py:465 .\serafin\settings.py:453
 #: .\serafin\settings_SENSEATIVE.py:518
 msgid "Nalokson"
 msgstr ""
 
-#: .\serafin\settings - Deploy.py:466 .\serafin\settings.py:452
+#: .\serafin\settings - Deploy.py:466 .\serafin\settings.py:454
 #: .\serafin\settings_SENSEATIVE.py:519
 msgid "Miksmaster"
 msgstr ""
 
-#: .\serafin\settings - Deploy.py:467 .\serafin\settings.py:453
+#: .\serafin\settings - Deploy.py:467 .\serafin\settings.py:455
 #: .\serafin\settings_SENSEATIVE.py:520
 msgid "Miksmaster alternate"
 msgstr ""
@@ -893,12 +893,12 @@ msgstr ""
 msgid "Variable"
 msgstr ""
 
-#: .\system\admin.py:174 .\system\admin.py:431 .\system\admin.py:597
+#: .\system\admin.py:174 .\system\admin.py:433 .\system\admin.py:599
 msgid "Admin note excerpt"
 msgstr ""
 
 #: .\system\admin.py:187 .\system\admin.py:215 .\system\admin.py:236
-#: .\system\admin.py:492 .\system\admin.py:513 .\system\admin.py:604
+#: .\system\admin.py:494 .\system\admin.py:515 .\system\admin.py:606
 #, python-format
 msgid "%(title)s (copy)"
 msgstr ""
@@ -950,33 +950,33 @@ msgstr ""
 msgid "expression node"
 msgstr ""
 
-#: .\system\admin.py:342 .\system\admin.py:557
+#: .\system\admin.py:342 .\system\admin.py:559
 #, python-format
 msgid "Error in expression, %(id)s: %(error)s"
 msgstr ""
 
-#: .\system\admin.py:528
+#: .\system\admin.py:530
 msgid "Copy selected sessions"
 msgstr ""
 
-#: .\system\admin.py:544
+#: .\system\admin.py:546
 #, python-format
 msgid "pagelet %(id)s"
 msgstr ""
 
-#: .\system\admin.py:584
+#: .\system\admin.py:586
 msgid "No content"
 msgstr ""
 
-#: .\system\admin.py:592
+#: .\system\admin.py:594
 msgid "Page excerpt"
 msgstr ""
 
-#: .\system\admin.py:609
+#: .\system\admin.py:611
 msgid "Copy selected content"
 msgstr ""
 
-#: .\system\admin.py:672 .\system\admin.py:697
+#: .\system\admin.py:674 .\system\admin.py:699
 msgid "Subject"
 msgstr ""
 
@@ -997,13 +997,13 @@ msgid "display name"
 msgstr ""
 
 #: .\system\models.py:36 .\system\models.py:117 .\system\models.py:215
-#: .\system\models.py:303
+#: .\system\models.py:312
 msgid "admin note"
 msgstr ""
 
 #: .\system\models.py:37 .\system\models.py:129 .\system\models.py:164
-#: .\system\models.py:187 .\system\models.py:213 .\system\models.py:304
-#: .\system\models.py:715
+#: .\system\models.py:187 .\system\models.py:213 .\system\models.py:313
+#: .\system\models.py:724
 msgid "program"
 msgstr ""
 
@@ -1055,11 +1055,11 @@ msgstr ""
 msgid "variables"
 msgstr ""
 
-#: .\system\models.py:108 .\system\models.py:209 .\system\models.py:300
+#: .\system\models.py:108 .\system\models.py:209 .\system\models.py:309
 msgid "title"
 msgstr ""
 
-#: .\system\models.py:109 .\system\models.py:210 .\system\models.py:301
+#: .\system\models.py:109 .\system\models.py:210 .\system\models.py:310
 msgid "display title"
 msgstr ""
 
@@ -1083,7 +1083,7 @@ msgstr ""
 msgid "from email"
 msgstr ""
 
-#: .\system\models.py:119 .\users\models.py:370
+#: .\system\models.py:119 .\users\models.py:373
 msgid "users"
 msgstr ""
 
@@ -1103,7 +1103,7 @@ msgstr ""
 msgid "Program is locked. Could not save."
 msgstr ""
 
-#: .\system\models.py:165 .\system\models.py:757 .\users\models.py:369
+#: .\system\models.py:165 .\system\models.py:766 .\users\models.py:372
 msgid "user"
 msgstr ""
 
@@ -1143,7 +1143,7 @@ msgstr ""
 msgid "is open"
 msgstr ""
 
-#: .\system\models.py:214 .\system\models.py:312
+#: .\system\models.py:214 .\system\models.py:321
 msgid "content"
 msgstr ""
 
@@ -1176,103 +1176,107 @@ msgid "scheduled"
 msgstr ""
 
 #: .\system\models.py:227
+msgid "is recurrent task"
+msgstr ""
+
+#: .\system\models.py:228
 msgid "trigger login"
 msgstr ""
 
-#: .\system\models.py:232
+#: .\system\models.py:233
 msgid "session"
 msgstr ""
 
-#: .\system\models.py:233
+#: .\system\models.py:234
 msgid "sessions"
 msgstr ""
 
-#: .\system\models.py:236 .\system\models.py:239
+#: .\system\models.py:237 .\system\models.py:240
 #, python-format
 msgid "Session %s"
 msgstr ""
 
-#: .\system\models.py:302
+#: .\system\models.py:311
 msgid "content type"
 msgstr ""
 
-#: .\system\models.py:305
+#: .\system\models.py:314
 msgid "Can optionally be bound to a specific program"
 msgstr ""
 
-#: .\system\models.py:313
+#: .\system\models.py:322
 msgid "contents"
 msgstr ""
 
-#: .\system\models.py:343
+#: .\system\models.py:352
 msgid "page"
 msgstr ""
 
-#: .\system\models.py:344
+#: .\system\models.py:353
 msgid "pages"
 msgstr ""
 
-#: .\system\models.py:642
+#: .\system\models.py:651
 msgid "e-mail"
 msgstr ""
 
-#: .\system\models.py:643
+#: .\system\models.py:652
 msgid "e-mails"
 msgstr ""
 
-#: .\system\models.py:681
+#: .\system\models.py:690
 msgid "SMS"
 msgstr ""
 
-#: .\system\models.py:682
+#: .\system\models.py:691
 msgid "SMSs"
 msgstr ""
 
-#: .\system\models.py:716 .\system\models.py:755
+#: .\system\models.py:725 .\system\models.py:764
 msgid "therapist"
 msgstr ""
 
-#: .\system\models.py:718
+#: .\system\models.py:727
 msgid "patient"
 msgstr ""
 
-#: .\system\models.py:720 .\system\models.py:741
+#: .\system\models.py:729 .\system\models.py:750
 msgid "is read"
 msgstr ""
 
-#: .\system\models.py:721 .\system\models.py:742 .\system\models.py:761
+#: .\system\models.py:730 .\system\models.py:751 .\system\models.py:770
 msgid "message"
 msgstr ""
 
-#: .\system\models.py:722 .\system\models.py:740 .\system\models.py:760
+#: .\system\models.py:731 .\system\models.py:749 .\system\models.py:769
 msgid "timestamp"
 msgstr ""
 
-#: .\system\models.py:728
+#: .\system\models.py:737
 msgid "therapist notification"
 msgstr ""
 
-#: .\system\models.py:729
+#: .\system\models.py:738
 msgid "therapist notifications"
 msgstr ""
 
-#: .\system\models.py:736 .\tasker\models.py:44
+#: .\system\models.py:745 .\tasker\models.py:44
 msgid "sender"
 msgstr ""
 
-#: .\system\models.py:738
+#: .\system\models.py:747
 msgid "receiver"
 msgstr ""
 
-#: .\system\models.py:743
+#: .\system\models.py:752
 msgid "file name"
 msgstr ""
 
-#: .\system\models.py:744
+#: .\system\models.py:753
 msgid "file type"
 msgstr ""
 
-#: .\system\models.py:745
+#: .\system\models.py:754
 msgid "file data"
 msgstr ""
 
@@ -1284,21 +1288,25 @@ msgstr ""
 msgid "Initialize session"
 msgstr ""
 
-#: .\system\tasks.py:22 .\system\tasks.py:49
+#: .\system\tasks.py:24 .\system\tasks.py:51
 msgid "Inactive user, no action taken"
 msgstr ""
 
-#: .\system\tasks.py:26
+#: .\system\tasks.py:28
 #, python-format
 msgid "%(session)s transitioned to node %(node)s"
 msgstr ""
 
-#: .\system\tasks.py:55
+#: .\system\tasks.py:57
 msgid "Session initialized and login e-mail sent"
 msgstr ""
 
-#: .\system\tasks.py:57
+#: .\system\tasks.py:59
 msgid "Session initialized"
+msgstr ""
+
+#: .\system\tasks.py:73
+msgid "Initialize session recurrent"
 msgstr ""
 
 #: .\system\templates\import_text.html:18
@@ -1444,9 +1452,13 @@ msgstr "כלים"
 msgid "Supporter"
 msgstr "תומך"
 
-#: .\templates\navbar.html:41 .\templates\navbar.html:49
+#: .\templates\navbar.html:41 .\templates\navbar.html:54
 msgid "Logout"
 msgstr "התנתק"
+
+#: .\templates\navbar.html:49
+msgid "Change Password"
+msgstr "החלפת סיסמה"
 
 #: .\templates\portal.html:38
 msgid ""
@@ -1467,8 +1479,9 @@ msgid "Documentation"
 msgstr ""
 
 #: .\templates\registration\password_change_done.html:3
+#: .\templates\registration\password_change_form.html:37
 msgid "Change password"
-msgstr ""
+msgstr "החלפת סיסמה"
 
 #: .\templates\registration\password_change_done.html:3
 msgid "Log out"
@@ -1481,6 +1494,24 @@ msgstr ""
 #: .\templates\registration\password_change_done.html:14
 msgid "Your password was changed."
 msgstr ""
+
+#: .\templates\registration\password_change_form.html:38
+msgid "Old password"
+msgstr "סיסמה ישנה"
+
+#: .\templates\registration\password_change_form.html:39
+#| msgid "Change Password"
+msgid "New password"
+msgstr "סיסמה חדשה"
+
+#: .\templates\registration\password_change_form.html:40
+#| msgid "Change Password"
+msgid "Confirm password"
+msgstr "אישור סיסמה חדשה"
+
+#: .\templates\registration\password_change_form.html:48
+msgid "Update"
+msgstr "עדכן"
 
 #: .\templates\registration\password_reset_complete.html:4
 #: .\templates\registration\password_reset_complete.html:8
@@ -1760,11 +1791,11 @@ msgstr ""
 msgid "Log entries"
 msgstr ""
 
-#: .\users\forms.py:20
+#: .\users\forms.py:23
 msgid "Email"
 msgstr ""
 
-#: .\users\forms.py:72
+#: .\users\forms.py:88
 msgid "ID should be an integer value"
 msgstr ""
 
@@ -1850,6 +1881,14 @@ msgstr ""
 
 #: .\users\templates\login.html:20
 msgid "Forgot your password?"
+msgstr ""
+
+#: .\users\templates\login_lock.html:5 .\users\templates\login_lock.html:9
+msgid "Account Locked"
+msgstr ""
+
+#: .\users\templates\login_lock.html:12
+msgid "Reset Your Password"
 msgstr ""
 
 #: .\users\templates\profile.html:6 .\users\templates\profile.html:15
