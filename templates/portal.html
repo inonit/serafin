@@ -3,7 +3,7 @@
 {% get_current_language_bidi as lang_dir %}
 
 <!DOCTYPE html>
-<html lang="en" ng-app="newserafin">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <title>Home</title>
@@ -16,12 +16,14 @@
     {% endif %}
     <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@300;500;700&display=swap" rel="stylesheet">
     <script src="{% static 'lib/angular/angular.min.js' %}"></script>
+    <script src="{% static 'lib/ng-idle/angular-idle.js' %}"></script>
 </head>
 <body>
 <!--starts header-->
+<div ng-controller="idle"></div>
  {% include 'navbar.html' %}
 <!--end header-->
-<div class="home-container">
+<div class="home-container" ng-app="portal">
     <div class="header-1 invisible" >{% trans 'Home' %}</div>
     <div class="home-image">
         {% verbatim %}
@@ -70,6 +72,7 @@
 <div class="footer-spacer"></div>
 <div class="footer">
     Mindtools.io © All right reserved
+    <div id="idle" ng-app="idle" ng-controller="idle">{% include 'idle_popup.html' %}</div>
 </div>
 
   <script src="{% static 'js/jquery.min.js' %}"></script>
@@ -78,6 +81,7 @@
     <script>
         var api = '{{ api|safe }}';
         var csrf_token = '{{ csrf_token }}';
+        angular.bootstrap(document.getElementById("idle"), ['idle']);
     </script>
 
 </body>

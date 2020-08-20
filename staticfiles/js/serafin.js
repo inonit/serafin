@@ -1,4 +1,4 @@
-var serafin = angular.module('serafin', []);
+const serafin = angular.module('serafin', []);
 
 serafin.config(['$httpProvider', function (httpProvider) {
     httpProvider.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
@@ -393,9 +393,9 @@ serafin.directive('menu', ['$timeout', function (timeout) {
     }
 }]);
 
-const newserafin = angular.module('newserafin', []);
+const portal = angular.module('portal', []);
 
-newserafin.config(['$httpProvider', function (httpProvider) {
+portal.config(['$httpProvider', function (httpProvider) {
     httpProvider.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
     httpProvider.defaults.headers.post['X-CSRFToken'] = csrf_token;
     if (!httpProvider.defaults.headers.get) {
@@ -405,7 +405,7 @@ newserafin.config(['$httpProvider', function (httpProvider) {
     httpProvider.defaults.headers.get['If-Modified-Since'] = '0';
 }]);
 
-newserafin.run(['$rootScope', '$http', function (scope, http) {
+portal.run(['$rootScope', '$http', function (scope, http) {
     scope.modules_finished = -1;
     if (typeof (modules) !== 'undefined') {
         scope.modules = modules;
@@ -433,7 +433,7 @@ newserafin.run(['$rootScope', '$http', function (scope, http) {
 
 }]);
 
-newserafin.directive('dynamicTextSize', function () {
+portal.directive('dynamicTextSize', function () {
     return {
         restrict: 'A',
         link: function (scope, element, attrs) {
@@ -464,11 +464,11 @@ newserafin.directive('dynamicTextSize', function () {
     };
 });
 
-newserafin.controller('portal', ['$scope', '$http', function (scope, http) {
+portal.controller('portal', ['$scope', '$http', function (scope, http) {
 
 }]);
 
-newserafin.controller('modules', ['$scope', '$http', function (scope, http) {
+portal.controller('modules', ['$scope', '$http', function (scope, http) {
 
 }]);
 
@@ -707,7 +707,6 @@ therapistapp.component('pageVariablesTable', {
     }
 });
 
-
 const mytherapistapp = angular.module('mytherapist', ['ngEmojiPicker']);
 mytherapistapp.config(['$httpProvider', generalConfig()]);
 if (typeof(ChatController) !== 'undefined') {
@@ -716,52 +715,107 @@ if (typeof(ChatController) !== 'undefined') {
     mytherapistapp.directive('html5afix', FixAudioSrcDirective());
 }
 
-$(window).on("click", function(e) {
-    if (e.target == null || e.target.parentElement == null) {
-        return;
-    }
+const idle = angular.module('idle', ['ngIdle']);
 
-    if ((e.target.classList.contains("menu-icon") ||
-            e.target.parentElement.classList.contains("menu-icon"))) {
-        $(".header-tabs").show();
-    }
+idle.controller('idle', function ($scope, $timeout, Idle) {
+    $scope.events = [];
 
-    if ((e.target.classList.contains("mobile-close") ||
-            e.target.parentElement.classList.contains("mobile-close"))) {
-        $(".header-tabs").removeAttr("style");
-    }
+    var onIdle = false;
 
+    $scope.stay_loggedin = function() {
+        $("#idleModal").hide();
+        onIdle = false;
+    };
 
-    if (( e.target.classList.contains("header-user") || e.target.parentElement.classList.contains("header-user"))
-        && $(".header-user-menu").css('display') == 'none') {
-            $(".header-user-menu").show();
-    }
-    else {
-        $(".header-user-menu").hide();
-    }
+    $scope.logout = function() {
+        window.location.href = '/logout';
+    };
 
-    if (( e.target.classList.contains("episodes-menu-title-mobile") || e.target.parentElement.classList.contains("episodes-menu-title-mobile"))
-    && $(".episodes-menu").css('display') == 'none') {
-        $(".episodes-menu").show();
-    }
-    else {
-        if ($(".page").css("display") !== "flex") {
-
-
-            $(".episodes-menu").hide();
-            $(".page").show();
+    $scope.$on('IdleStart', function() {
+        if (!onIdle) {
+            onIdle = true;
+            $scope.countdown = Idle.getTimeout();
+            $scope.$apply();
+            var timeoutFunc = function () {
+                if (!onIdle) {
+                    return;
+                }
+                console.log("counter");
+                $scope.countdown = $scope.countdown - 1;
+                $scope.$apply();
+                if ($scope.countdown == 0) {
+                    $scope.logout();
+                } else {
+                    $timeout(timeoutFunc, 1000);
+                }
+            };
+            $timeout(timeoutFunc, 1000);
+            $("#idleModal").show();
         }
-    }
+    });
 
-    if (( e.target.classList.contains("episodes-link") || e.target.parentElement.classList.contains("episodes-link"))
-    && $(".episodes-menu").css('display') == 'none') {
-        $(".episodes-menu").show();
-        $(".page").hide();
-    }
-    else {
-        if ($(".page").css("display") !== "flex") {
-            $(".episodes-menu").hide();
-        }
-    }
+    $scope.$on('IdleTimeout', function() {
+        $scope.logout();
+    });
 
 });
+
+idle.config(function(IdleProvider, KeepaliveProvider) {
+	IdleProvider.idle(15*60); // in seconds
+	IdleProvider.timeout(60); // in seconds
+	KeepaliveProvider.interval(3); // in seconds
+});
+
+idle.run(function(Idle){
+	// start watching when the app runs. also starts the Keepalive service by default.
+	Idle.watch();
+});
+
+if (window.jQuery) {
+    $(window).on("click", function (e) {
+        if (e.target == null || e.target.parentElement == null) {
+            return;
+        }
+
+        if ((e.target.classList.contains("menu-icon") ||
+            e.target.parentElement.classList.contains("menu-icon"))) {
+            $(".header-tabs").show();
+        }
+
+        if ((e.target.classList.contains("mobile-close") ||
+            e.target.parentElement.classList.contains("mobile-close"))) {
+            $(".header-tabs").removeAttr("style");
+        }
+
+
+        if ((e.target.classList.contains("header-user") || e.target.parentElement.classList.contains("header-user"))
+            && $(".header-user-menu").css('display') == 'none') {
+            $(".header-user-menu").show();
+        } else {
+            $(".header-user-menu").hide();
+        }
+
+        if ((e.target.classList.contains("episodes-menu-title-mobile") || e.target.parentElement.classList.contains("episodes-menu-title-mobile"))
+            && $(".episodes-menu").css('display') == 'none') {
+            $(".episodes-menu").show();
+        } else {
+            if ($(".page").css("display") !== "flex") {
+
+
+                $(".episodes-menu").hide();
+                $(".page").show();
+            }
+        }
+
+        if ((e.target.classList.contains("episodes-link") || e.target.parentElement.classList.contains("episodes-link"))
+            && $(".episodes-menu").css('display') == 'none') {
+            $(".episodes-menu").show();
+            $(".page").hide();
+        } else {
+            if ($(".page").css("display") !== "flex") {
+                $(".episodes-menu").hide();
+            }
+        }
+
+    });
+}

@@ -3,7 +3,7 @@
 {% get_current_language_bidi as lang_dir %}
 
 <!DOCTYPE html>
-<html lang="en" ng-app="serafin">
+<html lang="en">
 
 <head>
 
@@ -32,13 +32,13 @@
 
 </head>
 
-<body ng-controller="pages">
+<body>
 
 <!-- Navigation -->
 {% include 'navbar.html' %}
 <!-- Page Content -->
 
-
+<div  ng-app="serafin" ng-controller="pages">
 <div class="episodes-menu" ng-hide="!chapters.length">
     <h2 class="episodes-menu-title">{% trans 'Chapters' %}</h2>
     <div class="episodes-menu-title-mobile">
@@ -382,13 +382,14 @@
         </div>
     </div>
 </div>
-
+</div>
 <!-- /.container -->
 
 <!-- Footer -->
 <div class="footer-spacer"></div>
 <div class="footer">
     Mindtools.io © All right reserved
+    <div id="idle" ng-app="idle" ng-controller="idle">{% include 'idle_popup.html' %}</div>
 </div>
 
 <!-- Bootstrap core JavaScript -->
@@ -396,12 +397,14 @@
 <script src="{% static 'js/bootstrap.bundle.min.js' %}"></script>
 <script src="{% static 'lib/angular/angular.min.js' %}"></script>
 <script src="{% static 'js/serafin.js' %}"></script>
+<script src="{% static 'lib/ng-idle/angular-idle.js' %}"></script>
 
 <script>
     var api = '{{ api|safe }}';
     var csrf_token = '{{ csrf_token }}';
     var areYouSure = '{% trans "Are you sure you want to leave?" %}';
     var module_id = {{ module_id|safe }};
+    angular.bootstrap(document.getElementById("idle"), ['idle']);
 </script>
 
 </body>

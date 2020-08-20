@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-08-20 21:00+0300\n"
+"POT-Creation-Date: 2020-08-21 00:56+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -1415,36 +1415,53 @@ msgstr ""
 msgid "Sort order"
 msgstr ""
 
-#: .\templates\modules.html:26 .\templates\navbar.html:23
+#: .\templates\idle_popup.html:6
+msgid "You were inactive for 15 minutes."
+msgstr "לא היית פעיל/ה למשך 15 דקות."
+
+#: .\templates\idle_popup.html:7
+msgid "You will logout automatically."
+msgstr "מבצע התנתקות אוטומטית."
+
+#: .\templates\idle_popup.html:12 .\templates\navbar.html:41
+#: .\templates\navbar.html:54
+msgid "Logout"
+msgstr "התנתק"
+
+#: .\templates\idle_popup.html:18
+msgid "Stay Logged In"
+msgstr "השאר/י מחובר/ת"
+
+#: .\templates\modules.html:27 .\templates\navbar.html:23
 msgid "Study meetings"
 msgstr "מפגשי למידה"
 
-#: .\templates\modules.html:28
+#: .\templates\modules.html:29
 msgid "Open steps"
 msgstr "שלבים פתוחים"
 
-#: .\templates\modules.html:29
+#: .\templates\modules.html:30
 msgid "Press item to view content"
 msgstr "לחץ לצפייה בתכנים"
 
-#: .\templates\modules.html:46 .\templates\portal.html:33
+#: .\templates\modules.html:47 .\templates\portal.html:35
 msgid "Current step"
 msgstr "השלב הנוכחי"
 
-#: .\templates\modules.html:48
+#: .\templates\modules.html:49
 msgid "Completed"
 msgstr "הושלם"
 
-#: .\templates\modules.html:58
+#: .\templates\modules.html:59
 msgid "Future steps"
 msgstr "שלבים בהמשך"
 
-#: .\templates\navbar.html:17 .\templates\portal.html:25
+#: .\templates\navbar.html:17 .\templates\portal.html:27
 #: .\templates\registration\password_change_done.html:6
 msgid "Home"
 msgstr "בית"
 
-#: .\templates\navbar.html:29 .\templates\tools.html:27
+#: .\templates\navbar.html:29 .\templates\tools.html:28
 msgid "Tools"
 msgstr "כלים"
 
@@ -1452,25 +1469,21 @@ msgstr "כלים"
 msgid "Supporter"
 msgstr "תומך"
 
-#: .\templates\navbar.html:41 .\templates\navbar.html:54
-msgid "Logout"
-msgstr "התנתק"
-
 #: .\templates\navbar.html:49
 msgid "Change Password"
 msgstr "החלפת סיסמה"
 
-#: .\templates\portal.html:38
+#: .\templates\portal.html:40
 msgid ""
 "there is no new available lesson, continue your training in accordance to "
 "your last session"
 msgstr "אין תוכן חדש כרגע, המשיכו באימון על פי התכנית"
 
-#: .\templates\portal.html:49
+#: .\templates\portal.html:51
 msgid "Show"
 msgstr "הצג"
 
-#: .\templates\portal.html:54
+#: .\templates\portal.html:56
 msgid "You have unread message from your supporter"
 msgstr "יש לך הודעה אחת מהתומך שלא נקראה"
 
@@ -1479,7 +1492,7 @@ msgid "Documentation"
 msgstr ""
 
 #: .\templates\registration\password_change_done.html:3
-#: .\templates\registration\password_change_form.html:37
+#: .\templates\registration\password_change_form.html:36
 msgid "Change password"
 msgstr "החלפת סיסמה"
 
@@ -1495,21 +1508,19 @@ msgstr ""
 msgid "Your password was changed."
 msgstr ""
 
-#: .\templates\registration\password_change_form.html:38
+#: .\templates\registration\password_change_form.html:37
 msgid "Old password"
 msgstr "סיסמה ישנה"
 
-#: .\templates\registration\password_change_form.html:39
-#| msgid "Change Password"
+#: .\templates\registration\password_change_form.html:38
 msgid "New password"
 msgstr "סיסמה חדשה"
 
-#: .\templates\registration\password_change_form.html:40
-#| msgid "Change Password"
+#: .\templates\registration\password_change_form.html:39
 msgid "Confirm password"
 msgstr "אישור סיסמה חדשה"
 
-#: .\templates\registration\password_change_form.html:48
+#: .\templates\registration\password_change_form.html:47
 msgid "Update"
 msgstr "עדכן"
 
@@ -1709,7 +1720,7 @@ msgstr "חזור"
 msgid "Next"
 msgstr "הבא"
 
-#: .\templates\sessionnew.html:403
+#: .\templates\sessionnew.html:405
 msgid "Are you sure you want to leave?"
 msgstr "האם את/ה בטוח שברצונך לעזוב את הדף?"
 
@@ -1733,15 +1744,15 @@ msgstr ""
 msgid "Notes"
 msgstr ""
 
-#: .\templates\tools.html:29
+#: .\templates\tools.html:30
 msgid "Printable materials"
 msgstr "חומרים להדפסה"
 
-#: .\templates\tools.html:42
+#: .\templates\tools.html:43
 msgid "Audio files to listen to when needed"
 msgstr "קבצי אודיו לשמיעה בשעת הצורך"
 
-#: .\templates\tools.html:60
+#: .\templates\tools.html:61
 msgid "Video file to watch when needed"
 msgstr "קבצי וידיאו לצפייה בשעת הצורך"
 

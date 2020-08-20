@@ -32,6 +32,7 @@
   <link href="{% static 'lib/ng-emoji-picker/css/nanoscroller.css' %}" rel="stylesheet">
   <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@300;500;700&display=swap" rel="stylesheet">
   <script src="{% static 'lib/angular/angular.min.js' %}"></script>
+  <script src="{% static 'lib/ng-idle/angular-idle.js' %}"></script>
 </head>
 
 <body>
@@ -56,6 +57,7 @@
     <div class="footer-spacer"></div>
     <div class="footer">
         Mindtools.io © All right reserved
+        <div id="idle" ng-app="idle" ng-controller="idle">{% include 'idle_popup.html' %}</div>
     </div>
 
   <!-- Bootstrap core JavaScript -->
@@ -80,6 +82,8 @@
     window.onload = function () {
         angular.element(document.getElementById('chat_component')).scope().load_messages();
     }
+
+    angular.bootstrap(document.getElementById("idle"), ['idle']);
 </script>
 
 </body>

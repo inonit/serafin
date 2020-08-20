@@ -17,8 +17,9 @@
 
     <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@300;500;700&display=swap" rel="stylesheet">
     <script src="{% static 'lib/angular/angular.min.js' %}"></script>
+    <script src="{% static 'lib/ng-idle/angular-idle.js' %}"></script>
 </head>
-<body>
+<body ng-app="idle" ng-controller="idle">
 <!--starts header-->
 {% include 'navbar.html' %}
 <!--end header-->
@@ -74,6 +75,7 @@
         <div class="footer-spacer"></div>
         <div class="footer">
             Mindtools.io © All right reserved
+            {% include 'idle_popup.html' %}
         </div>
     </div>
 </div>
