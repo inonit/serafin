@@ -1,4 +1,7 @@
 from __future__ import unicode_literals
+
+from defender import utils
+from django.contrib.auth.forms import SetPasswordForm
 from django.utils.translation import ugettext_lazy as _
 
 from django import forms
@@ -60,6 +63,19 @@ class PasswordResetForm(forms.Form):
 
             if subject and content:
                 user.send_email(subject, content)
+
+
+class CustomSetPasswordForm(SetPasswordForm):
+    def __init__(self, user, *args, **kwargs):
+        super().__init__(user, *args, **kwargs)
+
+    def save(self, commit=True):
+        password = self.cleaned_data["new_password1"]
+        self.user.set_password(password)
+        utils.reset_failed_attempts(username=self.user.username)
+        if commit:
+            self.user.save()
+        return self.user
 
 
 class AdminIDAuthenticationForm(AdminAuthenticationForm):

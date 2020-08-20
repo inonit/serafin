@@ -28,8 +28,8 @@ ALLOWED_HOSTS = ['*']
 
 # Application definition
 
-#from multisite import SiteID
-#SITE_ID = SiteID(default=1)
+# from multisite import SiteID
+# SITE_ID = SiteID(default=1)
 SITE_ID = 1
 
 INSTALLED_APPS = (
@@ -68,6 +68,7 @@ INSTALLED_APPS = (
     'constance',
     'raven.contrib.django.raven_compat',
     'serafin.apps.SerafinReConfig',
+    'defender',
 )
 
 MIDDLEWARE = (
@@ -80,6 +81,7 @@ MIDDLEWARE = (
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'django_user_agents.middleware.UserAgentMiddleware',
+    'defender.middleware.FailedLoginMiddleware',
     'events.middleware.EventTrackingMiddleware',
     'request.middleware.RequestMiddleware'
 )
@@ -518,3 +520,10 @@ SETTINGS_EXPORT = [
     'DEBUG',
     'GOOGLE_ANALYTICS_ID',
 ]
+
+DEFENDER_REDIS_URL = 'redis://' + CONSTANCE_REDIS_CONNECTION['host'] + ':' + str(CONSTANCE_REDIS_CONNECTION['port']) \
+                     + '/0'
+DEFENDER_LOGIN_FAILURE_LIMIT = 5
+DEFENDER_COOLOFF_TIME = 0
+DEFENDER_LOCKOUT_TEMPLATE = 'login_lock.html'
+DEFENDER_LOGIN_FAILURE_LIMIT_IP = 100

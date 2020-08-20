@@ -16,6 +16,7 @@ urlpatterns = [
                url(r'^api/system/', include('system.urls')),
 
                url(r'^admin/', admin.site.urls),
+               url(r'^admin/defender/', include('defender.urls')),
                url(r'^admin/export_text/', export_text),
                url(r'^admin/import_text/', import_text),
                url(r'^admin/set_program/$', set_program, name="set_program"),

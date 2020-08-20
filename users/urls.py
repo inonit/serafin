@@ -1,7 +1,7 @@
 from __future__ import unicode_literals
 
 from django.conf.urls import url
-from users.forms import PasswordResetForm
+from users.forms import PasswordResetForm, CustomSetPasswordForm
 from tokens.tokens import token_generator
 
 from django.contrib.auth import views as auth_views
@@ -18,7 +18,7 @@ urlpatterns = [
         name='password_reset'),
     url(r'^recover_password/sent/$', auth_views.PasswordResetDoneView.as_view(), name='password_reset_done'),
     url(r'^recover_password/(?P<uidb64>[0-9A-Za-z_\-]+)/(?P<token>.+)$',
-        auth_views.PasswordResetConfirmView.as_view(token_generator=token_generator), name='password_reset_confirm'),
+        auth_views.PasswordResetConfirmView.as_view(token_generator=token_generator, form_class=CustomSetPasswordForm), name='password_reset_confirm'),
     url(r'^recover_password/done/$', auth_views.PasswordResetCompleteView.as_view(), name='password_reset_complete'),
     url(r'^profile/$', profile, name='profile'),
     url(r'^api/users/receive_sms$', receive_sms, name='receive_sms'),

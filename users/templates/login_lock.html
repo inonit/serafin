@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+
+{% load i18n %}
+
+{% block title %}{% trans 'Account Locked' %}{% endblock %}
+
+{% block content %}
+<div class="page">
+    <h1>{% trans 'Account Locked' %}</h1>
+    <p>Due to many login attemps, this user was locked.</p>
+    <p>Please reset your password.</p>
+    <a href="{% url 'password_reset' %}">{% trans 'Reset Your Password' %}</a>
+</div>
+{% endblock %}
