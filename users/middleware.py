@@ -33,7 +33,7 @@ class AuthenticationMiddleware(AuthenticationMiddleware):
 
     def process_request(self, request):
         request.user = SimpleLazyObject(lambda: get_user(request))
-        if request.user.is_authenticated:
+        if request.user.is_authenticated and not request.path.startswith('/admin'):
             session_id = request.user.data.get('session')
             try:
                 session = get_object_or_404(Session, id=session_id)
