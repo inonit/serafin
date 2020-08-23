@@ -23,27 +23,9 @@ from serafin.settings import TIME_ZONE
 import json
 
 
-def set_language_by_session(session):
-    if session and session.program and session.program.is_rtl:
-        translation.activate('he')
-
-
 def set_language_by_program(program):
     if program and program.is_rtl:
         translation.activate('he')
-
-
-def basic_context_user_info(user):
-    has_therapist = user.therapist is not None
-    has_unread_messages = False
-    if has_therapist:
-        has_unread_messages = ChatMessage.objects.filter(Q(sender=user.therapist) & Q(receiver=user)
-                                                     & Q(is_read=False)).count() > 0
-    return {
-        'has_therapist': has_therapist,
-        'email': user.email,
-        'has_message': has_unread_messages
-    }
 
 
 def main_page(request):
@@ -58,10 +40,6 @@ def main_page(request):
         'program': session.program,
         'page': 'home'
     }
-
-    context.update(basic_context_user_info(request.user))
-
-    set_language_by_session(session)
 
     return render(request, 'portal.html', context)
 
@@ -303,8 +281,6 @@ def modules_page(request):
     modules = request.user.get_modules()
     engine = Engine(user=request.user, context={}, is_interactive=True)
     page = engine.run()
-    session = get_object_or_404(Session, id=session_id)
-    set_language_by_session(session)
 
     current_module_id = page.chapter.module.id if page and page.chapter and page.chapter.module else None
 
@@ -314,20 +290,13 @@ def modules_page(request):
         'page': 'modules'
     }
 
-    context.update(basic_context_user_info(request.user))
-
     return render(request, 'modules.html', context)
 
 
 @login_required
 def tools_page(request):
-    session_id = request.user.data.get('session')
-
     if not request.user.is_authenticated:
         return HttpResponseRedirect(settings.HOME_URL)
-
-    session = get_object_or_404(Session, id=session_id)
-    set_language_by_session(session)
 
     tools = request.user.get_tools()
 
@@ -338,8 +307,6 @@ def tools_page(request):
                       'video': any(x['type'] == "video" for x in tools)},
         'page': 'tools'
     }
-
-    context.update(basic_context_user_info(request.user))
 
     return render(request, 'tools.html', context)
 
@@ -444,9 +411,6 @@ def get_session(request, module_id=None):
     template = 'sessionnew.html'
     if request.GET.get("old") == '1':
         template = 'session.html'
-
-    set_language_by_session(session)
-    context.update(basic_context_user_info(request.user))
 
     return render(request, template, context)
 
@@ -679,20 +643,14 @@ def chat(request):
 
 
 def my_therapist(request):
-    session_id = request.user.data.get('session')
 
     if not request.user.is_authenticated:
         return HttpResponseRedirect(settings.HOME_URL)
 
-    session = get_object_or_404(Session, id=session_id)
-    set_language_by_session(session)
-
     context = {
         'chat_api': reverse('chat'),
-        'page': 'mytherapist'
+        'page': 'mytherapist',
+        'has_message': False
     }
-
-    context.update(basic_context_user_info(request.user))
-    context['has_message'] = False
 
     return render(request, 'mytherapist.html', context)

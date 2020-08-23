@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-08-21 00:56+0300\n"
+"POT-Creation-Date: 2020-08-23 18:29+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -787,44 +787,44 @@ msgstr ""
 msgid "IP"
 msgstr ""
 
-#: .\serafin\settings - Deploy.py:134 .\serafin\settings.py:136
+#: .\serafin\settings - Deploy.py:134 .\serafin\settings.py:137
 #: .\serafin\settings_SENSEATIVE.py:135
 msgid "English"
 msgstr ""
 
-#: .\serafin\settings - Deploy.py:135 .\serafin\settings.py:137
+#: .\serafin\settings - Deploy.py:135 .\serafin\settings.py:138
 #: .\serafin\settings_SENSEATIVE.py:136
 msgid "Norwegian"
 msgstr ""
 
-#: .\serafin\settings - Deploy.py:136 .\serafin\settings.py:138
+#: .\serafin\settings - Deploy.py:136 .\serafin\settings.py:139
 msgid "Hebrew"
 msgstr ""
 
-#: .\serafin\settings - Deploy.py:462 .\serafin\settings.py:450
+#: .\serafin\settings - Deploy.py:462 .\serafin\settings.py:452
 #: .\serafin\settings_SENSEATIVE.py:517
 msgid "Default stylesheet"
 msgstr ""
 
-#: .\serafin\settings - Deploy.py:463 .\serafin\settings.py:451
+#: .\serafin\settings - Deploy.py:463 .\serafin\settings.py:453
 msgid "New-Nalokson"
 msgstr ""
 
-#: .\serafin\settings - Deploy.py:464 .\serafin\settings.py:452
+#: .\serafin\settings - Deploy.py:464 .\serafin\settings.py:454
 msgid "RTL-Nalokson"
 msgstr ""
 
-#: .\serafin\settings - Deploy.py:465 .\serafin\settings.py:453
+#: .\serafin\settings - Deploy.py:465 .\serafin\settings.py:455
 #: .\serafin\settings_SENSEATIVE.py:518
 msgid "Nalokson"
 msgstr ""
 
-#: .\serafin\settings - Deploy.py:466 .\serafin\settings.py:454
+#: .\serafin\settings - Deploy.py:466 .\serafin\settings.py:456
 #: .\serafin\settings_SENSEATIVE.py:519
 msgid "Miksmaster"
 msgstr ""
 
-#: .\serafin\settings - Deploy.py:467 .\serafin\settings.py:455
+#: .\serafin\settings - Deploy.py:467 .\serafin\settings.py:457
 #: .\serafin\settings_SENSEATIVE.py:520
 msgid "Miksmaster alternate"
 msgstr ""
@@ -1473,6 +1473,18 @@ msgstr "תומך"
 msgid "Change Password"
 msgstr "החלפת סיסמה"
 
+#: .\templates\notfound.html:4
+msgid "We didn't find what you were looking for."
+msgstr "לא מצאנו את מה שחיפשת."
+
+#: .\templates\notfound.html:8
+msgid "Please check if the address you entered is correct"
+msgstr "כדאי לבדוק אם הכתובת שהזנת נכונה"
+
+#: .\templates\notfound.html:12
+msgid "We'll be glad to assist at "
+msgstr "נשמח לסייע בכתובת"
+
 #: .\templates\portal.html:40
 msgid ""
 "there is no new available lesson, continue your training in accordance to "
@@ -1647,17 +1659,17 @@ msgstr "משהו השתבש. אנא נסה/י שוב מאוחר יותר. או �
 #: .\templates\session.html:83 .\templates\session.html:93
 #: .\templates\session.html:156 .\templates\session.html:166
 #: .\templates\session.html:187 .\templates\session.html:197
-#: .\templates\session.html:242 .\templates\sessionnew.html:112
-#: .\templates\sessionnew.html:141 .\templates\sessionnew.html:235
-#: .\templates\sessionnew.html:262 .\templates\sessionnew.html:326
+#: .\templates\session.html:242 .\templates\sessionnew.html:113
+#: .\templates\sessionnew.html:142 .\templates\sessionnew.html:236
+#: .\templates\sessionnew.html:263 .\templates\sessionnew.html:327
 msgid "Please choose one"
 msgstr "אנא בחר/י אחד"
 
-#: .\templates\session.html:125 .\templates\sessionnew.html:186
+#: .\templates\session.html:125 .\templates\sessionnew.html:187
 msgid "Please enter a number"
 msgstr "אנא הכנס/י מספר"
 
-#: .\templates\session.html:126 .\templates\sessionnew.html:188
+#: .\templates\session.html:126 .\templates\sessionnew.html:189
 msgid ""
 "Please enter a number between {{ field.lower_limit }} and {{ field."
 "upper_limit }}"
@@ -1665,21 +1677,21 @@ msgstr "אנא הכנס/י מספר בין {{ field.lower_limit}} ל-{{ field.up
 
 #: .\templates\session.html:134 .\templates\session.html:135
 #: .\templates\session.html:146 .\templates\session.html:216
-#: .\templates\session.html:225 .\templates\sessionnew.html:200
-#: .\templates\sessionnew.html:202 .\templates\sessionnew.html:222
-#: .\templates\sessionnew.html:290 .\templates\sessionnew.html:303
+#: .\templates\session.html:225 .\templates\sessionnew.html:201
+#: .\templates\sessionnew.html:203 .\templates\sessionnew.html:223
+#: .\templates\sessionnew.html:291 .\templates\sessionnew.html:304
 msgid "This field is required"
 msgstr "שדה זה הוא חובה"
 
-#: .\templates\session.html:136 .\templates\sessionnew.html:204
+#: .\templates\session.html:136 .\templates\sessionnew.html:205
 msgid "Your phone number is too short"
 msgstr "מספר הטלפון קצר"
 
-#: .\templates\session.html:137 .\templates\sessionnew.html:206
+#: .\templates\session.html:137 .\templates\sessionnew.html:207
 msgid "+Country code then number, no other characters, e.g. \"+4798765432\""
 msgstr ""
 
-#: .\templates\session.html:217 .\templates\sessionnew.html:292
+#: .\templates\session.html:217 .\templates\sessionnew.html:293
 msgid "Please input a valid e-mail address"
 msgstr "אנא הכנס כותבת דואר אלקטרוני תקנית"
 
@@ -1699,28 +1711,28 @@ msgstr "פרקי התוכנית"
 msgid "Chapters list"
 msgstr "לרשימת הפרקים"
 
-#: .\templates\sessionnew.html:110 .\templates\sessionnew.html:233
-#: .\templates\sessionnew.html:324
+#: .\templates\sessionnew.html:111 .\templates\sessionnew.html:234
+#: .\templates\sessionnew.html:325
 msgid "Choose only one option"
 msgstr "ניתן למלא אפשרות אחת"
 
-#: .\templates\sessionnew.html:139 .\templates\sessionnew.html:260
+#: .\templates\sessionnew.html:140 .\templates\sessionnew.html:261
 msgid "You can choose multiple options"
 msgstr "ניתן למלא יותר מאפשרות אחת"
 
-#: .\templates\sessionnew.html:224
+#: .\templates\sessionnew.html:225
 msgid "Type here..."
 msgstr "הקלד/י תשובתך כאן..."
 
-#: .\templates\sessionnew.html:375
+#: .\templates\sessionnew.html:376
 msgid "Back"
 msgstr "חזור"
 
-#: .\templates\sessionnew.html:377
+#: .\templates\sessionnew.html:378
 msgid "Next"
 msgstr "הבא"
 
-#: .\templates\sessionnew.html:405
+#: .\templates\sessionnew.html:406
 msgid "Are you sure you want to leave?"
 msgstr "האם את/ה בטוח שברצונך לעזוב את הדף?"
 

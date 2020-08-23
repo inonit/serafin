@@ -1,0 +1,12 @@
+{% load i18n %}
+<div class="error-body">
+    <div class="error-title" dir="auto">
+        {% trans "We didn't find what you were looking for." %}
+    </div>
+    <div class="error-content" dir="auto">
+        {% trans "Please check if the address you entered is correct" %}
+    </div>
+    <div class="error-footer" dir="auto">
+        {% trans "We'll be glad to assist at " %} <a href="mailto:{{ support_email }}">{{ support_email }}</a>
+    </div>
+</div>

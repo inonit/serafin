@@ -957,4 +957,19 @@ and (-webkit-min-device-pixel-ratio: 2) {
     .modal-button-logout {
         background: #8a3d3f;
     }
+
+    .error-body {
+        display: flex;
+        flex-direction: column;
+        justify-items: center;
+        margin: 10vh 0 10vh;
+        color: #285c7e;
+        font-size: 2em;
+        font-weight: 300;
+    }
+
+    .error-title {
+        font-size: 2em;
+        font-weight: 500;
+    }
 }

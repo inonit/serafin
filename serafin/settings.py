@@ -103,9 +103,11 @@ TEMPLATES = [
                 'django.contrib.auth.context_processors.auth',
                 'django.template.context_processors.request',
                 'django_settings_export.settings_export',
-                'django.template.context_processors.static'
+                'django.template.context_processors.static',
                 # Insert your TEMPLATE_CONTEXT_PROCESSORS here or use this
                 # list if you haven't customized them:
+                'users.context_processors.add_support_email',
+                'users.context_processors.add_basic_user_info'
             ],
         },
     },
@@ -222,6 +224,7 @@ SERVER_EMAIL = 'Serafin <post@example.com>'
 DEFAULT_FROM_EMAIL = 'Serafin <post@example.com>'
 EMAIL_SUBJECT_PREFIX = '[Serafin] '
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+SUPPORT_EMAIL = 'DPLAB@UNIV.HAIFA.AC.IL'
 
 # SMS service
 

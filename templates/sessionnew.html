@@ -69,7 +69,7 @@
 
         <div class="" ng-form="form">
             <div class="error" ng-cloak ng-if="error">
-                {% trans "Something went wrong. We weren't able to find the right path for you. You can try reloading the page. If that doesn't work, try again in a few hours?" %}
+                {% include 'session_error.html' %}
             </div>
             {% verbatim %}
             <div class="" ng-repeat="pagelet in page track by $index" ng-cloak>
