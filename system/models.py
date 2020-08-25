@@ -224,7 +224,7 @@ class Session(models.Model):
     end_time_unit = models.CharField(_('end time unit'), max_length=32, choices=TIME_UNITS, default='hours')
     start_time = models.DateTimeField(_('first start time'), null=True, blank=True)
     scheduled = models.BooleanField(_('scheduled'), default=False)
-    is_recurrent = models.BooleanField(_('is recurrent task'), default=False)
+    interval = models.IntegerField(_('interval delta'), default=0)
     trigger_login = models.BooleanField(_('trigger login'), default=True)
 
     data = JSONField(load_kwargs={'object_pairs_hook': OrderedDict}, default='{"nodes": [], "edges": []}')
@@ -259,6 +259,12 @@ class Session(models.Model):
         timedelta = datetime.timedelta(**kwargs)
         return start_time + timedelta
 
+    def get_next_time(self, current_time, time_factor):
+        kwargs = {
+            self.start_time_unit: float(self.interval * time_factor)
+        }
+        timedelta = datetime.timedelta(**kwargs)
+        return current_time + timedelta
 
     def clean(self):
         Program.clean_is_lock(self.program)

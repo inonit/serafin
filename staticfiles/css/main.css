@@ -169,7 +169,7 @@ and (-webkit-min-device-pixel-ratio: 0.75){
         font-size: 4.5vmin;
         margin-top: 3vh;
         color: white;
-        font-weight: normal;
+        font-weight: 200;
         font-style: normal;
     }
 

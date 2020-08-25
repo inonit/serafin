@@ -58,16 +58,16 @@ def init_session(session_id, user_id, push=False):
     else:
         message = _('Session initialized')
 
-    if engine.session.scheduled and engine.session.is_recurrent:
+    if engine.session.scheduled and engine.session.end_time_delta > 0:
         useraccess = engine.user.get_first_program_user_access(engine.session.program)
         if engine.session.get_end_time(useraccess.start_time, useraccess.time_factor) > \
-                engine.session.get_start_time(timezone.now(), 1.0):
+                engine.session.get_next_time(timezone.now(), useraccess.time_factor):
 
-            start_time = engine.session.get_start_time(timezone.now(), 1.0)
+            next_time = engine.session.get_next_time(timezone.now(), useraccess.time_factor)
             Task.objects.create_task(
                 sender=engine.session,
                 domain='init',
-                time=start_time,
+                time=next_time,
                 task=init_session,
                 args=(session_id, user_id),
                 action=_('Initialize session recurrent'),
