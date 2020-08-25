@@ -32,6 +32,7 @@ class UserCreationForm(forms.ModelForm):
     password2 = forms.CharField(label=_('Password (again)'), widget=forms.PasswordInput)
     email = forms.EmailField(label=_('E-mail'))
     phone = forms.CharField(label=_('Phone'))
+    secondary_phone = forms.CharField(label=_('Secondary Phone'), required=False)
     program_access = forms.ModelChoiceField(label='Program Access', queryset=Program.objects.all())
 
     def __init__(self, *args, **kwargs):
@@ -61,6 +62,7 @@ class UserCreationForm(forms.ModelForm):
         user.set_password(self.cleaned_data['password1'])
         user.email = self.cleaned_data['email']
         user.phone = self.cleaned_data['phone']
+        user.secondary_phone = self.cleaned_data['secondary_phone']
         if commit:
             user.save()
         return user
@@ -104,6 +106,7 @@ class UserChangeForm(forms.ModelForm):
             self.fields['is_staff'].help_text = _('Designates whether the user can log into this admin site.')
         if 'is_therapist' in self.fields:
             self.fields['is_therapist'].help_text = 'Designates whether the user is a therapist.'
+        self.fields['secondary_phone'].required = False
 
         # get the user's program, add relevant therapist to the list
         user_program = ProgramUserAccess.objects.filter(user=self.instance).first()
@@ -150,16 +153,16 @@ class UserDataWidget(forms.Widget):
 
 @admin.register(User)
 class UserAdmin(UserAdmin, ImportExportModelAdmin):
-    list_display = ['id', 'email', 'phone',  'date_joined', 'last_login', 'is_superuser', 'is_staff', 'is_therapist',
+    list_display = ['id', 'email', 'phone', 'date_joined', 'last_login', 'is_superuser', 'is_staff', 'is_therapist',
                     'is_active']
-    search_fields = ['id', 'email', 'phone', 'data']
+    search_fields = ['id', 'email', 'phone', 'secondary_phone', 'data']
     ordering = ['id']
 
     form = UserChangeForm
     add_form = UserCreationForm
     fieldsets = (
         (None, {
-            'fields': ('id', 'password', 'email', 'phone', 'last_login', 'date_joined', 'therapist'),
+            'fields': ('id', 'password', 'email', 'phone', 'secondary_phone', 'last_login', 'date_joined', 'therapist'),
             'classes': ('suit-tab suit-tab-info', ),
         }),
         (_('Permissions'), {
@@ -173,7 +176,7 @@ class UserAdmin(UserAdmin, ImportExportModelAdmin):
     )
     restricted_fieldsets = (
         (None, {
-            'fields': ('id', 'password', 'email', 'phone', 'last_login', 'date_joined', 'therapist'),
+            'fields': ('id', 'password', 'email', 'phone', 'secondary_phone', 'last_login', 'date_joined', 'therapist'),
             'classes': ('suit-tab suit-tab-info', ),
         }),
         (_('Permissions'), {
@@ -187,7 +190,7 @@ class UserAdmin(UserAdmin, ImportExportModelAdmin):
     )
     add_fieldsets = (
         (None, {
-            'fields': ('password1', 'password2', 'email', 'phone'),
+            'fields': ('password1', 'password2', 'email', 'phone', 'secondary_phone'),
             'classes': ('suit-tab suit-tab-info', ),
         }),
         (_('Permissions'), {
@@ -197,7 +200,7 @@ class UserAdmin(UserAdmin, ImportExportModelAdmin):
     )
     restricted_add_fieldsets = (
         (None, {
-            'fields': ('password1', 'password2', 'email', 'phone', 'program_access'),
+            'fields': ('password1', 'password2', 'email', 'phone', 'secondary_phone', 'program_access'),
             'classes': ('suit-tab suit-tab-info', ),
         }),
         (_('Permissions'), {
@@ -270,6 +273,7 @@ class UserAdmin(UserAdmin, ImportExportModelAdmin):
         new_email = uuid.uuid4().hex + '@' + uuid.uuid4().hex + '.com'
         obj.email = new_email
         obj.phone = '0'
+        obj.secondary_phone = '0'
         obj.save()
 
     resource_class = UserResource

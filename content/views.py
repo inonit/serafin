@@ -113,8 +113,8 @@ def users_stats(request):
         has_unread_messages = ChatMessage.objects.filter(Q(sender=user) & Q(receiver=request.user) & Q(is_read=False)) \
             .count() > 0
 
-        user_row = {'id': user.id, 'email': user.email, 'phone': user.phone, 'last_login': last_login,
-                    'program_phase': user.data.get('Program_Phase'), 'start_time': start_time,
+        user_row = {'id': user.id, 'email': user.email, 'phone': user.phone, 'secondary_phone': user.secondary_phone,
+                    'last_login': last_login, 'program_phase': user.data.get('Program_Phase'), 'start_time': start_time,
                     'program': program_title, 'total_time': total_time, 'distinct_days': distinct_days,
                     'login_count': login_count, 'current_page': last_transition_page,
                     'has_notification': has_notification, 'has_messages': has_unread_messages}
@@ -267,6 +267,7 @@ def user_state(request, user_id):
         'has_messages': has_messages,
         'email': user.email,
         'phone': user.phone,
+        'secondary_phone': user.secondary_phone,
         'id': user.id,
     }
     return JsonResponse(context)

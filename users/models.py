@@ -2,6 +2,8 @@ from __future__ import unicode_literals
 from __future__ import print_function
 from builtins import str
 from builtins import object
+
+from django.db.models import Q
 from django.utils.translation import ugettext_lazy as _
 
 from django.conf import settings
@@ -26,16 +28,21 @@ import requests
 class UserManager(BaseUserManager):
     '''Custom User model Manager'''
 
-    def create_user(self, id, password, email, phone, data=None):
+    def create_user(self, id, password, email, phone, secondary_phone=None, data=None):
         user = self.model()
         user.set_password(password)
         user.email = email
         if phone:
             # verify it's unique
-            if User.objects.filter(phone=phone).count():
+            if User.objects.filter(Q(phone=phone) | Q(secondary_phone=phone)).count():
                 raise IntegrityError()
-
         user.phone = phone
+
+        if secondary_phone:
+            if User.objects.filter(Q(phone=secondary_phone) | Q(secondary_phone=secondary_phone)).count():
+                raise IntegrityError()
+        user.secondary_phone = secondary_phone
+
         if data:
             user.data = data
         user.save()
@@ -54,6 +61,7 @@ class User(AbstractBaseUser, PermissionsMixin):
 
     email = models.EmailField(_('e-mail address'), max_length=254, unique=True)
     phone = models.CharField(_('phone number'), max_length=32, unique=False, null=True)
+    secondary_phone = models.CharField(_('secondary phone number'), max_length=32, unique=False, null=True)
 
     is_staff = models.BooleanField(_('staff status'), default=False)
     is_active = models.BooleanField(_('active'), default=True)
@@ -97,62 +105,68 @@ class User(AbstractBaseUser, PermissionsMixin):
         return self.groups.filter(name=group_name).exists()
 
     def send_sms(self, message=None, is_whatsapp=False):
-        if not self.phone or len(self.phone) < 11:  # 11 character phone number +4712345678 (norway)
-            return False
+        results = []
+        phone_numbers = [self.phone, self.secondary_phone]
+        for phone_number in phone_numbers:
+            if not phone_number or len(phone_number) < 11: # 11 character phone number +4712345678 (norway)
+                results.append(False)
+                continue
 
-        if message and settings.SMS_SERVICE == 'Twilio':
-            client = Client(
-                settings.TWILIO_ACCOUNT_SID,
-                settings.TWILIO_AUTH_TOKEN
-            )
-
-            if is_whatsapp:
-                response = client.messages.create(
-                    body=message,
-                    to="whatsapp:" + self.phone,
-                    from_="whatsapp:" + settings.TWILIO_WHATSAPP_FROM_NUMBER,
-                )
-            else:
-                response = client.messages.create(
-                    body=message,
-                    to=self.phone,
-                    from_=settings.TWILIO_FROM_NUMBER,
+            if message and settings.SMS_SERVICE == 'Twilio':
+                client = Client(
+                    settings.TWILIO_ACCOUNT_SID,
+                    settings.TWILIO_AUTH_TOKEN
                 )
 
-            return response.sid
+                if is_whatsapp:
+                    response = client.messages.create(
+                        body=message,
+                        to="whatsapp:" + phone_number,
+                        from_="whatsapp:" + settings.TWILIO_WHATSAPP_FROM_NUMBER,
+                    )
+                else:
+                    response = client.messages.create(
+                        body=message,
+                        to=phone_number,
+                        from_=settings.TWILIO_FROM_NUMBER,
+                    )
 
-        if message and settings.SMS_SERVICE == 'Plivo':
-            client = PlivoRestClient(
-                settings.PLIVO_AUTH_ID,
-                settings.PLIVO_AUTH_TOKEN
-            )
+                results.append(response.sid)
 
-            response = client.send_message({
-                'src': settings.PLIVO_FROM_NUMBER,
-                'dst': self.phone[1:],  # drop the + before country code
-                'text': message,
-            })
+            if message and settings.SMS_SERVICE == 'Plivo':
+                client = PlivoRestClient(
+                    settings.PLIVO_AUTH_ID,
+                    settings.PLIVO_AUTH_TOKEN
+                )
 
-            return response
-
-        if message and settings.SMS_SERVICE == 'Console':
-            print(message)
-            return True
-
-        if message and settings.SMS_SERVICE == 'Primafon':
-            res = requests.post(
-                'http://sms.k8s.inonit.no/api/v0/messages/',
-                json={
-                    'to': self.phone[1:],
-                    'body': message,
-                },
-                headers={
-                    'Authorization':
-                        'Token %s' % settings.PRIMAFON_KEY,
+                response = client.send_message({
+                    'src': settings.PLIVO_FROM_NUMBER,
+                    'dst': phone_number[1:],  # drop the + before country code
+                    'text': message,
                 })
 
-            res.raise_for_status()
-            return True
+                results.append(response)
+
+            if message and settings.SMS_SERVICE == 'Console':
+                print(message)
+                results.append(True)
+
+            if message and settings.SMS_SERVICE == 'Primafon':
+                res = requests.post(
+                    'http://sms.k8s.inonit.no/api/v0/messages/',
+                    json={
+                        'to': phone_number[1:],
+                        'body': message,
+                    },
+                    headers={
+                        'Authorization':
+                            'Token %s' % settings.PRIMAFON_KEY,
+                    })
+
+                res.raise_for_status()
+                results.append(True)
+
+        return results[0] or results[1]
 
     def send_email(self, subject=None, message=None, html_message=None, **kwargs):
         if subject and (message or html_message):
@@ -398,13 +412,16 @@ class StatefulAnonymousUser(AnonymousUser):
         password = self.data['password']
         email = self.data['email']
         phone = self.data['phone'] if 'phone' in self.data else None
+        secondary_phone = self.data['secondary_phone'] if 'secondary_phone' in self.data else None
 
         del self.data['password']
         del self.data['email']
         if 'phone' in self.data:
             del self.data['phone']
+        if 'secondary_phone' in self.data:
+            del self.data['secondary_phone']
 
-        user = User.objects.create_user(None, password, email, phone, data=self.data)
+        user = User.objects.create_user(None, password, email, phone, secondary_phone=secondary_phone, data=self.data)
 
         return user, True
 

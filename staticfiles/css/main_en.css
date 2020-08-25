@@ -155,7 +155,7 @@ and (-webkit-min-device-pixel-ratio: 0.75){
     }
 
     .home-image {
-        height: 22vh;
+        height: 25vh;
         min-height: 100px;
         background: linear-gradient(0deg, rgba(71, 211, 255, 0.2), rgba(71, 211, 255, 0.2)), linear-gradient(0deg, rgba(0, 0, 0, 0.7) -35.4%, rgba(0, 0, 0, 0) 106.07%);
         display: flex;

@@ -522,6 +522,7 @@ therapistapp.controller('therapist', ['$scope', '$http', '$httpParamSerializerJQ
         scope.user_id = response.data.id;
         scope.user_email = response.data.email;
         scope.user_phone = response.data.phone;
+        scope.user_secondary_phone = response.data.secondary_phone;
         scope.variables = response.data.variables;
         scope.notifications = response.data.notifications;
         scope.has_messages = response.data.has_messages;

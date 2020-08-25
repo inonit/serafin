@@ -82,6 +82,7 @@
                 <th scope="col">#</th>
                 <th scope="col">Email</th>
                 <th scope="col">Phone</th>
+                <th scope="col">secondary_phone</th>
                 <th scope="col">Join</th>
                 <th scope="col">Last Login</th>
                 <th scope="col">Program Phase</th>
@@ -100,6 +101,7 @@
                 </th>
                 <td>{{u.email}}</td>
                 <td>{{u.phone}}</td>
+                <td>{{u.secondary_phone}}</td>
                 <td>{{u.start_time}}</td>
                 <td>{{u.last_login}}</td>
                 <td>{{u.program_phase}}</td>
@@ -122,6 +124,7 @@
             <p class="my-1">User Id: {{ user_id }}</p>
             <p class="my-1">Email: {{ user_email }}</p>
             <p class="my-1">Phone: {{ user_phone }}</p>
+            <p class="my-1">Secondary Phone: {{ user_secondary_phone }}</p>
             <hr class="my-2">
             <ul class="list-group">
                 <li class="list-group-item" ng-repeat="variable in variables | filter: {is_primary: true}">

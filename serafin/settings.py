@@ -366,6 +366,11 @@ RESERVED_VARIABLES = [
         'domains': []
     },
     {
+        'name': 'secondary_phone',
+        'admin_note': 'Do not use in conditions. Used in registration.',
+        'domains': []
+    },
+    {
         'name': 'password',
         'admin_note': 'Do not use in conditions. Used in registration.',
         'domains': []
