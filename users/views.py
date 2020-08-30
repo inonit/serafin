@@ -1,4 +1,6 @@
 from __future__ import unicode_literals
+
+from django.contrib.auth.views import redirect_to_login
 from django.utils.translation import ugettext_lazy as _
 
 from django.conf import settings
@@ -8,6 +10,7 @@ from django.contrib.auth import views as auth_views
 from django.http import HttpResponse, JsonResponse
 from django.shortcuts import redirect, render
 from django.utils import timezone
+from django.urls import reverse
 from django.views.decorators.csrf import csrf_exempt
 
 from events.signals import log_event
@@ -42,12 +45,15 @@ def manual_logout(request):
 def login_via_email(request, user_id=None, token=None):
     '''Log in by token link or redirect to manual login if token is invalid'''
 
+    if request.user.is_authenticated:
+        return redirect(reverse('content'))
+
     user = authenticate(user_id=user_id, token=token)
     if user:
         login(request, user)
         return redirect('/')
 
-    return redirect('login')
+    return redirect_to_login(reverse('content'))
 
 
 @csrf_exempt

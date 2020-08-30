@@ -16,6 +16,7 @@
         <label>{{ field.label }}</label>
         {{ field }}
         {% endfor %}
+        <input type="hidden" name="next" value="{{ next }}">
         <input class="button login" type="submit" value="{% trans 'Log in' %}">
         <a href="{% url 'password_reset' %}">{% trans 'Forgot your password?' %}</a>
     </form>
