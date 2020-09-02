@@ -126,7 +126,7 @@
             <p class="my-1">Phone: {{ user_phone }}</p>
             <p class="my-1">Secondary Phone: {{ user_secondary_phone }}</p>
             <hr class="my-2">
-            <ul class="list-group">
+            <ul class="list-group" dir="ltr">
                 <li class="list-group-item" ng-repeat="variable in variables | filter: {is_primary: true}">
                     {{variable.display_name}}: {{ variable.value }}
                 </li>
@@ -287,7 +287,7 @@
                 <button type="button" class="btn btn-primary" ng-click="addNote()">Add</button>
             </div>
         </div>
-
+        <div class="footer-spacer"></div>
     </div>
 
 </div>
