@@ -383,6 +383,7 @@ def home(request):
     return render(request, 'home.html2', {})
 
 
+@login_required
 def get_session(request, module_id=None):
     if request.is_ajax():
         return get_page(request)
@@ -409,11 +410,7 @@ def get_session(request, module_id=None):
         'module_id': 0 if not module_id else module_id
     }
 
-    template = 'sessionnew.html'
-    if request.GET.get("old") == '1':
-        template = 'session.html'
-
-    return render(request, template, context)
+    return render(request, 'sessionnew.html', context)
 
 
 def get_page(request):

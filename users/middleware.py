@@ -1,6 +1,6 @@
 from django.contrib import auth
 from django.http import Http404
-from django.shortcuts import get_object_or_404
+from django.shortcuts import get_object_or_404, redirect, reverse
 from django.utils import translation
 from django.utils.functional import SimpleLazyObject
 from django.contrib.auth.middleware import AuthenticationMiddleware
@@ -42,3 +42,14 @@ class AuthenticationMiddleware(AuthenticationMiddleware):
             except Http404 as ex:
                 pass
 
+
+class ForceChangePasswordMiddleware:
+    def __init__(self, get_response):
+        self.get_response = get_response
+
+    def __call__(self, request):
+        if request.user.is_authenticated:
+            if 'password_change' not in request.path and request.user.password_change_required:
+                return redirect(reverse('password_change'))
+
+        return self.get_response(request)

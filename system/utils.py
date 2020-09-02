@@ -78,9 +78,11 @@ def live_variable_replace(user, text):
                 pass
 
         variables[variable] = value
-        text = text.replace(code, '<span ng-bind-html="variables.%s | stripzerodecimal | breaks"></span>' % str(variable))
+        text = text.replace(code,
+                            '<span ng-bind-html="variables.%s | stripzerodecimal | breaks"></span>' % str(variable))
 
     return text, variables
+
 
 # for toggleset, togglesetmulti, multiplechoice, multipleselection
 # try to find if the option value (choice_value) is already checked previously
@@ -113,13 +115,13 @@ def is_it_checked(user, variable_name, choice_value):
     else:
         return False
 
+
 def process_email_links(user, text):
     '''Replaces login link markup with login link'''
 
     matches = re.findall(r'(login_link)', text)
     for match in matches:
-
-        link = user.generate_login_link()
+        link = user.generate_session_link()
         text = text.replace(match, link)
 
     return text
@@ -132,7 +134,6 @@ def generate_pdfs(user, text):
 
     matches = re.findall(r'(pdf:(\d+))', text)
     for match in matches:
-
         full_match = match[0]
         print(full_match)
         page_id = match[1]

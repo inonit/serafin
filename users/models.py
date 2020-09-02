@@ -104,6 +104,20 @@ class User(AbstractBaseUser, PermissionsMixin):
         '''Check if user is part of a given group by name'''
         return self.groups.filter(name=group_name).exists()
 
+    @property
+    def password_change_required(self):
+        change_password_key = 'force_change_password'
+        if self.data and change_password_key in self.data:
+            password_change_required = self.data[change_password_key]
+            return password_change_required
+        return False
+
+    def password_changed(self):
+        change_password_key = 'force_change_password'
+        if self.data:
+            self.data[change_password_key] = False
+            self.save()
+
     def send_sms(self, message=None, is_whatsapp=False):
         results = []
         phone_numbers = [self.phone, self.secondary_phone]
@@ -197,6 +211,19 @@ class User(AbstractBaseUser, PermissionsMixin):
 
             return email.send()
 
+    @staticmethod
+    def generate_session_link():
+        """Generate a url link to session"""
+        current_site = Site.objects.get_current()
+
+        link = '%(protocol)s://www.%(domain)s%(link)s' % {
+            'link': reverse('content'),
+            'protocol': 'https' if settings.USE_HTTPS else 'http',
+            'domain': current_site.domain
+        }
+
+        return link
+
     def generate_login_link(self):
         '''Generates a login link URL'''
 
@@ -233,7 +260,7 @@ class User(AbstractBaseUser, PermissionsMixin):
         )
 
         context = {
-            'link': self.generate_login_link(),
+            'link': self.generate_session_link(),
             'manual_login': manual_login,
             'site_name': current_site.name,
         }

@@ -83,7 +83,8 @@ MIDDLEWARE = (
     'django_user_agents.middleware.UserAgentMiddleware',
     'defender.middleware.FailedLoginMiddleware',
     'events.middleware.EventTrackingMiddleware',
-    'request.middleware.RequestMiddleware'
+    'request.middleware.RequestMiddleware',
+    'users.middleware.ForceChangePasswordMiddleware'
 )
 
 ROOT_URLCONF = 'serafin.urls'
@@ -373,6 +374,11 @@ RESERVED_VARIABLES = [
     {
         'name': 'password',
         'admin_note': 'Do not use in conditions. Used in registration.',
+        'domains': []
+    },
+    {
+        'name': 'force_change_password',
+        'admin_note': 'Force the user to change their password.',
         'domains': []
     },
     {

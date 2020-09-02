@@ -1,6 +1,6 @@
 from __future__ import unicode_literals
 
-from django.contrib.auth.views import redirect_to_login
+from django.contrib.auth.views import redirect_to_login, update_session_auth_hash, PasswordChangeView
 from django.utils.translation import ugettext_lazy as _
 
 from django.conf import settings
@@ -213,3 +213,22 @@ def profile(request):
     }
 
     return render(request, 'profile.html', context)
+
+
+class CustomPasswordChangeView(PasswordChangeView):
+    def form_valid(self, form):
+        form.save()
+        # Updating the password logs out all other sessions for the user
+        # except the current one.
+        update_session_auth_hash(self.request, form.user)
+        self.request.user.password_changed()
+        if 'pwd_req' in self.request.session:
+            del self.request.session['pwd_req']
+        return super().form_valid(form)
+
+    def get_form_kwargs(self):
+        kwargs = super().get_form_kwargs()
+        kwargs['user'] = self.request.user
+        if self.request.user and self.request.user.password_change_required:
+            self.request.session['pwd_req'] = True
+        return kwargs
