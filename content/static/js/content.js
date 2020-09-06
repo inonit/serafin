@@ -135,6 +135,10 @@ var dataTemplates = {
         field_type: 'email',
         variable_name: ''
     },
+    'phone': {
+        field_type: 'phone',
+        variable_name: ''
+    },
     'password': {
         field_type: 'password',
         variable_name: ''

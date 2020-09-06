@@ -62,7 +62,12 @@ serafin.controller('pages', ['$scope', '$http', function (scope, http) {
             if (pagelet.content_type == 'form' ||
                 pagelet.content_type == 'quiz') {
                 pagelet.content.forEach(function (field) {
-                    data[field.variable_name] = field.value
+                    if (field.field_type == 'phone') {
+                        data[field.variable_name] = scope.variables[field.variable_name]
+                    }
+                    else {
+                        data[field.variable_name] = field.value
+                    }
                 });
             }
             if (pagelet.content_type == 'toggleset' ||
@@ -275,6 +280,41 @@ serafin.directive('liveinput', ['$rootScope', function (rootScope) {
             });
         }
     };
+}]);
+
+serafin.directive('internationalPhone', ['$rootScope', function (rootScope) {
+    return {
+        restrict: 'A',
+        require: '^ngModel',
+        scope: {
+          ngModel: '=',
+          country: '='
+        },
+        link: function (scope, element, attrs, ctrl) {
+            var iti = window.intlTelInput(element[0], {
+                preferredCountries: ['il', 'us']
+            });
+
+            ctrl.$validators.phone = function(modelValue, viewValue) {
+                if (viewValue != '' || modelValue != '') {
+                    return iti.isValidNumber();
+                }
+                return true;
+            };
+
+            scope.$watch(function () {
+                if (ctrl.$modelValue !== undefined) {
+                    iti.setNumber(ctrl.$modelValue);
+                }
+                return ctrl.$modelValue;
+            }, function (newVal) {
+                var number = iti.getNumber(intlTelInputUtils.numberFormat.E164);
+                if (!number) number = '';
+                rootScope.variables[scope.$parent.field.variable_name] = number;
+            });
+        }
+    };
+
 }]);
 
 serafin.directive('stringToNumber', function () {

@@ -478,7 +478,7 @@ class Page(Content):
                         upper_limit = field.get('upper_limit')
                         field['upper_limit'] = self.check_value(user, upper_limit, field["field_type"])
 
-                    if field['field_type'] in ['numeric', 'string', 'text', 'email']:
+                    if field['field_type'] in ['numeric', 'string', 'text', 'email', 'phone']:
                         user_data = user.data
                         variable_name = field.get('variable_name')
                         variable_value = user_data.get(variable_name)
