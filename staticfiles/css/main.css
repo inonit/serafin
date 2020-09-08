@@ -643,6 +643,11 @@ and (-webkit-min-device-pixel-ratio: 0.75){
         font-weight: 500;
     }
 
+    .iti {
+        margin-top: 2.3vh;
+        direction: ltr;
+    }
+
     .question-hint {
         font-family: Heebo;
         font-size: 13px;

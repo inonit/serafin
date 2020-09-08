@@ -622,6 +622,11 @@ and (-webkit-min-device-pixel-ratio: 2) {
         font-weight: 500;
     }
 
+    .iti {
+        margin-top: 1.6vh;
+        direction: ltr;
+    }
+
     .question-label {
         font-size: 22px;
     }

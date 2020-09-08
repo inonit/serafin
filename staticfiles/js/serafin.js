@@ -292,7 +292,18 @@ serafin.directive('internationalPhone', ['$rootScope', function (rootScope) {
         },
         link: function (scope, element, attrs, ctrl) {
             var iti = window.intlTelInput(element[0], {
-                preferredCountries: ['il', 'us']
+                initialCountry: "auto",
+                geoIpLookup: function(success, failure) {
+                    var meta = document.createElement('meta');
+                    meta.name = "referrer";
+                    meta.content = "no-referrer";
+                    document.getElementsByTagName('head')[0].appendChild(meta);
+                    $.get("https://ipinfo.io/json", function() {}).always(function(resp) {
+                        var countryCode = (resp && resp.country) ? resp.country : "";
+                        success(countryCode);
+                        document.getElementsByTagName('head')[0].removeChild(meta);
+                    });
+                }
             });
 
             ctrl.$validators.phone = function(modelValue, viewValue) {
