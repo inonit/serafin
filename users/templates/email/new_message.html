@@ -11,14 +11,15 @@
     <tbody>
     <tr>
         <td>
-            <p>{% blocktrans %}Hello!{% endblocktrans %}</p>
-            <p>{% blocktrans %}You received a new message at program {{ site_name }}{% endblocktrans %}</p>
+            <p>{% blocktrans %}Hello,{% endblocktrans %}</p>
+            <p>{% blocktrans %}You have a new message from the program’s supporter (press the link to see it):{% endblocktrans %}</p>
             <p>{{ my_therapist }}</p>
+            <p>{% trans 'Best wishes,' %}</p>
+            <p>{% trans 'The program team' %}</p>
         </td>
     </tr>
     </tbody>
     <tfoot>
-    {% blocktrans %}{{ site_name }}{% endblocktrans %}
     </tfoot>
 </table>
 </body>

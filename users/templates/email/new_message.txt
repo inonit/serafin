@@ -1,10 +1,13 @@
 {% load i18n %}
 {% autoescape off %}
-{% blocktrans %}Hello!{% endblocktrans %}
+{% blocktrans %}Hello,{% endblocktrans %}
 
-{% blocktrans %}You received a new message at program {{ site_name }}{% endblocktrans %}
+{% blocktrans %}You have a new message from the program’s supporter (press the link to see it):{% endblocktrans %}
 
 {{ my_therapist }}
 
-{% blocktrans %}{{ site_name }}{% endblocktrans %}
+{% blocktrans %}Best wishes,{% endblocktrans %}
+{% blocktrans %}The program team{% endblocktrans %}
+
+
 {% endautoescape %}

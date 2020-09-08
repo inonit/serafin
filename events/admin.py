@@ -1,4 +1,7 @@
 from __future__ import unicode_literals
+
+import re
+
 from django.utils.translation import ugettext_lazy as _
 
 from django.contrib import admin
@@ -37,7 +40,7 @@ class EventAdmin(ImportExportModelAdmin):
         return False
 
     def has_delete_permission(self, request, obj=None):
-        return False
+        return re.search("user.*delete", request.path)
 
     resource_class = EventResource
     change_list_template = 'admin/events/event/change_list.html'

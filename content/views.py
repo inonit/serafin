@@ -518,7 +518,6 @@ def send_message(request):
     if (message is None or message.strip() == '') and file is None and audio is None:
         raise ValueError('message is empty')
 
-    obj = None
     other_user = None
     user_id = request.POST.get("user_id", None)
     chat_message = ChatMessage(message=message, sender=request.user)

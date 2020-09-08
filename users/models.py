@@ -281,13 +281,13 @@ class User(AbstractBaseUser, PermissionsMixin):
     def send_new_message_notification(self):
         '''Sends user new message notification with link'''
 
-        subject = str(_("You received new message"))
+        subject = str(_("You have a new message"))
         html_template = get_template('email/new_message.html')
         text_template = get_template('email/new_message.txt')
 
         current_site = Site.objects.get_current()
 
-        mytherapist_link = '%s://%s%s' % (
+        mytherapist_link = '%s://www.%s%s' % (
             'https' if settings.USE_HTTPS else 'http',
             current_site.domain,
             reverse('mytherapist'),
