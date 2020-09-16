@@ -154,7 +154,7 @@ class UserDataWidget(forms.Widget):
 @admin.register(User)
 class UserAdmin(UserAdmin, ImportExportModelAdmin):
     list_display = ['id', 'email', 'phone', 'date_joined', 'last_login', 'is_superuser', 'is_staff', 'is_therapist',
-                    'is_active']
+                    'is_active', 'get_first_program']
     search_fields = ['id', 'email', 'phone', 'secondary_phone', 'data']
     ordering = ['id']
 

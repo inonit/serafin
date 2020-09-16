@@ -1,7 +1,10 @@
 from __future__ import unicode_literals
 from __future__ import print_function
+
+import logging
 from builtins import str
 from builtins import object
+from smtplib import SMTPDataError
 
 from django.db.models import Q
 from django.utils.translation import ugettext_lazy as _
@@ -23,6 +26,8 @@ from system.models import ProgramUserAccess, Session
 from tokens.tokens import token_generator
 from twilio.rest import Client
 import requests
+
+logger = logging.getLogger(__name__)
 
 
 class UserManager(BaseUserManager):
@@ -213,7 +218,13 @@ class User(AbstractBaseUser, PermissionsMixin):
             for pdf in pdfs:
                 email.attach_alternative(pdf, 'application/pdf')
 
-            return email.send()
+            response = None
+            try:
+                response = email.send()
+            except SMTPDataError:
+                logger.exception('error while sending email')
+
+            return response
 
     @staticmethod
     def generate_session_link():
@@ -388,6 +399,8 @@ class User(AbstractBaseUser, PermissionsMixin):
         if program_user_access is not None:
             return program_user_access.program
         return None
+
+    get_first_program.short_description = 'Program'
 
     def get_pre_variable_value_for_log(self, variable_name):
         def recursive_stripe(v):
