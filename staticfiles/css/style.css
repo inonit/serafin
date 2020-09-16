@@ -272,6 +272,7 @@ fieldset label:last-child input {
 
 div.error {
     font-size: .875em;
+    margin: 1em 0 1em;
 }
 
 .error.right {

@@ -191,10 +191,10 @@ class User(AbstractBaseUser, PermissionsMixin):
             current_site = Site.objects.get_current()
             if hasattr(current_site, 'program'):
                 print(current_site.program)
-                subject = '[%s] %s' % (current_site.program.title, subject)
+                subject = '[%s] %s' % (current_site.program.display_title, subject)
                 from_email = current_site.program.from_email or settings.DEFAULT_FROM_EMAIL
             elif user_program:
-                subject = '[%s] %s' % (user_program.title, subject)
+                subject = '[%s] %s' % (user_program.display_title, subject)
                 from_email = user_program.from_email or settings.DEFAULT_FROM_EMAIL
             else:
                 subject = settings.EMAIL_SUBJECT_PREFIX + subject

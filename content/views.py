@@ -32,6 +32,8 @@ def main_page(request):
     session_id = request.user.data.get('session')
 
     if not session_id or not request.user.is_authenticated:
+        if request.user.is_authenticated and request.user.is_therapist:
+            return HttpResponseRedirect(reverse('therapist_zone'))
         return HttpResponseRedirect(settings.HOME_URL)
 
     session = get_object_or_404(Session, id=session_id)
@@ -44,6 +46,7 @@ def main_page(request):
     return render(request, 'portal.html', context)
 
 
+@login_required
 def therapist_zone(request):
     if not request.user.is_authenticated or not request.user.is_therapist:
         return main_page(request)
