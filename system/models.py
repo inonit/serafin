@@ -259,12 +259,16 @@ class Session(models.Model):
         timedelta = datetime.timedelta(**kwargs)
         return start_time + timedelta
 
-    def get_next_time(self, current_time, time_factor):
-        kwargs = {
-            self.start_time_unit: float(self.interval * time_factor)
-        }
-        timedelta = datetime.timedelta(**kwargs)
-        return current_time + timedelta
+    def get_next_time(self, start_time, time_factor):
+        i = 1
+        while True:
+            kwargs = {
+                self.start_time_unit: float(self.interval * time_factor) * i
+            }
+            timedelta = datetime.timedelta(**kwargs)
+            if start_time + timedelta > timezone.now():
+                return start_time + timedelta
+            i += 1
 
     def clean(self):
         Program.clean_is_lock(self.program)

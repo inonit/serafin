@@ -473,6 +473,9 @@ def content_route(request, route_slug=None):
             session.program.programuseraccess_set.filter(user=request.user.id).exists()):
         return HttpResponseRedirect(settings.HOME_URL)
 
+    if session and session.program and session.program.is_rtl:
+        translation.activate('he')
+
     context = {
         'session': session.id,
         'node': 0

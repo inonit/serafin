@@ -1,4 +1,7 @@
 from __future__ import unicode_literals
+
+import time
+
 from django.utils.translation import ugettext_lazy as _
 
 from django.contrib.auth import get_user_model
@@ -46,6 +49,7 @@ def init_session(session_id, user_id, push=False):
         context['stack'] = []
 
     engine = Engine(user_id=user_id, context=context, push=push)
+    original_session = engine.session
 
     if not engine.user.is_active:
         return _('Inactive user, no action taken')
@@ -58,14 +62,19 @@ def init_session(session_id, user_id, push=False):
     else:
         message = _('Session initialized')
 
-    if engine.session.scheduled and engine.session.end_time_delta > 0:
-        useraccess = engine.user.get_first_program_user_access(engine.session.program)
-        if engine.session.get_end_time(useraccess.start_time, useraccess.time_factor) > \
-                engine.session.get_next_time(timezone.now(), useraccess.time_factor):
+    if original_session.scheduled and original_session.end_time_delta > 0:
+        useraccess = engine.user.get_first_program_user_access(original_session.program)
+        if not useraccess:
+            print("Cannot find useraccess, sleep for 5 seconds and retry")
+            time.sleep(5)
+            useraccess = engine.user.get_first_program_user_access(original_session.program)
 
-            next_time = engine.session.get_next_time(timezone.now(), useraccess.time_factor)
+        if original_session.get_end_time(useraccess.start_time, useraccess.time_factor) > \
+                original_session.get_next_time(useraccess.start_time, useraccess.time_factor):
+
+            next_time = original_session.get_next_time(useraccess.start_time, useraccess.time_factor)
             Task.objects.create_task(
-                sender=engine.session,
+                sender=original_session,
                 domain='init',
                 time=next_time,
                 task=init_session,

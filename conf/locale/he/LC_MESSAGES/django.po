@@ -1845,7 +1845,7 @@ msgstr ""
 
 #: .\users\models.py:62
 msgid "e-mail address"
-msgstr ""
+msgstr "דואר אלקטרוני"
 
 #: .\users\models.py:63
 msgid "phone number"
@@ -1940,7 +1940,7 @@ msgstr "צוות התכנית"
 
 #: .\users\templates\login.html:21
 msgid "Forgot your password?"
-msgstr ""
+msgstr "שכחת את סיסמתך?"
 
 #: .\users\templates\login_lock.html:5 .\users\templates\login_lock.html:9
 msgid "Account Locked"

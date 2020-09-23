@@ -141,7 +141,7 @@ class ProgramGoldVariableInline(admin.TabularInline):
     ordering = ['variable_id']
 
     def formfield_for_foreignkey(self, db_field, request, **kwargs):
-        if db_field.name == 'variable':
+        if db_field.name == 'variable' and request.resolver_match.kwargs.get('object_id'):
             program_id = request.resolver_match.kwargs.get('object_id')
             program = Program.objects.get(id=program_id)
             kwargs["queryset"] = Variable.objects.filter(program=program)

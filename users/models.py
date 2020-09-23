@@ -482,3 +482,6 @@ class StatefulAnonymousUser(AnonymousUser):
         but pass rather than raise an exception
         '''
         pass
+
+    def get_pre_variable_value_for_log(self, variable_name):
+        return None
