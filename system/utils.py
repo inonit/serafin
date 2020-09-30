@@ -118,7 +118,6 @@ def generate_pdfs(user, text):
     for match in matches:
 
         full_match = match[0]
-        print(full_match)
         page_id = match[1]
 
         # try:

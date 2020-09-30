@@ -461,7 +461,6 @@ class Code(Content):
 
     def execute(self, user):
         message = self.data[0].get('content')
-        print("message in Code Excecute")
 
 class SMSManager(models.Manager):
     def get_queryset(self):
