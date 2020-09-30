@@ -157,8 +157,11 @@ class User(AbstractBaseUser, PermissionsMixin):
             if html_message:
                 email.attach_alternative(html_message, 'text/html')
 
+            count = 0
             for pdf in pdfs:
-                email.attach_alternative(pdf, 'application/pdf')
+                pdf_name = 'pdf_%d.pdf' % count
+                email.attach(pdf_name, pdf, 'application/pdf')
+                count+=1
 
             return email.send()
 
