@@ -145,6 +145,8 @@ class ProgramGoldVariableInline(admin.TabularInline):
             program_id = request.resolver_match.kwargs.get('object_id')
             program = Program.objects.get(id=program_id)
             kwargs["queryset"] = Variable.objects.filter(program=program)
+        elif db_field.name == 'variable':
+            kwargs["queryset"] = Variable.objects.none()
         return super().formfield_for_foreignkey(db_field, request, **kwargs)
 
     formfield_overrides = {
