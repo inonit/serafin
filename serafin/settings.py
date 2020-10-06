@@ -20,11 +20,17 @@ BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY', 'change-me')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = bool(int(os.environ.get('DEBUG', 0)))
 TEMPLATE_DEBUG = DEBUG
 USERDATA_DEBUG = DEBUG
 
-ALLOWED_HOSTS = ['*']
+if DEBUG:
+    ALLOWED_HOSTS = ['*']
+else:
+    ALLOWED_HOSTS = []
+ALLOWED_HOSTS_ENV = os.environ.get('ALLOWED_HOSTS')
+if ALLOWED_HOSTS_ENV:
+    ALLOWED_HOSTS.extend(ALLOWED_HOSTS_ENV.split(','))
 
 # Application definition
 
@@ -149,17 +155,18 @@ TIME_ZONE = 'Asia/Jerusalem'
 USE_I18N = True
 USE_L10N = True
 USE_TZ = True
-USE_HTTPS = True
+USE_HTTPS = False
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.8/howto/static-files/
 
-STATIC_URL = '/static/'
-STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+STATIC_URL = '/static/static/'
+STATIC_ROOT = '/vol/web/static'
+
 COMPRESS_ENABLED = True
 
-MEDIA_URL = '/media/'
-MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+MEDIA_URL = '/static/media/'
+MEDIA_ROOT = '/vol/web/media'
 
 STATICFILES_DIRS = (
     os.path.join(BASE_DIR, 'staticfiles'),
@@ -541,3 +548,33 @@ DEFENDER_LOGIN_FAILURE_LIMIT = 5
 DEFENDER_COOLOFF_TIME = 0
 DEFENDER_LOCKOUT_TEMPLATE = 'login_lock.html'
 DEFENDER_LOGIN_FAILURE_LIMIT_IP = 100
+
+if not DEBUG:
+    AWS_ACCESS_KEY_ID = ''
+    AWS_SECRET_ACCESS_KEY = ''
+    AWS_STORAGE_BUCKET_NAME = ''
+    AWS_S3_CUSTOM_DOMAIN = ''
+    PUBLIC_MEDIA_LOCATION = 'media'
+
+    FILER_STORAGES = {
+        'public': {
+            'main': {
+                'ENGINE': 'storages.backends.s3boto3.S3Boto3Storage',
+                'OPTIONS': {
+                    'location': 'media',
+                    'default_acl': 'public-read',
+                    'file_overwrite': False
+                },
+                'UPLOAD_TO': 'filer.utils.generate_filename.randomized',
+                'UPLOAD_TO_PREFIX': 'public',
+            },
+            'thumbnails': {
+                'ENGINE': 'storages.backends.s3boto3.S3Boto3Storage',
+                'OPTIONS': {
+                    'location': 'media',
+                    'default_acl': 'public-read',
+                    'file_overwrite': False
+                }
+            }
+        }
+    }

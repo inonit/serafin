@@ -23,15 +23,28 @@ services:
       dockerfile: Dockerfile
     volumes:
       - .:/code
-    command: sh -c "supervisord -c /etc/supervisor/supervisor.conf"
-    ports:
-      - '8000:8000'
-      - '5678:5678'
-    environment:
-      - DEBUG=1
+      - static_data:/vol/web
     links:
       - db
       - redis
+    expose:
+      - "8000"
+    environment:
+      - DJANGO_SECRET_KEY=changeme
+      - ALLOWED_HOSTS=localhost,127.0.0.1
+      - DEBUG=0
+ 
+  ngnix:
+    build:
+      context: ./ngnix
+    volumes:
+      - static_data:/vol/static
+    ports:
+      - "80:8080"
+    depends_on:
+      - app
 
+      
 volumes:
   postgresql-volume:
+  static_data:

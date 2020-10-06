@@ -26,9 +26,11 @@ RUN pip install -r requirements.txt
 RUN pip install ptvsd
 RUN pip install https://github.com/darklow/django-suit/tarball/v2
 COPY supervisor.conf /etc/supervisor/supervisor.conf
+COPY supervisor.deploy.conf /etc/supervisor/supervisor.deploy.conf
 COPY . /code/
 COPY filer.base64.json /code/
 COPY system.json /code/
+RUN mkdir -p /vol/web/media
+RUN mkdir -p /vol/web/static
 RUN python manage.py collectstatic --noinput
-EXPOSE 8000 5678
-ENTRYPOINT ["supervisord", "-c", "/etc/supervisor/supervisor.conf"]
+CMD ["supervisord", "-c", "/etc/supervisor/supervisor.deploy.conf"]

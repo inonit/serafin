@@ -57,7 +57,7 @@ pytz>=2018.5
 PyYAML>=3.13
 raven>=6.9.0
 rcssmin>=1.0.6
-redis>=2.10.6
+redis>=2.10.6,<=3.5
 requests>=2.19.1
 requests-file>=1.4.3
 rjsmin>=1.0.12
@@ -84,3 +84,4 @@ django-npm>=1.0.0
 backports.csv
 future>=0.18.2
 django-admin-sortable==2.1.8
+uWSGI>=2.0.19.1,<2.0.20
