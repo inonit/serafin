@@ -8,13 +8,73 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-09-08 19:36+0300\n"
+"POT-Creation-Date: 2020-10-08 19:37+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+
+#: .\PRIVATE\settings_current_prod.py:142 .\lookup\settings.py:142
+#: .\lookup\settings_old.py:139 .\serafin\settings - Deploy 20201009.py:139
+#: Deploy.py:139 .\serafin\settings.py:145
+#: .\serafin\settings_SENSEATIVE.py:135
+msgid "English"
+msgstr ""
+
+#: .\PRIVATE\settings_current_prod.py:143 .\lookup\settings.py:143
+#: .\lookup\settings_old.py:140 .\serafin\settings - Deploy 20201009.py:140
+#: Deploy.py:140 .\serafin\settings.py:146
+#: .\serafin\settings_SENSEATIVE.py:136
+msgid "Norwegian"
+msgstr ""
+
+#: .\PRIVATE\settings_current_prod.py:144 .\lookup\settings.py:144
+#: .\lookup\settings_old.py:141 .\serafin\settings - Deploy 20201009.py:141
+#: Deploy.py:141 .\serafin\settings.py:147
+msgid "Hebrew"
+msgstr ""
+
+#: .\PRIVATE\settings_current_prod.py:484 .\lookup\settings.py:484
+#: .\lookup\settings_old.py:478 .\serafin\settings - Deploy 20201009.py:478
+#: Deploy.py:478 .\serafin\settings.py:486
+#: .\serafin\settings_SENSEATIVE.py:517
+msgid "Default stylesheet"
+msgstr ""
+
+#: .\PRIVATE\settings_current_prod.py:485 .\lookup\settings.py:485
+#: .\lookup\settings_old.py:479 .\serafin\settings - Deploy 20201009.py:479
+#: Deploy.py:479 .\serafin\settings.py:487
+msgid "New-Nalokson"
+msgstr ""
+
+#: .\PRIVATE\settings_current_prod.py:486 .\lookup\settings.py:486
+#: .\lookup\settings_old.py:480 .\serafin\settings - Deploy 20201009.py:480
+#: Deploy.py:480 .\serafin\settings.py:488
+msgid "RTL-Nalokson"
+msgstr ""
+
+#: .\PRIVATE\settings_current_prod.py:487 .\lookup\settings.py:487
+#: .\lookup\settings_old.py:481 .\serafin\settings - Deploy 20201009.py:481
+#: Deploy.py:481 .\serafin\settings.py:489
+#: .\serafin\settings_SENSEATIVE.py:518
+msgid "Nalokson"
+msgstr ""
+
+#: .\PRIVATE\settings_current_prod.py:488 .\lookup\settings.py:488
+#: .\lookup\settings_old.py:482 .\serafin\settings - Deploy 20201009.py:482
+#: Deploy.py:482 .\serafin\settings.py:490
+#: .\serafin\settings_SENSEATIVE.py:519
+msgid "Miksmaster"
+msgstr ""
+
+#: .\PRIVATE\settings_current_prod.py:489 .\lookup\settings.py:489
+#: .\lookup\settings_old.py:483 .\serafin\settings - Deploy 20201009.py:483
+#: Deploy.py:483 .\serafin\settings.py:491
+#: .\serafin\settings_SENSEATIVE.py:520
+msgid "Miksmaster alternate"
+msgstr ""
 
 #: .\content\templates\admin\content_widget.html:7
 msgid "+ Rich Text"
@@ -578,7 +638,7 @@ msgstr ""
 msgid "Close"
 msgstr ""
 
-#: .\events\admin.py:25
+#: .\events\admin.py:28
 msgid "Actor"
 msgstr ""
 
@@ -791,48 +851,6 @@ msgstr ""
 msgid "IP"
 msgstr ""
 
-#: .\serafin\settings - Deploy.py:139 .\serafin\settings.py:139
-#: .\serafin\settings_SENSEATIVE.py:135
-msgid "English"
-msgstr ""
-
-#: .\serafin\settings - Deploy.py:140 .\serafin\settings.py:140
-#: .\serafin\settings_SENSEATIVE.py:136
-msgid "Norwegian"
-msgstr ""
-
-#: .\serafin\settings - Deploy.py:141 .\serafin\settings.py:141
-msgid "Hebrew"
-msgstr ""
-
-#: .\serafin\settings - Deploy.py:478 .\serafin\settings.py:464
-#: .\serafin\settings_SENSEATIVE.py:517
-msgid "Default stylesheet"
-msgstr ""
-
-#: .\serafin\settings - Deploy.py:479 .\serafin\settings.py:465
-msgid "New-Nalokson"
-msgstr ""
-
-#: .\serafin\settings - Deploy.py:480 .\serafin\settings.py:466
-msgid "RTL-Nalokson"
-msgstr ""
-
-#: .\serafin\settings - Deploy.py:481 .\serafin\settings.py:467
-#: .\serafin\settings_SENSEATIVE.py:518
-msgid "Nalokson"
-msgstr ""
-
-#: .\serafin\settings - Deploy.py:482 .\serafin\settings.py:468
-#: .\serafin\settings_SENSEATIVE.py:519
-msgid "Miksmaster"
-msgstr ""
-
-#: .\serafin\settings - Deploy.py:483 .\serafin\settings.py:469
-#: .\serafin\settings_SENSEATIVE.py:520
-msgid "Miksmaster alternate"
-msgstr ""
-
 #: .\serafin\settings_SENSEATIVE.py:293
 msgid "Users"
 msgstr ""
@@ -897,90 +915,90 @@ msgstr ""
 msgid "Variable"
 msgstr ""
 
-#: .\system\admin.py:174 .\system\admin.py:429 .\system\admin.py:595
+#: .\system\admin.py:176 .\system\admin.py:431 .\system\admin.py:597
 msgid "Admin note excerpt"
 msgstr ""
 
-#: .\system\admin.py:187 .\system\admin.py:215 .\system\admin.py:236
-#: .\system\admin.py:490 .\system\admin.py:511 .\system\admin.py:602
+#: .\system\admin.py:189 .\system\admin.py:217 .\system\admin.py:238
+#: .\system\admin.py:492 .\system\admin.py:513 .\system\admin.py:604
 #, python-format
 msgid "%(title)s (copy)"
 msgstr ""
 
-#: .\system\admin.py:251
+#: .\system\admin.py:253
 msgid "Copy selected programs"
 msgstr ""
 
-#: .\system\admin.py:258
+#: .\system\admin.py:260
 msgid "Export text of selected program"
 msgstr ""
 
-#: .\system\admin.py:264
+#: .\system\admin.py:266
 msgid "Import program text"
 msgstr ""
 
-#: .\system\admin.py:279
+#: .\system\admin.py:281
 msgid "Set Program"
 msgstr ""
 
-#: .\system\admin.py:307
+#: .\system\admin.py:309
 msgid ""
 "URL at which this Session will be available to registered Program users at "
 "all times"
 msgstr ""
 
-#: .\system\admin.py:310
+#: .\system\admin.py:312
 msgid "Session open even to unregistered users"
 msgstr ""
 
-#: .\system\admin.py:312
+#: .\system\admin.py:314
 msgid "Relative to the user's start time for the Program"
 msgstr ""
 
-#: .\system\admin.py:314
+#: .\system\admin.py:316
 msgid "Activate automatically for Program users at the given start time"
 msgstr ""
 
-#: .\system\admin.py:316
+#: .\system\admin.py:318
 msgid "Trigger a login e-mail at the scheduled time"
 msgstr ""
 
-#: .\system\admin.py:329
+#: .\system\admin.py:331
 #, python-format
 msgid "edge %(id)s"
 msgstr ""
 
-#: .\system\admin.py:336
+#: .\system\admin.py:338
 msgid "expression node"
 msgstr ""
 
-#: .\system\admin.py:342 .\system\admin.py:555
+#: .\system\admin.py:344 .\system\admin.py:557
 #, python-format
 msgid "Error in expression, %(id)s: %(error)s"
 msgstr ""
 
-#: .\system\admin.py:526
+#: .\system\admin.py:528
 msgid "Copy selected sessions"
 msgstr ""
 
-#: .\system\admin.py:542
+#: .\system\admin.py:544
 #, python-format
 msgid "pagelet %(id)s"
 msgstr ""
 
-#: .\system\admin.py:582
+#: .\system\admin.py:584
 msgid "No content"
 msgstr ""
 
-#: .\system\admin.py:590
+#: .\system\admin.py:592
 msgid "Page excerpt"
 msgstr ""
 
-#: .\system\admin.py:607
+#: .\system\admin.py:609
 msgid "Copy selected content"
 msgstr ""
 
-#: .\system\admin.py:670 .\system\admin.py:695
+#: .\system\admin.py:672 .\system\admin.py:697
 msgid "Subject"
 msgstr ""
 
@@ -1001,13 +1019,13 @@ msgid "display name"
 msgstr ""
 
 #: .\system\models.py:36 .\system\models.py:117 .\system\models.py:215
-#: .\system\models.py:318
+#: .\system\models.py:322
 msgid "admin note"
 msgstr ""
 
 #: .\system\models.py:37 .\system\models.py:129 .\system\models.py:164
-#: .\system\models.py:187 .\system\models.py:213 .\system\models.py:319
-#: .\system\models.py:730
+#: .\system\models.py:187 .\system\models.py:213 .\system\models.py:323
+#: .\system\models.py:734
 msgid "program"
 msgstr ""
 
@@ -1059,11 +1077,11 @@ msgstr ""
 msgid "variables"
 msgstr ""
 
-#: .\system\models.py:108 .\system\models.py:209 .\system\models.py:315
+#: .\system\models.py:108 .\system\models.py:209 .\system\models.py:319
 msgid "title"
 msgstr ""
 
-#: .\system\models.py:109 .\system\models.py:210 .\system\models.py:316
+#: .\system\models.py:109 .\system\models.py:210 .\system\models.py:320
 msgid "display title"
 msgstr ""
 
@@ -1087,7 +1105,7 @@ msgstr ""
 msgid "from email"
 msgstr ""
 
-#: .\system\models.py:119 .\users\models.py:418
+#: .\system\models.py:119 .\users\models.py:431
 msgid "users"
 msgstr ""
 
@@ -1107,7 +1125,7 @@ msgstr ""
 msgid "Program is locked. Could not save."
 msgstr ""
 
-#: .\system\models.py:165 .\system\models.py:772 .\users\models.py:417
+#: .\system\models.py:165 .\system\models.py:776 .\users\models.py:430
 msgid "user"
 msgstr ""
 
@@ -1147,7 +1165,7 @@ msgstr ""
 msgid "is open"
 msgstr ""
 
-#: .\system\models.py:214 .\system\models.py:327
+#: .\system\models.py:214 .\system\models.py:331
 msgid "content"
 msgstr ""
 
@@ -1200,87 +1218,87 @@ msgstr ""
 msgid "Session %s"
 msgstr ""
 
-#: .\system\models.py:317
+#: .\system\models.py:321
 msgid "content type"
 msgstr ""
 
-#: .\system\models.py:320
+#: .\system\models.py:324
 msgid "Can optionally be bound to a specific program"
 msgstr ""
 
-#: .\system\models.py:328
+#: .\system\models.py:332
 msgid "contents"
 msgstr ""
 
-#: .\system\models.py:358
+#: .\system\models.py:362
 msgid "page"
 msgstr ""
 
-#: .\system\models.py:359
+#: .\system\models.py:363
 msgid "pages"
 msgstr ""
 
-#: .\system\models.py:657
+#: .\system\models.py:661
 msgid "e-mail"
 msgstr ""
 
-#: .\system\models.py:658
+#: .\system\models.py:662
 msgid "e-mails"
 msgstr ""
 
-#: .\system\models.py:696
+#: .\system\models.py:700
 msgid "SMS"
 msgstr ""
 
-#: .\system\models.py:697
+#: .\system\models.py:701
 msgid "SMSs"
 msgstr ""
 
-#: .\system\models.py:731 .\system\models.py:770
+#: .\system\models.py:735 .\system\models.py:774
 msgid "therapist"
 msgstr ""
 
-#: .\system\models.py:733
+#: .\system\models.py:737
 msgid "patient"
 msgstr ""
 
-#: .\system\models.py:735 .\system\models.py:756
+#: .\system\models.py:739 .\system\models.py:760
 msgid "is read"
 msgstr ""
 
-#: .\system\models.py:736 .\system\models.py:757 .\system\models.py:776
+#: .\system\models.py:740 .\system\models.py:761 .\system\models.py:780
 msgid "message"
 msgstr ""
 
-#: .\system\models.py:737 .\system\models.py:755 .\system\models.py:775
+#: .\system\models.py:741 .\system\models.py:759 .\system\models.py:779
 msgid "timestamp"
 msgstr ""
 
-#: .\system\models.py:743
+#: .\system\models.py:747
 msgid "therapist notification"
 msgstr ""
 
-#: .\system\models.py:744
+#: .\system\models.py:748
 msgid "therapist notifications"
 msgstr ""
 
-#: .\system\models.py:751 .\tasker\models.py:44
+#: .\system\models.py:755 .\tasker\models.py:44
 msgid "sender"
 msgstr ""
 
-#: .\system\models.py:753
+#: .\system\models.py:757
 msgid "receiver"
 msgstr ""
 
-#: .\system\models.py:758
+#: .\system\models.py:762
 msgid "file name"
 msgstr ""
 
-#: .\system\models.py:759
+#: .\system\models.py:763
 msgid "file type"
 msgstr ""
 
-#: .\system\models.py:760
+#: .\system\models.py:764
 msgid "file data"
 msgstr ""
 
@@ -1292,24 +1310,24 @@ msgstr ""
 msgid "Initialize session"
 msgstr ""
 
-#: .\system\tasks.py:24 .\system\tasks.py:51
+#: .\system\tasks.py:27 .\system\tasks.py:55
 msgid "Inactive user, no action taken"
 msgstr ""
 
-#: .\system\tasks.py:28
+#: .\system\tasks.py:31
 #, python-format
 msgid "%(session)s transitioned to node %(node)s"
 msgstr ""
 
-#: .\system\tasks.py:57
+#: .\system\tasks.py:61
 msgid "Session initialized and login e-mail sent"
 msgstr ""
 
-#: .\system\tasks.py:59
+#: .\system\tasks.py:63
 msgid "Session initialized"
 msgstr ""
 
-#: .\system\tasks.py:73
+#: .\system\tasks.py:82
 msgid "Initialize session recurrent"
 msgstr ""
 
@@ -1427,8 +1445,8 @@ msgstr "לא היית פעיל/ה למשך 15 דקות."
 msgid "You will logout automatically."
 msgstr "מבצע התנתקות אוטומטית."
 
-#: .\templates\idle_popup.html:12 .\templates\navbar.html:41
-#: .\templates\navbar.html:54
+#: .\templates\idle_popup.html:12 .\templates\navbar.html:43
+#: .\templates\navbar.html:56
 msgid "Logout"
 msgstr "התנתק"
 
@@ -1469,11 +1487,11 @@ msgstr "בית"
 msgid "Tools"
 msgstr "כלים"
 
-#: .\templates\navbar.html:35
+#: .\templates\navbar.html:36
 msgid "Supporter"
 msgstr "תומך"
 
-#: .\templates\navbar.html:49
+#: .\templates\navbar.html:51
 msgid "Change Password"
 msgstr "החלפת סיסמה"
 
@@ -1496,7 +1514,7 @@ msgid "Documentation"
 msgstr ""
 
 #: .\templates\registration\password_change_done.html:3
-#: .\templates\registration\password_change_form.html:36
+#: .\templates\registration\password_change_form.html:39
 msgid "Change password"
 msgstr "החלפת סיסמה"
 
@@ -1516,23 +1534,23 @@ msgstr ""
 msgid "Back to main page"
 msgstr "לחזור לדף הראשי"
 
-#: .\templates\registration\password_change_form.html:38
+#: .\templates\registration\password_change_form.html:41
 msgid "Your password has expired. Please change it using the form below."
 msgstr ""
 
-#: .\templates\registration\password_change_form.html:40
+#: .\templates\registration\password_change_form.html:43
 msgid "Old password"
 msgstr "סיסמה ישנה"
 
-#: .\templates\registration\password_change_form.html:41
+#: .\templates\registration\password_change_form.html:44
 msgid "New password"
 msgstr "סיסמה חדשה"
 
-#: .\templates\registration\password_change_form.html:42
+#: .\templates\registration\password_change_form.html:48
 msgid "Confirm password"
 msgstr "אישור סיסמה חדשה"
 
-#: .\templates\registration\password_change_form.html:50
+#: .\templates\registration\password_change_form.html:56
 msgid "Update"
 msgstr "עדכן"
 
@@ -1546,8 +1564,8 @@ msgid "Your password has been set.  You may go ahead and log in now."
 msgstr ""
 
 #: .\templates\registration\password_reset_complete.html:12
-#: .\users\templates\login.html:5 .\users\templates\login.html:9
-#: .\users\templates\login.html:20 .\users\views.py:34
+#: .\users\templates\login.html:5 .\users\templates\login.html:23
+#: .\users\templates\login.html:42 .\users\views.py:35
 msgid "Log in"
 msgstr ""
 
@@ -1757,19 +1775,19 @@ msgstr "האם את/ה בטוח שברצונך לעזוב את הדף?"
 msgid "Account"
 msgstr ""
 
-#: .\templates\therapist.html:223
+#: .\templates\therapist.html:213
 msgid "Edit patient data"
 msgstr ""
 
-#: .\templates\therapist.html:249
+#: .\templates\therapist.html:239
 msgid "Notifications"
 msgstr ""
 
-#: .\templates\therapist.html:269
+#: .\templates\therapist.html:259
 msgid "Messages"
 msgstr ""
 
-#: .\templates\therapist.html:273
+#: .\templates\therapist.html:263
 msgid "Notes"
 msgstr ""
 
@@ -1835,6 +1853,14 @@ msgstr ""
 msgid "Log entries"
 msgstr ""
 
+#: .\users\backends.py:41
+msgid "This password must contain at least one digit."
+msgstr "סיסמה זו לא מכילה שום סיפרה."
+
+#: .\users\backends.py:46
+msgid "Your password must contain at least one digit."
+msgstr "הסיסמה שלך חייבת להכיל לפחות סיפרה אחת."
+
 #: .\users\forms.py:23
 msgid "Email"
 msgstr ""
@@ -1843,49 +1869,49 @@ msgstr ""
 msgid "ID should be an integer value"
 msgstr ""
 
-#: .\users\models.py:62
+#: .\users\models.py:67
 msgid "e-mail address"
 msgstr "דואר אלקטרוני"
 
-#: .\users\models.py:63
+#: .\users\models.py:68
 msgid "phone number"
 msgstr ""
 
-#: .\users\models.py:64
+#: .\users\models.py:69
 msgid "secondary phone number"
 msgstr ""
 
-#: .\users\models.py:66
+#: .\users\models.py:71
 msgid "staff status"
 msgstr ""
 
-#: .\users\models.py:67
+#: .\users\models.py:72
 msgid "active"
 msgstr ""
 
-#: .\users\models.py:73
+#: .\users\models.py:78
 msgid "program restrictions"
 msgstr ""
 
-#: .\users\models.py:74
+#: .\users\models.py:79
 msgid ""
 "Staff user has limited access only to the chosen Programs (and related "
 "data). If no Programs are chosen, there is no restriction."
 msgstr ""
 
-#: .\users\models.py:79
+#: .\users\models.py:84
 msgid "date joined"
 msgstr ""
 
-#: .\users\models.py:81
+#: .\users\models.py:86
 msgid "token"
 msgstr ""
 
-#: .\users\models.py:253
+#: .\users\models.py:264
 msgid "Today's login link"
 msgstr ""
 
-#: .\users\models.py:284
+#: .\users\models.py:295
 msgid "You have a new message"
 msgstr "יש לך הודעה חדשה"
 
@@ -1910,8 +1936,6 @@ msgstr ""
 
 #: .\users\templates\email\login_link.html:25
 #: .\users\templates\email\login_link.txt:11
-#: .\users\templates\email\new_message.html:23
-#: .\users\templates\email\new_message.txt:13
 #, python-format
 msgid "%(site_name)s"
 msgstr ""
@@ -1938,7 +1962,7 @@ msgstr "להתראות,"
 msgid "The program team"
 msgstr "צוות התכנית"
 
-#: .\users\templates\login.html:21
+#: .\users\templates\login.html:43
 msgid "Forgot your password?"
 msgstr "שכחת את סיסמתך?"
 
@@ -1978,17 +2002,17 @@ msgstr ""
 msgid "Save"
 msgstr ""
 
-#: .\users\views.py:99
+#: .\users\views.py:100
 msgid "Sorry, I'm not sure who this is."
 msgstr ""
 
-#: .\users\views.py:138
+#: .\users\views.py:139
 msgid ""
 "Sorry, there was an error processing your SMS. Our technicians have been "
 "notified and will try to fix it."
 msgstr ""
 
-#: .\users\views.py:142
+#: .\users\views.py:143
 msgid "No data received."
 msgstr ""
 

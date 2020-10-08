@@ -219,6 +219,21 @@ TOKEN_TIMEOUT_DAYS = 1
 SESSION_COOKIE_NAME = 'serafin_session'
 SESSION_COOKIE_AGE = 24 * 60 * 60  # 24 hours
 
+AUTH_PASSWORD_VALIDATORS = [
+    {
+        'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator',
+        'OPTIONS': {
+            'min_length': 8,
+        }
+    },
+    {
+        'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
+    },
+    {
+        'NAME': 'users.backends.DigitPasswordValidator',
+    },
+]
+
 # Events
 
 LOG_USER_DATA = True

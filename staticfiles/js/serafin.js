@@ -473,7 +473,7 @@ portal.run(['$rootScope', '$http', function (scope, http) {
             // switch cover image
             if (scope.cover_image != null) {
                 let bg = $(".home-image").css("background-image");
-                $(".home-image").css("background-image", bg + ", url(\"" + scope.cover_image + "\")")
+                $(".home-image").css("background-image", "url(\"" + scope.cover_image + "\")")
             }
 
         }, reason => {
