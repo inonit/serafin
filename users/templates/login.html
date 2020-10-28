@@ -1,49 +1,57 @@
-{% extends 'base.html' %}
-
+{% load static %}
 {% load i18n %}
+{% get_current_language as LANGUAGE_CODE %}
+{% get_current_language_bidi as lang_dir %}
 
-{% block title %}{% trans 'Log in' %}{% endblock %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>{% trans 'Log in' %}</title>
 
-{% block content %}
-    <form action="{% url 'set_language' %}" method="post">{% csrf_token %}
-    <input name="next" type="hidden" value="{{ redirect_to }}">
-    <select name="language">
-        {% get_current_language as LANGUAGE_CODE %}
-        {% get_available_languages as LANGUAGES %}
-        {% get_language_info_list for LANGUAGES as languages %}
-        {% for language in languages %}
-            <option value="{{ language.code }}"{% if language.code == LANGUAGE_CODE %} selected{% endif %}>
-                {{ language.name_local }} ({{ language.code }})
-            </option>
-        {% endfor %}
-    </select>
-    <input type="submit" value="Go">
-    </form>
-<div class="page">
-    <h1>{% trans 'Log in' %}</h1>
-    <form action="{% url 'login' %}" method="post">
+    {% if lang_dir %}
+    <link rel="stylesheet" type="text/css" href="{% static 'css/main.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/main-mobile.css' %}">
+    {% else %}
+    <link rel="stylesheet" type="text/css" href="{% static 'css/main_en.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/main-mobile_en.css' %}">
+    {% endif %}
+    <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@300;500;700&display=swap" rel="stylesheet">
+
+</head>
+<body>
+    <form action="{% url 'set_language' %}" method="post" class="change-language">
         {% csrf_token %}
-        {% if form.non_field_errors %}
-            <div class="error">
-            {% for error in form.non_field_errors %}
-                {{ error }}
-                <br/>
+        <input name="next" type="hidden" value="{{ redirect_to }}">
+        <select name="language">
+            {% get_current_language as LANGUAGE_CODE %}
+            {% get_available_languages as LANGUAGES %}
+            {% get_language_info_list for LANGUAGES as languages %}
+            {% for language in languages %}
+                <option value="{{ language.code }}"{% if language.code == LANGUAGE_CODE %} selected{% endif %}>
+                    {{ language.name_local }} ({{ language.code }})
+                </option>
             {% endfor %}
-            </div>
-        {% endif %}
-        {% for field in form %}
-        {% for error in field.errors %}
-        <p>{{ error }}</p>
-        {% endfor %}
-        <label>{{ field.label }}</label>
-        {{ field }}
-        {% endfor %}
+        </select>
+        <input type="submit" value="Go">
+    </form>
+<div class="login-page">
+<div class="login-welcome">
+    {% trans 'Welcome to Mindtools' %}
+</div>
+<div class="login-inner-box">
+    <div class="login-title">{% trans 'Login' %}</div>
+    <form action="{% url 'login' %}" method="post" class="login-form">
+        {% csrf_token %}
+        <input type="text" name="username" class="login-input-box" dir="auto" placeholder="{% trans 'Email address' %}">
+        <input type="password" name="password" class="login-input-box" dir="auto" placeholder="{% trans 'Password' %}">
         <input type="hidden" name="next" value="{{ next }}">
-        <input class="button login" type="submit" value="{% trans 'Log in' %}">
-        <a href="{% url 'password_reset' %}" dir="auto">{% trans 'Forgot your password?' %}</a>
+        <input class="login-button" type="submit" value="{% trans 'Login' %}">
+        <a href="{% url 'password_reset' %}" dir="auto" class="login-forgot-password">{% trans 'Forgot your password?' %}</a>
     </form>
 </div>
-{% endblock %}
+</div>
+</body>
 
-
-
+</html>

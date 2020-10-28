@@ -558,7 +558,7 @@ and (-webkit-min-device-pixel-ratio: 0.75){
     }
 
     .side-bar-item {
-        background: #E1F1FF;
+        background: #D6DDEB;
         border-radius: 5px;
         height: 20vh;
         width: 12vw;
@@ -592,7 +592,7 @@ and (-webkit-min-device-pixel-ratio: 0.75){
         letter-spacing: -0.2px;
         width: 16vw;
         height: 64px;
-        background: #E1F1FF;
+        background: #D6DDEB;
         border-radius: 5px;
         font-size: 15px;
         font-style: normal;
@@ -621,7 +621,7 @@ and (-webkit-min-device-pixel-ratio: 0.75){
     }
 
     .episodes-menu-item.enable {
-        background: #E1F1FF;
+        background: #D6DDEB;
         color: #5E6166;
         cursor: pointer;
     }
@@ -1281,8 +1281,260 @@ and (-webkit-min-device-pixel-ratio: 0.75){
         font-size: 32px;
         font-weight: 500;
     }
+
+    /* Login Page */
+
+    .change-language {
+        position: absolute;
+        display: flex;
+        flex-direction: row;
+        top: 0;
+        left: 20px;
+        z-index: 99999;
+    }
+
+    .login-page {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        position: absolute;
+        width: 100vw;
+        height: 100vh;
+        left: 0;
+        top: 0;
+        background: linear-gradient(180deg, #1B418A 0%, #006198 100%);
+    }
+
+    .login-welcome {
+        position: absolute;
+        top: 37px;
+
+        font-family: Heebo;
+        font-style: normal;
+        font-weight: 900;
+        font-size: 19px;
+        line-height: 28px;
+        /* identical to box height */
+        color: #FFFEF8;
+    }
+
+    .login-inner-box {
+        position: absolute;
+        width: 560px;
+        height: 421px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+
+        background: #FFFEF8;
+        box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.15);
+        border-radius: 3px;
+    }
+
+    .login-title {
+        margin-top: 37px;
+        margin-bottom: 37px;
+        font-family: Heebo;
+        font-style: normal;
+        font-weight: bold;
+        font-size: 28px;
+        line-height: 40px;
+        /* or 143% */
+        text-align: center;
+        /* black */
+
+        color: #222222;
+    }
+
+    .login-form {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .login-input-box {
+        direction: rtl;
+        width: 464px;
+        height: 56px;
+        background: #FFFEF8;
+        border: 1px solid #B1C4D2;
+        box-sizing: border-box;
+        border-radius: 10px;
+        padding: 0 20px 0 50px;
+        margin-bottom: 10px;
+        font-weight: 500;
+        font-size: 17px;
+        line-height: 25px;
+    }
+
+    .login-button {
+        width: 156px;
+        height: 56px;
+        margin-top: 20px;
+        background: #1B418A;
+        border-color: #1B418A;
+        border-radius: 4px;
+        border-width: 0;
+        font-family: Heebo;
+        font-style: normal;
+        font-weight: 500;
+        font-size: 20px;
+        line-height: 29px;
+        /* identical to box height */
+
+        text-align: center;
+
+        color: #FFFFFF;
+    }
+
+    .login-button-wide {
+        position: absolute;
+        width: 260px;
+        bottom: 45px;
+    }
+
+    .login-forgot-password {
+        position: absolute;
+        top: 85%;
+        font-family: Heebo;
+        font-style: normal;
+        font-weight: 500;
+        font-size: 15px;
+        line-height: 22px;
+        color: #1B418A;
+        border: 1px solid #FFFFFF;
+        text-decoration-line: none;
+    }
+
+    .login-inner-box-text {
+        margin-bottom: 37px;
+        font-family: Heebo;
+        font-style: normal;
+        font-weight: normal;
+        font-size: 20px;
+        line-height: 29px;
+        text-align: center;
+        color: #5E6166;
+    }
+
+    .reset-password-box-placeholder {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .reset-password-error {
+        visibility: hidden;
+    }
+
+    .login-input-with-error {
+        position: relative;
+    }
+
+    .reset-password-error-box {
+        position: absolute;
+        bottom: 65px;
+        right: 390px;
+        width: 220px;
+        min-height: 50px;
+        background: #222222;
+        border-radius: 5px;
+        font-family: Heebo;
+        font-style: normal;
+        font-weight: normal;
+        font-size: 13px;
+        line-height: 26px;
+        color: #FFFEF8;
+        display: flex;
+        align-items: center;
+        padding: 5px 10px 10px 5px;
+        direction: rtl;
+    }
+
+    .reset-password-error-box-arrow {
+        position: absolute;
+        width: 20px;
+        height: 20px;
+        bottom: 55px;
+        left: 18px;
+        background: #222222;
+        transform: rotate(45deg);
+    }
+
+    .reset-password-error-sign {
+        position: absolute;
+        width: 23px;
+        height: 23px;
+        top: 16px;
+        left: 16px;
+
+        border: 1px solid #000000;
+        box-sizing: border-box;
+        border-radius: 50%;
+        font-family: Heebo;
+        font-style: normal;
+        font-weight: 500;
+        font-size: 15px;
+        line-height: 22px;
+        text-align: center;
+    }
+
+    .reset-password-box-confirmation {
+        display: none;
+        width: 450px;
+        padding: 32px 35px 32px 40px;
+        background: #DDE5F2;
+        border-radius: 10px;
+        font-family: Heebo;
+        font-style: normal;
+        font-weight: normal;
+        font-size: 17px;
+        line-height: 26px;
+        text-align: center;
+        color: #000000;
+    }
+
+    .change-password-box-confirmation {
+        display: none;
+        width: 450px;
+        padding: 32px 35px 32px 40px;
+        background: #DDE5F2;
+        border-radius: 10px;
+        font-family: Heebo;
+        font-style: normal;
+        font-weight: bold;
+        font-size: 17px;
+        line-height: 26px;
+        text-align: center;
+        color: #000000;
+        margin-bottom: 20px;
+        margin-top: -20px;
+    }
+
+    .login-inner-box-text-small, .login-inner-box-text-small a {
+        font-family: Heebo;
+        font-style: normal;
+        font-weight: normal;
+        font-size: 17px;
+        line-height: 26px;
+        text-align: center;
+        color: #5E6166 !important;
+    }
+
+    .change-password-back-to-login {
+        position: absolute;
+        top: 85%;
+        display: none;
+    }
+
+    .change-password-back-to-login a {
+        font-family: Heebo;
+        font-style: normal;
+        font-weight: bold;
+        font-size: 17px;
+        line-height: 26px;
+        text-align: center;
+        color: #1B418A;
+        text-decoration-line: none;
+    }
 }
-
-
-
-
