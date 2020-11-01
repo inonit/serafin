@@ -1,3 +1,5 @@
+{% load i18n %}
+
 <div class="chat-box" id="chat_component" ng-controller="ChatController">
     <div class="msgs-content">
         <div class="load-previous-container" ng-if="show_load_previous">
@@ -8,6 +10,7 @@
         <div class="msgs-history">
             <div class="msg" ng-repeat="msg in messages">
                 <div ng-if="msg.r && msg.read == false && ($index == 0 || messages[$index-1].s || messages[$index-1].read != false)" class="new-chat-messages">New Messages</div>
+                <div ng-if="$index == 0 || messages[$index-1].day_display != msg.day_display" class="day-display">{% verbatim %} {{ msg.day_display }} {% endverbatim %}</div>
                 <div class="msg-in" ng-if="msg.s != true">
                     <div class="msg-text" dir="auto">
                         {% verbatim %}
@@ -15,9 +18,9 @@
 
                         <div ng-if="msg.file_name != null && !msg.is_audio" class="file-box"><a href="{{ get_attachment_url(msg.id) }}" target="_blank">{{ msg.file_name }}</a> </div>
                         <div ng-if="msg.file_name != null && msg.is_audio" ng-cloak><audio html5afix vsrc="{{ get_attachment_url(msg.id) }}" controls controlslist="nodownload"></audio> </div>
-
+                        <p class="time-date"> {{ msg.time_display }} </p>
                     </div>
-                    <span class="time-date"> {{ msg.time_display }}</span>
+
                     {% endverbatim %}
                 </div>
 
@@ -27,37 +30,38 @@
                         {{ msg.msg }}
                         <div ng-if="msg.file_name != null && !msg.is_audio" class="file-box"><a href="{{ get_attachment_url(msg.id) }}" target="_blank">{{ msg.file_name }}</a> </div>
                         <div ng-if="msg.file_name != null && msg.is_audio" ng-cloak><audio html5afix vsrc="{{ get_attachment_url(msg.id) }}" controls controlslist="nodownload"></audio> </div>
+                        <p class="time-date"> {{ msg.time_display }} </p>
                     </div>
-                    <span class="time-date"> {{ msg.time_display }}</span>
+
                     {% endverbatim %}
                 </div>
             </div>
         </div>
 
     </div>
-    <div class="type-msg">
-        <input type="text" data-emoji-input="unicode" emoji-picker="emoji-picker" data-emojiable="true"
-               placeholder="Type a message" ng-model="message"
-               ng-keypress="message_key_press($event)" onchange="angular_change(this)"/>
-        <audio ng-show="audio_blob != null" class="inline-msg audio-controller" src="" controls controlslist="nodownload"></audio>
-
-        <button class="msg-send-btn" type="button" ng-click="send_message()"><i class="fa fa-paper-plane-o" aria-hidden="true"></i></button>
-
-        <input ng-disabled="rec != null" type="file" file-model="uploadFile"  class="inputfile" id ="myFileField" accept="application/msword, text/plain, application/pdf" />
-        <label ng-disabled="rec != null" for="myFileField"><i class="fa fa-paperclip" aria-hidden="true"></i></label>
-
-        <button class="record-audio" ng-if="!is_recording && rec == null" type="button" ng-click="start_recording()"><i class="fa fa-microphone" aria-hidden="true"></i></button>
-        <button class="record-audio red" ng-if="is_recording" type="button" ng-click="stop_recording()"><i class="fa fa-stop" aria-hidden="true"></i></button>
-        <button class="record-audio red" ng-if="!is_recording && rec != null" type="button" ng-click="clear_record()"><i class="fa fa-trash" aria-hidden="true"></i></button>
-    </div>
-    <div class="type-msg-indicators">
-        <div ng-if="is_recording">...Recording...</div>
+    <div class="type-msg-attachment" ng-if="uploadFile != null">
         {% verbatim %}
         <span>{{ uploadFile.name }}</span>
         <button ng-if="uploadFile != null" type="button" ng-click="clear_file()">Clear</button>
         {%  endverbatim %}
     </div>
+    <div class="type-msg">
+        <input type="text" class="chat-input-text" data-emoji-input="unicode" emoji-picker="emoji-picker" data-emojiable="true"
+               placeholder="Type a message" ng-model="message"
+               ng-keypress="message_key_press($event)" onchange="angular_change(this)"/>
 
+        <audio ng-show="audio_blob != null" class="inline-msg audio-controller" src="" controls controlslist="nodownload"></audio>
+
+        <button class="msg-send-btn" type="button" ng-click="send_message()">{% trans 'Send' %}</button>
+
+        <button class="record-audio" ng-if="!is_recording && rec == null" type="button" ng-click="start_recording()"><i class="fa fa-microphone" aria-hidden="true"></i></button>
+        <button class="record-audio red" ng-if="is_recording" type="button" ng-click="stop_recording()"><i class="fa fa-stop" aria-hidden="true"></i></button>
+        <button class="record-audio red" ng-if="!is_recording && rec != null" type="button" ng-click="clear_record()"><i class="fa fa-trash" aria-hidden="true"></i></button>
+
+        <input ng-disabled="rec != null" type="file" file-model="uploadFile"  class="inputfile" id ="myFileField" accept="application/msword, text/plain, application/pdf" />
+        <label ng-disabled="rec != null" for="myFileField"><i class="fa fa-paperclip" aria-hidden="true"></i></label>
+
+    </div>
 </div>
 
 <script>
@@ -69,5 +73,8 @@
 <script>
 document.addEventListener("DOMContentLoaded", function(event) {
     $(".msg-send-btn").after($("i.emoji-picker-icon"));
+    $("i.emoji-picker-icon").removeClass("fa-smile-o");
+    $("i.emoji-picker-icon").addClass("fa-laugh");
+
 });
 </script>

@@ -590,7 +590,7 @@ def get_attachment(request, msg_id):
 
 
 def receive_messages_internal(prev, next, current_user, other_user):
-    max_messages = 5
+    max_messages = 10
     messages = None
     if next is None and prev is None:
         messages = ChatMessage.objects.filter((Q(sender=current_user) & Q(receiver=other_user)) |

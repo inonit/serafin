@@ -44,7 +44,8 @@ function ChatController() {
 
             let newMessages = response.messages;
             newMessages.forEach(function (message) {
-                message['time_display'] = moment(message.time).calendar();
+                message['time_display'] = moment(message.time).format("H:mm");
+                message['day_display'] = moment(message.time).calendar({sameDay: '[Today]', lastDay: '[Yesterday]', lastWeek: 'DD/MM/YYYY', sameElse: 'DD/MM/YYYY'});
                 let existMessage = scope.messages.find(element => element.id === message.id);
                 if (existMessage === undefined) {
                     scope.messages.push(message);
@@ -60,7 +61,7 @@ function ChatController() {
             if (scope.messages[0].id >= firstId) {
                 timeout(function () {
                     window.scrollTo(0, document.body.scrollHeight);
-                    let msgHistory = $('.msgs-history');
+                    let msgHistory = $('.msgs-content');
                     msgHistory.scrollTop(msgHistory.prop('scrollHeight'));
                 }, 100);
             }
@@ -163,7 +164,9 @@ function ChatController() {
 
         scope.clear_record = function() {
             if (scope.rec) {
-                scope.rec.clear()
+                scope.rec.clear();
+                let chatInput = $(".chat-input-text");
+                chatInput.prop( "disabled", false );
             }
             scope.rec = null;
             scope.audio_blob = null;
@@ -173,6 +176,9 @@ function ChatController() {
             scope.is_recording = true;
             scope.audio_blob = null;
             scope.uploadFile = null;
+            let chatInput = $(".chat-input-text");
+            chatInput.val('');
+            chatInput.prop( "disabled", true );
             if (scope.rec) {
                 scope.rec.clear();
             }
@@ -181,7 +187,7 @@ function ChatController() {
                 audioContext = new AudioContext();
                 gumStream = stream;
                 input = audioContext.createMediaStreamSource(stream);
-                scope.rec = new Recorder(input,{numChannels:1});
+                scope.rec = new Recorder(input, {numChannels:1});
 
 		        //start the recording process
 		        scope.rec.record();
