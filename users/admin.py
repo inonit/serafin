@@ -137,7 +137,7 @@ class UserDataWidget(forms.Widget):
         ]
 
         context = {
-            'data': value,
+            'data': json.loads(value),
             'int_fields': ['session', 'node'],
             'fields': json.dumps(priority_fields + sorted(other_fields)),
             'debug': str(settings.USERDATA_DEBUG).lower()
