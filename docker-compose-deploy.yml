@@ -34,9 +34,9 @@ services:
       - ALLOWED_HOSTS=localhost,127.0.0.1
       - DEBUG=0
  
-  ngnix:
+  nginx:
     build:
-      context: ./ngnix
+      context: ./nginx
     volumes:
       - static_data:/vol/static
     ports:

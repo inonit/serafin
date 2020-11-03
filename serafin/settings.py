@@ -84,13 +84,15 @@ MIDDLEWARE = (
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'users.middleware.AuthenticationMiddleware',
+    'users.middleware.RateLimitMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'django_user_agents.middleware.UserAgentMiddleware',
     'defender.middleware.FailedLoginMiddleware',
     'events.middleware.EventTrackingMiddleware',
     'request.middleware.RequestMiddleware',
-    'users.middleware.ForceChangePasswordMiddleware'
+    'users.middleware.ForceChangePasswordMiddleware',
+    'admin_ip_restrictor.middleware.AdminIPRestrictorMiddleware'
 )
 
 ROOT_URLCONF = 'serafin.urls'
@@ -156,6 +158,11 @@ USE_I18N = True
 USE_L10N = True
 USE_TZ = True
 USE_HTTPS = False
+
+if USE_HTTPS:
+    SECURE_SSL_REDIRECT = True
+    SESSION_COOKIE_SECURE = True
+    CSRF_COOKIE_SECURE = True
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.8/howto/static-files/
@@ -563,6 +570,12 @@ DEFENDER_LOGIN_FAILURE_LIMIT = 5
 DEFENDER_COOLOFF_TIME = 0
 DEFENDER_LOCKOUT_TEMPLATE = 'login_lock.html'
 DEFENDER_LOGIN_FAILURE_LIMIT_IP = 100
+
+RESTRICT_ADMIN = True
+ALLOWED_ADMIN_IPS = ['127.0.0.1', '::1']
+ALLOWED_ADMIN_IP_RANGES = ['127.0.0.0/24', '::/1']
+RESTRICTED_APP_NAMES = ['admin']
+TRUST_PRIVATE_IP = True
 
 if not DEBUG:
     AWS_ACCESS_KEY_ID = ''

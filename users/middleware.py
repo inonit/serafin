@@ -4,6 +4,7 @@ from django.shortcuts import get_object_or_404, redirect, reverse
 from django.utils import translation
 from django.utils.functional import SimpleLazyObject
 from django.contrib.auth.middleware import AuthenticationMiddleware
+from ratelimit.core import is_ratelimited
 
 from system.models import Session
 
@@ -53,3 +54,18 @@ class ForceChangePasswordMiddleware:
                 return redirect(reverse('password_change'))
 
         return self.get_response(request)
+
+
+class RateLimitMiddleware:
+
+    def __init__(self, get_response):
+        self.get_response = get_response
+        # One-time configuration and initialization.
+
+    def __call__(self, request):
+        # Code to be executed for each request before
+        # the view (and later middleware) are called.
+        if is_ratelimited(request, group="all", key='user_or_ip', rate='3/s', method='POST', increment=True):
+            raise Http404
+        else:
+            return self.get_response(request)
