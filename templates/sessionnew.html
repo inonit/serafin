@@ -25,6 +25,10 @@
     <link rel="stylesheet" type="text/css" href="{% static 'lib/intl-tel-input/build/css/intlTelInput.css' %}">
     <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@300;500;700&display=swap" rel="stylesheet">
 
+    <script src="{% static 'js/jquery.min.js' %}"></script>
+    <script src="{% static 'js/bootstrap.bundle.min.js' %}"></script>
+    <script src="{% static 'lib/angular/angular.min.js' %}"></script>
+
     <!-- Custom styles for this template -->
 
 </head>
@@ -36,7 +40,7 @@
 <!-- Page Content -->
 
 <div  ng-app="serafin" ng-controller="pages">
-<div class="episodes-menu" ng-hide="!chapters.length">
+<div class="episodes-menu" ng-cloak ng-hide="!chapters.length">
     <h2 class="episodes-menu-title">{% trans 'Chapters' %}</h2>
     <div class="episodes-menu-title-mobile">
         <img src="{% static 'img/left-arrow.svg' %}"/>
@@ -402,9 +406,6 @@
 </div>
 
 <!-- Bootstrap core JavaScript -->
-<script src="{% static 'js/jquery.min.js' %}"></script>
-<script src="{% static 'js/bootstrap.bundle.min.js' %}"></script>
-<script src="{% static 'lib/angular/angular.min.js' %}"></script>
 <script src="{% static 'lib/intl-tel-input/build/js/intlTelInput.js' %}"></script>
 <script src="{% static 'lib/intl-tel-input/build/js/utils.js' %}"></script>
 <script src="{% static 'js/serafin.js' %}"></script>

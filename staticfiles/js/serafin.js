@@ -469,6 +469,7 @@ portal.run(['$rootScope', '$http', function (scope, http) {
         http.get(api + window.location.search).then(response => {
             scope.error = null;
             scope = Object.assign(scope, response.data);
+            scope.loaded = true;
 
             // switch cover image
             if (scope.cover_image != null) {
@@ -479,6 +480,7 @@ portal.run(['$rootScope', '$http', function (scope, http) {
         }, reason => {
             scope.error = reason.data;
             scope.page = {};
+            scope.loaded = true;
         });
     }
 
