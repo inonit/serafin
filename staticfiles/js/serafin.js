@@ -549,9 +549,14 @@ therapistapp.run(['$rootScope', '$http', function (scope, http) {
     scope.display_show_table = true;
 
     if (api) {
-        http.get(api + window.location.search).then(response => {
+        http.get(api).then(response => {
             scope.error = null;
             scope = Object.assign(scope, response.data);
+            if (window.location.search.indexOf("user_id") >= 0) {
+                scope.userstat(window.location.search.substr(
+                    window.location.search.indexOf("=") + 1,
+                    window.location.search.length - 1))
+            }
         }, reason => {
             scope.error = reason.data;
             scope.page = {};
@@ -566,7 +571,7 @@ if (typeof(ChatController) !== 'undefined') {
     therapistapp.directive('html5afix', FixAudioSrcDirective());
 }
 
-therapistapp.controller('therapist', ['$scope', '$http', '$httpParamSerializerJQLike', '$timeout', '$interval', function (scope, http, httpParamSerializerJQLike, timeout, interval) {
+therapistapp.controller('therapist', ['$rootScope', '$scope', '$http', '$httpParamSerializerJQLike', '$timeout', '$interval', function (rootScope, scope, http, httpParamSerializerJQLike, timeout, interval) {
 
     var loadResponse = function (response) {
         scope.selectedTransformationVariable = null;
@@ -674,7 +679,7 @@ therapistapp.controller('therapist', ['$scope', '$http', '$httpParamSerializerJQ
         debugger;
     };
 
-    scope.userstat = function (user_id) {
+    rootScope.userstat = function (user_id) {
         $('#users-table').removeClass('show');
         scope.display_show_table = false;
         var url = api + '?user_id=' + user_id;

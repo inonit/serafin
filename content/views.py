@@ -418,6 +418,7 @@ def get_session(request, module_id=None):
 
 
 @ratelimit(group=None, key='user_or_ip', rate='10/m', method='POST', block=True)
+@ratelimit(group=None, key='user_or_ip', rate='1000/d', method='POST', block=True)
 def get_page(request):
     context = {}
 

@@ -29,50 +29,53 @@
 
 
     <!-- Custom styles for this template -->
-    <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@300;500;700&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css" rel="stylesheet">
     <link href="{% static 'lib/ng-emoji-picker/css/emoji.css' %}" rel="stylesheet">
     <link href="{% static 'lib/ng-emoji-picker/css/nanoscroller.css' %}" rel="stylesheet">
-    <link href="{% static 'css/mind-tools.css' %}" rel="stylesheet">
 
     <script src="{% static 'lib/angular/angular.min.js' %}"></script>
 </head>
 
-<body class="d-flex flex-column h-100">
+<body>
 
-<!-- Navigation -->
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark" style="direction: ltr">
-    <div class="container">
-        <a class="navbar-brand" href="#">Mind Tools</a>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive"
-                aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarResponsive">
-            <ul class="navbar-nav ml-auto">
-                <li class="nav-item">
-                    <a class="nav-link" href="/logout">Logout</a>
-                </li>
-
-            </ul>
-        </div>
+<div class="therapist-header">
+    <div class="therapist-header-title">Mindtools</div>
+    <div class="therapist-header-user header-user">
+        <div class="header-user-text">{{ email }}</div>
+        <div class="header-user-arrow"></div>
     </div>
-</nav>
+
+    <div class="header-user-menu therapist-header-user-menu">
+    <a class="header-user-menu-item" href="{% url 'password_change' %}">
+        <div class="header-user-menu-item-text">{% trans 'Change Password' %}</div>
+        <div class="header-user-menu-item-icon">
+        </div>
+    </a>
+    <a class="header-user-menu-item" href="{% url 'logout' %}">
+        <div class="header-user-menu-item-text">{% trans 'Logout' %}</div>
+        <div class="header-user-menu-item-icon">
+            <img class="header-user-menu-item-img" src="{% static 'img/exit.svg' %}"/>
+            <img class="header-user-menu-item-img-mobile" src="{% static 'img/exit-white.svg' %}"/>
+        </div>
+    </a>
+    </div>
+
+</div>
 
 <!-- Page Content -->
-<div class="container mt-1" ng-controller="therapist">
-
-    <a class="btn btn-primary" ng-hide="display_show_table" ng-click="showAllUsers()" data-toggle="collapse"
-       href="#users-table" role="button" aria-expanded="false" aria-controls="users-table">
-        Show all users
-    </a>
-    <div class="table-responsive collapse show" id="users-table">
-        <table class="table">
+<div class="therapist-container" ng-cloak ng-controller="therapist">
+    <div class="therapist-back-btn" ng-hide="display_show_table" ng-click="showAllUsers()">
+        Back to users list
+    </div>
+    <div id="users-table" ng-show="display_show_table">
+        <table class="table therapist-users-table">
             <thead>
             <tr>
                 <th scope="col">#</th>
                 <th scope="col">Email</th>
                 <th scope="col">Phone</th>
-                <th scope="col">secondary_phone</th>
+                <th scope="col">Secondary Phone</th>
                 <th scope="col">Join</th>
                 <th scope="col">Last Login</th>
                 <th scope="col">Program Phase</th>
@@ -105,41 +108,48 @@
         </table>
     </div>
 
+    <div id="user-section" ng-hide="display_show_table">
 
-    <div id="user-section" ng-hide="display_show_table" class="my-2">
-
-        <div class="jumbotron">
-            <h2 class="display-4">Patient</h2>
+        <div class="patient-main">
+            <div class="patient-name">Patient</div>
             {% verbatim %}
-            <p class="my-1">User Id: {{ user_id }}</p>
-            <p class="my-1">Email: {{ user_email }}</p>
-            <p class="my-1">Phone: {{ user_phone }}</p>
-            <p class="my-1">Secondary Phone: {{ user_secondary_phone }}</p>
-            <hr class="my-2">
-            <ul class="list-group" dir="ltr">
-                <li class="list-group-item" ng-repeat="variable in variables | filter: {is_primary: true}">
-                    {{variable.display_name}}: {{ variable.value }}
-                </li>
-            </ul>
-            <a class="lead collapsed" ng-hide="hideShowMoreButton" ng-click="hideShowMoreButton = true"
-               data-toggle="collapse" href="#more-gold-variable" role="button" aria-expanded="false"
-               aria-controls="more-gold-variable">See more</a>
-            <div class="collapse" id="more-gold-variable">
-
-                <ul class="list-group mt-2">
-                    <li class="list-group-item" ng-repeat="variable in variables | filter: {is_primary: false}">
-                        {{variable.display_name}}: {{ variable.value }}
-                    </li>
-                </ul>
-
-                <a class="lead collapsed" ng-click="hideShowMoreButton = false"
-                   data-toggle="collapse" href="#more-gold-variable" role="button" aria-expanded="false"
-                   aria-controls="more-gold-variable">Hide</a>
-
+            <div class="patient-main-info-boxes">
+                <div class="patient-main-info-box">
+                    <div class="patient-main-info-title">User Id</div>
+                    <div class="patient-main-info-data">{{ user_id }}</div>
+                </div>
+                <div class="patient-main-info-box">
+                    <div class="patient-main-info-title">Email</div>
+                    <div class="patient-main-info-data">{{ user_email }}</div>
+                </div>
+                <div class="patient-main-info-box">
+                    <div class="patient-main-info-title">Phone</div>
+                    <div class="patient-main-info-data">{{ user_phone }}</div>
+                </div>
+                <div class="patient-main-info-box">
+                    <div class="patient-main-info-title">Phone 2</div>
+                    <div class="patient-main-info-data">{{ user_secondary_phone }}</div>
+                </div>
             </div>
+            <div class="gold-variable-btn" ng-hide="hideShowMoreButton" ng-click="hideShowMoreButton = true">See more</div>
+            <div class="gold-variable-btn" ng-hide="!hideShowMoreButton" ng-click="hideShowMoreButton = false">Hide</div>
+            <hr class="patient-separator">
+            <div class="patient-gold-variables">
+                <div class="patient-gold-variable" ng-repeat="variable in variables | filter: {is_primary: true}">
+                    {{variable.display_name}}: {{ variable.value }}
+                </div>
+                <div id="more-gold-variable" ng-show="hideShowMoreButton">
+                    <div class="patient-gold-variable" ng-repeat="variable in variables | filter: {is_primary: false}">
+                        {{variable.display_name}}: {{ variable.value }}
+                    </div>
+                </div>
+            </div>
+
+
             {% endverbatim %}
         </div>
-        <nav>
+        <div class="patient-extend-data">
+        <nav class="therapist-nav">
             <div class="nav nav-tabs" id="nav-tab" role="tablist">
                 <a class="nav-item nav-link active" id="nav-user-pages-tab" data-toggle="tab" href="#nav-user-pages"
                    role="tab"
@@ -256,8 +266,9 @@
                 </div>
             </div>
             <div class="tab-pane fade" id="nav-messages" role="tabpanel" aria-labelledby="nav-messages-tab" dir="ltr">
-                <h2>{% trans 'Messages' %}</h2>
+                <div class="chat-container">
                 {% include 'chat.html' %}
+                </div>
             </div>
             <div class="tab-pane fade" id="nav-notes" role="tabpanel" aria-labelledby="nav-notes-tab">
                 <h2>{% trans 'Notes' %}</h2>
@@ -274,8 +285,9 @@
                     <label>New Note</label>
                     <textarea ng-model="new_note" rows="3" class="form-control"></textarea>
                 </div>
-                <button type="button" class="btn btn-primary" ng-click="addNote()">Add</button>
+                <button type="button" class="btn btn-primary" ng-click="addNote()">Add note</button>
             </div>
+        </div>
         </div>
         <div class="footer-spacer"></div>
     </div>
@@ -284,12 +296,6 @@
 <!-- /.container -->
 
 <!-- Footer -->
-<footer class="py-3 bg-dark mt-auto footer">
-    <div class="container">
-        <p class="m-0 text-center text-white">Copyright &copy; {% now 'Y' %} MindTools.io</p>
-    </div>
-    <!-- /.container -->
-</footer>
 
 <!-- Bootstrap core JavaScript -->
 <script src="{% static 'lib/moment/min/moment.min.js' %}"></script>

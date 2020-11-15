@@ -114,22 +114,3 @@ audio.inline_msg {
     position:absolute;
     left:0px;
 }
-
-
-.notes-box {
-   max-height: 516px;
-  overflow-y: auto;
-}
-
-.note {
-  background: #ebebeb none repeat scroll 0 0;
-  border-radius: 3px;
-  color: #646464;
-  font-size: 14px;
-  padding: 5px 10px 5px 12px;
-  display: inline-block;
-  vertical-align: top;
-  width: 92%;
-  margin:13px 0 13px;
-  text-align: justify;
-}
