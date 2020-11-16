@@ -417,8 +417,8 @@ def get_session(request, module_id=None):
     return render(request, 'sessionnew.html', context)
 
 
-@ratelimit(group=None, key='user_or_ip', rate='10/m', method='POST', block=True)
-@ratelimit(group=None, key='user_or_ip', rate='1000/d', method='POST', block=True)
+@ratelimit(group='post_by_user', key='user_or_ip', rate='10/m', method='POST', block=True)
+@ratelimit(group='post_by_user', key='user_or_ip', rate='1000/d', method='POST', block=True)
 def get_page(request):
     context = {}
 
@@ -517,9 +517,9 @@ def api_filer_file(request, content_type=None, file_id=None):
 
 
 @login_required
-@ratelimit(group=None, key='user_or_ip', rate='10/m', method='POST', block=True)
-@ratelimit(group=None, key='user_or_ip', rate='100/h', method='POST', block=True)
-@ratelimit(group=None, key='user_or_ip', rate='500/d', method='POST', block=True)
+@ratelimit(group='post_by_user', key='user_or_ip', rate='10/m', method='POST', block=True)
+@ratelimit(group='post_by_user', key='user_or_ip', rate='100/h', method='POST', block=True)
+@ratelimit(group='post_by_user', key='user_or_ip', rate='500/d', method='POST', block=True)
 def send_message(request):
     if request.method != 'POST':
         raise ValueError('bad method')

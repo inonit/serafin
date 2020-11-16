@@ -65,7 +65,9 @@ class RateLimitMiddleware:
     def __call__(self, request):
         # Code to be executed for each request before
         # the view (and later middleware) are called.
-        if is_ratelimited(request, group="all", key='user_or_ip', rate='3/s', method='POST', increment=True):
+        if is_ratelimited(request, group='post_by_user', key='user_or_ip', method='POST', rate='10/m', increment=False):
+            raise Http404
+        elif is_ratelimited(request, group='all', key='user_or_ip', rate='3/s', method='POST', increment=True):
             raise Http404
         else:
             return self.get_response(request)

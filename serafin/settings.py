@@ -23,6 +23,7 @@ SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY', 'change-me')
 DEBUG = bool(int(os.environ.get('DEBUG', 0)))
 TEMPLATE_DEBUG = DEBUG
 USERDATA_DEBUG = DEBUG
+RATELIMIT_ENABLE = True
 
 if DEBUG:
     ALLOWED_HOSTS = ['*']
