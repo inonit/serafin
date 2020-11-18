@@ -80,6 +80,17 @@ def users_stats(request):
 
     users = User.objects.filter(therapist=request.user)
 
+    users_str = ",".join(map(str, list(users.values('id').values_list(flat=True))))
+    event = Event(
+        time=timezone.localtime(timezone.now()),
+        domain='therapist',
+        actor=request.user,
+        variable='users',
+        pre_value=users_str,
+        post_value=''
+    )
+    event.save()
+
     users_table = []
     all_users_events = Event.objects.filter(actor__in=users)
     current_tz = timezone.get_current_timezone()
@@ -146,6 +157,16 @@ def user_state(request, user_id):
     user = User.objects.get(id=user_id)
     if user.therapist != request.user:
         return JsonResponse({'error': 'access denied'}, status=403)
+
+    event = Event(
+        time=timezone.localtime(timezone.now()),
+        domain='therapist',
+        actor=request.user,
+        variable='user',
+        pre_value=str(user.id),
+        post_value=''
+    )
+    event.save()
 
     # extract gold variables
     program = user.get_first_program()
