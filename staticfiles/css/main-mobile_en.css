@@ -983,9 +983,17 @@ and (-webkit-min-device-pixel-ratio: 2) {
         position: absolute;
         display: flex;
         flex-direction: row;
-        top: 0;
+        top: 15px;
         right: 10px;
         z-index: 99999;
+    }
+
+    .change-language a {
+        color: #FFFEF8;
+        margin-left: 10px;
+        font-size: 15px;
+        font-weight: 400;
+        text-decoration: none;
     }
 
     .login-page {
@@ -1204,6 +1212,7 @@ and (-webkit-min-device-pixel-ratio: 2) {
         line-height: 26px;
         text-align: center;
         color: #5E6166 !important;
+        width: 332px;
     }
 
     .change-password-back-to-login {

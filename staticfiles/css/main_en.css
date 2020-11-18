@@ -1047,9 +1047,17 @@ and (-webkit-min-device-pixel-ratio: 0.75){
         position: absolute;
         display: flex;
         flex-direction: row;
-        top: 0;
+        top: 15px;
         right: 20px;
         z-index: 99999;
+    }
+
+    .change-language a {
+        color: #FFFEF8;
+        margin-left: 10px;
+        font-size: 15px;
+        font-weight: 400;
+        text-decoration: none;
     }
 
     .login-page {
@@ -1165,7 +1173,7 @@ and (-webkit-min-device-pixel-ratio: 0.75){
     }
 
     .login-inner-box-text {
-        margin-bottom: 37px;
+        margin: 0 50px 37px;
         font-family: Heebo;
         font-style: normal;
         font-weight: normal;
@@ -1238,7 +1246,8 @@ and (-webkit-min-device-pixel-ratio: 0.75){
 
     .reset-password-box-confirmation {
         display: none;
-        width: 450px;
+        width: 375px;
+        margin: 0 52px 0;
         padding: 32px 35px 32px 40px;
         background: #DDE5F2;
         border-radius: 10px;
@@ -1253,7 +1262,8 @@ and (-webkit-min-device-pixel-ratio: 0.75){
 
     .change-password-box-confirmation {
         display: none;
-        width: 450px;
+        width: 375px;
+        margin: 0 52px 0;
         padding: 32px 35px 32px 40px;
         background: #DDE5F2;
         border-radius: 10px;
@@ -1687,7 +1697,7 @@ and (-webkit-min-device-pixel-ratio: 0.75){
     .therapist-users-table thead tr th {
         border: none;
         text-transform: uppercase;
-        vertical-align: top;
+        vertical-align: bottom;
     }
 
     .therapist-back-btn {

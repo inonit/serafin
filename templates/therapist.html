@@ -66,23 +66,23 @@
 <!-- Page Content -->
 <div class="therapist-container" ng-cloak ng-controller="therapist">
     <div class="therapist-back-btn" ng-hide="display_show_table" ng-click="showAllUsers()">
-        Back to users list
+        {% trans 'Back to users list' %}
     </div>
     <div id="users-table" ng-show="display_show_table">
         <table class="table therapist-users-table">
             <thead>
             <tr>
                 <th scope="col">#</th>
-                <th scope="col">Email</th>
-                <th scope="col">Phone</th>
-                <th scope="col">Secondary Phone</th>
-                <th scope="col">Join</th>
-                <th scope="col">Last Login</th>
-                <th scope="col">Program Phase</th>
-                <th scope="col">Current Page</th>
-                <th scope="col">Total Time</th>
-                <th scope="col">Distinct Days (Login)</th>
-                <th scope="col">Login Count</th>
+                <th scope="col">{% trans 'Email' %}</th>
+                <th scope="col">{% trans 'Phone' %}</th>
+                <th scope="col">{% trans 'Secondary Phone' %}</th>
+                <th scope="col">{% trans 'Join' %}</th>
+                <th scope="col">{% trans 'Last Login' %}</th>
+                <th scope="col">{% trans 'Program Phase' %}</th>
+                <th scope="col">{% trans 'Current Page' %}</th>
+                <th scope="col">{% trans 'Total Time' %}</th>
+                <th scope="col">{% trans 'Distinct Days (Login)' %}</th>
+                <th scope="col">{% trans 'Login Count' %}</th>
             </tr>
             </thead>
             <tbody>
@@ -111,28 +111,36 @@
     <div id="user-section" ng-hide="display_show_table">
 
         <div class="patient-main">
-            <div class="patient-name">Patient</div>
-            {% verbatim %}
+            <div class="patient-name">{% trans 'Patient' %}</div>
             <div class="patient-main-info-boxes">
                 <div class="patient-main-info-box">
-                    <div class="patient-main-info-title">User Id</div>
+                    <div class="patient-main-info-title">{% trans 'User Id' %}</div>
+                    {% verbatim %}
                     <div class="patient-main-info-data">{{ user_id }}</div>
+                    {% endverbatim %}
                 </div>
                 <div class="patient-main-info-box">
-                    <div class="patient-main-info-title">Email</div>
+                    <div class="patient-main-info-title">{% trans 'Email' %}</div>
+                    {% verbatim %}
                     <div class="patient-main-info-data">{{ user_email }}</div>
+                    {% endverbatim %}
                 </div>
                 <div class="patient-main-info-box">
-                    <div class="patient-main-info-title">Phone</div>
+                    <div class="patient-main-info-title">{% trans 'Phone' %}</div>
+                    {% verbatim %}
                     <div class="patient-main-info-data">{{ user_phone }}</div>
+                    {% endverbatim %}
                 </div>
                 <div class="patient-main-info-box">
-                    <div class="patient-main-info-title">Phone 2</div>
+                    <div class="patient-main-info-title">{% trans 'Phone 2' %}</div>
+                    {% verbatim %}
                     <div class="patient-main-info-data">{{ user_secondary_phone }}</div>
+                    {% endverbatim %}
                 </div>
             </div>
-            <div class="gold-variable-btn" ng-hide="hideShowMoreButton" ng-click="hideShowMoreButton = true">See more</div>
-            <div class="gold-variable-btn" ng-hide="!hideShowMoreButton" ng-click="hideShowMoreButton = false">Hide</div>
+            <div class="gold-variable-btn" ng-hide="hideShowMoreButton" ng-click="hideShowMoreButton = true">{% trans 'See more' %}</div>
+            <div class="gold-variable-btn" ng-hide="!hideShowMoreButton" ng-click="hideShowMoreButton = false">{% trans 'Hide' %}</div>
+            {% verbatim %}
             <hr class="patient-separator">
             <div class="patient-gold-variables">
                 <div class="patient-gold-variable" ng-repeat="variable in variables | filter: {is_primary: true}">
@@ -153,18 +161,18 @@
             <div class="nav nav-tabs" id="nav-tab" role="tablist">
                 <a class="nav-item nav-link active" id="nav-user-pages-tab" data-toggle="tab" href="#nav-user-pages"
                    role="tab"
-                   aria-controls="nav-home" aria-selected="true" ng-click="stop_chat()">Forms</a>
+                   aria-controls="nav-home" aria-selected="true" ng-click="stop_chat()">{% trans 'Forms' %}</a>
                 <a class="nav-item nav-link" id="nav-transformation-tab" data-toggle="tab" href="#nav-transformation"
                    role="tab"
-                   aria-controls="nav-transformation" aria-selected="false" ng-click="stop_chat()">Transformations</a>
+                   aria-controls="nav-transformation" aria-selected="false" ng-click="stop_chat()">{% trans 'Transformations' %}</a>
                 <a class="nav-item nav-link" id="nav-edit-vars-tab" data-toggle="tab" href="#nav-edit-vars" role="tab"
-                   aria-controls="nav-edit-vars" aria-selected="false" ng-click="stop_chat()">Edit Variables</a>
+                   aria-controls="nav-edit-vars" aria-selected="false" ng-click="stop_chat()">{% trans 'Edit Variables' %}</a>
                 <a class="nav-item nav-link" id="nav-notifications-tab" data-toggle="tab" href="#nav-notifications" role="tab"
-                   aria-controls="nav-notifications" aria-selected="false" ng-click="stop_chat()">Notifications <i ng-if="notifications_icon" class="fa fa-exclamation-circle"></i> </a>
+                   aria-controls="nav-notifications" aria-selected="false" ng-click="stop_chat()">{% trans 'Notifications' %} <i ng-if="notifications_icon" class="fa fa-exclamation-circle"></i> </a>
                 <a class="nav-item nav-link" id="nav-messages-tab" data-toggle="tab" href="#nav-messages" role="tab"
-                   aria-controls="nav-messages" aria-selected="false" ng-click="start_chat()">Messages <i ng-if="has_messages" class="fa fa-exclamation-circle"></i> </a>
+                   aria-controls="nav-messages" aria-selected="false" ng-click="start_chat()">{% trans 'Messages' %} <i ng-if="has_messages" class="fa fa-exclamation-circle"></i> </a>
                 <a class="nav-item nav-link" id="nav-notes-tab" data-toggle="tab" href="#nav-notes" role="tab"
-                   aria-controls="nav-notes" aria-selected="false" ng-click="stop_chat()">Notes</a>
+                   aria-controls="nav-notes" aria-selected="false" ng-click="stop_chat()">{% trans 'Notes' %}</a>
             </div>
         </nav>
         <div class="tab-content" id="nav-tabContent">
@@ -220,7 +228,7 @@
                 </div>
             </div>
             <div class="tab-pane fade" id="nav-edit-vars" role="tabpanel" aria-labelledby="nav-edit-vars-tab">
-                <h2>{% trans 'Edit patient data' %}</h2>
+                <h2>{% trans 'Edit Variables' %}</h2>
                 <form ng-submit="postVariables()">
                     {% csrf_token %}
                     <div ng-repeat="field in variablesForm.fields">
@@ -282,10 +290,10 @@
                 </div>
 
                 <div class="form-group">
-                    <label>New Note</label>
+                    <label>{% trans 'New Note' %}</label>
                     <textarea ng-model="new_note" rows="3" class="form-control"></textarea>
                 </div>
-                <button type="button" class="btn btn-primary" ng-click="addNote()">Add note</button>
+                <button type="button" class="btn btn-primary" ng-click="addNote()">{% trans 'Add note' %}</button>
             </div>
         </div>
         </div>

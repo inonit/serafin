@@ -56,6 +56,10 @@ def therapist_zone(request):
             request.user.patients.first().programuseraccess_set.first() is not None:
         set_language_by_program(request.user.patients.first().programuseraccess_set.first().program)
 
+    lang = request.GET.get('lang')
+    if lang:
+        translation.activate(lang)
+
     context = {
         'api': reverse('users_stats'),
         'chat_api': reverse('chat')

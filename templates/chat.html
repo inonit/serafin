@@ -47,7 +47,7 @@
     </div>
     <div class="type-msg">
         <input type="text" class="chat-input-text" data-emoji-input="unicode" emoji-picker="emoji-picker" data-emojiable="true"
-               placeholder="Type a message" ng-model="message"
+               placeholder="{% trans 'Type a message' %}" ng-model="message"
                ng-keypress="message_key_press($event)" onchange="angular_change(this)"/>
 
         <audio ng-show="audio_blob != null" class="inline-msg audio-controller" src="" controls controlslist="nodownload"></audio>

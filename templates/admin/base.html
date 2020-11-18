@@ -1,5 +1,7 @@
 {% extends 'admin/base.html' %}
+{% load i18n %}
 {% load admin_static %}{% load suit_tags %}<!DOCTYPE html>
+
 
 {% block extrastyle %}
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Heebo">
@@ -15,5 +17,27 @@
     <script type="text/javascript">var Suit = { $: $.noConflict() }; if (!$) $ = Suit.$; </script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.12/summernote-lite.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+
+{% endblock %}
+
+{% block userlinks %}
+     {{ block.super }}
+    <form action="{% url 'set_language' %}" method="post" class="change-language" style="position: absolute; top: 80px">
+        {% csrf_token %}
+        <input name="next" type="hidden" value="{{ redirect_to }}">
+        {% get_current_language as LANGUAGE_CODE %}
+        {% get_available_languages as LANGUAGES %}
+        {% get_language_info_list for LANGUAGES as languages %}
+        <input name="language" type="hidden" value="{{ LANGUAGE_CODE }}">
+        {% for language in languages %}
+            <a href="javascript:void(0)" onclick="changeLanguage('{{ language.code }}')">{{ language.name_local }}</a>
+        {% endfor %}
+    </form>
+<script>
+    function changeLanguage(newLanguage) {
+        $('input[name="language"]').val(newLanguage);
+        $('.change-language').submit();
+    }
+</script>
 
 {% endblock %}
