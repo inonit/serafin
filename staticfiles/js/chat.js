@@ -122,6 +122,9 @@ function ChatController() {
 
         scope.load_messages = function (previous, next) {
             if (previous == null && next == null) {
+                if (scope.user_id !== undefined) {
+                    $(".inputfile").next("label").css("visibility", "visible");
+                }
                 let url = chatApi + '?receive_message=1' + get_user_id_queryset();
                 http({
                     url: url,
@@ -207,7 +210,7 @@ function ChatController() {
             scope.rec.stop();
             scope.rec.context.close();
             gumStream.getAudioTracks()[0].stop();
-            scope.rec.exportWAV(createDownloadLink)
+            scope.rec.exportWAV(createDownloadLink);
             scope.is_recording = false;
         };
 

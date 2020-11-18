@@ -529,7 +529,9 @@ def send_message(request):
         raise ValueError('bad method')
 
     message = request.POST.get("msg", None)
-    file = request.FILES.get("file", None)
+    file = None
+    if request.user.is_therapist:
+        file = request.FILES.get("file", None)
     audio = request.FILES.get("audio_file", None)
     if (message is None or message.strip() == '') and file is None and audio is None:
         raise ValueError('message is empty')
