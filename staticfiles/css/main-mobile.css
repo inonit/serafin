@@ -1285,7 +1285,7 @@ and (-webkit-min-device-pixel-ratio: 2) {
     .msg-send-btn {
         position: absolute;
         right: 678px;
-        width: 78px;
+        width: 90px;
         height: 5rem;
         background: #1B418A;
         border-radius: 10px 0px 0px 10px;
@@ -1345,6 +1345,7 @@ and (-webkit-min-device-pixel-ratio: 2) {
         align-items: center;
         justify-content: center;
         margin: 0 5px;
+        visibility: hidden;
     }
 
     .inputfile + label:hover {

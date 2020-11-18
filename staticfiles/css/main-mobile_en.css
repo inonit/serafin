@@ -1347,6 +1347,7 @@ and (-webkit-min-device-pixel-ratio: 2) {
         align-items: center;
         justify-content: center;
         margin: 0 5px;
+        visibility: hidden;
     }
 
     .inputfile + label:hover {
