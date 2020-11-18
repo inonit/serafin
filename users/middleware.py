@@ -4,6 +4,7 @@ from django.shortcuts import get_object_or_404, redirect, reverse
 from django.utils import translation
 from django.utils.functional import SimpleLazyObject
 from django.contrib.auth.middleware import AuthenticationMiddleware
+from ratelimit import ALL, UNSAFE
 from ratelimit.core import is_ratelimited
 
 from system.models import Session
@@ -65,9 +66,13 @@ class RateLimitMiddleware:
     def __call__(self, request):
         # Code to be executed for each request before
         # the view (and later middleware) are called.
-        if is_ratelimited(request, group='post_by_user', key='user_or_ip', method='POST', rate='10/m', increment=False):
+        if is_ratelimited(request, group='post_by_user', key='user_or_ip', method=UNSAFE, rate='10/m', increment=False):
             raise Http404
-        elif is_ratelimited(request, group='all', key='user_or_ip', rate='3/s', method='POST', increment=True):
+        elif is_ratelimited(request, group='all', key='user_or_ip', rate='3/s', method=UNSAFE, increment=True):
+            raise Http404
+        elif is_ratelimited(request, group='all', key='user_or_ip', rate='5/s', method=ALL, increment=True):
+            raise Http404
+        elif is_ratelimited(request, group='all', key='user_or_ip', rate='50/m', method=ALL, increment=True):
             raise Http404
         else:
             return self.get_response(request)
