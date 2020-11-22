@@ -167,12 +167,22 @@ function ChatController() {
 
         scope.clear_record = function() {
             if (scope.rec) {
-                scope.rec.clear();
                 let chatInput = $(".chat-input-text");
                 chatInput.prop( "disabled", false );
             }
             scope.rec = null;
             scope.audio_blob = null;
+        };
+
+        var setTimeLeft = function() {
+            if (scope.is_recording) {
+                timeout(function () {
+                    setTimeLeft();
+                }, 200);
+                if (scope.rec.recordingTime()) {
+                    $(".recording-time-left").text(Math.ceil(scope.rec.recordingTime()).toString() + "/" + scope.rec.options.timeLimit.toString());
+                }
+            }
         };
 
         scope.start_recording = function () {
@@ -183,17 +193,41 @@ function ChatController() {
             chatInput.val('');
             chatInput.prop( "disabled", true );
             if (scope.rec) {
-                scope.rec.clear();
+                scope.rec = null;
             }
             var constraints = {audio: true, video: false};
             navigator.mediaDevices.getUserMedia(constraints).then(function (stream) {
                 audioContext = new AudioContext();
                 gumStream = stream;
                 input = audioContext.createMediaStreamSource(stream);
-                scope.rec = new Recorder(input, {numChannels:1});
+                scope.rec = new WebAudioRecorder(input, {
+                    workerDir: "/static/static/js/",
+                    encoding: 'mp3',
+                    onEncoderLoading: function(recorder, encoding) {
+                        // show "loading encoder..." display
+                        console.log("Loading " + encoding + " encoder...");
+                    },
+                    onEncoderLoaded: function(recorder, encoding) {
+                        // hide "loading encoder..." display
+                        console.log(encoding + " encoder loaded");
+                    }
+                });
+                scope.rec.onComplete = function(recorder, blob) {
+                    scope.is_recording = false
+                    console.log("Encoding complete");
+                    createDownloadLink(blob);
+                }
+                scope.rec.setOptions({
+                    timeLimit: 30,
+                    encodeAfterRecord: true,
+                    mp3: {
+                        bitRate: 80
+                    }
+                });
 
-		        //start the recording process
-		        scope.rec.record();
+                scope.rec.startRecording();
+                console.log("Recording started");
+                setTimeLeft();
             }).catch(function(err) {
 
             });
@@ -207,11 +241,12 @@ function ChatController() {
         };
 
         scope.stop_recording = function () {
-            scope.rec.stop();
-            scope.rec.context.close();
+             console.log("stopRecording() called");
+            //stop microphone access
             gumStream.getAudioTracks()[0].stop();
-            scope.rec.exportWAV(createDownloadLink);
-            scope.is_recording = false;
+            //tell the recorder to finish the recording (stop recording + encode the recorded audio)
+            scope.rec.finishRecording();
+            console.log('Recording stopped');
         };
 
     }

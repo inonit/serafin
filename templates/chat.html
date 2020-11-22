@@ -57,6 +57,7 @@
         <button class="record-audio" ng-if="!is_recording && rec == null" type="button" ng-click="start_recording()"><i class="fa fa-microphone" aria-hidden="true"></i></button>
         <button class="record-audio red" ng-if="is_recording" type="button" ng-click="stop_recording()"><i class="fa fa-stop" aria-hidden="true"></i></button>
         <button class="record-audio red" ng-if="!is_recording && rec != null" type="button" ng-click="clear_record()"><i class="fa fa-trash" aria-hidden="true"></i></button>
+        <div class="recording-time-left" ng-if="is_recording"></div>
 
         <input ng-disabled="rec != null" type="file" file-model="uploadFile"  class="inputfile" id ="myFileField" accept="application/msword, text/plain, application/pdf" />
         <label ng-disabled="rec != null" for="myFileField"><i class="fa fa-paperclip" aria-hidden="true"></i></label>

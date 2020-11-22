@@ -582,7 +582,7 @@ def send_message(request):
         chat_message.file_type = file.content_type
         chat_message.file_name = file.name
         chat_message.file_data = file.read()
-    elif audio is not None and audio.content_type == "audio/wav":
+    elif audio is not None and (audio.content_type == "audio/wav" or audio.content_type == "audio/mpeg"):
         chat_message.file_type = audio.content_type
         chat_message.file_name = "audio"
         chat_message.file_data = audio.read()
@@ -653,7 +653,8 @@ def receive_messages_internal(prev, next, current_user, other_user):
     objects = {
         'messages': [{'id': m.id, 'msg': m.message, 'time': m.timestamp,
                       's': m.sender.id == current_user.id, 'r': m.receiver.id == current_user.id,
-                      'read': m.is_read, 'file_name': m.file_name, 'is_audio': m.file_type == 'audio/wav'}
+                      'read': m.is_read, 'file_name': m.file_name,
+                      'is_audio': (m.file_type == 'audio/wav' or m.file_type == 'audio/mpeg')}
                      for m in messages]
     }
 
