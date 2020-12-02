@@ -6,6 +6,7 @@ import re
 from django.conf import settings
 from django.contrib.auth import get_user_model
 from django.contrib.contenttypes.models import ContentType
+from django.db import transaction
 from django.db.models import signals
 from django.dispatch import receiver
 from django.utils import timezone
@@ -58,9 +59,7 @@ def randomize_variable_once(sender, **kwargs):
             user.save()
 
 
-@receiver(signals.post_save, sender=ProgramUserAccess)
-@disable_for_loaddata
-def schedule_sessions(sender, **kwargs):
+def execute_schedule_sessions(sender, **kwargs):
 
     useraccess = kwargs['instance']
 
@@ -95,6 +94,12 @@ def schedule_sessions(sender, **kwargs):
                 action=_('Initialize session'),
                 subject=useraccess.user
             )
+
+
+@receiver(signals.post_save, sender=ProgramUserAccess)
+@disable_for_loaddata
+def schedule_sessions(sender, **kwargs):
+    transaction.on_commit(lambda: execute_schedule_sessions(sender, **kwargs))
 
 
 @receiver(signals.pre_save, sender=Session)

@@ -64,11 +64,6 @@ def init_session(session_id, user_id, push=False):
 
     if original_session.scheduled and original_session.end_time_delta > 0:
         useraccess = engine.user.get_first_program_user_access(original_session.program)
-        if not useraccess:
-            print("Cannot find useraccess, sleep for 5 seconds and retry")
-            time.sleep(5)
-            useraccess = engine.user.get_first_program_user_access(original_session.program)
-
         if original_session.get_end_time(useraccess.start_time, useraccess.time_factor) > \
                 original_session.get_next_time(useraccess.start_time, useraccess.time_factor):
 

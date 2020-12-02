@@ -535,7 +535,7 @@ class Engine(object):
                     self.logger.debug("Delay node not using a variable")
 
                 kwargs = {
-                    delay.get('unit'): float(delay_number * useraccess.time_factor),
+                    delay.get('unit'): float(delay_number * float(useraccess.time_factor)),
                 }
                 delta = timedelta(**kwargs)
 
