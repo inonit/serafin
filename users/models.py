@@ -120,7 +120,7 @@ class User(AbstractBaseUser, PermissionsMixin):
 
         if message and settings.SMS_SERVICE == 'Primafon':
             res = requests.post(
-                'http://sms.k8s.inonit.no/api/v0/messages/',
+                settings.PRIMAFON_ENDPOINT,
                 json={
                     'to': self.phone[1:],
                     'body': message,
