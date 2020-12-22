@@ -122,8 +122,9 @@ class User(AbstractBaseUser, PermissionsMixin):
             res = requests.post(
                 settings.PRIMAFON_ENDPOINT,
                 json={
-                    'to': self.phone[1:],
-                    'body': message,
+                    'phone_numbers': [str(self.phone[1:])],
+                    'message': message,
+                    'callback_id': int(settings.CALLBACK_ID)    
                 },
                 headers={
                     'Authorization':
