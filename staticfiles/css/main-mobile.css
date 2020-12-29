@@ -956,18 +956,62 @@ and (-webkit-min-device-pixel-ratio: 2) {
     }
 
     .error-body {
+        position: absolute;
+        right: 0;
         display: flex;
         flex-direction: column;
-        justify-items: center;
-        margin: 10vh 0 10vh;
+        justify-items: right;
+        margin: 5vh 60px 5vh 160px;
         color: #285c7e;
-        font-size: 2em;
+        font-size: 20px;
         font-weight: 300;
+        text-align: right;
     }
 
     .error-title {
-        font-size: 2em;
+        font-style: normal;
         font-weight: 500;
+        font-size: 108px;
+        line-height: 115px;
+        color: #1B418A;
+        text-align: right;
+    }
+
+    .error-content {
+        font-style: normal;
+        font-weight: normal;
+        font-size: 40px;
+        line-height: 55px;
+        color: #000000;
+        text-align: right;
+        margin-top: 50px;
+    }
+
+    .error-footer {
+        font-weight: 500;
+        font-size: 35px;
+        line-height: 60px;
+        color: #000000;
+        position: fixed;
+        right: 60px;
+        bottom: 0;
+        margin-bottom: 200px;
+    }
+
+    .error-page-btn {
+        border: none;
+        background: #1B418A;
+        border-radius: 9px;
+        width: 550px;
+        min-height: 9vh;
+        height: 59px;
+        line-height: 29px;
+        font-weight: 500;
+        font-size: 3.5rem;
+        color: white;
+        cursor: pointer;
+        margin-top: 260px;
+        align-self: flex-end;
     }
 
     /* Login Page */

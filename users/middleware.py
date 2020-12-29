@@ -68,11 +68,7 @@ class RateLimitMiddleware:
         # the view (and later middleware) are called.
         if is_ratelimited(request, group='post_by_user', key='user_or_ip', method=UNSAFE, rate='10/m', increment=False):
             raise Http404
-        elif is_ratelimited(request, group='all', key='user_or_ip', rate='3/s', method=UNSAFE, increment=True):
-            raise Http404
-        elif is_ratelimited(request, group='all', key='user_or_ip', rate='5/s', method=ALL, increment=True):
-            raise Http404
-        elif is_ratelimited(request, group='all', key='user_or_ip', rate='50/m', method=ALL, increment=True):
+        elif is_ratelimited(request, group='all', key='user_or_ip', rate='50/s', method=ALL, increment=True):
             raise Http404
         else:
             return self.get_response(request)

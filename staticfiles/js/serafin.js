@@ -15,6 +15,7 @@ serafin.run(['$rootScope', '$http', function (scope, http) {
     scope.page = {};
     scope.variables = {};
     scope.dead_end = true;
+    scope.loaded = false;
 
     if (api) {
         var url = api + window.location.search;
@@ -34,9 +35,11 @@ serafin.run(['$rootScope', '$http', function (scope, http) {
             scope.is_back = response.data.is_back;
             scope.page_id = response.data.page_id;
             scope.read_only = response.data.read_only;
+            scope.loaded = true;
         }, reason => {
             scope.error = reason.data;
             scope.page = {};
+            scope.loaded = true;
         });
     }
 
@@ -585,6 +588,7 @@ therapistapp.controller('therapist', ['$rootScope', '$scope', '$http', '$httpPar
         scope.notifications = response.data.notifications;
         scope.has_messages = response.data.has_messages;
         scope.notes = response.data.notes;
+        scope.allow_chat = response.data.allow_chat;
 
         scope.variablesForm = {
             fields: [],

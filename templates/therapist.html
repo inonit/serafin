@@ -170,7 +170,7 @@
                 <a class="nav-item nav-link" id="nav-notifications-tab" data-toggle="tab" href="#nav-notifications" role="tab"
                    aria-controls="nav-notifications" aria-selected="false" ng-click="stop_chat()">{% trans 'Notifications' %} <i ng-if="notifications_icon" class="fa fa-exclamation-circle"></i> </a>
                 <a class="nav-item nav-link" id="nav-messages-tab" data-toggle="tab" href="#nav-messages" role="tab"
-                   aria-controls="nav-messages" aria-selected="false" ng-click="start_chat()">{% trans 'Messages' %} <i ng-if="has_messages" class="fa fa-exclamation-circle"></i> </a>
+                   aria-controls="nav-messages" aria-selected="false" ng-click="start_chat()" ng-if="allow_chat">{% trans 'Messages' %} <i ng-if="has_messages" class="fa fa-exclamation-circle"></i> </a>
                 <a class="nav-item nav-link" id="nav-notes-tab" data-toggle="tab" href="#nav-notes" role="tab"
                    aria-controls="nav-notes" aria-selected="false" ng-click="stop_chat()">{% trans 'Notes' %}</a>
             </div>
@@ -273,7 +273,7 @@
                   </div>
                 </div>
             </div>
-            <div class="tab-pane fade" id="nav-messages" role="tabpanel" aria-labelledby="nav-messages-tab" dir="ltr">
+            <div class="tab-pane fade" id="nav-messages" role="tabpanel" aria-labelledby="nav-messages-tab" dir="ltr" ng-if="allow_chat">
                 <div class="chat-container">
                 {% include 'chat.html' %}
                 </div>

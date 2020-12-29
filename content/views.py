@@ -50,8 +50,9 @@ def main_page(request):
 
 @login_required
 def therapist_zone(request):
-    if not request.user.is_authenticated or not request.user.is_therapist:
-        return main_page(request)
+    if not request.user.is_authenticated or \
+            (not request.user.is_therapist and not request.user.is_staff):
+        raise Http404
 
     if request.user.patients.first() is not None and \
             request.user.patients.first().programuseraccess_set.first() is not None:
@@ -69,8 +70,9 @@ def therapist_zone(request):
 
 
 def users_stats(request):
-    if not request.user.is_authenticated or not request.user.is_therapist:
-        return main_page(request)
+    if not request.user.is_authenticated or \
+            (not request.user.is_therapist and not request.user.is_staff):
+        raise Http404
 
     if not request.is_ajax():
         return therapist_zone(request)
@@ -80,6 +82,8 @@ def users_stats(request):
         return user_state(request, user_id)
 
     users = User.objects.filter(therapist=request.user)
+    if request.user.is_staff and not request.user.is_therapist:
+        users = User.objects.filter(id__in=ProgramUserAccess.objects.select_related('user').filter(program__in=request.user.program_restrictions.all()).values_list('user', flat=True))
 
     users_str = ",".join(map(str, list(users.values('id').values_list(flat=True))))
     event = Event(
@@ -131,7 +135,7 @@ def users_stats(request):
 
         has_notification = user.patient_notifications.filter(Q(therapist=request.user) & Q(is_read=False)).count() > 0
         has_unread_messages = ChatMessage.objects.filter(Q(sender=user) & Q(receiver=request.user) & Q(is_read=False)) \
-            .count() > 0
+                                  .count() > 0
 
         user_row = {'id': user.id, 'email': user.email, 'phone': user.phone, 'secondary_phone': user.secondary_phone,
                     'last_login': last_login, 'program_phase': user.data.get('Program_Phase'), 'start_time': start_time,
@@ -148,15 +152,18 @@ def users_stats(request):
 
 
 def user_state(request, user_id):
-    if not request.user.is_authenticated or not request.user.is_therapist:
-        return main_page(request)
+    if not request.user.is_authenticated or \
+            (not request.user.is_therapist and not request.user.is_staff):
+        raise Http404
 
     if not request.is_ajax():
         return therapist_zone(request)
 
     # verify the therapist is the owner of this user
     user = User.objects.get(id=user_id)
-    if user.therapist != request.user:
+    if user.therapist != request.user and not (request.user.is_staff and
+                                               request.user.program_restrictions.filter(
+                                                   id=user.get_first_program_user_access().program.id).exists()):
         return JsonResponse({'error': 'access denied'}, status=403)
 
     event = Event(
@@ -298,6 +305,7 @@ def user_state(request, user_id):
         'email': user.email,
         'phone': user.phone,
         'secondary_phone': user.secondary_phone,
+        'allow_chat': request.user == user.therapist,
         'id': user.id,
     }
     return JsonResponse(context)
@@ -334,8 +342,8 @@ def tools_page(request):
     context = {
         'tools': tools,
         'captions': {'file': any(x['type'] == "file" for x in tools),
-                      'audio': any(x['type'] == "audio" for x in tools),
-                      'video': any(x['type'] == "video" for x in tools)},
+                     'audio': any(x['type'] == "audio" for x in tools),
+                     'video': any(x['type'] == "video" for x in tools)},
         'page': 'tools'
     }
 
@@ -632,8 +640,8 @@ def receive_messages_internal(prev, next, current_user, other_user):
                        .order_by('timestamp').reverse()[:max_messages]
         old_count = len(messages)
         new_count = 0
-        while old_count != new_count and not messages[len(messages)-1].is_read and \
-                messages[len(messages)-1].receiver == current_user:
+        while old_count != new_count and not messages[len(messages) - 1].is_read and \
+                messages[len(messages) - 1].receiver == current_user:
             old_count = len(messages)
             max_messages = max_messages * 2
             messages = ChatMessage.objects.filter((Q(sender=current_user) & Q(receiver=other_user)) |
@@ -681,7 +689,6 @@ def chat(request):
 
 
 def my_therapist(request):
-
     if not request.user.is_authenticated:
         return HttpResponseRedirect(settings.HOME_URL)
 

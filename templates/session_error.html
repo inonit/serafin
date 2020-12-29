@@ -1,12 +1,13 @@
 {% load i18n %}
 <div class="error-body">
     <div class="error-title" dir="auto">
-        {% trans "We didn't find what you were looking for." %}
+        {% trans "We could not find what you were lookin for 😅" %}
     </div>
     <div class="error-content" dir="auto">
-        {% trans "Please check if the address you entered is correct" %}
+        {% trans "Please check again the URL is correct." %}
     </div>
+    <button onclick="location.href='{% url 'main_page' %}'" class="error-page-btn">{% trans "Back to homepage" %}</button>
     <div class="error-footer" dir="auto">
-        {% trans "We'll be glad to assist at " %} <a href="mailto:{{ support_email }}">{{ support_email }}</a>
+        {% trans "for help you can contact us at " %} <a href="mailto:{{ support_email }}">{{ support_email }}</a>
     </div>
 </div>

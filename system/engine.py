@@ -2,6 +2,7 @@
 
 from __future__ import unicode_literals
 
+import socket
 from builtins import object
 from datetime import timedelta, datetime
 import pytz
@@ -392,7 +393,10 @@ class Engine(object):
 
         if node_type == 'email':
             email = Email.objects.get(id=ref_id)
-            email.send(self.user)
+            try:
+                email.send(self.user)
+            except socket.timeout:
+                self.logger.exception('Could not send email due to timeout')
 
             log_event.send(
                 self,

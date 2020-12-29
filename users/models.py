@@ -33,7 +33,7 @@ logger = logging.getLogger(__name__)
 class UserManager(BaseUserManager):
     '''Custom User model Manager'''
 
-    def create_user(self, id, password, email, phone, secondary_phone=None, data=None):
+    def create_user(self, password, email, phone, secondary_phone=None, data=None):
         user = self.model()
         user.set_password(password)
         user.email = email
@@ -53,8 +53,8 @@ class UserManager(BaseUserManager):
         user.save()
         return user
 
-    def create_superuser(self, id, password, email='', phone=''):
-        user = self.create_user(id=id, password=password, email=email, phone=phone)
+    def create_superuser(self, password, email='', phone=''):
+        user = self.create_user(password=password, email=email, phone=phone)
         user.is_staff = True
         user.is_superuser = True
         user.save()
@@ -231,7 +231,7 @@ class User(AbstractBaseUser, PermissionsMixin):
         """Generate a url link to session"""
         current_site = Site.objects.get_current()
 
-        link = '%(protocol)s://www.%(domain)s%(link)s' % {
+        link = '%(protocol)s://%(domain)s%(link)s' % {
             'link': reverse('content'),
             'protocol': 'https' if settings.USE_HTTPS else 'http',
             'domain': current_site.domain
@@ -298,7 +298,7 @@ class User(AbstractBaseUser, PermissionsMixin):
 
         current_site = Site.objects.get_current()
 
-        mytherapist_link = '%s://www.%s%s' % (
+        mytherapist_link = '%s://%s%s' % (
             'https' if settings.USE_HTTPS else 'http',
             current_site.domain,
             reverse('mytherapist'),

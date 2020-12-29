@@ -381,8 +381,8 @@
             </div>
             {% endverbatim %}
 
-            <div class="page-buttons">
-                <hr class="line">
+            <div ng-cloak class="page-buttons" ng-if="loaded && !error">
+                <hr class="line" ng-cloak>
                 <div class="buttons">
                 <button ng-cloak ng-show="is_back" ng-click="back()"
                         class="btn-outline btn-page-left">{% trans 'Back' %}</button>

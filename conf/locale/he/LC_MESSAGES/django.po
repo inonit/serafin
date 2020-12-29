@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-11-18 16:27+0200\n"
+"POT-Creation-Date: 2020-12-22 17:20+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -16,83 +16,35 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: .\PRIVATE\settings 2020-11-15\settings.py:145
-#: .\PRIVATE\settings_current_prod.py:142
-#: .\PRIVATE\settings_current_prod_20201103.py:143 .\lookup\settings.py:142
-#: .\lookup\settings_old.py:139 .\serafin\s.py:148 .\serafin\settings - Deploy
-#: 20201009.py:139 Deploy.py:139 commited version.py:147
-#: .\serafin\settings.py:148 .\serafin\settings_SENSEATIVE.py:135
+#: .\serafin\settings.py:148
 msgid "English"
-msgstr ""
+msgstr "אנגלית"
 
-#: .\PRIVATE\settings 2020-11-15\settings.py:146
-#: .\PRIVATE\settings_current_prod.py:143
-#: .\PRIVATE\settings_current_prod_20201103.py:144 .\lookup\settings.py:143
-#: .\lookup\settings_old.py:140 .\serafin\settings - Deploy 20201009.py:140
-#: Deploy.py:140 commited version.py:148 .\serafin\settings_SENSEATIVE.py:136
-msgid "Norwegian"
-msgstr ""
-
-#: .\PRIVATE\settings 2020-11-15\settings.py:147
-#: .\PRIVATE\settings_current_prod.py:144
-#: .\PRIVATE\settings_current_prod_20201103.py:145 .\lookup\settings.py:144
-#: .\lookup\settings_old.py:141 .\serafin\s.py:149 .\serafin\settings - Deploy
-#: 20201009.py:141 Deploy.py:141 commited version.py:149
 #: .\serafin\settings.py:149
 msgid "Hebrew"
-msgstr ""
+msgstr "עברית"
 
-#: .\PRIVATE\settings 2020-11-15\settings.py:502
-#: .\PRIVATE\settings_current_prod.py:484
-#: .\PRIVATE\settings_current_prod_20201103.py:500 .\lookup\settings.py:484
-#: .\lookup\settings_old.py:478 .\serafin\s.py:496 .\serafin\settings - Deploy
-#: 20201009.py:478 Deploy.py:478 commited version.py:493
-#: .\serafin\settings.py:496 .\serafin\settings_SENSEATIVE.py:517
+#: .\serafin\settings.py:496
 msgid "Default stylesheet"
 msgstr ""
 
-#: .\PRIVATE\settings 2020-11-15\settings.py:503
-#: .\PRIVATE\settings_current_prod.py:485
-#: .\PRIVATE\settings_current_prod_20201103.py:501 .\lookup\settings.py:485
-#: .\lookup\settings_old.py:479 .\serafin\s.py:497 .\serafin\settings - Deploy
-#: 20201009.py:479 Deploy.py:479 commited version.py:494
 #: .\serafin\settings.py:497
 msgid "New-Nalokson"
 msgstr ""
 
-#: .\PRIVATE\settings 2020-11-15\settings.py:504
-#: .\PRIVATE\settings_current_prod.py:486
-#: .\PRIVATE\settings_current_prod_20201103.py:502 .\lookup\settings.py:486
-#: .\lookup\settings_old.py:480 .\serafin\s.py:498 .\serafin\settings - Deploy
-#: 20201009.py:480 Deploy.py:480 commited version.py:495
 #: .\serafin\settings.py:498
 msgid "RTL-Nalokson"
 msgstr ""
 
-#: .\PRIVATE\settings 2020-11-15\settings.py:505
-#: .\PRIVATE\settings_current_prod.py:487
-#: .\PRIVATE\settings_current_prod_20201103.py:503 .\lookup\settings.py:487
-#: .\lookup\settings_old.py:481 .\serafin\s.py:499 .\serafin\settings - Deploy
-#: 20201009.py:481 Deploy.py:481 commited version.py:496
-#: .\serafin\settings.py:499 .\serafin\settings_SENSEATIVE.py:518
+#: .\serafin\settings.py:499
 msgid "Nalokson"
 msgstr ""
 
-#: .\PRIVATE\settings 2020-11-15\settings.py:506
-#: .\PRIVATE\settings_current_prod.py:488
-#: .\PRIVATE\settings_current_prod_20201103.py:504 .\lookup\settings.py:488
-#: .\lookup\settings_old.py:482 .\serafin\s.py:500 .\serafin\settings - Deploy
-#: 20201009.py:482 Deploy.py:482 commited version.py:497
-#: .\serafin\settings.py:500 .\serafin\settings_SENSEATIVE.py:519
+#: .\serafin\settings.py:500
 msgid "Miksmaster"
 msgstr ""
 
-#: .\PRIVATE\settings 2020-11-15\settings.py:507
-#: .\PRIVATE\settings_current_prod.py:489
-#: .\PRIVATE\settings_current_prod_20201103.py:505 .\lookup\settings.py:489
-#: .\lookup\settings_old.py:483 .\serafin\s.py:501 .\serafin\settings - Deploy
-#: 20201009.py:483 Deploy.py:483 commited version.py:498
-#: .\serafin\settings.py:501 .\serafin\settings_SENSEATIVE.py:520
+#: .\serafin\settings.py:501
 msgid "Miksmaster alternate"
 msgstr ""
 
@@ -1022,7 +974,7 @@ msgstr ""
 msgid "Subject"
 msgstr ""
 
-#: .\system\engine.py:555
+#: .\system\engine.py:561
 msgid "Delayed node execution"
 msgstr ""
 
@@ -1326,7 +1278,7 @@ msgstr ""
 msgid "An error has occurred. Your expression cannot be evaluated."
 msgstr ""
 
-#: .\system\signals.py:95 .\system\signals.py:184 .\system\signals.py:219
+#: .\system\signals.py:94 .\system\signals.py:189 .\system\signals.py:224
 msgid "Initialize session"
 msgstr ""
 
@@ -1347,7 +1299,7 @@ msgstr ""
 msgid "Session initialized"
 msgstr ""
 
-#: .\system\tasks.py:82
+#: .\system\tasks.py:77
 msgid "Initialize session recurrent"
 msgstr ""
 
@@ -1753,16 +1705,20 @@ msgid "Next page"
 msgstr "דף הבא"
 
 #: .\templates\session_error.html:4
-msgid "We didn't find what you were looking for."
-msgstr "לא מצאנו את מה שחיפשת."
+msgid "We could not find what you were lookin for 😅"
+msgstr "לא מצאנו את מה שחיפשת 😅"
 
 #: .\templates\session_error.html:7
-msgid "Please check if the address you entered is correct"
-msgstr "כדאי לבדוק אם הכתובת שהזנת נכונה"
+msgid "Please check again the URL is correct."
+msgstr "כדאי לבדוק בשנית אם הכתובת שהזנת נכונה"
 
-#: .\templates\session_error.html:10
-msgid "We'll be glad to assist at "
-msgstr "נשמח לסייע בכתובת"
+#: .\templates\session_error.html:9
+msgid "Back to homepage"
+msgstr "חזרה לעמוד הכניסה"
+
+#: .\templates\session_error.html:11
+msgid "for help you can contact us at "
+msgstr "לעזרה נוספת ניתן לפנות אלינו בכתובת"
 
 #: .\templates\sessionnew.html:44
 msgid "Chapters"

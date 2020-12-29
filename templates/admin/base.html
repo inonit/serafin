@@ -4,6 +4,7 @@
 
 
 {% block extrastyle %}
+    {{ block.super }}
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Heebo">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Assistant">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Rubik">
@@ -40,4 +41,13 @@
     }
 </script>
 
+{% endblock %}
+
+{% block footer %}
+{{ block.super }}
+    <script src="{% static 'lib/angular/angular.min.js' %}"></script>
+    <script src="{% static 'lib/ng-idle/angular-idle.js' %}"></script>
+    <script src="{% static 'js/serafin.js' %}"></script>
+
+    <div id="idle" ng-app="idle" ng-controller="idle">{% include 'idle_popup.html' %}</div>
 {% endblock %}
