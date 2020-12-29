@@ -169,7 +169,11 @@ content.run(['$rootScope', '$http', function (scope, http) {
 
     scope.variables = [];
     http.get('/api/system/variables/').then(function (response) {
-        scope.variables = response.data.concat(reservedVars || []);
+        if (typeof reservedVars !== 'undefined') {
+            scope.variables = response.data.concat(reservedVars || []);
+        } else {
+            scope.variables = response.data;
+        }
     });
 }]);
 

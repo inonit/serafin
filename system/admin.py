@@ -660,10 +660,7 @@ class TextContentForm(ContentForm):
     def __init__(self, *args, **kwargs):
         super(ContentForm, self).__init__(*args, **kwargs)
         self.fields['data'].help_text = ''
-        self.fields['data'].initial = '''[{
-            "content_type": "text",
-            "content": ""
-        }]'''
+        self.fields['data'].initial = [{"content_type": "text", "content": ""}]
 
 
 class EmailForm(TextContentForm):
@@ -701,13 +698,8 @@ class SMSForm(ContentForm):
     def __init__(self, *args, **kwargs):
         super(ContentForm, self).__init__(*args, **kwargs)
         self.fields['data'].help_text = ''
-        self.fields['data'].initial = '''[{
-            "content_type": "text",
-            "content": ""
-            }, {
-                "content_type": "is_whatsapp",
-                "content": false
-        }]'''
+        self.fields['data'].initial = [{"content_type": "text", "content": ""},
+                                       {"content_type": "is_whatsapp", "content": False}]
 
     class Meta(object):
         model = SMS
