@@ -1572,7 +1572,7 @@ and (-webkit-min-device-pixel-ratio: 0.75){
         flex-direction: column;
         margin-left: auto;
         min-width: 141px;
-        max-width: 326px;
+        max-width: 600px;
     }
 
     .msg-in {
@@ -1580,7 +1580,7 @@ and (-webkit-min-device-pixel-ratio: 0.75){
         flex-direction: column;
         margin-right: auto;
         min-width: 141px;
-        max-width: 326px;
+        max-width: 600px;
     }
 
     .msg-text {
@@ -1697,6 +1697,7 @@ and (-webkit-min-device-pixel-ratio: 0.75){
         text-align: center;
         font-size: 12px;
         font-weight: bold;
+        margin-bottom: 10px;
     }
 
     .recording-time-left {
