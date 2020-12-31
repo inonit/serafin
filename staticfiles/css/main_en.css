@@ -1115,6 +1115,17 @@ and (-webkit-min-device-pixel-ratio: 0.75){
         background: linear-gradient(180deg, #1B418A 0%, #006198 100%);
     }
 
+    .login-wrong-password {
+        margin: -20px 0 20px;
+        font-style: normal;
+        font-weight: 500;
+        font-size: 15px;
+        line-height: 22px;
+        color: #ff2300;
+        border: 1px solid #FFFFFF;
+        text-decoration-line: none;
+    }
+
     .login-welcome {
         position: absolute;
         top: 37px;

@@ -39,6 +39,11 @@
 </div>
 <div class="login-inner-box">
     <div class="login-title">{% trans 'Login' %}</div>
+    {% if form.errors %}
+        <div class="login-wrong-password">
+            {% trans 'Wrong email or password' %}
+        </div>
+    {% endif %}
     <form action="{% url 'login' %}" method="post" class="login-form">
         {% csrf_token %}
         <input type="text" name="username" class="login-input-box" dir="auto" placeholder="{% trans 'Email address' %}">

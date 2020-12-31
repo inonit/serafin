@@ -8,45 +8,13 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-12-22 17:20+0200\n"
+"POT-Creation-Date: 2020-12-31 16:55+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-
-#: .\serafin\settings.py:148
-msgid "English"
-msgstr "אנגלית"
-
-#: .\serafin\settings.py:149
-msgid "Hebrew"
-msgstr "עברית"
-
-#: .\serafin\settings.py:496
-msgid "Default stylesheet"
-msgstr ""
-
-#: .\serafin\settings.py:497
-msgid "New-Nalokson"
-msgstr ""
-
-#: .\serafin\settings.py:498
-msgid "RTL-Nalokson"
-msgstr ""
-
-#: .\serafin\settings.py:499
-msgid "Nalokson"
-msgstr ""
-
-#: .\serafin\settings.py:500
-msgid "Miksmaster"
-msgstr ""
-
-#: .\serafin\settings.py:501
-msgid "Miksmaster alternate"
-msgstr ""
 
 #: .\content\templates\admin\content_widget.html:7
 msgid "+ Rich Text"
@@ -823,6 +791,38 @@ msgstr ""
 msgid "IP"
 msgstr ""
 
+#: .\serafin\settings.py:148
+msgid "English"
+msgstr "אנגלית"
+
+#: .\serafin\settings.py:149
+msgid "Hebrew"
+msgstr "עברית"
+
+#: .\serafin\settings.py:496
+msgid "Default stylesheet"
+msgstr ""
+
+#: .\serafin\settings.py:497
+msgid "New-Nalokson"
+msgstr ""
+
+#: .\serafin\settings.py:498
+msgid "RTL-Nalokson"
+msgstr ""
+
+#: .\serafin\settings.py:499
+msgid "Nalokson"
+msgstr ""
+
+#: .\serafin\settings.py:500
+msgid "Miksmaster"
+msgstr ""
+
+#: .\serafin\settings.py:501
+msgid "Miksmaster alternate"
+msgstr ""
+
 #: .\serafin\settings_SENSEATIVE.py:293
 msgid "Users"
 msgstr ""
@@ -970,11 +970,11 @@ msgstr ""
 msgid "Copy selected content"
 msgstr ""
 
-#: .\system\admin.py:672 .\system\admin.py:697
+#: .\system\admin.py:669 .\system\admin.py:694
 msgid "Subject"
 msgstr ""
 
-#: .\system\engine.py:561
+#: .\system\engine.py:559
 msgid "Delayed node execution"
 msgstr ""
 
@@ -1077,7 +1077,7 @@ msgstr ""
 msgid "from email"
 msgstr ""
 
-#: .\system\models.py:119 .\users\models.py:431
+#: .\system\models.py:119 .\users\models.py:434
 msgid "users"
 msgstr ""
 
@@ -1097,7 +1097,7 @@ msgstr ""
 msgid "Program is locked. Could not save."
 msgstr ""
 
-#: .\system\models.py:165 .\system\models.py:776 .\users\models.py:430
+#: .\system\models.py:165 .\system\models.py:776 .\users\models.py:433
 msgid "user"
 msgstr ""
 
@@ -1627,7 +1627,7 @@ msgid ""
 msgstr "יש להזין את כתובת המייל שלך ואנחנו נשלח לך הוראות לאיפוס הסיסמה"
 
 #: .\templates\registration\password_reset_form.html:36
-#: .\users\templates\login.html:44
+#: .\users\templates\login.html:49
 msgid "Email address"
 msgstr "דואר אלקטרוני"
 
@@ -1875,7 +1875,7 @@ msgstr "קבצי אודיו לשמיעה בשעת הצורך"
 msgid "Video file to watch when needed"
 msgstr "קבצי וידיאו לצפייה בשעת הצורך"
 
-#: .\users\admin.py:31 .\users\admin.py:96 .\users\templates\login.html:45
+#: .\users\admin.py:31 .\users\admin.py:96 .\users\templates\login.html:50
 msgid "Password"
 msgstr ""
 
@@ -2022,7 +2022,7 @@ msgstr "להתראות,"
 msgid "The program team"
 msgstr "צוות התכנית"
 
-#: .\users\templates\login-o.html:43 .\users\templates\login.html:48
+#: .\users\templates\login-o.html:43 .\users\templates\login.html:53
 msgid "Forgot your password?"
 msgstr "שכחת את סיסמתך?"
 
@@ -2030,9 +2030,13 @@ msgstr "שכחת את סיסמתך?"
 msgid "Welcome to Mindtools"
 msgstr "ברוכים הבאים Mindtools"
 
-#: .\users\templates\login.html:41 .\users\templates\login.html:47
+#: .\users\templates\login.html:41 .\users\templates\login.html:52
 msgid "Login"
 msgstr "התחברות"
+
+#: .\users\templates\login.html:44
+msgid "Wrong email or password"
+msgstr "כתובת אימייל או סיסמה שגויות"
 
 #: .\users\templates\login_lock.html:5 .\users\templates\login_lock.html:9
 msgid "Account Locked"

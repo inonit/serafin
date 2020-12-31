@@ -407,7 +407,10 @@ class User(AbstractBaseUser, PermissionsMixin):
             if isinstance(v, list):
                 return '[' + ', '.join([recursive_stripe(x) for x in v]) + ']'
             else:
-                return v.strip()
+                if isinstance(v, str):
+                    return v.strip()
+                else:
+                    return str(v)
 
         pre_value = self.data.get(variable_name, '')
         if isinstance(pre_value, list):

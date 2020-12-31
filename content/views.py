@@ -437,6 +437,16 @@ def get_session(request, module_id=None):
     session_id = request.user.data.get('session')
 
     if not session_id or not request.user.is_authenticated:
+        page_id = request.GET.get('page_id', None)
+        if request.user.is_staff and page_id:
+            context = {
+                'program': 'None',
+                'title': 'None',
+                'api': reverse('content_api'),
+                'module_id': 0
+            }
+            return render(request, 'sessionnew.html', context)
+
         return HttpResponseRedirect(settings.HOME_URL)
 
     session = get_object_or_404(Session, id=session_id)

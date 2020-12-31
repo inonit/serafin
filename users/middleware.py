@@ -70,5 +70,7 @@ class RateLimitMiddleware:
             raise Http404
         elif is_ratelimited(request, group='all', key='user_or_ip', rate='50/s', method=ALL, increment=True):
             raise Http404
+        elif is_ratelimited(request, group='all', key='user_or_ip', rate='10000/d', method=ALL, increment=True):
+            raise Http404
         else:
             return self.get_response(request)
