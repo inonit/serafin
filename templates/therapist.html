@@ -301,6 +301,7 @@
     </div>
 
 </div>
+<div id="idle" ng-app="idle" ng-controller="idle">{% include 'idle_popup.html' %}</div>
 <!-- /.container -->
 
 <!-- Footer -->
@@ -320,11 +321,13 @@
 <script src="{% static 'lib/ng-emoji-picker/js/jquery.emojiarea.js' %}"></script>
 <script src="{% static 'lib/ng-emoji-picker/js/emoji-picker.js' %}"></script>
 <script src="{% static 'js/WebAudioRecorder.min.js' %}"></script>
+<script src="{% static 'lib/ng-idle/angular-idle.js' %}"></script>
 
 <script>
     var api = '{{ api|safe }}';
     var csrf_token = '{{ csrf_token }}';
     var chatApi = '{{ chat_api|safe }}';
+    angular.bootstrap(document.getElementById("idle"), ['idle']);
 </script>
 
 </body>

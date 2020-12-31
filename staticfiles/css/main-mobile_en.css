@@ -149,6 +149,7 @@ and (-webkit-min-device-pixel-ratio: 2) {
 
     .home-image {
         background: linear-gradient(0deg, rgba(71, 211, 255, 0.2), rgba(71, 211, 255, 0.2)), linear-gradient(0deg, rgba(0, 0, 0, 0.7) -35.4%, rgba(0, 0, 0, 0) 106.07%);
+        background-position: center;
         height: 25.5vh;
         background-size: cover;
         display: flex;
@@ -316,10 +317,6 @@ and (-webkit-min-device-pixel-ratio: 2) {
     .row {
         display: flex;
         direction: ltr;
-    }
-
-    .notification-box .row {
-        flex-direction: row-reverse;
     }
 
     .footer-spacer {

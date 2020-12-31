@@ -37,7 +37,7 @@
             <div ng-cloak class="home-box-text-2" dynamic-text-size ng-if="loaded && current_page_title">{{ current_page_title }}</div>
             <div ng-cloak class="home-box-text-2" dynamic-text-size ng-if="loaded && !current_page_title">
                 {% endverbatim %}
-                {% trans 'there is no new available lesson, continue your training in accordance to your last session' %}
+                {% trans 'here is no new available lesson, continue your training in accordance to your last session' %}
                 {% verbatim %}
             </div>
             {% endverbatim %}
@@ -48,7 +48,7 @@
 
     <div ng-cloak class="notification-box-wrapper" ng-if="has_messages">
         <div class="notification-box">
-            <button class="notification-btn btn-outline">{% trans 'Show' %}</button>
+            <button class="notification-btn btn-outline" onclick="location.href='{% url 'mytherapist' %}'">{% trans 'Show' %}</button>
             <div class="row">
                 <div class="notification-icon">
                     <img src="{% static 'img/notification.svg' %}"/>

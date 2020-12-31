@@ -702,6 +702,9 @@ def my_therapist(request):
     if not request.user.is_authenticated:
         return HttpResponseRedirect(settings.HOME_URL)
 
+    if not request.user.therapist:
+        raise Http404
+
     context = {
         'chat_api': reverse('chat'),
         'page': 'mytherapist',

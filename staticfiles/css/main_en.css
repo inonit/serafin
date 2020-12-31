@@ -260,7 +260,7 @@ and (-webkit-min-device-pixel-ratio: 0.75){
     }
 
     .notification-icon {
-        margin-left: 1em;
+        margin-right: 1em;
         display: flex;
         align-items: center;
     }
@@ -300,10 +300,6 @@ and (-webkit-min-device-pixel-ratio: 0.75){
     .row {
         display: flex;
         direction: ltr;
-    }
-
-    .notification-box .row {
-        flex-direction: row-reverse;
     }
 
     .reverse{
