@@ -346,6 +346,8 @@ content.directive('filer', ['$compile', '$http', function (compile, http) {
         replace: true,
         link: function (scope, elem, attrs) {
             scope.noimg = elem.find('#id_file_thumbnail_img').attr('src');
+            // workaround when adding new filer element
+            $('.filerFile .vForeignKeyRawIdAdminField').attr('type', 'hidden');
             var index = scope.$parent.$index;
             var url = filerApi + scope.pagelet.content_type + '/';
 

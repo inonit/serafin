@@ -607,7 +607,7 @@ class Engine(object):
                     domain='session',
                     actor=self.user,
                     variable='show_chapter',
-                    pre_value=self.nodes[self.user.data['node']]['title'],
+                    pre_value=self.nodes[self.user.data['node']]['title'] if 'title' in self.nodes[self.user.data['node']] else '',
                     post_value=page.title
                 )
 
@@ -665,7 +665,7 @@ class Engine(object):
             if page:
                 node = self.nodes.get(node_id)
                 current_page = self.trigger_node(node, clear_array_variable=False)
-                if page.id == current_page.id:
+                if current_page and page.id == current_page.id:
                     return current_page
                 return page
 

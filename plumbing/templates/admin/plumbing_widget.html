@@ -165,9 +165,6 @@
                 <input type="text" ng-model="node.tool.title">
             </div>
             <label>{% trans "Type" %}</label>
-            {% verbatim %}
-            {{ $index }}
-            {% endverbatim %}
             <select ng-model="node.tool.type">
                 <option value="file"> {% trans 'file' %} </option>
                 <option value="audio"> {% trans 'audio' %} </option>

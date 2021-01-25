@@ -569,6 +569,7 @@ plumbing.directive('filer', ['$compile', '$http', function (compile, http) {
 
             // receive on select
             angular.element(window).bind('focus', function (val) {
+                elem.find('#id_file_' + index).attr('type', 'hidden');
                 var value = elem.find('#id_file_' + index).attr('value');
                 if (value && value !== node.tool.file_id) {
                     scope.$apply(function () {
