@@ -121,7 +121,7 @@
                                 </div>
                             </div>
                              <div ng-repeat="alt in pagelet.content.alternatives track by $index"
-                                 ng-show="subForm.$dirty && pagelet.content.value == alt.value">
+                                 ng-show="subForm.$dirty && pagelet.content.value == alt.value" class="checkbox-value">
                                  {{ alt.text }}
                              </div>
                         </div>
