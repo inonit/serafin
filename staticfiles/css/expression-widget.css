@@ -46,6 +46,7 @@ i[class="icon-question-sign"] {
 
 span.operator-label {
   padding: 0 0.5rem;
+  background-color: #599fcf;
 }
 
 div.preview-box .validator {
@@ -132,27 +133,54 @@ mentio-menu ul > li.list-group-item > i {
 .popover {
   border-radius: 4px;
   height: 500px;
+  width: 300px;
   overflow: hidden;
   overflow-y: scroll;
+  color: #ffffff;
+}
+
+.popover.fade {
+  opacity: 100;
 }
 
 .popover,
-.popover > .popover-title {
+.popover > .popover-header,
+.popover .card-header,
+.popover .card-body {
   background-color: rgba(23, 36, 47, 0.90);
   text-shadow: 1px 1px 1px rgba(0,0,0,0.004);
+  padding: 0;
 }
 
-.popover > h3.popover-title {
+.popover .card {
+  box-shadow: none;
+  margin-bottom: 0;
+}
+
+.popover .accordion .btn-link {
+  color: #0e90d2;
+  outline: none;
+  text-decoration: none;
+}
+
+.popover > h3.popover-header {
   padding: 0.2rem;
   text-align: center;
   display: block;
+  box-shadow: 0 1px 0 0 #e4e4e4;
 }
 
-.popover > .popover-content {
-  font-size: 0.7rem;
-  line-height: 0.8rem;
+.popover > .popover-body {
+  font-size: 0.9rem;
+  line-height: 1.1rem;
   min-width: 250px;
   overflow-y: auto;
+  padding: 0.6rem;
+}
+
+.popover .card-body {
+  border-top: #e4e4e4 solid;
+  padding: 0.6rem;
 }
 
 .popover.top .arrow:after {
@@ -183,17 +211,11 @@ dl.dl-horizontal.column35pst > dd {
 }
 
 /* Override Bootstrap accordion CSS */
-div.popover-content > .accordion > .accordion-group {
-  border: none;
-  border-radius: 0px;
+
+.collapse:not(.show) {
+  display: none;
 }
 
-div.popover-content > .accordion > .accordion-group > .accordion-heading,
-div.popover-content > .accordion > .accordion-group > .accordion-heading > a.accordion-toggle {
-  font-size: 0.8rem;
-  padding: 5px 0;
-}
-
-div.popover-content > .accordion > .accordion-group > .accordion-body > .accordion-inner {
-  padding: 2px;
+.collapse.show {
+  display: block;
 }

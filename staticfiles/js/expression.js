@@ -45,7 +45,7 @@ angular.module("stringExpression", ["autocompleteSearch", "mentio"])
                 '      <div class="header">' +
                 '        <span class="title">{{ headerTitle }}</span>' +
                 '        <div class="ctrl right">' +
-                '          <i class="icon-question-sign"' +
+                '          <i class="fa fa-question"' +
                 '              popover-placement="{{ popover.placement }}" popover="{{ popover.content }}"></i>' +
                 '        </div>' +
                 '        </div>' +
@@ -130,8 +130,8 @@ angular.module("stringExpression", ["autocompleteSearch", "mentio"])
                     $scope.addQuery($scope.url);
             }],
             link: function(scope, element, attrs) {
-                var toggleHelp = element.find('i[class="icon-question-sign"]'),
-                    contentTemplate = $compile($templateCache.get(scope.popoverTemplate))(scope);
+                var toggleHelp = element.find('i.fa-question'),
+                contentTemplate = $compile($templateCache.get(scope.popoverTemplate))(scope);
 
                 $(toggleHelp).popover({
                     html: true,
