@@ -189,6 +189,18 @@ def schedule_session(sender, **kwargs):
                     action=_('Initialize session'),
                     subject=useraccess.user
                 )
+            elif session.get_end_time(useraccess.start_time, useraccess.time_factor) > \
+                    session.get_next_time(useraccess.start_time, useraccess.time_factor):
+                next_time = session.get_next_time(useraccess.start_time, useraccess.time_factor)
+                Task.objects.create_task(
+                    sender=session,
+                    domain='init',
+                    time=next_time,
+                    task=init_session,
+                    args=(session.id, useraccess.user.id),
+                    action=_('Initialize session recurrent'),
+                    subject=useraccess.user
+                )
 
 
 @receiver(signals.post_save, sender=Session)
@@ -203,7 +215,8 @@ def reschedule_session(sender, **kwargs):
             Task.objects.filter(
                 content_type=session_type,
                 object_id=session.id,
-                subject=useraccess.user
+                subject=useraccess.user,
+                time__gt=timezone.localtime(timezone.now())
             ).delete()
 
             if not useraccess.user.is_active:
@@ -213,17 +226,29 @@ def reschedule_session(sender, **kwargs):
                 useraccess.start_time,
                 useraccess.time_factor
             )
-
-            if start_time > timezone.localtime(timezone.now()) and session.scheduled:
-                Task.objects.create_task(
-                    sender=session,
-                    domain='init',
-                    time=start_time,
-                    task=init_session,
-                    args=(session.id, useraccess.user.id),
-                    action=_('Initialize session'),
-                    subject=useraccess.user
-                )
+            if session.scheduled:
+                if start_time > timezone.localtime(timezone.now()):
+                    Task.objects.create_task(
+                        sender=session,
+                        domain='init',
+                        time=start_time,
+                        task=init_session,
+                        args=(session.id, useraccess.user.id),
+                        action=_('Initialize session'),
+                        subject=useraccess.user
+                    )
+                elif session.get_end_time(useraccess.start_time, useraccess.time_factor) > \
+                        session.get_next_time(useraccess.start_time, useraccess.time_factor):
+                    next_time = session.get_next_time(useraccess.start_time, useraccess.time_factor)
+                    Task.objects.create_task(
+                        sender=session,
+                        domain='init',
+                        time=next_time,
+                        task=init_session,
+                        args=(session.id, useraccess.user.id),
+                        action=_('Initialize session recurrent'),
+                        subject=useraccess.user
+                    )
 
 
 @receiver(signals.pre_delete, sender=Session)

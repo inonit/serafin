@@ -260,6 +260,8 @@ class Session(models.Model):
         return start_time + timedelta
 
     def get_next_time(self, start_time, time_factor):
+        if self.interval == 0:
+            return start_time
         i = 1
         while True:
             kwargs = {
@@ -272,6 +274,10 @@ class Session(models.Model):
 
     def clean(self):
         Program.clean_is_lock(self.program)
+
+        if self.scheduled and self.end_time_delta > 0 and self.interval == 0:
+            raise ValidationError({'interval': ValidationError(
+                _('Interval must be greater than zero for reschedule session'))})
 
 
 class Module(models.Model):
