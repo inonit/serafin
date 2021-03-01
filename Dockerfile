@@ -4,19 +4,21 @@ RUN apt-get update && apt-get install -y supervisor
 
 RUN curl -sL https://deb.nodesource.com/setup_6.x | bash - && \
     apt-get install -y nodejs && \
-	apt-get install -y npm && \
+    apt-get install npm -y && \
     npm install -g bower
 	
 RUN apt-get autoremove -y && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
-
 ENV PYTHONUNBUFFERED 1
 WORKDIR /code
+RUN mkdir -p node_modules/ 
 COPY bower.json .bowerrc /code/
 RUN bower --allow-root install
 RUN sed -i 's/\/assets\/images\/ng-emoji-picker/\/static\/\/static\/lib\/ng-emoji-picker\/img/g' /code/staticfiles/lib/ng-emoji-picker/js/jquery.emojiarea.js
 RUN sed -i 's/\/assets\/images\/ng-emoji-picker/\/static\/\/static\/lib\/ng-emoji-picker\/img/g' /code/staticfiles/lib/ng-emoji-picker/css/emoji.css
+COPY idna-2.10-py2.py3-none-any.whl /code/
+RUN pip install idna-2.10-py2.py3-none-any.whl
 COPY django-multisite.tar.gz /code/
 RUN tar xvzf django-multisite.tar.gz
 RUN python django-multisite/setup.py install
