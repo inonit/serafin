@@ -1,21 +1,33 @@
 from __future__ import unicode_literals
+from __future__ import print_function
+
+import logging
+from builtins import str
+from builtins import object
+from smtplib import SMTPDataError
+
+from django.db.models import Q
 from django.utils.translation import ugettext_lazy as _
 
 from django.conf import settings
 from django.contrib.auth.models import BaseUserManager, AbstractBaseUser, PermissionsMixin, AnonymousUser
 from django.contrib.sites.models import Site
 from django.core.mail.message import EmailMultiAlternatives
-from django.core.urlresolvers import reverse
-from django.db import models
+from django.urls import reverse
+from django.db import models, IntegrityError
 from django.template import Context
 from django.template.loader import get_template
 
 from collections import OrderedDict
 from jsonfield import JSONField
 from plivo import RestClient as PlivoRestClient
+
+from system.models import ProgramUserAccess, Session
 from tokens.tokens import token_generator
-from twilio.rest import TwilioRestClient
+from twilio.rest import Client
 import requests
+
+logger = logging.getLogger(__name__)
 
 
 class UserManager(BaseUserManager):
@@ -32,7 +44,8 @@ class UserManager(BaseUserManager):
         return user
 
     def create_superuser(self, id, password, email='', phone=''):
-        user = self.create_user(id=id, password=password, email=email, phone=phone)
+        user = self.create_user(id=id, password=password,
+                                email=email, phone=phone)
         user.is_staff = True
         user.is_superuser = True
         user.save()
@@ -51,15 +64,18 @@ class User(AbstractBaseUser, PermissionsMixin):
         'system.Program', blank=True,
         verbose_name=_('program restrictions'),
         help_text=_('Staff user has limited access only to the chosen Programs (and related data). '
-            'If no Programs are chosen, there is no restriction.'),
+                    'If no Programs are chosen, there is no restriction.'),
         related_name='user_restriction_set',
         related_query_name='user_restriction'
     )
-    date_joined = models.DateTimeField(_('date joined'), auto_now_add=True, editable=False)
+    date_joined = models.DateTimeField(
+        _('date joined'), auto_now_add=True, editable=False)
 
-    token = models.CharField(_('token'), max_length=64, blank=True, editable=False)
+    token = models.CharField(_('token'), max_length=64,
+                             blank=True, editable=False)
 
-    data = JSONField(load_kwargs={'object_pairs_hook': OrderedDict}, default={})
+    data = JSONField(
+        load_kwargs={'object_pairs_hook': OrderedDict}, default={})
 
     objects = UserManager()
 
@@ -83,7 +99,7 @@ class User(AbstractBaseUser, PermissionsMixin):
         return self.groups.filter(name=group_name).exists()
 
     def send_sms(self, message=None):
-        if len(self.phone)<11: # 11 character phone number +4712345678 (norway)
+        if len(self.phone) < 11:  # 11 character phone number +4712345678 (norway)
             return False
 
         if message and settings.SMS_SERVICE == 'Twilio':
@@ -108,14 +124,14 @@ class User(AbstractBaseUser, PermissionsMixin):
 
             response = client.send_message({
                 'src': settings.PLIVO_FROM_NUMBER,
-                'dst': self.phone[1:], # drop the + before country code
+                'dst': self.phone[1:],  # drop the + before country code
                 'text': message,
             })
 
             return response
 
         if message and settings.SMS_SERVICE == 'Console':
-            print message
+            print(message)
             return True
 
         if message and settings.SMS_SERVICE == 'Primafon':
@@ -124,7 +140,7 @@ class User(AbstractBaseUser, PermissionsMixin):
                 json={
                     'phone_numbers': [str(self.phone[1:])],
                     'message': message,
-                    'callback_id': int(settings.CALLBACK_ID)    
+                    'callback_id': int(settings.CALLBACK_ID)
                 },
                 headers={
                     'Authorization':
@@ -161,7 +177,7 @@ class User(AbstractBaseUser, PermissionsMixin):
             for pdf in pdfs:
                 pdf_name = 'pdf_%d.pdf' % count
                 email.attach(pdf_name, pdf, 'application/pdf')
-                count+=1
+                count += 1
 
             return email.send()
 
@@ -260,7 +276,8 @@ class StatefulAnonymousUser(AnonymousUser):
         del self.data['email']
         del self.data['phone']
 
-        user = User.objects.create_user(None, password, email, phone, data=self.data)
+        user = User.objects.create_user(
+            None, password, email, phone, data=self.data)
 
         return user, True
 

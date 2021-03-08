@@ -1,4 +1,4 @@
-FROM python:2.7
+FROM python:3.6
 
 RUN apt-get update && apt-get install -y supervisor
 
@@ -17,8 +17,10 @@ COPY bower.json .bowerrc /code/
 RUN bower --allow-root install
 COPY requirements.txt /code/
 RUN pip install -r requirements.txt
+RUN pip install ptvsd
+RUN pip install https://github.com/darklow/django-suit/tarball/v2
 COPY supervisor.conf /etc/supervisor/supervisor.conf
 COPY . /code/
-RUN python manage.py collectstatic --noinput
+# RUN python manage.py collectstatic --noinput
 EXPOSE 8000
 ENTRYPOINT ["supervisord", "-c", "/etc/supervisor/supervisor.conf"]

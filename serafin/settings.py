@@ -9,6 +9,8 @@ https://docs.djangoproject.com/en/1.8/ref/settings/
 '''
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
+from collections import OrderedDict
+from django.utils.translation import ugettext_lazy as _
 import os
 
 BASE_DIR = os.path.dirname(os.path.dirname(__file__))
@@ -21,17 +23,24 @@ BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY', 'change-me')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = bool(int(os.environ.get('DEBUG', 0)))
 TEMPLATE_DEBUG = DEBUG
 USERDATA_DEBUG = DEBUG
 
-ALLOWED_HOSTS = ['*']
+if DEBUG:
+    ALLOWED_HOSTS = ['*']
+else:
+    ALLOWED_HOSTS = []
+ALLOWED_HOSTS_ENV = os.environ.get('ALLOWED_HOSTS')
+if ALLOWED_HOSTS_ENV:
+    ALLOWED_HOSTS.extend(ALLOWED_HOSTS_ENV.split(','))
 
 
 # Application definition
 
-from multisite import SiteID
-SITE_ID = SiteID(default=1)
+# from multisite import SiteID
+# SITE_ID = SiteID(default=1)
+SITE_ID = 1
 
 INSTALLED_APPS = (
     'django.contrib.auth',
@@ -40,9 +49,10 @@ INSTALLED_APPS = (
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'django.contrib.sites',
-
-    'multisite',
-    'serafin.apps.SerafinReConfig',
+    'django_user_agents',
+    'django.db.models',
+    'request',
+    'adminsortable',
 
     'tokens',
     'users',
@@ -51,58 +61,70 @@ INSTALLED_APPS = (
     'content',
     'plumbing',
     'system',
-    'codelogs',
 
     'filer',
-    'suit',
+    'serafin.apps.SuitConfig',
+    'django.contrib.admin',
     'sitetree',
     'django_extensions',
     'rules.apps.AutodiscoverRulesConfig',
-    'django.contrib.admin',
     'rest_framework',
     'mptt',
     'easy_thumbnails',
     'huey.contrib.djhuey',
-    'django_user_agents',
     'import_export',
     'compressor',
     'reversion',
     'constance',
-    'request',
     'raven.contrib.django.raven_compat',
+    'serafin.apps.SerafinReConfig',
+    'defender',
 )
 
-MIDDLEWARE_CLASSES = (
+MIDDLEWARE = (
+    'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.locale.LocaleMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'users.middleware.AuthenticationMiddleware',
+    # 'users.middleware.RateLimitMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'django_user_agents.middleware.UserAgentMiddleware',
+    'defender.middleware.FailedLoginMiddleware',
     'events.middleware.EventTrackingMiddleware',
     'request.middleware.RequestMiddleware',
-    'multisite.middleware.DynamicSiteMiddleware',
+    'users.middleware.ForceChangePasswordMiddleware',
+    # 'admin_ip_restrictor.middleware.AdminIPRestrictorMiddleware'
 )
 
 ROOT_URLCONF = 'serafin.urls'
 
 WSGI_APPLICATION = 'serafin.wsgi.application'
 
-TEMPLATE_DIRS = [
-    os.path.join(BASE_DIR, 'templates'),
+TEMPLATES = [
+    {
+        'BACKEND': 'django.template.backends.django.DjangoTemplates',
+        'DIRS': [
+            os.path.join(BASE_DIR, 'templates')
+        ],
+        'APP_DIRS': True,
+        'OPTIONS': {
+            'context_processors': [
+                'django.contrib.messages.context_processors.messages',
+                'django.contrib.auth.context_processors.auth',
+                'django.template.context_processors.request',
+                'django_settings_export.settings_export',
+                'django.template.context_processors.static',
+                # Insert your TEMPLATE_CONTEXT_PROCESSORS here or use this
+                # list if you haven't customized them:
+                'users.context_processors.add_support_email',
+                'users.context_processors.add_basic_user_info'
+            ],
+        },
+    },
 ]
-
-from django.conf.global_settings import TEMPLATE_CONTEXT_PROCESSORS
-
-TEMPLATE_CONTEXT_PROCESSORS += (
-    'django.contrib.messages.context_processors.messages',
-    'django.core.context_processors.request',
-    'django_settings_export.settings_export',
-    'system.context_processors.site',
-    'system.context_processors.stylesheet',
-)
 
 
 # Database
@@ -110,7 +132,7 @@ TEMPLATE_CONTEXT_PROCESSORS += (
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'ENGINE': 'django.db.backends.postgresql',
         'HOST': 'db',
         'PORT': 5432,
         'NAME': 'postgres',
@@ -125,7 +147,6 @@ DATABASES = {
 
 LANGUAGE_CODE = 'en'
 
-from django.utils.translation import ugettext_lazy as _
 
 LANGUAGES = (
     ('en', _('English')),
@@ -140,18 +161,22 @@ TIME_ZONE = 'Europe/Oslo'
 USE_I18N = True
 USE_L10N = True
 USE_TZ = True
-USE_HTTPS = True
+USE_HTTPS = False
 
+if USE_HTTPS:
+    SECURE_SSL_REDIRECT = True
+    SESSION_COOKIE_SECURE = True
+    CSRF_COOKIE_SECURE = True
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.8/howto/static-files/
 
-STATIC_URL = '/static/'
-STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+STATIC_URL = '/static/static/'
+STATIC_ROOT = '/vol/web/static'
 COMPRESS_ENABLED = True
 
-MEDIA_URL = '/media/'
-MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+MEDIA_URL = '/static/media/'
+MEDIA_ROOT = '/vol/web/media'
 
 STATICFILES_DIRS = (
     os.path.join(BASE_DIR, 'staticfiles'),
@@ -161,7 +186,11 @@ STATICFILES_FINDERS = (
     'django.contrib.staticfiles.finders.FileSystemFinder',
     'django.contrib.staticfiles.finders.AppDirectoriesFinder',
     'compressor.finders.CompressorFinder',
+    'npm.finders.NpmFinder',
 )
+
+NPM_FILE_PATTERNS = {
+}
 
 THUMBNAIL_ALIASES = {
     '': {
@@ -187,7 +216,6 @@ AUTH_USER_MODEL = 'users.User'
 
 AUTHENTICATION_BACKENDS = (
     'rules.permissions.ObjectPermissionBackend',
-    'users.backends.EmailOrPhoneBackend',
     'django.contrib.auth.backends.ModelBackend',
     'users.backends.TokenBackend',
 )
@@ -195,13 +223,27 @@ AUTHENTICATION_BACKENDS = (
 LOGIN_URL = '/login'
 LOGIN_REDIRECT_URL = '/'
 
-HOME_URL = '/home'
+HOME_URL = LOGIN_URL
 REGISTER_URL = '/register'
 
 TOKEN_TIMEOUT_DAYS = 1
 SESSION_COOKIE_NAME = 'serafin_session'
 SESSION_COOKIE_AGE = 24 * 60 * 60  # 24 hours
 
+AUTH_PASSWORD_VALIDATORS = [
+    {
+        'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator',
+        'OPTIONS': {
+            'min_length': 8,
+        }
+    },
+    {
+        'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
+    },
+    {
+        'NAME': 'users.backends.DigitPasswordValidator',
+    },
+]
 
 # Events
 
@@ -235,6 +277,7 @@ HUEY = {
     'name': 'serafin',
     'store_none': True,
     'always_eager': False,
+    'immediate': True,
     'consumer': {
         'quiet': True,
         'workers': 100,
@@ -266,69 +309,6 @@ REST_FRAMEWORK = {
 
 
 # Admin interface
-
-SUIT_CONFIG = {
-    'CONFIRM_UNSAVED_CHANGES': False,
-    'ADMIN_NAME': 'Serafin admin',
-    'HEADER_DATE_FORMAT': 'l j. F Y',
-
-    'SEARCH_URL': '/admin/system/page/',
-
-    'MENU': [
-        {
-            'app': 'users',
-            'label': _('Users'),
-            'icon': 'icon-user',
-            'models':
-                [
-                    'user',
-                    'auth.group',
-                ]
-        },
-        {
-            'app': 'system',
-            'label': _('Program'),
-            'icon': 'icon-wrench',
-            'models':
-                [
-                    'program',
-                    'session',
-                    'page',
-                    'email',
-                    'sms',
-                    'variable',
-                ]
-        },
-        {
-            'app': 'events',
-            'label': _('Events'),
-            'icon': 'icon-bullhorn',
-            'models':
-                [
-                    'event',
-                    'tasker.task',
-                    'request.request',
-                    'codelogs.codelog'
-                ]
-        },
-        {
-            'app': 'filer',
-            'label': _('Media'),
-            'icon': 'icon-picture'
-        },
-        {
-            'app': 'sites',
-            'label': _('Settings'),
-            'icon': 'icon-cog',
-            'models':
-                [
-                    'site',
-                    'sitetree.tree',
-                    'constance.config',
-                ]
-        },
-    ]
-}
 
 
 # Logging
@@ -371,7 +351,8 @@ LOGGING = {
             'filename': 'debug.log',
             'maxBytes': 1024 * 1024 * 5,  # 5 MB
             'backupCount': 0,
-            'formatter': 'verbose'
+            'formatter': 'verbose',
+            'encoding': 'utf-8'
         },
         'huey': {
             'level': 'INFO',
@@ -425,8 +406,18 @@ RESERVED_VARIABLES = [
         'domains': []
     },
     {
+        'name': 'secondary_phone',
+        'admin_note': 'Do not use in conditions. Used in registration.',
+        'domains': []
+    },
+    {
         'name': 'password',
         'admin_note': 'Do not use in conditions. Used in registration.',
+        'domains': []
+    },
+    {
+        'name': 'force_change_password',
+        'admin_note': 'Force the user to change their password.',
         'domains': []
     },
     {
@@ -457,41 +448,6 @@ RESERVED_VARIABLES = [
     {
         'name': 'current_date',
         'admin_note': 'Returns the current localized date in iso format, i.e. 2015-05-01',
-        'domains': ['user']
-    },
-    {
-        'name': 'current_year',
-        'admin_note': 'Returns the current localized year in 4 digits format, i.e 2015',
-        'domains': ['user']
-    },
-    {
-        'name': 'current_month',
-        'admin_note': 'Returns the current localized month in 2 digits format, i.e. 05 for Mai',
-        'domains': ['user']
-    },
-    {
-        'name': 'current_date_dd',
-        'admin_note': 'Returns the current localized day in 2 digits format, i.e. 23',
-        'domains': ['user']
-    },
-    {
-        'name': 'current_week',
-        'admin_note': 'Returns the current localized week in the year (consists of 52 or 53 full weeks). A week starts on a Monday and ends on a Sunday',
-        'domains': ['user']
-    },
-    {
-        'name': 'current_hour',
-        'admin_note': 'Returns the current localized hour in 2 digits (24 hours format), i.e. 18',
-        'domains': ['user']
-    },
-    {
-        'name': 'current_minute',
-        'admin_note': 'Returns the current localized minute in 2 digits, i.e. 54',
-        'domains': ['user']
-    },
-    {
-        'name': 'current_second',
-        'admin_note': 'Returns the current localized second in 2 digits, i.e. 58',
         'domains': ['user']
     },
     {
@@ -534,15 +490,20 @@ RESERVED_VARIABLES = [
         'admin_note': 'For system use, never accessible. Used for timing page visits.',
         'domains': []
     },
+    {
+        'name': 'tools',
+        'admin_note': 'For the available tools of the user',
+        'domains': []
+    }
 ]
 
 # SANDBOX CONFIG : Must run the SANDBOX API project on another server
-#(https://github.com/inonit/serafin-api-sandbox.git)
+# (https://github.com/inonit/serafin-api-sandbox.git)
 # configure the following variables according to the value set in config.js in serafin-api-sandbox
 # all variables must be set as environment variables in both projects
 SANDBOX_IP = "http://localhost"
 SANDBOX_PORT = "3030"
-SANDBOX_ENDPOINT= "compile"
+SANDBOX_ENDPOINT = "compile"
 SANDBOX_API_KEY = "sdkljf56789#KT34_"
 
 
@@ -552,7 +513,8 @@ STYLESHEETS = [
     {"name": _("Default stylesheet"), "path": "css/style.css"},
     {"name": _("Nalokson"), "path": "css/style-nalokson.css"},
     {"name": _("Miksmaster"), "path": "css/style-miksmaster.css"},
-    {"name": _("Miksmaster alternate"), "path": "css/style-miksmaster-alt.css"},
+    {"name": _("Miksmaster alternate"),
+     "path": "css/style-miksmaster-alt.css"},
 ]
 
 STYLESHEET_CHOICES = [(ss['path'], ss['name']) for ss in STYLESHEETS]
@@ -560,17 +522,16 @@ STYLESHEET_CHOICES = [(ss['path'], ss['name']) for ss in STYLESHEETS]
 
 # Constance
 
-from collections import OrderedDict
 CONSTANCE_CONFIG = OrderedDict([
     ('USER_VARIABLE_PROFILE_ORDER', (
         u'session, node, stack, reply_session, reply_node, reply_variable',
         'What user variables to list first on a user\'s object page (comma separated)',
-        unicode
+        str
     )),
     ('USER_VARIABLE_EXPORT', (
         u'',
         'What user variables to export from user listing (comma separated, leave blank for all)',
-        unicode
+        str
     )),
 ])
 
@@ -585,11 +546,11 @@ CONSTANCE_REDIS_CONNECTION = {
 REQUEST_IGNORE_PATHS = (
     r'^admin',
     r'^static',
-    r'^api',
+    r'^api.*(?<!users_stats)$',
 )
 
 REQUEST_IGNORE_USER_AGENTS = (
-    r'^$', # ignore blank user agent
+    r'^$',  # ignore blank user agent
     r'Googlebot',
     r'bingbot',
     r'YandexBot',
@@ -614,7 +575,7 @@ REQUEST_PLUGINS = (
 
 
 try:
-    from local_settings import *
+    from .local_settings import *
 except ImportError:
     pass
 

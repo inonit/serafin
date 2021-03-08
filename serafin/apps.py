@@ -1,17 +1,16 @@
 from django.apps import AppConfig, apps
 from django.contrib import admin
 from django.contrib.admin import sites
-from django.core.urlresolvers import reverse
 from django.utils.translation import ugettext_lazy as _
-
-from request.models import Request
-from request.admin import RequestAdmin
-
+from suit.apps import DjangoSuitConfig
+from suit.menu import ParentItem, ChildItem
 
 class SerafinReConfig(AppConfig):
     name = 'serafin'
 
     def ready(self):
+        from request.models import Request
+        from .models import CustomRequestAdmin
         apps.get_app_config('auth').verbose_name = _('Permissions')
         apps.get_app_config('filer').verbose_name = _('Filer')
 
@@ -19,31 +18,44 @@ class SerafinReConfig(AppConfig):
         admin.site.register(Request, CustomRequestAdmin)
 
 
-class CustomRequestAdmin(RequestAdmin):
-    list_display = ['time', 'method', 'path', 'response', 'ip_filter', 'user_link']
-    search_fields = ['path', 'ip', 'user__id']
-    date_hierarchy = 'time'
+class SuitConfig(DjangoSuitConfig):
+    layout = 'horizontal'
+    SUIT_FORM_SIZE_LABEL = 'col-xs-12 col-sm-3 col-md-2 col-lg-1'
+    SUIT_FORM_SIZE_XXX_LARGE = (SUIT_FORM_SIZE_LABEL, 'col-xs-12 col-sm-9 col-md-10 col-lg-10')
 
-    def has_add_permission(self, request):
-        return False
+    form_size = {
+        'default': SUIT_FORM_SIZE_XXX_LARGE,
+        'widgets': {
+            'RelatedFieldWidgetWrapper': SUIT_FORM_SIZE_XXX_LARGE
+        }
+    }
+    
+    verbose_name = 'Serafin Admin'
 
-    def user_link(self, obj):
-        if obj.user_id:
-            user = obj.get_user()
-            url = reverse('admin:users_user_change', args=[user.id])
-            return '<a href="%s">%s</a>' % (url, user)
-
-    user_link.short_description = _('User')
-    user_link.allow_tags = True
-    user_link.admin_order_field = 'user_id'
-
-    def ip_filter(self, obj):
-        return '<a href="?ip={0}" title="{1}">{0}</a>'.format(
-            obj.ip,
-            _('Show only requests from this IP address.'),
-        )
-
-    ip_filter.short_description = _('IP')
-    ip_filter.allow_tags = True
-    ip_filter.admin_order_field = 'ip'
-
+    menu = (
+        ParentItem('Users', 'users', icon='icon-user', children=[
+            ChildItem(model='user'),
+            ChildItem(model='auth.group')
+        ]),
+        ParentItem('Program', 'system', icon='icon-wrench', children=[
+            ChildItem(model='program'),
+            ChildItem(model='session'),
+            ChildItem(model='page'),
+            ChildItem(model='email'),
+            ChildItem(model='sms'),
+            ChildItem(model='variable'),
+            ChildItem(model='chapter'),
+            ChildItem(model='module')
+        ]),
+        ParentItem('Events', 'events', icon='icon-bullhorn', children=[
+            ChildItem(model='event'),
+            ChildItem(model='tasker.task'),
+            ChildItem(model='request.request')
+        ]),
+        ParentItem('Media', 'filer', icon='icon-picture'),
+        ParentItem('Settings', 'sites', icon='icon-cog', children=[
+            ChildItem(model='site'),
+            ChildItem(model='sitetree.tree'),
+            ChildItem(model='constance.config')
+        ])
+    )
