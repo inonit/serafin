@@ -1,13 +1,16 @@
 from __future__ import unicode_literals
+
+from django.contrib.auth.views import redirect_to_login, update_session_auth_hash, PasswordChangeView
 from django.utils.translation import ugettext_lazy as _
 
 from django.conf import settings
 from django.contrib.auth import login, logout, authenticate
 from django.contrib.auth.decorators import login_required
-from django.contrib.auth.views import login as login_view
+from django.contrib.auth import views as auth_views
 from django.http import HttpResponse, JsonResponse
 from django.shortcuts import redirect, render
 from django.utils import timezone
+from django.urls import reverse
 from django.views.decorators.csrf import csrf_exempt
 
 from events.signals import log_event
@@ -22,32 +25,34 @@ from plivo import plivoxml
 import json
 import logging
 
-
 def manual_login(request):
     '''Redirect to root if logged in or present login screen'''
 
-    if request.user.is_authenticated():
+    if request.user.is_authenticated:
         return redirect('/')
-    return login_view(request, template_name='login.html', extra_context={'title': _('Log in')})
+    return auth_views.LoginView.as_view(template_name='login.html', extra_context={'title': _('Log in')})(request)
 
 
 def manual_logout(request):
     '''Log user out if logged in and redirect to root'''
 
-    if request.user.is_authenticated():
+    if request.user.is_authenticated:
         logout(request)
     return redirect('/')
 
 
+
 def login_via_email(request, user_id=None, token=None):
     '''Log in by token link or redirect to manual login if token is invalid'''
+    if request.user.is_authenticated:
+        return redirect(reverse('content'))
 
     user = authenticate(user_id=user_id, token=token)
     if user:
         login(request, user)
         return redirect('/')
 
-    return redirect('login')
+    return redirect_to_login(reverse('content'))
 
 
 @csrf_exempt
@@ -161,8 +166,8 @@ def profile(request):
     }
 
     if request.method == 'POST':
-        for key, value in request.POST.items():
-            if key in user_editable_vars.keys():
+        for key, value in list(request.POST.items()):
+            if key in list(user_editable_vars.keys()):
                 request.user.data[key] = value
 
         request.user.save()
@@ -190,10 +195,12 @@ def profile(request):
 
             if start_time > now:
                 sessions_remaining += 1
+        try:
+            days_since_start = (now - min(start_times)).days
+        except:
+            pass
 
-        days_since_start = (now - min(start_times)).days
-
-        progress_set[useraccess.program] = {
+        progress_set[useraccess.program.display_title] = {
             'sessions_done': sessions_done,
             'sessions_remaining': sessions_remaining,
             'days_since_start': days_since_start
@@ -205,3 +212,20 @@ def profile(request):
     }
 
     return render(request, 'profile.html', context)
+class CustomPasswordChangeView(PasswordChangeView):
+    def form_valid(self, form):
+        form.save()
+        # Updating the password logs out all other sessions for the user
+        # except the current one.
+        update_session_auth_hash(self.request, form.user)
+        self.request.user.password_changed()
+        if 'pwd_req' in self.request.session:
+            del self.request.session['pwd_req']
+        return super().form_valid(form)
+
+    def get_form_kwargs(self):
+        kwargs = super().get_form_kwargs()
+        kwargs['user'] = self.request.user
+        if self.request.user and self.request.user.password_change_required:
+            self.request.session['pwd_req'] = True
+        return kwargs

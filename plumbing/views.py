@@ -1,10 +1,11 @@
 from __future__ import unicode_literals
 
+from builtins import object
 from django.contrib.admin.views.decorators import staff_member_required
-from django.core.urlresolvers import reverse
+from django.urls import reverse
 from django.http import HttpResponse
 from django.shortcuts import get_object_or_404
-from system.models import Session, Page, Email, SMS, Code
+from system.models import Session, Page, Email, SMS
 import json
 
 
@@ -27,7 +28,7 @@ def api_node(request, node_type=None, node_id=None):
         node = get_object_or_404(Session, id=node_id)
         url = reverse('admin:system_session_change', args=[node.id])
     else:
-        class Dummy: pass
+        class Dummy(object): pass
         node = Dummy()
         node.id = 0
         node.title = 'Start' if node_type == 'start' else ''
