@@ -2,10 +2,11 @@
 
 from __future__ import absolute_import, unicode_literals
 
+from builtins import object
 from django import forms
 from django.conf import settings
 from django.contrib.admin.sites import site
-from django.core.urlresolvers import reverse
+from django.urls import reverse
 from django.template.loader import render_to_string
 from django.utils.safestring import mark_safe
 
@@ -13,10 +14,9 @@ from filer.fields.file import AdminFileWidget
 import re
 import json
 
-
-class DummyForeignObjectRel:
-    class DummyRelatedField:
-        name = None
+class DummyForeignObjectRel(object):
+    class DummyRelatedField(object):
+        name = ''
 
     def __init__(self, *args, **kwargs):
         self.limit_choices_to = {}
@@ -24,10 +24,13 @@ class DummyForeignObjectRel:
     def get_related_field(self):
         return self.DummyRelatedField()
 
+    @property
+    def model(self):
+        return None
 
 class ContentWidget(forms.Widget):
 
-    def render(self, name, value, attrs=None):
+    def render(self, name, value, attrs=None, renderer=None):
         file_widget = AdminFileWidget(DummyForeignObjectRel(), site)
         file_widget = file_widget.render('file', None, {'id': 'id_file'})
         file_widget = re.sub(r'<script.*?>.*?</script>', r'', file_widget, flags=re.DOTALL)
@@ -42,7 +45,7 @@ class ContentWidget(forms.Widget):
         html = render_to_string('admin/content_widget.html', context)
         return mark_safe(html)
 
-    class Media:
+    class Media(object):
         css = {
             'all': (
                 'filer/css/admin_filer.css',
@@ -52,7 +55,7 @@ class ContentWidget(forms.Widget):
             )
         }
         js = (
-            'admin/js/admin/RelatedObjectLookups.js',
+           'admin/js/admin/RelatedObjectLookups.js',
             'filer/js/libs/dropzone.min.js',
             'filer/js/addons/dropzone.init.js',
             'filer/js/addons/popup_handling.js',
@@ -61,6 +64,8 @@ class ContentWidget(forms.Widget):
             'lib/lodash/lodash.min.js',
             'lib/ment.io/dist/mentio.min.js',
             'lib/marked/marked.min.js',
+            'lib/angular-sanitize/angular-sanitize.min.js',
+            'lib/angular-ui-tinymce/dist/tinymce.min.js',
             'js/autocomplete.js',
             'js/expression.js',
             'js/content.js',
@@ -73,7 +78,7 @@ class ContentWidget(forms.Widget):
 
 class TextContentWidget(forms.Widget):
 
-    def render(self, name, value, attrs=None):
+    def render(self, name, value, attrs=None, renderer=None):
         context = {
             'value': value,
         }
@@ -81,7 +86,7 @@ class TextContentWidget(forms.Widget):
         html = render_to_string('admin/text_content_widget.html', context)
         return mark_safe(html)
 
-    class Media:
+    class Media(object):
         css = {
             'all': (
                 'css/content.css',
@@ -141,7 +146,7 @@ class CodeContentWidget(forms.Widget):
         html = render_to_string('admin/code_content_widget.html', context)
         return mark_safe(html)
 
-    class Media:
+    class Media(object ):
         css = {
             'all': (
                 'css/content.css',

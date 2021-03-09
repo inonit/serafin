@@ -1,5 +1,7 @@
 from __future__ import unicode_literals
 
+from builtins import str
+from builtins import object
 from django.utils.translation import ugettext_lazy as _
 from django import forms
 from django.conf import settings
@@ -9,39 +11,45 @@ from django.contrib.contenttypes.models import ContentType
 from django.db import models, IntegrityError
 from django.db.models import Q
 from django.http import HttpResponseRedirect
+from adminsortable.admin import NonSortableParentAdmin, SortableStackedInline
 
-from suit.widgets import SuitSplitDateTimeWidget, LinkedSelect, AutosizedTextarea, NumberInput
+from suit.widgets import AutosizedTextarea
 from jsonfield import JSONField
 from reversion.admin import VersionAdmin
 
 from system.models import Variable, Program, Session, Content, Page, Email, SMS, Code
 from system.expressions import Parser
 from plumbing.widgets import PlumbingWidget
-from content.widgets import ContentWidget, TextContentWidget, SMSContentWidget, CodeContentWidget
+from content.widgets import ContentWidget, TextContentWidget, SMSContentWidget,CodeContentWidget
 
 
 class VariableForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         super(VariableForm, self).__init__(*args, **kwargs)
         self.fields['value'].help_text = _('Initial value remains static unless '
-            'set as a user value using a hidden set value field.')
+                                           'set as a user value using a hidden set value field.')
         self.fields['user_editable'].help_text = _('User editable fields can be changed '
-            'at any time by the user on their profile page.')
+                                                   'at any time by the user on their profile page.')
         self.fields['random_type'].help_text = _('Setting a randomization type will '
-            'set the variable to a random value.')
+                                                 'set the variable to a random value.')
         self.fields['randomize_once'].help_text = _('If set, this value will be randomized '
-            'once for each user when the Variable is first saved OR changed, then once for '
-            'each new user.')
+                                                    'once for each user when the Variable is first saved OR changed, then once for '
+                                                    'each new user.')
         self.fields['random_set'].help_text = _('The value of the Variable will be randomly '
-            'selected from a set of comma separated strings in this field.')
+                                                'selected from a set of comma separated strings in this field.')
+        self.fields['is_array'].help_text = _(
+            'The variable accumulate data as array')
+        self.fields['optional_values'].help_text = _(
+            'Available optional values for variable. separated by commas')
 
     def clean_name(self):
         data = self.cleaned_data['name']
         if data in [var['name'] for var in settings.RESERVED_VARIABLES]:
-            raise forms.ValidationError(_('You are trying to use a reserved variable name'))
+            raise forms.ValidationError(
+                _('You are trying to use a reserved variable name'))
         return data
 
-    class Meta:
+    class Meta(object):
         model = Variable
         exclude = []
         widgets = {
@@ -62,7 +70,7 @@ class VariableAdmin(admin.ModelAdmin):
         (None, {
             'fields': (
                 'name',
-                #'display_name',
+               'display_name',
                 'admin_note',
                 'program',
                 'value',
@@ -72,6 +80,8 @@ class VariableAdmin(admin.ModelAdmin):
                 'range_min',
                 'range_max',
                 'random_set',
+                'is_array',
+                'optional_values'
             ),
             'classes': ('suit-tab suit-tab-variable', ),
         }),
@@ -81,27 +91,32 @@ class VariableAdmin(admin.ModelAdmin):
         #('values', _('User values')),
     )
 
-    class Media:
+    class Media(object):
         js = ['admin/variable.js']
 
     def get_queryset(self, request):
         queryset = super(VariableAdmin, self).get_queryset(request)
 
         if '_program_id' in request.session:
-            queryset = queryset.filter(program__id=request.session['_program_id'])
+            queryset = queryset.filter(
+                program__id=request.session['_program_id'])
 
-        if request.user.program_restrictions.exists():
-            program_ids = request.user.program_restrictions.values_list('id')
-            return queryset.filter(program__id__in=program_ids)
+        if not request.user.is_superuser:
+            if request.user.program_restrictions.exists():
+                program_ids = request.user.program_restrictions.values_list('id')
+                return queryset.filter(program__id__in=program_ids)
+            else:
+                return Variable.objects.none()
 
         return queryset
 
     def get_form(self, request, obj=None, **kwargs):
-         form = super(VariableAdmin, self).get_form(request, obj, **kwargs)
-         if request.user.program_restrictions.exists():
+        form = super(VariableAdmin, self).get_form(request, obj, **kwargs)
+        if request.user.program_restrictions.exists():
             program_ids = request.user.program_restrictions.values_list('id')
-            form.base_fields['program'].queryset = Program.objects.filter(id__in=program_ids)
-         return form
+            form.base_fields['program'].queryset = Program.objects.filter(
+                id__in=program_ids)
+        return form
 
     def has_change_permission(self, request, obj=None):
         return request.user.has_perm('system.change_variable', obj)
@@ -117,10 +132,7 @@ class ProgramUserAccessInline(admin.TabularInline):
 
     formfield_overrides = {
         models.ForeignKey: {
-            'widget': LinkedSelect
-        },
-        models.DateTimeField: {
-            'widget': SuitSplitDateTimeWidget
+            'widget': forms.Select
         },
         models.DecimalField: {
             'widget': forms.NumberInput(attrs={'class': 'input-mini'})
@@ -132,7 +144,7 @@ class ProgramUserAccessInline(admin.TabularInline):
 class ProgramAdmin(VersionAdmin):
     list_display = ['title', 'display_title', 'note_excerpt']
     search_fields = ['title', 'display_title', 'admin_note']
-    actions = ['copy', 'export_text', 'import_text']
+    actions = ['copy', 'export_text', 'import_text', 'set_program']
     save_as = True
 
     inlines = [ProgramUserAccessInline]
@@ -158,7 +170,8 @@ class ProgramAdmin(VersionAdmin):
             program.pk = None
             while not program.pk:
                 try:
-                    program.title = _('%(title)s (copy)') % {'title': program.title}
+                    program.title = _('%(title)s (copy)') % {
+                        'title': program.title}
                     program.save()
                 except IntegrityError:
                     pass
@@ -186,7 +199,8 @@ class ProgramAdmin(VersionAdmin):
                 session.pk = None
                 while not session.pk:
                     try:
-                        session.title = _('%(title)s (copy)') % {'title': session.title}
+                        session.title = _('%(title)s (copy)') % {
+                            'title': session.title}
                         session.save()
                     except IntegrityError:
                         pass
@@ -207,7 +221,8 @@ class ProgramAdmin(VersionAdmin):
                         content.pk = None
                         while not content.pk:
                             try:
-                                content.title = _('%(title)s (copy)') % {'title': content.title}
+                                content.title = _('%(title)s (copy)') % {
+                                    'title': content.title}
                                 content.save()
                                 copied_content[orig_id] = content
                             except IntegrityError:
@@ -237,12 +252,31 @@ class ProgramAdmin(VersionAdmin):
 
     import_text.short_description = _('Import program text')
 
+    def changelist_view(self, request, extra_context=None):
+        if 'action' in request.POST and request.POST['action'] == 'set_program':
+            if not request.POST.getlist(admin.ACTION_CHECKBOX_NAME):
+                if hasattr(request, "session"):
+                    del request.session["_program_id"]
+        return super(ProgramAdmin, self).changelist_view(request, extra_context)
+
+    def set_program(modeladmin, request, queryset):
+        program_id = queryset.first().id
+        if program_id:
+            if hasattr(request, "session"):
+                request.session["_program_id"] = program_id
+
+    set_program.short_description = _('Set Program')
+
     def get_queryset(self, request):
         queryset = super(ProgramAdmin, self).get_queryset(request)
 
-        if request.user.program_restrictions.exists():
-            program_ids = request.user.program_restrictions.values_list('id')
-            return queryset.filter(id__in=program_ids)
+        if not request.user.is_superuser:
+            if request.user.program_restrictions.exists():
+                program_ids = request.user.program_restrictions.values_list(
+                    'id')
+                return queryset.filter(id__in=program_ids)
+            else:
+                return Program.objects.none()
 
         return queryset
 
@@ -259,16 +293,21 @@ class SessionForm(forms.ModelForm):
         if 'data' in self.fields:
             self.fields['data'].help_text = ''
         if 'route_slug' in self.fields:
-            self.fields['route_slug'].help_text = _('URL at which this Session will be available to registered Program users at all times')
+            self.fields['route_slug'].help_text = _(
+                'URL at which this Session will be available to registered Program users at all times')
             self.fields['route_slug'].required = False
         if 'is_open' in self.fields:
-            self.fields['is_open'].help_text = _('Session open even to unregistered users')
+            self.fields['is_open'].help_text = _(
+                'Session open even to unregistered users')
         if 'start_time_delta' in self.fields:
-            self.fields['start_time_delta'].help_text = _("Relative to the user's start time for the Program")
+            self.fields['start_time_delta'].help_text = _(
+                "Relative to the user's start time for the Program")
         if 'scheduled' in self.fields:
-            self.fields['scheduled'].help_text = _('Activate automatically for Program users at the given start time')
+            self.fields['scheduled'].help_text = _(
+                'Activate automatically for Program users at the given start time')
         if 'trigger_login' in self.fields:
-            self.fields['trigger_login'].help_text = _('Trigger a login e-mail at the scheduled time')
+            self.fields['trigger_login'].help_text = _(
+                'Trigger a login e-mail at the scheduled time')
 
     def clean_route_slug(self):
         return self.cleaned_data['route_slug'] or None
@@ -295,19 +334,19 @@ class SessionForm(forms.ModelForm):
 
         except Exception as e:
             raise forms.ValidationError(_('Error in expression, %(id)s: %(error)s') % {
-                    'id': id,
-                    'error': e,
-                }
+                'id': id,
+                'error': e,
+            }
             )
 
         return data
 
-    class Meta:
+    class Meta(object):
         model = Session
         exclude = []
         widgets = {
             'start_time_unit': forms.Select(attrs={'class': 'input-small'}),
-            #'end_time_unit': forms.Select(attrs={'class': 'input-small'}),
+            # 'end_time_unit': forms.Select(attrs={'class': 'input-small'}),
         }
 
 
@@ -315,15 +354,15 @@ class SessionForm(forms.ModelForm):
 class SessionAdmin(VersionAdmin):
     list_display = [
         'title',
-        #'display_title',
+        # 'display_title',
         'route_slug',
         'is_open',
         'program',
         'note_excerpt',
         'start_time_delta',
         'start_time_unit',
-        #'end_time_delta',
-        #'end_time_unit',
+        'interval',
+        'end_time_delta',
         'start_time',
         'scheduled',
         'trigger_login',
@@ -331,14 +370,13 @@ class SessionAdmin(VersionAdmin):
     list_editable = [
         'start_time_delta',
         'start_time_unit',
-        #'end_time_delta',
-        #'end_time_unit',
         'scheduled',
         'trigger_login',
     ]
-    list_filter = ['program__title', 'scheduled', 'trigger_login']
+    list_filter = ['program__title', 'scheduled', 'trigger_login', 'interval']
     list_display_links = ['title']
-    search_fields = ['title', 'display_title', 'admin_note', 'program__title', 'data']
+    search_fields = ['title', 'display_title',
+                     'admin_note', 'program__title', 'data']
     ordering = ['start_time']
     date_hierarchy = 'start_time'
     actions = ['copy']
@@ -351,7 +389,7 @@ class SessionAdmin(VersionAdmin):
             'widget': AutosizedTextarea(attrs={'rows': 3, 'class': 'input-xlarge'})
         },
         models.IntegerField: {
-            'widget': NumberInput(attrs={'class': 'input-mini'})
+            'widget': forms.NumberInput(attrs={'class': 'input-mini'})
         },
         JSONField: {
             'widget': PlumbingWidget
@@ -361,15 +399,15 @@ class SessionAdmin(VersionAdmin):
         (None, {
             'fields': [
                 'title',
-                #'display_title',
+                # 'display_title',
                 'route_slug',
                 'is_open',
                 'program',
                 'admin_note',
                 'start_time_delta',
                 'start_time_unit',
-                #'end_time_delta',
-                #'end_time_unit',
+                'interval',
+                'end_time_delta',
                 'scheduled',
                 'trigger_login',
             ]
@@ -388,12 +426,13 @@ class SessionAdmin(VersionAdmin):
     def get_queryset(self, request):
         queryset = super(SessionAdmin, self).get_queryset(request)
 
-        if '_program_id' in request.session:
-            queryset = queryset.filter(program__id=request.session['_program_id'])
-
-        if request.user.program_restrictions.exists():
-            program_ids = request.user.program_restrictions.values_list('id')
-            return queryset.filter(program__id__in=program_ids)
+        if not request.user.is_superuser:
+            if request.user.program_restrictions.exists():
+                program_ids = request.user.program_restrictions.values_list(
+                    'id')
+                return queryset.filter(program__id__in=program_ids)
+            else:
+                return Session.objects.none()
 
         return queryset
 
@@ -404,12 +443,18 @@ class SessionAdmin(VersionAdmin):
         return request.user.has_perm('system.view_session', obj)
 
     def get_form(self, request, obj=None, **kwargs):
-         form = super(SessionAdmin, self).get_form(request, obj, **kwargs)
-         form.request_user = request.user
-         if request.user.program_restrictions.exists():
+        form = super(SessionAdmin, self).get_form(request, obj, **kwargs)
+        form.request_user = request.user
+        if not request.user.is_superuser and request.user.program_restrictions.exists():
             program_ids = request.user.program_restrictions.values_list('id')
-            form.base_fields['program'].queryset = Program.objects.filter(id__in=program_ids)
-         return form
+            form.base_fields['program'].queryset = Program.objects.filter(
+                id__in=program_ids)
+
+        if hasattr(request, "session"):
+            if obj is not None:
+                request.session["_program_id"] = obj.program.id
+
+        return form
 
     def get_changelist_form(self, request, **kwargs):
         return SessionForm
@@ -439,7 +484,8 @@ class SessionAdmin(VersionAdmin):
             session.pk = None
             while not session.pk:
                 try:
-                    session.title = _('%(title)s (copy)') % {'title': session.title}
+                    session.title = _('%(title)s (copy)') % {
+                        'title': session.title}
                     session.save()
                 except IntegrityError:
                     pass
@@ -447,7 +493,7 @@ class SessionAdmin(VersionAdmin):
             nodes = session.data.get('nodes')
             ids = [
                 node['ref_id'] for node in nodes
-                if node['type'] in ['page', 'email', 'sms','code']
+                if node['type'] in ['page', 'email', 'sms', 'code']
             ]
             contents = Content.objects.filter(id__in=ids)
 
@@ -460,7 +506,8 @@ class SessionAdmin(VersionAdmin):
                     content.pk = None
                     while not content.pk:
                         try:
-                            content.title = _('%(title)s (copy)') % {'title': content.title}
+                            content.title = _('%(title)s (copy)') % {
+                                'title': content.title}
                             content.save()
                             copied_content[orig_id] = content
                         except IntegrityError:
@@ -505,9 +552,9 @@ class ContentForm(forms.ModelForm):
 
         except Exception as e:
             raise forms.ValidationError(_('Error in expression, %(id)s: %(error)s') % {
-                    'id': id,
-                    'error': e,
-                }
+                'id': id,
+                'error': e,
+            }
             )
 
         return data
@@ -551,7 +598,8 @@ class ContentAdmin(VersionAdmin):
             content.pk = None
             while not content.pk:
                 try:
-                    content.title = _('%(title)s (copy)') % {'title': content.title}
+                    content.title = _('%(title)s (copy)') % {
+                        'title': content.title}
                     content.save()
                 except IntegrityError:
                     pass
@@ -567,9 +615,13 @@ class ContentAdmin(VersionAdmin):
                 Q(program_id=None)
             )
 
-        if request.user.program_restrictions.exists():
-            program_ids = request.user.program_restrictions.values_list('id')
-            return queryset.filter(program__id__in=program_ids)
+        if not request.user.is_superuser:
+            if request.user.program_restrictions.exists():
+                program_ids = request.user.program_restrictions.values_list(
+                    'id')
+                return queryset.filter(program__id__in=program_ids)
+            else:
+                return self.model._default_manager.none()
 
         return queryset
 
@@ -580,16 +632,17 @@ class ContentAdmin(VersionAdmin):
         return request.user.has_perm('system.view_content', obj)
 
     def get_form(self, request, obj=None, **kwargs):
-         form = super(ContentAdmin, self).get_form(request, obj, **kwargs)
-         form.request_user = request.user
-         if request.user.program_restrictions.exists():
+        form = super(ContentAdmin, self).get_form(request, obj, **kwargs)
+        form.request_user = request.user
+        if request.user.program_restrictions.exists():
             program_ids = request.user.program_restrictions.values_list('id')
-            form.base_fields['program'].queryset = Program.objects.filter(id__in=program_ids)
-         return form
+            form.base_fields['program'].queryset = Program.objects.filter(
+                id__in=program_ids)
+        return form
 
 
 class PageForm(ContentForm):
-    class Meta:
+    class Meta(object):
         model = Page
         exclude = []
 
@@ -606,10 +659,7 @@ class TextContentForm(ContentForm):
     def __init__(self, *args, **kwargs):
         super(ContentForm, self).__init__(*args, **kwargs)
         self.fields['data'].help_text = ''
-        self.fields['data'].initial = '''[{
-            "content_type": "text",
-            "content": ""
-        }]'''
+        self.fields['data'].initial = [{"content_type": "text", "content": ""}]
 
 
 class EmailForm(TextContentForm):
@@ -617,7 +667,7 @@ class EmailForm(TextContentForm):
         super(EmailForm, self).__init__(*args, **kwargs)
         self.fields['display_title'].label = _('Subject')
 
-    class Meta:
+    class Meta(object):
         model = Email
         exclude = []
 
@@ -643,8 +693,14 @@ class EmailAdmin(ContentAdmin):
     subject.short_description = _('Subject')
 
 
-class SMSForm(TextContentForm):
-    class Meta:
+class SMSForm(ContentForm):
+    def __init__(self, *args, **kwargs):
+        super(ContentForm, self).__init__(*args, **kwargs)
+        self.fields['data'].help_text = ''
+        self.fields['data'].initial = [{"content_type": "text", "content": ""},
+                                       {"content_type": "is_whatsapp", "content": False}]
+
+    class Meta(object):
         model = SMS
         exclude = []
 
@@ -661,6 +717,7 @@ class SMSAdmin(ContentAdmin):
             'widget': SMSContentWidget
         }
     }
+
 
 class CodeForm(TextContentForm):
     class Meta:
