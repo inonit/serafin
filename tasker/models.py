@@ -1,4 +1,9 @@
 from __future__ import unicode_literals
+
+import datetime
+from builtins import object
+from time import sleep
+
 from django.utils.translation import ugettext_lazy as _
 
 from django.db import models
@@ -32,14 +37,14 @@ class TaskManager(models.Manager):
 
         return task
 
-
 class Task(models.Model):
     '''A model to keep track of Huey task management in the admin interface'''
 
-    content_type = models.ForeignKey(ContentType, verbose_name=_('sender'))
+    content_type = models.ForeignKey(ContentType, verbose_name=_('sender'), on_delete=models.CASCADE)
     object_id = models.PositiveIntegerField()
     sender = GenericForeignKey('content_type', 'object_id')
-    subject = models.ForeignKey(settings.AUTH_USER_MODEL, verbose_name=_('subject'), null=True, blank=True)
+    subject = models.ForeignKey(settings.AUTH_USER_MODEL, verbose_name=_('subject'), null=True, blank=True,
+                                on_delete=models.CASCADE)
 
     domain = models.CharField(_('domain'), max_length=32)
     action = models.CharField(_('action'), max_length=255, blank=True)
@@ -56,7 +61,14 @@ class Task(models.Model):
             'action': self.action,
         }
 
-    class Meta:
+    def __str__(self):
+        return _('%(time)s: %(sender)s, %(action)s') % {
+            'time': self.time,
+            'sender': self.sender,
+            'action': self.action,
+        }
+
+    class Meta(object):
         verbose_name = _('task')
         verbose_name_plural = _('tasks')
 
@@ -70,15 +82,24 @@ class Task(models.Model):
         if self.task_id:
             return huey.result(self.task_id, preserve=True)
 
+    @property
+    def result_block(self):
+        if self.task_id:
+            return huey.result(self.task_id, blocking=True, preserve=True)
+
     @task.setter
     def task(self, task):
-        self.task_id = task.task.task_id
+        self.task_id = task.task.id
 
     def revoke(self):
         '''Revokes this task and returns its result'''
 
         if self.task_id:
-            result = huey.result(self.task_id, preserve=True)
+            result = None
+            try:
+                result = huey.result(self.task_id, preserve=True)
+            except:
+                pass
             huey.revoke_by_id(self.task_id)
             return result
 

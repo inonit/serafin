@@ -8,15 +8,19 @@ from django.contrib.contenttypes.models import ContentType
 from django.utils import timezone
 from system.models import Code
 
+
 class CodeLog(models.Model):
     '''A model to keep track of Python code block result in admin interface'''
 
-    content_type = models.ForeignKey(ContentType, verbose_name=_('sender'))
+    content_type = models.ForeignKey(
+        ContentType, verbose_name=_('sender'), on_delete=models.CASCADE)
     object_id = models.PositiveIntegerField()
     sender = GenericForeignKey('content_type', 'object_id')
-    subject = models.ForeignKey(settings.AUTH_USER_MODEL, verbose_name=_('subject'), null=True, blank=True)
+    subject = models.ForeignKey(
+        settings.AUTH_USER_MODEL, verbose_name=_('subject'), null=True, blank=True, on_delete=models.CASCADE)
 
-    code = models.ForeignKey(Code, verbose_name=_('code'))
+    code = models.ForeignKey(Code, verbose_name=_(
+        'code'), on_delete=models.CASCADE)
     time = models.DateTimeField(_('time'))
 
     log = models.TextField(verbose_name=_('log'), null=True, blank=True)

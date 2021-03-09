@@ -53,7 +53,8 @@ INSTALLED_APPS = (
     'django.db.models',
     'request',
     'adminsortable',
-
+    
+    'codelogs',
     'tokens',
     'users',
     'tasker',
@@ -61,6 +62,7 @@ INSTALLED_APPS = (
     'content',
     'plumbing',
     'system',
+
 
     'filer',
     'serafin.apps.SuitConfig',
