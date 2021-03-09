@@ -90,7 +90,7 @@ MIDDLEWARE = (
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'users.middleware.AuthenticationMiddleware',
-    # 'users.middleware.RateLimitMiddleware',
+    'users.middleware.RateLimitMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'django_user_agents.middleware.UserAgentMiddleware',
@@ -98,7 +98,7 @@ MIDDLEWARE = (
     'events.middleware.EventTrackingMiddleware',
     'request.middleware.RequestMiddleware',
     'users.middleware.ForceChangePasswordMiddleware',
-    # 'admin_ip_restrictor.middleware.AdminIPRestrictorMiddleware'
+    'admin_ip_restrictor.middleware.AdminIPRestrictorMiddleware'
 )
 
 ROOT_URLCONF = 'serafin.urls'

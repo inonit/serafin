@@ -123,8 +123,6 @@ class Program(models.Model):
     admin_note = models.TextField(_('admin note'), blank=True)
 
     users = models.ManyToManyField(settings.AUTH_USER_MODEL, verbose_name=_('users'), through='ProgramUserAccess')
-    gold_variables = models.ManyToManyField('Variable', verbose_name=_('gold variables'), related_name='program_golds',
-                                            through='ProgramGoldVariable')
 
     is_lock = models.BooleanField(_('is program lock'), default=False)
 

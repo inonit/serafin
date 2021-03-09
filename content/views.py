@@ -15,7 +15,7 @@ from filer.models import File, Image
 from itertools import chain
 from ratelimit import UNSAFE
 from ratelimit.decorators import ratelimit
-from system.models import Session, Page, ProgramUserAccess,  Variable,  Note
+from system.models import Session, Page, ProgramUserAccess,  Variable
 from events.models import Event
 from events.signals import log_event
 from users.models import User
@@ -45,168 +45,6 @@ def main_page(request):
     }
 
     return render(request, 'portal.html', context)
-
-
-def user_state(request, user_id):
-    if not request.user.is_authenticated or \
-            (not request.user.is_therapist and not request.user.is_staff):
-        raise Http404
-
-    if not request.is_ajax():
-        return therapist_zone(request)
-
-    # verify the therapist is the owner of this user
-    user = User.objects.get(id=user_id)
-    if user.therapist != request.user and not (request.user.is_staff and
-                                               request.user.program_restrictions.filter(
-                                                   id=user.get_first_program_user_access().program.id).exists()):
-        return JsonResponse({'error': 'access denied'}, status=403)
-
-    event = Event(
-        time=timezone.localtime(timezone.now()),
-        domain='therapist',
-        actor=request.user,
-        variable='user',
-        pre_value=str(user.id),
-        post_value=''
-    )
-    event.save()
-
-    # extract gold variables
-    program = user.get_first_program()
-    gold_variables_dataset = program.programgoldvariable_set.all()
-
-    if request.method == 'POST':
-        notification_read_id = request.POST.get("notification_id", None)
-        note_msg = request.POST.get("note_msg", None)
-        if notification_read_id:
-            notification = TherapistNotification.objects.get(
-                id=notification_read_id)
-            # verify this notification belongs to the user and this therapist
-            if notification.therapist == request.user and notification.patient == user:
-                notification.is_read = True
-                notification.save()
-        elif note_msg:
-            Note.objects.create(
-                message=note_msg,
-                therapist=request.user,
-                user=user
-            )
-        else:
-            for key, value in list(request.POST.items()):
-                gold_variable = gold_variables_dataset.filter(
-                    variable__name=key).first()
-                if gold_variable is not None and gold_variable.therapist_can_edit:
-                    # todo: support array variable / refactor get/set user variable to user
-                    pre_value = user.get_pre_variable_value_for_log(key)
-                    log_event.send(
-                        request.user,
-                        domain='therapist',
-                        actor=user,
-                        variable=key,
-                        pre_value=str(pre_value),
-                        post_value=str(value)
-                    )
-                    user.data[key] = value
-            user.save()
-
-    current_tz = timezone.get_current_timezone()
-    user_events = Event.objects.filter(Q(actor=user) & ((Q(domain='session') & Q(variable='transition')) |
-                                                        (Q(domain='userdata') & ~Q(variable='timer')))) \
-        .order_by('-time')
-
-    user_expressions_events = Event.objects.filter(Q(actor=user) & (Q(domain='expression') | Q(domain='therapist'))) \
-        .order_by('-time')
-
-    pages = []
-    variables = []
-    current_page = None
-    page_time = None
-    for event in user_events:
-        if event.domain == 'session' and event.variable == 'transition':
-            if variables:
-                page = next(
-                    (item for item in pages if item['name'] == current_page), None)
-                if page is None:
-                    page = {'name': current_page, 'variables': []}
-                    pages.append(page)
-                page['variables'].append({'time': page_time.astimezone(current_tz).strftime('%d-%m-%Y %H:%M'),
-                                          'vars': variables})
-            current_page = event.pre_value
-            page_time = event.time
-            variables = []
-        elif event.domain == 'userdata' and current_page is not None:
-            # find label by post_value
-            variable_display_value = event.post_value
-            if event.post_value.isnumeric():
-                try:
-                    page = Page.objects.get(title=current_page)
-                    variable_display_value = page.extract_label(
-                        event.variable, event.post_value)
-                except Page.DoesNotExist:
-                    pass
-
-            variables.append({'name': Variable.display_name_by_name(
-                event.variable), 'value': variable_display_value})
-        else:
-            pass
-
-    gold_variables = []
-    for gold_variable in gold_variables_dataset:
-        variable_value = user.data.get(gold_variable.variable.name)
-        if Variable.is_array_variable(gold_variable.variable.name) and isinstance(variable_value, list):
-            variable_value = variable_value[-1]
-
-        variable_display_name = gold_variable.variable.display_name
-        if not variable_display_name:
-            variable_display_name = gold_variable.variable.name
-
-        variable_optional_values = []
-        if gold_variable.variable.optional_values:
-            variable_optional_values = [
-                x.strip() for x in gold_variable.variable.optional_values.split(',')]
-
-        gold_variable_element = {'name': gold_variable.variable.name,
-                                 'display_name': variable_display_name,
-                                 'value': variable_value,
-                                 'editable': gold_variable.therapist_can_edit,
-                                 'is_primary': gold_variable.golden_type == 'primary',
-                                 'options': variable_optional_values}
-
-        variable_values_by_date = []
-        userdata_variable_events = user_events.filter(
-            Q(domain='userdata') & Q(variable=gold_variable.variable.name))
-        expressions_variable_event = user_expressions_events.filter(
-            variable=gold_variable.variable.name)
-        for e in list(chain(userdata_variable_events, expressions_variable_event)):
-            variable_values_by_date.append(
-                {'time': e.time, 'value': e.post_value})
-        variable_values_by_date.sort(key=lambda x: x['time'], reverse=True)
-        variable_values_by_date = list(
-            map(lambda x: {'value': x['value'], 'time': x['time'].astimezone(current_tz).strftime('%d-%m-%Y %H:%M')},
-                variable_values_by_date))
-        gold_variable_element['values'] = variable_values_by_date
-
-        gold_variables.append(gold_variable_element)
-
-    notes_objects = request.user.written_notes.filter(
-        Q(therapist=request.user) & Q(user=user))
-
-    notes = [{'id': obj.id, 'message': obj.message, 'time': obj.timestamp}
-             for obj in notes_objects]
-
-    context = {
-        'pages': pages,
-        'variables': gold_variables,
-        'notes': notes,
-        'email': user.email,
-        'phone': user.phone,
-        'secondary_phone': user.secondary_phone,
-        'allow_chat': request.user == user.therapist,
-        'id': user.id,
-    }
-    return JsonResponse(context)
-
 
 @login_required
 def tools_page(request):
@@ -356,21 +194,21 @@ def content_route(request, route_slug=None):
     if (not session.is_open and
             session.program and
             session.program.programuseraccess_set.filter(user=request.user.id).exists()):
-        return HttpResponseRedirect(settings.HOME_URL)URL)
+        return HttpResponseRedirect(settings.HOME_URL)
 
     if session and session.program and session.program.is_rtl:
         translation.activate('he')
 
-    context={
+    context = {
         'session': session.id,
         'node': 0
     }
 
     engine = Engine(user=request.user, context=context,
-                    push = True, is_interactive = True)
+                    push=True, is_interactive=True)
     engine.run()
 
-    context={
+    context = {
         'program': session.program,
         'title': session.display_title,
         'api': reverse('content_api'),
@@ -396,4 +234,3 @@ def api_filer_file(request, content_type=None, file_id=None):
     }
 
     return JsonResponse(response)
-
