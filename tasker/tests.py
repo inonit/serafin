@@ -1,3 +1,4 @@
+from __future__ import print_function
 import datetime
 import pickle
 from time import sleep
@@ -12,12 +13,17 @@ from huey.constants import EmptyData
 
 from tasker.models import Task
 from system.models import Program, ProgramUserAccess, Session
-
+from system.signals import *
 
 User = get_user_model()
 
 
-@task()
+@huey.task()
+def gal_task():
+    return "GAL TASK"
+
+
+@huey.task()
 def test_task():
     message = 'Hello Huey!'
     return message
@@ -48,13 +54,8 @@ class TimezoneTestCase(TestCase):
 
         sleep(5)
 
-        result1 = huey.get_storage().peek_data(task1.task.task_id)
-        if result1 is not EmptyData:
-            result1 = pickle.loads(result1)
-
-        result2 = huey.get_storage().peek_data(task2.task.task_id)
-        if result2 is not EmptyData:
-            result2 = pickle.loads(result2)
+        result1 = task1()
+        result2 = task2()
 
         self.assertNotEqual(result1, result2)
 
@@ -95,7 +96,7 @@ class TaskerTestCase(TestCase):
         # check result is still the same
         self.assertEqual(task.result, 'Hello Huey!')
 
-        print 'test_create_task task id: %s' % task.task_id
+        print('test_create_task task id: %s' % task.task_id)
 
         task = Task.objects.create_task(
             sender=self.program,
@@ -112,7 +113,7 @@ class TaskerTestCase(TestCase):
         # future task should have no result
         self.assertEqual(task.result, None)
 
-        print 'test_create_task (future) task id: %s' % task.task_id
+        print('test_create_task (future) task id: %s' % task.task_id)
 
     def test_reschedule_past_task(self):
         '''Test direct task rescheduling with task in the past'''
@@ -142,7 +143,7 @@ class TaskerTestCase(TestCase):
         # ...and will run again on new schedule
         self.assertEqual(task.result, 'Hello Huey!')
 
-        print 'test_reschedule_past_task task id: %s' % task.task_id
+        print('test_reschedule_past_task task id: %s' % task.task_id)
 
     def test_reschedule_future_task(self):
         '''Test direct task rescheduling with task in the future'''
@@ -163,7 +164,7 @@ class TaskerTestCase(TestCase):
         # future task should be rescheduled and run, so it should have a result
         self.assertEqual(task.result, 'Hello Huey!')
 
-        print 'test_reschedule_future_task task id: %s' % task.task_id
+        print('test_reschedule_future_task task id: %s' % task.task_id)
 
     def test_revoke_task(self):
         '''Test direct task revocation'''
@@ -184,7 +185,7 @@ class TaskerTestCase(TestCase):
         # task was revoked before run, so it should have no result
         self.assertIs(task.result, None)
 
-        print 'test_revoke_task task id: %s' % task.task_id
+        print('test_revoke_task task id: %s' % task.task_id)
 
 
 class SessionIntegrationTestCase(TestCase):
@@ -196,6 +197,12 @@ class SessionIntegrationTestCase(TestCase):
     '''
 
     def setUp(self):
+        signals.post_save.connect(schedule_sessions, sender=ProgramUserAccess)
+        signals.pre_save.connect(session_pre_save, sender=Session)
+        signals.post_save.connect(add_content_relations, sender=Session)
+        signals.post_save.connect(schedule_session, sender=Session)
+        signals.post_save.connect(content_post_save)
+
         self.program = Program(title='Program', display_title='Program')
         self.program.save()
 
@@ -286,11 +293,11 @@ class SessionIntegrationTestCase(TestCase):
 
         # next last Task created should correspond to useraccess_a
         task_a = list(Task.objects.all())[-2]
+        task_b = list(Task.objects.all())[-1]
         task_a.reschedule(task=test_task, args=None, time=task_a.time)
         task_a.save()
 
         # last Task created should correspond to useraccess_b
-        task_b = list(Task.objects.all())[-1]
         task_b.reschedule(task=test_task, args=None, time=task_b.time)
         task_b.save()
 
@@ -335,11 +342,11 @@ class SessionIntegrationTestCase(TestCase):
 
         # swap task function for user_a
         task_a = list(Task.objects.all())[-2]
+        task_b = list(Task.objects.all())[-1]
         task_a.reschedule(task=test_task, args=None, time=task_a.time)
         task_a.save()
 
         # swap task function for user_b
-        task_b = list(Task.objects.all())[-1]
         task_b.reschedule(task=test_task, args=None, time=task_b.time)
         task_b.save()
 
@@ -368,7 +375,10 @@ class SessionIntegrationTestCase(TestCase):
         )
 
         # get last task before scheduling
-        last_task_before = Task.objects.latest('pk')()
+        try:
+            last_task_before = Task.objects.latest('pk')
+        except Task.DoesNotExist:
+            last_task_before = None
 
         # will schedule session for both users
         session = Session.objects.create(
@@ -386,7 +396,10 @@ class SessionIntegrationTestCase(TestCase):
         session.delete()
 
         # get last task after deleting session
-        last_task_after = Task.objects.latest('pk')()
+        try:
+            last_task_after = Task.objects.latest('pk')
+        except Task.DoesNotExist:
+            last_task_after = None
 
         # last task should be same before and after deleting,
         # i.e. session.delete() also deleted the tasks connected to it
@@ -408,7 +421,10 @@ class SessionIntegrationTestCase(TestCase):
         )
 
         # get last task before scheduling
-        last_task_before = Task.objects.latest('pk')()
+        try:
+            last_task_before = Task.objects.latest('pk')
+        except Task.DoesNotExist:
+            last_task_before = None
 
         # receiver schedule_sessions will create a task on post_save
         useraccess = ProgramUserAccess.objects.create(
@@ -420,7 +436,10 @@ class SessionIntegrationTestCase(TestCase):
         useraccess.delete()
 
         # get last task after deleting programuseraccess
-        last_task_after = Task.objects.latest('pk')()
+        try:
+            last_task_after = Task.objects.latest('pk')
+        except Task.DoesNotExist:
+            last_task_after = None
 
         # last task should be same before and after deleting,
         # i.e. useraccess.delete() also deleted the tasks connected to it

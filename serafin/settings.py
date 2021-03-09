@@ -23,7 +23,8 @@ BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY', 'change-me')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = bool(int(os.environ.get('DEBUG', 0)))
+# DEBUG = bool(int(os.environ.get('DEBUG', 0)))
+DEBUG = True
 TEMPLATE_DEBUG = DEBUG
 USERDATA_DEBUG = DEBUG
 
@@ -84,6 +85,7 @@ INSTALLED_APPS = (
 )
 
 MIDDLEWARE = (
+    'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.locale.LocaleMiddleware',
@@ -97,7 +99,7 @@ MIDDLEWARE = (
     'defender.middleware.FailedLoginMiddleware',
     'events.middleware.EventTrackingMiddleware',
     'request.middleware.RequestMiddleware',
-    'users.middleware.ForceChangePasswordMiddleware',
+    # 'users.middleware.ForceChangePasswordMiddleware',
     'admin_ip_restrictor.middleware.AdminIPRestrictorMiddleware'
 )
 

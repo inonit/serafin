@@ -32,6 +32,8 @@ class Variable(models.Model):
 
     name = models.CharField(_('name'), max_length=64, unique=True, validators=[RegexValidator(r'^[^ ]+$',
                                                                                               _('No spaces allowed'))])
+    display_name = models.CharField(_('display name'), max_length=64, blank=True, default='')
+
     admin_note = models.TextField(_('admin note'), blank=True)
     program = models.ForeignKey('Program', verbose_name=_(
         'program'), null=True, on_delete=models.CASCADE)
