@@ -124,7 +124,6 @@ TEMPLATES = [
                 # Insert your TEMPLATE_CONTEXT_PROCESSORS here or use this
                 # list if you haven't customized them:
                 'users.context_processors.add_support_email',
-                'users.context_processors.add_basic_user_info'
             ],
         },
     },
@@ -588,3 +587,16 @@ SETTINGS_EXPORT = [
     'DEBUG',
     'GOOGLE_ANALYTICS_ID',
 ]
+
+DEFENDER_REDIS_URL = 'redis://' + CONSTANCE_REDIS_CONNECTION['host'] + ':' + str(CONSTANCE_REDIS_CONNECTION['port']) \
+                     + '/0'
+DEFENDER_LOGIN_FAILURE_LIMIT = 5
+DEFENDER_COOLOFF_TIME = 0
+DEFENDER_LOCKOUT_TEMPLATE = 'login_lock.html'
+DEFENDER_LOGIN_FAILURE_LIMIT_IP = 100
+
+RESTRICT_ADMIN = True
+ALLOWED_ADMIN_IPS = ['127.0.0.1', '::1']
+ALLOWED_ADMIN_IP_RANGES = ['127.0.0.0/24', '::/1']
+RESTRICTED_APP_NAMES = ['admin']
+TRUST_PRIVATE_IP = True
