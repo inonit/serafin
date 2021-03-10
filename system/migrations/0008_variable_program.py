@@ -29,7 +29,8 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='variable',
             name='program',
-            field=models.ForeignKey(verbose_name='program', to='system.Program', null=True),
+            field=models.ForeignKey(
+                verbose_name='program', to='system.Program', null=True, on_delete=models.CASCADE),
             preserve_default=True,
         ),
         migrations.RunPython(assign_program),

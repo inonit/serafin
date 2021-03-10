@@ -1,5 +1,8 @@
 from __future__ import unicode_literals
+from builtins import str
+from builtins import object
 from django.utils.translation import ugettext_lazy as _
+from django.utils.deprecation import MiddlewareMixin
 
 import json
 from django.conf import settings
@@ -8,17 +11,17 @@ from events.models import Event
 from system.models import Session
 
 
-class EventTrackingMiddleware(object):
+class EventTrackingMiddleware(MiddlewareMixin):
     '''Tracks and logs time spent on page and user data'''
 
     def process_request(self, request):
 
         if (not request.is_ajax() or
-            not request.method == 'POST' or
-            request.FILES or
-            request.user.is_anonymous() or
-            'api/system' in request.path or
-            'api/users' in request.path):
+                not request.method == 'POST' or
+                request.FILES or
+                request.user.is_anonymous or
+                'api/system' in request.path or
+                'api/users' in request.path):
             return
 
         try:
@@ -61,25 +64,28 @@ class EventTrackingMiddleware(object):
 
         if getattr(settings, 'LOG_USER_DATA', False):
 
-            for key, post_value in request_body.items():
+            for key, post_value in list(request_body.items()):
 
                 if key in ['email', 'phone', 'password']:
                     continue
 
-                pre_value = request.user.data.get(key, '')
+                def recursive_stripe(v):
+                    if isinstance(v, list):
+                        return '[' + ', '.join([recursive_stripe(x) for x in v]) + ']'
+                    else:
+                        return v.strip()
 
-                if isinstance(pre_value, list):
-                    pre_value = ', '.join([v.strip() for v in pre_value])
+                pre_value = request.user.get_pre_variable_value_for_log(key)
 
                 if isinstance(post_value, list):
-                    post_value = ', '.join([v.strip() for v in post_value])
+                    post_value = ', '.join([recursive_stripe(v) for v in post_value])
 
                 event = Event(
                     time=timezone.localtime(timezone.now()),
                     domain='userdata',
                     actor=request.user,
                     variable=key,
-                    pre_value=unicode(pre_value),
-                    post_value=unicode(post_value),
+                    pre_value=str(pre_value),
+                    post_value=str(post_value),
                 )
                 event.save()

@@ -85,7 +85,6 @@ INSTALLED_APPS = (
 )
 
 MIDDLEWARE = (
-    'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.locale.LocaleMiddleware',
@@ -99,8 +98,9 @@ MIDDLEWARE = (
     'defender.middleware.FailedLoginMiddleware',
     'events.middleware.EventTrackingMiddleware',
     'request.middleware.RequestMiddleware',
-    # 'users.middleware.ForceChangePasswordMiddleware',
+    'users.middleware.ForceChangePasswordMiddleware',
     'admin_ip_restrictor.middleware.AdminIPRestrictorMiddleware'
+
 )
 
 ROOT_URLCONF = 'serafin.urls'

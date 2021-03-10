@@ -16,13 +16,15 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='programuseraccess',
             name='user',
-            field=models.ForeignKey(verbose_name='user', to=settings.AUTH_USER_MODEL),
+            field=models.ForeignKey(
+                verbose_name='user', to=settings.AUTH_USER_MODEL, on_delete=models.CASCADE),
             preserve_default=True,
         ),
         migrations.AddField(
             model_name='program',
             name='users',
-            field=models.ManyToManyField(to=settings.AUTH_USER_MODEL, verbose_name='users', through='system.ProgramUserAccess'),
+            field=models.ManyToManyField(
+                to=settings.AUTH_USER_MODEL, verbose_name='users', through='system.ProgramUserAccess'),
             preserve_default=True,
         ),
         migrations.AddField(

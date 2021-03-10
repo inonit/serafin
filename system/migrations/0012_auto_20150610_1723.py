@@ -21,13 +21,15 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='content',
             name='program',
-            field=models.ForeignKey(blank=True, to='system.Program', help_text='Can optionally be bound to a specific program', null=True, verbose_name='program'),
+            field=models.ForeignKey(blank=True, to='system.Program', help_text='Can optionally be bound to a specific program',
+                                    null=True, verbose_name='program', on_delete=models.CASCADE),
             preserve_default=True,
         ),
         migrations.AlterField(
             model_name='session',
             name='data',
-            field=jsonfield.fields.JSONField(default='{"nodes": [], "edges": []}'),
+            field=jsonfield.fields.JSONField(
+                default='{"nodes": [], "edges": []}'),
             preserve_default=True,
         ),
     ]
