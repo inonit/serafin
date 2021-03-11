@@ -21,13 +21,14 @@
     {% else %}
     <link rel="stylesheet" href="{% static 'css/style.css' %}" />
     {% endif %}
+    <link rel="stylesheet" href="{% static 'css/extra.css' %}" />
     {% block styles %}{% endblock %}
     {% endcompress %}
   </head>
   <body>
     <div class="wrapper">
       <header>
-        {% sitetree_menu from "serafin_top_bar_menu" include "trunk, topmenu" template "sitetree/topbar_navmenu/navmenu.html" %}
+        {% comment %}{% sitetree_menu from "serafin_top_bar_menu" include "trunk, topmenu" template "sitetree/topbar_navmenu/navmenu.html" %}{% endcomment %}
       </header>
 
       <section class="messages">

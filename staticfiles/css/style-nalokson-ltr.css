@@ -1,0 +1,475 @@
+@import url(//fonts.googleapis.com/css?family=Work+Sans);
+
+html, body {
+    height: 100%;
+    font-size: 16px;
+    font-family: 'Work Sans', sans-serif;
+}
+
+.wrapper {
+    min-height: 100%;
+    height: auto !important;
+    margin: 0 auto -3rem;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    font-family: 'Work Sans', sans-serif;
+    font-weight: 700;
+    margin: 0 0 1.25rem;
+    line-height: 1.1;
+    font-size: 2.25rem;
+}
+
+h2 {
+    font-size: 1.75rem;
+}
+
+h3 {
+    font-size: 1.5rem;
+}
+
+h4 {
+    font-size: 1.25rem;
+}
+
+* + h1,
+* + h2,
+* + h3,
+* + h4 {
+    margin: 2rem 0 1rem;
+}
+
+blockquote {
+    position: relative;
+    left: 0;
+    width: auto;
+    height: auto;
+    padding: 3rem;
+    margin: 0 0 1.25rem 0;
+    border: none;
+}
+
+blockquote,
+blockquote p {
+    font-size: 1.3rem;
+    font-weight: 200;
+}
+
+blockquote:after {
+    display: none
+}
+
+blockquote p:last-child {
+    margin: 0;
+}
+
+.messages {
+    position: fixed;
+    bottom: 0;
+    right: 0;
+    width: 25%;
+}
+
+
+blockquote,
+input[type="text"],
+input[type="email"],
+input[type="password"],
+input[type="number"],
+input[type="submit"],
+textarea,
+.button {
+    font-family: 'Work Sans', sans-serif;
+}
+
+input[type="text"],
+input[type="email"],
+input[type="password"],
+input[type="number"],
+input[type="submit"],
+textarea.form-control,
+.button {
+    padding: 1rem;
+    border-radius: 2rem;
+}
+
+.button {
+    font-weight: 600;
+    padding: 1rem 2rem;
+}
+
+header {
+    position: fixed;
+    top: 0;
+    z-index: 500;
+    width: 100%;
+}
+
+.top-bar-section ul li > a {
+    font-family: 'Work Sans', sans-serif;
+}
+
+.top-bar-section .dropdown li.title h5 a {
+    line-height: 1.6;
+}
+
+header .logo {
+    background-image: url(/static/img/logo_nalokson_hvit.png);
+    background-repeat: no-repeat;
+    background-size: 75% auto;
+    background-position: center;
+    height: 3rem;
+    width: 15rem;
+    padding: 1.33rem 0
+}
+
+.logo {
+    text-indent: 100%;
+    white-space: nowrap;
+    overflow: hidden;
+}
+
+.page .logo {
+    background-image: url(/static/img/logo_nalokson.png);
+    background-repeat: no-repeat;
+    background-size: 100% auto;
+    background-position: center;
+    height: 150px;
+    width: auto;
+    text-align: center;
+    margin: 0 0 3rem;
+}
+
+.page {
+    margin: 0 auto;
+    max-width: 40em;
+    padding: 4rem 1rem 3rem;
+}
+
+.page nav {
+    margin-top: 3rem;
+    width: 100%;
+    text-align: center;
+}
+
+.large.button {
+    margin: 10rem 0 0;
+}
+
+.image img {
+    min-width: 100%;
+}
+
+.toggle.hasimage blockquote {
+    margin: 0 0 1.25rem 4rem;
+}
+
+.toggle.hasimage {
+    min-height: 4rem;
+}
+
+.toggle img {
+    width: 4rem;
+    float: left;
+    margin-right: 1.5rem;
+}
+
+input[type="text"],
+input[type="email"],
+input[type="password"],
+input[type="number"],
+textarea {
+    -webkit-box-shadow: none;
+    box-shadow: none;
+}
+
+textarea {
+    min-height: 7em;
+}
+
+fieldset {
+    padding: 0 1rem 1rem;
+    border-radius: 2rem;
+    margin-top: 1rem;
+}
+
+fieldset legend,
+.table .caption {
+    background: #FFF;
+    font-size: 100%;
+    width: auto !important;
+    padding-right: 0.25rem;
+    padding-left: 0.25rem;
+    font-weight: 600;
+}
+
+
+.table {
+    margin: 1.625rem 0;
+    padding: 1rem;
+    border-radius: 2rem;
+}
+
+.table .caption {
+    position: relative;
+    top: -2.25em;
+    padding: 0 0.1875rem;
+    margin-left: -0.1875rem;
+    font-weight: bold;
+    display: inline-block;
+}
+
+.table table {
+    border: none;
+    width: 100%;
+}
+
+.table td {
+    width: auto;
+    text-align: center;
+    vertical-align: top;
+}
+
+div.error {
+    font-size: .875em;
+}
+
+.error.right {
+    margin-top: 3px;
+}
+
+.page > .error {
+    font-size: 1.25rem;
+    line-height: 1.5;
+}
+
+
+.login.button {
+    margin-right: 1em;
+}
+
+.fade {
+    opacity: 1;
+    -webkit-transition: opacity .25s ease;
+    transition: opacity .25s ease;
+}
+
+.fade.ng-hide-add,
+.fade.ng-hide-remove {
+    display: block !important;
+}
+
+.fade.in.ng-hide-add {
+    display: none !important;
+}
+
+.fade.out.ng-hide-remove {
+    display: none !important;
+}
+
+.fade.ng-hide {
+    opacity: 0;
+}
+
+.slide {
+    max-height: 500px;
+    overflow: hidden;
+    -webkit-transition: max-height .15s linear;
+    transition: max-height .15s linear;
+}
+
+.slide.ng-hide-add,
+.slide.ng-hide-remove {
+    display: block !important;
+}
+
+.slide.ng-hide {
+    max-height: 0;
+}
+
+.ng-cloak {
+    display: none !important;
+}
+
+.stats {
+    font-weight: 700;
+    text-align: center;
+    margin: 1rem 0;
+}
+
+.bignum {
+    font-size: 5rem;
+}
+
+.center {
+    text-align: center;
+}
+
+/* COLOR */
+
+body,
+label,
+table,
+input[type="text"],
+input[type="email"],
+input[type="password"],
+input[type="number"],
+textarea,
+fieldset,
+.table {
+    border: 1px solid #CCC;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+
+}
+
+a {
+
+
+}
+
+a:hover {
+    border-bottom: none;
+}
+
+button,
+.button {
+
+
+
+}
+
+button:hover,
+.button:hover,
+button:focus,
+.button:focus {
+
+
+
+}
+
+button.disabled,
+button[disabled],
+.button.disabled,
+.button[disabled] {
+
+
+
+}
+
+button.disabled:hover,
+button[disabled]:hover,
+.button.disabled:hover,
+.button[disabled]:hover {
+
+
+}
+
+blockquote,
+blockquote p {
+
+}
+
+blockquote:after {
+    display: none;
+}
+
+input[type="text"],
+input[type="email"],
+input[type="password"],
+input[type="number"],
+textarea,
+fieldset,
+.table {
+
+}
+
+input[type="text"]:focus,
+input[type="email"]:focus,
+input[type="password"]:focus,
+input[type="number"]:focus,
+textarea:focus {
+
+}
+
+fieldset legend,
+.table .caption {
+
+}
+
+.top-bar {
+
+}
+
+.top-bar-section ul li,
+.top-bar.expanded .title-area {
+
+}
+
+.top-bar ul.title-area h1 a {
+
+}
+
+.top-bar-section ul,
+.top-bar-section li:not(.has-form) a:not(.button),
+.top-bar-section ul.active li:not(.has-form) a:not(.button):hover,
+.top-bar-section .dropdown li:not(.has-form):not(.active)>a:not(.button) {
+
+}
+
+.top-bar-section ul li:hover:not(.has-form) > a,
+.top-bar-section .dropdown li.title h5 a:hover,
+.top-bar-section li:not(.has-form) a:not(.button):hover,
+.top-bar-section .dropdown li:not(.has-form):not(.active)>a:not(.button):hover {
+
+}
+
+.top-bar-section .has-dropdown > ul.dropdown {
+
+}
+
+.top-bar-section ul li > a,
+.top-bar-section ul li > a:hover,
+.top-bar-section .has-dropdown > a,
+.top-bar-section .dropdown li > a {
+
+}
+
+.top-bar-section ul.active li > a,
+.top-bar-section ul.active li > a:hover {
+    cursor: default;
+}
+
+div.error {
+    color: #f23a14;
+}
+
+/* Prevent minor flickering while waiting for angular */
+[ng\:cloak], [ng-cloak], [data-ng-cloak], [x-ng-cloak], .ng-cloak, .x-ng-cloak {
+    display: none !important;
+}
+
+img.note-float-right {
+    margin-left: 1.5rem !important;
+    border-radius: .25rem!important;
+}
+
+img.note-float-left {
+    margin-left: 1.5rem !important;
+    border-radius: .25rem!important;
+}
+
+.sidebar-heading {
+ color: #334282;
+}

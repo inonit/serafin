@@ -1,0 +1,4 @@
+.li-disabled {
+  pointer-events: none; /* Disables the button completely. Better than just cursor: default; */
+  color: gray !important;
+}

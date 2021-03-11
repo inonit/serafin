@@ -1,0 +1,27 @@
+{% load i18n %}
+<div id="idleModal" class="modal">
+
+  <!-- Modal content -->
+  <div class="modal-content">
+      <div class="modal-message" dir="auto">{% trans 'You were inactive for 15 minutes.' %}</div>
+      <div class="modal-message" dir="auto">{% trans 'You will logout automatically.' %}</div>
+
+      <div class="modal-buttons">
+
+          <button ng-click="logout()" class="modal-button modal-button-logout" dir="auto">
+              {% trans 'Logout' %}
+              {% verbatim %}
+              ({{ countdown }})
+              {% endverbatim %}
+          </button>
+
+          <button ng-click="stay_loggedin()" class="modal-button modal-button-keep-session" dir="auto">{% trans 'Stay Logged In' %}</button>
+      </div>
+  </div>
+
+</div>
+
+<script>
+
+
+</script>

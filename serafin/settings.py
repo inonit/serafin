@@ -98,8 +98,8 @@ MIDDLEWARE = (
     'defender.middleware.FailedLoginMiddleware',
     'events.middleware.EventTrackingMiddleware',
     'request.middleware.RequestMiddleware',
-    'users.middleware.ForceChangePasswordMiddleware',
-    'admin_ip_restrictor.middleware.AdminIPRestrictorMiddleware'
+    # 'users.middleware.ForceChangePasswordMiddleware',
+    # 'admin_ip_restrictor.middleware.AdminIPRestrictorMiddleware'
 
 )
 
@@ -123,7 +123,7 @@ TEMPLATES = [
                 'django.template.context_processors.static',
                 # Insert your TEMPLATE_CONTEXT_PROCESSORS here or use this
                 # list if you haven't customized them:
-                'users.context_processors.add_support_email',
+                # 'users.context_processors.add_support_email',
             ],
         },
     },

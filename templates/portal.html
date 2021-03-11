@@ -1,0 +1,76 @@
+{% load static %}
+{% load i18n %}
+{% get_current_language_bidi as lang_dir %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Home</title>
+    {% if lang_dir %}
+    <link rel="stylesheet" type="text/css" href="{% static 'css/main.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/main-mobile.css' %}">
+    {% else %}
+    <link rel="stylesheet" type="text/css" href="{% static 'css/main_en.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/main-mobile_en.css' %}">
+    {% endif %}
+    <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@300;500;700&display=swap" rel="stylesheet">
+    <script src="{% static 'lib/angular/angular.min.js' %}"></script>
+    <script src="{% static 'lib/ng-idle/angular-idle.js' %}"></script>
+</head>
+<body>
+<!--starts header-->
+<div ng-controller="idle"></div>
+ {% include 'navbar.html' %}
+<!--end header-->
+<div class="home-container" ng-app="portal">
+    <div class="header-1 invisible" >{% trans 'Home' %}</div>
+    <div class="home-image">
+        {% verbatim %}
+        <div class="home-image-text" ng-cloak>{{ program_name }}</div>
+        {% endverbatim %}
+    </div>
+    <div class="home-box-wrapper">
+        <div class="home-box">
+            <div class="home-box-text-1">{% trans 'Current step' %}</div>
+            {% verbatim %}
+            <div ng-cloak class="home-box-text-2" dynamic-text-size ng-if="loaded && current_page_title">{{ current_page_title }}</div>
+            <div ng-cloak class="home-box-text-2" dynamic-text-size ng-if="loaded && !current_page_title">
+                {% endverbatim %}
+                {% trans 'there is no new available lesson, continue your training in accordance to your last session' %}
+                {% verbatim %}
+            </div>
+            {% endverbatim %}
+            <button onclick="location.href='{% url 'content' %}'" class="home-box-btn" ng-cloak ng-if="loaded && current_page_title">כניסה</button>
+        </div>
+    </div>
+
+
+    <div class="home-info">
+        <div class="home-info-text" dir="auto" ng-cloak>
+            {% verbatim %}
+            {{ program_about }}
+            {% endverbatim %}
+        </div>
+    </div>
+
+</div>
+
+
+<div class="footer-spacer"></div>
+<div class="footer">
+    Mindtools.io © All right reserved
+    <div id="idle" ng-app="idle" ng-controller="idle">{% include 'idle_popup.html' %}</div>
+</div>
+
+  <script src="{% static 'js/jquery.min.js' %}"></script>
+  <script src="{% static 'js/bootstrap.bundle.min.js' %}"></script>
+  <script src="{% static 'js/serafin.js' %}"></script>
+    <script>
+        var api = '{{ api|safe }}';
+        var csrf_token = '{{ csrf_token }}';
+        angular.bootstrap(document.getElementById("idle"), ['idle']);
+    </script>
+
+</body>
+</html>
