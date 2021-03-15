@@ -48,6 +48,10 @@ a User instance, attempts to lookup undefined variables will raise an error.
 
 from __future__ import absolute_import, unicode_literals
 
+from past.builtins import cmp
+from builtins import str
+from builtins import map
+from builtins import object
 import math
 import operator as oper
 from sys import float_info
@@ -68,21 +72,12 @@ from pyparsing import (
 def str_trim_float(value):
     """Convert value to string"""
     if isinstance(value, float):
-        value = unicode(value)
+        value = str(value)
         if value.endswith('.0'):
             return value[:-2]
         return value
-    return unicode(value)
+    return str(value)
 
-def stringSize(value):
-    """ get value of type unicode - return the number of character in a string """
-
-    if value == "VariableNotExist" or isinstance(value, float) or isinstance(value, list):
-        return -1
-    try:
-        return len(value)
-    except:
-        return -1
 
 class Parser(object):
     """
@@ -95,6 +90,8 @@ class Parser(object):
     """
 
     UNARY = "unary -"
+    INDEXED_VARIABLE = "var idx"
+    NOT = "!"
 
     bool_operators = {
         "==": oper.eq, "!=": oper.ne, "<": oper.lt, "<=": oper.le,
@@ -115,7 +112,6 @@ class Parser(object):
         "abs": abs, "trunc": lambda a: int(a), "round": round,
         "sign": lambda a: abs(a) > float_info.epsilon and cmp(a, 0) or 0,
         "str": str_trim_float,
-        "nbChar": stringSize,
     }
 
     constants = {
@@ -146,7 +142,7 @@ class Parser(object):
         if not self.bnf:
             # Operators
             exponent_operator = Literal("^")
-            # negate_operator = Literal("!")  # TODO: Implement this so we can write `!True`
+            negate_operator = Literal("!")
             multiply_operator = oneOf("* / %")
             add_operator = oneOf("+ -")
             comparison_operator = oneOf("== != < <= > >= & |") ^ Keyword("in")
@@ -155,7 +151,7 @@ class Parser(object):
             e = CaselessLiteral("E")
             pi = CaselessLiteral("PI")
 
-            lparen, rparen, lbrack, rbrack = map(Suppress, "()[]")
+            lparen, rparen, lbrack, rbrack = list(map(Suppress, "()[]"))
             ident = Word(alphas, alphas + nums + "_$")
             variable = Combine(Literal("$") + Word(alphanums + "_"))
             boolean = Keyword("True") ^ Keyword("False")
@@ -172,8 +168,9 @@ class Parser(object):
 
             atom = (Optional("-") +
                     (pi | e | numeric | ident + lparen + expression + rparen).setParseAction(self.push_stack)
+                    | (variable + lbrack + expression + rbrack).setParseAction(self.push_array_variable)
                     | (variable | none | boolean | string | Group(lists)).setParseAction(self.push_stack)
-                    | (lparen + expression.suppress() + rparen)).setParseAction(self.push_unary_stack)
+                    | Optional(negate_operator) + (lparen + expression.suppress() + rparen)).setParseAction(self.push_unary_stack)
 
             # By defining exponentiation as "atom [^factor]" instead of "atom [^atom],
             # we get left to right exponents. 2^3^2 = 2^(3^2), not (2^3)^2.
@@ -210,23 +207,8 @@ class Parser(object):
         if variable == "current_date":
             return now.date().isoformat()
 
-        if variable == "current_year":
-            return now.year
-        if variable == "current_month":
-            return now.month
-        if variable == "current_date_dd":
-            return now.day
-        if variable == "current_week":
-            return now.isocalendar()[1]
-        if variable == "current_hour":
-            return now.hour
-        if variable == "current_minute":
-            return now.minute
-        if variable == "current_second":
-            return now.second
-
         if variable == "registered":
-            return not self.user.is_anonymous() if self.user else False
+            return not self.user.is_anonymous if self.user else False
 
         if variable == "enrolled":
             if "session" in self.userdata:
@@ -258,24 +240,12 @@ class Parser(object):
     def push_unary_stack(self, s, location, tokens):
         if tokens and tokens[0] == "-":
             self.stack.append(self.UNARY)
+        elif tokens and tokens[0] == "!":
+            self.stack.append(self.NOT)
 
-    def get_var_in_unicode(self, expr):
-        operator = expr.pop()
-
-        if operator and operator[0] == "$":
-            variable = operator[1:]
-            if variable in [v["name"] for v in self.reserved_variables]:
-                return unicode(variable)
-            if not self.user:
-                raise ParseException("No user instance set. Please initialize the %s "
-                                     "with a `user_obj` argument." % self.__class__.__name__)
-
-            if variable in self.userdata:
-                return unicode(self.userdata.get(variable))
-            else:
-                return unicode("VariableNotExist")
-        else:
-            return unicode(operator)
+    def push_array_variable(self, s, location, tokens):
+        self.stack.append(tokens[0])
+        self.stack.append(self.INDEXED_VARIABLE)
 
     def evaluate_stack(self, expr):
         """
@@ -286,8 +256,8 @@ class Parser(object):
         operator = expr.pop()
         if operator == self.UNARY:
             return -self.evaluate_stack(expr)
-
-            rhs, lhs = self.evaluate_stack(expr), self.evaluate_stack(expr)
+        elif operator == self.NOT:
+            return not self.evaluate_stack(expr)
 
         if operator in self.operators:
             rhs, lhs = self.evaluate_stack(expr), self.evaluate_stack(expr)
@@ -302,12 +272,14 @@ class Parser(object):
                 lhs = [self._get_return_value(item) for item in lhs]
             return self.operators[operator](lhs, rhs)
         elif operator in self.functions:
-            if operator == "nbChar":
-                return self.functions[operator](self.get_var_in_unicode(expr))
             return self.functions[operator](self.evaluate_stack(expr))
         elif operator in self.constants:
             return self.constants[operator]
-        elif operator and operator[0] == "$":
+        elif operator and (operator[0] == "$" or operator == self.INDEXED_VARIABLE):
+            variable_index = None
+            if operator == self.INDEXED_VARIABLE:
+                operator = expr.pop()
+                variable_index = self.evaluate_stack(expr)
             variable = operator[1:]
 
             if variable in [v["name"] for v in self.reserved_variables]:
@@ -317,7 +289,17 @@ class Parser(object):
                 raise ParseException("No user instance set. Please initialize the %s "
                                      "with a `user_obj` argument." % self.__class__.__name__)
 
-            return self._get_return_value(self.userdata.get(variable))
+            variable_value = self._get_return_value(self.userdata.get(variable))
+            if variable_index is not None:
+                from system.models import Variable
+                if Variable.is_array_variable(variable):
+                    return self._get_return_value(variable_value[int(variable_index)])
+            else:
+                from system.models import Variable
+                if Variable.is_array_variable(variable) and isinstance(variable_value, list):
+                    variable_value = self._get_return_value(variable_value[-1])
+            return variable_value
+
         elif operator in ("True", "False"):
             return True if operator == "True" else False
         elif operator == "None":

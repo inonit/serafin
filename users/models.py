@@ -61,7 +61,7 @@ class User(AbstractBaseUser, PermissionsMixin):
     is_staff = models.BooleanField(_('staff status'), default=False)
     is_active = models.BooleanField(_('active'), default=True)
     program_restrictions = models.ManyToManyField(
-        'system.Program', blank=True,
+         to='system.Program', blank=True,
         verbose_name=_('program restrictions'),
         help_text=_('Staff user has limited access only to the chosen Programs (and related data). '
                     'If no Programs are chosen, there is no restriction.'),
@@ -74,8 +74,7 @@ class User(AbstractBaseUser, PermissionsMixin):
     token = models.CharField(_('token'), max_length=64,
                              blank=True, editable=False)
 
-    data = JSONField(
-        load_kwargs={'object_pairs_hook': OrderedDict}, default={})
+    data = JSONField(load_kwargs={'object_pairs_hook': OrderedDict}, default={})
 
     objects = UserManager()
 
@@ -83,7 +82,8 @@ class User(AbstractBaseUser, PermissionsMixin):
 
     @property
     def username(self):
-        return _('User %i' % self.id)
+        # return _('User %i' % self.id)
+        return self.email
 
     def get_short_name(self):
         return self.username
@@ -97,6 +97,20 @@ class User(AbstractBaseUser, PermissionsMixin):
     def is_member(self, group_name):
         '''Check if user is part of a given group by name'''
         return self.groups.filter(name=group_name).exists()
+
+    @property
+    def password_change_required(self):
+        change_password_key = 'force_change_password'
+        if self.data and change_password_key in self.data:
+            password_change_required = self.data[change_password_key]
+            return password_change_required
+        return False
+
+    def password_changed(self):
+        change_password_key = 'force_change_password'
+        if self.data:
+            self.data[change_password_key] = False
+            self.save()
 
     def send_sms(self, message=None):
         if len(self.phone) < 11:  # 11 character phone number +4712345678 (norway)
@@ -180,6 +194,19 @@ class User(AbstractBaseUser, PermissionsMixin):
                 count += 1
 
             return email.send()
+            
+    @staticmethod
+    def generate_session_link():
+        """Generate a url link to session"""
+        current_site = Site.objects.get_current()
+
+        link = '%(protocol)s://%(domain)s%(link)s' % {
+            'link': reverse('content'),
+            'protocol': 'https' if settings.USE_HTTPS else 'http',
+            'domain': current_site.domain
+        }
+
+        return link
 
     def generate_login_link(self):
         '''Generates a login link URL'''
@@ -203,7 +230,7 @@ class User(AbstractBaseUser, PermissionsMixin):
     def send_login_link(self):
         '''Sends user login link via email templates'''
 
-        subject = unicode(_("Today's login link"))
+        subject = str(_("Today's login link"))
 
         html_template = get_template('email/login_link.html')
         text_template = get_template('email/login_link.txt')
@@ -222,8 +249,8 @@ class User(AbstractBaseUser, PermissionsMixin):
             'site_name': current_site.name,
         }
 
-        text_content = text_template.render(Context(context))
-        html_content = html_template.render(Context(context))
+        text_content = text_template.render(context)
+        html_content = html_template.render(context)
 
         self.send_email(
             subject=subject,

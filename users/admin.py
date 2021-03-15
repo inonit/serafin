@@ -1,4 +1,8 @@
 from __future__ import unicode_literals
+
+import uuid
+from builtins import str
+from builtins import object
 from django.utils.translation import ugettext_lazy as _
 
 from django import forms
@@ -28,7 +32,7 @@ class UserCreationForm(forms.ModelForm):
     email = forms.EmailField(label=_('E-mail'))
     phone = forms.CharField(label=_('Phone'))
 
-    class Meta:
+    class Meta(object):
         model = User
         exclude = []
 
@@ -51,7 +55,7 @@ class UserCreationForm(forms.ModelForm):
 
 class BlankWidget(forms.Widget):
     '''A widget that will display nothing'''
-    def render(self, name, value, attrs):
+    def render(self, name, value, attrs=None, renderer=None):
         return ''
 
 
@@ -66,7 +70,7 @@ class BlankPasswordField(forms.Field):
     def bound_data(self, data, initial):
         return initial
 
-    def _has_changed(self, initial, data):
+    def has_changed(self, initial, data):
         return False
 
 
@@ -88,33 +92,33 @@ class UserChangeForm(forms.ModelForm):
     def clean_password(self):
         return self.initial['password']
 
-    class Meta:
+    class  Meta(object):
         model = User
         exclude = []
 
 
 class UserDataWidget(forms.Widget):
 
-    def render(self, name, value, attrs=None):
+    def render(self, name, value, attrs=None, renderer=None):
         priority_fields = [
             field.strip() for field in config.USER_VARIABLE_PROFILE_ORDER.split(',')
             if field
         ]
 
         other_fields = [
-            field for field in json.loads(value).keys()
+            field for field in list(json.loads(value).keys())
             if field not in priority_fields
         ]
 
         context = {
             'data': value,
             'fields': json.dumps(priority_fields + sorted(other_fields)),
-            'debug': unicode(settings.USERDATA_DEBUG).lower()
+            'debug': str(settings.USERDATA_DEBUG).lower()
         }
         html = render_to_string('admin/userdata_widget.html', context)
         return mark_safe(html)
 
-    class Media:
+    class Media(object):
         js = (
             'lib/angular/angular.min.js',
         )
@@ -186,6 +190,11 @@ class UserAdmin(UserAdmin, ImportExportModelAdmin):
         ('admin/userlog.html', 'top', 'log'),
     )
 
+    def get_form(self, request, obj=None, **kwargs):
+        form = super().get_form(request, obj, **kwargs)
+        form.request_user = request.user
+        return form
+
     def change_view(self, request, object_id, form_url='', extra_context=None):
         extra_context = extra_context or {}
         extra_context['log'] = Event.objects.filter(actor=object_id).order_by('-time')
@@ -208,6 +217,10 @@ class UserAdmin(UserAdmin, ImportExportModelAdmin):
         return queryset
 
     resource_class = UserResource
+    class Media(object):
+        css = {
+            'all': ('//stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css',)
+        }
 
 
 class CustomUserModelFilerAdmin(FolderAdmin):
