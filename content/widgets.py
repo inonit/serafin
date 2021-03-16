@@ -109,7 +109,7 @@ class TextContentWidget(forms.Widget):
 
 class SMSContentWidget(forms.Widget):
 
-    def render(self, name, value, attrs=None):
+    def render(self, name, value, attrs=None, renderer=None):
         context = {
             'value': value,
         }
@@ -138,7 +138,7 @@ class SMSContentWidget(forms.Widget):
 
 class CodeContentWidget(forms.Widget):
 
-    def render(self, name, value, attrs=None):
+    def render(self, name, value, attrs=None, renderer=None):
         context = {
             'value': value,
         }

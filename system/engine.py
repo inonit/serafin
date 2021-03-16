@@ -114,7 +114,8 @@ class Engine(object):
 
         self.session = Session.objects.get(id=session_id)
 
-        self.nodes = {node['id']: node for node in self.session.data.get('nodes')}
+        self.nodes = {
+            node['id']: node for node in self.session.data.get('nodes')}
         self.edges = self.session.data.get('edges')
         self.node_id = node_id
 
@@ -407,9 +408,10 @@ class Engine(object):
             # get user.data and predefined Variables
             from system.models import Variable
             predefined_vars = Variable.objects.all()
-            predefined_values = {var.name: var.get_value() for var in predefined_vars}
+            predefined_values = {var.name: var.get_value()
+                                 for var in predefined_vars}
 
-            data={}
+            data = {}
             data['predefined_values'] = predefined_values
             data['userdata'] = self.user.data
             body = {}
@@ -417,14 +419,16 @@ class Engine(object):
             body['v3'] = True
             body['data'] = data
 
-            sandbox_url = "%s:%s/%s"%(settings.SANDBOX_IP,settings.SANDBOX_PORT,settings.SANDBOX_ENDPOINT)
+            sandbox_url = "%s:%s/%s" % (settings.SANDBOX_IP,
+                                        settings.SANDBOX_PORT, settings.SANDBOX_ENDPOINT)
 
             try:
                 # send request to python sandbox
                 self.logger.debug(
                     '%s %s python code: code sent to sandbox',
                     self.user, self.session)
-                r = requests.post(sandbox_url, data=json.dumps(body), timeout=12, headers={"X-API-Key": str(settings.SANDBOX_API_KEY),"Content-Type":"application/json"})
+                r = requests.post(sandbox_url, data=json.dumps(body), timeout=12, headers={
+                                  "X-API-Key": str(settings.SANDBOX_API_KEY), "Content-Type": "application/json"})
 
             except Timeout:
                 # handle error
@@ -462,7 +466,7 @@ class Engine(object):
             else:
                 status_code = r.status_code
 
-                r = r.json() # only r.text converted to python dict
+                r = r.json()  # only r.text converted to python dict
 
                 if status_code == 200:
                     if r['timedOut'] or r['killedByContainer']:
@@ -473,7 +477,8 @@ class Engine(object):
                             time=timezone.now(),
                             subject=self.user,
                             code=code,
-                            log="sandbox returned timeout. killedByContainer:"+str(r['killedByContainer'])
+                            log="sandbox returned timeout. killedByContainer:" +
+                                str(r['killedByContainer'])
                         )
                         cl.save()
 
@@ -532,7 +537,8 @@ class Engine(object):
                                 time=timezone.now(),
                                 subject=self.user,
                                 code=code,
-                                log="user.data can not be updated with sandbox output. stdout="+str(r['stdout'])
+                                log="user.data can not be updated with sandbox output. stdout=" +
+                                    str(r['stdout'])
                             )
                             cl.save()
                             self.logger.debug(
@@ -634,7 +640,8 @@ class Engine(object):
             return self.transition(node_id)
 
         if node_type == 'delay':
-            useraccesses = self.session.program.programuseraccess_set.filter(user=self.user)
+            useraccesses = self.session.program.programuseraccess_set.filter(
+                user=self.user)
             for useraccess in useraccesses:
 
                 start_time = datetime.now(pytz.utc)
@@ -644,23 +651,27 @@ class Engine(object):
                 if variable_name:
                     try:
                         # if variable is dynamically changed in the graph tree (back office)
-                        if variable_name in self.user.data :
-                            delay_number = int(self.user.data.get(variable_name))
-                            self.logger.debug("Delay node using variable: %s => %s" % (variable_name, delay_number))
-                        else :
-                        # trying to get the predefined value of the variable from the database
-                            delay_number = int(Variable.objects.get(name=variable_name).get_value())
-                            self.logger.debug("Delay node using variable: %s => %s" % (variable_name, delay_number))
+                        if variable_name in self.user.data:
+                            delay_number = int(
+                                self.user.data.get(variable_name))
+                            self.logger.debug("Delay node using variable: %s => %s" % (
+                                variable_name, delay_number))
+                        else:
+                            # trying to get the predefined value of the variable from the database
+                            delay_number = int(Variable.objects.get(
+                                name=variable_name).get_value())
+                            self.logger.debug("Delay node using variable: %s => %s" % (
+                                variable_name, delay_number))
                     except Exception as e:
-                        self.logger.error("failed to use variable(%s) in delay node: %s" % (variable_name, e.message))
+                        self.logger.error("failed to use variable(%s) in delay node: %s" % (
+                            variable_name, e.message))
                 else:
                     self.logger.debug("Delay node not using a variable")
 
                 kwargs = {
-                    delay.get('unit'): float(delay_number * useraccess.time_factor),
+                    delay.get('unit'): float(delay_number * float(useraccess.time_factor)),
                 }
                 delta = timedelta(**kwargs)
-
 
                 from system.tasks import transition
 
@@ -702,7 +713,8 @@ class Engine(object):
             self.user, self.session, next, pop
         )
 
-        node_id = self.node_id if self.node_id is not None else self.user.data.get('node')
+        node_id = self.node_id if self.node_id is not None else self.user.data.get(
+            'node')
 
         if node_id is None:
             self.user.data['node'] = 0

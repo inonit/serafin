@@ -22,88 +22,12 @@ from users.models import User
 from system.engine import Engine
 from serafin.settings import TIME_ZONE
 import json
-
-
-def set_language_by_program(program):
-    if program and program.is_rtl:
-        translation.activate('he')
-
-
-def main_page(request):
-    session_id = request.user.data.get('session')
-
-    if not session_id or not request.user.is_authenticated:
-        if request.user.is_authenticated and request.user.is_therapist:
-            return HttpResponseRedirect(reverse('therapist_zone'))
-        return HttpResponseRedirect(settings.HOME_URL)
-
-    session = get_object_or_404(Session, id=session_id)
-    context = {
-        'api': reverse('portal'),
-        'program': session.program,
-        'page': 'home'
-    }
-
-    return render(request, 'portal.html', context)
-
-@login_required
-def tools_page(request):
-    if not request.user.is_authenticated:
-        return HttpResponseRedirect(settings.HOME_URL)
-
-    tools = request.user.get_tools()
-
-    context = {
-        'tools': tools,
-        'captions': {'file': any(x['type'] == "file" for x in tools),
-                     'audio': any(x['type'] == "audio" for x in tools),
-                     'video': any(x['type'] == "video" for x in tools)},
-        'page': 'tools'
-    }
-
-    return render(request, 'tools.html', context)
-
-
-def get_portal(request):
-    if not request.is_ajax():
-        return main_page(request)
-
-    modules = request.user.get_modules()
-    engine = Engine(user=request.user, context={}, is_interactive=True)
-    page = engine.run()
-
-    current_module_title = page.chapter.module.display_title if page and page.chapter and page.chapter.module else None
-    current_module_id = page.chapter.module.id if page and page.chapter and page.chapter.module else None
-    program = page.program if page else None
-    if not program:
-        session_id = request.user.data.get("session")
-        session = get_object_or_404(Session, id=session_id)
-        program = session.program
-    has_unread_messages = False
-    if request.user.therapist is not None:
-        has_unread_messages = ChatMessage.objects.filter(Q(sender=request.user.therapist) & Q(receiver=request.user)
-                                                         & Q(is_read=False)).count() > 0
-    context = {
-        'modules': modules,
-        'modules_finished': len([m for m in modules if m['is_enabled'] == 1]) - (0 if current_module_id is None else 1),
-        'current_page_title': current_module_title if current_module_title else page.display_title if page else None,
-        'current_module_title': current_module_title,
-        'current_module_id': current_module_id,
-        'has_messages': has_unread_messages,
-        'program_name': program.display_title,
-        'program_about': program.about,
-        'cover_image': program.cover_image.url if program.cover_image is not None else None
-    }
-
-    return JsonResponse(context)
-
-
 def home(request):
-    return render(request, 'home.html2', {})
+    return render(request, 'home.html', {})
 
 
-@login_required
-def get_session(request, module_id=None):
+def get_session(request):
+
     if request.is_ajax():
         return get_page(request)
 
@@ -118,16 +42,6 @@ def get_session(request, module_id=None):
     session_id = request.user.data.get('session')
 
     if not session_id or not request.user.is_authenticated:
-        page_id = request.GET.get('page_id', None)
-        if request.user.is_staff and page_id:
-            context = {
-                'program': 'None',
-                'title': 'None',
-                'api': reverse('content_api'),
-                'module_id': 0
-            }
-            return render(request, 'sessionnew.html', context)
-
         return HttpResponseRedirect(settings.HOME_URL)
 
     session = get_object_or_404(Session, id=session_id)
@@ -136,11 +50,24 @@ def get_session(request, module_id=None):
         'program': session.program,
         'title': session.display_title,
         'api': reverse('content_api'),
-        'module_id': 0 if not module_id else module_id
     }
 
-    return render(request, 'sessionnew.html', context)
+    return render(request, 'session.html', context)
 
+
+def get_location_from_ip(request):
+
+    x_forwarded_for = request.META.get('HTTP_X_FORWARDED_FOR')
+    if x_forwarded_for:
+        ip = x_forwarded_for.split(',')[0]
+    else:
+        ip = request.META.get('REMOTE_ADDR')
+
+    url ="http://ip-api.com/json/" + ip
+    r = requests.get(url)
+    r = r.json()
+
+    return JsonResponse(r)
 
 def get_page(request):
 
@@ -157,16 +84,13 @@ def get_page(request):
         page.update_html(request.user)
         page.dead_end = True
         page.stacked = False
-        page.read_only = False
-        page.is_back = False
 
     # engine selection
     else:
         next = request.GET.get('next')
         pop = request.GET.get('pop')
-        engine = Engine(user=request.user, context=context,
-                        is_interactive=True)
-        page = engine.run(next=next, pop=pop, chapter=chapter, back=back)
+        engine = Engine(user=request.user, context=context, is_interactive=True)
+        page = engine.run(next=next, pop=pop)
 
     if not page:
         raise Http404
@@ -175,10 +99,7 @@ def get_page(request):
         'title': page.display_title,
         'data': page.data,
         'dead_end': page.dead_end,
-        'stacked': page.stacked,
-        'read_only': page.read_only,
-        'is_back': page.is_back,
-        'page_id': page.id
+        'stacked': page.stacked
     }
 
     return JsonResponse(response)
@@ -192,30 +113,25 @@ def content_route(request, route_slug=None):
     session = get_object_or_404(Session, route_slug=route_slug)
 
     if (not session.is_open and
-            session.program and
-            session.program.programuseraccess_set.filter(user=request.user.id).exists()):
+        session.program and
+        session.program.programuseraccess_set.filter(user=request.user.id).exists()):
         return HttpResponseRedirect(settings.HOME_URL)
-
-    if session and session.program and session.program.is_rtl:
-        translation.activate('he')
 
     context = {
         'session': session.id,
         'node': 0
     }
 
-    engine = Engine(user=request.user, context=context,
-                    push=True, is_interactive=True)
+    engine = Engine(user=request.user, context=context, push=True, is_interactive=True)
     engine.run()
 
     context = {
         'program': session.program,
         'title': session.display_title,
         'api': reverse('content_api'),
-        'module_id': 0
     }
 
-    return render(request, 'sessionnew.html', context)
+    return render(request, 'session.html', context)
 
 
 @staff_member_required
