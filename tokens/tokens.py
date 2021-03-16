@@ -2,6 +2,7 @@
 
 from __future__ import unicode_literals
 
+from builtins import object
 from datetime import date
 from django.conf import settings
 from django.utils.http import int_to_base36, base36_to_int

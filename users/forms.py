@@ -64,6 +64,7 @@ class PasswordResetForm(forms.Form):
             if subject and content:
                 user.send_email(subject, content)
 
+
 class CustomSetPasswordForm(SetPasswordForm):
     def __init__(self, user, *args, **kwargs):
         super().__init__(user, *args, **kwargs)
@@ -75,6 +76,7 @@ class CustomSetPasswordForm(SetPasswordForm):
         if commit:
             self.user.save()
         return self.user
+
 
 class AdminIDAuthenticationForm(AdminAuthenticationForm):
 

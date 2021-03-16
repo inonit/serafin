@@ -274,11 +274,14 @@ class Content(models.Model):
     data = JSONField(
         load_kwargs={'object_pairs_hook': OrderedDict}, default=[])
 
-    class Meta:
+    class Meta(object):
         verbose_name = _('content')
         verbose_name_plural = _('contents')
 
     def __unicode__(self):
+        return self.title or '%s %s' % (self._meta.verbose_name, self.id)
+
+    def __str__(self):
         return self.title or '%s %s' % (self._meta.verbose_name, self.id)
 
     def get_absolute_url(self):
@@ -287,7 +290,8 @@ class Content(models.Model):
             self.id,
         )
 
-
+    def clean(self):
+        Program.clean_is_lock(self.program)
 class PageManager(models.Manager):
     def get_queryset(self):
         return super(PageManager, self).get_queryset().filter(content_type='page')
@@ -298,7 +302,7 @@ class Page(Content):
 
     objects = PageManager()
 
-    class Meta:
+    class Meta(object):
         proxy = True
         verbose_name = _('page')
         verbose_name_plural = _('pages')
@@ -519,7 +523,7 @@ class Email(Content):
 
     objects = EmailManager()
 
-    class Meta:
+    class Meta(object):
         proxy = True
         verbose_name = _('e-mail')
         verbose_name_plural = _('e-mails')
@@ -535,6 +539,10 @@ class Email(Content):
         message = remove_comments(message)
         message = variable_replace(user, message)
         html_message = mistune.markdown(message, escape=False)
+        if self.program.is_rtl:
+            p_tag = '<p>'
+            p_rtl_tag = '<p dir="rtl">'
+            html_message = html_message.replace(p_tag, p_rtl_tag)
 
         user.send_email(
             subject=self.display_title,
@@ -554,7 +562,7 @@ class Code(Content):
 
     objects = CodeManager()
 
-    class Meta:
+    class Meta(object):
         proxy = True
         verbose_name = _('code')
         verbose_name_plural = _('codes')

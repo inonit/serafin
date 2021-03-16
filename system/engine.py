@@ -72,7 +72,7 @@ class Engine(object):
         # process context if available
         if context:
 
-            for key, value in context.items():
+            for key, value in list(context.items()):
                 if key in ('session', 'node'):
                     continue
 
@@ -89,7 +89,14 @@ class Engine(object):
                     self.user.data[key] = value
 
                 elif key and value is not None:
-                    self.user.data[key] = value
+                    if Variable.is_array_variable(key):
+                        if key in self.user.data and isinstance(self.user.data[key], list):
+                            self.user.data[key].append(value)
+                        else:
+                            self.user.data[key] = [value]
+                    else:
+                        self.user.data[key] = value
+
 
         # save
         if push or context:

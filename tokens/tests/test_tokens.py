@@ -27,7 +27,7 @@ class TestTokenGenerator(TestCase):
 
     def test_make_token(self):
         user_id = 1
-        self.assertIsInstance(token_generator.make_token(user_id), unicode)
+        self.assertIsInstance(token_generator.make_token(user_id), str)
 
     def test_check_token_okay(self):
         user_id = 1

@@ -1,5 +1,7 @@
 from __future__ import unicode_literals
 
+from builtins import str
+from builtins import object
 from django.utils.translation import ugettext_lazy as _
 
 from rest_framework import serializers
@@ -10,7 +12,7 @@ from system.expressions import Parser, ParseException
 
 class VariableSerializer(serializers.ModelSerializer):
 
-    class Meta:
+    class Meta(object):
         model = Variable
         fields = '__all__'
         read_only_fields = ['id']
@@ -35,7 +37,7 @@ class ExpressionSerializer(serializers.Serializer):
             response["result"] = p.parse(data["query"])
         except (ParseException, ZeroDivisionError, KeyError) as e:
             response["result"] = None
-            response["reason"] = unicode(e)
+            response["reason"] = str(e)
         except Exception:
             response["result"] = None
             response["reason"] = _("An error has occurred. Your expression cannot be "

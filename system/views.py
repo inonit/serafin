@@ -2,6 +2,7 @@
 
 from __future__ import absolute_import, unicode_literals
 
+from builtins import str
 import textwrap
 
 from django.conf import settings
@@ -220,9 +221,9 @@ def set_program(request):
     Pretty much copied from the set_language view.
     """
     redirect_to = request.POST.get("next", request.GET.get("next"))
-    if not is_safe_url(url=redirect_to, host=request.get_host()):
+    if not is_safe_url(url=redirect_to, allowed_hosts=(request.get_host())):
         redirect_to = request.META.get("HTTP_REFERER")
-        if not is_safe_url(url=redirect_to, host=request.get_host()):
+        if not is_safe_url(url=redirect_to, allowed_hosts=(request.get_host())):
             redirect_to = "/"
     response = HttpResponseRedirect(redirect_to)
     if request.method == "POST":
@@ -266,13 +267,23 @@ def redirect_media(request, path):
 
 class VariableViewSet(viewsets.ModelViewSet):
 
-    queryset = Variable.objects.all()
+    queryset = Variable.objects.all().order_by("name")
     serializer_class = VariableSerializer
+
+    def get_queryset(self):
+        if '_program_id' in self.request.session:
+            queryset = self.queryset.filter(program__id=self.request.session['_program_id'])
+            return queryset
+        elif not self.request.user.is_superuser and self.request.user.program_restrictions.exists():
+            queryset = self.queryset.filter(program=self.request.user.program_restrictions.first())
+            return queryset
+
+        return self.queryset
 
 
 class VariableSearchViewSet(viewsets.ModelViewSet):
 
-    queryset = Variable.objects.all()
+    queryset = Variable.objects.all().order_by("name")
     serializer_class = VariableSerializer
     filter_backends = [VariableSearchFilter]
     search_fields = ["name", "display_name"]

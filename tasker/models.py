@@ -37,6 +37,7 @@ class TaskManager(models.Manager):
 
         return task
 
+
 class Task(models.Model):
     '''A model to keep track of Huey task management in the admin interface'''
 

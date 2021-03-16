@@ -13,6 +13,7 @@ from content.widgets import DummyForeignObjectRel
 import re
 import json
 
+
 class PlumbingWidget(forms.Widget):
 
     def render(self, name, value, attrs=None, renderer=None):

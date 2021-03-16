@@ -268,7 +268,7 @@ class User(AbstractBaseUser, PermissionsMixin):
     def __unicode__(self):
         return u'%s' % self.id
 
-    class Meta:
+    class Meta(object):
         verbose_name = _('user')
         verbose_name_plural = _('users')
 
@@ -308,7 +308,7 @@ class StatefulAnonymousUser(AnonymousUser):
 
         return user, True
 
-    def send_email(self, subject=None, message=None, html_message=None):
+    def send_email(self, subject=None, message=None, html_message=None, **kwargs):     
         '''
         Not implemented for an AnonymousUser,
         but pass rather than raise an exception

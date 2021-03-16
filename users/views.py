@@ -25,6 +25,7 @@ from plivo import plivoxml
 import json
 import logging
 
+
 def manual_login(request):
     '''Redirect to root if logged in or present login screen'''
 
@@ -41,9 +42,9 @@ def manual_logout(request):
     return redirect('/')
 
 
-
 def login_via_email(request, user_id=None, token=None):
     '''Log in by token link or redirect to manual login if token is invalid'''
+
     if request.user.is_authenticated:
         return redirect(reverse('content'))
 
@@ -212,6 +213,8 @@ def profile(request):
     }
 
     return render(request, 'profile.html', context)
+
+
 class CustomPasswordChangeView(PasswordChangeView):
     def form_valid(self, form):
         form.save()

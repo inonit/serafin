@@ -1,4 +1,4 @@
-var content = angular.module('content', ['autocompleteSearch', 'stringExpression','ui.codemirror']);
+var content = angular.module('content', ['autocompleteSearch', 'stringExpression', 'ui.codemirror']);
 
 var fileTemplate = {
     url: '',
@@ -151,32 +151,37 @@ content.run(['$rootScope', '$http', function (scope, http) {
     }
 
     scope.variables = [];
-    http.get('/api/system/variables/').success(function (data) {
-        scope.variables = data.concat(reservedVars || []);
+    http.get('/api/system/variables/').then(function (response) {
+        if (typeof reservedVars !== 'undefined') {
+            scope.variables = response.data.concat(reservedVars || []);
+        } else {
+            scope.variables = response.data;
+        }
+
     });
 
     scope.editorOpts = {
-      mode: 'python',
-      theme: 'lucario',
-      lineNumbers: true,
-      lineWrapping: true
+        mode: 'python',
+        theme: 'lucario',
+        lineNumbers: true,
+        lineWrapping: true
     };
 
-    scope.codemirrorLoaded = function(_editor){
-      // for futur improvement
+    scope.codemirrorLoaded = function (_editor) {
+        // for futur improvement
 
-      // Editor part
-      /*var _doc = _editor.getDoc();
-      _editor.focus();
-
-      // Options
-      _editor.setOption('firstLineNumber', 10);
-      _doc.markClean()
-
-      // Events
-      _editor.on("beforeChange", function(){ ... });
-      _editor.on("change", function(){ ... });*/
-      return true
+        // Editor part
+        /*var _doc = _editor.getDoc();
+        _editor.focus();
+  
+        // Options
+        _editor.setOption('firstLineNumber', 10);
+        _doc.markClean()
+  
+        // Events
+        _editor.on("beforeChange", function(){ ... });
+        _editor.on("change", function(){ ... });*/
+        return true
     };
 
 }]);
@@ -265,11 +270,11 @@ content.directive('textarea', function () {
                     .replace(/\n$/, '<br/>&nbsp;')
                     .replace(/\n/g, '<br/>')
                     .replace(/\s{2,}/g, function (space) {
-                        return times('&nbsp;', space.length - 1) + ' ';
+                        return times('&nbsp;', space.length - 1) ' ';
                     });
 
                 shadow.html(val);
-                elem.css('height', Math.max(shadow[0].offsetHeight + threshold, minHeight));
+                elem.css('height', Math.max(shadow[0].offsetHeight threshold, minHeight));
                 angular.element(elem[0].nextSibling).css('height', elem.css('height'));
             };
 
@@ -302,68 +307,75 @@ content.directive('filer', ['$compile', '$http', function (compile, http) {
             } else {
                 scope.contentProxy = scope.pagelet.content
             }
+        if(scope.pagelet.content_type == 'toggle') {
+    if (scope.pagelet.img_content == undefined)
+        scope.pagelet.img_content = angular.copy(fileTemplate);
+    scope.contentProxy = scope.pagelet.img_content
+} else {
+    scope.contentProxy = scope.pagelet.content
+}
 
-            // clear on click
-            elem.find('.filerClearer').on('click', function () {
-                scope.$apply(function () {
-                    scope.contentProxy.file_id = '';
-                    scope.contentProxy.url = '';
-                    scope.contentProxy.thumbnail = '';
-                    scope.contentProxy.description = '';
-                })
-            });
+// clear on click
+elem.find('.filerClearer').on('click', function () {
+    scope.$apply(function () {
+        scope.contentProxy.file_id = '';
+        scope.contentProxy.url = '';
+        scope.contentProxy.thumbnail = '';
+        scope.contentProxy.description = '';
+    })
+});
 
-            // set up popup handler
-            elem.find('#id_file_lookup')
-                .attr('onclick', 'return showRelatedObjectLookupPopup(this)');
+// set up popup handler
+elem.find('#id_file_lookup')
+    .attr('onclick', 'return showRelatedObjectLookupPopup(this)');
 
-            // differentiate externally interacting elements
-            elem.find('#id_file')[0].id = 'id_file_' + index;
-            elem.find('#id_file_lookup')[0].id = 'id_file_lookup_' + index;
+// differentiate externally interacting elements
+elem.find('#id_file')[0].id = 'id_file_' index;
+elem.find('#id_file_lookup')[0].id = 'id_file_lookup_' index;
 
-            // set models
-            var file_id = elem.find('#id_file' + index)
-                .attr('ng-model', 'pagelet.content.file_id');
-            var thumb = elem.find('.thumbnail_img')
-                .attr('ng-src', scope.contentProxy.thumbnail);
-            var name = elem.find('.description_text')
-                .attr('ng-bind', 'pagelet.content.description');
-            compile(file_id)(scope);
-            compile(thumb)(scope);
-            compile(name)(scope);
+// set models
+var file_id = elem.find('#id_file' index)
+    .attr('ng-model', 'pagelet.content.file_id');
+var thumb = elem.find('.thumbnail_img')
+    .attr('ng-src', scope.contentProxy.thumbnail);
+var name = elem.find('.description_text')
+    .attr('ng-bind', 'pagelet.content.description');
+compile(file_id)(scope);
+compile(thumb)(scope);
+compile(name)(scope);
 
-            // receive on select
-            angular.element(window).bind('focus', function (val) {
-                var value = elem.find('#id_file_' + index).attr('value');
-                if (value && value !== scope.contentProxy.file_id) {
-                    scope.$apply(function () {
-                        scope.contentProxy.file_id = value;
-                    });
-                    http.get(url + value + '/').success(function (data) {
-                        scope.contentProxy.url = data['url'];
-                        scope.contentProxy.thumbnail = data['thumbnail'];
-                        scope.contentProxy.description = data['description'];
-                    });
-                }
-            });
+// receive on select
+angular.element(window).bind('focus', function (val) {
+    var value = elem.find('#id_file_' index).attr('value');
+    if (value && value !== scope.contentProxy.file_id) {
+        scope.$apply(function () {
+            scope.contentProxy.file_id = value;
+        });
+        http.get(url value '/').success(function (data) {
+            scope.contentProxy.url = data['url'];
+            scope.contentProxy.thumbnail = data['thumbnail'];
+            scope.contentProxy.description = data['description'];
+        });
+    }
+});
 
-            // populate on load
-            if (scope.contentProxy.file_id) {
-                http.get(url + scope.contentProxy.file_id + '/').success(function (data) {
-                    elem.find('.thumbnail_img').removeClass('hidden');
-                    elem.find('.description_text').removeClass('hidden');
-                    elem.find('.filerClearer').removeClass('hidden');
-                    elem.find('#id_file_lookup_' + index).addClass('hidden');
-                });
-            }
+// populate on load
+if (scope.contentProxy.file_id) {
+    http.get(url scope.contentProxy.file_id '/').success(function (data) {
+        elem.find('.thumbnail_img').removeClass('hidden');
+        elem.find('.description_text').removeClass('hidden');
+        elem.find('.filerClearer').removeClass('hidden');
+        elem.find('#id_file_lookup_' index).addClass('hidden');
+    });
+}
 
-            // watch and update actual content
-            scope.$watchCollection('contentProxy', function (content) {
-                if (scope.pagelet.content_type == 'toggle')
-                    scope.pagelet.img_content = content
-                else
-                    scope.pagelet.content = content;
-            })
+// watch and update actual content
+scope.$watchCollection('contentProxy', function (content) {
+    if (scope.pagelet.content_type == 'toggle')
+        scope.pagelet.img_content = content
+    else
+        scope.pagelet.content = content;
+})
         }
     };
 }]);
