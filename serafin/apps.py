@@ -5,6 +5,7 @@ from django.utils.translation import ugettext_lazy as _
 from suit.apps import DjangoSuitConfig
 from suit.menu import ParentItem, ChildItem
 
+
 class SerafinReConfig(AppConfig):
     name = 'serafin'
 
@@ -21,7 +22,8 @@ class SerafinReConfig(AppConfig):
 class SuitConfig(DjangoSuitConfig):
     layout = 'horizontal'
     SUIT_FORM_SIZE_LABEL = 'col-xs-12 col-sm-3 col-md-2 col-lg-1'
-    SUIT_FORM_SIZE_XXX_LARGE = (SUIT_FORM_SIZE_LABEL, 'col-xs-12 col-sm-9 col-md-10 col-lg-10')
+    SUIT_FORM_SIZE_XXX_LARGE = (
+        SUIT_FORM_SIZE_LABEL, 'col-xs-12 col-sm-9 col-md-10 col-lg-10')
 
     form_size = {
         'default': SUIT_FORM_SIZE_XXX_LARGE,
@@ -29,7 +31,7 @@ class SuitConfig(DjangoSuitConfig):
             'RelatedFieldWidgetWrapper': SUIT_FORM_SIZE_XXX_LARGE
         }
     }
-    
+
     verbose_name = 'Serafin Admin'
 
     menu = (
@@ -50,7 +52,10 @@ class SuitConfig(DjangoSuitConfig):
         ParentItem('Events', 'events', icon='icon-bullhorn', children=[
             ChildItem(model='event'),
             ChildItem(model='tasker.task'),
-            ChildItem(model='request.request')
+            ChildItem(model='request.request'),
+            ChildItem(model='codelogs.codelog'),
+
+
         ]),
         ParentItem('Media', 'filer', icon='icon-picture'),
         ParentItem('Settings', 'sites', icon='icon-cog', children=[

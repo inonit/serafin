@@ -41,6 +41,7 @@ class CodeLogAdmin(admin.ModelAdmin):
             return None
     subject_link.short_description = _('User')
     subject_link.allow_tags = True
+    change_list_template = 'admin/events/event/change_list.html'
 
     def code_link(self, instance):
         if instance.code:
@@ -53,5 +54,6 @@ class CodeLogAdmin(admin.ModelAdmin):
             return None
     code_link.short_description = _('Code')
     code_link.allow_tags = True
+
 
 admin.site.register(CodeLog, CodeLogAdmin)

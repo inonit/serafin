@@ -697,8 +697,7 @@ class SMSForm(ContentForm):
     def __init__(self, *args, **kwargs):
         super(ContentForm, self).__init__(*args, **kwargs)
         self.fields['data'].help_text = ''
-        self.fields['data'].initial = [{"content_type": "text", "content": ""},
-                                       {"content_type": "is_whatsapp", "content": False}]
+        self.fields['data'].initial = [{"content_type": "text", "content": ""}]
 
     class Meta(object):
         model = SMS
@@ -720,7 +719,7 @@ class SMSAdmin(ContentAdmin):
 
 
 class CodeForm(TextContentForm):
-    class Meta:
+    class Meta(object):
         model = Code
         exclude = []
 
