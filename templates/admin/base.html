@@ -51,3 +51,4 @@
 
     <div id="idle" ng-app="idle" ng-controller="idle">{% include 'idle_popup.html' %}</div>
 {% endblock %}
+{% block bodyclass %}{{ block.super|suit_body_class:request }}{% endblock %}
