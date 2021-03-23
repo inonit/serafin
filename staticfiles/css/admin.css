@@ -43,14 +43,3 @@
     white-space: pre;
     font-family: monospace;
 }
-
-body.suit_layout_horizontal #footer,
-body.login #footer {
-    position: relative !important;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    width: 100%;
-    min-height: 66px;
-    margin-top: 0px !important;
-}

@@ -16,6 +16,16 @@
         {% endif %}
         {% endfor %}
     </style>
+    <style type="text/css"> /* A fix on the footer mis position */
+    body.suit_layout_horizontal #footer, body.login #footer{    
+        position: relative;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    width: 100%;
+    min-height: 66px;
+    margin-top: 0px;}
+    </style>
     <link rel="stylesheet" href="{% static 'css/admin.css' %}" media="all">
 {% endblock %}
 
