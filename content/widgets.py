@@ -117,7 +117,7 @@ class SMSContentWidget(forms.Widget):
         html = render_to_string('admin/sms_content_widget.html', context)
         return mark_safe(html)
 
-    class Media:
+    class Media(object):
         css = {
             'all': (
                 'css/content.css',
