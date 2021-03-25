@@ -1,4 +1,4 @@
-var content = angular.module('content', ['autocompleteSearch', 'stringExpression', 'ui.codemirror']);
+var content = angular.module('content', ['autocompleteSearch', 'stringExpression']);
 
 var fileTemplate = {
     url: '',
@@ -7,6 +7,12 @@ var fileTemplate = {
 };
 
 var dataTemplates = {
+    'richtext': {
+        content_type: 'richtext',
+        content: '',
+        box: '',
+        title: 'Rich Text'
+    },
     'text': {
         content_type: 'text',
         content: ''
@@ -40,8 +46,15 @@ var dataTemplates = {
         content: []
     },
     'conditionaltext': {
+        type: 'text',
         expression: '',
         content: ''
+    },
+    'conditionalrichtext': {
+        type: 'richtext',
+        expression: '',
+        content: '',
+        box: ''
     },
     'condition': {
         var_name: '',
@@ -122,6 +135,10 @@ var dataTemplates = {
         field_type: 'email',
         variable_name: ''
     },
+    'phone': {
+        field_type: 'phone',
+        variable_name: ''
+    },
     'password': {
         field_type: 'password',
         variable_name: ''
@@ -157,33 +174,7 @@ content.run(['$rootScope', '$http', function (scope, http) {
         } else {
             scope.variables = response.data;
         }
-
     });
-
-    scope.editorOpts = {
-        mode: 'python',
-        theme: 'lucario',
-        lineNumbers: true,
-        lineWrapping: true
-    };
-
-    scope.codemirrorLoaded = function (_editor) {
-        // for futur improvement
-
-        // Editor part
-        /*var _doc = _editor.getDoc();
-        _editor.focus();
-  
-        // Options
-        _editor.setOption('firstLineNumber', 10);
-        _doc.markClean()
-  
-        // Events
-        _editor.on("beforeChange", function(){ ... });
-        _editor.on("change", function(){ ... });*/
-        return true
-    };
-
 }]);
 
 content.controller('contentArray', ['$scope', function (scope) {
@@ -202,7 +193,6 @@ content.controller('contentArray', ['$scope', function (scope) {
     scope.delete = function (array, index) {
         array.splice(index, 1);
     };
-
 }]);
 
 content.controller('markdown', ['$scope', '$window', '$sce', function (scope, window, sce) {
@@ -231,6 +221,65 @@ content.directive('markdownText', ['$timeout', function (timeout) {
             });
         }
     };
+}]);
+
+content.directive('richtextBoxColor', ['$timeout', function () {
+    return {
+        restrict: 'C',
+        require: 'ngModel',
+        link: function (scope, elem, attrs, ngModel) {
+            scope.boxColorChanged = function (color) {
+                $(elem).parent().parent().parent().find(".note-editable").css("background",color)
+            };
+
+            scope.$watch(function () {
+                return ngModel.$modelValue;
+            }, scope.boxColorChanged);
+        }
+    };
+}]);
+
+content.directive('summernoteRichtext', ['$timeout', function (timeout) {
+    return {
+        restrict: 'C',
+        require: 'ngModel',
+        link: function (scope, elem, attrs, ngModel) {
+            if (ngModel) {
+                ngModel.$render = function () {
+                    if (ngModel.$viewValue) {
+                        elem.summernote('code', ngModel.$viewValue);
+                    } else {
+                        elem.summernote('empty');
+                    }
+                };
+            };
+
+            var updateNgModel = function () {
+                var newValue = elem.summernote('code');
+                if (elem.summernote('isEmpty')) {
+                    newValue = '';
+                }
+                if (ngModel && ngModel.$viewValue !== newValue) {
+                    timeout(function () {
+                        ngModel.$setViewValue(newValue);
+                    }, 0);
+                }
+            };
+
+             elem.summernote({
+                 fontNames: ['Arial', 'Arial Black', 'Comic Sans MS', 'Courier New', 'Helvetica', 'Impact', 'Tahoma',
+                     'Times New Roman', 'Verdana', 'Heebo', 'Assistant', 'Rubik'],
+                 fontNamesIgnoreCheck: ['Heebo', 'Assistant', 'Rubik'],
+                 tabsize: 2,
+                 height: 150,
+             });
+
+
+            elem.on('summernote.change', function (we, contents, $editable) {
+                updateNgModel();
+            });
+        }
+    }
 }]);
 
 content.directive('textarea', function () {
@@ -270,11 +319,11 @@ content.directive('textarea', function () {
                     .replace(/\n$/, '<br/>&nbsp;')
                     .replace(/\n/g, '<br/>')
                     .replace(/\s{2,}/g, function (space) {
-                        return times('&nbsp;', space.length - 1) ' ';
+                        return times('&nbsp;', space.length - 1) + ' ';
                     });
 
                 shadow.html(val);
-                elem.css('height', Math.max(shadow[0].offsetHeight threshold, minHeight));
+                elem.css('height', Math.max(shadow[0].offsetHeight + threshold, minHeight));
                 angular.element(elem[0].nextSibling).css('height', elem.css('height'));
             };
 
@@ -297,6 +346,8 @@ content.directive('filer', ['$compile', '$http', function (compile, http) {
         replace: true,
         link: function (scope, elem, attrs) {
             scope.noimg = elem.find('#id_file_thumbnail_img').attr('src');
+            // workaround when adding new filer element
+            $('.filerFile .vForeignKeyRawIdAdminField').attr('type', 'hidden');
             var index = scope.$parent.$index;
             var url = filerApi + scope.pagelet.content_type + '/';
 
@@ -307,75 +358,68 @@ content.directive('filer', ['$compile', '$http', function (compile, http) {
             } else {
                 scope.contentProxy = scope.pagelet.content
             }
-        if(scope.pagelet.content_type == 'toggle') {
-    if (scope.pagelet.img_content == undefined)
-        scope.pagelet.img_content = angular.copy(fileTemplate);
-    scope.contentProxy = scope.pagelet.img_content
-} else {
-    scope.contentProxy = scope.pagelet.content
-}
 
-// clear on click
-elem.find('.filerClearer').on('click', function () {
-    scope.$apply(function () {
-        scope.contentProxy.file_id = '';
-        scope.contentProxy.url = '';
-        scope.contentProxy.thumbnail = '';
-        scope.contentProxy.description = '';
-    })
-});
+            // clear on click
+            elem.find('.filerClearer').on('click', function () {
+                scope.$apply(function () {
+                    scope.contentProxy.file_id = '';
+                    scope.contentProxy.url = '';
+                    scope.contentProxy.thumbnail = '';
+                    scope.contentProxy.description = '';
+                })
+            });
 
-// set up popup handler
-elem.find('#id_file_lookup')
-    .attr('onclick', 'return showRelatedObjectLookupPopup(this)');
+            // set up popup handler
+            elem.find('#id_file_lookup')
+                .attr('onclick', 'return showRelatedObjectLookupPopup(this)');
 
-// differentiate externally interacting elements
-elem.find('#id_file')[0].id = 'id_file_' index;
-elem.find('#id_file_lookup')[0].id = 'id_file_lookup_' index;
+            // differentiate externally interacting elements
+            elem.find('#id_file')[0].id = 'id_file_' + index;
+            elem.find('#id_file_lookup')[0].id = 'id_file_lookup_' + index;
 
-// set models
-var file_id = elem.find('#id_file' index)
-    .attr('ng-model', 'pagelet.content.file_id');
-var thumb = elem.find('.thumbnail_img')
-    .attr('ng-src', scope.contentProxy.thumbnail);
-var name = elem.find('.description_text')
-    .attr('ng-bind', 'pagelet.content.description');
-compile(file_id)(scope);
-compile(thumb)(scope);
-compile(name)(scope);
+            // set models
+            var file_id = elem.find('#id_file' + index)
+                .attr('ng-model', 'pagelet.content.file_id');
+            var thumb = elem.find('.thumbnail_img')
+                .attr('ng-src', scope.contentProxy.thumbnail);
+            var name = elem.find('.description_text')
+                .attr('ng-bind', 'pagelet.content.description');
+            compile(file_id)(scope);
+            compile(thumb)(scope);
+            compile(name)(scope);
 
-// receive on select
-angular.element(window).bind('focus', function (val) {
-    var value = elem.find('#id_file_' index).attr('value');
-    if (value && value !== scope.contentProxy.file_id) {
-        scope.$apply(function () {
-            scope.contentProxy.file_id = value;
-        });
-        http.get(url value '/').success(function (data) {
-            scope.contentProxy.url = data['url'];
-            scope.contentProxy.thumbnail = data['thumbnail'];
-            scope.contentProxy.description = data['description'];
-        });
-    }
-});
+            // receive on select
+            angular.element(window).bind('focus', function (val) {
+                var value = elem.find('#id_file_' + index).attr('value');
+                if (value && value !== scope.contentProxy.file_id) {
+                    scope.$apply(function () {
+                        scope.contentProxy.file_id = value;
+                    });
+                    http.get(url + value + '/').then(function (response) {
+                        scope.contentProxy.url = response.data['url'];
+                        scope.contentProxy.thumbnail = response.data['thumbnail'];
+                        scope.contentProxy.description = response.data['description'];
+                    });
+                }
+            });
 
-// populate on load
-if (scope.contentProxy.file_id) {
-    http.get(url scope.contentProxy.file_id '/').success(function (data) {
-        elem.find('.thumbnail_img').removeClass('hidden');
-        elem.find('.description_text').removeClass('hidden');
-        elem.find('.filerClearer').removeClass('hidden');
-        elem.find('#id_file_lookup_' index).addClass('hidden');
-    });
-}
+            // populate on load
+            if (scope.contentProxy.file_id) {
+                http.get(url + scope.contentProxy.file_id + '/').then(function (response) {
+                    elem.find('.thumbnail_img').removeClass('hidden');
+                    elem.find('.description_text').removeClass('hidden');
+                    elem.find('.filerClearer').removeClass('hidden');
+                    elem.find('#id_file_lookup_' + index).addClass('hidden');
+                });
+            }
 
-// watch and update actual content
-scope.$watchCollection('contentProxy', function (content) {
-    if (scope.pagelet.content_type == 'toggle')
-        scope.pagelet.img_content = content
-    else
-        scope.pagelet.content = content;
-})
+            // watch and update actual content
+            scope.$watchCollection('contentProxy', function (content) {
+                if (scope.pagelet.content_type == 'toggle')
+                    scope.pagelet.img_content = content
+                else
+                    scope.pagelet.content = content;
+            })
         }
     };
 }]);
