@@ -8,8 +8,8 @@
         <h3 class="title">SMS</h3>
 
         <div class="sms">
-            {% verbatim %}{{ pagelet.content.length }}{% endverbatim %} {% trans 'characters used' %}
-            <textarea class="input-xlarge" ng-model="pagelet.content"></textarea>
+            {% verbatim %}{{ data[0].content.length }}{% endverbatim %} {% trans 'characters used' %}
+            <textarea class="input-xlarge" ng-model="data[0].content"></textarea>
         </div>
     </div>
     <script>
