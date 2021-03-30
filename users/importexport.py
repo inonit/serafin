@@ -34,8 +34,7 @@ class UserResource(resources.ModelResource):
             obj.data[key] = data[key]
 
     def export_resource(self, obj):
-        fields = [self.export_field(field, obj) for field in self.get_fields()
-            if field.column_name not in ['...', 'email', 'phone']]
+        fields = [self.export_field(field, obj) for field in self.get_fields() if field.column_name not in ['...']]
 
         for field in self.data_headers:
             if field in obj.data:
@@ -46,8 +45,7 @@ class UserResource(resources.ModelResource):
         return fields
 
     def get_export_headers(self):
-        headers = [field.column_name for field in self.get_fields()
-            if field.column_name not in ['...', 'email', 'phone']]
+        headers = [field.column_name for field in self.get_fields() if field.column_name not in ['...']]
         queryset = self.get_queryset()
 
         if config.USER_VARIABLE_EXPORT:
@@ -72,11 +70,12 @@ class UserResource(resources.ModelResource):
         export_order = [
             'id',
             'groups',
-            'email',
-            'phone',
             'data'
         ]
         exclude = [
+            'email',
+            'phone',
+            'secondary_phone',
             'password',
             'last_login',
             'is_superuser',

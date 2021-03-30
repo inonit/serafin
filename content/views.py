@@ -137,7 +137,7 @@ def users_stats(request):
         has_unread_messages = ChatMessage.objects.filter(Q(sender=user) & Q(receiver=request.user) & Q(is_read=False)) \
                                   .count() > 0
 
-        user_row = {'id': user.id, 'email': user.email, 'phone': user.phone, 'secondary_phone': user.secondary_phone,
+        user_row = {'id': user.id,
                     'last_login': last_login, 'program_phase': user.data.get('Program_Phase'), 'start_time': start_time,
                     'program': program_title, 'total_time': total_time, 'distinct_days': distinct_days,
                     'login_count': login_count, 'current_page': last_transition_page,
@@ -302,9 +302,6 @@ def user_state(request, user_id):
         'notifications': notifications,
         'notes': notes,
         'has_messages': has_messages,
-        'email': user.email,
-        'phone': user.phone,
-        'secondary_phone': user.secondary_phone,
         'allow_chat': request.user == user.therapist,
         'id': user.id,
     }

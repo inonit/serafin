@@ -73,9 +73,6 @@
             <thead>
             <tr>
                 <th scope="col">#</th>
-                <th scope="col">{% trans 'Email' %}</th>
-                <th scope="col">{% trans 'Phone' %}</th>
-                <th scope="col">{% trans 'Secondary Phone' %}</th>
                 <th scope="col">{% trans 'Join' %}</th>
                 <th scope="col">{% trans 'Last Login' %}</th>
                 <th scope="col">{% trans 'Program Phase' %}</th>
@@ -92,9 +89,6 @@
                     <span class="text-nowrap"><i ng-if="u.has_notification" class="fa fa-exclamation-circle mr-1"></i> <i ng-if="u.has_messages" class="fa fa-envelope mr-1"></i>
                         <a href="#" ng-click="userstat(u.id)">{{u.id}}</a></span>
                 </th>
-                <td>{{u.email}}</td>
-                <td>{{u.phone}}</td>
-                <td>{{u.secondary_phone}}</td>
                 <td>{{u.start_time}}</td>
                 <td>{{u.last_login}}</td>
                 <td>{{u.program_phase}}</td>
@@ -117,24 +111,6 @@
                     <div class="patient-main-info-title">{% trans 'User Id' %}</div>
                     {% verbatim %}
                     <div class="patient-main-info-data">{{ user_id }}</div>
-                    {% endverbatim %}
-                </div>
-                <div class="patient-main-info-box">
-                    <div class="patient-main-info-title">{% trans 'Email' %}</div>
-                    {% verbatim %}
-                    <div class="patient-main-info-data">{{ user_email }}</div>
-                    {% endverbatim %}
-                </div>
-                <div class="patient-main-info-box">
-                    <div class="patient-main-info-title">{% trans 'Phone' %}</div>
-                    {% verbatim %}
-                    <div class="patient-main-info-data">{{ user_phone }}</div>
-                    {% endverbatim %}
-                </div>
-                <div class="patient-main-info-box">
-                    <div class="patient-main-info-title">{% trans 'Phone 2' %}</div>
-                    {% verbatim %}
-                    <div class="patient-main-info-data">{{ user_secondary_phone }}</div>
                     {% endverbatim %}
                 </div>
             </div>

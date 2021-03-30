@@ -455,29 +455,21 @@ and (-webkit-min-device-pixel-ratio: 0.75){
 
     .page-content {
         font-size: 16px;
-        margin-top: 32px;
+        margin-top: 1vh;
         line-height: 26px;
         text-align: right;
         width: 42vw;
         letter-spacing: -0.5px;
         word-spacing: 0px;
         margin-left: 27vw;
-        margin-bottom: 5.5vh;
+        margin-bottom: 1vh;
+        padding-left: 0.75rem;
         clear: both;
-        display: table;
-        direction: rtl;
     }
 
     .page-content.rounded {
-        font-size: 16px;
-        margin-top: 3.2vh;
-        line-height: 26px;
-        text-align: right;
-        width: 42vw;
-        letter-spacing: -0.5px;
-        word-spacing: 0px;
-        margin-left: 27vw;
-        margin-bottom: 5.5vh;
+        margin-top: 2.2vh;
+        margin-bottom: 2.5vh;
         border-radius: 4px;
         padding: 0.75rem;
     }
