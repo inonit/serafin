@@ -269,7 +269,13 @@ class Session(models.Model):
             }
             timedelta = datetime.timedelta(**kwargs)
             if start_time + timedelta > timezone.now():
-                return start_time + timedelta
+                start_time_tz_offset = timezone.localtime(start_time).utcoffset()
+                next_time_tz_offset = timezone.localtime(start_time + timedelta).utcoffset()
+                next_time = start_time + timedelta - (next_time_tz_offset - start_time_tz_offset)
+                if next_time <= timezone.now():
+                    i += 1
+                    continue
+                return next_time
             i += 1
 
     def clean(self):
