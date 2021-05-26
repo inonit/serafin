@@ -4,8 +4,8 @@ from django.shortcuts import get_object_or_404, redirect, reverse
 from django.utils import translation
 from django.utils.functional import SimpleLazyObject
 from django.contrib.auth.middleware import AuthenticationMiddleware
-from ratelimit import ALL, UNSAFE
-from ratelimit.core import is_ratelimited
+# from ratelimit import ALL, UNSAFE
+# from ratelimit.core import is_ratelimited
 
 from system.models import Session
 
@@ -45,32 +45,32 @@ class AuthenticationMiddleware(AuthenticationMiddleware):
                 pass
 
 
-class ForceChangePasswordMiddleware:
-    def __init__(self, get_response):
-        self.get_response = get_response
+# class ForceChangePasswordMiddleware:
+#     def __init__(self, get_response):
+#         self.get_response = get_response
 
-    def __call__(self, request):
-        if request.user.is_authenticated:
-            if 'password_change' not in request.path and request.user.password_change_required:
-                return redirect(reverse('password_change'))
+#     def __call__(self, request):
+#         if request.user.is_authenticated:
+#             if 'password_change' not in request.path and request.user.password_change_required:
+#                 return redirect(reverse('password_change'))
 
-        return self.get_response(request)
+#         return self.get_response(request)
 
 
-class RateLimitMiddleware:
+# class RateLimitMiddleware:
 
-    def __init__(self, get_response):
-        self.get_response = get_response
-        # One-time configuration and initialization.
+#     def __init__(self, get_response):
+#         self.get_response = get_response
+#         # One-time configuration and initialization.
 
-    def __call__(self, request):
-        # Code to be executed for each request before
-        # the view (and later middleware) are called.
-        if is_ratelimited(request, group='post_by_user', key='user_or_ip', method=UNSAFE, rate='10/m', increment=False):
-            raise Http404
-        elif is_ratelimited(request, group='all', key='user_or_ip', rate='50/s', method=ALL, increment=True):
-            raise Http404
-        elif is_ratelimited(request, group='all', key='user_or_ip', rate='10000/d', method=ALL, increment=True):
-            raise Http404
-        else:
-            return self.get_response(request)
+#     def __call__(self, request):
+#         # Code to be executed for each request before
+#         # the view (and later middleware) are called.
+#         if is_ratelimited(request, group='post_by_user', key='user_or_ip', method=UNSAFE, rate='10/m', increment=False):
+#             raise Http404
+#         elif is_ratelimited(request, group='all', key='user_or_ip', rate='50/s', method=ALL, increment=True):
+#             raise Http404
+#         elif is_ratelimited(request, group='all', key='user_or_ip', rate='10000/d', method=ALL, increment=True):
+#             raise Http404
+#         else:
+#             return self.get_response(request)

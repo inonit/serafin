@@ -54,7 +54,7 @@ INSTALLED_APPS = (
     'django.db.models',
     'request',
     'adminsortable',
-    
+
     'codelogs',
     'tokens',
     'users',
@@ -81,26 +81,26 @@ INSTALLED_APPS = (
     'constance',
     'raven.contrib.django.raven_compat',
     'serafin.apps.SerafinReConfig',
-    'defender',
+    # 'defender',
 )
 
 MIDDLEWARE = (
     'django.middleware.security.SecurityMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.locale.LocaleMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'users.middleware.AuthenticationMiddleware',
-    'users.middleware.RateLimitMiddleware',
+    # 'users.middleware.RateLimitMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'django_user_agents.middleware.UserAgentMiddleware',
-    'defender.middleware.FailedLoginMiddleware',
+    # 'defender.middleware.FailedLoginMiddleware',
     'events.middleware.EventTrackingMiddleware',
     'request.middleware.RequestMiddleware',
     # 'users.middleware.ForceChangePasswordMiddleware',
-    # 'admin_ip_restrictor.middleware.AdminIPRestrictorMiddleware'
-
+    # 'admin_ip_restrictor.middleware.AdminIPRestrictorMiddleware
 )
 
 ROOT_URLCONF = 'serafin.urls'
@@ -372,12 +372,12 @@ LOGGING = {
             'propagate': True
         },
         'django.db.backends': {
-            'level': 'ERROR',
+            'level': 'DEBUG',
             'handlers': ['file', 'console'],
             'propagate': False
         },
         'django.request': {
-            'level': 'ERROR',
+            'level': 'DEBUG',
             'handlers': ['file', 'console'],
             'propagate': False
         },
@@ -587,16 +587,3 @@ SETTINGS_EXPORT = [
     'DEBUG',
     'GOOGLE_ANALYTICS_ID',
 ]
-
-DEFENDER_REDIS_URL = 'redis://' + CONSTANCE_REDIS_CONNECTION['host'] + ':' + str(CONSTANCE_REDIS_CONNECTION['port']) \
-                     + '/0'
-DEFENDER_LOGIN_FAILURE_LIMIT = 5
-DEFENDER_COOLOFF_TIME = 0
-DEFENDER_LOCKOUT_TEMPLATE = 'login_lock.html'
-DEFENDER_LOGIN_FAILURE_LIMIT_IP = 100
-
-RESTRICT_ADMIN = True
-ALLOWED_ADMIN_IPS = ['127.0.0.1', '::1']
-ALLOWED_ADMIN_IP_RANGES = ['127.0.0.0/24', '::/1']
-RESTRICTED_APP_NAMES = ['admin']
-TRUST_PRIVATE_IP = True

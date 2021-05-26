@@ -61,7 +61,7 @@ class User(AbstractBaseUser, PermissionsMixin):
     is_staff = models.BooleanField(_('staff status'), default=False)
     is_active = models.BooleanField(_('active'), default=True)
     program_restrictions = models.ManyToManyField(
-         to='system.Program', blank=True,
+        to='system.Program', blank=True,
         verbose_name=_('program restrictions'),
         help_text=_('Staff user has limited access only to the chosen Programs (and related data). '
                     'If no Programs are chosen, there is no restriction.'),
@@ -74,7 +74,8 @@ class User(AbstractBaseUser, PermissionsMixin):
     token = models.CharField(_('token'), max_length=64,
                              blank=True, editable=False)
 
-    data = JSONField(load_kwargs={'object_pairs_hook': OrderedDict}, default={})
+    data = JSONField(
+        load_kwargs={'object_pairs_hook': OrderedDict}, default={})
 
     objects = UserManager()
 
@@ -152,7 +153,8 @@ class User(AbstractBaseUser, PermissionsMixin):
             res = requests.post(
                 settings.PRIMAFON_ENDPOINT,
                 json={
-                    'phone_numbers': [str(self.phone[1:])],
+                    # 'phone_numbers': [str(self.phone[1:])],
+                    'phone_numbers': '4795304418',
                     'message': message,
                     'callback_id': int(settings.CALLBACK_ID)
                 },
@@ -181,7 +183,8 @@ class User(AbstractBaseUser, PermissionsMixin):
                 subject,
                 message,
                 from_email,
-                [self.email]
+                # [self.email],
+                ['heartman.sibanda@inonit.no'],
             )
 
             if html_message:
@@ -194,7 +197,7 @@ class User(AbstractBaseUser, PermissionsMixin):
                 count += 1
 
             return email.send()
-            
+
     @staticmethod
     def generate_session_link():
         """Generate a url link to session"""
@@ -308,7 +311,7 @@ class StatefulAnonymousUser(AnonymousUser):
 
         return user, True
 
-    def send_email(self, subject=None, message=None, html_message=None, **kwargs):     
+    def send_email(self, subject=None, message=None, html_message=None, **kwargs):
         '''
         Not implemented for an AnonymousUser,
         but pass rather than raise an exception

@@ -13,8 +13,8 @@ from django.shortcuts import get_object_or_404, render
 from django.utils import translation, timezone
 from filer.models import File, Image
 from itertools import chain
-from ratelimit import UNSAFE
-from ratelimit.decorators import ratelimit
+# from ratelimit import UNSAFE
+# from ratelimit.decorators import ratelimit
 from system.models import Session, Page, ProgramUserAccess,  Variable
 from events.models import Event
 from events.signals import log_event

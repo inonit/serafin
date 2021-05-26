@@ -1,6 +1,6 @@
 from __future__ import unicode_literals
 
-from defender import utils
+# from defender import utils
 from django.contrib.auth.forms import SetPasswordForm
 from django.utils.translation import ugettext_lazy as _
 
