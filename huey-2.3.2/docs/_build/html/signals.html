@@ -1,0 +1,255 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>Signals &#8212; huey 2.0.0 documentation</title>
+    <link rel="stylesheet" href="_static/classic.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Huey’s API" href="api.html" />
+    <link rel="prev" title="Managing shared resources" href="shared_resources.html" /> 
+  </head><body>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="api.html" title="Huey’s API"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="shared_resources.html" title="Managing shared resources"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">huey 2.0.0 documentation</a> &#187;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="signals">
+<span id="id1"></span><h1>Signals<a class="headerlink" href="#signals" title="Permalink to this headline">¶</a></h1>
+<p>The consumer will send various signals as it processes tasks. Callbacks can be
+registered as signal handlers, and will be called synchronously by the consumer
+process.</p>
+<p>The following signals are implemented by Huey:</p>
+<ul class="simple">
+<li><code class="docutils literal notranslate"><span class="pre">SIGNAL_CANCELED</span></code>: task was canceled due to a pre-execute hook raising
+a <a class="reference internal" href="api.html#CancelExecution" title="CancelExecution"><code class="xref py py-class docutils literal notranslate"><span class="pre">CancelExecution</span></code></a> exception.</li>
+<li><code class="docutils literal notranslate"><span class="pre">SIGNAL_COMPLETE</span></code>: task has been executed successfully.</li>
+<li><code class="docutils literal notranslate"><span class="pre">SIGNAL_ERROR</span></code>: task failed due to an unhandled exception.</li>
+<li><code class="docutils literal notranslate"><span class="pre">SIGNAL_EXECUTING</span></code>: task is about to be executed.</li>
+<li><code class="docutils literal notranslate"><span class="pre">SIGNAL_LOCKED</span></code>: failed to acquire lock, aborting task.</li>
+<li><code class="docutils literal notranslate"><span class="pre">SIGNAL_RETRYING</span></code>: task failed, but will be retried.</li>
+<li><code class="docutils literal notranslate"><span class="pre">SIGNAL_REVOKED</span></code>: task is revoked and will not be executed.</li>
+<li><code class="docutils literal notranslate"><span class="pre">SIGNAL_SCHEDULED</span></code>: task is not yet ready to run and has been added to the
+schedule for future execution.</li>
+</ul>
+<p>When a signal handler is called, it will be called with the following
+arguments:</p>
+<ul class="simple">
+<li><code class="docutils literal notranslate"><span class="pre">signal</span></code>: the signal name, e.g. <code class="docutils literal notranslate"><span class="pre">'executing'</span></code>.</li>
+<li><code class="docutils literal notranslate"><span class="pre">task</span></code>: the <a class="reference internal" href="api.html#Task" title="Task"><code class="xref py py-class docutils literal notranslate"><span class="pre">Task</span></code></a> instance.</li>
+</ul>
+<p>The following signals will include additional arguments:</p>
+<ul class="simple">
+<li><code class="docutils literal notranslate"><span class="pre">SIGNAL_ERROR</span></code>: includes a third argument <code class="docutils literal notranslate"><span class="pre">exc</span></code>, which is the
+<code class="docutils literal notranslate"><span class="pre">Exception</span></code> that was raised while executing the task.</li>
+</ul>
+<p>To register a signal handler, use the <a class="reference internal" href="api.html#Huey.signal" title="Huey.signal"><code class="xref py py-meth docutils literal notranslate"><span class="pre">Huey.signal()</span></code></a> method:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="nd">@huey.signal</span><span class="p">()</span>
+<span class="k">def</span> <span class="nf">all_signal_handler</span><span class="p">(</span><span class="n">signal</span><span class="p">,</span> <span class="n">task</span><span class="p">,</span> <span class="n">exc</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+    <span class="c1"># This handler will be called for every signal.</span>
+    <span class="k">print</span><span class="p">(</span><span class="s1">&#39;</span><span class="si">%s</span><span class="s1"> - </span><span class="si">%s</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">signal</span><span class="p">,</span> <span class="n">task</span><span class="o">.</span><span class="n">id</span><span class="p">))</span>
+
+<span class="nd">@huey.signal</span><span class="p">(</span><span class="n">SIGNAL_ERROR</span><span class="p">,</span> <span class="n">SIGNAL_LOCKED</span><span class="p">,</span> <span class="n">SIGNAL_CANCELED</span><span class="p">,</span> <span class="n">SIGNAL_REVOKED</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">task_not_executed_handler</span><span class="p">(</span><span class="n">signal</span><span class="p">,</span> <span class="n">task</span><span class="p">,</span> <span class="n">exc</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+    <span class="c1"># This handler will be called for the 4 signals listed, which</span>
+    <span class="c1"># correspond to error conditions.</span>
+    <span class="k">print</span><span class="p">(</span><span class="s1">&#39;[</span><span class="si">%s</span><span class="s1">] </span><span class="si">%s</span><span class="s1"> - not executed&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">signal</span><span class="p">,</span> <span class="n">task</span><span class="o">.</span><span class="n">id</span><span class="p">))</span>
+
+<span class="nd">@huey.signal</span><span class="p">(</span><span class="n">SIGNAL_COMPLETE</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">task_success</span><span class="p">(</span><span class="n">signal</span><span class="p">,</span> <span class="n">task</span><span class="p">):</span>
+    <span class="c1"># This handle will be called for each task that completes successfully.</span>
+    <span class="k">pass</span>
+</pre></div>
+</div>
+<p>Signal handlers can be unregistered using <a class="reference internal" href="api.html#Huey.disconnect_signal" title="Huey.disconnect_signal"><code class="xref py py-meth docutils literal notranslate"><span class="pre">Huey.disconnect_signal()</span></code></a>.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Disconnect the &quot;task_success&quot; signal handler.</span>
+<span class="n">huey</span><span class="o">.</span><span class="n">disconnect_signal</span><span class="p">(</span><span class="n">task_success</span><span class="p">)</span>
+
+<span class="c1"># Disconnect the &quot;task_not_executed_handler&quot;, but just from</span>
+<span class="c1"># handling SIGNAL_LOCKED.</span>
+<span class="n">huey</span><span class="o">.</span><span class="n">disconnect_signal</span><span class="p">(</span><span class="n">task_not_executed_handler</span><span class="p">,</span> <span class="n">SIGNAL_LOCKED</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="section" id="examples">
+<h2>Examples<a class="headerlink" href="#examples" title="Permalink to this headline">¶</a></h2>
+<p>We’ll use the following tasks to illustrate how signals may be sent:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="nd">@huey.task</span><span class="p">()</span>
+<span class="k">def</span> <span class="nf">add</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">a</span> <span class="o">+</span> <span class="n">b</span>
+
+<span class="nd">@huey.task</span><span class="p">(</span><span class="n">retries</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">retry_delay</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">flaky_task</span><span class="p">():</span>
+    <span class="k">if</span> <span class="n">random</span><span class="o">.</span><span class="n">randint</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;uh-oh&#39;</span><span class="p">)</span>
+    <span class="k">return</span> <span class="s1">&#39;OK&#39;</span>
+</pre></div>
+</div>
+<p>Here is a simple example of a task execution we would expect to succeed:</p>
+<div class="highlight-pycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">result</span> <span class="o">=</span> <span class="n">add</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">result</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">blocking</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>The consumer would send the following signals:</p>
+<ul class="simple">
+<li><code class="docutils literal notranslate"><span class="pre">SIGNAL_EXECUTING</span></code> - the task has been dequeued and will be executed.</li>
+<li><code class="docutils literal notranslate"><span class="pre">SIGNAL_COMPLETE</span></code> - the task has finished successfully.</li>
+</ul>
+<p>Here is an example of scheduling a task for execution after a short delay:</p>
+<div class="highlight-pycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">result</span> <span class="o">=</span> <span class="n">add</span><span class="o">.</span><span class="n">schedule</span><span class="p">((</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">),</span> <span class="n">delay</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">result</span><span class="p">(</span><span class="bp">True</span><span class="p">)</span>  <span class="c1"># same as result.get(blocking=True)</span>
+</pre></div>
+</div>
+<p>The following signals would be sent:</p>
+<ul class="simple">
+<li><code class="docutils literal notranslate"><span class="pre">SIGNAL_SCHEDULED</span></code> - the task is not yet ready to run, so it has been added
+to the schedule.</li>
+<li>After 10 seconds, the consumer will run the task and send
+the <code class="docutils literal notranslate"><span class="pre">SIGNAL_EXECUTING</span></code> signal.</li>
+<li><code class="docutils literal notranslate"><span class="pre">SIGNAL_COMPLETE</span></code>.</li>
+</ul>
+<p>Here is an example that may fail, in which case it will be retried
+automatically with a delay of 10 seconds.</p>
+<div class="highlight-pycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">result</span> <span class="o">=</span> <span class="n">flaky_task</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">try</span><span class="p">:</span>
+<span class="gp">... </span>    <span class="n">result</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">blocking</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+<span class="gp">... </span><span class="k">except</span> <span class="n">TaskException</span><span class="p">:</span>
+<span class="gp">... </span>    <span class="n">result</span><span class="o">.</span><span class="n">reset</span><span class="p">()</span>
+<span class="gp">... </span>    <span class="n">result</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">blocking</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>  <span class="c1"># Try again if first time fails.</span>
+<span class="gp">...</span>
+</pre></div>
+</div>
+<p>Assuming the task failed the first time and succeeded the second time, we would
+see the following signals being sent:</p>
+<ul class="simple">
+<li><code class="docutils literal notranslate"><span class="pre">SIGNAL_EXECUTING</span></code> - the task is being executed.</li>
+<li><code class="docutils literal notranslate"><span class="pre">SIGNAL_ERROR</span></code> - the task raised an unhandled exception.</li>
+<li><code class="docutils literal notranslate"><span class="pre">SIGNAL_RETRYING</span></code> - the task will be retried.</li>
+<li><code class="docutils literal notranslate"><span class="pre">SIGNAL_SCHEDULED</span></code> - the task has been added to the schedule for execution
+in ~10 seconds.</li>
+<li><code class="docutils literal notranslate"><span class="pre">SIGNAL_EXECUTING</span></code> - second try running task.</li>
+<li><code class="docutils literal notranslate"><span class="pre">SIGNAL_COMPLETE</span></code> - task succeeded.</li>
+</ul>
+<p>What happens if we revoke the <code class="docutils literal notranslate"><span class="pre">add()</span></code> task and then attempt to execute it:</p>
+<div class="highlight-pycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">add</span><span class="o">.</span><span class="n">revoke</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">res</span> <span class="o">=</span> <span class="n">add</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>The following signal will be sent:</p>
+<ul class="simple">
+<li><code class="docutils literal notranslate"><span class="pre">SIGNAL_REVOKED</span></code> - this is sent before the task enters the “executing”
+state. When a task is revoked, no other signals will be sent.</li>
+</ul>
+<div class="section" id="performance-considerations">
+<h3>Performance considerations<a class="headerlink" href="#performance-considerations" title="Permalink to this headline">¶</a></h3>
+<p>Signal handlers are executed <strong>synchronously</strong> by the consumer as it processes
+tasks. It is important to use care when implementing signal handlers, as one
+slow signal handler can impact the overall responsiveness of the consumer.</p>
+<p>For example, if you implement a signal handler that posts some data to REST
+API, everything might work fine until the REST API goes down or stops being
+responsive – which will cause the signal handler to block, which then prevents
+the consumer from moving on to the next task.</p>
+<p>Another consideration is the <a class="reference internal" href="shared_resources.html#shared-resources"><span class="std std-ref">management of shared resources</span></a>
+that may be used by signal handlers, such as database connections or open file
+handles. Signal handlers are called by the consumer workers, which (depending
+on how you are running the consumer) may be separate processes, threads or
+greenlets. As a result, care should be taken to ensure proper initialization
+and cleanup of any resources you plan to use in signal handlers.</p>
+</div>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html">Table of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Signals</a><ul>
+<li><a class="reference internal" href="#examples">Examples</a><ul>
+<li><a class="reference internal" href="#performance-considerations">Performance considerations</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="shared_resources.html"
+                        title="previous chapter">Managing shared resources</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="api.html"
+                        title="next chapter">Huey’s API</a></p>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/signals.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    </div>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="api.html" title="Huey’s API"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="shared_resources.html" title="Managing shared resources"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">huey 2.0.0 documentation</a> &#187;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2013, charles leifer.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.8.1.
+    </div>
+  </body>
+</html>

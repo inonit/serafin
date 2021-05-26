@@ -81,7 +81,6 @@ INSTALLED_APPS = (
     'constance',
     'raven.contrib.django.raven_compat',
     'serafin.apps.SerafinReConfig',
-    # 'defender',
 )
 
 MIDDLEWARE = (
@@ -92,15 +91,11 @@ MIDDLEWARE = (
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'users.middleware.AuthenticationMiddleware',
-    # 'users.middleware.RateLimitMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'django_user_agents.middleware.UserAgentMiddleware',
-    # 'defender.middleware.FailedLoginMiddleware',
     'events.middleware.EventTrackingMiddleware',
     'request.middleware.RequestMiddleware',
-    # 'users.middleware.ForceChangePasswordMiddleware',
-    # 'admin_ip_restrictor.middleware.AdminIPRestrictorMiddleware
 )
 
 ROOT_URLCONF = 'serafin.urls'

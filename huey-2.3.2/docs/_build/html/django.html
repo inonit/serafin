@@ -1,0 +1,343 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>Django &#8212; huey 2.0.0 documentation</title>
+    <link rel="stylesheet" href="_static/classic.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" /> 
+  </head><body>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="nav-item nav-item-0"><a href="index.html">huey 2.0.0 documentation</a> &#187;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="django">
+<span id="id1"></span><h1>Django<a class="headerlink" href="#django" title="Permalink to this headline">¶</a></h1>
+<p>Huey comes with special integration for use with the Django framework. The
+integration provides:</p>
+<ol class="arabic simple">
+<li>Configuration of huey via the Django settings module.</li>
+<li>Running the consumer as a Django management command.</li>
+<li>Auto-discovery of <code class="docutils literal notranslate"><span class="pre">tasks.py</span></code> modules to simplify task importing.</li>
+<li>Properly manage database connections.</li>
+</ol>
+<p>Supported Django versions are the officially supported at <a class="reference external" href="https://www.djangoproject.com/download/#supported-versions">https://www.djangoproject.com/download/#supported-versions</a></p>
+<div class="section" id="setting-things-up">
+<h2>Setting things up<a class="headerlink" href="#setting-things-up" title="Permalink to this headline">¶</a></h2>
+<p>To use huey with Django, the first step is to add an entry to your project’s
+<code class="docutils literal notranslate"><span class="pre">settings.INSTALLED_APPS</span></code>:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># settings.py</span>
+<span class="c1"># ...</span>
+<span class="n">INSTALLED_APPS</span> <span class="o">=</span> <span class="p">(</span>
+    <span class="c1"># ...</span>
+    <span class="s1">&#39;huey.contrib.djhuey&#39;</span><span class="p">,</span>  <span class="c1"># Add this to the list.</span>
+    <span class="c1"># ...</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+<p>The above is the bare minimum needed to start using huey’s Django integration.
+If you like, though, you can also configure both Huey and the <em>consumer</em> using
+the settings module.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">Huey settings are optional. If not provided, Huey will default to using
+Redis running on localhost:6379 (standard setup).</p>
+</div>
+<p>Configuration is kept in <code class="docutils literal notranslate"><span class="pre">settings.HUEY</span></code>, which can be either a dictionary or
+a <a class="reference internal" href="api.html#Huey" title="Huey"><code class="xref py py-class docutils literal notranslate"><span class="pre">Huey</span></code></a> instance. Here is an example that shows all of the supported
+options with their default values:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># settings.py</span>
+<span class="n">HUEY</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s1">&#39;name&#39;</span><span class="p">:</span> <span class="n">settings</span><span class="o">.</span><span class="n">DATABASES</span><span class="p">[</span><span class="s1">&#39;default&#39;</span><span class="p">][</span><span class="s1">&#39;NAME&#39;</span><span class="p">],</span>  <span class="c1"># Use db name for huey.</span>
+    <span class="s1">&#39;result_store&#39;</span><span class="p">:</span> <span class="bp">True</span><span class="p">,</span>  <span class="c1"># Store return values of tasks.</span>
+    <span class="s1">&#39;events&#39;</span><span class="p">:</span> <span class="bp">True</span><span class="p">,</span>  <span class="c1"># Consumer emits events allowing real-time monitoring.</span>
+    <span class="s1">&#39;store_none&#39;</span><span class="p">:</span> <span class="bp">False</span><span class="p">,</span>  <span class="c1"># If a task returns None, do not save to results.</span>
+    <span class="s1">&#39;always_eager&#39;</span><span class="p">:</span> <span class="n">settings</span><span class="o">.</span><span class="n">DEBUG</span><span class="p">,</span>  <span class="c1"># If DEBUG=True, run synchronously.</span>
+    <span class="s1">&#39;store_errors&#39;</span><span class="p">:</span> <span class="bp">True</span><span class="p">,</span>  <span class="c1"># Store error info if task throws exception.</span>
+    <span class="s1">&#39;blocking&#39;</span><span class="p">:</span> <span class="bp">False</span><span class="p">,</span>  <span class="c1"># Poll the queue rather than do blocking pop.</span>
+    <span class="s1">&#39;backend_class&#39;</span><span class="p">:</span> <span class="s1">&#39;huey.RedisHuey&#39;</span><span class="p">,</span>  <span class="c1"># Use path to redis huey by default,</span>
+    <span class="s1">&#39;connection&#39;</span><span class="p">:</span> <span class="p">{</span>
+        <span class="s1">&#39;host&#39;</span><span class="p">:</span> <span class="s1">&#39;localhost&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;port&#39;</span><span class="p">:</span> <span class="mi">6379</span><span class="p">,</span>
+        <span class="s1">&#39;db&#39;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+        <span class="s1">&#39;connection_pool&#39;</span><span class="p">:</span> <span class="bp">None</span><span class="p">,</span>  <span class="c1"># Definitely you should use pooling!</span>
+        <span class="c1"># ... tons of other options, see redis-py for details.</span>
+
+        <span class="c1"># huey-specific connection parameters.</span>
+        <span class="s1">&#39;read_timeout&#39;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>  <span class="c1"># If not polling (blocking pop), use timeout.</span>
+        <span class="s1">&#39;max_errors&#39;</span><span class="p">:</span> <span class="mi">1000</span><span class="p">,</span>  <span class="c1"># Only store the 1000 most recent errors.</span>
+        <span class="s1">&#39;url&#39;</span><span class="p">:</span> <span class="bp">None</span><span class="p">,</span>  <span class="c1"># Allow Redis config via a DSN.</span>
+    <span class="p">},</span>
+    <span class="s1">&#39;consumer&#39;</span><span class="p">:</span> <span class="p">{</span>
+        <span class="s1">&#39;workers&#39;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+        <span class="s1">&#39;worker_type&#39;</span><span class="p">:</span> <span class="s1">&#39;thread&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;initial_delay&#39;</span><span class="p">:</span> <span class="mf">0.1</span><span class="p">,</span>  <span class="c1"># Smallest polling interval, same as -d.</span>
+        <span class="s1">&#39;backoff&#39;</span><span class="p">:</span> <span class="mf">1.15</span><span class="p">,</span>  <span class="c1"># Exponential backoff using this rate, -b.</span>
+        <span class="s1">&#39;max_delay&#39;</span><span class="p">:</span> <span class="mf">10.0</span><span class="p">,</span>  <span class="c1"># Max possible polling interval, -m.</span>
+        <span class="s1">&#39;utc&#39;</span><span class="p">:</span> <span class="bp">True</span><span class="p">,</span>  <span class="c1"># Treat ETAs and schedules as UTC datetimes.</span>
+        <span class="s1">&#39;scheduler_interval&#39;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>  <span class="c1"># Check schedule every second, -s.</span>
+        <span class="s1">&#39;periodic&#39;</span><span class="p">:</span> <span class="bp">True</span><span class="p">,</span>  <span class="c1"># Enable crontab feature.</span>
+        <span class="s1">&#39;check_worker_health&#39;</span><span class="p">:</span> <span class="bp">True</span><span class="p">,</span>  <span class="c1"># Enable worker health checks.</span>
+        <span class="s1">&#39;health_check_interval&#39;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>  <span class="c1"># Check worker health every second.</span>
+    <span class="p">},</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>Alternatively, you can simply set <code class="docutils literal notranslate"><span class="pre">settings.HUEY</span></code> to a <a class="reference internal" href="api.html#Huey" title="Huey"><code class="xref py py-class docutils literal notranslate"><span class="pre">Huey</span></code></a>
+instance and do your configuration directly. In the example below, I’ve also
+shown how you can create a connection pool:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># settings.py -- alternative configuration method</span>
+<span class="kn">from</span> <span class="nn">huey</span> <span class="kn">import</span> <span class="n">RedisHuey</span>
+<span class="kn">from</span> <span class="nn">redis</span> <span class="kn">import</span> <span class="n">ConnectionPool</span>
+
+<span class="n">pool</span> <span class="o">=</span> <span class="n">ConnectionPool</span><span class="p">(</span><span class="n">host</span><span class="o">=</span><span class="s1">&#39;my.redis.host&#39;</span><span class="p">,</span> <span class="n">port</span><span class="o">=</span><span class="mi">6379</span><span class="p">,</span> <span class="n">max_connections</span><span class="o">=</span><span class="mi">20</span><span class="p">)</span>
+<span class="n">HUEY</span> <span class="o">=</span> <span class="n">RedisHuey</span><span class="p">(</span><span class="s1">&#39;my-app&#39;</span><span class="p">,</span> <span class="n">connection_pool</span><span class="o">=</span><span class="n">pool</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="running-the-consumer">
+<h2>Running the Consumer<a class="headerlink" href="#running-the-consumer" title="Permalink to this headline">¶</a></h2>
+<p>To run the consumer, use the <code class="docutils literal notranslate"><span class="pre">run_huey</span></code> management command.  This command
+will automatically import any modules in your <code class="docutils literal notranslate"><span class="pre">INSTALLED_APPS</span></code> named
+<em>tasks.py</em>.  The consumer can be configured using both the django settings
+module and/or by specifying options from the command-line.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">Options specified on the command line take precedence over those specified
+in the settings module.</p>
+</div>
+<p>To start the consumer, you simply run:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$</span> ./manage.py run_huey
+</pre></div>
+</div>
+<p>In addition to the <code class="docutils literal notranslate"><span class="pre">HUEY.consumer</span></code> setting dictionary, the management command
+supports all the same options as the standalone consumer. These options are
+listed and described in the <a class="reference internal" href="consumer.html#consumer-options"><span class="std std-ref">Options for the consumer</span></a>
+section.</p>
+<p>For quick reference, the most important command-line options are briefly
+listed here.</p>
+<dl class="docutils">
+<dt><code class="docutils literal notranslate"><span class="pre">-w</span></code>, <code class="docutils literal notranslate"><span class="pre">--workers</span></code></dt>
+<dd>Number of worker threads/processes/greenlets. Default is 1, but most
+applications should use at least 2.</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">-k</span></code>, <code class="docutils literal notranslate"><span class="pre">--worker-type</span></code></dt>
+<dd>Worker type, must be “thread”, “process” or “greenlet”. The default is
+<em>thread</em>, which provides good all-around performance. For CPU-intensive
+workloads, <em>process</em> is likely to be more performant. The <em>greenlet</em> worker
+type is suited for IO-heavy workloads. When using <em>greenlet</em> you can
+specify tens or hundreds of workers since they are extremely lightweight
+compared to threads/processes. <em>See note below on using gevent/greenlet</em>.</dd>
+</dl>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">Due to a conflict with Django’s base option list, the “verbose” option is
+set using <code class="docutils literal notranslate"><span class="pre">-V</span></code> or <code class="docutils literal notranslate"><span class="pre">--huey-verbose</span></code>. When enabled, huey logs at the
+DEBUG level.</p>
+</div>
+<p>For more information, read the <a class="reference internal" href="consumer.html#consumer-options"><span class="std std-ref">Options for the consumer</span></a> section.</p>
+</div>
+<div class="section" id="using-gevent">
+<h2>Using gevent<a class="headerlink" href="#using-gevent" title="Permalink to this headline">¶</a></h2>
+<p>When using worker type <em>greenlet</em>, it’s necessary to apply a monkey-patch
+before any libraries or system modules are imported. Gevent monkey-patches
+things like <code class="docutils literal notranslate"><span class="pre">socket</span></code> to provide non-blocking I/O, and if those modules are
+loaded before the patch is applied, then the resulting code will execute
+synchronously.</p>
+<p>Unfortunately, because of Django’s design, the only way to reliably apply this
+patch is to create a custom bootstrap script that mimics the functionality of
+<code class="docutils literal notranslate"><span class="pre">manage.py</span></code>. Here is the patched <code class="docutils literal notranslate"><span class="pre">manage.py</span></code> code:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="ch">#!/usr/bin/env python</span>
+<span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">import</span> <span class="nn">sys</span>
+
+<span class="c1"># Apply monkey-patch if we are running the huey consumer.</span>
+<span class="k">if</span> <span class="s1">&#39;run_huey&#39;</span> <span class="ow">in</span> <span class="n">sys</span><span class="o">.</span><span class="n">argv</span><span class="p">:</span>
+    <span class="kn">from</span> <span class="nn">gevent</span> <span class="kn">import</span> <span class="n">monkey</span>
+    <span class="n">monkey</span><span class="o">.</span><span class="n">patch_all</span><span class="p">()</span>
+
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">&quot;__main__&quot;</span><span class="p">:</span>
+    <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="o">.</span><span class="n">setdefault</span><span class="p">(</span><span class="s2">&quot;DJANGO_SETTINGS_MODULE&quot;</span><span class="p">,</span> <span class="s2">&quot;conf&quot;</span><span class="p">)</span>
+    <span class="kn">from</span> <span class="nn">django.core.management</span> <span class="kn">import</span> <span class="n">execute_from_command_line</span>
+    <span class="n">execute_from_command_line</span><span class="p">(</span><span class="n">sys</span><span class="o">.</span><span class="n">argv</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="how-to-create-tasks">
+<h2>How to create tasks<a class="headerlink" href="#how-to-create-tasks" title="Permalink to this headline">¶</a></h2>
+<p>The <a class="reference internal" href="api.html#Huey.task" title="Huey.task"><code class="xref py py-meth docutils literal notranslate"><span class="pre">task()</span></code></a> and <a class="reference internal" href="api.html#Huey.periodic_task" title="Huey.periodic_task"><code class="xref py py-meth docutils literal notranslate"><span class="pre">periodic_task()</span></code></a> decorators can be
+imported from the <code class="docutils literal notranslate"><span class="pre">huey.contrib.djhuey</span></code> module. Here is how you might define
+two tasks:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">huey</span> <span class="kn">import</span> <span class="n">crontab</span>
+<span class="kn">from</span> <span class="nn">huey.contrib.djhuey</span> <span class="kn">import</span> <span class="n">periodic_task</span><span class="p">,</span> <span class="n">task</span>
+
+<span class="nd">@task</span><span class="p">()</span>
+<span class="k">def</span> <span class="nf">count_beans</span><span class="p">(</span><span class="n">number</span><span class="p">):</span>
+    <span class="k">print</span><span class="p">(</span><span class="s1">&#39;-- counted </span><span class="si">%s</span><span class="s1"> beans --&#39;</span> <span class="o">%</span> <span class="n">number</span><span class="p">)</span>
+    <span class="k">return</span> <span class="s1">&#39;Counted </span><span class="si">%s</span><span class="s1"> beans&#39;</span> <span class="o">%</span> <span class="n">number</span>
+
+<span class="nd">@periodic_task</span><span class="p">(</span><span class="n">crontab</span><span class="p">(</span><span class="n">minute</span><span class="o">=</span><span class="s1">&#39;*/5&#39;</span><span class="p">))</span>
+<span class="k">def</span> <span class="nf">every_five_mins</span><span class="p">():</span>
+    <span class="k">print</span><span class="p">(</span><span class="s1">&#39;Every five minutes this will be printed by the consumer&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="tasks-that-execute-queries">
+<h2>Tasks that execute queries<a class="headerlink" href="#tasks-that-execute-queries" title="Permalink to this headline">¶</a></h2>
+<p>If you plan on executing queries inside your task, it is a good idea to close
+the connection once your task finishes.  To make this easier, huey provides a
+special decorator to use in place of <code class="docutils literal notranslate"><span class="pre">task</span></code> and <code class="docutils literal notranslate"><span class="pre">periodic_task</span></code> which will
+automatically close the connection for you.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">huey</span> <span class="kn">import</span> <span class="n">crontab</span>
+<span class="kn">from</span> <span class="nn">huey.contrib.djhuey</span> <span class="kn">import</span> <span class="n">db_periodic_task</span><span class="p">,</span> <span class="n">db_task</span>
+
+<span class="nd">@db_task</span><span class="p">()</span>
+<span class="k">def</span> <span class="nf">do_some_queries</span><span class="p">():</span>
+    <span class="c1"># This task executes queries. Once the task finishes, the connection</span>
+    <span class="c1"># will be closed.</span>
+
+<span class="nd">@db_periodic_task</span><span class="p">(</span><span class="n">crontab</span><span class="p">(</span><span class="n">minute</span><span class="o">=</span><span class="s1">&#39;*/5&#39;</span><span class="p">))</span>
+<span class="k">def</span> <span class="nf">every_five_mins</span><span class="p">():</span>
+    <span class="c1"># This is a periodic task that executes queries.</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="debug-and-synchronous-execution">
+<h2>DEBUG and Synchronous Execution<a class="headerlink" href="#debug-and-synchronous-execution" title="Permalink to this headline">¶</a></h2>
+<p>When <code class="docutils literal notranslate"><span class="pre">settings.DEBUG</span> <span class="pre">=</span> <span class="pre">True</span></code>, tasks will be executed <strong>synchronously</strong> just like
+regular function calls. The purpose of this is to avoid running both Redis and
+an additional consumer process while developing or running tests. If, however,
+you would like to enqueue tasks regardless of whether <code class="docutils literal notranslate"><span class="pre">DEBUG</span> <span class="pre">=</span> <span class="pre">True</span></code>, then
+explicitly specify <code class="docutils literal notranslate"><span class="pre">always_eager=False</span></code> in your huey settings:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># settings.py</span>
+<span class="n">HUEY</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s1">&#39;name&#39;</span><span class="p">:</span> <span class="s1">&#39;my-app&#39;</span><span class="p">,</span>
+    <span class="c1"># Other settings ...</span>
+    <span class="s1">&#39;always_eager&#39;</span><span class="p">:</span> <span class="bp">False</span><span class="p">,</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="configuration-examples">
+<h2>Configuration Examples<a class="headerlink" href="#configuration-examples" title="Permalink to this headline">¶</a></h2>
+<p>This section contains example <code class="docutils literal notranslate"><span class="pre">HUEY</span></code> configurations.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Redis running locally with four worker threads.</span>
+<span class="n">HUEY</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s1">&#39;name&#39;</span><span class="p">:</span> <span class="s1">&#39;my-app&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;consumer&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;workers&#39;</span><span class="p">:</span> <span class="mi">4</span><span class="p">,</span> <span class="s1">&#39;worker_type&#39;</span><span class="p">:</span> <span class="s1">&#39;thread&#39;</span><span class="p">},</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Redis on network host with 64 worker greenlets and connection pool</span>
+<span class="c1"># supporting up to 100 connections.</span>
+<span class="kn">from</span> <span class="nn">redis</span> <span class="kn">import</span> <span class="n">ConnectionPool</span>
+
+<span class="n">pool</span> <span class="o">=</span> <span class="n">ConnectionPool</span><span class="p">(</span>
+    <span class="n">host</span><span class="o">=</span><span class="s1">&#39;192.168.1.123&#39;</span><span class="p">,</span>
+    <span class="n">port</span><span class="o">=</span><span class="mi">6379</span><span class="p">,</span>
+    <span class="n">max_connections</span><span class="o">=</span><span class="mi">100</span><span class="p">)</span>
+
+<span class="n">HUEY</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s1">&#39;name&#39;</span><span class="p">:</span> <span class="s1">&#39;my-app&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;connection&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;connection_pool&#39;</span><span class="p">:</span> <span class="n">pool</span><span class="p">},</span>
+    <span class="s1">&#39;consumer&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;workers&#39;</span><span class="p">:</span> <span class="mi">64</span><span class="p">,</span> <span class="s1">&#39;worker_type&#39;</span><span class="p">:</span> <span class="s1">&#39;greenlet&#39;</span><span class="p">},</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>It is also possible to specify the connection using a Redis URL, making it easy
+to configure this setting using a single environment variable:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">HUEY</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s1">&#39;name&#39;</span><span class="p">:</span> <span class="s1">&#39;my-app&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;url&#39;</span><span class="p">:</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;REDIS_URL&#39;</span><span class="p">,</span> <span class="s1">&#39;redis://localhost:6379/?db=1&#39;</span><span class="p">)</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>Alternatively, you can just assign a <a class="reference internal" href="api.html#Huey" title="Huey"><code class="xref py py-class docutils literal notranslate"><span class="pre">Huey</span></code></a> instance to the <code class="docutils literal notranslate"><span class="pre">HUEY</span></code> setting:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">huey</span> <span class="kn">import</span> <span class="n">RedisHuey</span>
+
+<span class="n">HUEY</span> <span class="o">=</span> <span class="n">RedisHuey</span><span class="p">(</span><span class="s1">&#39;my-app&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html">Table of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Django</a><ul>
+<li><a class="reference internal" href="#setting-things-up">Setting things up</a></li>
+<li><a class="reference internal" href="#running-the-consumer">Running the Consumer</a></li>
+<li><a class="reference internal" href="#using-gevent">Using gevent</a></li>
+<li><a class="reference internal" href="#how-to-create-tasks">How to create tasks</a></li>
+<li><a class="reference internal" href="#tasks-that-execute-queries">Tasks that execute queries</a></li>
+<li><a class="reference internal" href="#debug-and-synchronous-execution">DEBUG and Synchronous Execution</a></li>
+<li><a class="reference internal" href="#configuration-examples">Configuration Examples</a></li>
+</ul>
+</li>
+</ul>
+
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/django.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    </div>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="nav-item nav-item-0"><a href="index.html">huey 2.0.0 documentation</a> &#187;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2013, charles leifer.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.8.1.
+    </div>
+  </body>
+</html>

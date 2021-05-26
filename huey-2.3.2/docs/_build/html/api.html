@@ -1,0 +1,1853 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>Huey’s API &#8212; huey 2.0.0 documentation</title>
+    <link rel="stylesheet" href="_static/classic.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Huey Extensions" href="contrib.html" />
+    <link rel="prev" title="Signals" href="signals.html" /> 
+  </head><body>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="contrib.html" title="Huey Extensions"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="signals.html" title="Signals"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">huey 2.0.0 documentation</a> &#187;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="huey-s-api">
+<span id="api"></span><h1>Huey’s API<a class="headerlink" href="#huey-s-api" title="Permalink to this headline">¶</a></h1>
+<p>Most end-users will interact with the API using the two decorators:</p>
+<ul class="simple">
+<li><a class="reference internal" href="#Huey.task" title="Huey.task"><code class="xref py py-meth docutils literal notranslate"><span class="pre">Huey.task()</span></code></a></li>
+<li><a class="reference internal" href="#Huey.periodic_task" title="Huey.periodic_task"><code class="xref py py-meth docutils literal notranslate"><span class="pre">Huey.periodic_task()</span></code></a></li>
+</ul>
+<p>The API documentation will follow the structure of the huey <code class="docutils literal notranslate"><span class="pre">api.py</span></code> module.</p>
+<div class="section" id="huey-types">
+<h2>Huey types<a class="headerlink" href="#huey-types" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="RedisHuey">
+<em class="property">class </em><code class="descname">RedisHuey</code><a class="headerlink" href="#RedisHuey" title="Permalink to this definition">¶</a></dt>
+<dd><p>Huey that utilizes <a class="reference external" href="https://redis.io/">redis</a> for queue and result
+storage. Requires <a class="reference external" href="https://github.com/andymccurdy/redis-py">redis-py</a>.</p>
+<p>Additional arguments:</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>blocking</strong> (<em>bool</em>) – Use blocking-pop when reading from the queue (as
+opposed to polling). Default is true.</li>
+<li><strong>read_timeout</strong> – Timeout to use when performing a blocking pop, default
+is 1 second.</li>
+<li><strong>connection_pool</strong> – a redis-py <code class="docutils literal notranslate"><span class="pre">ConnectionPool</span></code> instance.</li>
+<li><strong>url</strong> – url for Redis connection.</li>
+<li><strong>host</strong> – hostname of Redis server.</li>
+<li><strong>port</strong> (<em>int</em>) – port number of Redis server.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="class">
+<dt id="SqliteHuey">
+<em class="property">class </em><code class="descname">SqliteHuey</code><a class="headerlink" href="#SqliteHuey" title="Permalink to this definition">¶</a></dt>
+<dd><p>Huey that utilizes sqlite3 for queue and result storage. Only requirement
+is the standard library <code class="docutils literal notranslate"><span class="pre">sqlite3</span></code> module.</p>
+<p>Additional arguments:</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>filename</strong> (<em>str</em>) – filename for database, defaults to ‘huey.db’.</li>
+<li><strong>cache_mb</strong> (<em>int</em>) – megabytes of memory to allow for sqlite page-cache.</li>
+<li><strong>fsync</strong> (<em>bool</em>) – use durable writes. Slower but more resilient to
+corruption in the event of sudden power loss. Defaults to false.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="class">
+<dt id="MemoryHuey">
+<em class="property">class </em><code class="descname">MemoryHuey</code><a class="headerlink" href="#MemoryHuey" title="Permalink to this definition">¶</a></dt>
+<dd><p>Huey that uses in-memory storage. Only should be used when testing or when
+using <code class="docutils literal notranslate"><span class="pre">immediate</span></code> mode.</p>
+</dd></dl>
+
+</div>
+<div class="section" id="huey-object">
+<h2>Huey object<a class="headerlink" href="#huey-object" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="Huey">
+<em class="property">class </em><code class="descname">Huey</code><span class="sig-paren">(</span><em>name='huey'</em>, <em>results=True</em>, <em>store_none=False</em>, <em>utc=True</em>, <em>immediate=False</em>, <em>serializer=None</em>, <em>compression=False</em>, <em>immediate_use_memory=True</em>, <em>storage_kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#Huey" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>name</strong> (<em>str</em>) – the name of the task queue, e.g. your application’s name.</li>
+<li><strong>results</strong> (<em>bool</em>) – whether to store task results.</li>
+<li><strong>store_none</strong> (<em>bool</em>) – whether to store <code class="docutils literal notranslate"><span class="pre">None</span></code> in the result store.</li>
+<li><strong>utc</strong> (<em>bool</em>) – use UTC internally, convert naive datetimes from local
+time to UTC (if local time is other than UTC).</li>
+<li><strong>immediate</strong> (<em>bool</em>) – useful for debugging; causes tasks to be executed
+synchronously in the application.</li>
+<li><strong>serializer</strong> (<a class="reference internal" href="#Serializer" title="Serializer"><em>Serializer</em></a>) – serializer implementation for tasks and
+result data. The default implementation uses <code class="docutils literal notranslate"><span class="pre">pickle</span></code>.</li>
+<li><strong>compression</strong> (<em>bool</em>) – compress tasks and result data.</li>
+<li><strong>immediate_use_memory</strong> (<em>bool</em>) – automatically switch to a local in-memory
+storage backend whenever immediate-mode is enabled.</li>
+<li><strong>storage_kwargs</strong> – arbitrary keyword arguments that will be passed to
+the storage backend for additional configuration.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<p>Huey executes tasks by exposing function decorators that cause the function
+call to be enqueued for execution by the consumer.</p>
+<p>Typically your application will only need one Huey instance, but you can
+have as many as you like – the only caveat is that one consumer process
+must be executed for each Huey instance.</p>
+<p>Example usage:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># demo.py</span>
+<span class="kn">from</span> <span class="nn">huey</span> <span class="kn">import</span> <span class="n">RedisHuey</span>
+
+<span class="c1"># Create a huey instance.</span>
+<span class="n">huey</span> <span class="o">=</span> <span class="n">RedisHuey</span><span class="p">(</span><span class="s1">&#39;my-app&#39;</span><span class="p">)</span>
+
+<span class="nd">@huey.task</span><span class="p">()</span>
+<span class="k">def</span> <span class="nf">add_numbers</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">a</span> <span class="o">+</span> <span class="n">b</span>
+
+<span class="nd">@huey.periodic_task</span><span class="p">(</span><span class="n">crontab</span><span class="p">(</span><span class="n">minute</span><span class="o">=</span><span class="s1">&#39;0&#39;</span><span class="p">,</span> <span class="n">hour</span><span class="o">=</span><span class="s1">&#39;2&#39;</span><span class="p">))</span>
+<span class="k">def</span> <span class="nf">nightly_report</span><span class="p">():</span>
+    <span class="n">generate_nightly_report</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>To run the consumer with 4 worker threads:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$</span> huey_consumer.py demo.huey -w <span class="m">4</span>
+</pre></div>
+</div>
+<p>To add two numbers, the “huey” way:</p>
+<div class="highlight-pycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">demo</span> <span class="kn">import</span> <span class="n">add_numbers</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">res</span> <span class="o">=</span> <span class="n">add_numbers</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">res</span><span class="p">(</span><span class="n">blocking</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>  <span class="c1"># Blocks until result is available.</span>
+<span class="go">3</span>
+</pre></div>
+</div>
+<p>To test huey without using a consumer, you can use “immediate” mode.
+Immediate mode follows all the same code paths as Huey does when running
+the consumer process, but does so synchronously within the application.</p>
+<div class="highlight-pycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">demo</span> <span class="kn">import</span> <span class="n">add_numbers</span><span class="p">,</span> <span class="n">huey</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">huey</span><span class="o">.</span><span class="n">immediate</span> <span class="o">=</span> <span class="bp">True</span>  <span class="c1"># Tasks executed immediately.</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">res</span> <span class="o">=</span> <span class="n">add_numbers</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">res</span><span class="p">()</span>
+<span class="go">5</span>
+</pre></div>
+</div>
+<dl class="attribute">
+<dt id="Huey.immediate">
+<code class="descname">immediate</code><a class="headerlink" href="#Huey.immediate" title="Permalink to this definition">¶</a></dt>
+<dd><p>The <code class="docutils literal notranslate"><span class="pre">immediate</span></code> property is used to enable and disable <a class="reference internal" href="guide.html#immediate"><span class="std std-ref">immediate mode</span></a>.
+When immediate mode is enabled, task-decorated functions are executed
+synchronously by the caller, making it very useful for development and
+testing. Calling a task function still returns a <a class="reference internal" href="#Result" title="Result"><code class="xref py py-class docutils literal notranslate"><span class="pre">Result</span></code></a>
+handle, but the task itself is executed immediately.</p>
+<p>By default, when immediate mode is enabled, Huey will switch to using
+in-memory storage. This is to help prevent accidentally writing to a
+live Redis server while testing. To disable this functionality, specify
+<code class="docutils literal notranslate"><span class="pre">immediate_use_memory=False</span></code> when initializing <a class="reference internal" href="#Huey" title="Huey"><code class="xref py py-class docutils literal notranslate"><span class="pre">Huey</span></code></a>.</p>
+<p>Enabling immediate mode:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">huey</span> <span class="o">=</span> <span class="n">RedisHuey</span><span class="p">()</span>
+
+<span class="c1"># Enable immediate mode. Tasks now executed synchronously.</span>
+<span class="c1"># Additionally, huey will now use in-memory storage.</span>
+<span class="n">huey</span><span class="o">.</span><span class="n">immediate</span> <span class="o">=</span> <span class="bp">True</span>
+
+<span class="c1"># Disable immediate mode. Tasks will now be enqueued in a Redis</span>
+<span class="c1"># queue.</span>
+<span class="n">huey</span><span class="o">.</span><span class="n">immediate</span> <span class="o">=</span> <span class="bp">False</span>
+</pre></div>
+</div>
+<p>Immediate mode can also be specified when your Huey instance is
+created:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">huey</span> <span class="o">=</span> <span class="n">RedisHuey</span><span class="p">(</span><span class="n">immediate</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="method">
+<dt id="Huey.task">
+<code class="descname">task</code><span class="sig-paren">(</span><em>retries=0</em>, <em>retry_delay=0</em>, <em>context=False</em>, <em>name=None</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#Huey.task" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>retries</strong> (<em>int</em>) – number of times to retry the function if an
+unhandled exception occurs when it is executed.</li>
+<li><strong>retry_delay</strong> (<em>int</em>) – number of seconds to wait in-between retries.</li>
+<li><strong>context</strong> (<em>bool</em>) – when the task is executed, include the
+<a class="reference internal" href="#Task" title="Task"><code class="xref py py-class docutils literal notranslate"><span class="pre">Task</span></code></a> instance as a parameter.</li>
+<li><strong>name</strong> (<em>str</em>) – name for this task. If not provided, Huey will default
+to using the module name plus function name.</li>
+<li><strong>kwargs</strong> – arbitrary key/value arguments that are passed to the
+<a class="reference internal" href="#TaskWrapper" title="TaskWrapper"><code class="xref py py-class docutils literal notranslate"><span class="pre">TaskWrapper</span></code></a> instance.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">a <a class="reference internal" href="#TaskWrapper" title="TaskWrapper"><code class="xref py py-class docutils literal notranslate"><span class="pre">TaskWrapper</span></code></a> that wraps the decorated function
+and exposes a number of APIs for enqueueing the task.</p>
+</td>
+</tr>
+</tbody>
+</table>
+<p>Function decorator that marks the decorated function for processing by
+the consumer. Calls to the decorated function will do the following:</p>
+<ol class="arabic simple">
+<li>Serialize the function call into a <code class="xref py py-class docutils literal notranslate"><span class="pre">Message</span></code> suitable for
+storing in the queue.</li>
+<li>Enqueue the message for execution by the consumer.</li>
+<li>Return a <a class="reference internal" href="#Result" title="Result"><code class="xref py py-class docutils literal notranslate"><span class="pre">Result</span></code></a> handle, which can be used to check the
+result of the task function, revoke the task (assuming it hasn’t
+started yet), reschedule the task, and more.</li>
+</ol>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p>Huey can be configured to execute the function immediately by
+instantiating Huey with <code class="docutils literal notranslate"><span class="pre">immediate=True</span></code> – this is useful for
+running in debug mode or when you do not wish to run the consumer.</p>
+<p class="last">For more information, see the <a class="reference internal" href="guide.html#immediate"><span class="std std-ref">immediate mode</span></a>
+section of the guide.</p>
+</div>
+<p>The <code class="docutils literal notranslate"><span class="pre">task()</span></code> decorator returns a <a class="reference internal" href="#TaskWrapper" title="TaskWrapper"><code class="xref py py-class docutils literal notranslate"><span class="pre">TaskWrapper</span></code></a>, which
+implements special methods for enqueueing the decorated function. These
+methods are used to <a class="reference internal" href="#TaskWrapper.schedule" title="TaskWrapper.schedule"><code class="xref py py-meth docutils literal notranslate"><span class="pre">schedule()</span></code></a> the task to run in
+the future, chain tasks to form a pipeline, and more.</p>
+<p>Example:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">huey</span> <span class="kn">import</span> <span class="n">RedisHuey</span>
+
+<span class="n">huey</span> <span class="o">=</span> <span class="n">RedisHuey</span><span class="p">()</span>
+
+<span class="nd">@huey.task</span><span class="p">()</span>
+<span class="k">def</span> <span class="nf">add</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">a</span> <span class="o">+</span> <span class="n">b</span>
+</pre></div>
+</div>
+<p>Whenever the <code class="docutils literal notranslate"><span class="pre">add()</span></code> function is called, the actual execution will
+occur when the consumer dequeues the message.</p>
+<div class="highlight-pycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">res</span> <span class="o">=</span> <span class="n">add</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">res</span>
+<span class="go">&lt;Result: task 6b6f36fc-da0d-4069-b46c-c0d4ccff1df6&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">res</span><span class="p">()</span>
+<span class="go">3</span>
+</pre></div>
+</div>
+<p>To further illustrate this point:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="nd">@huey.task</span><span class="p">()</span>
+<span class="k">def</span> <span class="nf">slow</span><span class="p">(</span><span class="n">n</span><span class="p">):</span>
+    <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="n">n</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">n</span>
+</pre></div>
+</div>
+<p>Calling the <code class="docutils literal notranslate"><span class="pre">slow()</span></code> task will return immediately. We can, however,
+block until the task finishes by waiting for the result:</p>
+<div class="highlight-pycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">res</span> <span class="o">=</span> <span class="n">slow</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span>  <span class="c1"># Returns immediately.</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">res</span><span class="p">(</span><span class="n">blocking</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>  <span class="c1"># Block until task finishes, ~10s.</span>
+<span class="go">10</span>
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">The return value of any calls to the decorated function depends on
+whether the <a class="reference internal" href="#Huey" title="Huey"><code class="xref py py-class docutils literal notranslate"><span class="pre">Huey</span></code></a> instance is configured to store the
+results of tasks (<code class="docutils literal notranslate"><span class="pre">results=True</span></code> is the default). When the result
+store is disabled, calling a task-decorated function will return
+<code class="docutils literal notranslate"><span class="pre">None</span></code> instead of a result handle.</p>
+</div>
+<p>In some cases, it may be useful to receive the <a class="reference internal" href="#Task" title="Task"><code class="xref py py-class docutils literal notranslate"><span class="pre">Task</span></code></a>
+instance itself as an argument.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="nd">@huey.task</span><span class="p">(</span><span class="n">context</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>  <span class="c1"># Include task as an argument.</span>
+<span class="k">def</span> <span class="nf">print_a_task_id</span><span class="p">(</span><span class="n">message</span><span class="p">,</span> <span class="n">task</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+    <span class="k">print</span><span class="p">(</span><span class="s1">&#39;</span><span class="si">%s</span><span class="s1">: </span><span class="si">%s</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">message</span><span class="p">,</span> <span class="n">task</span><span class="o">.</span><span class="n">id</span><span class="p">))</span>
+
+
+<span class="n">print_a_task_id</span><span class="p">(</span><span class="s1">&#39;hello&#39;</span><span class="p">)</span>
+<span class="n">print_a_task_id</span><span class="p">(</span><span class="s1">&#39;goodbye&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>This would cause the consumer would print something like:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">hello</span><span class="p">:</span> <span class="n">e724a743</span><span class="o">-</span><span class="n">e63e</span><span class="o">-</span><span class="mi">4400</span><span class="o">-</span><span class="n">ac07</span><span class="o">-</span><span class="mi">78</span><span class="n">a2fa242b41</span>
+<span class="n">goodbye</span><span class="p">:</span> <span class="mi">606</span><span class="n">f36fc</span><span class="o">-</span><span class="n">da0d</span><span class="o">-</span><span class="mi">4069</span><span class="o">-</span><span class="n">b46c</span><span class="o">-</span><span class="n">c0d4ccff1df6</span>
+</pre></div>
+</div>
+<p>For more information, see <a class="reference internal" href="#TaskWrapper" title="TaskWrapper"><code class="xref py py-class docutils literal notranslate"><span class="pre">TaskWrapper</span></code></a>, <a class="reference internal" href="#Task" title="Task"><code class="xref py py-class docutils literal notranslate"><span class="pre">Task</span></code></a>,
+and <a class="reference internal" href="#Result" title="Result"><code class="xref py py-class docutils literal notranslate"><span class="pre">Result</span></code></a>.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="Huey.periodic_task">
+<code class="descname">periodic_task</code><span class="sig-paren">(</span><em>validate_datetime</em>, <em>retries=0</em>, <em>retry_delay=0</em>, <em>context=False</em>, <em>name=None</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#Huey.periodic_task" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>validate_datetime</strong> (<em>function</em>) – function which accepts a
+<code class="docutils literal notranslate"><span class="pre">datetime</span></code> instance and returns whether the task should be
+executed at the given time.</li>
+<li><strong>retries</strong> (<em>int</em>) – number of times to retry the function if an
+unhandled exception occurs when it is executed.</li>
+<li><strong>retry_delay</strong> (<em>int</em>) – number of seconds to wait in-between retries.</li>
+<li><strong>context</strong> (<em>bool</em>) – when the task is executed, include the
+<a class="reference internal" href="#Task" title="Task"><code class="xref py py-class docutils literal notranslate"><span class="pre">Task</span></code></a> instance as a parameter.</li>
+<li><strong>name</strong> (<em>str</em>) – name for this task. If not provided, Huey will default
+to using the module name plus function name.</li>
+<li><strong>kwargs</strong> – arbitrary key/value arguments that are passed to the
+<a class="reference internal" href="#TaskWrapper" title="TaskWrapper"><code class="xref py py-class docutils literal notranslate"><span class="pre">TaskWrapper</span></code></a> instance.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">a <a class="reference internal" href="#TaskWrapper" title="TaskWrapper"><code class="xref py py-class docutils literal notranslate"><span class="pre">TaskWrapper</span></code></a> that wraps the decorated function
+and exposes a number of APIs for enqueueing the task.</p>
+</td>
+</tr>
+</tbody>
+</table>
+<p>The <code class="docutils literal notranslate"><span class="pre">periodic_task()</span></code> decorator marks a function for automatic
+execution by the consumer <em>at a specific interval</em>, like <code class="docutils literal notranslate"><span class="pre">cron</span></code>.</p>
+<p>The <code class="docutils literal notranslate"><span class="pre">validate_datetime</span></code> parameter is a function which accepts a
+<code class="docutils literal notranslate"><span class="pre">datetime</span></code> object and returns a boolean value whether or not the
+decorated function should execute at that time or not. The consumer
+will send a datetime to the function once per minute, giving it the
+same granularity as the <code class="docutils literal notranslate"><span class="pre">cron</span></code>.</p>
+<p>For simplicity, there is a special function <a class="reference internal" href="#crontab" title="crontab"><code class="xref py py-func docutils literal notranslate"><span class="pre">crontab()</span></code></a>, which
+can be used to quickly specify intervals at which a function should
+execute. It is described below.</p>
+<p>Here is an example of how you might use the <code class="docutils literal notranslate"><span class="pre">periodic_task</span></code> decorator
+and the <code class="xref py py-func docutils literal notranslate"><span class="pre">crontab`()</span></code> helper. The following task will be executed
+every three hours, on the hour:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">huey</span> <span class="kn">import</span> <span class="n">crontab</span>
+<span class="kn">from</span> <span class="nn">huey</span> <span class="kn">import</span> <span class="n">RedisHuey</span>
+
+<span class="n">huey</span> <span class="o">=</span> <span class="n">RedisHuey</span><span class="p">()</span>
+
+<span class="nd">@huey.periodic_task</span><span class="p">(</span><span class="n">crontab</span><span class="p">(</span><span class="n">minute</span><span class="o">=</span><span class="s1">&#39;0&#39;</span><span class="p">,</span> <span class="n">hour</span><span class="o">=</span><span class="s1">&#39;*/3&#39;</span><span class="p">))</span>
+<span class="k">def</span> <span class="nf">update_feeds</span><span class="p">():</span>
+    <span class="k">for</span> <span class="n">feed</span> <span class="ow">in</span> <span class="n">my_list_of_feeds</span><span class="p">:</span>
+        <span class="n">fetch_feed_data</span><span class="p">(</span><span class="n">feed</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">Because functions decorated with <code class="docutils literal notranslate"><span class="pre">periodic_task</span></code> are meant to be
+executed at intervals in isolation, they should not take any
+required parameters nor should they be expected to return a
+meaningful value.</p>
+</div>
+<p>Like <a class="reference internal" href="#Huey.task" title="Huey.task"><code class="xref py py-meth docutils literal notranslate"><span class="pre">task()</span></code></a>, the periodic task decorator adds helpers
+to the decorated function. These helpers allow you to
+<a class="reference internal" href="#TaskWrapper.revoke" title="TaskWrapper.revoke"><code class="xref py py-meth docutils literal notranslate"><span class="pre">revoke()</span></code></a> and <a class="reference internal" href="#TaskWrapper.restore" title="TaskWrapper.restore"><code class="xref py py-meth docutils literal notranslate"><span class="pre">restore()</span></code></a> the
+periodic task, enabling you to pause it or prevent its execution. For
+more information, see <a class="reference internal" href="#TaskWrapper" title="TaskWrapper"><code class="xref py py-class docutils literal notranslate"><span class="pre">TaskWrapper</span></code></a>.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p>The result (return value) of a periodic task is not stored in the
+result store. This is primarily due to the fact that there is not
+an obvious way one would read such results, since the invocation of
+the periodic task happens inside the consumer scheduler. As such,
+there is no task result handle which the user could use to read the
+result. To store the results of periodic tasks, you will need to
+use your own storage or use the storage APIs directly:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="nd">@huey.periodic_task</span><span class="p">(</span><span class="n">crontab</span><span class="p">(</span><span class="n">minute</span><span class="o">=</span><span class="s1">&#39;*/10&#39;</span><span class="p">))</span>
+<span class="k">def</span> <span class="nf">my_task</span><span class="p">():</span>
+    <span class="c1"># do some work...</span>
+    <span class="n">do_something</span><span class="p">()</span>
+
+    <span class="c1"># Manually store some data in the result store.</span>
+    <span class="n">huey</span><span class="o">.</span><span class="n">put</span><span class="p">(</span><span class="s1">&#39;my-task&#39;</span><span class="p">,</span> <span class="n">some_data_to_store</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>More info:</p>
+<ul class="last simple">
+<li><a class="reference internal" href="#Huey.put" title="Huey.put"><code class="xref py py-meth docutils literal notranslate"><span class="pre">Huey.put()</span></code></a></li>
+<li><a class="reference internal" href="#Huey.get" title="Huey.get"><code class="xref py py-meth docutils literal notranslate"><span class="pre">Huey.get()</span></code></a></li>
+</ul>
+</div>
+</dd></dl>
+
+<dl class="method">
+<dt id="Huey.context_task">
+<code class="descname">context_task</code><span class="sig-paren">(</span><em>obj</em>, <em>retries=0</em>, <em>retry_delay=0</em>, <em>context=False</em>, <em>name=None</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#Huey.context_task" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>obj</strong> – object that implements the context-manager APIs.</li>
+<li><strong>as_argument</strong> (<em>bool</em>) – pass the context-manager object into the
+decorated task as the first argument.</li>
+<li><strong>retries</strong> (<em>int</em>) – number of times to retry the function if an
+unhandled exception occurs when it is executed.</li>
+<li><strong>retry_delay</strong> (<em>int</em>) – number of seconds to wait in-between retries.</li>
+<li><strong>context</strong> (<em>bool</em>) – when the task is executed, include the
+<a class="reference internal" href="#Task" title="Task"><code class="xref py py-class docutils literal notranslate"><span class="pre">Task</span></code></a> instance as a parameter.</li>
+<li><strong>name</strong> (<em>str</em>) – name for this task. If not provided, Huey will default
+to using the module name plus function name.</li>
+<li><strong>kwargs</strong> – arbitrary key/value arguments that are passed to the
+<a class="reference internal" href="#TaskWrapper" title="TaskWrapper"><code class="xref py py-class docutils literal notranslate"><span class="pre">TaskWrapper</span></code></a> instance.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">a <a class="reference internal" href="#TaskWrapper" title="TaskWrapper"><code class="xref py py-class docutils literal notranslate"><span class="pre">TaskWrapper</span></code></a> that wraps the decorated function
+and exposes a number of APIs for enqueueing the task.</p>
+</td>
+</tr>
+</tbody>
+</table>
+<p>This is an extended implementation of the <a class="reference internal" href="#Huey.task" title="Huey.task"><code class="xref py py-meth docutils literal notranslate"><span class="pre">Huey.task()</span></code></a>
+decorator, which wraps the decorated task in a <code class="docutils literal notranslate"><span class="pre">with</span> <span class="pre">obj:</span></code> block.
+Roughly equivalent to:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">db</span> <span class="o">=</span> <span class="n">PostgresqlDatabase</span><span class="p">(</span><span class="o">...</span><span class="p">)</span>
+
+<span class="nd">@huey.task</span><span class="p">()</span>
+<span class="k">def</span> <span class="nf">without_context_task</span><span class="p">(</span><span class="n">n</span><span class="p">):</span>
+    <span class="k">with</span> <span class="n">db</span><span class="p">:</span>
+        <span class="n">do_something</span><span class="p">(</span><span class="n">n</span><span class="p">)</span>
+
+<span class="nd">@huey.context_task</span><span class="p">(</span><span class="n">db</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">with_context_task</span><span class="p">(</span><span class="n">n</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">do_something</span><span class="p">(</span><span class="n">n</span><span class="p">)</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="method">
+<dt id="Huey.pre_execute">
+<code class="descname">pre_execute</code><span class="sig-paren">(</span><em>name=None</em><span class="sig-paren">)</span><a class="headerlink" href="#Huey.pre_execute" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>name</strong> – (optional) name for the hook.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">a decorator used to wrap the actual pre-execute function.</td>
+</tr>
+</tbody>
+</table>
+<p>Decorator for registering a pre-execute hook. The callback will be
+executed before the execution of every task. Execution of the task can
+be cancelled by raising a <a class="reference internal" href="#CancelExecution" title="CancelExecution"><code class="xref py py-class docutils literal notranslate"><span class="pre">CancelExecution</span></code></a> exception.
+Uncaught exceptions will be logged but will not cause the task itself
+to be cancelled.</p>
+<p>The callback function should accept a single task instance, the return
+value is ignored.</p>
+<p>Hooks are executed in the order in which they are registered.</p>
+<p>Usage:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="nd">@huey.pre_execute</span><span class="p">()</span>
+<span class="k">def</span> <span class="nf">my_pre_execute_hook</span><span class="p">(</span><span class="n">task</span><span class="p">):</span>
+    <span class="k">if</span> <span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">()</span><span class="o">.</span><span class="n">weekday</span><span class="p">()</span> <span class="o">==</span> <span class="mi">6</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="n">CancelExecution</span><span class="p">(</span><span class="s1">&#39;Sunday -- no work will be done.&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="method">
+<dt id="Huey.unregister_pre_execute">
+<code class="descname">unregister_pre_execute</code><span class="sig-paren">(</span><em>name_or_fn</em><span class="sig-paren">)</span><a class="headerlink" href="#Huey.unregister_pre_execute" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>name_or_fn</strong> – the name given to the pre-execute hook, or the
+function object itself.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">boolean</td>
+</tr>
+</tbody>
+</table>
+<p>Unregister the specified pre-execute hook.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="Huey.post_execute">
+<code class="descname">post_execute</code><span class="sig-paren">(</span><em>name=None</em><span class="sig-paren">)</span><a class="headerlink" href="#Huey.post_execute" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>name</strong> – (optional) name for the hook.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">a decorator used to wrap the actual post-execute function.</td>
+</tr>
+</tbody>
+</table>
+<p>Register a post-execute hook. The callback will be executed after the
+execution of every task. Uncaught exceptions will be logged but will
+have no other effect on the overall operation of the consumer.</p>
+<p>The callback function should accept:</p>
+<ul class="simple">
+<li>a <a class="reference internal" href="#Task" title="Task"><code class="xref py py-class docutils literal notranslate"><span class="pre">Task</span></code></a> instance</li>
+<li>the return value from the execution of the task (which may be None)</li>
+<li>any exception that was raised during the execution of the task (which
+will be None for tasks that executed normally).</li>
+</ul>
+<p>The return value of the callback itself is ignored.</p>
+<p>Hooks are executed in the order in which they are registered.</p>
+<p>Usage:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="nd">@huey.post_execute</span><span class="p">()</span>
+<span class="k">def</span> <span class="nf">my_post_execute_hook</span><span class="p">(</span><span class="n">task</span><span class="p">,</span> <span class="n">task_value</span><span class="p">,</span> <span class="n">exc</span><span class="p">):</span>
+    <span class="n">do_something</span><span class="p">()</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="method">
+<dt id="Huey.unregister_post_execute">
+<code class="descname">unregister_post_execute</code><span class="sig-paren">(</span><em>name_or_fn</em><span class="sig-paren">)</span><a class="headerlink" href="#Huey.unregister_post_execute" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>name_or_fn</strong> – the name given to the post-execute hook, or the
+function object itself.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">boolean</td>
+</tr>
+</tbody>
+</table>
+<p>Unregister the specified post-execute hook.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="Huey.on_startup">
+<code class="descname">on_startup</code><span class="sig-paren">(</span><em>name=None</em><span class="sig-paren">)</span><a class="headerlink" href="#Huey.on_startup" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>name</strong> – (optional) name for the hook.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">a decorator used to wrap the actual on-startup function.</td>
+</tr>
+</tbody>
+</table>
+<p>Register a startup hook. The callback will be executed whenever a
+worker comes online. Uncaught exceptions will be logged but will
+have no other effect on the overall operation of the worker.</p>
+<p>The callback function must not accept any parameters.</p>
+<p>This API is provided to simplify setting up shared resources that, for
+whatever reason, should not be created as import-time side-effects. For
+example, your tasks need to write data into a Postgres database. If you
+create the connection at import-time, before the worker processes are
+spawned, you’ll likely run into errors when attempting to use the
+connection from the child (worker) processes. To avoid this problem,
+you can register a startup hook which executes once when the worker
+starts up.</p>
+<p>Usage:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">db_connection</span> <span class="o">=</span> <span class="bp">None</span>
+
+<span class="nd">@huey.on_startup</span><span class="p">()</span>
+<span class="k">def</span> <span class="nf">setup_db_connection</span><span class="p">():</span>
+    <span class="k">global</span> <span class="n">db_connection</span>
+    <span class="n">db_connection</span> <span class="o">=</span> <span class="n">psycopg2</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">database</span><span class="o">=</span><span class="s1">&#39;my_db&#39;</span><span class="p">)</span>
+
+<span class="nd">@huey.task</span><span class="p">()</span>
+<span class="k">def</span> <span class="nf">write_data</span><span class="p">(</span><span class="n">rows</span><span class="p">):</span>
+    <span class="n">cursor</span> <span class="o">=</span> <span class="n">db_connection</span><span class="o">.</span><span class="n">cursor</span><span class="p">()</span>
+    <span class="c1"># ...</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="method">
+<dt id="Huey.unregister_on_startup">
+<code class="descname">unregister_on_startup</code><span class="sig-paren">(</span><em>name_or_fn</em><span class="sig-paren">)</span><a class="headerlink" href="#Huey.unregister_on_startup" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>name_or_fn</strong> – the name given to the on-startup hook, or the
+function object itself.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">boolean</td>
+</tr>
+</tbody>
+</table>
+<p>Unregister the specified on-startup hook.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="Huey.signal">
+<code class="descname">signal</code><span class="sig-paren">(</span><em>*signals</em><span class="sig-paren">)</span><a class="headerlink" href="#Huey.signal" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>signals</strong> – zero or more signals to handle.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">a decorator used to wrap the actual signal handler.</td>
+</tr>
+</tbody>
+</table>
+<p>Attach a signal handler callback, which will be executed when the
+specified signals are sent by the consumer. If no signals are listed,
+then the handler will be bound to <strong>all</strong> signals. The list of signals
+and additional information can be found in the <a class="reference internal" href="signals.html#signals"><span class="std std-ref">Signals</span></a>
+documentation.</p>
+<p>Example:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">huey.signals</span> <span class="kn">import</span> <span class="n">SIGNAL_ERROR</span><span class="p">,</span> <span class="n">SIGNAL_LOCKED</span>
+
+<span class="nd">@huey.signal</span><span class="p">(</span><span class="n">SIGNAL_ERROR</span><span class="p">,</span> <span class="n">SIGNAL_LOCKED</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">task_not_run_handler</span><span class="p">(</span><span class="n">signal</span><span class="p">,</span> <span class="n">task</span><span class="p">,</span> <span class="n">exc</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+    <span class="c1"># Do something in response to the &quot;ERROR&quot; or &quot;LOCEKD&quot; signals.</span>
+    <span class="c1"># Note that the &quot;ERROR&quot; signal includes a third parameter,</span>
+    <span class="c1"># which is the unhandled exception that was raised by the task.</span>
+    <span class="c1"># Since this parameter is not sent with the &quot;LOCKED&quot; signal, we</span>
+    <span class="c1"># provide a default of ``exc=None``.</span>
+    <span class="k">pass</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="method">
+<dt id="Huey.disconnect_signal">
+<code class="descname">disconnect_signal</code><span class="sig-paren">(</span><em>receiver</em>, <em>*signals</em><span class="sig-paren">)</span><a class="headerlink" href="#Huey.disconnect_signal" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>receiver</strong> – the signal handling function to disconnect.</li>
+<li><strong>signals</strong> – zero or more signals to stop handling.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<p>Disconnect the signal handler from the provided signals. If no signals
+are provided, then the handler is disconnected from any signals it may
+have been connected to.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="Huey.enqueue">
+<code class="descname">enqueue</code><span class="sig-paren">(</span><em>task</em><span class="sig-paren">)</span><a class="headerlink" href="#Huey.enqueue" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>task</strong> (<a class="reference internal" href="#Task" title="Task"><em>Task</em></a>) – task instance to enqueue.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><a class="reference internal" href="#Result" title="Result"><code class="xref py py-class docutils literal notranslate"><span class="pre">Result</span></code></a> handle for the given task.</td>
+</tr>
+</tbody>
+</table>
+<p>Enqueue the given task. When the result store is enabled (default), the
+return value will be a <a class="reference internal" href="#Result" title="Result"><code class="xref py py-class docutils literal notranslate"><span class="pre">Result</span></code></a> handle which provides access
+to the result of the task execution (as well as other things).</p>
+<p>If the task specifies another task to run on completion (see
+<a class="reference internal" href="#Task.then" title="Task.then"><code class="xref py py-meth docutils literal notranslate"><span class="pre">Task.then()</span></code></a>), the return value will be a
+<a class="reference internal" href="#ResultGroup" title="ResultGroup"><code class="xref py py-class docutils literal notranslate"><span class="pre">ResultGroup</span></code></a>, which encapsulates a list of individual
+<a class="reference internal" href="#Result" title="Result"><code class="xref py py-class docutils literal notranslate"><span class="pre">Result</span></code></a> instances for the given pipeline.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p>Unless you are executing a pipeline of tasks, it should not
+be necessary to use the <a class="reference internal" href="#Huey.enqueue" title="Huey.enqueue"><code class="xref py py-meth docutils literal notranslate"><span class="pre">enqueue()</span></code></a> method directly.
+Calling (or scheduling) a <code class="docutils literal notranslate"><span class="pre">task</span></code>-decorated function will
+automatically enqueue a task for execution.</p>
+<p class="last">When you create a task pipeline, however, it is necessary to
+enqueue the pipeline once it has been set up.</p>
+</div>
+</dd></dl>
+
+<dl class="method">
+<dt id="Huey.revoke">
+<code class="descname">revoke</code><span class="sig-paren">(</span><em>task</em>, <em>revoke_until=None</em>, <em>revoke_once=False</em><span class="sig-paren">)</span><a class="headerlink" href="#Huey.revoke" title="Permalink to this definition">¶</a></dt>
+<dd><div class="admonition seealso">
+<p class="first admonition-title">See also</p>
+<p class="last">Use <a class="reference internal" href="#Result.revoke" title="Result.revoke"><code class="xref py py-meth docutils literal notranslate"><span class="pre">Result.revoke()</span></code></a> instead.</p>
+</div>
+</dd></dl>
+
+<dl class="method">
+<dt id="Huey.revoke_by_id">
+<code class="descname">revoke_by_id</code><span class="sig-paren">(</span><em>task_id</em>, <em>revoke_until=None</em>, <em>revoke_once=False</em><span class="sig-paren">)</span><a class="headerlink" href="#Huey.revoke_by_id" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>task_id</strong> (<em>str</em>) – task instance id.</li>
+<li><strong>revoke_until</strong> (<em>datetime</em>) – optional expiration date for revocation.</li>
+<li><strong>revoke_once</strong> (<em>bool</em>) – revoke once and then re-enable.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<p>Revoke a <a class="reference internal" href="#Task" title="Task"><code class="xref py py-class docutils literal notranslate"><span class="pre">Task</span></code></a> instance using the task id.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="Huey.revoke_all">
+<code class="descname">revoke_all</code><span class="sig-paren">(</span><em>task_class</em>, <em>revoke_until=None</em>, <em>revoke_once=False</em><span class="sig-paren">)</span><a class="headerlink" href="#Huey.revoke_all" title="Permalink to this definition">¶</a></dt>
+<dd><div class="admonition seealso">
+<p class="first admonition-title">See also</p>
+<p class="last">Use <a class="reference internal" href="#TaskWrapper.revoke" title="TaskWrapper.revoke"><code class="xref py py-meth docutils literal notranslate"><span class="pre">TaskWrapper.revoke()</span></code></a> instead.</p>
+</div>
+</dd></dl>
+
+<dl class="method">
+<dt id="Huey.restore">
+<code class="descname">restore</code><span class="sig-paren">(</span><em>task</em><span class="sig-paren">)</span><a class="headerlink" href="#Huey.restore" title="Permalink to this definition">¶</a></dt>
+<dd><div class="admonition seealso">
+<p class="first admonition-title">See also</p>
+<p class="last">Use <a class="reference internal" href="#Result.restore" title="Result.restore"><code class="xref py py-meth docutils literal notranslate"><span class="pre">Result.restore()</span></code></a> instead.</p>
+</div>
+</dd></dl>
+
+<dl class="method">
+<dt id="Huey.restore_by_id">
+<code class="descname">restore_by_id</code><span class="sig-paren">(</span><em>task_id</em><span class="sig-paren">)</span><a class="headerlink" href="#Huey.restore_by_id" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>task_id</strong> (<em>str</em>) – task instance id.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">boolean indicating success.</td>
+</tr>
+</tbody>
+</table>
+<p>Restore a <a class="reference internal" href="#Task" title="Task"><code class="xref py py-class docutils literal notranslate"><span class="pre">Task</span></code></a> instance using the task id. Returns boolean
+indicating if the revocation was successfully removed.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="Huey.restore_all">
+<code class="descname">restore_all</code><span class="sig-paren">(</span><em>task_class</em><span class="sig-paren">)</span><a class="headerlink" href="#Huey.restore_all" title="Permalink to this definition">¶</a></dt>
+<dd><div class="admonition seealso">
+<p class="first admonition-title">See also</p>
+<p class="last">Use <a class="reference internal" href="#TaskWrapper.restore" title="TaskWrapper.restore"><code class="xref py py-meth docutils literal notranslate"><span class="pre">TaskWrapper.restore()</span></code></a> instead.</p>
+</div>
+</dd></dl>
+
+<dl class="method">
+<dt id="Huey.is_revoked">
+<code class="descname">is_revoked</code><span class="sig-paren">(</span><em>task</em>, <em>timestamp=None</em><span class="sig-paren">)</span><a class="headerlink" href="#Huey.is_revoked" title="Permalink to this definition">¶</a></dt>
+<dd><div class="admonition seealso">
+<p class="first admonition-title">See also</p>
+<p>For task instances, use <a class="reference internal" href="#Result.is_revoked" title="Result.is_revoked"><code class="xref py py-meth docutils literal notranslate"><span class="pre">Result.is_revoked()</span></code></a>.</p>
+<p class="last">For task functions, use <a class="reference internal" href="#TaskWrapper.is_revoked" title="TaskWrapper.is_revoked"><code class="xref py py-meth docutils literal notranslate"><span class="pre">TaskWrapper.is_revoked()</span></code></a>.</p>
+</div>
+</dd></dl>
+
+<dl class="method">
+<dt id="Huey.result">
+<code class="descname">result</code><span class="sig-paren">(</span><em>task_id</em>, <em>blocking=False</em>, <em>timeout=None</em>, <em>backoff=1.15</em>, <em>max_delay=1.0</em>, <em>revoke_on_timeout=False</em>, <em>preserve=False</em><span class="sig-paren">)</span><a class="headerlink" href="#Huey.result" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>task_id</strong> – the task’s unique identifier.</li>
+<li><strong>blocking</strong> (<em>bool</em>) – whether to block while waiting for task result</li>
+<li><strong>timeout</strong> – number of seconds to block (if <code class="docutils literal notranslate"><span class="pre">blocking=True</span></code>)</li>
+<li><strong>backoff</strong> – amount to backoff delay each iteration of loop</li>
+<li><strong>max_delay</strong> – maximum amount of time to wait between iterations when
+attempting to fetch result.</li>
+<li><strong>revoke_on_timeout</strong> (<em>bool</em>) – if a timeout occurs, revoke the task,
+thereby preventing it from running if it is has not started yet.</li>
+<li><strong>preserve</strong> (<em>bool</em>) – when set to <code class="docutils literal notranslate"><span class="pre">True</span></code>, this parameter ensures that
+the task result will be preserved after having been successfully
+retrieved. Ordinarily, Huey will discard results after they have
+been read, to prevent the result store from growing without bounds.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<p>Attempts to retrieve the return value of a task. By default, <a class="reference internal" href="#Huey.result" title="Huey.result"><code class="xref py py-meth docutils literal notranslate"><span class="pre">result()</span></code></a>
+will simply check for the value, returning <code class="docutils literal notranslate"><span class="pre">None</span></code> if it is not ready
+yet. If you want to wait for the result, specify <code class="docutils literal notranslate"><span class="pre">blocking=True</span></code>.
+This will loop, backing off up to the provided <code class="docutils literal notranslate"><span class="pre">max_delay</span></code>, until the
+value is ready or the <code class="docutils literal notranslate"><span class="pre">timeout</span></code> is reached. If the <code class="docutils literal notranslate"><span class="pre">timeout</span></code> is
+reached before the result is ready, a <a class="reference internal" href="#HueyException" title="HueyException"><code class="xref py py-class docutils literal notranslate"><span class="pre">HueyException</span></code></a> will be
+raised.</p>
+<div class="admonition seealso">
+<p class="first admonition-title">See also</p>
+<p class="last"><a class="reference internal" href="#Result" title="Result"><code class="xref py py-class docutils literal notranslate"><span class="pre">Result</span></code></a> - the <a class="reference internal" href="#Huey.result" title="Huey.result"><code class="xref py py-meth docutils literal notranslate"><span class="pre">result()</span></code></a> method is simply a
+wrapper that creates a <code class="docutils literal notranslate"><span class="pre">Result</span></code> object and calls its
+<a class="reference internal" href="#Result.get" title="Result.get"><code class="xref py py-meth docutils literal notranslate"><span class="pre">get()</span></code></a> method.</p>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">If the task failed with an exception, then a
+<a class="reference internal" href="#TaskException" title="TaskException"><code class="xref py py-class docutils literal notranslate"><span class="pre">TaskException</span></code></a> that wraps the original exception will be
+raised.</p>
+</div>
+<div class="admonition warning">
+<p class="first admonition-title">Warning</p>
+<p class="last">By default the result store will delete a task’s return
+value after the value has been successfully read (by a successful
+call to the <a class="reference internal" href="#Huey.result" title="Huey.result"><code class="xref py py-meth docutils literal notranslate"><span class="pre">result()</span></code></a> or <a class="reference internal" href="#Result.get" title="Result.get"><code class="xref py py-meth docutils literal notranslate"><span class="pre">Result.get()</span></code></a>
+methods). If you intend to access the task result multiple times,
+you must specify <code class="docutils literal notranslate"><span class="pre">preserve=True</span></code> when calling these methods.</p>
+</div>
+</dd></dl>
+
+<dl class="method">
+<dt id="Huey.lock_task">
+<code class="descname">lock_task</code><span class="sig-paren">(</span><em>lock_name</em><span class="sig-paren">)</span><a class="headerlink" href="#Huey.lock_task" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>lock_name</strong> (<em>str</em>) – Name to use for the lock.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><code class="xref py py-class docutils literal notranslate"><span class="pre">TaskLock</span></code> instance, which can be used as a
+decorator or context-manager.</td>
+</tr>
+</tbody>
+</table>
+<p>Utilize the Storage key/value APIs to implement simple locking.</p>
+<p>This lock is designed to be used to prevent multiple invocations of a
+task from running concurrently. Can be used as either a context-manager
+or as a task decorator. If using as a decorator, place it directly
+above the function declaration.</p>
+<p>If a second invocation occurs and the lock cannot be acquired, then a
+<code class="xref py py-class docutils literal notranslate"><span class="pre">TaskLockedException</span></code> is raised, which is handled by the
+consumer. The task will not be executed and a <code class="docutils literal notranslate"><span class="pre">SIGNAL_LOCKED</span></code> will be
+sent. If the task is configured to be retried, then it will be retried
+normally.</p>
+<p>Examples:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="nd">@huey.periodic_task</span><span class="p">(</span><span class="n">crontab</span><span class="p">(</span><span class="n">minute</span><span class="o">=</span><span class="s1">&#39;*/5&#39;</span><span class="p">))</span>
+<span class="nd">@huey.lock_task</span><span class="p">(</span><span class="s1">&#39;reports-lock&#39;</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">generate_report</span><span class="p">():</span>
+    <span class="c1"># If a report takes longer than 5 minutes to generate, we do</span>
+    <span class="c1"># not want to kick off another until the previous invocation</span>
+    <span class="c1"># has finished.</span>
+    <span class="n">run_report</span><span class="p">()</span>
+
+<span class="nd">@huey.periodic_task</span><span class="p">(</span><span class="n">crontab</span><span class="p">(</span><span class="n">minute</span><span class="o">=</span><span class="s1">&#39;0&#39;</span><span class="p">))</span>
+<span class="k">def</span> <span class="nf">backup</span><span class="p">():</span>
+    <span class="c1"># Generate backup of code</span>
+    <span class="n">do_code_backup</span><span class="p">()</span>
+
+    <span class="c1"># Generate database backup. Since this may take longer than an</span>
+    <span class="c1"># hour, we want to ensure that it is not run concurrently.</span>
+    <span class="k">with</span> <span class="n">huey</span><span class="o">.</span><span class="n">lock_task</span><span class="p">(</span><span class="s1">&#39;db-backup&#39;</span><span class="p">):</span>
+        <span class="n">do_db_backup</span><span class="p">()</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="method">
+<dt id="Huey.put">
+<code class="descname">put</code><span class="sig-paren">(</span><em>key</em>, <em>value</em><span class="sig-paren">)</span><a class="headerlink" href="#Huey.put" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>key</strong> – key for data</li>
+<li><strong>value</strong> – arbitrary data to store in result store.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<p>Store a value in the result-store under the given key.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="Huey.get">
+<code class="descname">get</code><span class="sig-paren">(</span><em>key</em>, <em>peek=False</em><span class="sig-paren">)</span><a class="headerlink" href="#Huey.get" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>key</strong> – key to read</li>
+<li><strong>peek</strong> (<em>bool</em>) – non-destructive read</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<p>Read a value from the result-store at the given key. By default reads
+are destructive. To preserve the value for additional reads, specify
+<code class="docutils literal notranslate"><span class="pre">peek=True</span></code>.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="Huey.pending">
+<code class="descname">pending</code><span class="sig-paren">(</span><em>limit=None</em><span class="sig-paren">)</span><a class="headerlink" href="#Huey.pending" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>limit</strong> (<em>int</em>) – optionally limit the number of tasks returned.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">a list of <a class="reference internal" href="#Task" title="Task"><code class="xref py py-class docutils literal notranslate"><span class="pre">Task</span></code></a> instances waiting to be run.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="Huey.scheduled">
+<code class="descname">scheduled</code><span class="sig-paren">(</span><em>limit=None</em><span class="sig-paren">)</span><a class="headerlink" href="#Huey.scheduled" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>limit</strong> (<em>int</em>) – optionally limit the number of tasks returned.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">a list of <a class="reference internal" href="#Task" title="Task"><code class="xref py py-class docutils literal notranslate"><span class="pre">Task</span></code></a> instances that are scheduled to
+execute at some time in the future.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="Huey.all_results">
+<code class="descname">all_results</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#Huey.all_results" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">a dict of task-id to the serialized result data for all
+key/value pairs in the result store.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="Huey.__len__">
+<code class="descname">__len__</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#Huey.__len__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return the number of items currently in the queue.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="TaskWrapper">
+<em class="property">class </em><code class="descname">TaskWrapper</code><span class="sig-paren">(</span><em>huey</em>, <em>func</em>, <em>retries=None</em>, <em>retry_delay=None</em>, <em>context=False</em>, <em>name=None</em>, <em>task_base=None</em>, <em>**settings</em><span class="sig-paren">)</span><a class="headerlink" href="#TaskWrapper" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>huey</strong> (<a class="reference internal" href="#Huey" title="Huey"><em>Huey</em></a>) – A huey instance.</li>
+<li><strong>func</strong> – User function.</li>
+<li><strong>retries</strong> (<em>int</em>) – Upon failure, number of times to retry the task.</li>
+<li><strong>retry_delay</strong> (<em>int</em>) – Number of seconds to wait before retrying after a
+failure/exception.</li>
+<li><strong>context</strong> (<em>bool</em>) – when the task is executed, include the
+<a class="reference internal" href="#Task" title="Task"><code class="xref py py-class docutils literal notranslate"><span class="pre">Task</span></code></a> instance as a parameter.</li>
+<li><strong>name</strong> (<em>str</em>) – Name for task (will be determined based on task module and
+function name if not provided).</li>
+<li><strong>task_base</strong> – Base-class for task, defaults to <a class="reference internal" href="#Task" title="Task"><code class="xref py py-class docutils literal notranslate"><span class="pre">Task</span></code></a>.</li>
+<li><strong>settings</strong> – Arbitrary settings to pass to the task class constructor.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<p>Wrapper around a user-defined function that converts function calls into
+tasks executed by the consumer. The wrapper, which decorates the function,
+replaces the function in the scope with a <a class="reference internal" href="#TaskWrapper" title="TaskWrapper"><code class="xref py py-class docutils literal notranslate"><span class="pre">TaskWrapper</span></code></a> instance.</p>
+<p>The wrapper class, when called, will enqueue the requested function call
+for execution by the consumer.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">You should not need to create <a class="reference internal" href="#TaskWrapper" title="TaskWrapper"><code class="xref py py-class docutils literal notranslate"><span class="pre">TaskWrapper</span></code></a> instances
+directly. The <a class="reference internal" href="#Huey.task" title="Huey.task"><code class="xref py py-meth docutils literal notranslate"><span class="pre">Huey.task()</span></code></a> and <a class="reference internal" href="#Huey.periodic_task" title="Huey.periodic_task"><code class="xref py py-meth docutils literal notranslate"><span class="pre">Huey.periodic_task()</span></code></a>
+decorators will create the appropriate TaskWrapper automatically.</p>
+</div>
+<dl class="method">
+<dt id="TaskWrapper.schedule">
+<code class="descname">schedule</code><span class="sig-paren">(</span><em>args=None</em>, <em>kwargs=None</em>, <em>eta=None</em>, <em>delay=None</em><span class="sig-paren">)</span><a class="headerlink" href="#TaskWrapper.schedule" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>args</strong> (<em>tuple</em>) – arguments for decorated function.</li>
+<li><strong>kwargs</strong> (<em>dict</em>) – keyword arguments for decorated function.</li>
+<li><strong>eta</strong> (<em>datetime</em>) – the time at which the function should be executed.</li>
+<li><strong>delay</strong> (<em>int</em>) – number of seconds to wait before executing function.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">a <a class="reference internal" href="#Result" title="Result"><code class="xref py py-class docutils literal notranslate"><span class="pre">Result</span></code></a> handle for the task.</p>
+</td>
+</tr>
+</tbody>
+</table>
+<p>Use the <code class="docutils literal notranslate"><span class="pre">schedule</span></code> method to schedule the execution of the queue task
+for a given time in the future:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">datetime</span>
+
+<span class="n">one_hour</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">()</span> <span class="o">+</span> <span class="n">datetime</span><span class="o">.</span><span class="n">timedelta</span><span class="p">(</span><span class="n">hours</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+
+<span class="c1"># Schedule the task to be run in an hour. It will be called with</span>
+<span class="c1"># three arguments.</span>
+<span class="n">res</span> <span class="o">=</span> <span class="n">check_feeds</span><span class="o">.</span><span class="n">schedule</span><span class="p">(</span><span class="n">args</span><span class="o">=</span><span class="p">(</span><span class="n">url1</span><span class="p">,</span> <span class="n">url2</span><span class="p">,</span> <span class="n">url3</span><span class="p">),</span> <span class="n">eta</span><span class="o">=</span><span class="n">one_hour</span><span class="p">)</span>
+
+<span class="c1"># Equivalent, but uses delay rather than eta.</span>
+<span class="n">res</span> <span class="o">=</span> <span class="n">check_feeds</span><span class="o">.</span><span class="n">schedule</span><span class="p">(</span><span class="n">args</span><span class="o">=</span><span class="p">(</span><span class="n">url1</span><span class="p">,</span> <span class="n">url2</span><span class="p">,</span> <span class="n">url3</span><span class="p">),</span> <span class="n">delay</span><span class="o">=</span><span class="mi">3600</span><span class="p">)</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="method">
+<dt id="TaskWrapper.revoke">
+<code class="descname">revoke</code><span class="sig-paren">(</span><em>revoke_until=None</em>, <em>revoke_once=False</em><span class="sig-paren">)</span><a class="headerlink" href="#TaskWrapper.revoke" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>revoke_until</strong> (<em>datetime</em>) – Automatically restore the task after the
+given datetime.</li>
+<li><strong>revoke_once</strong> (<em>bool</em>) – Revoke the next execution of the task and then
+automatically restore.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<p>Revoking a task will prevent any instance of the given task from
+executing. When no parameters are provided the function will not
+execute again until <a class="reference internal" href="#TaskWrapper.restore" title="TaskWrapper.restore"><code class="xref py py-meth docutils literal notranslate"><span class="pre">TaskWrapper.restore()</span></code></a> is called.</p>
+<p>This function can be called multiple times, but each call will
+supercede any restrictions from the previous revocation.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Skip the next execution</span>
+<span class="n">send_emails</span><span class="o">.</span><span class="n">revoke</span><span class="p">(</span><span class="n">revoke_once</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+
+<span class="c1"># Prevent any invocation from executing.</span>
+<span class="n">send_emails</span><span class="o">.</span><span class="n">revoke</span><span class="p">()</span>
+
+<span class="c1"># Prevent any invocation for 24 hours.</span>
+<span class="n">tomorrow</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">()</span> <span class="o">+</span> <span class="n">datetime</span><span class="o">.</span><span class="n">timedelta</span><span class="p">(</span><span class="n">days</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">send_emails</span><span class="o">.</span><span class="n">revoke</span><span class="p">(</span><span class="n">revoke_until</span><span class="o">=</span><span class="n">tomorrow</span><span class="p">)</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="method">
+<dt id="TaskWrapper.is_revoked">
+<code class="descname">is_revoked</code><span class="sig-paren">(</span><em>timestamp=None</em><span class="sig-paren">)</span><a class="headerlink" href="#TaskWrapper.is_revoked" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>timestamp</strong> (<em>datetime</em>) – If provided, checks whether task is revoked
+with respect to the given timestamp.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">bool indicating whether task is revoked.</td>
+</tr>
+</tbody>
+</table>
+<p>Check whether the given task is revoked.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="TaskWrapper.restore">
+<code class="descname">restore</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#TaskWrapper.restore" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">bool indicating whether a previous revocation rule was found
+and removed successfully.</td>
+</tr>
+</tbody>
+</table>
+<p>Removes a previous task revocation, if one was configured.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="TaskWrapper.call_local">
+<code class="descname">call_local</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#TaskWrapper.call_local" title="Permalink to this definition">¶</a></dt>
+<dd><p>Call the <code class="docutils literal notranslate"><span class="pre">&#64;task</span></code>-decorated function, bypassing all Huey-specific
+logic. In other words, <code class="docutils literal notranslate"><span class="pre">call_local()</span></code> provides access to the
+underlying user-defined function.</p>
+<div class="highlight-pycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">add</span><span class="o">.</span><span class="n">call_local</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+<span class="go">3</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="method">
+<dt id="TaskWrapper.s">
+<code class="descname">s</code><span class="sig-paren">(</span><em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#TaskWrapper.s" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>args</strong> – Arguments for task function.</li>
+<li><strong>kwargs</strong> – Keyword arguments for task function.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">a <a class="reference internal" href="#Task" title="Task"><code class="xref py py-class docutils literal notranslate"><span class="pre">Task</span></code></a> instance representing the execution of the
+task function with the given arguments.</p>
+</td>
+</tr>
+</tbody>
+</table>
+<p>Create a <a class="reference internal" href="#Task" title="Task"><code class="xref py py-class docutils literal notranslate"><span class="pre">Task</span></code></a> instance representing the invocation of the
+task function with the given arguments and keyword-arguments.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">The returned task instance is <strong>not</strong> enqueued automatically.</p>
+</div>
+<p>To illustrate the distinction, when you call a <code class="docutils literal notranslate"><span class="pre">task()</span></code>-decorated
+function, behind-the-scenes, Huey is doing something like this:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="nd">@huey.task</span><span class="p">()</span>
+<span class="k">def</span> <span class="nf">add</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">a</span> <span class="o">+</span> <span class="n">b</span>
+
+<span class="n">result</span> <span class="o">=</span> <span class="n">add</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+
+<span class="c1"># Is equivalent to:</span>
+<span class="n">task</span> <span class="o">=</span> <span class="n">add</span><span class="o">.</span><span class="n">s</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+<span class="n">result</span> <span class="o">=</span> <span class="n">huey</span><span class="o">.</span><span class="n">enqueue</span><span class="p">(</span><span class="n">task</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Typically, one will only use the <a class="reference internal" href="#TaskWrapper.s" title="TaskWrapper.s"><code class="xref py py-meth docutils literal notranslate"><span class="pre">TaskWrapper.s()</span></code></a> helper when
+creating task execution pipelines.</p>
+<p>For example:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">add_task</span> <span class="o">=</span> <span class="n">add</span><span class="o">.</span><span class="n">s</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>  <span class="c1"># Represent task invocation.</span>
+<span class="n">pipeline</span> <span class="o">=</span> <span class="p">(</span><span class="n">add_task</span>
+            <span class="o">.</span><span class="n">then</span><span class="p">(</span><span class="n">add</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>  <span class="c1"># Call add() with previous result and 3.</span>
+            <span class="o">.</span><span class="n">then</span><span class="p">(</span><span class="n">add</span><span class="p">,</span> <span class="mi">4</span><span class="p">)</span>  <span class="c1"># etc...</span>
+            <span class="o">.</span><span class="n">then</span><span class="p">(</span><span class="n">add</span><span class="p">,</span> <span class="mi">5</span><span class="p">))</span>
+
+<span class="n">results</span> <span class="o">=</span> <span class="n">huey</span><span class="o">.</span><span class="n">enqueue</span><span class="p">(</span><span class="n">pipeline</span><span class="p">)</span>
+
+<span class="c1"># Print results of above pipeline.</span>
+<span class="k">print</span><span class="p">(</span><span class="n">results</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">blocking</span><span class="o">=</span><span class="bp">True</span><span class="p">))</span>
+
+<span class="c1"># [3, 6, 10, 15]</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="method">
+<dt id="TaskWrapper.map">
+<code class="descname">map</code><span class="sig-paren">(</span><em>it</em><span class="sig-paren">)</span><a class="headerlink" href="#TaskWrapper.map" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>it</strong> – a list, tuple or generic iterable that contains the
+arguments for a number of individual task executions.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">a <a class="reference internal" href="#ResultGroup" title="ResultGroup"><code class="xref py py-class docutils literal notranslate"><span class="pre">ResultGroup</span></code></a> encapsulating the individual
+<a class="reference internal" href="#Result" title="Result"><code class="xref py py-class docutils literal notranslate"><span class="pre">Result</span></code></a> handlers for the task executions.</td>
+</tr>
+</tbody>
+</table>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">The iterable should be a list of argument tuples which will be
+passed to the task function.</p>
+</div>
+<p>Example:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="nd">@huey.task</span><span class="p">()</span>
+<span class="k">def</span> <span class="nf">add</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">a</span> <span class="o">+</span> <span class="n">b</span>
+
+<span class="n">rg</span> <span class="o">=</span> <span class="n">add</span><span class="o">.</span><span class="n">map</span><span class="p">([(</span><span class="n">i</span><span class="p">,</span> <span class="n">i</span> <span class="o">*</span> <span class="n">i</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">10</span><span class="p">)])</span>
+
+<span class="c1"># Resolve all results.</span>
+<span class="n">rg</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">blocking</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+
+<span class="c1"># [0, 2, 6, 12, 20, 30, 42, 56, 72, 90]</span>
+</pre></div>
+</div>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="Task">
+<em class="property">class </em><code class="descname">Task</code><span class="sig-paren">(</span><em>args=None</em>, <em>kwargs=None</em>, <em>id=None</em>, <em>eta=None</em>, <em>retries=None</em>, <em>retry_delay=None</em>, <em>on_complete=None</em>, <em>on_error=None</em><span class="sig-paren">)</span><a class="headerlink" href="#Task" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>args</strong> (<em>tuple</em>) – arguments for the function call.</li>
+<li><strong>kwargs</strong> (<em>dict</em>) – keyword arguments for the function call.</li>
+<li><strong>id</strong> (<em>str</em>) – unique id, defaults to a UUID if not provided.</li>
+<li><strong>eta</strong> (<em>datetime</em>) – time at which task should be executed.</li>
+<li><strong>retries</strong> (<em>int</em>) – automatic retry attempts.</li>
+<li><strong>retry_delay</strong> (<em>int</em>) – seconds to wait before retrying a failed task.</li>
+<li><strong>on_complete</strong> (<a class="reference internal" href="#Task" title="Task"><em>Task</em></a>) – Task to execute upon completion of this task.</li>
+<li><strong>on_error</strong> (<a class="reference internal" href="#Task" title="Task"><em>Task</em></a>) – Task to execute upon failure / error.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<p>The <code class="docutils literal notranslate"><span class="pre">Task</span></code> class represents the execution of a function. Instances of the
+task are serialized and enqueued for execution by the consumer, which
+deserializes and executes the task function.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">You should not need to create instances of <a class="reference internal" href="#Task" title="Task"><code class="xref py py-class docutils literal notranslate"><span class="pre">Task</span></code></a> directly,
+but instead use either the <a class="reference internal" href="#Huey.task" title="Huey.task"><code class="xref py py-meth docutils literal notranslate"><span class="pre">Huey.task()</span></code></a> decorator or
+the <a class="reference internal" href="#TaskWrapper.s" title="TaskWrapper.s"><code class="xref py py-meth docutils literal notranslate"><span class="pre">TaskWrapper.s()</span></code></a> method.</p>
+</div>
+<p>Here’s a refresher on how tasks work:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="nd">@huey.task</span><span class="p">()</span>
+<span class="k">def</span> <span class="nf">add</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">a</span> <span class="o">+</span> <span class="n">b</span>
+
+<span class="n">ret</span> <span class="o">=</span> <span class="n">add</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="n">ret</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">blocking</span><span class="o">=</span><span class="bp">True</span><span class="p">))</span>  <span class="c1"># &quot;3&quot;.</span>
+
+<span class="c1"># The above two lines are equivalent to:</span>
+<span class="n">task_instance</span> <span class="o">=</span> <span class="n">add</span><span class="o">.</span><span class="n">s</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>  <span class="c1"># Create a Task instance.</span>
+<span class="n">ret</span> <span class="o">=</span> <span class="n">huey</span><span class="o">.</span><span class="n">enqueue</span><span class="p">(</span><span class="n">task_instance</span><span class="p">)</span>  <span class="c1"># Enqueue the queue task.</span>
+<span class="k">print</span><span class="p">(</span><span class="n">ret</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">blocking</span><span class="o">=</span><span class="bp">True</span><span class="p">))</span>  <span class="c1"># &quot;3&quot;.</span>
+</pre></div>
+</div>
+<dl class="method">
+<dt id="Task.then">
+<code class="descname">then</code><span class="sig-paren">(</span><em>task</em>, <em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#Task.then" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>task</strong> (<a class="reference internal" href="#TaskWrapper" title="TaskWrapper"><em>TaskWrapper</em></a>) – A <code class="docutils literal notranslate"><span class="pre">task()</span></code>-decorated function.</li>
+<li><strong>args</strong> – Arguments to pass to the task.</li>
+<li><strong>kwargs</strong> – Keyword arguments to pass to the task.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">The parent task.</p>
+</td>
+</tr>
+</tbody>
+</table>
+<p>The <a class="reference internal" href="#Task.then" title="Task.then"><code class="xref py py-meth docutils literal notranslate"><span class="pre">then()</span></code></a> method is used to create task pipelines. A
+pipeline is a lot like a unix pipe, such that the return value from the
+parent task is then passed (along with any parameters specified by
+<code class="docutils literal notranslate"><span class="pre">args</span></code> and <code class="docutils literal notranslate"><span class="pre">kwargs</span></code>) to the child task.</p>
+<p>Here’s an example of chaining some addition operations:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">add_task</span> <span class="o">=</span> <span class="n">add</span><span class="o">.</span><span class="n">s</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>  <span class="c1"># Represent task invocation.</span>
+<span class="n">pipeline</span> <span class="o">=</span> <span class="p">(</span><span class="n">add_task</span>
+            <span class="o">.</span><span class="n">then</span><span class="p">(</span><span class="n">add</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>  <span class="c1"># Call add() with previous result and 3.</span>
+            <span class="o">.</span><span class="n">then</span><span class="p">(</span><span class="n">add</span><span class="p">,</span> <span class="mi">4</span><span class="p">)</span>  <span class="c1"># etc...</span>
+            <span class="o">.</span><span class="n">then</span><span class="p">(</span><span class="n">add</span><span class="p">,</span> <span class="mi">5</span><span class="p">))</span>
+
+<span class="n">result_group</span> <span class="o">=</span> <span class="n">huey</span><span class="o">.</span><span class="n">enqueue</span><span class="p">(</span><span class="n">pipeline</span><span class="p">)</span>
+
+<span class="k">print</span><span class="p">(</span><span class="n">result_group</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">blocking</span><span class="o">=</span><span class="bp">True</span><span class="p">))</span>
+
+<span class="c1"># [3, 6, 10, 15]</span>
+</pre></div>
+</div>
+<p>If the value returned by the parent function is a <code class="docutils literal notranslate"><span class="pre">tuple</span></code>, then the
+tuple will be used to update the <code class="docutils literal notranslate"><span class="pre">*args</span></code> for the child function.
+Likewise, if the parent function returns a <code class="docutils literal notranslate"><span class="pre">dict</span></code>, then the dict will
+be used to update the <code class="docutils literal notranslate"><span class="pre">**kwargs</span></code> for the child function.</p>
+<p>Example of chaining fibonacci calculations:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="nd">@huey.task</span><span class="p">()</span>
+<span class="k">def</span> <span class="nf">fib</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="o">=</span><span class="mi">1</span><span class="p">):</span>
+    <span class="n">a</span><span class="p">,</span> <span class="n">b</span> <span class="o">=</span> <span class="n">a</span> <span class="o">+</span> <span class="n">b</span><span class="p">,</span> <span class="n">a</span>
+    <span class="k">return</span> <span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">)</span>  <span class="c1"># returns tuple, which is passed as *args</span>
+
+<span class="n">pipe</span> <span class="o">=</span> <span class="p">(</span><span class="n">fib</span><span class="o">.</span><span class="n">s</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+        <span class="o">.</span><span class="n">then</span><span class="p">(</span><span class="n">fib</span><span class="p">)</span>
+        <span class="o">.</span><span class="n">then</span><span class="p">(</span><span class="n">fib</span><span class="p">))</span>
+<span class="n">result_group</span> <span class="o">=</span> <span class="n">huey</span><span class="o">.</span><span class="n">enqueue</span><span class="p">(</span><span class="n">pipe</span><span class="p">)</span>
+
+<span class="k">print</span><span class="p">(</span><span class="n">result_group</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">blocking</span><span class="o">=</span><span class="bp">True</span><span class="p">))</span>
+<span class="c1"># [(2, 1), (3, 2), (5, 3)]</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="method">
+<dt id="Task.error">
+<code class="descname">error</code><span class="sig-paren">(</span><em>task</em>, <em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#Task.error" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>task</strong> (<a class="reference internal" href="#TaskWrapper" title="TaskWrapper"><em>TaskWrapper</em></a>) – A <code class="docutils literal notranslate"><span class="pre">task()</span></code>-decorated function.</li>
+<li><strong>args</strong> – Arguments to pass to the task.</li>
+<li><strong>kwargs</strong> – Keyword arguments to pass to the task.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">The parent task.</p>
+</td>
+</tr>
+</tbody>
+</table>
+<p>The <a class="reference internal" href="#Task.error" title="Task.error"><code class="xref py py-meth docutils literal notranslate"><span class="pre">error()</span></code></a> method is similar to the
+<a class="reference internal" href="#Task.then" title="Task.then"><code class="xref py py-meth docutils literal notranslate"><span class="pre">then()</span></code></a> method, which is used to construct a task
+pipeline, except the <code class="docutils literal notranslate"><span class="pre">error()</span></code> task will only be called in the event
+of an unhandled exception in the parent task.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="function">
+<dt id="crontab">
+<code class="descname">crontab</code><span class="sig-paren">(</span><em>month='*'</em>, <em>day='*'</em>, <em>day_of_week='*'</em>, <em>hour='*'</em>, <em>minute='*'</em><span class="sig-paren">)</span><a class="headerlink" href="#crontab" title="Permalink to this definition">¶</a></dt>
+<dd><p>Convert a “crontab”-style set of parameters into a test function that will
+return <code class="docutils literal notranslate"><span class="pre">True</span></code> when a given <code class="docutils literal notranslate"><span class="pre">datetime</span></code> matches the parameters set forth in
+the crontab.</p>
+<p>Day-of-week uses 0=Sunday and 6=Saturday.</p>
+<p>Acceptable inputs:</p>
+<ul class="simple">
+<li>“*” = every distinct value</li>
+<li>“*/n” = run every “n” times, i.e. hours=’*/4’ == 0, 4, 8, 12, 16, 20</li>
+<li>“m-n” = run every time m..n</li>
+<li>“m,n” = run on m and n</li>
+</ul>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body">a test function that takes a <code class="docutils literal notranslate"><span class="pre">datetime</span></code> and returns a boolean</td>
+</tr>
+</tbody>
+</table>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">It is currently not possible to run periodic tasks with an interval
+less than once per minute. If you need to run tasks more frequently,
+you can create a periodic task that runs once per minute, and from that
+task, schedule any number of sub-tasks to run after the desired delays.</p>
+</div>
+</dd></dl>
+
+</div>
+<div class="section" id="result">
+<h2>Result<a class="headerlink" href="#result" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="Result">
+<em class="property">class </em><code class="descname">Result</code><span class="sig-paren">(</span><em>huey</em>, <em>task</em><span class="sig-paren">)</span><a class="headerlink" href="#Result" title="Permalink to this definition">¶</a></dt>
+<dd><p>Although you will probably never instantiate an <code class="docutils literal notranslate"><span class="pre">Result</span></code> object yourself,
+they are returned whenever you execute a task-decorated function, or
+schedule a task for execution. The <code class="docutils literal notranslate"><span class="pre">Result</span></code> object talks to the result
+store and is responsible for fetching results from tasks.</p>
+<p>Once the consumer finishes executing a task, the return value is placed in
+the result store, allowing the original caller to retrieve it.</p>
+<p>Getting results from tasks is very simple:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="nd">@huey.task</span><span class="p">()</span>
+<span class="gp">... </span><span class="k">def</span> <span class="nf">add</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">):</span>
+<span class="gp">... </span>    <span class="k">return</span> <span class="n">a</span> <span class="o">+</span> <span class="n">b</span>
+<span class="gp">...</span>
+
+<span class="gp">&gt;&gt;&gt; </span><span class="n">res</span> <span class="o">=</span> <span class="n">add</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">res</span>  <span class="c1"># what is &quot;res&quot; ?</span>
+<span class="go">&lt;Result: task 6b6f36fc-da0d-4069-b46c-c0d4ccff1df6&gt;</span>
+
+<span class="gp">&gt;&gt;&gt; </span><span class="n">res</span><span class="p">()</span>  <span class="c1"># Fetch the result of this task.</span>
+<span class="go">3</span>
+</pre></div>
+</div>
+<p>What happens when data isn’t available yet? Let’s assume the next call
+takes about a minute to calculate:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>&gt;&gt;&gt; res = add(100, 200)  # Imagine this is very slow.
+&gt;&gt;&gt; res.get()  # Data is not ready, so None is returned.
+
+&gt;&gt;&gt; res() is None  # We can omit &quot;.get&quot;, it works the same way.
+True
+
+&gt;&gt;&gt; res(blocking=True, timeout=5)  # Block for up to 5 seconds
+Traceback (most recent call last):
+  File &quot;&lt;stdin&gt;&quot;, line 1, in &lt;module&gt;
+  File &quot;/home/charles/tmp/huey/src/huey/huey/queue.py&quot;, line 46, in get
+    raise HueyException
+huey.exceptions.HueyException
+
+&gt;&gt;&gt; res(blocking=True)  # No timeout, will block until it gets data.
+300
+</pre></div>
+</div>
+<p>If the task failed with an exception, then a <a class="reference internal" href="#TaskException" title="TaskException"><code class="xref py py-class docutils literal notranslate"><span class="pre">TaskException</span></code></a> will
+be raised when reading the result value:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="nd">@huey</span><span class="o">.</span><span class="n">task</span><span class="p">()</span>
+<span class="gp">... </span><span class="k">def</span> <span class="nf">fails</span><span class="p">():</span>
+<span class="gp">... </span>    <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s1">&#39;I failed&#39;</span><span class="p">)</span>
+
+<span class="gp">&gt;&gt;&gt; </span><span class="n">res</span> <span class="o">=</span> <span class="n">fails</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">res</span><span class="p">()</span>  <span class="c1"># raises a TaskException!</span>
+<span class="gt">Traceback (most recent call last):</span>
+  File <span class="nb">&quot;&lt;stdin&gt;&quot;</span>, line <span class="m">1</span>, in <span class="n">&lt;module&gt;</span>
+  File <span class="nb">&quot;/home/charles/tmp/huey/src/huey/huey/api.py&quot;</span>, line <span class="m">684</span>, in <span class="n">get</span>
+    <span class="k">raise</span> <span class="n">TaskException</span><span class="p">(</span><span class="n">result</span><span class="o">.</span><span class="n">metadata</span><span class="p">)</span>
+<span class="gr">huey.exceptions.TaskException</span>: <span class="n">Exception(&#39;I failed&#39;,)</span>
+</pre></div>
+</div>
+<dl class="attribute">
+<dt id="Result.id">
+<code class="descname">id</code><a class="headerlink" href="#Result.id" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the unique id of the corresponding task.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="Result.get">
+<code class="descname">get</code><span class="sig-paren">(</span><em>blocking=False</em>, <em>timeout=None</em>, <em>backoff=1.15</em>, <em>max_delay=1.0</em>, <em>revoke_on_timeout=False</em>, <em>preserve=False</em><span class="sig-paren">)</span><a class="headerlink" href="#Result.get" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>blocking</strong> (<em>bool</em>) – whether to block while waiting for task result</li>
+<li><strong>timeout</strong> – number of seconds to block (if <code class="docutils literal notranslate"><span class="pre">blocking=True</span></code>)</li>
+<li><strong>backoff</strong> – amount to backoff delay each iteration of loop</li>
+<li><strong>max_delay</strong> – maximum amount of time to wait between iterations when
+attempting to fetch result.</li>
+<li><strong>revoke_on_timeout</strong> (<em>bool</em>) – if a timeout occurs, revoke the task,
+thereby preventing it from running if it is has not started yet.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<p>Attempt to retrieve the return value of a task.  By default,
+<a class="reference internal" href="#Result.get" title="Result.get"><code class="xref py py-meth docutils literal notranslate"><span class="pre">get()</span></code></a> will simply check for the value, returning
+<code class="docutils literal notranslate"><span class="pre">None</span></code> if it is not ready yet. If you want to wait for a value, you
+can specify <code class="docutils literal notranslate"><span class="pre">blocking=True</span></code>. This will loop, backing off up to the
+provided <code class="docutils literal notranslate"><span class="pre">max_delay</span></code>, until the value is ready or the <code class="docutils literal notranslate"><span class="pre">timeout</span></code> is
+reached. If the <code class="docutils literal notranslate"><span class="pre">timeout</span></code> is reached before the result is ready, a
+<a class="reference internal" href="#HueyException" title="HueyException"><code class="xref py py-class docutils literal notranslate"><span class="pre">HueyException</span></code></a> exception will be raised.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">Instead of calling <code class="docutils literal notranslate"><span class="pre">.get()</span></code>, you can simply call the
+<a class="reference internal" href="#Result" title="Result"><code class="xref py py-class docutils literal notranslate"><span class="pre">Result</span></code></a> object directly. Both methods accept the same
+arguments.</p>
+</div>
+</dd></dl>
+
+<dl class="method">
+<dt id="Result.__call__">
+<code class="descname">__call__</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#Result.__call__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Identical to the <a class="reference internal" href="#Result.get" title="Result.get"><code class="xref py py-meth docutils literal notranslate"><span class="pre">get()</span></code></a> method, provided as a shortcut.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="Result.revoke">
+<code class="descname">revoke</code><span class="sig-paren">(</span><em>revoke_once=True</em><span class="sig-paren">)</span><a class="headerlink" href="#Result.revoke" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>revoke_once</strong> (<em>bool</em>) – revoke only once.</td>
+</tr>
+</tbody>
+</table>
+<p>Revoke the given task. Unless it is in the process of executing, the
+task will be discarded without being executed.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">one_hour</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">()</span> <span class="o">+</span> <span class="n">datetime</span><span class="o">.</span><span class="n">timedelta</span><span class="p">(</span><span class="n">hours</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+
+<span class="c1"># Run this command in an hour</span>
+<span class="n">res</span> <span class="o">=</span> <span class="n">add</span><span class="o">.</span><span class="n">schedule</span><span class="p">((</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">),</span> <span class="n">eta</span><span class="o">=</span><span class="n">one_hour</span><span class="p">)</span>
+
+<span class="c1"># I changed my mind, do not run it after all.</span>
+<span class="n">res</span><span class="o">.</span><span class="n">revoke</span><span class="p">()</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="method">
+<dt id="Result.restore">
+<code class="descname">restore</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#Result.restore" title="Permalink to this definition">¶</a></dt>
+<dd><p>Restore the given task instance. Unless the task instance has already
+been dequeued and discarded, it will be restored and run as scheduled.</p>
+<div class="admonition warning">
+<p class="first admonition-title">Warning</p>
+<p class="last">If the task class itself has been revoked, via a call to
+<a class="reference internal" href="#TaskWrapper.revoke" title="TaskWrapper.revoke"><code class="xref py py-meth docutils literal notranslate"><span class="pre">TaskWrapper.revoke()</span></code></a>, then this method has no effect.</p>
+</div>
+</dd></dl>
+
+<dl class="method">
+<dt id="Result.is_revoked">
+<code class="descname">is_revoked</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#Result.is_revoked" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return a boolean value indicating whether this particular task instance
+<strong>or</strong> the task class itself has been revoked.</p>
+<div class="admonition seealso">
+<p class="first admonition-title">See also</p>
+<p class="last"><a class="reference internal" href="#TaskWrapper.is_revoked" title="TaskWrapper.is_revoked"><code class="xref py py-meth docutils literal notranslate"><span class="pre">TaskWrapper.is_revoked()</span></code></a>.</p>
+</div>
+</dd></dl>
+
+<dl class="method">
+<dt id="Result.reschedule">
+<code class="descname">reschedule</code><span class="sig-paren">(</span><em>eta=None</em>, <em>delay=None</em><span class="sig-paren">)</span><a class="headerlink" href="#Result.reschedule" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>eta</strong> (<em>datetime</em>) – execute function at the given time.</li>
+<li><strong>delay</strong> (<em>int</em>) – execute function after specified delay in seconds.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last"><a class="reference internal" href="#Result" title="Result"><code class="xref py py-class docutils literal notranslate"><span class="pre">Result</span></code></a> handle for the new task.</p>
+</td>
+</tr>
+</tbody>
+</table>
+<p>Reschedule the given task. The original task instance will be revoked,
+but <strong>no checks are made</strong> to verify that it hasn’t already been
+executed.</p>
+<p>If neither an <code class="docutils literal notranslate"><span class="pre">eta</span></code> nor a <code class="docutils literal notranslate"><span class="pre">delay</span></code> is specified, the task will be
+run as soon as it is received by a worker.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="Result.reset">
+<code class="descname">reset</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#Result.reset" title="Permalink to this definition">¶</a></dt>
+<dd><p>Reset the cached result and allow re-fetching a new result for the
+given task (i.e. after a task error and subsequent retry).</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="ResultGroup">
+<em class="property">class </em><code class="descname">ResultGroup</code><a class="headerlink" href="#ResultGroup" title="Permalink to this definition">¶</a></dt>
+<dd><p>A <code class="docutils literal notranslate"><span class="pre">ResultGroup</span></code> will be returned when you enqueue a task pipeline or if
+you use the <a class="reference internal" href="#TaskWrapper.map" title="TaskWrapper.map"><code class="xref py py-meth docutils literal notranslate"><span class="pre">TaskWrapper.map()</span></code></a> method. It is a simple wrapper
+around a number of individual <a class="reference internal" href="#Result" title="Result"><code class="xref py py-meth docutils literal notranslate"><span class="pre">Result()</span></code></a> instances, and provides a
+convenience API for fetching the results in bulk.</p>
+<dl class="method">
+<dt id="ResultGroup.get">
+<code class="descname">get</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#ResultGroup.get" title="Permalink to this definition">¶</a></dt>
+<dd><p>Call <a class="reference internal" href="#Result.get" title="Result.get"><code class="xref py py-meth docutils literal notranslate"><span class="pre">get()</span></code></a> on each individual <a class="reference internal" href="#Result" title="Result"><code class="xref py py-meth docutils literal notranslate"><span class="pre">Result()</span></code></a>
+instance in the group and returns a list of return values. Any keyword
+arguments are passed along.</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="serializer">
+<h2>Serializer<a class="headerlink" href="#serializer" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="Serializer">
+<em class="property">class </em><code class="descname">Serializer</code><span class="sig-paren">(</span><em>compression=False</em>, <em>compression_level=6</em><span class="sig-paren">)</span><a class="headerlink" href="#Serializer" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>compression</strong> (<em>bool</em>) – use gzip compression</li>
+<li><strong>compression_level</strong> (<em>int</em>) – 0 for least, 9 for most.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<p>The Serializer class implements a simple interface that can be extended to
+provide your own serialization format. The default implementation uses
+<code class="docutils literal notranslate"><span class="pre">pickle</span></code>.</p>
+<p>To override, the following methods should be implemented. Compression is
+handled transparently elsewhere in the API.</p>
+<dl class="method">
+<dt id="Serializer._serialize">
+<code class="descname">_serialize</code><span class="sig-paren">(</span><em>data</em><span class="sig-paren">)</span><a class="headerlink" href="#Serializer._serialize" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>data</strong> – arbitrary Python object to serialize.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Rtype bytes:</th><td class="field-body"></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="Serializer._deserialize">
+<code class="descname">_deserialize</code><span class="sig-paren">(</span><em>data</em><span class="sig-paren">)</span><a class="headerlink" href="#Serializer._deserialize" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>data</strong> (<em>bytes</em>) – serialized data.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">the deserialized object.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="exceptions">
+<span id="id1"></span><h2>Exceptions<a class="headerlink" href="#exceptions" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="HueyException">
+<em class="property">class </em><code class="descname">HueyException</code><a class="headerlink" href="#HueyException" title="Permalink to this definition">¶</a></dt>
+<dd><p>General exception class.</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="ConfigurationError">
+<em class="property">class </em><code class="descname">ConfigurationError</code><a class="headerlink" href="#ConfigurationError" title="Permalink to this definition">¶</a></dt>
+<dd><p>Raised when Huey encounters a configuration problem.</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="TaskLockdException">
+<em class="property">class </em><code class="descname">TaskLockdException</code><a class="headerlink" href="#TaskLockdException" title="Permalink to this definition">¶</a></dt>
+<dd><p>Raised by the consumer when a task lock cannot be acquired.</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="CancelExecution">
+<em class="property">class </em><code class="descname">CancelExecution</code><a class="headerlink" href="#CancelExecution" title="Permalink to this definition">¶</a></dt>
+<dd><p>Should be raised by user code within a <a class="reference internal" href="#Huey.pre_execute" title="Huey.pre_execute"><code class="xref py py-meth docutils literal notranslate"><span class="pre">pre_execute()</span></code></a> hook to
+signal to the consumer that the task shall be cancelled.</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="RetryTask">
+<em class="property">class </em><code class="descname">RetryTask</code><a class="headerlink" href="#RetryTask" title="Permalink to this definition">¶</a></dt>
+<dd><p>Raised by user code from within a <a class="reference internal" href="#Huey.task" title="Huey.task"><code class="xref py py-meth docutils literal notranslate"><span class="pre">task()</span></code></a> function to force a
+retry. When this exception is raised, the task will be retried irrespective
+of whether it is configured with automatic retries.</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="TaskException">
+<em class="property">class </em><code class="descname">TaskException</code><a class="headerlink" href="#TaskException" title="Permalink to this definition">¶</a></dt>
+<dd><p>General exception raised by <a class="reference internal" href="#Result" title="Result"><code class="xref py py-class docutils literal notranslate"><span class="pre">Result</span></code></a> handles when reading the
+result of a task that failed due to an error.</p>
+</dd></dl>
+
+</div>
+<div class="section" id="storage">
+<h2>Storage<a class="headerlink" href="#storage" title="Permalink to this headline">¶</a></h2>
+<p>Huey</p>
+<dl class="class">
+<dt id="BaseStorage">
+<em class="property">class </em><code class="descname">BaseStorage</code><span class="sig-paren">(</span><em>name='huey'</em>, <em>**storage_kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#BaseStorage" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="method">
+<dt id="BaseStorage.enqueue">
+<code class="descname">enqueue</code><span class="sig-paren">(</span><em>data</em><span class="sig-paren">)</span><a class="headerlink" href="#BaseStorage.enqueue" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="BaseStorage.dequeue">
+<code class="descname">dequeue</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#BaseStorage.dequeue" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="BaseStorage.unqueue">
+<code class="descname">unqueue</code><span class="sig-paren">(</span><em>data</em><span class="sig-paren">)</span><a class="headerlink" href="#BaseStorage.unqueue" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="BaseStorage.queue_size">
+<code class="descname">queue_size</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#BaseStorage.queue_size" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="BaseStorage.enqueued_items">
+<code class="descname">enqueued_items</code><span class="sig-paren">(</span><em>limit=None</em><span class="sig-paren">)</span><a class="headerlink" href="#BaseStorage.enqueued_items" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="BaseStorage.flush_queue">
+<code class="descname">flush_queue</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#BaseStorage.flush_queue" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="BaseStorage.add_to_schedule">
+<code class="descname">add_to_schedule</code><span class="sig-paren">(</span><em>data</em>, <em>timestamp</em><span class="sig-paren">)</span><a class="headerlink" href="#BaseStorage.add_to_schedule" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="BaseStorage.read_schedule">
+<code class="descname">read_schedule</code><span class="sig-paren">(</span><em>timestamp</em><span class="sig-paren">)</span><a class="headerlink" href="#BaseStorage.read_schedule" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="BaseStorage.schedule_size">
+<code class="descname">schedule_size</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#BaseStorage.schedule_size" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="BaseStorage.scheduled_items">
+<code class="descname">scheduled_items</code><span class="sig-paren">(</span><em>limit=None</em><span class="sig-paren">)</span><a class="headerlink" href="#BaseStorage.scheduled_items" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="BaseStorage.flush_schedule">
+<code class="descname">flush_schedule</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#BaseStorage.flush_schedule" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="BaseStorage.put_data">
+<code class="descname">put_data</code><span class="sig-paren">(</span><em>key</em>, <em>value</em><span class="sig-paren">)</span><a class="headerlink" href="#BaseStorage.put_data" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="BaseStorage.peek_data">
+<code class="descname">peek_data</code><span class="sig-paren">(</span><em>key</em><span class="sig-paren">)</span><a class="headerlink" href="#BaseStorage.peek_data" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="BaseStorage.pop_data">
+<code class="descname">pop_data</code><span class="sig-paren">(</span><em>key</em><span class="sig-paren">)</span><a class="headerlink" href="#BaseStorage.pop_data" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="BaseStorage.put_if_empty">
+<code class="descname">put_if_empty</code><span class="sig-paren">(</span><em>key</em>, <em>value</em><span class="sig-paren">)</span><a class="headerlink" href="#BaseStorage.put_if_empty" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="BaseStorage.has_data_for_key">
+<code class="descname">has_data_for_key</code><span class="sig-paren">(</span><em>key</em><span class="sig-paren">)</span><a class="headerlink" href="#BaseStorage.has_data_for_key" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="BaseStorage.result_store_size">
+<code class="descname">result_store_size</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#BaseStorage.result_store_size" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="BaseStorage.result_items">
+<code class="descname">result_items</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#BaseStorage.result_items" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="BaseStorage.flush_results">
+<code class="descname">flush_results</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#BaseStorage.flush_results" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html">Table of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Huey’s API</a><ul>
+<li><a class="reference internal" href="#huey-types">Huey types</a></li>
+<li><a class="reference internal" href="#huey-object">Huey object</a></li>
+<li><a class="reference internal" href="#result">Result</a></li>
+<li><a class="reference internal" href="#serializer">Serializer</a></li>
+<li><a class="reference internal" href="#exceptions">Exceptions</a></li>
+<li><a class="reference internal" href="#storage">Storage</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="signals.html"
+                        title="previous chapter">Signals</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="contrib.html"
+                        title="next chapter">Huey Extensions</a></p>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/api.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    </div>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="contrib.html" title="Huey Extensions"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="signals.html" title="Signals"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">huey 2.0.0 documentation</a> &#187;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2013, charles leifer.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.8.1.
+    </div>
+  </body>
+</html>

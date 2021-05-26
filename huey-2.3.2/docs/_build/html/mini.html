@@ -1,0 +1,213 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>Mini-Huey &#8212; huey 2.0.0 documentation</title>
+    <link rel="stylesheet" href="_static/classic.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" /> 
+  </head><body>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="nav-item nav-item-0"><a href="index.html">huey 2.0.0 documentation</a> &#187;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="mini-huey">
+<span id="mini"></span><h1>Mini-Huey<a class="headerlink" href="#mini-huey" title="Permalink to this headline">¶</a></h1>
+<p><a class="reference internal" href="#MiniHuey" title="MiniHuey"><code class="xref py py-class docutils literal notranslate"><span class="pre">MiniHuey</span></code></a> provides a very lightweight huey-like API that may be
+useful for certain applications. The <code class="docutils literal notranslate"><span class="pre">MiniHuey</span></code> consumer runs inside a
+greenlet in your main application process.  This means there is no separate
+consumer process to manage, nor is there any persistence for the
+enqueued/scheduled tasks; whenever a task is enqueued or is scheduled to run, a
+new greenlet is spawned to execute the task.</p>
+<p><em>MiniHuey</em> may be useful if:</p>
+<ul class="simple">
+<li>Your application is a WSGI application.</li>
+<li>Your tasks do stuff like check for spam, send email, make requests to
+web-based APIs, query a database server.</li>
+<li>You do not need automatic retries, persistence for your message queue,
+dynamic task revocation.</li>
+<li>You wish to keep things nice and simple and don’t want the overhead of
+additional process(es) to manage.</li>
+</ul>
+<p><em>MiniHuey</em> may be a bad choice if:</p>
+<ul class="simple">
+<li>Your application is incompatible with gevent (e.g. uses asyncio).</li>
+<li>Your tasks do stuff like process large files, crunch numbers, parse large XML
+or JSON documents, or other CPU or disk-intensive work.</li>
+<li>You need a persistent store for messages and results, so the consumer can be
+restarted without losing any unprocessed messages.</li>
+</ul>
+<p>If you are not sure, then you should probably not use <em>MiniHuey</em>. Use the
+regular <a class="reference internal" href="api.html#Huey" title="Huey"><code class="xref py py-class docutils literal notranslate"><span class="pre">Huey</span></code></a> instead.</p>
+<p>Usage and task declaration:</p>
+<dl class="class">
+<dt id="MiniHuey">
+<em class="property">class </em><code class="descname">MiniHuey</code><span class="sig-paren">(</span><span class="optional">[</span><em>name='huey'</em><span class="optional">[</span>, <em>interval=1</em><span class="optional">[</span>, <em>pool_size=None</em><span class="optional">]</span><span class="optional">]</span><span class="optional">]</span><span class="sig-paren">)</span><a class="headerlink" href="#MiniHuey" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>name</strong> (<em>str</em>) – Name given to this huey instance.</li>
+<li><strong>interval</strong> (<em>int</em>) – How frequently to check for scheduled tasks (seconds).</li>
+<li><strong>pool_size</strong> (<em>int</em>) – Limit number of concurrent tasks to given size.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<dl class="method">
+<dt id="MiniHuey.task">
+<code class="descname">task</code><span class="sig-paren">(</span><span class="optional">[</span><em>validate_func=None</em><span class="optional">]</span><span class="sig-paren">)</span><a class="headerlink" href="#MiniHuey.task" title="Permalink to this definition">¶</a></dt>
+<dd><p>Task decorator similar to <a class="reference internal" href="api.html#Huey.task" title="Huey.task"><code class="xref py py-meth docutils literal notranslate"><span class="pre">Huey.task()</span></code></a> or <a class="reference internal" href="api.html#Huey.periodic_task" title="Huey.periodic_task"><code class="xref py py-meth docutils literal notranslate"><span class="pre">Huey.periodic_task()</span></code></a>.
+For tasks that should be scheduled automatically at regular intervals,
+simply provide a suitable <a class="reference internal" href="api.html#crontab" title="crontab"><code class="xref py py-func docutils literal notranslate"><span class="pre">crontab()</span></code></a> definition.</p>
+<p>The decorated task will gain a <code class="docutils literal notranslate"><span class="pre">schedule()</span></code> method which can be used
+like the <a class="reference internal" href="api.html#TaskWrapper.schedule" title="TaskWrapper.schedule"><code class="xref py py-meth docutils literal notranslate"><span class="pre">TaskWrapper.schedule()</span></code></a> method.</p>
+<p>Examples task declarations:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">huey</span> <span class="kn">import</span> <span class="n">crontab</span>
+<span class="kn">from</span> <span class="nn">huey.contrib.mini</span> <span class="kn">import</span> <span class="n">MiniHuey</span>
+
+<span class="n">huey</span> <span class="o">=</span> <span class="n">MiniHuey</span><span class="p">()</span>
+
+<span class="nd">@huey.task</span><span class="p">()</span>
+<span class="k">def</span> <span class="nf">fetch_url</span><span class="p">(</span><span class="n">url</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">urlopen</span><span class="p">(</span><span class="n">url</span><span class="p">)</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>
+
+<span class="nd">@huey.task</span><span class="p">(</span><span class="n">crontab</span><span class="p">(</span><span class="n">minute</span><span class="o">=</span><span class="s1">&#39;0&#39;</span><span class="p">,</span> <span class="n">hour</span><span class="o">=</span><span class="s1">&#39;4&#39;</span><span class="p">))</span>
+<span class="k">def</span> <span class="nf">run_backup</span><span class="p">():</span>
+    <span class="k">pass</span>
+</pre></div>
+</div>
+<p>Example usage. Running tasks and getting results work about the same as
+regular Huey:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Executes the task asynchronously in a new greenlet.</span>
+<span class="n">result</span> <span class="o">=</span> <span class="n">fetch_url</span><span class="p">(</span><span class="s1">&#39;https://google.com/&#39;</span><span class="p">)</span>
+
+<span class="c1"># Wait for the task to finish.</span>
+<span class="n">html</span> <span class="o">=</span> <span class="n">result</span><span class="o">.</span><span class="n">get</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>Scheduling a task for execution:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Fetch in ~30s.</span>
+<span class="n">result</span> <span class="o">=</span> <span class="n">fetch_url</span><span class="o">.</span><span class="n">schedule</span><span class="p">((</span><span class="s1">&#39;https://google.com&#39;</span><span class="p">,),</span> <span class="n">delay</span><span class="o">=</span><span class="mi">30</span><span class="p">)</span>
+
+<span class="c1"># Wait until result is ready, takes ~30s.</span>
+<span class="n">html</span> <span class="o">=</span> <span class="n">result</span><span class="o">.</span><span class="n">get</span><span class="p">()</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="method">
+<dt id="MiniHuey.start">
+<code class="descname">start</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#MiniHuey.start" title="Permalink to this definition">¶</a></dt>
+<dd><p>Start the scheduler in a new green thread. The scheduler is needed if
+you plan to schedule tasks for execution using the <code class="docutils literal notranslate"><span class="pre">schedule()</span></code>
+method, or if you want to run periodic tasks.</p>
+<p>Typically this method should be called when your application starts up.
+For example, a WSGI application might do something like:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Always apply gevent monkey-patch before anything else!</span>
+<span class="kn">from</span> <span class="nn">gevent</span> <span class="kn">import</span> <span class="n">monkey</span><span class="p">;</span> <span class="n">monkey</span><span class="o">.</span><span class="n">patch_all</span><span class="p">()</span>
+
+<span class="kn">from</span> <span class="nn">my_app</span> <span class="kn">import</span> <span class="n">app</span>  <span class="c1"># flask/bottle/whatever WSGI app.</span>
+<span class="kn">from</span> <span class="nn">my_app</span> <span class="kn">import</span> <span class="n">mini_huey</span>
+
+<span class="c1"># Start the scheduler. Returns immediately.</span>
+<span class="n">mini_huey</span><span class="o">.</span><span class="n">start</span><span class="p">()</span>
+
+<span class="c1"># Run the WSGI server.</span>
+<span class="kn">from</span> <span class="nn">gevent.pywsgi</span> <span class="kn">import</span> <span class="n">WSGIServer</span>
+<span class="n">WSGIServer</span><span class="p">((</span><span class="s1">&#39;127.0.0.1&#39;</span><span class="p">,</span> <span class="mi">8000</span><span class="p">),</span> <span class="n">app</span><span class="p">)</span><span class="o">.</span><span class="n">serve_forever</span><span class="p">()</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="method">
+<dt id="MiniHuey.stop">
+<code class="descname">stop</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#MiniHuey.stop" title="Permalink to this definition">¶</a></dt>
+<dd><p>Stop the scheduler.</p>
+</dd></dl>
+
+</dd></dl>
+
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">There is not a separate decorator for <em>periodic</em>, or <em>crontab</em>, tasks. Just
+use <a class="reference internal" href="#MiniHuey.task" title="MiniHuey.task"><code class="xref py py-meth docutils literal notranslate"><span class="pre">MiniHuey.task()</span></code></a> and pass in a validation function. A
+validation function can be generated using the <a class="reference internal" href="api.html#crontab" title="crontab"><code class="xref py py-func docutils literal notranslate"><span class="pre">crontab()</span></code></a> function.</p>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">Tasks enqueued for immediate execution will be run regardless of whether
+the scheduler is running. You only need to start the scheduler if you plan
+to schedule tasks in the future or run periodic tasks.</p>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/mini.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    </div>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="nav-item nav-item-0"><a href="index.html">huey 2.0.0 documentation</a> &#187;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2013, charles leifer.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.8.1.
+    </div>
+  </body>
+</html>

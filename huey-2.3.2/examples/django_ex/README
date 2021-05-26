@@ -1,0 +1,13 @@
+In one terminal, run:
+
+    ./manage.py run_huey
+
+In another terminal:
+
+    ./manage.py shell
+
+Commands to try out:
+
+    from djangoex.test_app.tasks import *
+    res = add(1, 2)
+    print(res.get(blocking=True))  # Wait for result, then print.

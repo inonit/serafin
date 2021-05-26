@@ -1,0 +1,190 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>Changes in 2.0 &#8212; huey 2.0.0 documentation</title>
+    <link rel="stylesheet" href="_static/classic.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="prev" title="Troubleshooting and Common Pitfalls" href="troubleshooting.html" /> 
+  </head><body>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="troubleshooting.html" title="Troubleshooting and Common Pitfalls"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">huey 2.0.0 documentation</a> &#187;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="changes-in-2-0">
+<span id="changes"></span><h1>Changes in 2.0<a class="headerlink" href="#changes-in-2-0" title="Permalink to this headline">¶</a></h1>
+<p>The 2.0 release of Huey is mostly API-compatible with previous versions, but
+there are a number of things that have been altered or improved in this
+release.</p>
+<div class="admonition warning">
+<p class="first admonition-title">Warning</p>
+<p class="last">The serialization format for tasks has changed. An attempt has been made to
+provide backward compatibility when reading messages enqueued by an older
+version of Huey, but this is not guaranteed to work.</p>
+</div>
+<div class="section" id="summary">
+<h2>Summary<a class="headerlink" href="#summary" title="Permalink to this headline">¶</a></h2>
+<p>The events APIs have been removed and replaced by a <a class="reference internal" href="signals.html#signals"><span class="std std-ref">Signals</span></a> system.
+Signal handlers are executed synchronously by the worker(s) as they run.</p>
+<p>Errors are no longer stored in a separate list. Should a task fail due to an
+unhandled exception, the exception will be placed in the result store, and can
+be introspected using the task’s <a class="reference internal" href="api.html#Result" title="Result"><code class="xref py py-class docutils literal notranslate"><span class="pre">Result</span></code></a> handle.</p>
+<p>The <code class="docutils literal notranslate"><span class="pre">always_eager</span></code> mode has been renamed <a class="reference internal" href="guide.html#immediate"><span class="std std-ref">Immediate mode</span></a>. As the new name
+implies, tasks are run immediately instead of being enqueued. Immediate mode is
+designed to be used during testing and development. When immediate mode is
+enabled, Huey switches to using in-memory storage by default, so as to avoid
+accidental writes to a live storage. Immediate mode improves greatly on
+<code class="docutils literal notranslate"><span class="pre">always_eager</span></code> mode, as it no longer requires special-casing and follows the
+same code-paths used when Huey is in live mode. See <a class="reference internal" href="guide.html#immediate"><span class="std std-ref">Immediate mode</span></a> for more
+details.</p>
+</div>
+<div class="section" id="details">
+<h2>Details<a class="headerlink" href="#details" title="Permalink to this headline">¶</a></h2>
+<p>Changes when initializing <a class="reference internal" href="api.html#Huey" title="Huey"><code class="xref py py-class docutils literal notranslate"><span class="pre">Huey</span></code></a>:</p>
+<ul class="simple">
+<li><code class="docutils literal notranslate"><span class="pre">result_store</span></code> parameter has been renamed to <code class="docutils literal notranslate"><span class="pre">results</span></code>.</li>
+<li><code class="docutils literal notranslate"><span class="pre">events</span></code>, <code class="docutils literal notranslate"><span class="pre">store_errors</span></code> and <code class="docutils literal notranslate"><span class="pre">global_registry</span></code>  parameters have all
+been removed. Events have been replaced by <a class="reference internal" href="signals.html#signals"><span class="std std-ref">Signals</span></a>, and the task
+registry is local to the Huey instance.</li>
+<li><code class="docutils literal notranslate"><span class="pre">always_eager</span></code> has been renamed <code class="docutils literal notranslate"><span class="pre">immediate</span></code>.</li>
+</ul>
+<p>New initialization arguments:</p>
+<ul class="simple">
+<li>Boolean <code class="docutils literal notranslate"><span class="pre">utc</span></code> parameter (defaults to true). This setting is used to control
+how Huey interprets datetimes internally. Previously, this logic was spread
+across a number of APIs and a consumer flag.</li>
+<li>Serializer parameter accepts an (optional) object implementing the
+<a class="reference internal" href="api.html#Serializer" title="Serializer"><code class="xref py py-class docutils literal notranslate"><span class="pre">Serializer</span></code></a> interface. Defaults to using <code class="docutils literal notranslate"><span class="pre">pickle</span></code>.</li>
+<li>Accepts option to use gzip <code class="docutils literal notranslate"><span class="pre">compression</span></code> when serializing data.</li>
+</ul>
+<p>Other changes to <a class="reference internal" href="api.html#Huey" title="Huey"><code class="xref py py-class docutils literal notranslate"><span class="pre">Huey</span></code></a>:</p>
+<ul class="simple">
+<li>Immediate mode can be enabled or disabled at runtime by setting the
+<a class="reference internal" href="api.html#Huey.immediate" title="Huey.immediate"><code class="xref py py-attr docutils literal notranslate"><span class="pre">immediate</span></code></a> property.</li>
+<li>Event emitter has been replaced by <a class="reference internal" href="signals.html#signals"><span class="std std-ref">Signals</span></a>, so all event-related APIs
+have been removed.</li>
+<li>Special classes of exceptions for the various storage operations have been
+removed. For more information see <a class="reference internal" href="api.html#exceptions"><span class="std std-ref">Exceptions</span></a>.</li>
+<li>The <code class="docutils literal notranslate"><span class="pre">Huey.errors()</span></code> method is gone. Errors are no longer tracked
+separately.</li>
+</ul>
+<p>Changes to the <a class="reference internal" href="api.html#Huey.task" title="Huey.task"><code class="xref py py-meth docutils literal notranslate"><span class="pre">task()</span></code></a> and <a class="reference internal" href="api.html#Huey.periodic_task" title="Huey.periodic_task"><code class="xref py py-meth docutils literal notranslate"><span class="pre">periodic_task()</span></code></a>
+decorators:</p>
+<ul class="simple">
+<li>Previously these decorators accepted two optional keyword arguments,
+<code class="docutils literal notranslate"><span class="pre">retries_as_argument</span></code> and <code class="docutils literal notranslate"><span class="pre">include_task</span></code>. Since the remaining retries are
+stored as an attribute on the task itself, the first is redundant. In 2.0
+these are replaced by a new keyword argument <code class="docutils literal notranslate"><span class="pre">context</span></code>, which, if <code class="docutils literal notranslate"><span class="pre">True</span></code>,
+will pass the task instance to the decorated function as a keyword argument.</li>
+<li>Enqueueing a task pipeline will now return a <a class="reference internal" href="api.html#ResultGroup" title="ResultGroup"><code class="xref py py-class docutils literal notranslate"><span class="pre">ResultGroup</span></code></a> instead
+of a list of individual <a class="reference internal" href="api.html#Result" title="Result"><code class="xref py py-class docutils literal notranslate"><span class="pre">Result</span></code></a> instances.</li>
+</ul>
+<p>Changes to the <a class="reference internal" href="api.html#Result" title="Result"><code class="xref py py-class docutils literal notranslate"><span class="pre">Result</span></code></a> handle (previous called
+<code class="docutils literal notranslate"><span class="pre">TaskResultWrapper</span></code>):</p>
+<ul class="simple">
+<li>The <code class="docutils literal notranslate"><span class="pre">task_id</span></code> property is renamed to <code class="docutils literal notranslate"><span class="pre">id</span></code>.</li>
+<li>Task instances that are revoked via <a class="reference internal" href="api.html#Result.revoke" title="Result.revoke"><code class="xref py py-meth docutils literal notranslate"><span class="pre">Result.revoke()</span></code></a> will default to
+using <code class="docutils literal notranslate"><span class="pre">revoke_once=True</span></code>.</li>
+<li>The <a class="reference internal" href="api.html#Result.reschedule" title="Result.reschedule"><code class="xref py py-meth docutils literal notranslate"><span class="pre">reschedule()</span></code></a> method no longer requires a delay or eta.
+Leaving both empty will reschedule the task immediately.</li>
+</ul>
+<p>Changes to <a class="reference internal" href="api.html#crontab" title="crontab"><code class="xref py py-func docutils literal notranslate"><span class="pre">crontab()</span></code></a>:</p>
+<ul class="simple">
+<li>The order of arguments has been changed to match the order used on linux
+crontab. The order is now minute, hour, day, month, day of week.</li>
+</ul>
+<p>Miscellaneous:</p>
+<ul class="simple">
+<li><code class="docutils literal notranslate"><span class="pre">SqliteHuey</span></code> no longer has any third-party dependencies and has been moved
+into the main <code class="docutils literal notranslate"><span class="pre">huey</span></code> module.</li>
+<li>The <code class="docutils literal notranslate"><span class="pre">SimpleStorage</span></code> contrib module has been removed.</li>
+</ul>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html">Table of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Changes in 2.0</a><ul>
+<li><a class="reference internal" href="#summary">Summary</a></li>
+<li><a class="reference internal" href="#details">Details</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="troubleshooting.html"
+                        title="previous chapter">Troubleshooting and Common Pitfalls</a></p>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/changes.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    </div>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="troubleshooting.html" title="Troubleshooting and Common Pitfalls"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">huey 2.0.0 documentation</a> &#187;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2013, charles leifer.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.8.1.
+    </div>
+  </body>
+</html>
