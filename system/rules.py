@@ -3,20 +3,18 @@ from __future__ import absolute_import
 
 import rules
 
-
 @rules.predicate
 def has_program_access(user, program):
-    if user.program_restrictions.exists() and program:
+    if program and user.program_restrictions.exists():
         return user.program_restrictions.filter(id=program.id).exists()
     return False
 
 
 @rules.predicate
 def has_program_related_access(user, related):
-    if user.program_restrictions.exists() and related and related.program:
+    if related and user.program_restrictions.exists() and related.program:
         return user.program_restrictions.filter(id=related.program.id).exists()
     return False
-
 
 rules.add_perm('system', rules.always_allow)
 rules.add_perm('system.change_program', has_program_access)

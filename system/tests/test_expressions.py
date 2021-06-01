@@ -16,7 +16,7 @@ class ParserTestCase(TestCase):
 
     def setUp(self):
         self.user = User()
-        self.user.data = {
+        self.user.data = {  
             "UserVar1": 1,
             "UserVar2": 2,
             "UserVar3": "I like traffic lights",

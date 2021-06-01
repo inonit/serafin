@@ -1,5 +1,8 @@
 from __future__ import unicode_literals
+import re
 from django.contrib.auth.backends import ModelBackend
+from django.core.exceptions import ValidationError
+from django.utils.translation import gettext as _
 
 from django.contrib.auth import get_user_model
 from django.db.models import Q
@@ -52,3 +55,16 @@ class EmailOrPhoneBackend(ModelBackend):
             return my_user_model.objects.get(pk=user_id)
         except my_user_model.DoesNotExist:
             return None
+class DigitPasswordValidator:
+    """
+    Validate whether the password has at least one digit.
+    """
+    def validate(self, password, user=None):
+        if not re.search(r"[\d]+", password):
+            raise ValidationError(
+                _("This password must contain at least one digit."),
+                code='password_entirely_non_digits',
+            )
+
+    def get_help_text(self):
+        return _("Your password must contain at least one digit.")
