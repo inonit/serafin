@@ -69,6 +69,8 @@ class EventTrackingMiddleware(MiddlewareMixin):
                 if key in ['email', 'phone', 'password']:
                     continue
 
+                pre_value = request.user.data.get(key, '')
+
                 def recursive_stripe(v):
                     if isinstance(v, list):
                         return '[' + ', '.join([recursive_stripe(x) for x in v]) + ']'
