@@ -527,7 +527,7 @@ idle.run(function(Idle){
 });
 
 if (window.jQuery) {
-    $(window).on("click", function (e) {
+    $(window).live("click", function (e) {
         if (e.target == null || e.target.parentElement == null) {
             return;
         }
