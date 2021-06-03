@@ -1,24 +1,28 @@
 {% load i18n sitetree %}
 {% for item in sitetree_items %}
-    <top-bar-section>
+    <!-- <top-bar-section > -->
+        <section class="top-bar-section ng-isolate-scope" style="left: 0%;">
+
         <ul class="{% if item.is_current or item.in_current_branch %}active{% endif %} {% if item.hint == "left" or item.hint == "right" %}{{ item.hint }}{% else %}left{% endif %}">
             {% if item.has_children %}
-                <li has-dropdown>
+                <li has-dropdown class="has-dropdown ng-isolate-scope">
                     <a href="{{ item.url_resolved }}">
                         {% trans item.title %}</a>
-                    <ul top-bar-dropdown>
+                    <ul top-bar-dropdown class="dropdown ng-isolate-scope">
                         {% sitetree_children of item for menu template "sitetree/topbar_navmenu/_1items.html" %}
                     </ul>
                 </li>
             {% else %}
                 <li>
                     <a href="{{ item.url_resolved }}">
-                        {% trans item.title %}
+                        {% trans item.title %} 
                     </a>
                 </li>
             {% endif %}
         </ul>
-    </top-bar-section>
+    </section>
+
+    <!-- </top-bar-section> -->
 {% endfor %}
 
 
