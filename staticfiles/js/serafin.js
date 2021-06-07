@@ -526,51 +526,51 @@ idle.run(function(Idle){
 	Idle.watch();
 });
 
-if (window.jQuery) {
-    $(window).live("click", function (e) {
-        if (e.target == null || e.target.parentElement == null) {
-            return;
-        }
+// if (window.jQuery) {
+//     $(window).on("click", function (e) {
+//         if (e.target == null || e.target.parentElement == null) {
+//             return;
+//         }
 
-        if ((e.target.classList.contains("menu-icon") ||
-            e.target.parentElement.classList.contains("menu-icon"))) {
-            $(".header-tabs").show();
-        }
+//         if ((e.target.classList.contains("menu-icon") ||
+//             e.target.parentElement.classList.contains("menu-icon"))) {
+//             $(".header-tabs").show();
+//         }
 
-        if ((e.target.classList.contains("mobile-close") ||
-            e.target.parentElement.classList.contains("mobile-close"))) {
-            $(".header-tabs").removeAttr("style");
-        }
-
-
-        if ((e.target.classList.contains("header-user") || e.target.parentElement.classList.contains("header-user"))
-            && $(".header-user-menu").css('display') == 'none') {
-            $(".header-user-menu").show();
-        } else {
-            $(".header-user-menu").hide();
-        }
-
-        if ((e.target.classList.contains("episodes-menu-title-mobile") || e.target.parentElement.classList.contains("episodes-menu-title-mobile"))
-            && $(".episodes-menu").css('display') == 'none') {
-            $(".episodes-menu").show();
-        } else {
-            if ($(".page").css("display") !== "flex") {
+//         if ((e.target.classList.contains("mobile-close") ||
+//             e.target.parentElement.classList.contains("mobile-close"))) {
+//             $(".header-tabs").removeAttr("style");
+//         }
 
 
-                $(".episodes-menu").hide();
-                $(".page").show();
-            }
-        }
+//         if ((e.target.classList.contains("header-user") || e.target.parentElement.classList.contains("header-user"))
+//             && $(".header-user-menu").css('display') == 'none') {
+//             $(".header-user-menu").show();
+//         } else {
+//             $(".header-user-menu").hide();
+//         }
 
-        if ((e.target.classList.contains("episodes-link") || e.target.parentElement.classList.contains("episodes-link"))
-            && $(".episodes-menu").css('display') == 'none') {
-            $(".episodes-menu").show();
-            $(".page").hide();
-        } else {
-            if ($(".page").css("display") !== "flex") {
-                $(".episodes-menu").hide();
-            }
-        }
+//         if ((e.target.classList.contains("episodes-menu-title-mobile") || e.target.parentElement.classList.contains("episodes-menu-title-mobile"))
+//             && $(".episodes-menu").css('display') == 'none') {
+//             $(".episodes-menu").show();
+//         } else {
+//             if ($(".page").css("display") !== "flex") {
 
-    });
-}
+
+//                 $(".episodes-menu").hide();
+//                 $(".page").show();
+//             }
+//         }
+
+//         if ((e.target.classList.contains("episodes-link") || e.target.parentElement.classList.contains("episodes-link"))
+//             && $(".episodes-menu").css('display') == 'none') {
+//             $(".episodes-menu").show();
+//             $(".page").hide();
+//         } else {
+//             if ($(".page").css("display") !== "flex") {
+//                 $(".episodes-menu").hide();
+//             }
+//         }
+
+//     });
+// }
