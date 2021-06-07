@@ -593,7 +593,7 @@ and (-webkit-min-device-pixel-ratio: 2) {
     .episodes-menu-title-mobile img {
         width: 2.5vw;
         margin-right: 3vw;
-        content: url('/static/img/left-arrow.svg');
+        content: url('/static/static/img/left-arrow.svg');
     }
 
     .episodes-menu-title{

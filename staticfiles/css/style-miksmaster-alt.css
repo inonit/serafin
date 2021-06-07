@@ -119,7 +119,7 @@ header {
 }
 
 header .logo {
-    background-image: url(/static/img/logo_hvit.png);
+    background-image: url(/static/static/img/logo_hvit.png);
     height: 30px;
     width: 135px;
 }
@@ -132,7 +132,7 @@ header .logo {
 }
 
 .page .logo {
-    background-image: url(/static/img/logo_positiv.png);
+    background-image: url(/static/static/img/logo_positiv.png);
     background-repeat: no-repeat;
     background-size: auto 100%;
     background-position: center;

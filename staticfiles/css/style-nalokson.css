@@ -130,7 +130,7 @@ header {
 }
 
 header .logo {
-    background-image: url(/static/img/logo_nalokson_hvit.png);
+    background-image: url(/static/static/img/logo_nalokson_hvit.png);
     background-repeat: no-repeat;
     background-size: 75% auto;
     background-position: center;
@@ -146,7 +146,7 @@ header .logo {
 }
 
 .page .logo {
-    background-image: url(/static/img/logo_nalokson.png);
+    background-image: url(/static/static/img/logo_nalokson.png);
     background-repeat: no-repeat;
     background-size: 100% auto;
     background-position: center;
