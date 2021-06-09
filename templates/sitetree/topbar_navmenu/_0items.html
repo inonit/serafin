@@ -5,10 +5,10 @@
 
         <ul class="{% if item.is_current or item.in_current_branch %}active{% endif %} {% if item.hint == "left" or item.hint == "right" %}{{ item.hint }}{% else %}left{% endif %}">
             {% if item.has_children %}
-                <li has-dropdown class="has-dropdown ng-isolate-scope">
+                <li has-dropdown class="has-dropdown ng-isolate-scope not-click">
                     <a href="{{ item.url_resolved }}">
                         {% trans item.title %}</a>
-                    <ul top-bar-dropdown class="dropdown ng-isolate-scope">
+                    <ul  class="dropdown ng-isolate-scope" top-bar-dropdown>
                         {% sitetree_children of item for menu template "sitetree/topbar_navmenu/_1items.html" %}
                     </ul>
                 </li>

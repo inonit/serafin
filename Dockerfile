@@ -22,7 +22,7 @@ RUN pip install ptvsd
 RUN pip install https://github.com/darklow/django-suit/tarball/v2
 COPY supervisor.conf /etc/supervisor/supervisor.conf
 COPY . /code/
-RUN python huey-2.3.2/setup.py install
+RUN     python huey-2.3.2/setup.py install
 RUN mkdir -p /vol/web/media
 RUN mkdir -p node_modules
 RUN mkdir -p /vol/web/static
