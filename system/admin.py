@@ -20,7 +20,7 @@ from reversion.admin import VersionAdmin
 from system.models import Variable, Program, Session, Content, Page, Email, SMS, Code
 from system.expressions import Parser
 from plumbing.widgets import PlumbingWidget
-from content.widgets import ContentWidget, TextContentWidget, SMSContentWidget,CodeContentWidget
+from content.widgets import ContentWidget, TextContentWidget, SMSContentWidget, CodeContentWidget
 
 
 class VariableForm(forms.ModelForm):
@@ -70,7 +70,7 @@ class VariableAdmin(admin.ModelAdmin):
         (None, {
             'fields': (
                 'name',
-               'display_name',
+                'display_name',
                 'admin_note',
                 'program',
                 'value',
@@ -103,7 +103,8 @@ class VariableAdmin(admin.ModelAdmin):
 
         if not request.user.is_superuser:
             if request.user.program_restrictions.exists():
-                program_ids = request.user.program_restrictions.values_list('id')
+                program_ids = request.user.program_restrictions.values_list(
+                    'id')
                 return queryset.filter(program__id__in=program_ids)
             else:
                 return Variable.objects.none()
@@ -262,8 +263,9 @@ class ProgramAdmin(VersionAdmin):
     def set_program(modeladmin, request, queryset):
         program_id = queryset.first().id
         if program_id:
-            if hasattr(request, "session"):
-                request.session["_program_id"] = program_id
+            if not request.user.is_superuser:
+                if hasattr(request, "session"):
+                    request.session["_program_id"] = program_id
 
     set_program.short_description = _('Set Program')
 
@@ -450,9 +452,10 @@ class SessionAdmin(VersionAdmin):
             form.base_fields['program'].queryset = Program.objects.filter(
                 id__in=program_ids)
 
-        if hasattr(request, "session"):
-            if obj is not None:
-                request.session["_program_id"] = obj.program.id
+        if not request.user.is_superuser:
+            if hasattr(request, "session"):
+                if obj is not None:
+                    request.session["_program_id"] = obj.program.id
 
         return form
 
@@ -610,6 +613,7 @@ class ContentAdmin(VersionAdmin):
         queryset = super(ContentAdmin, self).get_queryset(request)
 
         if '_program_id' in request.session:
+            print("PFEEEEEEEEEEEEEEEEEEEEE")
             queryset = queryset.filter(
                 Q(program_id=request.session['_program_id']) |
                 Q(program_id=None)

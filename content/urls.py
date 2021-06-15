@@ -11,7 +11,7 @@ urlpatterns = [
     path('api/<str:content_type>/<int:file_id>/',
          api_filer_file, name='api_filer_file'),
     path('home/', home, name='home'),
-    # path('session/<int:module_id>/', get_session, name='content'),
-    # path('session/', get_session, name='content'),
+    path('api/session/<int:module_id>/', get_session, name='content'),
+    path('api/session/', get_session, name='content'),
     path('<str:route_slug>/', content_route, name='content_route'),
 ]

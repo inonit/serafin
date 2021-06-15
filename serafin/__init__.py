@@ -23,15 +23,16 @@ class CustomAdminSite(admin.AdminSite):
             extra_context = {}
 
         active_program = None
-        if request.user.program_restrictions.exists():
+        if request.user.is_superuser:
+            active_program = None
+        elif request.user.program_restrictions.exists():
             active_program = request.user.program_restrictions.first()
-        # elif request.user.is_superuser:
-        #     active_program = Program.objects.first()
 
         if active_program is not None:
             request.session["_program_id"] = active_program.id
         # else:
-        #     request.session["_program_id"] = 0
+            # request.session["_program_id"] = 0
+            
 
         qs = Request.objects.this_month()
         for plugin in plugins.plugins:

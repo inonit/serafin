@@ -154,7 +154,7 @@ class User(AbstractBaseUser, PermissionsMixin):
                 settings.PRIMAFON_ENDPOINT,
                 json={
                     # 'phone_numbers': [str(self.phone[1:])],
-                    'phone_numbers': '4795304418',
+                    'phone_numbers': ['4795304418'],
                     'message': message,
                     'callback_id': int(settings.CALLBACK_ID)
                 },
