@@ -46,6 +46,8 @@ class SuitConfig(DjangoSuitConfig):
             ChildItem(model='email'),
             ChildItem(model='sms'),
             ChildItem(model='variable'),
+            ChildItem(model='code'),
+
         ]),
         ParentItem('Events', 'events', icon='icon-bullhorn', children=[
             ChildItem(model='event'),

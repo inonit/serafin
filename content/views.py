@@ -64,7 +64,7 @@ def get_location_from_ip(request):
         ip = request.META.get('REMOTE_ADDR')
 
     url ="http://ip-api.com/json/" + ip
-    r = requests.get(url)
+    r = request.get(url)
     r = r.json()
 
     return JsonResponse(r)

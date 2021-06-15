@@ -269,7 +269,7 @@ class VariableViewSet(viewsets.ModelViewSet):
 
     queryset = Variable.objects.all().order_by("name")
     serializer_class = VariableSerializer
-
+# this is the one view affected by the removal of _program_id in after we had issues in the dashboard
     def get_queryset(self):
         if '_program_id' in self.request.session:
             queryset = self.queryset.filter(program__id=self.request.session['_program_id'])
