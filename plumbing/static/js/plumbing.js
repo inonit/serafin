@@ -377,7 +377,7 @@ plumbing.directive('edge', ['jsPlumb', function (jsPlumbService) {
             scope.variables = [];
             scope.logical_operators = ['AND', 'OR'];
             variables.get().then(function (promise) {
-                scope.variables = promise.data.concat(reservedVars);
+                scope.variables = promise.concat(reservedVars);
             });
 
             scope.log = function (log) {

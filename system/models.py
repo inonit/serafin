@@ -208,7 +208,7 @@ class Session(models.Model):
     interval = models.IntegerField(_('interval delta'), default=0)
     trigger_login = models.BooleanField(_('trigger login'), default=True)
 
-    data = JSONField(load_kwargs={'object_pairs_hook': OrderedDict}, default='{"nodes": [], "edges": []}')
+    data = JSONField(load_kwargs={'object_pairs_hook': OrderedDict}, default={"nodes": [], "edges": []})
 
     class Meta(object):
         verbose_name = _('session')

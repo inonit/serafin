@@ -13,8 +13,8 @@
     "staticfiles/lib"
   ],
   "dependencies": {
-    "angular": "1.7.9",
-    "angular-sanitize": "1.7.9",
+    "angular": "~1.4.1",
+    "angular-sanitize": "1.4.2",
     "marked": "~0.3.3",
     "ment.io": "~0.9.23",
     "lodash": "~3.10.0",
