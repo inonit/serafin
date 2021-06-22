@@ -1,4 +1,4 @@
-var content = angular.module('content', ['autocompleteSearch', 'stringExpression']);
+var content = angular.module('content', ['autocompleteSearch', 'stringExpression', 'ui.codemirror']);
 
 var fileTemplate = {
     url: '',
@@ -175,6 +175,29 @@ content.run(['$rootScope', '$http', function (scope, http) {
             scope.variables = response.data;
         }
     });
+    scope.editorOpts = {
+        mode: 'python',
+        theme: 'lucario',
+        lineNumbers: true,
+        lineWrapping: true
+      };
+      scope.codemirrorLoaded = function(_editor){
+        // for futur improvement
+  
+        // Editor part
+        /*var _doc = _editor.getDoc();
+        _editor.focus();
+  
+        // Options
+        _editor.setOption('firstLineNumber', 10);
+        _doc.markClean()
+  
+        // Events
+        _editor.on("beforeChange", function(){ ... });
+        _editor.on("change", function(){ ... });*/
+        return true
+      };
+
 }]);
 
 content.controller('contentArray', ['$scope', function (scope) {
@@ -229,7 +252,7 @@ content.directive('richtextBoxColor', ['$timeout', function () {
         require: 'ngModel',
         link: function (scope, elem, attrs, ngModel) {
             scope.boxColorChanged = function (color) {
-                $(elem).parent().parent().parent().find(".note-editable").css("background",color)
+                $(elem).parent().parent().parent().find(".note-editable").css("background", color)
             };
 
             scope.$watch(function () {
@@ -266,13 +289,13 @@ content.directive('summernoteRichtext', ['$timeout', function (timeout) {
                 }
             };
 
-             elem.summernote({
-                 fontNames: ['Arial', 'Arial Black', 'Comic Sans MS', 'Courier New', 'Helvetica', 'Impact', 'Tahoma',
-                     'Times New Roman', 'Verdana', 'Heebo', 'Assistant', 'Rubik'],
-                 fontNamesIgnoreCheck: ['Heebo', 'Assistant', 'Rubik'],
-                 tabsize: 2,
-                 height: 150,
-             });
+            elem.summernote({
+                fontNames: ['Arial', 'Arial Black', 'Comic Sans MS', 'Courier New', 'Helvetica', 'Impact', 'Tahoma',
+                    'Times New Roman', 'Verdana', 'Heebo', 'Assistant', 'Rubik'],
+                fontNamesIgnoreCheck: ['Heebo', 'Assistant', 'Rubik'],
+                tabsize: 2,
+                height: 150,
+            });
 
 
             elem.on('summernote.change', function (we, contents, $editable) {
