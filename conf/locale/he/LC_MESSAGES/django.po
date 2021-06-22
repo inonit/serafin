@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-12-31 16:55+0200\n"
+"POT-Creation-Date: 2021-06-21 20:07+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -145,29 +145,29 @@ msgstr ""
 #: .\content\templates\admin\content_widget.html:146
 #: .\content\templates\admin\content_widget.html:202
 #: .\plumbing\templates\admin\plumbing_widget.html:138
-#: .\plumbing\templates\admin\plumbing_widget.html:203
+#: .\plumbing\templates\admin\plumbing_widget.html:200
 msgid "Expression"
 msgstr ""
 
 #: .\content\templates\admin\content_widget.html:149
 #: .\content\templates\admin\content_widget.html:205
 #: .\plumbing\templates\admin\plumbing_widget.html:141
-#: .\plumbing\templates\admin\plumbing_widget.html:181
-#: .\plumbing\templates\admin\plumbing_widget.html:206
+#: .\plumbing\templates\admin\plumbing_widget.html:178
+#: .\plumbing\templates\admin\plumbing_widget.html:203
 msgid "Start writing..."
 msgstr ""
 
 #: .\content\templates\admin\content_widget.html:150
 #: .\content\templates\admin\content_widget.html:206
 #: .\plumbing\templates\admin\plumbing_widget.html:142
-#: .\plumbing\templates\admin\plumbing_widget.html:207
+#: .\plumbing\templates\admin\plumbing_widget.html:204
 msgid "Preview"
 msgstr ""
 
 #: .\content\templates\admin\content_widget.html:152
 #: .\content\templates\admin\content_widget.html:208
 #: .\plumbing\templates\admin\plumbing_widget.html:144
-#: .\plumbing\templates\admin\plumbing_widget.html:209
+#: .\plumbing\templates\admin\plumbing_widget.html:206
 msgid "Serafin Expression Syntax"
 msgstr ""
 
@@ -265,238 +265,240 @@ msgid ""
 msgstr ""
 
 #: .\content\templates\expression_syntax.html:34
-#: .\content\templates\expression_syntax.html:39
+#: .\content\templates\expression_syntax.html:41
 msgid "Grouping"
 msgstr ""
 
-#: .\content\templates\expression_syntax.html:41
+#: .\content\templates\expression_syntax.html:42
 msgid "Expression can be grouped by putting them in parentheses."
 msgstr ""
 
-#: .\content\templates\expression_syntax.html:42
+#: .\content\templates\expression_syntax.html:43
 msgid "Evaluation order"
 msgstr ""
 
-#: .\content\templates\expression_syntax.html:43
+#: .\content\templates\expression_syntax.html:44
 msgid ""
 "\n"
-"            <p>\n"
-"              Normally, expressions will be evaluated left-to-right. For "
+"                <p>\n"
+"                  Normally, expressions will be evaluated left-to-right. For "
 "example the expression\n"
-"              <span class=\"label label-info\">1 + 1 * 2</span> will return "
-"the value 3,\n"
-"              because it is evaluated like <span class=\"label label-info"
+"                  <span class=\"label label-info\">1 + 1 * 2</span> will "
+"return the value 3,\n"
+"                  because it is evaluated like <span class=\"label label-info"
 "\">1 + (1 * 2)</span>.\n"
-"              By grouping expressions in parentheses you can control the "
+"                  By grouping expressions in parentheses you can control the "
 "evaluation order.\n"
-"            </p>\n"
-"            <dl class=\"dl-horizontal column35pst\">\n"
-"              <dt><span class=\"label label-info\">1 + 1 * 2 = 3</span></"
+"                </p>\n"
+"                <dl class=\"dl-horizontal column35pst\">\n"
+"                  <dt><span class=\"label label-info\">1 + 1 * 2 = 3</span></"
 "dt>\n"
-"              <dd>Because of default left-to-right evaluation. Evaluates "
+"                  <dd>Because of default left-to-right evaluation. Evaluates "
 "like\n"
-"                <span class=\"label label-info\">1 + (1 * 2)</span></dd>\n"
-"              <dt><span class=\"label label-info\">(1 + 1) * 2 = 4</span></"
-"dt>\n"
-"              <dd>Because it is explicitly grouped in parentheses.</dd>\n"
-"            </dl>\n"
-"          "
+"                    <span class=\"label label-info\">1 + (1 * 2)</span></"
+"dd>\n"
+"                  <dt><span class=\"label label-info\">(1 + 1) * 2 = 4</"
+"span></dt>\n"
+"                  <dd>Because it is explicitly grouped in parentheses.</dd>\n"
+"                </dl>\n"
+"              "
 msgstr ""
 
-#: .\content\templates\expression_syntax.html:67
-#: .\content\templates\expression_syntax.html:72
+#: .\content\templates\expression_syntax.html:68
+#: .\content\templates\expression_syntax.html:75
 msgid "Variables"
 msgstr ""
 
-#: .\content\templates\expression_syntax.html:73
+#: .\content\templates\expression_syntax.html:76
 msgid ""
 "\n"
-"            Variables must be prefixed with <span class=\"label label-info\">"
-"$</span> like for\n"
-"            example <span class=\"label label-info\">$MyLittlePony</span>. "
-"Any variable must\n"
-"            be pre-defined and will be looked up whenever encountered.\n"
-"            If a variable is not found for the current user (on evaluation "
-"time),\n"
-"            it is evaluated as <span class=\"label label-info\">False</"
+"                Variables must be prefixed with <span class=\"label label-"
+"info\">$</span> like for\n"
+"                example <span class=\"label label-info\">$MyLittlePony</"
+"span>. Any variable must\n"
+"                be pre-defined and will be looked up whenever encountered.\n"
+"                If a variable is not found for the current user (on "
+"evaluation time),\n"
+"                it is evaluated as <span class=\"label label-info\">False</"
 "span>.\n"
-"          "
+"              "
 msgstr ""
 
-#: .\content\templates\expression_syntax.html:81
+#: .\content\templates\expression_syntax.html:84
 msgid "Reserved variables"
 msgstr ""
 
-#: .\content\templates\expression_syntax.html:82
+#: .\content\templates\expression_syntax.html:85
 msgid "The following list of variables is reserved by the system"
 msgstr ""
 
-#: .\content\templates\expression_syntax.html:85
+#: .\content\templates\expression_syntax.html:88
 msgid ""
 "Returns the current weekday as number, where Monday is 1 and Sunday is 7"
 msgstr ""
 
-#: .\content\templates\expression_syntax.html:88
+#: .\content\templates\expression_syntax.html:91
 msgid "Returns the current time in ISO format, i.e. "
 msgstr ""
 
-#: .\content\templates\expression_syntax.html:92
+#: .\content\templates\expression_syntax.html:95
 msgid "Returns the current date in ISO format, i.e. "
 msgstr ""
 
-#: .\content\templates\expression_syntax.html:96
+#: .\content\templates\expression_syntax.html:99
 msgid "Returns True if the user has an active account"
 msgstr ""
 
-#: .\content\templates\expression_syntax.html:99
+#: .\content\templates\expression_syntax.html:102
 msgid "Returns True if the user is enrolled with the current program"
 msgstr ""
 
-#: .\content\templates\expression_syntax.html:111
-#: .\content\templates\expression_syntax.html:116
+#: .\content\templates\expression_syntax.html:114
+#: .\content\templates\expression_syntax.html:121
 msgid "Operators"
 msgstr ""
 
-#: .\content\templates\expression_syntax.html:117
+#: .\content\templates\expression_syntax.html:122
 msgid ""
 "\n"
-"            We have two set of expression types; simple arithmetic "
+"                We have two set of expression types; simple arithmetic "
 "expressions\n"
-"            and boolean expressions. Expression evaluation between mixed "
+"                and boolean expressions. Expression evaluation between mixed "
 "types are not\n"
-"            supported, and will either throw an error or yield incorrect or "
-"unpredictable results.\n"
-"          "
-msgstr ""
-
-#: .\content\templates\expression_syntax.html:123
-msgid "Arithmetic operators"
-msgstr ""
-
-#: .\content\templates\expression_syntax.html:127
-msgid "Addition"
+"                supported, and will either throw an error or yield incorrect "
+"or unpredictable results.\n"
+"              "
 msgstr ""
 
 #: .\content\templates\expression_syntax.html:128
+msgid "Arithmetic operators"
+msgstr ""
+
+#: .\content\templates\expression_syntax.html:132
+msgid "Addition"
+msgstr ""
+
+#: .\content\templates\expression_syntax.html:133
 msgid "Subtraction"
 msgstr ""
 
-#: .\content\templates\expression_syntax.html:129
+#: .\content\templates\expression_syntax.html:134
 msgid "Division"
 msgstr ""
 
-#: .\content\templates\expression_syntax.html:134
+#: .\content\templates\expression_syntax.html:139
 msgid "Multiplication"
 msgstr ""
 
-#: .\content\templates\expression_syntax.html:135
+#: .\content\templates\expression_syntax.html:140
 msgid "Factorisation"
 msgstr ""
 
-#: .\content\templates\expression_syntax.html:136
+#: .\content\templates\expression_syntax.html:141
 msgid "Modulus"
 msgstr ""
 
-#: .\content\templates\expression_syntax.html:140
+#: .\content\templates\expression_syntax.html:145
 msgid "Boolean and comparison operators"
 msgstr ""
 
-#: .\content\templates\expression_syntax.html:144
+#: .\content\templates\expression_syntax.html:149
 msgid "Equal"
 msgstr ""
 
-#: .\content\templates\expression_syntax.html:145
+#: .\content\templates\expression_syntax.html:150
 msgid "Less than"
 msgstr ""
 
-#: .\content\templates\expression_syntax.html:146
+#: .\content\templates\expression_syntax.html:151
 msgid "Greater than"
 msgstr ""
 
-#: .\content\templates\expression_syntax.html:147
+#: .\content\templates\expression_syntax.html:152
 msgid "AND"
 msgstr ""
 
-#: .\content\templates\expression_syntax.html:152
+#: .\content\templates\expression_syntax.html:157
 msgid "Contains"
 msgstr ""
 
-#: .\content\templates\expression_syntax.html:153
+#: .\content\templates\expression_syntax.html:158
 msgid "Not equal"
 msgstr ""
 
-#: .\content\templates\expression_syntax.html:154
+#: .\content\templates\expression_syntax.html:159
 msgid "Less or equal"
 msgstr ""
 
-#: .\content\templates\expression_syntax.html:155
+#: .\content\templates\expression_syntax.html:160
 msgid "Greater or equal"
 msgstr ""
 
-#: .\content\templates\expression_syntax.html:156
+#: .\content\templates\expression_syntax.html:161
 msgid "OR"
 msgstr ""
 
-#: .\content\templates\expression_syntax.html:161
+#: .\content\templates\expression_syntax.html:166
 msgid ""
 "\n"
-"              Expressions evaluated using boolean or comparison operators "
-"will return either\n"
-"              <span class=\"label label-info\">true</span> or <span class="
-"\"label label-info\">false</span> value.\n"
-"              For truth value testing, use the built-in <span class=\"label "
-"label-info\">True</span> or\n"
-"              <span class=\"label label-info\">False</span>.\n"
-"            "
+"                  Expressions evaluated using boolean or comparison "
+"operators will return either\n"
+"                  <span class=\"label label-info\">true</span> or <span "
+"class=\"label label-info\">false</span> value.\n"
+"                  For truth value testing, use the built-in <span class="
+"\"label label-info\">True</span> or\n"
+"                  <span class=\"label label-info\">False</span>.\n"
+"                "
 msgstr ""
 
-#: .\content\templates\expression_syntax.html:171
-#: .\content\templates\expression_syntax.html:172
-#: .\content\templates\expression_syntax.html:173
-#: .\content\templates\expression_syntax.html:196
-#: .\content\templates\expression_syntax.html:197
-#: .\content\templates\expression_syntax.html:198
-#: .\content\templates\expression_syntax.html:199
-#: .\content\templates\expression_syntax.html:224
-#: .\content\templates\expression_syntax.html:225
+#: .\content\templates\expression_syntax.html:176
+#: .\content\templates\expression_syntax.html:177
+#: .\content\templates\expression_syntax.html:178
+#: .\content\templates\expression_syntax.html:201
+#: .\content\templates\expression_syntax.html:202
+#: .\content\templates\expression_syntax.html:203
+#: .\content\templates\expression_syntax.html:204
+#: .\content\templates\expression_syntax.html:229
+#: .\content\templates\expression_syntax.html:230
 msgid "Returns the value"
 msgstr ""
 
-#: .\content\templates\expression_syntax.html:177
+#: .\content\templates\expression_syntax.html:182
 msgid ""
 "\n"
-"              All falsey values; <span class=\"label label-info\">False</"
+"                  All falsey values; <span class=\"label label-info\">False</"
 "span>,\n"
-"              <span class=\"label label-info\">None</span>, <span class="
+"                  <span class=\"label label-info\">None</span>, <span class="
 "\"label label-info\">$missing</span> variables,\n"
-"              <span class=\"label label-info\">0</span>, <span class=\"label "
-"label-info\">[ ]</span>,\n"
-"              <span class=\"label label-info\">\"\"</span> and <span class="
-"\"label label-info\">''</span>,\n"
-"              are handled as <span class=\"label label-info\">False</span>.\n"
-"            "
+"                  <span class=\"label label-info\">0</span>, <span class="
+"\"label label-info\">[ ]</span>,\n"
+"                  <span class=\"label label-info\">\"\"</span> and <span "
+"class=\"label label-info\">''</span>,\n"
+"                  are handled as <span class=\"label label-info\">False</"
+"span>.\n"
+"                "
 msgstr ""
 
-#: .\content\templates\expression_syntax.html:186
+#: .\content\templates\expression_syntax.html:191
 msgid ""
 "\n"
-"              Time and date can be compared with boolean operators, either "
-"by using a\n"
-"              <span class=\"label label-info\">$myTimeOrDate</span> "
+"                  Time and date can be compared with boolean operators, "
+"either by using a\n"
+"                  <span class=\"label label-info\">$myTimeOrDate</span> "
 "variable, or writing the time or date value\n"
-"              directly. If writing the value directly, make sure it's passed "
-"as a\n"
-"              <span class=\"label label-info\">string value</span> "
+"                  directly. If writing the value directly, make sure it's "
+"passed as a\n"
+"                  <span class=\"label label-info\">string value</span> "
 "(encapsulate the value in single or double quotes).\n"
-"            "
+"                "
 msgstr ""
 
-#: .\content\templates\expression_syntax.html:212
 #: .\content\templates\expression_syntax.html:217
+#: .\content\templates\expression_syntax.html:222
 msgid "Functions"
 msgstr ""
 
-#: .\content\templates\expression_syntax.html:218
+#: .\content\templates\expression_syntax.html:223
 msgid ""
 "\n"
 "            Some basic functions are supported. Functions are applied by "
@@ -505,39 +507,39 @@ msgid ""
 "          "
 msgstr ""
 
-#: .\content\templates\expression_syntax.html:222
+#: .\content\templates\expression_syntax.html:227
 msgid "Examples"
 msgstr ""
 
-#: .\content\templates\expression_syntax.html:231
+#: .\content\templates\expression_syntax.html:236
 msgid "Sine"
 msgstr ""
 
-#: .\content\templates\expression_syntax.html:234
+#: .\content\templates\expression_syntax.html:239
 msgid "Cosines"
 msgstr ""
 
-#: .\content\templates\expression_syntax.html:237
+#: .\content\templates\expression_syntax.html:242
 msgid "Tangents"
 msgstr ""
 
-#: .\content\templates\expression_syntax.html:240
+#: .\content\templates\expression_syntax.html:245
 msgid "Absolute value"
 msgstr ""
 
-#: .\content\templates\expression_syntax.html:247
+#: .\content\templates\expression_syntax.html:252
 msgid "Truncate"
 msgstr ""
 
-#: .\content\templates\expression_syntax.html:250
+#: .\content\templates\expression_syntax.html:255
 msgid "Round"
 msgstr ""
 
-#: .\content\templates\expression_syntax.html:253
+#: .\content\templates\expression_syntax.html:258
 msgid "Sign digit"
 msgstr ""
 
-#: .\content\templates\expression_syntax.html:259
+#: .\content\templates\expression_syntax.html:264
 msgid ""
 "\n"
 "                The <span class=\"label label-info\">sign</span> function "
@@ -551,30 +553,30 @@ msgid ""
 "              "
 msgstr ""
 
-#: .\content\templates\expression_syntax.html:276
 #: .\content\templates\expression_syntax.html:281
+#: .\content\templates\expression_syntax.html:286
 msgid "Constants"
 msgstr ""
 
-#: .\content\templates\expression_syntax.html:282
+#: .\content\templates\expression_syntax.html:287
 msgid "Supported constants are"
 msgstr ""
 
-#: .\content\templates\expression_syntax.html:285
+#: .\content\templates\expression_syntax.html:290
 msgid "and"
 msgstr ""
 
-#: .\content\templates\expression_syntax.html:290
-#: .\content\templates\expression_syntax.html:293
+#: .\content\templates\expression_syntax.html:295
+#: .\content\templates\expression_syntax.html:298
 msgid "provides the mathematical constant"
 msgstr ""
 
-#: .\content\templates\expression_syntax.html:291
-#: .\content\templates\expression_syntax.html:294
+#: .\content\templates\expression_syntax.html:296
+#: .\content\templates\expression_syntax.html:299
 msgid "to available precision"
 msgstr ""
 
-#: .\content\templates\expression_syntax.html:306
+#: .\content\templates\expression_syntax.html:311
 msgid "Close"
 msgstr ""
 
@@ -635,6 +637,86 @@ msgstr ""
 
 #: .\events\templates\admin\events\event\change_list.html:9
 msgid "Export"
+msgstr ""
+
+#: .\lookup\settings.py:142 .\lookup\settings_old.py:139 .\private\settings
+#: 2020-11-15\settings.py:146 .\private\settings_current_prod.py:142
+#: .\private\settings_current_prod_20201103.py:143 .\serafin\s.py:148
+#: .\serafin\settings - Deploy 20201009.py:139 Deploy.py:139 commited
+#: version.py:147 .\serafin\settings.py:148
+#: .\serafin\settings_SENSEATIVE.py:135 .\ssl\serafin-haifa\settings.py:146
+msgid "English"
+msgstr "אנגלית"
+
+#: .\lookup\settings.py:143 .\lookup\settings_old.py:140
+#: .\private\settings_current_prod.py:143
+#: .\private\settings_current_prod_20201103.py:144 .\serafin\settings - Deploy
+#: 20201009.py:140 Deploy.py:140 commited version.py:148
+#: .\serafin\settings_SENSEATIVE.py:136
+msgid "Norwegian"
+msgstr ""
+
+#: .\lookup\settings.py:144 .\lookup\settings_old.py:141 .\private\settings
+#: 2020-11-15\settings.py:147 .\private\settings_current_prod.py:144
+#: .\private\settings_current_prod_20201103.py:145 .\serafin\s.py:149
+#: .\serafin\settings - Deploy 20201009.py:141 Deploy.py:141 commited
+#: version.py:149 .\serafin\settings.py:149
+#: .\ssl\serafin-haifa\settings.py:147
+msgid "Hebrew"
+msgstr "עברית"
+
+#: .\lookup\settings.py:484 .\lookup\settings_old.py:478 .\private\settings
+#: 2020-11-15\settings.py:502 .\private\settings_current_prod.py:484
+#: .\private\settings_current_prod_20201103.py:500 .\serafin\s.py:496
+#: .\serafin\settings - Deploy 20201009.py:478 Deploy.py:478 commited
+#: version.py:493 .\serafin\settings.py:496
+#: .\serafin\settings_SENSEATIVE.py:517 .\ssl\serafin-haifa\settings.py:501
+msgid "Default stylesheet"
+msgstr ""
+
+#: .\lookup\settings.py:485 .\lookup\settings_old.py:479 .\private\settings
+#: 2020-11-15\settings.py:503 .\private\settings_current_prod.py:485
+#: .\private\settings_current_prod_20201103.py:501 .\serafin\s.py:497
+#: .\serafin\settings - Deploy 20201009.py:479 Deploy.py:479 commited
+#: version.py:494 .\serafin\settings.py:497
+#: .\ssl\serafin-haifa\settings.py:502
+msgid "New-Nalokson"
+msgstr ""
+
+#: .\lookup\settings.py:486 .\lookup\settings_old.py:480 .\private\settings
+#: 2020-11-15\settings.py:504 .\private\settings_current_prod.py:486
+#: .\private\settings_current_prod_20201103.py:502 .\serafin\s.py:498
+#: .\serafin\settings - Deploy 20201009.py:480 Deploy.py:480 commited
+#: version.py:495 .\serafin\settings.py:498
+#: .\ssl\serafin-haifa\settings.py:503
+msgid "RTL-Nalokson"
+msgstr ""
+
+#: .\lookup\settings.py:487 .\lookup\settings_old.py:481 .\private\settings
+#: 2020-11-15\settings.py:505 .\private\settings_current_prod.py:487
+#: .\private\settings_current_prod_20201103.py:503 .\serafin\s.py:499
+#: .\serafin\settings - Deploy 20201009.py:481 Deploy.py:481 commited
+#: version.py:496 .\serafin\settings.py:499
+#: .\serafin\settings_SENSEATIVE.py:518 .\ssl\serafin-haifa\settings.py:504
+msgid "Nalokson"
+msgstr ""
+
+#: .\lookup\settings.py:488 .\lookup\settings_old.py:482 .\private\settings
+#: 2020-11-15\settings.py:506 .\private\settings_current_prod.py:488
+#: .\private\settings_current_prod_20201103.py:504 .\serafin\s.py:500
+#: .\serafin\settings - Deploy 20201009.py:482 Deploy.py:482 commited
+#: version.py:497 .\serafin\settings.py:500
+#: .\serafin\settings_SENSEATIVE.py:519 .\ssl\serafin-haifa\settings.py:505
+msgid "Miksmaster"
+msgstr ""
+
+#: .\lookup\settings.py:489 .\lookup\settings_old.py:483 .\private\settings
+#: 2020-11-15\settings.py:507 .\private\settings_current_prod.py:489
+#: .\private\settings_current_prod_20201103.py:505 .\serafin\s.py:501
+#: .\serafin\settings - Deploy 20201009.py:483 Deploy.py:483 commited
+#: version.py:498 .\serafin\settings.py:501
+#: .\serafin\settings_SENSEATIVE.py:520 .\ssl\serafin-haifa\settings.py:506
+msgid "Miksmaster alternate"
 msgstr ""
 
 #: .\plumbing\templates\admin\plumbing_widget.html:11
@@ -750,23 +832,23 @@ msgstr ""
 msgid "Type"
 msgstr ""
 
-#: .\plumbing\templates\admin\plumbing_widget.html:172
+#: .\plumbing\templates\admin\plumbing_widget.html:169
 msgid "file"
 msgstr ""
 
-#: .\plumbing\templates\admin\plumbing_widget.html:173
+#: .\plumbing\templates\admin\plumbing_widget.html:170
 msgid "audio"
 msgstr ""
 
-#: .\plumbing\templates\admin\plumbing_widget.html:174
+#: .\plumbing\templates\admin\plumbing_widget.html:171
 msgid "video"
 msgstr ""
 
-#: .\plumbing\templates\admin\plumbing_widget.html:180
+#: .\plumbing\templates\admin\plumbing_widget.html:177
 msgid "Message"
 msgstr ""
 
-#: .\plumbing\templates\admin\plumbing_widget.html:196
+#: .\plumbing\templates\admin\plumbing_widget.html:193
 msgid "Pass"
 msgstr ""
 
@@ -789,38 +871,6 @@ msgstr ""
 
 #: .\serafin\models.py:30
 msgid "IP"
-msgstr ""
-
-#: .\serafin\settings.py:148
-msgid "English"
-msgstr "אנגלית"
-
-#: .\serafin\settings.py:149
-msgid "Hebrew"
-msgstr "עברית"
-
-#: .\serafin\settings.py:496
-msgid "Default stylesheet"
-msgstr ""
-
-#: .\serafin\settings.py:497
-msgid "New-Nalokson"
-msgstr ""
-
-#: .\serafin\settings.py:498
-msgid "RTL-Nalokson"
-msgstr ""
-
-#: .\serafin\settings.py:499
-msgid "Nalokson"
-msgstr ""
-
-#: .\serafin\settings.py:500
-msgid "Miksmaster"
-msgstr ""
-
-#: .\serafin\settings.py:501
-msgid "Miksmaster alternate"
 msgstr ""
 
 #: .\serafin\settings_SENSEATIVE.py:293
@@ -991,13 +1041,13 @@ msgid "display name"
 msgstr ""
 
 #: .\system\models.py:36 .\system\models.py:117 .\system\models.py:215
-#: .\system\models.py:322
+#: .\system\models.py:334
 msgid "admin note"
 msgstr ""
 
 #: .\system\models.py:37 .\system\models.py:129 .\system\models.py:164
-#: .\system\models.py:187 .\system\models.py:213 .\system\models.py:323
-#: .\system\models.py:734
+#: .\system\models.py:187 .\system\models.py:213 .\system\models.py:335
+#: .\system\models.py:746
 msgid "program"
 msgstr ""
 
@@ -1049,11 +1099,11 @@ msgstr ""
 msgid "variables"
 msgstr ""
 
-#: .\system\models.py:108 .\system\models.py:209 .\system\models.py:319
+#: .\system\models.py:108 .\system\models.py:209 .\system\models.py:331
 msgid "title"
 msgstr ""
 
-#: .\system\models.py:109 .\system\models.py:210 .\system\models.py:320
+#: .\system\models.py:109 .\system\models.py:210 .\system\models.py:332
 msgid "display title"
 msgstr ""
 
@@ -1097,7 +1147,7 @@ msgstr ""
 msgid "Program is locked. Could not save."
 msgstr ""
 
-#: .\system\models.py:165 .\system\models.py:776 .\users\models.py:433
+#: .\system\models.py:165 .\system\models.py:788 .\users\models.py:433
 msgid "user"
 msgstr ""
 
@@ -1137,7 +1187,7 @@ msgstr ""
 msgid "is open"
 msgstr ""
 
-#: .\system\models.py:214 .\system\models.py:331
+#: .\system\models.py:214 .\system\models.py:343
 msgid "content"
 msgstr ""
 
@@ -1190,87 +1240,91 @@ msgstr ""
 msgid "Session %s"
 msgstr ""
 
-#: .\system\models.py:321
+#: .\system\models.py:286
+msgid "Interval must be greater than zero for reschedule session"
+msgstr ""
+
+#: .\system\models.py:333
 msgid "content type"
 msgstr ""
 
-#: .\system\models.py:324
+#: .\system\models.py:336
 msgid "Can optionally be bound to a specific program"
 msgstr ""
 
-#: .\system\models.py:332
+#: .\system\models.py:344
 msgid "contents"
 msgstr ""
 
-#: .\system\models.py:362
+#: .\system\models.py:374
 msgid "page"
 msgstr ""
 
-#: .\system\models.py:363
+#: .\system\models.py:375
 msgid "pages"
 msgstr ""
 
-#: .\system\models.py:661
+#: .\system\models.py:673
 msgid "e-mail"
 msgstr ""
 
-#: .\system\models.py:662
+#: .\system\models.py:674
 msgid "e-mails"
 msgstr ""
 
-#: .\system\models.py:700
+#: .\system\models.py:712
 msgid "SMS"
 msgstr ""
 
-#: .\system\models.py:701
+#: .\system\models.py:713
 msgid "SMSs"
 msgstr ""
 
-#: .\system\models.py:735 .\system\models.py:774
+#: .\system\models.py:747 .\system\models.py:786
 msgid "therapist"
 msgstr ""
 
-#: .\system\models.py:737
+#: .\system\models.py:749
 msgid "patient"
 msgstr ""
 
-#: .\system\models.py:739 .\system\models.py:760
+#: .\system\models.py:751 .\system\models.py:772
 msgid "is read"
 msgstr ""
 
-#: .\system\models.py:740 .\system\models.py:761 .\system\models.py:780
+#: .\system\models.py:752 .\system\models.py:773 .\system\models.py:792
 msgid "message"
 msgstr ""
 
-#: .\system\models.py:741 .\system\models.py:759 .\system\models.py:779
+#: .\system\models.py:753 .\system\models.py:771 .\system\models.py:791
 msgid "timestamp"
 msgstr ""
 
-#: .\system\models.py:747
+#: .\system\models.py:759
 msgid "therapist notification"
 msgstr ""
 
-#: .\system\models.py:748
+#: .\system\models.py:760
 msgid "therapist notifications"
 msgstr ""
 
-#: .\system\models.py:755 .\tasker\models.py:44
+#: .\system\models.py:767 .\tasker\models.py:44
 msgid "sender"
 msgstr ""
 
-#: .\system\models.py:757
+#: .\system\models.py:769
 msgid "receiver"
 msgstr ""
 
-#: .\system\models.py:762
+#: .\system\models.py:774
 msgid "file name"
 msgstr ""
 
-#: .\system\models.py:763
+#: .\system\models.py:775
 msgid "file type"
 msgstr ""
 
-#: .\system\models.py:764
+#: .\system\models.py:776
 msgid "file data"
 msgstr ""
 
@@ -1278,8 +1332,12 @@ msgstr ""
 msgid "An error has occurred. Your expression cannot be evaluated."
 msgstr ""
 
-#: .\system\signals.py:94 .\system\signals.py:189 .\system\signals.py:224
+#: .\system\signals.py:94 .\system\signals.py:189 .\system\signals.py:237
 msgid "Initialize session"
+msgstr ""
+
+#: .\system\signals.py:201 .\system\signals.py:249 .\system\tasks.py:77
+msgid "Initialize session recurrent"
 msgstr ""
 
 #: .\system\tasks.py:27 .\system\tasks.py:55
@@ -1297,10 +1355,6 @@ msgstr ""
 
 #: .\system\tasks.py:63
 msgid "Session initialized"
-msgstr ""
-
-#: .\system\tasks.py:77
-msgid "Initialize session recurrent"
 msgstr ""
 
 #: .\system\templates\import_text.html:18
@@ -1475,11 +1529,32 @@ msgstr "תומך"
 msgid "Change Password"
 msgstr "החלפת סיסמה"
 
+#: .\templates\page_not_found_error.html:35
+msgid "We could not find what you were looking for 😅"
+msgstr "לא מצאנו את מה שחיפשת 😅"
+
+#: .\templates\page_not_found_error.html:38
+msgid "Please check again the URL is correct."
+msgstr "כדאי לבדוק בשנית אם הכתובת שהזנת נכונה"
+
+#: .\templates\page_not_found_error.html:40 .\templates\session_error.html:12
+msgid "Back to homepage"
+msgstr "חזרה לעמוד הכניסה"
+
+#: .\templates\page_not_found_error.html:42 .\templates\session_error.html:14
+msgid "for help you can contact us at "
+msgstr "לעזרה נוספת ניתן לפנות אלינו בכתובת"
+
 #: .\templates\portal.html:40
 msgid ""
-"there is no new available lesson, continue your training in accordance to "
-"your last session"
-msgstr "אין תוכן חדש כרגע, המשיכו באימון על פי התכנית"
+"There is no new available content/report to complete. You can view available "
+"materials using the menu bar."
+msgstr ""
+"כרגע אין תוכן/שאלון חדש. אתם מוזמנים לצפות בתכנים קודמים באמצעות התפריט."
+
+#: .\templates\portal.html:44
+msgid "Enter"
+msgstr "כניסה"
 
 #: .\templates\portal.html:51
 msgid "Show"
@@ -1663,17 +1738,17 @@ msgstr "משהו השתבש. אנא נסה/י שוב מאוחר יותר. או �
 #: .\templates\session.html:83 .\templates\session.html:93
 #: .\templates\session.html:156 .\templates\session.html:166
 #: .\templates\session.html:187 .\templates\session.html:197
-#: .\templates\session.html:242 .\templates\sessionnew.html:113
-#: .\templates\sessionnew.html:142 .\templates\sessionnew.html:236
-#: .\templates\sessionnew.html:263 .\templates\sessionnew.html:339
+#: .\templates\session.html:242 .\templates\sessionnew.html:112
+#: .\templates\sessionnew.html:141 .\templates\sessionnew.html:235
+#: .\templates\sessionnew.html:262 .\templates\sessionnew.html:338
 msgid "Please choose one"
 msgstr "אנא בחר/י אחד"
 
-#: .\templates\session.html:125 .\templates\sessionnew.html:187
+#: .\templates\session.html:125 .\templates\sessionnew.html:186
 msgid "Please enter a number"
 msgstr "אנא הכנס/י מספר"
 
-#: .\templates\session.html:126 .\templates\sessionnew.html:189
+#: .\templates\session.html:126 .\templates\sessionnew.html:188
 msgid ""
 "Please enter a number between {{ field.lower_limit }} and {{ field."
 "upper_limit }}"
@@ -1681,22 +1756,22 @@ msgstr "אנא הכנס/י מספר בין {{ field.lower_limit}} ל-{{ field.up
 
 #: .\templates\session.html:134 .\templates\session.html:135
 #: .\templates\session.html:146 .\templates\session.html:216
-#: .\templates\session.html:225 .\templates\sessionnew.html:201
-#: .\templates\sessionnew.html:203 .\templates\sessionnew.html:223
-#: .\templates\sessionnew.html:291 .\templates\sessionnew.html:304
-#: .\templates\sessionnew.html:316
+#: .\templates\session.html:225 .\templates\sessionnew.html:200
+#: .\templates\sessionnew.html:202 .\templates\sessionnew.html:222
+#: .\templates\sessionnew.html:290 .\templates\sessionnew.html:303
+#: .\templates\sessionnew.html:315
 msgid "This field is required"
 msgstr "שדה זה הוא חובה"
 
-#: .\templates\session.html:136 .\templates\sessionnew.html:205
+#: .\templates\session.html:136 .\templates\sessionnew.html:204
 msgid "Your phone number is too short"
 msgstr "מספר הטלפון קצר"
 
-#: .\templates\session.html:137 .\templates\sessionnew.html:207
+#: .\templates\session.html:137 .\templates\sessionnew.html:206
 msgid "+Country code then number, no other characters, e.g. \"+4798765432\""
 msgstr ""
 
-#: .\templates\session.html:217 .\templates\sessionnew.html:293
+#: .\templates\session.html:217 .\templates\sessionnew.html:292
 msgid "Please input a valid e-mail address"
 msgstr "אנא הכנס כותבת דואר אלקטרוני תקנית"
 
@@ -1705,20 +1780,24 @@ msgid "Next page"
 msgstr "דף הבא"
 
 #: .\templates\session_error.html:4
-msgid "We could not find what you were lookin for 😅"
-msgstr "לא מצאנו את מה שחיפשת 😅"
+msgid "There is no new available content/report to complete 😀"
+msgstr "כרגע אין תוכן חדש לקריאה/שאלון למילוי 😀"
 
 #: .\templates\session_error.html:7
-msgid "Please check again the URL is correct."
-msgstr "כדאי לבדוק בשנית אם הכתובת שהזנת נכונה"
-
-#: .\templates\session_error.html:9
-msgid "Back to homepage"
-msgstr "חזרה לעמוד הכניסה"
-
-#: .\templates\session_error.html:11
-msgid "for help you can contact us at "
-msgstr "לעזרה נוספת ניתן לפנות אלינו בכתובת"
+#| msgid ""
+#| "We will send a notification when a new activity will be made available. "
+#| "<br/>Meanwhile, act according to the program."
+msgid ""
+"\n"
+"        We will send a notification when a new activity will be made "
+"available.<br/>\n"
+"        Meanwhile, act according to the program.\n"
+"        "
+msgstr ""
+"\n"
+"        נשלח תזכורת כשפעילות חדשה תיפתח עבורכם. "
+"<br/>\n"
+"        בינתיים, המשיכו לפעול בהתאם לתכנית.\n"
 
 #: .\templates\sessionnew.html:44
 msgid "Chapters"
@@ -1732,32 +1811,32 @@ msgstr "פרקי התוכנית"
 msgid "Chapters list"
 msgstr "לרשימת הפרקים"
 
-#: .\templates\sessionnew.html:111 .\templates\sessionnew.html:234
-#: .\templates\sessionnew.html:337
+#: .\templates\sessionnew.html:110 .\templates\sessionnew.html:233
+#: .\templates\sessionnew.html:336
 msgid "Choose only one option"
 msgstr "ניתן למלא אפשרות אחת"
 
-#: .\templates\sessionnew.html:140 .\templates\sessionnew.html:261
+#: .\templates\sessionnew.html:139 .\templates\sessionnew.html:260
 msgid "You can choose multiple options"
 msgstr "ניתן למלא יותר מאפשרות אחת"
 
-#: .\templates\sessionnew.html:225
+#: .\templates\sessionnew.html:224
 msgid "Type here..."
 msgstr "הקלד/י תשובתך כאן..."
 
-#: .\templates\sessionnew.html:306
+#: .\templates\sessionnew.html:305
 msgid "Please input a valid phone number"
 msgstr "אנא הכניסו מספר טלפון תקני"
 
-#: .\templates\sessionnew.html:388
+#: .\templates\sessionnew.html:387
 msgid "Back"
 msgstr "חזור"
 
-#: .\templates\sessionnew.html:390
+#: .\templates\sessionnew.html:389
 msgid "Next"
 msgstr "הבא"
 
-#: .\templates\sessionnew.html:417
+#: .\templates\sessionnew.html:416
 msgid "Are you sure you want to leave?"
 msgstr "האם את/ה בטוח שברצונך לעזוב את הדף?"
 
@@ -1769,97 +1848,79 @@ msgstr ""
 msgid "Back to users list"
 msgstr "חזרה לרשימת המשתמשים"
 
-#: .\templates\therapist.html:76 .\templates\therapist.html:123
-#: .\users\forms.py:23
-msgid "Email"
-msgstr "כתובת מייל"
-
-#: .\templates\therapist.html:77 .\templates\therapist.html:129
-#: .\users\admin.py:34
-msgid "Phone"
-msgstr "טלפון"
-
-#: .\templates\therapist.html:78 .\users\admin.py:35
-msgid "Secondary Phone"
-msgstr "טלפון משני"
-
-#: .\templates\therapist.html:79
+#: .\templates\therapist.html:76
 msgid "Join"
 msgstr "הצטרפות"
 
-#: .\templates\therapist.html:80
+#: .\templates\therapist.html:77
 msgid "Last Login"
 msgstr "התחברות אחרונה"
 
-#: .\templates\therapist.html:81
+#: .\templates\therapist.html:78
 msgid "Program Phase"
 msgstr "שלב בתוכנית"
 
-#: .\templates\therapist.html:82
+#: .\templates\therapist.html:79
 msgid "Current Page"
 msgstr "עמוד נוכחי"
 
-#: .\templates\therapist.html:83
+#: .\templates\therapist.html:80
 msgid "Total Time"
 msgstr "זמן במערכת"
 
-#: .\templates\therapist.html:84
+#: .\templates\therapist.html:81
 msgid "Distinct Days (Login)"
 msgstr "ימים נבדלים"
 
-#: .\templates\therapist.html:85
+#: .\templates\therapist.html:82
 msgid "Login Count"
 msgstr "כניסות"
 
-#: .\templates\therapist.html:114
+#: .\templates\therapist.html:108
 msgid "Patient"
 msgstr "שם המטופל"
 
-#: .\templates\therapist.html:117
+#: .\templates\therapist.html:111
 msgid "User Id"
 msgstr "תגית משתמש"
 
-#: .\templates\therapist.html:135
-msgid "Phone 2"
-msgstr "טלפון משני"
-
-#: .\templates\therapist.html:141
+#: .\templates\therapist.html:117
 msgid "See more"
 msgstr "ראה עוד"
 
-#: .\templates\therapist.html:142
+#: .\templates\therapist.html:118
 msgid "Hide"
 msgstr "הסתר"
 
-#: .\templates\therapist.html:164
+#: .\templates\therapist.html:140
 msgid "Forms"
 msgstr "טפסים"
 
-#: .\templates\therapist.html:167
+#: .\templates\therapist.html:143
 msgid "Transformations"
 msgstr "שינויים"
 
-#: .\templates\therapist.html:169 .\templates\therapist.html:231
+#: .\templates\therapist.html:145 .\templates\therapist.html:207
 msgid "Edit Variables"
 msgstr "ערוך משתנים"
 
-#: .\templates\therapist.html:171 .\templates\therapist.html:257
+#: .\templates\therapist.html:147 .\templates\therapist.html:233
 msgid "Notifications"
 msgstr "התראות"
 
-#: .\templates\therapist.html:173
+#: .\templates\therapist.html:149
 msgid "Messages"
 msgstr "הודעות"
 
-#: .\templates\therapist.html:175 .\templates\therapist.html:282
+#: .\templates\therapist.html:151 .\templates\therapist.html:258
 msgid "Notes"
 msgstr "הערות"
 
-#: .\templates\therapist.html:293
+#: .\templates\therapist.html:269
 msgid "New Note"
 msgstr "הערה חדשה"
 
-#: .\templates\therapist.html:296
+#: .\templates\therapist.html:272
 msgid "Add note"
 msgstr "הוספה"
 
@@ -1886,6 +1947,14 @@ msgstr ""
 #: .\users\admin.py:33
 msgid "E-mail"
 msgstr ""
+
+#: .\users\admin.py:34
+msgid "Phone"
+msgstr "טלפון"
+
+#: .\users\admin.py:35
+msgid "Secondary Phone"
+msgstr "טלפון משני"
 
 #: .\users\admin.py:57
 msgid "The passwords are not equal."
@@ -1924,6 +1993,10 @@ msgstr "סיסמה זו לא מכילה שום סיפרה."
 #: .\users\backends.py:46
 msgid "Your password must contain at least one digit."
 msgstr "הסיסמה שלך חייבת להכיל לפחות סיפרה אחת."
+
+#: .\users\forms.py:23
+msgid "Email"
+msgstr "כתובת מייל"
 
 #: .\users\forms.py:88
 msgid "ID should be an integer value"
@@ -2000,24 +2073,24 @@ msgstr ""
 msgid "%(site_name)s"
 msgstr ""
 
-#: .\users\templates\email\new_message.html:14
+#: .\users\templates\email\new_message.html:11
 #: .\users\templates\email\new_message.txt:3
 msgid "Hello,"
 msgstr "שלום,"
 
-#: .\users\templates\email\new_message.html:15
+#: .\users\templates\email\new_message.html:12
 #: .\users\templates\email\new_message.txt:5
 msgid ""
 "You have a new message from the program’s supporter (press the link to see "
 "it):"
 msgstr "יש לך הודעה חדשה מהתומכ/ת בכתובת (לחצ/י כדי להיכנס):"
 
-#: .\users\templates\email\new_message.html:17
+#: .\users\templates\email\new_message.html:14
 #: .\users\templates\email\new_message.txt:9
 msgid "Best wishes,"
 msgstr "להתראות,"
 
-#: .\users\templates\email\new_message.html:18
+#: .\users\templates\email\new_message.html:15
 #: .\users\templates\email\new_message.txt:10
 msgid "The program team"
 msgstr "צוות התכנית"
@@ -2087,6 +2160,14 @@ msgstr ""
 #: .\users\views.py:142
 msgid "No data received."
 msgstr ""
+
+#~ msgid ""
+#~ "there is no new available lesson, continue your training in accordance to "
+#~ "your last session"
+#~ msgstr "אין תוכן חדש כרגע, המשיכו באימון על פי התכנית"
+
+#~ msgid "Phone 2"
+#~ msgstr "טלפון משני"
 
 #~ msgid "Next steps:"
 #~ msgstr "דף הבא"

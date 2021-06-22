@@ -1,0 +1,45 @@
+{% load static %}
+{% load i18n %}
+{% get_current_language as LANGUAGE_CODE %}
+{% get_current_language_bidi as lang_dir %}
+
+<head>
+
+    <meta charset="utf-8">
+
+    <title>Mind Tools</title>
+
+    <!-- Bootstrap core CSS -->
+    {% if lang_dir %}
+    <link rel="stylesheet" type="text/css" href="{% static 'css/main.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/main-mobile.css' %}">
+    {% else %}
+    <link rel="stylesheet" type="text/css" href="{% static 'css/main_en.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/main-mobile_en.css' %}">
+    {% endif %}
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" type="text/css" href="{% static 'lib/intl-tel-input/build/css/intlTelInput.css' %}">
+    <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@300;500;700&display=swap" rel="stylesheet">
+
+    <script src="{% static 'js/jquery.min.js' %}"></script>
+    <script src="{% static 'js/bootstrap.bundle.min.js' %}"></script>
+    <script src="{% static 'lib/angular/angular.min.js' %}"></script>
+
+    <!-- Custom styles for this template -->
+
+</head>
+<body>
+    <div class="error-body">
+        <div class="error-title" dir="auto">
+            {% trans "We could not find what you were looking for 😅" %}
+        </div>
+        <div class="error-content" dir="auto">
+            {% trans "Please check again the URL is correct." %}
+        </div>
+        <button onclick="location.href='{% url 'main_page' %}'" class="error-page-btn">{% trans "Back to homepage" %}</button>
+        <div class="error-footer" dir="auto">
+            {% trans "for help you can contact us at " %} <a href="mailto:{{ support_email }}">{{ support_email }}</a>
+        </div>
+    </div>
+</body>

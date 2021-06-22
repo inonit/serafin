@@ -1,18 +1,25 @@
 import re
 
-from django.conf.urls import include, url, i18n, re_path
-from django.conf.urls.static import static
 from django.conf import settings
+from django.conf.urls import include, url, re_path
+from django.conf.urls.static import static
+from django.contrib import admin
 from django.http.response import HttpResponse
+from django.shortcuts import render
 from django.views.generic.base import RedirectView
 
 from system.views import export_text, import_text, set_program, set_stylesheet, redirect_media
 
-from django.contrib import admin
-
 admin.autodiscover()
 
 favicon_view = RedirectView.as_view(url=settings.STATIC_URL + 'img/favicon.ico', permanent=True)
+
+
+def not_found_error(request, exception=None):
+    return render(request, 'page_not_found_error.html', status=404)
+
+
+handler404 = not_found_error
 
 urlpatterns = [
     url(r'^api/plumbing/', include('plumbing.urls')),

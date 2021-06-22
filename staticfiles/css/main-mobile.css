@@ -187,6 +187,7 @@ and (-webkit-min-device-pixel-ratio: 1.5) {
         line-height: 7vh;
         margin-top: 2.5vh;
         margin-left: 3vw;
+        direction: rtl;
     }
 
     .home-box-btn {
@@ -677,7 +678,7 @@ and (-webkit-min-device-pixel-ratio: 1.5) {
         height: 26px;
         width: 26px;
         background-color: white;
-        border: 1px solid #B1C4D2;
+        border: 1px solid #4F82A8;
         border-radius: 5px;
     }
 
@@ -688,7 +689,7 @@ and (-webkit-min-device-pixel-ratio: 1.5) {
     .cb-container input:checked ~ .checkmark {
         background-color: #1B418A;
         border-radius: 5px;
-        border: 1px solid #B1C4D2;
+        border: 1px solid #4F82A8;
     }
 
     .checkmark:after {
@@ -758,13 +759,13 @@ and (-webkit-min-device-pixel-ratio: 1.5) {
         left: 5vw;
         height: 28px;
         width: 28px;
-        border: 1px solid #B1C4D2;
+        border: 1px solid #4F82A8;
         border-radius: 50%;
     }
 
     .radio-container:hover input ~ .radio-checkmark {
         background-color: white;
-        border: 1px solid #B1C4D2;
+        border: 1px solid #4F82A8;
     }
 
     .radio-container input:checked ~ .radio-checkmark {

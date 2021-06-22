@@ -207,6 +207,7 @@ and (-webkit-min-device-pixel-ratio: 0.75){
         font-weight: bold;
         font-size: 2.5vmax;
         margin: auto 0 auto;
+        direction: rtl;
     }
 
     .home-box-btn {

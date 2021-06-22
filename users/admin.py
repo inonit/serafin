@@ -101,12 +101,15 @@ class UserChangeForm(forms.ModelForm):
         super(UserChangeForm, self).__init__(*args, **kwargs)
         self.fields['data'].help_text = ''
         self.fields['data'].required = False
-        self.fields['is_active'].help_text = _('Designates whether this user should be treated as active. Unselect this instead of deleting accounts.')
+        self.fields['is_active'].help_text = _(
+            'Designates whether this user should be treated as active. Unselect this instead of deleting accounts.')
         if 'is_staff' in self.fields:
             self.fields['is_staff'].help_text = _('Designates whether the user can log into this admin site.')
         if 'is_therapist' in self.fields:
             self.fields['is_therapist'].help_text = 'Designates whether the user is a therapist.'
         self.fields['secondary_phone'].required = False
+        if self.request_user == self.instance:
+            self.fields['data'].widget.attrs['allow_clear'] = True
 
         # get the user's program, add relevant therapist to the list
         user_program = ProgramUserAccess.objects.filter(user=self.instance).first()
@@ -140,7 +143,8 @@ class UserDataWidget(forms.Widget):
             'data': json.loads(value),
             'int_fields': ['session', 'node'],
             'fields': json.dumps(priority_fields + sorted(other_fields)),
-            'debug': str(settings.USERDATA_DEBUG).lower()
+            'debug': str(settings.USERDATA_DEBUG).lower(),
+            'clear_allowed': str('allow_clear' in self.attrs and self.attrs['allow_clear']).lower()
         }
         html = render_to_string('admin/userdata_widget.html', context)
         return mark_safe(html)
@@ -163,49 +167,49 @@ class UserAdmin(UserAdmin, ImportExportModelAdmin):
     fieldsets = (
         (None, {
             'fields': ('id', 'password', 'email', 'phone', 'secondary_phone', 'last_login', 'date_joined', 'therapist'),
-            'classes': ('suit-tab suit-tab-info', ),
+            'classes': ('suit-tab suit-tab-info',),
         }),
         (_('Permissions'), {
             'fields': ('is_active', 'is_staff', 'is_superuser', 'is_therapist', 'groups', 'program_restrictions'),
-            'classes': ('suit-tab suit-tab-info', ),
+            'classes': ('suit-tab suit-tab-info',),
         }),
         (None, {
-            'fields': ('data', ),
-            'classes': ('suit-tab suit-tab-data', ),
+            'fields': ('data',),
+            'classes': ('suit-tab suit-tab-data',),
         }),
     )
     restricted_fieldsets = (
         (None, {
             'fields': ('id', 'password', 'email', 'phone', 'secondary_phone', 'last_login', 'date_joined', 'therapist'),
-            'classes': ('suit-tab suit-tab-info', ),
+            'classes': ('suit-tab suit-tab-info',),
         }),
         (_('Permissions'), {
-            'fields': ('is_active', ),
-            'classes': ('suit-tab suit-tab-info', ),
+            'fields': ('is_active',),
+            'classes': ('suit-tab suit-tab-info',),
         }),
         (None, {
-            'fields': ('data', ),
-            'classes': ('suit-tab suit-tab-data', ),
+            'fields': ('data',),
+            'classes': ('suit-tab suit-tab-data',),
         }),
     )
     add_fieldsets = (
         (None, {
             'fields': ('password1', 'password2', 'email', 'phone', 'secondary_phone'),
-            'classes': ('suit-tab suit-tab-info', ),
+            'classes': ('suit-tab suit-tab-info',),
         }),
         (_('Permissions'), {
             'fields': ('is_active', 'is_staff', 'is_superuser', 'groups', 'program_restrictions'),
-            'classes': ('suit-tab suit-tab-info', ),
+            'classes': ('suit-tab suit-tab-info',),
         }),
     )
     restricted_add_fieldsets = (
         (None, {
             'fields': ('password1', 'password2', 'email', 'phone', 'secondary_phone', 'program_access'),
-            'classes': ('suit-tab suit-tab-info', ),
+            'classes': ('suit-tab suit-tab-info',),
         }),
         (_('Permissions'), {
             'fields': ('is_active',),
-            'classes': ('suit-tab suit-tab-info', ),
+            'classes': ('suit-tab suit-tab-info',),
         }),
     )
     readonly_fields = [
@@ -218,7 +222,7 @@ class UserAdmin(UserAdmin, ImportExportModelAdmin):
         'program_restrictions'
     ]
     formfield_overrides = {
-        JSONField: { 'widget': UserDataWidget }
+        JSONField: {'widget': UserDataWidget}
     }
     suit_form_tabs = (
         ('info', _('User info')),
@@ -238,7 +242,7 @@ class UserAdmin(UserAdmin, ImportExportModelAdmin):
         extra_context = extra_context or {}
         extra_context['log'] = Event.objects.filter(actor=object_id).order_by('-time')
         return super(UserAdmin, self).change_view(request, object_id,
-            form_url, extra_context=extra_context)
+                                                  form_url, extra_context=extra_context)
 
     def get_fieldsets(self, request, obj=None):
         if request.user.is_superuser:

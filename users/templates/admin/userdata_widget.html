@@ -8,6 +8,7 @@
             <input ng-if="debug && int_fields.indexOf(field) > -1" type="number" ng-model="data[field]">
             <input ng-if="debug && int_fields.indexOf(field) == -1" type="text" ng-model="data[field]">
             <span ng-if="!debug">{{ display(data[field]) }}</span>
+            <button ng-if="!debug && clear_allowed" ng-click="clear_field($event, field)">Clear</button>
         </div>
     </div>
     <textarea name="data" class="data ng-hide">{{ data }}</textarea>
@@ -19,6 +20,7 @@
         scope.data =  JSON.parse(document.getElementById('user_data').textContent);
         scope.fields = {{ fields|safe }};
         scope.debug = {{ debug }};
+        scope.clear_allowed = {{ clear_allowed }};
         scope.int_fields = {{ int_fields|safe }};
         scope.display = function(value) {
             if (value === undefined) {
@@ -27,6 +29,10 @@
             else {
                 return typeof (value.join) === 'function' ? value.join(', ') : value;
             }
+        }
+        scope.clear_field = function($event, field) {
+            $event.preventDefault();
+            scope.data[field] = '';
         }
     }]);
 </script>

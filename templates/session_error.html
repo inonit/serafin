@@ -1,10 +1,13 @@
 {% load i18n %}
 <div class="error-body">
     <div class="error-title" dir="auto">
-        {% trans "We could not find what you were lookin for 😅" %}
+        {% trans "There is no new available content/report to complete 😀" %}
     </div>
     <div class="error-content" dir="auto">
-        {% trans "Please check again the URL is correct." %}
+        {% blocktrans %}
+        We will send a notification when a new activity will be made available.<br/>
+        Meanwhile, act according to the program.
+        {% endblocktrans %}
     </div>
     <button onclick="location.href='{% url 'main_page' %}'" class="error-page-btn">{% trans "Back to homepage" %}</button>
     <div class="error-footer" dir="auto">
