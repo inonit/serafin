@@ -43,10 +43,45 @@
     white-space: pre;
     font-family: monospace;
 }
-
-body.suit_layout_vertical.filebrowser #container #content{
-    margin-left:0 !important;
+/* header issues (Django suit is messed up)  */
+body.suit_layout_vertical.filebrowser #container #content {
+    margin-left: 0 !important;
 }
-.suit_layout_horizontal.filebrowser .filter-files-container, .suit_layout_vertical.filebrowser .filter-files-container{
-    width:360px;
+.suit_layout_horizontal.filebrowser .filter-files-container,
+.suit_layout_vertical.filebrowser .filter-files-container {
+    width: 360px;
+}
+/* the syntax popover , messed again by django-suit  */
+.bs-popover-left {
+    width: 400px;
+    color: white;
+    z-index: 999;
+    opacity: 1;
+    left: 380px;
+    position: absolute;
+    will-change: unset;
+    padding: 10px;
+}
+.bs-popover-right{
+    width: 400px;
+    color: white;
+    z-index: 999;
+    opacity: 1;
+    left: 380px;
+    position: absolute;
+    will-change: unset;
+    padding: 10px;
+}
+.label-info {
+    background: #5bc0de;
+    display: inline;
+    padding: 0.2em 0.6em 0.3em;
+    font-size: 75%;
+    font-weight: 700;
+    line-height: 1;
+    color: #fff;
+    text-align: center;
+    white-space: nowrap;
+    vertical-align: baseline;
+    border-radius: 0.25em;
 }
