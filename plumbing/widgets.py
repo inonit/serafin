@@ -36,7 +36,7 @@ class PlumbingWidget(forms.Widget):
     class Media(object):
         css = {
             'all': (
-                '//stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css',
+                '//stackpath.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.min.css',
                 'filer/css/admin_filer.css',
                 'css/plumbing.css',
                 'css/autocomplete.css',

@@ -26,8 +26,8 @@ div.expression-widget-wrapper > div.preview-box {
 div.preview-box .header {
   padding: 5px 7px;
   color: #fff;
-  height: 1rem;
-  line-height: 1rem;
+  height: 2rem;
+  line-height: 2rem;
   text-shadow: 0 1px #4F7F92;
   background: #5295B0 linear-gradient(#83B3C3, #5295B0) no-repeat;
   border-bottom: 1px solid #4F7F92;
@@ -55,7 +55,7 @@ div.preview-box .validator {
   padding: 5px 7px;
   min-height: 20px;
   font-size: 1.2em;
-  line-height: 1.4;
+  /* line-height: 1.4; */
 }
 
 .validator .expression {

@@ -22,6 +22,7 @@ from users.models import User
 from system.engine import Engine
 from serafin.settings import TIME_ZONE
 import json
+
 def home(request):
     return render(request, 'home.html', {})
 
@@ -63,7 +64,7 @@ def get_location_from_ip(request):
     else:
         ip = request.META.get('REMOTE_ADDR')
 
-    url ="http://ip-api.com/json/" + ip
+    url = "http://ip-api.com/json/" + ip
     r = request.get(url)
     r = r.json()
 
@@ -91,7 +92,7 @@ def get_page(request):
         pop = request.GET.get('pop')
         engine = Engine(user=request.user, context=context, is_interactive=True)
         page = engine.run(next=next, pop=pop)
-
+    print(page)
     if not page:
         raise Http404
 
@@ -114,7 +115,7 @@ def content_route(request, route_slug=None):
 
     if (not session.is_open and
         session.program and
-        session.program.programuseraccess_set.filter(user=request.user.id).exists()):
+            session.program.programuseraccess_set.filter(user=request.user.id).exists()):
         return HttpResponseRedirect(settings.HOME_URL)
 
     context = {
@@ -122,7 +123,8 @@ def content_route(request, route_slug=None):
         'node': 0
     }
 
-    engine = Engine(user=request.user, context=context, push=True, is_interactive=True)
+    engine = Engine(user=request.user, context=context,
+                    push=True, is_interactive=True)
     engine.run()
 
     context = {

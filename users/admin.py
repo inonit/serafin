@@ -219,7 +219,7 @@ class UserAdmin(UserAdmin, ImportExportModelAdmin):
     resource_class = UserResource
     class Media(object):
         css = {
-            'all': ('//stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css',)
+            'all': ('//stackpath.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.min.css',)
         }
 
 
