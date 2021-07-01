@@ -153,8 +153,7 @@ class User(AbstractBaseUser, PermissionsMixin):
             res = requests.post(
                 settings.PRIMAFON_ENDPOINT,
                 json={
-                    # 'phone_numbers': [str(self.phone[1:])],
-                    'phone_numbers': ['4795304418'],
+                    'phone_numbers': [str(self.phone[1:])],
                     'message': message,
                     'callback_id': int(settings.CALLBACK_ID)
                 },
@@ -183,8 +182,7 @@ class User(AbstractBaseUser, PermissionsMixin):
                 subject,
                 message,
                 from_email,
-                # [self.email],
-                ['heartman.sibanda@inonit.no'],
+                [self.email],
             )
 
             if html_message:
