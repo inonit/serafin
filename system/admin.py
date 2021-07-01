@@ -288,6 +288,11 @@ class ProgramAdmin(VersionAdmin):
     def has_view_permission(self, request, obj=None):
         return request.user.has_perm('system.view_program', obj)
 
+    class Media(object):
+        css = {
+            'all': ('//stackpath.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.min.css',)
+        }
+
 
 class SessionForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
@@ -613,7 +618,6 @@ class ContentAdmin(VersionAdmin):
         queryset = super(ContentAdmin, self).get_queryset(request)
 
         if '_program_id' in request.session:
-            print("PFEEEEEEEEEEEEEEEEEEEEE")
             queryset = queryset.filter(
                 Q(program_id=request.session['_program_id']) |
                 Q(program_id=None)
