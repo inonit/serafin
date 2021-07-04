@@ -268,8 +268,10 @@ content.directive('summernoteRichtext', ['$timeout', function (timeout) {
 
              elem.summernote({
                  fontNames: ['Arial', 'Arial Black', 'Comic Sans MS', 'Courier New', 'Helvetica', 'Impact', 'Tahoma',
-                     'Times New Roman', 'Verdana', 'Heebo', 'Assistant', 'Rubik'],
-                 fontNamesIgnoreCheck: ['Heebo', 'Assistant', 'Rubik'],
+                     'Times New Roman', 'Verdana', 'Heebo', 'Assistant', 'Rubik', 'DanaYad', 'Dragon', 'Abraham',
+                     'Amatica', 'Ellinia', 'PtilNarrow', 'PtilWide', 'ComixNo2'],
+                 fontNamesIgnoreCheck: ['Heebo', 'Assistant', 'Rubik', 'DanaYad', 'Dragon', 'Abraham', 'Amatica',
+                                        'Ellinia', 'PtilNarrow', 'PtilWide', 'ComixNo2'],
                  tabsize: 2,
                  height: 150,
              });

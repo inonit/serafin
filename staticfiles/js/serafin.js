@@ -349,6 +349,9 @@ serafin.directive('stringToNumber', function () {
 
 serafin.filter('breaks', ['$sce', function (sce) {
     return function (value) {
+        if (value === undefined || value === null) {
+            return;
+        }
         var broken = value.toString().replace(/(?:\r\n|\r|\n)/g, '<br>');
         return sce.trustAsHtml(broken);
     };

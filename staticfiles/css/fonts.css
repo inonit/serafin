@@ -1,0 +1,137 @@
+@font-face {
+    font-family: 'DanaYad';
+    src: url('../fonts/DanaYadAlefAlefAlef-Normal.woff') format('woff'),
+         url('../fonts/DanaYadAlefAlefAlef-Normal.eot') format('eot'),
+         url('../fonts/DanaYadAlefAlefAlef-Normal.otf') format('opentype');
+}
+
+@font-face {
+    font-family: 'Dragon';
+    src: url('../fonts/dragon-webfont.eot');
+    src: url('../fonts/dragon-webfont.eot?#iefix') format('embedded-opentype'),
+         url('../fonts/dragon-webfont.woff') format('woff'),
+         url('../fonts/dragon-webfont.ttf') format('truetype'),
+         url('../fonts/dragon-webfont.svg#dragonregular') format('svg');
+}
+
+@font-face {
+    font-family: 'Abraham';
+    src: url('../fonts/Abraham-Regular.eot') format('eot');
+    src: url('../fonts/Abraham-Regular.woff') format('woff'),
+         url('../fonts/Abraham-Regular.ttf') format('truetype');
+}
+
+@font-face {
+    font-family: 'Amatica';
+    src: url('../fonts/AmaticaSC-Regular.ttf') format('truetype');
+}
+
+@font-face {
+    font-family: 'Amatica';
+    src: url('../fonts/AmaticaSC-Bold.ttf') format('truetype');
+    font-weight: bold;
+}
+
+@font-face {
+    font-family: 'Ellinia';
+    src: url('../fonts/elliniaclm-light-webfont.ttf') format("truetype"),
+         url('../fonts/elliniaclm-light-webfont.woff') format('woff');
+}
+
+@font-face {
+    font-family: 'Ellinia';
+    src: url('../fonts/elliniaclm-lightitalic-webfont.ttf') format("truetype"),
+         url('../fonts/elliniaclm-lightitalic-webfont.woff') format('woff');
+    font-style: italic;
+}
+
+@font-face {
+    font-family: 'Ellinia';
+    src: url('../fonts/elliniaclm-bold-webfont.ttf') format("truetype"),
+         url('../fonts/elliniaclm-bold-webfont.woff') format('woff');
+    font-weight: bold;
+}
+
+@font-face {
+    font-family: 'Ellinia';
+    src: url('../fonts/elliniaclm-bolditalic-webfont.ttf') format("truetype"),
+         url('../fonts/elliniaclm-bolditalic-webfont.woff') format('woff');
+    font-weight: bold;
+    font-style: italic;
+}
+
+@font-face {
+    font-family: 'PtilNarrow';
+    src: url('../fonts/ptilnarrow-medium-webfont.eot');
+    src: url('../fonts/ptilnarrow-medium-webfont.eot?#iefix') format('embedded-opentype'),
+         url('../fonts/ptilnarrow-medium-webfont.woff') format('woff'),
+         url('../fonts/ptilnarrow-medium-webfont.ttf') format('truetype'),
+         url('../fonts/ptilnarrow-medium-webfont.svg#ptilnarrowbold') format('svg');
+    font-weight: bold;
+    font-style: normal;
+
+}
+
+@font-face {
+    font-family: 'PtilNarrow';
+    src: url('../fonts/ptilnarrow-regular-webfont.eot');
+    src: url('../fonts/ptilnarrow-regular-webfont.eot?#iefix') format('embedded-opentype'),
+         url('../fonts/ptilnarrow-regular-webfont.woff') format('woff'),
+         url('../fonts/ptilnarrow-regular-webfont.ttf') format('truetype'),
+         url('../fonts/ptilnarrow-regular-webfont.svg#ptilnarrowregular') format('svg');
+    font-weight: normal;
+    font-style: normal;
+
+}
+
+@font-face {
+    font-family: 'PtilWide';
+    src: url('../fonts/ptilwide-medium-webfont.eot');
+    src: url('../fonts/ptilwide-medium-webfont.eot?#iefix') format('embedded-opentype'),
+         url('../fonts/ptilwide-medium-webfont.woff') format('woff'),
+         url('../fonts/ptilwide-medium-webfont.ttf') format('truetype'),
+         url('../fonts/ptilwide-medium-webfont.svg#ptilwidebold') format('svg');
+    font-weight: bold;
+    font-style: normal;
+
+}
+
+@font-face {
+    font-family: 'PtilWide';
+    src: url('../fonts/ptilwide-regular-webfont.eot');
+    src: url('../fonts/ptilwide-regular-webfont.eot?#iefix') format('embedded-opentype'),
+         url('../fonts/ptilwide-regular-webfont.woff') format('woff'),
+         url('../fonts/ptilwide-regular-webfont.ttf') format('truetype'),
+         url('../fonts/ptilwide-regular-webfont.svg#ptilwideregular') format('svg');
+    font-weight: normal;
+    font-style: normal;
+
+}
+
+@font-face {
+    font-family: 'PtilWide';
+    src: url('../fonts/ptilwide-regular-webfont.eot');
+    src: url('../fonts/ptilwide-regular-webfont.eot?#iefix') format('embedded-opentype'),
+         url('../fonts/ptilwide-regular-webfont.woff') format('woff'),
+         url('../fonts/ptilwide-regular-webfont.ttf') format('truetype'),
+         url('../fonts/ptilwide-regular-webfont.svg#ptilwideregular') format('svg');
+    font-weight: normal;
+    font-style: normal;
+
+}
+
+@font-face {
+    font-family: 'ComixNo2';
+    src: url('../fonts/comixno2clm_medium-webfont.woff') format('woff'),
+         url('../fonts/comixno2clm_medium-webfont.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'ComixNo2';
+    src: url('../fonts/comixno2clm_bold-webfont.woff') format('woff'),
+         url('../fonts/comixno2clm_bold-webfont.ttf') format('truetype');
+    font-weight: bold;
+    font-style: normal;
+}

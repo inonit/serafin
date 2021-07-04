@@ -53,6 +53,7 @@ class ContentWidget(forms.Widget):
                 'filer/css/admin_filer.css',
                 'css/autocomplete.css',
                 'css/expression-widget.css',
+                'css/fonts.css',
                 'css/content.css'
             )
         }
