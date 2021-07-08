@@ -9,6 +9,7 @@
 <head>
 
     <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
 
     <title>Mind Tools</title>
 
@@ -87,6 +88,7 @@
 
                 <div class="toggle page-content" ng-class="{'hasimage': pagelet.img_content.url}"
                      ng-if="pagelet.content_type == 'toggle'">
+                    <div class="toggle-header">
                     <img ng-if="pagelet.img_content && pagelet.img_content.url"
                          ng-click="pagelet.toggled = !pagelet.toggled" ng-src="{{ pagelet.img_content.url }}"
                          alt="{{ pagelet.toggle }}" title="{{ pagelet.toggle }}">
@@ -97,6 +99,7 @@
                             <span ng-show="pagelet.toggled">▼</span>
                         </a>
                     </p>
+                    </div>
 
                     <div ng-show="pagelet.toggled" livereplace="pagelet.content">
                     </div>

@@ -3,16 +3,22 @@
 @media only screen
 and (max-device-width: 666px)
 and (-webkit-min-device-pixel-ratio: 1.5) {
+    body {
+        margin: 3px;
+    }
+    .page-content img {
+        max-width: 350px !important;
+    }
     /*Header*/
     .header {
         display: flex;
-        height: 10rem;
+        height: 60px;
         background: #223780;
         flex-flow: row;
         justify-content: flex-end;
         align-items: center;
         color: white;
-        box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
+        box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.1);
         font-family: 'Heebo', sans-serif;
     }
 
@@ -39,9 +45,9 @@ and (-webkit-min-device-pixel-ratio: 1.5) {
         margin-left: 10vw;
         direction: rtl;
         display: flex;
-        font-size: 3rem;
+        font-size: 1rem;
         margin-top: 4.5vh;
-        letter-spacing: -2px;
+        letter-spacing: -0.5px;
     }
 
     .header-tab-episodes-mobile {
@@ -50,45 +56,50 @@ and (-webkit-min-device-pixel-ratio: 1.5) {
         position: absolute;
     }
 
-    .header-tab-img{
+    .header-tab-img {
         width: 5.5vw;
     }
 
     .menu-icon {
         display: flex;
         align-items: center;
-        margin-right: 4vw;
+        margin-right: 20px;
     }
 
     .menu-icon img {
-        width: 80px;
+        width: 30px;
     }
 
-    .notification-badge::before{
+    .notification-badge::before {
         content: "1";
-        padding: 2px;
+        font-style: normal;
+        font-weight: bold;
+        font-size: 14px;
+        line-height: 21px;
+        height: 20px;
+        width: 20px;
+        background-color: #FF6565;
+        border-radius: 50%;
+        display: inline-flex;
+        margin-right: 10px;
+        justify-content: space-evenly;
+        align-items: center;
+    }
+
+    .notification-badge-home::before {
+        content: "";
         height: 1em;
         width: 1em;
         background-color: #FF6565;
         border-radius: 50%;
         display: inline-flex;
-        margin-right: 2vw;
+        margin-right: -0.5em;
+        margin-bottom: 1.2em;
         justify-content: space-evenly;
+        z-index: 2;
     }
 
-    .notification-badge-home::before{
-        content: "";
-        height: 2em;
-        width: 2em;
-        background-color: #FF6565;
-        border-radius: 50%;
-        display: inline-flex;
-        margin-right: 0vw;
-        margin-bottom: 2.5em;
-        justify-content: space-evenly;
-    }
-
-    .header-tab-text{
+    .header-tab-text {
         direction: ltr;
         display: inline-block;
     }
@@ -146,10 +157,10 @@ and (-webkit-min-device-pixel-ratio: 1.5) {
 
     .home-image-text {
         letter-spacing: 1px;
-        padding-right: 3vw;
         padding-top: 1vh;
-        font-size: 5.4em;
+        font-size: 32px;
         color: white;
+        font-weight: 400;
     }
 
     .home-box-wrapper {
@@ -165,38 +176,31 @@ and (-webkit-min-device-pixel-ratio: 1.5) {
         box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.15);
         border-radius: 3px;
         background: white;
-        padding: 1%;
-
     }
 
     .home-box-text-1 {
-        font-weight: bold;
-        font-size: 1.5rem;
+        font-weight: 700;
+        font-size: 15px;
         line-height: 22px;
         color: #1B418A;
-        letter-spacing: 0px;
-        margin-left: 3vw;
-        margin-top: 3.8vh;
+        margin-top: 27px;
     }
 
     .home-box-text-2 {
-        font-weight: bold;
-        font-size: 6rem;
-        letter-spacing: 3px;
-        word-spacing: 10px;
-        line-height: 7vh;
-        margin-top: 2.5vh;
-        margin-left: 3vw;
+        font-weight: 700;
+        font-size: 36px;
+        line-height: 53px;
+        margin: 2vh 17px 0;
         direction: rtl;
     }
 
     .home-box-btn {
         background: #1B418A;
-        border-radius: 9px;
-        width: 39vw;
-        min-height: 9vh;
+        border-radius: 4px;
+        width: 143px;
+        height: 59px;
         font-weight: 500;
-        font-size: 3.5rem;
+        font-size: 20px;
         color: white;
         margin-top: 10%;
         margin-bottom: 3.4vh;
@@ -211,15 +215,15 @@ and (-webkit-min-device-pixel-ratio: 1.5) {
     }
 
     .notification-box {
-        margin-top: 3vh;
+        margin-top: 16px;
         width: 88vw;
+        height: 53px;
         box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.15);
         border-radius: 3px;
         background: white;
-        padding: 1%;
         flex-flow: row;
         display: flex;
-        justify-content: space-between;
+        justify-content: flex-end;
         align-items: center;
     }
 
@@ -228,24 +232,23 @@ and (-webkit-min-device-pixel-ratio: 1.5) {
     }
 
     .notification-icon {
-        margin-left: 1em;
+        margin-right: 11px;
+        margin-left: 15px;
         display: flex;
         align-items: center;
     }
 
     .notification-icon img{
-        width: 50px;
+        width: 20px;
     }
 
     .notification-text{
         color: #1B418A;
-        font-size: 2.5rem;
+        font-size: 15px;
+        line-height: 22px;
+        font-style: normal;
         text-align: right;
-        margin-top: 1.5vh;
-        margin-left: 11vw;
-        word-spacing: 5px;
         font-weight: 500;
-        margin-bottom: 1.3vh;
     }
 
     .home-info {
@@ -259,13 +262,13 @@ and (-webkit-min-device-pixel-ratio: 1.5) {
 
     .home-info-text {
         width: 89%;
-        font-size: 12px;
+        font-size: 11px;
+        line-height: 16px;
         margin-bottom: 6vh;
-    }
-
-    .text-box-icon {
-        display: flex;
-        align-items: center;
+        font-family: Heebo;
+        font-style: normal;
+        font-weight: normal;
+        color: #83929D;
     }
 
     .left-icon{
@@ -296,7 +299,7 @@ and (-webkit-min-device-pixel-ratio: 1.5) {
     }
 
     .footer-spacer {
-        height: 11vh;
+        height: 70px;
     }
 
     .footer {
@@ -309,30 +312,33 @@ and (-webkit-min-device-pixel-ratio: 1.5) {
         align-items: center;
         justify-content: center;
         background: #F6F5EA;
-        height: 8.5vh;
+        height: 60px;
         color: #9F9E97;
-        font-size: 36px;
+        font-size: 13px;
+        line-height: 19px;
+        font-style: normal;
+        font-weight: 500;
     }
 
     /*Study Meeting*/
 
     .header-1 {
-        font-size: 3rem;
-        font-weight: 300;
-        top: 3vh;
+        font-size: 20px;
+        font-weight: 500;
+        top: 18px;
         right: 18vw;
         position: absolute;
         color: white;
     }
 
     .header-2 {
-        font-size: 2.7rem;
-        font-weight: 700;
+        font-size: 20px;
+        font-weight: 900;
         margin-top: 2%;
     }
 
     .text-box {
-        font-size: 2rem;
+        font-size: 17px;
         border: 2px solid #B1C4D2;
         box-sizing: border-box;
         border-radius: 18px;
@@ -355,19 +361,22 @@ and (-webkit-min-device-pixel-ratio: 1.5) {
     }
 
     .module-name {
-        font-size: 2.5rem;
+        font-size: 17px;
     }
 
     .module-name-future {
-        font-size: 2.5rem;
+        font-size: 14px;
+        line-height: 22px;
+        font-weight: 400;
         color: #5E6166;
     }
 
     .module-press-to-view {
-        font-size: 2rem;
+        font-size: 14px;
         line-height: 22px;
         color: #83929D;
-        margin-top: 15px;
+        margin-top: 5px;
+        font-weight: 400;
     }
 
     .text-box-icon {
@@ -375,10 +384,6 @@ and (-webkit-min-device-pixel-ratio: 1.5) {
         align-items: center;
         margin-left: 4%;
         font-size: 4rem;
-    }
-
-    .text-box-icon img {
-        width: 1.2em;
     }
 
     .text-box.active {
@@ -391,7 +396,7 @@ and (-webkit-min-device-pixel-ratio: 1.5) {
     }
 
     .hint {
-        font-size: 2.2rem;
+        font-size: 13px;
         color: #B1C4D2;
     }
 
@@ -432,18 +437,18 @@ and (-webkit-min-device-pixel-ratio: 1.5) {
     }
 
     .page-content {
-        font-size: 19px;
-        line-height: 4.1rem;
+        font-size: 18px;
+        line-height: 28px;
         text-align: right;
         width: 88vw;
-        letter-spacing: -0.5px;
+        letter-spacing: -0.1px;
         word-spacing: 0;
-        margin: -0.5vh auto 4vh;
+        margin: 24px auto 24px;
     }
 
     .page-content.rounded {
-        border-radius: 12px;
-        padding: 1rem 2rem 1rem;
+        border-radius: 5px;
+        padding: 5px 10px 5px;
         margin-top: 0;
     }
 
@@ -467,7 +472,7 @@ and (-webkit-min-device-pixel-ratio: 1.5) {
         margin-right: auto;
         position: relative;
         width: 88.6vw;
-        border: 2px solid #1B418A;
+        border: 1px solid #1B418A;
     }
 
     .buttons {
@@ -478,15 +483,15 @@ and (-webkit-min-device-pixel-ratio: 1.5) {
     }
 
     .btn-outline {
-        border: 1.5px solid #1B418A;
+        border: 1px solid #1B418A;
         box-sizing: border-box;
-        border-radius: 8px;
+        border-radius: 3px;
         background-color: white;
         font-family: Heebo;
-        padding: 18px 19px 18px 15px;
         flex-direction: row;
-        font-size: 3rem;
-        width: 13.4rem;
+        font-size: 17px;
+        width: 82px;
+        height: 35px;
     }
 
     .btn-page-left{
@@ -522,13 +527,14 @@ and (-webkit-min-device-pixel-ratio: 1.5) {
         padding-top: 1.5vh;
         padding-bottom: 1.5vh;
         padding-right: 5vw;
-        font-size: 2.5em;
         letter-spacing: 1px;
-        margin-bottom: 50px;
         display: flex;
         direction: rtl;
         font-weight: bold;
         align-items: center;
+        font-style: normal;
+        font-size: 16px;
+        line-height: 23px;
     }
 
     .episodes-link-group {
@@ -579,16 +585,19 @@ and (-webkit-min-device-pixel-ratio: 1.5) {
         flex-direction: row;
         align-items: center;
         flex-wrap: nowrap;
-        font-size: 4rem;
+        font-size: 24px;
         margin-bottom: 2vh;
         margin-top: 2vh;
         font-family: Heebo;
+        font-style: normal;
+        font-weight: bold;
+        line-height: 35px;
     }
 
     .episodes-menu-title-mobile img {
         width: 2.5vw;
         margin-left: 3vw;
-        content: url('/static/img/right-arrow.svg');
+        content: url('../img/right-arrow.svg');
     }
 
 
@@ -597,15 +606,17 @@ and (-webkit-min-device-pixel-ratio: 1.5) {
     }
 
     .episodes-menu-item {
-        line-height: 2.2vh;
-        letter-spacing: -0.7px;
-        width: 84vw;
+        line-height: 22px;
         background: #E1F1FF;
         border-radius: 5px;
-        font-size: 2rem;
-        margin-left: 7vw;
-        margin-top: 1.2vh;
-        padding: 30px 51px 43px 0px;
+        font-size: 15px;
+        font-weight: 400;
+        padding: 14px 20px 14px;
+        margin-bottom: 8px;
+    }
+
+    .episodes-menu-item p {
+        margin: 0;
     }
 
     .episodes-menu-item:hover {
@@ -618,9 +629,10 @@ and (-webkit-min-device-pixel-ratio: 1.5) {
     .question {
         direction: rtl;
         text-align: right;
-        margin-top: 4.5vh;
-        margin-right: 10.5vw;
-        margin-bottom: 6.5vh;
+        margin-top: 20px;
+        margin-right: 20px;
+        margin-bottom: 30px;
+        padding-left: 10px;
         font-weight: 500;
     }
 
@@ -630,7 +642,7 @@ and (-webkit-min-device-pixel-ratio: 1.5) {
     }
 
     .question-label {
-        font-size: 22px;
+        font-size: 19px;
     }
 
     .question-hint {
@@ -638,15 +650,15 @@ and (-webkit-min-device-pixel-ratio: 1.5) {
         font-size: 15px;
         line-height: 22px;
         color: #83929D;
-        margin-top: 15px;
+        margin-top: 5px;
     }
 
     /* Create a custom checkbox */
     .option {
-        margin-top: 26px;
+        margin-top: 13px;
     }
     .options{
-        margin-right: 56px;
+        margin-right: 33px;
         margin-top: 18px;
     }
     .cb-container {
@@ -655,9 +667,9 @@ and (-webkit-min-device-pixel-ratio: 1.5) {
     }
 
     .cb-text {
-        font-size:14px;
+        font-size: 16px;
         font-weight: 300;
-        min-height: 51px;
+        min-height: 25px;
     }
 
     .cb-container input {
@@ -669,14 +681,12 @@ and (-webkit-min-device-pixel-ratio: 1.5) {
 
     }
 
-
-
     .checkmark {
         position: absolute;
-        top: 1.5vw;
-        left: 3vw;
-        height: 26px;
-        width: 26px;
+        top: 3px;
+        left: 10px;
+        height: 16px;
+        width: 16px;
         background-color: white;
         border: 1px solid #4F82A8;
         border-radius: 5px;
@@ -703,10 +713,10 @@ and (-webkit-min-device-pixel-ratio: 1.5) {
     }
 
     .cb-container .checkmark:after {
-        left: 8px;
-        top: 1px;
-        width: 7px;
-        height: 15px;
+        left: 5px;
+        top: 0;
+        width: 4px;
+        height: 10px;
         border: solid white;
         border-width: 0 3px 3px 0;
         -webkit-transform: rotate(45deg);
@@ -720,14 +730,14 @@ and (-webkit-min-device-pixel-ratio: 1.5) {
         margin-right: 33px;
     }
     .radio-option {
-        margin-top: -18px;
+        margin-top: -16px;
     }
     .radio-text {
-        font-size:14px;
+        font-size: 16px;
         font-weight: 300;
-        padding-top: 2px;
-        padding-right: 10px;
-        min-height: 51px;
+        padding-top: 10px;
+        padding-right: 2px;
+        min-height: 25px;
     }
 
     .radio-container {
@@ -737,14 +747,12 @@ and (-webkit-min-device-pixel-ratio: 1.5) {
         position: relative;
         margin-bottom: 12px;
         cursor: pointer;
-        font-size: 2vw;
+        font-size: 16px;
         -webkit-user-select: none;
         -moz-user-select: none;
         -ms-user-select: none;
         user-select: none;
         font-weight: 300;
-        margin-top: 2.8vh;
-        margin-right: 4vw;
     }
 
     .radio-container input {
@@ -755,10 +763,10 @@ and (-webkit-min-device-pixel-ratio: 1.5) {
 
     .radio-checkmark {
         position: absolute;
-        top: 1.5vw;
-        left: 5vw;
-        height: 28px;
-        width: 28px;
+        top: 12px;
+        left: 10px;
+        height: 16px;
+        width: 16px;
         border: 1px solid #4F82A8;
         border-radius: 50%;
     }
@@ -783,16 +791,16 @@ and (-webkit-min-device-pixel-ratio: 1.5) {
     }
 
     .radio-container .radio-checkmark:after {
-        top: 4px;
-        left: 4px;
-        width: 20px;
-        height: 20px;
+        top: 1px;
+        left: 1px;
+        width: 14px;
+        height: 14px;
         border-radius: 50%;
         background: #1B418A;;
     }
 
     .text-area {
-        margin-top: 2.3vh;
+        margin-top: 1.3vh;
         margin-right: 0.2vw;
         width: 52vw;
     }
@@ -862,6 +870,11 @@ and (-webkit-min-device-pixel-ratio: 1.5) {
         direction: rtl;
     }
 
+    .toggle-header {
+        display: flex;
+        align-items: center;
+    }
+
     .toggle.hasimage blockquote {
         margin: 0 0 1.25rem 4rem;
     }
@@ -875,9 +888,9 @@ and (-webkit-min-device-pixel-ratio: 1.5) {
     }
 
     .toggle img {
-        width: 4rem;
+        width: 2rem;
         float: right;
-        margin-right: 0.25rem;
+        margin-left: 0.25rem;
     }
 
     .checkbox-value {
@@ -885,11 +898,11 @@ and (-webkit-min-device-pixel-ratio: 1.5) {
     }
 
     .input-box {
-        margin-top: 1.6vh;
+        margin-top: 1vh;
         margin-right: 0.2vw;
-        height: 2.5vh;
-        width: 33vw;
-        font-size: 1.5rem;
+        height: 1.2rem;
+        width: 50vw;
+        font-size: 1rem;
     }
 
     img.note-float-right {
@@ -958,12 +971,12 @@ and (-webkit-min-device-pixel-ratio: 1.5) {
     }
 
     .error-body {
-        position: absolute;
-        right: 0;
+        letter-spacing: -0.1px;
+        word-spacing: 0;
         display: flex;
         flex-direction: column;
         justify-items: right;
-        margin: 5vh 60px 5vh 160px;
+        margin: 24px;
         color: #285c7e;
         font-size: 20px;
         font-weight: 300;
@@ -973,8 +986,8 @@ and (-webkit-min-device-pixel-ratio: 1.5) {
     .error-title {
         font-style: normal;
         font-weight: 500;
-        font-size: 108px;
-        line-height: 115px;
+        font-size: 44px;
+        line-height: 50px;
         color: #1B418A;
         text-align: right;
     }
@@ -982,38 +995,42 @@ and (-webkit-min-device-pixel-ratio: 1.5) {
     .error-content {
         font-style: normal;
         font-weight: normal;
-        font-size: 40px;
-        line-height: 55px;
+        font-size: 16px;
+        line-height: 23px;
         color: #000000;
         text-align: right;
-        margin-top: 50px;
+        margin-top: 15px;
     }
 
     .error-footer {
+        font-style: normal;
         font-weight: 500;
-        font-size: 35px;
-        line-height: 60px;
+        font-size: 17px;
+        line-height: 25px;
         color: #000000;
-        position: fixed;
-        right: 60px;
-        bottom: 0;
-        margin-bottom: 200px;
+        position: absolute;
+        right: 28px;
+        bottom: 60px;
     }
 
     .error-page-btn {
         border: none;
         background: #1B418A;
         border-radius: 9px;
-        width: 550px;
-        min-height: 9vh;
+        width: 220px;
         height: 59px;
         line-height: 29px;
         font-weight: 500;
-        font-size: 3.5rem;
+        font-style: normal;
+        font-size: 20px;
         color: white;
         cursor: pointer;
-        margin-top: 260px;
+        margin-top: 50px;
         align-self: flex-end;
+    }
+
+    .page-content.image img {
+        max-width: 88vw;
     }
 
     /* Login Page */
@@ -1313,18 +1330,16 @@ and (-webkit-min-device-pixel-ratio: 1.5) {
         display: flex;
         flex-direction: row-reverse;
         align-items: center;
-        height: 8rem;
         background: #DDE5F2;
         border-radius: 0px 0px 10px 10px;
         z-index: 10;
     }
 
     .chat-input-text, .chat-input-text:focus {
-        width: 700px;
-        height: 5rem;
-        margin: 13px 30px 13px 13px;
+        width: 280px;
+        height: 46px;
+        margin: 10px 21px 10px 20px;
         direction: rtl;
-
         background: #FFFFFF;
         border-radius: 10px;
         border-color: #FFFFFF;
@@ -1333,23 +1348,24 @@ and (-webkit-min-device-pixel-ratio: 1.5) {
         font-family: Heebo;
         font-style: normal;
         font-weight: 500;
-        font-size: 2.1rem;
+        font-size: 17px;
         line-height: 25px;
-        padding-right: 18px;
+        padding-right: 15px;
+        padding-left: 60px;
         outline: none;
     }
 
     .msg-send-btn {
         position: absolute;
-        right: 678px;
-        width: 90px;
-        height: 5rem;
+        right: 235px;
+        width: 58px;
+        height: 48px;
         background: #1B418A;
         border-radius: 10px 0px 0px 10px;
         font-family: Heebo;
         font-style: normal;
         font-weight: 500;
-        font-size: 1.7rem;
+        font-size: 16px;
         line-height: 25px;
         color: #FFFFFF;
         border: none;
@@ -1365,11 +1381,11 @@ and (-webkit-min-device-pixel-ratio: 1.5) {
         border-radius: 50%;
         color: #757575;
         cursor: pointer;
-        font-size: 3rem;
+        font-size: 18px;
         top: 11px;
         left: 0;
-        height: 5rem;
-        width: 5rem;
+        height: 28px;
+        width: 28px;
         display: flex;
         align-items: center;
         justify-content: center;
@@ -1395,9 +1411,9 @@ and (-webkit-min-device-pixel-ratio: 1.5) {
         border-radius: 50%;
         color: #757575;
         cursor: pointer;
-        font-size: 3rem;
-        width: 5rem;
-        height: 5rem;
+        font-size: 18px;
+        width: 28px;
+        height: 28px;
         display: flex;
         align-items: center;
         justify-content: center;
@@ -1420,21 +1436,21 @@ and (-webkit-min-device-pixel-ratio: 1.5) {
         font-weight: 400;
         border: 1px solid #6c757d;
         border-radius: 4px;
-        width: 40vw;
-        height: 4vh;
+        width: 70vw;
+        height: 32px;
         color: #fff;
-        margin-top: 1vh;
-        margin-bottom: 2vh;
+        margin-top: 12px;
         cursor: pointer;
         padding: 8px;
-        font-size: 2rem;
+        font-size: 14px;
+        letter-spacing: 1px;
     }
 
     .msg-out {
         display: flex;
         flex-direction: column;
         margin-left: auto;
-        min-width: 35vw;
+        min-width: 25vw;
         max-width: 95vw;
     }
 
@@ -1442,7 +1458,7 @@ and (-webkit-min-device-pixel-ratio: 1.5) {
         display: flex;
         flex-direction: column;
         margin-right: auto;
-        min-width: 35vw;
+        min-width: 25vw;
         max-width: 95vw;
     }
 
@@ -1450,17 +1466,18 @@ and (-webkit-min-device-pixel-ratio: 1.5) {
         display: flex;
         flex-direction: column;
         align-items: flex-start;
-        border-radius: 14px;
-        padding: 15px 20px 15px 20px;
+        border-radius: 7px;
+        padding: 15px 20px 4px 20px;
         margin: 0;
         font-style: normal;
         font-weight: 500;
-        font-size: 2.2rem;
-        line-height: 3rem;
+        font-size: 17px;
+        line-height: 25px;
     }
 
     .msg-text audio {
         padding-top: 15px;
+        width: 70vw;
     }
 
     .msg-out .msg-text {
@@ -1476,11 +1493,13 @@ and (-webkit-min-device-pixel-ratio: 1.5) {
     .time-date {
         color: #747474;
         display: block;
-        margin: 2px 0 0;
+        margin: 10px -10px 0 0;
         align-self: stretch;
         text-align: right;
-        font-size: 1.5rem;
-        line-height: 2rem;
+        font-size: 12px;
+        line-height: 18px;
+        font-style: normal;
+        font-weight: normal;
     }
 
     .msg-out .time-date {
@@ -1492,19 +1511,20 @@ and (-webkit-min-device-pixel-ratio: 1.5) {
     }
 
     .day-display {
-        width: 220px;
-        height: 50px;
+        width: 79px;
+        height: 27px;
         background: #DDE5F2;
-        border-radius: 50px;
+        border-radius: 25px;
         font-style: normal;
         font-weight: 500;
-        font-size: 2rem;
-        line-height: 35px;
+        font-size: 13px;
+        line-height: 19px;
         color: #5E6166;
         align-self: center;
         margin: 20px 20px;
         text-align: center;
-        padding-top: 16px;
+        padding: 5px 12px 0;
+        box-sizing: content-box;
     }
 
     .type-msg-attachment {
@@ -1539,8 +1559,8 @@ and (-webkit-min-device-pixel-ratio: 1.5) {
 
     audio.inline-msg {
         position: absolute;
-        margin-top: 0px;
         right: 10px;
+        width: 225px;
     }
 
     .record-audio.red {
@@ -1561,12 +1581,12 @@ and (-webkit-min-device-pixel-ratio: 1.5) {
 
     .recording-time-left {
         position: absolute;
-        width: 80px;
-        top: 90px;
-        left: 117px;
-        font-size: 22px;
+        width: 35px;
+        top: 55px;
+        right: 312px;
+        font-size: 13px;
         font-style: normal;
         font-weight: 500;
-        text-align: center;
+        text-align: right;
     }
 }

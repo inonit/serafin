@@ -880,7 +880,9 @@ if (window.jQuery) {
             }
         }
 
-        if ((e.target.classList.contains("episodes-link") || e.target.parentElement.classList.contains("episodes-link"))
+        if ((e.target.classList.contains("episodes-link") ||
+            e.target.parentElement.classList.contains("episodes-link") ||
+            e.target.parentElement.classList.contains("episodes-link-group"))
             && $(".episodes-menu").css('display') == 'none') {
             $(".episodes-menu").show();
             $(".page").hide();
@@ -895,9 +897,12 @@ if (window.jQuery) {
 
 const spaceBetweenCharacters = /(?<=\S)\s+(?!(\s|$))/;
 const increaseTextLengthWorkaround = function (text) {
-        let space_idx = text.search(spaceBetweenCharacters);
-        if (space_idx > -1) {
-            return text.slice(0, space_idx) + ' '.repeat(250) + text.slice(space_idx);
-        }
+    if (text === undefined) {
         return text;
+    }
+    let space_idx = text.search(spaceBetweenCharacters);
+    if (space_idx > -1) {
+        return text.slice(0, space_idx) + ' '.repeat(250) + text.slice(space_idx);
+    }
+    return text;
 };
