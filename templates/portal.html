@@ -35,8 +35,8 @@
         <div class="home-box">
             <div class="home-box-text-1">{% trans 'Current step' %}</div>
             {% verbatim %}
-            <div ng-cloak class="home-box-text-2" dynamic-text-size ng-if="loaded && current_page_title">{{ current_page_title }}</div>
-            <div ng-cloak class="home-box-text-2" dynamic-text-size ng-if="loaded && !current_page_title">
+            <div ng-cloak class="home-box-text-2" ng-if="loaded && current_page_title">{{ current_page_title }}</div>
+            <div ng-cloak class="home-box-text-2" ng-if="loaded && !current_page_title">
                 {% endverbatim %}
                 {% trans 'There is no new available content/report to complete. You can view available materials using the menu bar.' %}
                 {% verbatim %}

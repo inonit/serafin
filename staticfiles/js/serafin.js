@@ -202,8 +202,6 @@ serafin.controller('pages', ['$scope', '$http', function (scope, http) {
         });
 
     }
-
-    scope.increaseTextLengthWorkaround = increaseTextLengthWorkaround;
 }]);
 
 serafin.directive('page', function () {
@@ -388,18 +386,6 @@ serafin.directive('livereplace', ['$compile', function (compile) {
 
 serafin.directive('richtextlivereplace', ['$compile', function (compile) {
 
-    const increaseHtmlTextLengthWorkaround = function (html) {
-        let jHtml = $(html);
-        for (let i = 0; i < jHtml.contents().length; i++) {
-            if (jHtml.contents().eq(i).text().search(spaceBetweenCharacters) > -1) {
-                let content = jHtml.contents().eq(i).html();
-                content = increaseTextLengthWorkaround(content);
-                jHtml.contents().eq(i).html(content);
-            }
-        }
-        return $("<div />").append(jHtml).clone().html();
-    };
-
     const bulletColorHandling = function (html) {
         var root = $("<div>").append($(html));
 
@@ -428,7 +414,6 @@ serafin.directive('richtextlivereplace', ['$compile', function (compile) {
                 var template = scope.text;
                 if (template) {
                     template = bulletColorHandling(template);
-                    template = increaseHtmlTextLengthWorkaround(template);
                     var compiled = compile(template)(scope);
                     element.html('');
                     element.append(compiled);
@@ -896,13 +881,3 @@ if (window.jQuery) {
 }
 
 const spaceBetweenCharacters = /(?<=\S)\s+(?!(\s|$))/;
-const increaseTextLengthWorkaround = function (text) {
-    if (text === undefined) {
-        return text;
-    }
-    let space_idx = text.search(spaceBetweenCharacters);
-    if (space_idx > -1) {
-        return text.slice(0, space_idx) + ' '.repeat(250) + text.slice(space_idx);
-    }
-    return text;
-};
