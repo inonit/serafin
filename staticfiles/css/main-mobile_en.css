@@ -318,7 +318,8 @@ and (-webkit-min-device-pixel-ratio: 1.5) {
     }
 
     .text-box-img{
-        height: 3.5vh;
+        height: 24px;
+        width: 24px;
     }
     .column {
         display: flex;
@@ -375,19 +376,18 @@ and (-webkit-min-device-pixel-ratio: 1.5) {
 
     .text-box {
         font-size: 17px;
-        border: 2px solid #B1C4D2;
+        border: 1px solid #B1C4D2;
         box-sizing: border-box;
-        border-radius: 18px;
-        padding: 4% 4% 4% 4%;
+        border-radius: 10px;
+        padding: 15px 22px 15px;
         width: 88vw;
+        min-height: 56px;
         display: flex;
         flex-flow: row;
         flex-direction: row;
         justify-content: flex-start;
         align-items: center;
-        margin-top: 2vh;
-        margin-bottom: -0.2vh;
-        min-height: 7.5vh;
+        margin-top: 8px;
         font-weight: 500;
     }
 
