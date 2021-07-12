@@ -1,7 +1,8 @@
 
 /* ----------- For Mobile ----------- */
 @media only screen
-and (max-device-width: 666px)
+and (min-device-width: 320px)
+and (max-device-width: 1023px)
 and (-webkit-min-device-pixel-ratio: 1.5) {
     body {
         margin: 3px;
@@ -24,12 +25,12 @@ and (-webkit-min-device-pixel-ratio: 1.5) {
 
     .header-tabs {
         display: none;
-        padding-top: 4vh;
-        padding-right: 6vw;
+        padding-top: 25px;
+        padding-right: 25px;
         position: fixed;
-        right: 0vw;
-        top: 0vh;
-        bottom:0;
+        right: 0;
+        top: 0;
+        bottom: 0;
         text-align: right;
         width: 83.5vw;
         z-index: 100;
@@ -37,7 +38,7 @@ and (-webkit-min-device-pixel-ratio: 1.5) {
     }
 
     .mobile-close {
-        margin-bottom: 14vw;
+        margin-bottom: 45px;
     }
 
 
@@ -45,19 +46,20 @@ and (-webkit-min-device-pixel-ratio: 1.5) {
         margin-left: 10vw;
         direction: rtl;
         display: flex;
-        font-size: 1rem;
-        margin-top: 4.5vh;
+        font-size: 16px;
+        line-height: 23px;
+        margin-top: 28px;
         letter-spacing: -0.5px;
     }
 
     .header-tab-episodes-mobile {
-        bottom: 5.25%;
-        right: 6vw;
+        bottom: 20px;
+        right: 30px;
         position: absolute;
     }
 
     .header-tab-img {
-        width: 5.5vw;
+        width: 20px;
     }
 
     .menu-icon {
@@ -202,8 +204,8 @@ and (-webkit-min-device-pixel-ratio: 1.5) {
         font-weight: 500;
         font-size: 20px;
         color: white;
-        margin-top: 10%;
-        margin-bottom: 3.4vh;
+        margin-top: 50px;
+        margin-bottom: 27px;
     }
 
     .notification-box-wrapper {
@@ -327,7 +329,7 @@ and (-webkit-min-device-pixel-ratio: 1.5) {
         font-size: 20px;
         font-weight: 500;
         top: 18px;
-        right: 18vw;
+        right: 70px;
         position: absolute;
         color: white;
     }
@@ -523,15 +525,15 @@ and (-webkit-min-device-pixel-ratio: 1.5) {
         background-color: #F7F5EA;
         color: #83929D;
         text-align: right;
-        height: 5vh;
-        padding-top: 1.5vh;
-        padding-bottom: 1.5vh;
-        padding-right: 5vw;
+        height: 57px;
+        padding-right: 22px;
+        padding-left: 24px;
         letter-spacing: 1px;
         display: flex;
         direction: rtl;
         font-weight: bold;
         align-items: center;
+        justify-content: space-between;
         font-style: normal;
         font-size: 16px;
         line-height: 23px;
@@ -543,8 +545,7 @@ and (-webkit-min-device-pixel-ratio: 1.5) {
     }
 
     .episodes-link-icon-left {
-        margin-right: 50vw;
-        width: 2.5vw;
+        width: 11px;
     }
     .episodes-link-icon-right{
         display: none;

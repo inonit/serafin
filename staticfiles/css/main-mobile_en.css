@@ -6,7 +6,8 @@ body {
 
 /* ----------- For Mobile ----------- */
 @media only screen
-and (max-device-width: 666px)
+and (min-device-width: 320px)
+and (max-device-width: 1023px)
 and (-webkit-min-device-pixel-ratio: 1.5) {
     body {
         margin: 3px;
@@ -29,12 +30,12 @@ and (-webkit-min-device-pixel-ratio: 1.5) {
 
     .header-tabs {
         display: none;
-        padding-top: 4vh;
-        padding-left: 6vw;
+        padding-top: 25px;
+        padding-left: 25px;
         position: fixed;
-        left: 0vw;
-        top: 0vh;
-        bottom:0;
+        left: 0;
+        top: 0;
+        bottom: 0;
         text-align: left;
         width: 83.5vw;
         z-index: 100;
@@ -42,13 +43,14 @@ and (-webkit-min-device-pixel-ratio: 1.5) {
     }
 
     .mobile-close {
-        margin-bottom: 14vw;
+        margin-bottom: 45px;
     }
 
     .header-tab, .header-tab-episodes-mobile {
         display: flex;
-        font-size: 1rem;
-        margin-top: 4.5vh;
+        font-size: 16px;
+        line-height: 23px;
+        margin-top: 28px;
         letter-spacing: -0.5px;
         justify-content: flex-start;
         flex-direction: row;
@@ -56,13 +58,13 @@ and (-webkit-min-device-pixel-ratio: 1.5) {
     }
 
     .header-tab-episodes-mobile {
-        bottom: 5.25%;
-        left: 6vw;
+        bottom: 20px;
+        left: 30px;
         position: absolute;
     }
 
     .header-tab-img {
-        width: 5.5vw;
+        width: 20px;
     }
 
     .menu-icon {
@@ -220,8 +222,8 @@ and (-webkit-min-device-pixel-ratio: 1.5) {
         font-weight: 500;
         font-size: 20px;
         color: white;
-        margin-top: 10%;
-        margin-bottom: 3.4vh;
+        margin-top: 50px;
+        margin-bottom: 27px;
     }
 
     .notification-box-wrapper {
@@ -532,13 +534,14 @@ and (-webkit-min-device-pixel-ratio: 1.5) {
         background-color: #F7F5EA;
         color: #83929D;
         text-align: left;
-        height: 6vh;
-        padding-left: 5vw;
+        height: 57px;
+        padding-left: 22px;
+        padding-right: 24px;
         font-size: 16px;
         letter-spacing: 1px;
         display: flex;
         align-items: center;
-        justify-content: flex-start;
+        justify-content: space-between;
         cursor: pointer;
         font-style: normal;
         font-weight: bold;
@@ -555,8 +558,7 @@ and (-webkit-min-device-pixel-ratio: 1.5) {
     }
 
     .episodes-link-icon-right {
-        margin-left: 50vw;
-        width: 2.5vw;
+        width: 11px;
         color: #83929D;
         opacity: 0.4;
     }
