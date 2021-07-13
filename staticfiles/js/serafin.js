@@ -127,15 +127,20 @@ serafin.controller('pages', ['$scope', '$http', function (scope, http) {
     };
 
     scope.chapter_url = function (chapter_id) {
+        if (!this.chapter.is_enabled) {
+            return;
+        }
+
         if (!scope.read_only && $("form .ng-dirty").length > 0) {
             var answer = confirm(areYouSure);
             if (!answer) {
                 return;
             }
         }
+
         var timerEnd = new Date();
         var timeSpent = timerEnd.getTime() - timerStart.getTime();
-        var data = {'timer': timeSpent}
+        var data = {'timer': timeSpent};
 
         var url = (api + '?chapter=' + chapter_id);
         var request = {

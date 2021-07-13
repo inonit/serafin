@@ -7,7 +7,10 @@ body {
 /* ------------- For Desktop ------------ */
 @media only screen
 and (min-device-width: 1024px)
-and (-webkit-min-device-pixel-ratio: 0.75){
+and (-webkit-min-device-pixel-ratio: 0.75) {
+    .page-content img {
+        max-width: 42vw !important;
+    }
 
     /*Header*/
     .header {

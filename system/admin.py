@@ -723,7 +723,7 @@ class SMSAdmin(ContentAdmin):
 @admin.register(Chapter)
 class ChapterAdmin(VersionAdmin):
     list_display = ['title', 'display_title', 'module', 'program']
-    search_fields = ['title', 'display_title', 'module']
+    search_fields = ['title', 'display_title', 'module__title']
     raw_id_fields = ('module',)
 
     class Media(object):

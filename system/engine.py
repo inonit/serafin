@@ -645,7 +645,7 @@ class Engine(object):
             '''
             Return back page by the current page id (view)
             '''
-            page = Page.objects.get(id=back if int(back) > 0 else -int(back))
+            page = Page.objects.get(id=abs(int(back)))
             if page.chapter:
                 nav_to_chapter = page.chapter.get_next() if int(back) > 0 else page.chapter.get_previous()
                 if nav_to_chapter:
@@ -653,7 +653,7 @@ class Engine(object):
                     if page:
                         node = self.nodes.get(node_id)
                         current_page = self.trigger_node(node, clear_array_variable=False)
-                        if page.id == current_page.id:
+                        if current_page is not None and page.id == current_page.id:
                             return current_page
                         return page
 
