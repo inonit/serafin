@@ -20,7 +20,7 @@ serafin.run(['$rootScope', '$http', function (scope, http) {
     if (api) {
         var url = api + window.location.search;
         if (module_id) {
-            url = '/module/' + module_id;
+            url = '/module/' + module_id + '/';
         }
 
         http.get(url).then(response => {

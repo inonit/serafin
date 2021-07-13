@@ -16,7 +16,7 @@ from itertools import chain
 from ratelimit import UNSAFE
 from ratelimit.decorators import ratelimit
 from system.models import Session, Page, ProgramUserAccess, ProgramGoldVariable, Variable, TherapistNotification, \
-    ChatMessage, Note
+    ChatMessage, Note, Chapter
 from events.models import Event
 from events.signals import log_event
 from users.models import User
@@ -355,7 +355,16 @@ def module_redirect(request, module_id):
     if not session_id or not request.user.is_authenticated:
         raise Http404
 
+    engine = Engine(user=request.user, context={}, is_interactive=True)
+    page = engine.run()
+    current_module_id = page.chapter.module.id if page and page.chapter and page.chapter.module else None
     chapter_id = request.user.get_chapter_by_module(module_id)
+    # jump to first chapter if the user finished the module
+    if current_module_id != module_id:
+        chapter = Chapter.objects.get(id=chapter_id) if chapter_id else None
+        while chapter and chapter.get_previous() and request.user.get_page_id_by_chapter(chapter.get_previous().id):
+            chapter = chapter.get_previous()
+        chapter_id = chapter.id if chapter else None
     if not chapter_id:
         raise Http404
 

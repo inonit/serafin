@@ -33,7 +33,7 @@
                 {% for module in modules %}
                     {% if module.is_enabled %}
                         <a class="text-box {% if module.id == current_module_id %}active{% endif %}"
-                           href="{% url 'content' %}{{ module.id }}">
+                           href="{% url 'content' %}{{ module.id }}/">
                             <div class="text-box-icon right-icon">
                                 {% if module.id == current_module_id %}
                                     <img class="circle-img" src="{% static 'img/circle.svg' %}">

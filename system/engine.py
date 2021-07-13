@@ -587,7 +587,6 @@ class Engine(object):
             return
 
     def show_chapter(self, chapter_id):
-        # todo: fill the page in case it's a form
         page_id = self.user.get_page_id_by_chapter(chapter_id)
         if page_id:
             page = Page.objects.get(id=page_id)
