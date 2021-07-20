@@ -386,9 +386,9 @@
             <div ng-cloak class="page-buttons" ng-if="loaded && !error">
                 <hr class="line" ng-cloak>
                 <div class="buttons">
-                <button ng-cloak ng-show="is_back" ng-click="back()"
+                <button ng-cloak ng-show="is_back" ng-click="back()" ng-disabled="on_request"
                         class="btn-outline btn-page-left">{% trans 'Back' %}</button>
-                <button ng-cloak ng-show="!dead_end || stacked" ng-click="next()"
+                <button ng-cloak ng-show="!dead_end || stacked" ng-click="next()" ng-disabled="on_request"
                         class="btn-outline btn-page-right">{% trans 'Next' %}</button>
                 </div>
             </div>

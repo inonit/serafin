@@ -513,8 +513,8 @@ and (-webkit-min-device-pixel-ratio: 0.75) {
         flex-direction: row-reverse;
         justify-content: space-between;
         justify-items: center;
-        margin-left: 26vw;
-        width: 44vw;
+        margin-left: 27vw;
+        width: 42vw;
     }
 
     .btn-outline {
@@ -527,19 +527,20 @@ and (-webkit-min-device-pixel-ratio: 0.75) {
         padding: 5px 21px 7px 21px;
         flex-direction: row;
         font-size: 15px;
+        width: 82px;
     }
 
     .btn-page-left{
         margin-right: 0;
         margin-left: auto;
-        margin-top: 2.5vh;
+        margin-top: 18px;
         color: #1B418A;
     }
 
     .btn-page-right {
         margin-left: 0;
         margin-right: auto;
-        margin-top: 2.5vh;
+        margin-top: 18px;
         color: #1B418A;
     }
 
@@ -547,6 +548,17 @@ and (-webkit-min-device-pixel-ratio: 0.75) {
         background: #1B418A;
         color: white;
         cursor: pointer;
+    }
+
+    .btn-outline:disabled {
+        color: #1B418A;
+        background: white;
+        cursor: default;
+    }
+
+    .btn-outline.btn-clicked {
+        background: #1B418A;
+        color: white;
     }
 
     .side-bar {

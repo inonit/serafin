@@ -9,8 +9,11 @@ body {
 and (min-device-width: 320px)
 and (max-device-width: 1023px)
 and (-webkit-min-device-pixel-ratio: 1.5) {
+    html {
+        font-size: 18px;
+    }
     body {
-        margin: 3px;
+        margin: 0;
     }
     .page-content img {
         max-width: 350px !important;
@@ -131,14 +134,8 @@ and (-webkit-min-device-pixel-ratio: 1.5) {
         display: none;
     }
 
-    .header-user-menu{
+    .header-user-menu {
         display: none;
-        z-index: 100;
-        bottom: 7vh;
-        left: 4vw;
-        color: white;
-        font-size: 2.5rem;
-        position: fixed;
     }
 
     .header-user-menu-item{
@@ -311,7 +308,7 @@ and (-webkit-min-device-pixel-ratio: 1.5) {
     .text-box-icon {
         display: flex;
         align-items: center;
-        margin-right: 4%;
+        margin-right: 13px;
     }
 
     .left-icon {
@@ -364,8 +361,8 @@ and (-webkit-min-device-pixel-ratio: 1.5) {
     .header-1 {
         font-size: 20px;
         font-weight: 500;
-        top: 18px;
-        left: 70px;
+        top: 16px;
+        left: 66px;
         position: absolute;
         color: white;
     }
@@ -373,7 +370,7 @@ and (-webkit-min-device-pixel-ratio: 1.5) {
     .header-2 {
         font-size: 20px;
         font-weight: 900;
-        margin-top: 2%;
+        margin-top: 10px;
     }
 
     .text-box {
@@ -434,19 +431,6 @@ and (-webkit-min-device-pixel-ratio: 1.5) {
         flex-wrap: wrap;
     }
 
-    .page-title {
-        font-family: Heebo;
-        text-align: left;
-        font-size: 4.4rem;
-        font-weight: 700;
-        line-height: 7rem;
-        color: #1B418A;
-        margin-top: 10.2vw;
-        letter-spacing: -1px;
-        word-spacing: 7px;
-        margin-left: 9.5vw;
-    }
-
     .page-content {
         font-size: 18px;
         line-height: 28px;
@@ -503,6 +487,17 @@ and (-webkit-min-device-pixel-ratio: 1.5) {
         font-size: 17px;
         width: 82px;
         height: 35px;
+    }
+
+    .btn-outline:disabled {
+        color: #1B418A;
+        background: white;
+        cursor: default;
+    }
+
+    .btn-outline.btn-clicked {
+        background: #1B418A;
+        color: white;
     }
 
     .btn-page-left{
@@ -645,6 +640,10 @@ and (-webkit-min-device-pixel-ratio: 1.5) {
 
     .iti {
         margin-top: 1.6vh;
+    }
+
+    .iti .input-box {
+        height: 28px;
     }
 
     .question-label {
@@ -805,48 +804,40 @@ and (-webkit-min-device-pixel-ratio: 1.5) {
     }
 
     .text-area {
-        margin-top: 1.3vh;
+		font-family: Heebo;
+        margin-top: 7px;
         width: 52vw;
-        font-size: 1rem;
+        font-size: 16px;
+		padding: 10px 12px 10px;
     }
 
     textarea::-webkit-input-placeholder {
-        font-size: 12px;
+        font-size: 16px;
         font-family: Heebo;
-        padding-top: 1vh;
-        padding-right: 1vw;
         letter-spacing: -0.5px;
     }
 
     textarea:-moz-placeholder { /* Firefox 18- */
-        font-size: 12px;
+        font-size: 16px;
         font-family: Heebo;
-        padding-top: 1vh;
-        padding-right: 1vw;
         letter-spacing: -0.5px;
     }
 
     textarea::-moz-placeholder { /* Firefox 19+ */
-        font-size: 12px;
+        font-size: 16px;
         font-family: Heebo;
-        padding-top: 1vh;
-        padding-right: 1vw;
         letter-spacing: -0.5px;
     }
 
     textarea:-ms-input-placeholder {
-        font-size: 12px;
+        font-size: 16px;
         font-family: Heebo;
-        padding-top: 1vh;
-        padding-right: 1vw;
         letter-spacing: -0.5px;
     }
 
     textarea::placeholder {
-        font-size: 12px;
+        font-size: 16px;
         font-family: Heebo;
-        padding-top: 1vh;
-        padding-right: 1vw;
         letter-spacing: -0.5px;
     }
 
@@ -893,9 +884,9 @@ and (-webkit-min-device-pixel-ratio: 1.5) {
     }
 
     .toggle img {
-        width: 2rem;
+        width: 32px;
         float: left;
-        margin-right: 0.25rem;
+        margin-right: 6px;
     }
 
     .checkbox-value {
@@ -903,11 +894,10 @@ and (-webkit-min-device-pixel-ratio: 1.5) {
     }
 
     .input-box {
-        margin-top: 1vh;
-        margin-right: 0.2vw;
-        height: 1.2rem;
+        margin-top: 7px;
+        height: 22px;
         width: 50vw;
-        font-size: 1rem;
+        font-size: 16px;
     }
 
     img.note-float-right {
@@ -1038,7 +1028,7 @@ and (-webkit-min-device-pixel-ratio: 1.5) {
     }
 
     .page-content.image img {
-        max-width: 88vw;
+        max-width: 88vw !important;
     }
 
     /* Login Page */

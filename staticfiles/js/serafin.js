@@ -16,6 +16,7 @@ serafin.run(['$rootScope', '$http', function (scope, http) {
     scope.variables = {};
     scope.dead_end = true;
     scope.loaded = false;
+    scope.on_request = false;
 
     if (api) {
         var url = api + window.location.search;
@@ -85,8 +86,13 @@ serafin.controller('pages', ['$scope', '$http', function (scope, http) {
     };
 
     scope.next = function () {
+        let btn = $(event.target);
+        btn.addClass('btn-clicked');
+        scope.on_request = true;
         scope.form.submitted = true;
         if (scope.form.$invalid) {
+            scope.on_request = false;
+            btn.removeClass('btn-clicked');
             return;
         }
 
@@ -120,9 +126,13 @@ serafin.controller('pages', ['$scope', '$http', function (scope, http) {
             scope.form.submitted = false;
             scope.read_only = response.data.read_only;
             window.scrollTo(0, 0);
+            scope.on_request = false;
+            btn.removeClass('btn-clicked');
         }, reason => {
             scope.error = reason.data;
             scope.page = {};
+            scope.on_request = false;
+            btn.removeClass('btn-clicked');
         });
     };
 
@@ -167,7 +177,7 @@ serafin.controller('pages', ['$scope', '$http', function (scope, http) {
             scope.error = reason.data;
             scope.page = {};
         });
-    }
+    };
 
     scope.back = function () {
         if (!scope.read_only && $("form .ng-dirty").length > 0) {
@@ -176,6 +186,9 @@ serafin.controller('pages', ['$scope', '$http', function (scope, http) {
                 return;
             }
         }
+        let btn = $(event.target);
+        btn.addClass('btn-clicked');
+        scope.on_request = true;
         var timerEnd = new Date();
         var timeSpent = timerEnd.getTime() - timerStart.getTime();
         var data = {'timer': timeSpent};
@@ -201,9 +214,13 @@ serafin.controller('pages', ['$scope', '$http', function (scope, http) {
             scope.page_id = response.data.page_id;
             scope.form.submitted = false;
             window.scrollTo(0, 0);
+            btn.removeClass('btn-clicked');
+            scope.on_request = false;
         }, reason => {
             scope.error = reason.data;
             scope.page = {};
+            btn.removeClass('btn-clicked');
+            scope.on_request = false;
         });
 
     }
