@@ -385,6 +385,24 @@ serafin.filter('stripzerodecimal', function () {
     };
 });
 
+serafin.directive("source", function () {
+    return {
+        restrict: 'E',
+        controller: 'pages',
+        scope: {
+            src: '@src'
+        },
+        link: function (scope, element, atts) {
+            let mediaParent = element.parent('video, audio');
+            if (mediaParent.length > 0) {
+                scope.$watch('src', function () {
+                    mediaParent.get(0).load();
+                });
+            }
+        }
+    };
+});
+
 serafin.directive('livereplace', ['$compile', function (compile) {
     return {
         restrict: 'A',

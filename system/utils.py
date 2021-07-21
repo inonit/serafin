@@ -78,7 +78,7 @@ def live_variable_replace(user, text):
                 pass
 
         if isinstance(value, float):
-            value = "%.1f" % value
+            value = ("%.1f" % value).rstrip('0').rstrip('.')
         variables[variable] = value
         text = text.replace(code,
                             '<span ng-bind-html="variables.%s | stripzerodecimal | breaks"></span>' % str(variable))
