@@ -37,7 +37,7 @@ class TaskAdmin(admin.ModelAdmin):
                 instance.subject._meta.app_label,
                 instance.subject._meta.model_name
             ), args=[instance.subject_id])
-            return format_html('<a href="{}">{}</a>', url, instance.subject)
+            return format_html('<a href="{}">{}</a>', url, instance.subject_id)
         else:
             return None
     subject_link.short_description = _('User')

@@ -24,7 +24,7 @@ class EventAdmin(ImportExportModelAdmin):
 
     def actor_link(self, instance):
         url = reverse('admin:users_user_change', args=[instance.actor.id])
-        return format_html('<a href="{}">{} ({})</a>', url, instance.actor.email, instance.actor) #.actor_link())
+        return format_html('<a href="{}">{} </a>', url, instance.actor.id, ) #.actor_link())
     actor_link.short_description = _('Actor')
     actor_link.allow_tags = True
 

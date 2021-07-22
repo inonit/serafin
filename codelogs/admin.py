@@ -4,6 +4,7 @@ from django.utils.translation import ugettext_lazy as _
 
 from django.contrib import admin
 from django.urls import reverse
+from django.utils.html import format_html
 
 from codelogs.models import CodeLog
 
@@ -26,7 +27,7 @@ class CodeLogAdmin(admin.ModelAdmin):
             instance.content_type.app_label,
             instance.content_type.model
         ), args=[instance.object_id])
-        return '<a href="%s">%s</a>' % (url, instance.sender)
+        return format_html('<a href="{}">{}</a>', url, instance.sender)
     sender_link.short_description = _('Source')
     sender_link.allow_tags = True
 
@@ -36,7 +37,7 @@ class CodeLogAdmin(admin.ModelAdmin):
                 instance.subject._meta.app_label,
                 instance.subject._meta.model_name
             ), args=[instance.subject_id])
-            return '<a href="%s">%s</a>' % (url, instance.subject)
+            return format_html('<a href="{}">{}</a>', url, instance.subject_id)
         else:
             return None
     subject_link.short_description = _('User')
@@ -49,7 +50,8 @@ class CodeLogAdmin(admin.ModelAdmin):
                 instance.code._meta.app_label,
                 instance.code._meta.model_name
             ), args=[instance.code_id])
-            return '<a href="%s">%s</a>' % (url, instance.code_id)
+            
+            return format_html('<a href="{}">{}</a>',url, instance.code.title)
         else:
             return None
     code_link.short_description = _('Code')

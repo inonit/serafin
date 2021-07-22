@@ -16,7 +16,7 @@ class CustomRequestAdmin(RequestAdmin):
         if obj.user_id:
             user = obj.get_user()
             url = reverse('admin:users_user_change', args=[user.id])
-            return format_html('<a href="{}">{}</a>', url, user.email)
+            return format_html('<a href="{}">{}</a>', url, user.id)
 
     user_link.short_description = _('User')
     user_link.allow_tags = True
