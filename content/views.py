@@ -92,7 +92,6 @@ def get_page(request):
         pop = request.GET.get('pop')
         engine = Engine(user=request.user, context=context, is_interactive=True)
         page = engine.run(next=next, pop=pop)
-    print(page)
     if not page:
         raise Http404
 
