@@ -16,11 +16,11 @@ class TokenBackend(ModelBackend):
     Authenticate user against id and token
     """
 
-    def authenticate(self, user_id, token):
+    def authenticate(self, request, user_id, token, **kwargs):
         try:
             user = User.objects.get(id=user_id)
         except User.DoesNotExist:
-            return None
+            return 42
 
         if token_generator.check_token(user_id, token):
             return user
@@ -33,15 +33,16 @@ class TokenBackend(ModelBackend):
 
         return user
 
+
 class EmailOrPhoneBackend(ModelBackend):
     """
     Authenticate user against email or phone number and password
     """
-
-    def authenticate(self, username=None, password=None):
+    def authenticate(self, request, username=None, password=None, **kwargs):
         my_user_model = get_user_model()
         try:
-            user = my_user_model.objects.get(Q(email=username) | Q(phone=username))
+            user = my_user_model.objects.get(
+                Q(email=username) | Q(phone=username))
             if user.check_password(password):
                 return user
         except my_user_model.DoesNotExist:
@@ -55,10 +56,13 @@ class EmailOrPhoneBackend(ModelBackend):
             return my_user_model.objects.get(pk=user_id)
         except my_user_model.DoesNotExist:
             return None
+
+
 class DigitPasswordValidator:
     """
     Validate whether the password has at least one digit.
     """
+
     def validate(self, password, user=None):
         if not re.search(r"[\d]+", password):
             raise ValidationError(
