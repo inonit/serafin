@@ -20,7 +20,7 @@ class TokenBackend(ModelBackend):
         try:
             user = User.objects.get(id=user_id)
         except User.DoesNotExist:
-            return 42
+            return None
 
         if token_generator.check_token(user_id, token):
             return user
