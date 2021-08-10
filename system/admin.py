@@ -38,6 +38,7 @@ class VariableForm(forms.ModelForm):
         self.fields['random_set'].help_text = _('The value of the Variable will be randomly '
                                                 'selected from a set of comma separated strings in this field.')
         self.fields['is_array'].help_text = _('The variable accumulate data as array')
+        self.fields['max_entries'].help_text = _('Max entries in array variable (optional)')
         self.fields['optional_values'].help_text = _('Available optional values for variable. separated by commas')
 
     def clean_name(self):
@@ -78,6 +79,7 @@ class VariableAdmin(admin.ModelAdmin):
                 'range_max',
                 'random_set',
                 'is_array',
+                'max_entries',
                 'optional_values'
             ),
             'classes': ('suit-tab suit-tab-variable',),

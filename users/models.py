@@ -22,7 +22,7 @@ from collections import OrderedDict
 from jsonfield import JSONField
 from plivo import RestClient as PlivoRestClient
 
-from system.models import ProgramUserAccess, Session
+from system.models import ProgramUserAccess, Session, Variable
 from tokens.tokens import token_generator
 from twilio.rest import Client
 import requests
@@ -425,6 +425,21 @@ class User(AbstractBaseUser, PermissionsMixin):
 
         tools = self.data.get('tools', [])
         return tools
+
+    def set_variable_value(self, variable_name, variable_value):
+        """
+        add/set value to a variable in user's data
+        """
+        if Variable.is_array_variable(variable_name):
+            if variable_name in self.data and isinstance(self.data[variable_name], list):
+                self.data[variable_name].append(variable_value)
+                max_entries = Variable.array_max_entries(variable_name)
+                while max_entries and len(self.data[variable_name]) > max_entries:
+                    self.data[variable_name].pop(0)
+            else:
+                self.data[variable_name] = [variable_value]
+        else:
+            self.data[variable_name] = variable_value
 
     def __str__(self):
         return '%s' % self.id

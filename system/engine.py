@@ -86,13 +86,7 @@ class Engine(object):
                     self.user.data[key] = value
 
                 elif key and value is not None:
-                    if Variable.is_array_variable(key):
-                        if key in self.user.data and isinstance(self.user.data[key], list):
-                            self.user.data[key].append(value)
-                        else:
-                            self.user.data[key] = [value]
-                    else:
-                        self.user.data[key] = value
+                    self.user.set_variable_value(key, value)
 
         # save
         if push or context:
@@ -289,7 +283,9 @@ class Engine(object):
                     domain='session',
                     actor=self.user,
                     variable='transition',
-                    pre_value=self.nodes[self.user.data['node']]['title'],
+                    pre_value=self.nodes[self.user.data['node']]['title']
+                    if 'title' in self.nodes[self.user.data['node']]
+                    else '',
                     post_value=page.title
                 )
 
@@ -365,14 +361,7 @@ class Engine(object):
 
                 if variable_name:
                     pre_value = self.user.get_pre_variable_value_for_log(variable_name)
-
-                    if Variable.is_array_variable(variable_name):
-                        if variable_name in self.user.data and isinstance(self.user.data[variable_name], list):
-                            self.user.data[variable_name].append(result)
-                        else:
-                            self.user.data[variable_name] = [result]
-                    else:
-                        self.user.data[variable_name] = result
+                    self.user.set_variable_value(variable_name, result)
                     self.user.save()
 
                     log_event.send(
@@ -606,7 +595,9 @@ class Engine(object):
                     domain='session',
                     actor=self.user,
                     variable='show_chapter',
-                    pre_value=self.nodes[self.user.data['node']]['title'] if 'title' in self.nodes[self.user.data['node']] else '',
+                    pre_value=self.nodes[self.user.data['node']]['title']
+                    if 'title' in self.nodes[self.user.data['node']]
+                    else '',
                     post_value=page.title
                 )
 

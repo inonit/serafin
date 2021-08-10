@@ -47,8 +47,9 @@ class Variable(models.Model):
     range_min = models.IntegerField(_('range min (inclusive)'), null=True, blank=True)
     range_max = models.IntegerField(_('range max (inclusive)'), null=True, blank=True)
     random_set = models.TextField(_('random string set'), blank=True)
-    is_array = models.BooleanField('is array', default=False)
+    is_array = models.BooleanField(_('is array'), default=False)
     optional_values = models.CharField(_('optional values'), max_length=512, null=True, blank=True)
+    max_entries = models.IntegerField(_('array max entries'), null=True, blank=True)
 
     class Meta(object):
         verbose_name = _('variable')
@@ -86,6 +87,16 @@ class Variable(models.Model):
             return obj.is_array
         except Variable.DoesNotExist:
             return False
+
+    @staticmethod
+    def array_max_entries(variable_name):
+        try:
+            obj = Variable.objects.get(name=variable_name)
+            if obj.is_array and obj.max_entries:
+                return obj.max_entries
+            return None
+        except Variable.DoesNotExist:
+            return None
 
     @staticmethod
     def display_name_by_name(variable_name):
