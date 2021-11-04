@@ -62,7 +62,7 @@ class PasswordResetForm(forms.Form):
             content = content_template.render(context)
 
             if subject and content:
-                user.send_email(subject, content)
+                user.send_email(subject, html_message=content)
 
 
 class CustomSetPasswordForm(SetPasswordForm):

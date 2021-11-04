@@ -153,7 +153,10 @@ class Program(models.Model):
         return True
 
     def leave(self, user):
-        self.programuseraccess_set.filter(user=user).delete()
+        if user.is_staff or user.is_therapist:
+            self.programuseraccess_set.filter(user=user).delete()
+        else:
+            user.is_active = False
         return True
 
     @property
