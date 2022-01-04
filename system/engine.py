@@ -487,6 +487,7 @@ class Engine(object):
 
         if node_type == 'leave':
             self.session.program.leave(self.user)
+            self.user.save()
 
             log_event.send(
                 self,

@@ -430,16 +430,21 @@ class User(AbstractBaseUser, PermissionsMixin):
         """
         add/set value to a variable in user's data
         """
+        User.set_variable_value_helper(self, variable_name, variable_value)
+
+
+    @staticmethod
+    def set_variable_value_helper(user, variable_name, variable_value):
         if Variable.is_array_variable(variable_name):
-            if variable_name in self.data and isinstance(self.data[variable_name], list):
-                self.data[variable_name].append(variable_value)
+            if variable_name in user.data and isinstance(user.data[variable_name], list):
+                user.data[variable_name].append(variable_value)
                 max_entries = Variable.array_max_entries(variable_name)
                 while max_entries and len(self.data[variable_name]) > max_entries:
-                    self.data[variable_name].pop(0)
+                    user.data[variable_name].pop(0)
             else:
-                self.data[variable_name] = [variable_value]
+                user.data[variable_name] = [variable_value]
         else:
-            self.data[variable_name] = variable_value
+            user.data[variable_name] = variable_value
 
     def __str__(self):
         return '%s' % self.id
@@ -483,7 +488,7 @@ class StatefulAnonymousUser(AnonymousUser):
         if 'secondary_phone' in self.data:
             del self.data['secondary_phone']
 
-        user = User.objects.create_user(None, password, email, phone, secondary_phone=secondary_phone, data=self.data)
+        user = User.objects.create_user(password, email, phone, secondary_phone=secondary_phone, data=self.data)
 
         return user, True
 
@@ -503,3 +508,9 @@ class StatefulAnonymousUser(AnonymousUser):
 
     def get_pre_variable_value_for_log(self, variable_name):
         return None
+
+    def set_variable_value(self, variable_name, variable_value):
+        """
+        add/set value to a variable in user's data
+        """
+        User.set_variable_value_helper(self, variable_name, variable_value)

@@ -62,7 +62,7 @@ def init_session(session_id, user_id, push=False):
     else:
         message = _('Session initialized')
 
-    if original_session.scheduled and original_session.end_time_delta > 0:
+    if engine.user.is_active and original_session.scheduled and original_session.end_time_delta > 0:
         useraccess = engine.user.get_first_program_user_access(original_session.program)
         if original_session.get_end_time(useraccess.start_time, useraccess.time_factor) > \
                 original_session.get_next_time(useraccess.start_time, useraccess.time_factor):
