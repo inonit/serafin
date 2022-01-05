@@ -1584,7 +1584,7 @@ msgstr ""
 
 #: .\templates\registration\password_change_done.html:14
 msgid "Your password was changed."
-msgstr ""
+msgstr "סיסמתך שונתה."
 
 #: .\templates\registration\password_change_done.html:15
 msgid "Back to main page"
@@ -1592,7 +1592,7 @@ msgstr "לחזור לדף הראשי"
 
 #: .\templates\registration\password_change_form.html:41
 msgid "Your password has expired. Please change it using the form below."
-msgstr ""
+msgstr "פג התוקף של הסיסמה הנוכחית.שנה/י אותה בבקשה באמצעות השדות המוצגים."
 
 #: .\templates\registration\password_change_form.html:43
 msgid "Old password"
@@ -1798,6 +1798,7 @@ msgstr ""
 "        נשלח תזכורת כשפעילות חדשה תיפתח עבורכם. "
 "<br/>\n"
 "        בינתיים, המשיכו לפעול בהתאם לתכנית.\n"
+"        "
 
 #: .\templates\sessionnew.html:44
 msgid "Chapters"
