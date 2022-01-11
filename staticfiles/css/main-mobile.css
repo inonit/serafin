@@ -1313,6 +1313,18 @@ and (-webkit-min-device-pixel-ratio: 1.5) {
         margin: auto 10px auto;
     }
 
+    .eye-show-password {
+        margin: -57px auto 39px 40px;
+        cursor: pointer;
+    }
+
+    .eye-show-password-reset-confirm {
+        position: absolute;
+        cursor: pointer;
+        left: 20px;
+        top: 17px;
+    }
+
     /* New Chat */
 
     .chat-box {

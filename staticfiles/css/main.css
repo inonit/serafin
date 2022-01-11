@@ -1397,6 +1397,17 @@ and (-webkit-min-device-pixel-ratio: 0.75) {
         margin: auto 40px auto;
     }
 
+    .eye-show-password {
+        margin: -45px auto 29px 70px;
+        cursor: pointer;
+    }
+
+    .eye-show-password-reset-confirm {
+        position: relative;
+        cursor: pointer;
+        right: 450px;
+    }
+
     /* New Chat */
 
     .chat-container {
