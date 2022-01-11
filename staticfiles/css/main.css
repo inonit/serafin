@@ -1141,6 +1141,10 @@ and (-webkit-min-device-pixel-ratio: 0.75) {
         text-decoration-line: none;
     }
 
+    .change-password-error {
+        margin: 0;
+    }
+
     .login-welcome {
         position: absolute;
         top: 37px;
@@ -1166,6 +1170,10 @@ and (-webkit-min-device-pixel-ratio: 0.75) {
         background: #FFFEF8;
         box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.15);
         border-radius: 3px;
+    }
+
+    .change-password-inner-box {
+        height: 580px;
     }
 
     .login-title {
@@ -1376,6 +1384,17 @@ and (-webkit-min-device-pixel-ratio: 0.75) {
         text-align: center;
         color: #1B418A;
         text-decoration-line: none;
+    }
+
+    .password-expired-message {
+        font-weight: 500;
+        color: red;
+        margin: -10px 10px 10px;
+        text-align: center;
+    }
+
+    .password-changed-title {
+        margin: auto 40px auto;
     }
 
     /* New Chat */

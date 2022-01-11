@@ -1087,7 +1087,7 @@ and (-webkit-min-device-pixel-ratio: 1.5) {
         flex-direction: column;
         align-items: center;
         align-self: flex-end;
-        margin-bottom: 1vh;
+        margin-bottom: 2vh;
         width: 95vw;
         height: 85vh;
         background: #FFFEF8;
@@ -1147,6 +1147,7 @@ and (-webkit-min-device-pixel-ratio: 1.5) {
 
     .mobile-login-button-no-margin {
         margin-top: 0;
+        margin-bottom: 10px;
     }
 
     .login-forgot-password {
@@ -1295,6 +1296,21 @@ and (-webkit-min-device-pixel-ratio: 1.5) {
         text-align: center;
         color: #1B418A;
         text-decoration-line: none;
+    }
+
+    .change-password-title {
+        margin-bottom: 10px;
+    }
+
+    .password-expired-message {
+        font-weight: 500;
+        color: red;
+        margin: 0 10px 10px;
+        text-align: center;
+    }
+
+    .password-changed-title {
+        margin: auto 10px auto;
     }
 
     /* New Chat */
