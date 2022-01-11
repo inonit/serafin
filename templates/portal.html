@@ -51,7 +51,7 @@
 
 
     <div ng-cloak class="notification-box-wrapper" ng-if="has_messages">
-        <div class="notification-box">
+        <div class="notification-box" onclick="location.href='{% url 'mytherapist' %}'">
             <button class="notification-btn btn-outline" onclick="location.href='{% url 'mytherapist' %}'">{% trans 'Show' %}</button>
             <div class="row">
                 <div class="notification-icon">
