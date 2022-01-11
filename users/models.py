@@ -439,7 +439,7 @@ class User(AbstractBaseUser, PermissionsMixin):
             if variable_name in user.data and isinstance(user.data[variable_name], list):
                 user.data[variable_name].append(variable_value)
                 max_entries = Variable.array_max_entries(variable_name)
-                while max_entries and len(self.data[variable_name]) > max_entries:
+                while max_entries and len(user.data[variable_name]) > max_entries:
                     user.data[variable_name].pop(0)
             else:
                 user.data[variable_name] = [variable_value]
