@@ -32,7 +32,7 @@
         }
         scope.clear_field = function($event, field) {
             $event.preventDefault();
-            scope.data[field] = '';
+            delete scope.data[field];
         }
     }]);
 </script>
