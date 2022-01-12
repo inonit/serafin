@@ -1318,6 +1318,11 @@ and (-webkit-min-device-pixel-ratio: 1.5) {
     .eye-show-password {
         margin: -57px 45px 39px auto;
         cursor: pointer;
+        color: gray;
+    }
+
+    .eye-show-password:hover {
+        color: black;
     }
 
     .eye-show-password-reset-confirm {
@@ -1325,6 +1330,11 @@ and (-webkit-min-device-pixel-ratio: 1.5) {
         cursor: pointer;
         right: 25px;
         top: 17px;
+        color: gray;
+    }
+
+    .eye-show-password-reset-confirm:hover {
+        color: black;
     }
 
     /* New Chat */
