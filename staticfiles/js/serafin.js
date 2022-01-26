@@ -919,5 +919,3 @@ if (window.jQuery) {
 
     });
 }
-
-const spaceBetweenCharacters = /(?<=\S)\s+(?!(\s|$))/;

@@ -1100,6 +1100,12 @@ and (-webkit-min-device-pixel-ratio: 1.5) {
         border-radius: 4px;
     }
 
+    .change-password-inner-box {
+        height: 580px;
+        align-self: flex-start;
+        margin-top: 10vh;
+    }
+
     .login-title {
         margin-top: 32px;
         margin-bottom: 32px;

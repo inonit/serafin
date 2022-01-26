@@ -8,43 +8,43 @@
     </div>
     <div class="header-tabs">
         <div class="mobile-close">
-            <img src="{% static 'img/x.svg' %}" class="header-tab-img">
+            <img src="{% static 'img/x.svg' %}" alt="" class="header-tab-img">
         </div>
         <a class="header-tab {% if page == 'home' %} active {% endif %}" href="{% url 'main_page' %}">
             <div class="header-tab-icon">
-                <img class="header-tab-img" src="{% static 'img/home.svg' %}"/>
+                <img class="header-tab-img" alt="" src="{% static 'img/home.svg' %}"/>
             </div>
             <div class="header-tab-text">{% trans 'Home' %}</div>
         </a>
         <a class="header-tab {% if page == 'modules' %} active {% endif %}" href="{% url 'modules' %}">
             <div class="header-tab-icon">
-                <img class="header-tab-img" src="{% static 'img/study.svg' %}"/>
+                <img class="header-tab-img" alt="" src="{% static 'img/study.svg' %}"/>
             </div>
             <div class="header-tab-text">{% trans 'Study meetings' %}</div>
         </a>
         <a class="header-tab {% if page == 'tools' %} active {% endif %}" href="{% url 'tools' %}">
             <div class="header-tab-icon">
-                <img class="header-tab-img" src="{% static 'img/tools.svg' %}"/>
+                <img class="header-tab-img" alt="" src="{% static 'img/tools.svg' %}"/>
             </div>
             <div class="header-tab-text">{% trans 'Tools' %}</div>
         </a>
         {% if has_therapist %}
         <a class="header-tab {% if page == 'mytherapist' %} active {% endif %}" href="{% url 'mytherapist' %}">
             <div class="header-tab-icon">
-                <img class="header-tab-img" src="{% static 'img/support.svg' %}"/>
+                <img class="header-tab-img" alt="" src="{% static 'img/support.svg' %}"/>
             </div>
             <div class="header-tab-text {% if has_message %} notification-badge {% endif %}" ng-class="{'notification-badge': has_messages}">{% trans 'Supporter' %}</div>
         </a>
         {% endif %}
         <a class="header-tab-episodes-mobile" href="{% url 'logout' %}">
             <div class="header-tab-icon">
-                <img class="header-tab-img"  src="{% static 'img/exit.svg' %}"/>
+                <img class="header-tab-img" alt="" src="{% static 'img/exit.svg' %}"/>
             </div>
             <div class="header-tab-text">{% trans 'Logout' %}</div>
         </a>
     </div>
     <div class="menu-icon {% if has_message %} notification-badge-home {% endif %}" ng-class="{'notification-badge-home': has_messages}">
-        <img src="{% static 'img/menu.svg' %}"/>
+        <img src="{% static 'img/menu.svg' %}" alt=""/>
     </div>
     <div class="header-user-menu">
         <a class="header-user-menu-item" href="{% url 'password_change' %}">
@@ -55,8 +55,8 @@
         <a class="header-user-menu-item" href="{% url 'logout' %}">
             <div class="header-user-menu-item-text">{% trans 'Logout' %}</div>
             <div class="header-user-menu-item-icon">
-                <img class="header-user-menu-item-img" src="{% static 'img/exit.svg' %}"/>
-                <img class="header-user-menu-item-img-mobile" src="{% static 'img/exit-white.svg' %}"/>
+                <img class="header-user-menu-item-img" alt="" src="{% static 'img/exit.svg' %}"/>
+                <img class="header-user-menu-item-img-mobile" alt="" src="{% static 'img/exit-white.svg' %}"/>
             </div>
         </a>
     </div>
