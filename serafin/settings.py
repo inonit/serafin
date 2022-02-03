@@ -379,6 +379,11 @@ LOGGING = {
             'level': 'DEBUG',
             'handlers': ['debug'],
             'propagate': False
+        },
+        'users.models': {
+            'level': 'INFO',
+            'handlers': ['file', 'console'],
+            'propagate': True
         }
     }
 }

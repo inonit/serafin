@@ -25,6 +25,8 @@ from plivo import RestClient as PlivoRestClient
 from system.models import ProgramUserAccess, Session, Variable
 from tokens.tokens import token_generator
 from twilio.rest import Client
+from twilio.base.exceptions import TwilioRestException
+from huey.contrib.djhuey import task
 import requests
 
 logger = logging.getLogger(__name__)
@@ -90,6 +92,7 @@ class User(AbstractBaseUser, PermissionsMixin):
     objects = UserManager()
 
     USERNAME_FIELD = 'email'
+    DELETE_MESSAGE_AFTER_SECONDS = 10
 
     @property
     def username(self):
@@ -151,6 +154,8 @@ class User(AbstractBaseUser, PermissionsMixin):
                     )
 
                 results.append(response.sid)
+                logger.info(f'Create message {response.sid} with status {response.status}')
+                User.delete_twilio_message.schedule((response.sid,), delay=User.DELETE_MESSAGE_AFTER_SECONDS)
 
             if message and settings.SMS_SERVICE == 'Plivo':
                 client = PlivoRestClient(
@@ -186,6 +191,33 @@ class User(AbstractBaseUser, PermissionsMixin):
                 results.append(True)
 
         return results[0] or results[1]
+
+    @staticmethod
+    @task()
+    def delete_twilio_message(message_id, backout_count=5):
+        client = Client(
+            settings.TWILIO_ACCOUNT_SID,
+            settings.TWILIO_AUTH_TOKEN
+        )
+        message = None
+        try:
+            message = client.messages(message_id).fetch()
+        except TwilioRestException:
+            logger.exception(f'Could not fetch message {message_id} for delete')
+            return
+        logger.info(f'Message {message_id} status: {message.status}')
+        if message.status in ['sent', 'delivered', 'read']:
+            client.messages(message_id).delete()
+            logger.info(f'Message {message_id} deleted')
+        elif message.status in ['undeliviered', 'failed']:
+            logger.warning(f'Error while sending message {message_id}: {message.error_message} ({message.error_code})')
+            client.messages(message_id).delete()
+            logger.info(f'Message {message_id} deleted')
+        elif backout_count > 0:
+            logger.info(f'Reschedule message delete {message_id} in {User.DELETE_MESSAGE_AFTER_SECONDS} seconds...')
+            User.delete_twilio_message.schedule((message_id, backout_count - 1), delay=User.DELETE_MESSAGE_AFTER_SECONDS)
+        else:
+            logger.error(f'Could not delete message {message_id} after retries')
 
     def send_email(self, subject=None, message=None, html_message=None, **kwargs):
         if subject and (message or html_message):
