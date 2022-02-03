@@ -211,8 +211,8 @@ class User(AbstractBaseUser, PermissionsMixin):
             logger.exception(f'Could not fetch message {message_id} for delete')
             return
         logger.info(f'Message {message_id} status: {message.status}')
-        if message.status in ['sent', 'delivered', 'read', 'undeliviered', 'failed']:
-            if message.status in ['undeliviered', 'failed']:
+        if message.status in ['sent', 'delivered', 'read', 'undelivered', 'failed']:
+            if message.status in ['undelivered', 'failed']:
                 logger.warning(
                     f'Error while sending message {message_id}: {message.error_message} ({message.error_code})')
             try:
