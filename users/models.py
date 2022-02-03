@@ -216,7 +216,7 @@ class User(AbstractBaseUser, PermissionsMixin):
                 logger.warning(
                     f'Error while sending message {message_id}: {message.error_message} ({message.error_code})')
             try:
-                client.messages(message_id).delete()
+                client.messages(message_id).update(body='')
                 logger.info(f'Message {message_id} deleted')
             except TwilioRestException:
                 if current_retry + 1 < max_retries:
