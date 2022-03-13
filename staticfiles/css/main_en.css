@@ -1388,6 +1388,10 @@ and (-webkit-min-device-pixel-ratio: 0.75) {
         color: gray;
     }
 
+    .eye-show-password-login {
+        margin-right: 35px;
+    }
+
     .eye-show-password:hover {
         color: black;
     }

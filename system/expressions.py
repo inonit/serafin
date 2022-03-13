@@ -64,8 +64,7 @@ from pyparsing import (
     Literal, CaselessLiteral, Keyword, Word, Combine, Optional,
     ParseException, ZeroOrMore, Forward, Suppress, Group,
     alphas, alphanums, nums, oneOf, quotedString, removeQuotes,
-    delimitedList, nestedExpr, sglQuotedString, dblQuotedString, commaSeparatedList,
-    infixNotation, opAssoc, ParseResults
+    delimitedList, ParseResults
 )
 
 

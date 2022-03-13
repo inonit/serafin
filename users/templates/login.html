@@ -1,4 +1,4 @@
-{% load static %}
+{% load static compress %}
 {% load i18n %}
 {% get_current_language as LANGUAGE_CODE %}
 {% get_current_language_bidi as lang_dir %}
@@ -10,6 +10,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>{% trans 'Log in' %}</title>
 
+    {% compress css %}
     {% if lang_dir %}
     <link rel="stylesheet" type="text/css" href="{% static 'css/main.css' %}">
     <link rel="stylesheet" type="text/css" href="{% static 'css/main-mobile.css' %}">
@@ -17,8 +18,10 @@
     <link rel="stylesheet" type="text/css" href="{% static 'css/main_en.css' %}">
     <link rel="stylesheet" type="text/css" href="{% static 'css/main-mobile_en.css' %}">
     {% endif %}
+    {% endcompress %}
     <script src="{% static 'js/jquery.min.js' %}"></script>
     <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@300;500;700&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css" rel="stylesheet">
 
 </head>
 <body>
@@ -48,6 +51,7 @@
         {% csrf_token %}
         <input type="text" name="username" class="login-input-box" dir="auto" placeholder="{% trans 'Email address' %}">
         <input type="password" name="password" class="login-input-box" dir="auto" placeholder="{% trans 'Password' %}">
+        <i class="fas fa-eye eye-show-password eye-show-password-login" id="togglePassword"></i>
         <input type="hidden" name="next" value="{{ next }}">
         <input class="login-button" type="submit" value="{% trans 'Login' %}">
         <a href="{% url 'password_reset' %}" dir="auto" class="login-forgot-password">{% trans 'Forgot your password?' %}</a>
@@ -59,6 +63,12 @@
         $('input[name="language"]').val(newLanguage);
         $('.change-language').submit();
     }
+    document.querySelectorAll('.eye-show-password').forEach(item => item.addEventListener('click', function (e) {
+        const password = this.previousElementSibling;
+        const type = password.getAttribute('type') === 'password' ? 'text' : 'password';
+        password.setAttribute('type', type);
+        this.classList.toggle('fa-eye-slash');
+    }));
 </script>
 </body>
 
